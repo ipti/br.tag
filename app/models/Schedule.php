@@ -4,22 +4,22 @@
  * This is the model class for table "schedule".
  *
  * The followings are the available columns in table 'schedule':
- * @property integer $id
- * @property integer $instructor_fk
- * @property integer $discipline_fk
- * @property integer $classroom_fk
- * @property integer $day
- * @property integer $month
- * @property integer $year
- * @property integer $week
- * @property integer $week_day
- * @property integer $schedule
+ * @property int $id
+ * @property int $instructor_fk
+ * @property int $discipline_fk
+ * @property int $classroom_fk
+ * @property int $day
+ * @property int $month
+ * @property int $year
+ * @property int $week
+ * @property int $week_day
+ * @property int $schedule
  * @property string $turn
- * @property integer $unavailable
+ * @property int $unavailable
  * @property string $diary
  * @property string $fkid
  * @property string $hash
- * @property integer $substitute_instructor_fk
+ * @property int $substitute_instructor_fk
  *
  * The followings are the available model relations:
  * @property ClassContents[] $classContents
@@ -42,7 +42,7 @@ class Schedule extends TagModel
     }
 
     /**
-     * @return array validation rules for model attributes.
+     * @return array validation rules for model attributes
      */
     public function rules()
     {
@@ -62,7 +62,7 @@ class Schedule extends TagModel
     }
 
     /**
-     * @return array relational rules.
+     * @return array relational rules
      */
     public function relations()
     {
@@ -115,7 +115,7 @@ class Schedule extends TagModel
      * - Pass data provider to CGridView, CListView or any similar widget.
      *
      * @return CActiveDataProvider the data provider that can return the models
-     * based on the search/filter conditions.
+     * based on the search/filter conditions
      */
     public function search()
     {
@@ -148,7 +148,7 @@ class Schedule extends TagModel
     /**
      * Returns the static model of the specified AR class.
      * Please note that you should have this exact method in all your CActiveRecord descendants!
-     * @param string $className active record class name.
+     * @param string $className active record class name
      * @return Schedule the static model class
      */
     public static function model($className = __CLASS__)

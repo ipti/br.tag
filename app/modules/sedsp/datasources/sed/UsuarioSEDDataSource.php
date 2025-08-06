@@ -6,7 +6,7 @@ class UsuarioSEDDataSource extends SedDataSource
     {
         $response = $this->client->request('GET', '/ncaapi/api/Usuario/ValidarUsuario', [
             'headers' => [
-                'Authorization' => 'Basic U01FNzAxOnp5ZDc4MG1oejFzNQ=='
+                'Authorization' => 'Basic U01FNzAxOnp5ZDc4MG1oejFzNQ==',
             ],
         ]);
 

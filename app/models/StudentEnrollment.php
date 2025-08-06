@@ -7,59 +7,59 @@
  * @property string $register_type
  * @property string $school_inep_id_fk
  * @property string $student_inep_id
- * @property integer $student_fk
+ * @property int $student_fk
  * @property string $classroom_inep_id
- * @property integer $classroom_fk
+ * @property int $classroom_fk
  * @property string $enrollment_id
  * @property string $unified_class
- * @property integer $edcenso_stage_vs_modality_fk
- * @property integer $multi
- * @property integer $another_scholarization_place
- * @property integer $public_transport
- * @property integer $transport_responsable_government
- * @property integer $vehicle_type_van
- * @property integer $vehicle_type_microbus
- * @property integer $vehicle_type_bus
- * @property integer $vehicle_type_bike
- * @property integer $vehicle_type_animal_vehicle
- * @property integer $vehicle_type_other_vehicle
- * @property integer $vehicle_type_waterway_boat_5
- * @property integer $vehicle_type_waterway_boat_5_15
- * @property integer $vehicle_type_waterway_boat_15_35
- * @property integer $vehicle_type_waterway_boat_35
- * @property integer $vehicle_type_metro_or_train
- * @property integer $student_entry_form
- * @property integer $id
+ * @property int $edcenso_stage_vs_modality_fk
+ * @property int $multi
+ * @property int $another_scholarization_place
+ * @property int $public_transport
+ * @property int $transport_responsable_government
+ * @property int $vehicle_type_van
+ * @property int $vehicle_type_microbus
+ * @property int $vehicle_type_bus
+ * @property int $vehicle_type_bike
+ * @property int $vehicle_type_animal_vehicle
+ * @property int $vehicle_type_other_vehicle
+ * @property int $vehicle_type_waterway_boat_5
+ * @property int $vehicle_type_waterway_boat_5_15
+ * @property int $vehicle_type_waterway_boat_15_35
+ * @property int $vehicle_type_waterway_boat_35
+ * @property int $vehicle_type_metro_or_train
+ * @property int $student_entry_form
+ * @property int $id
  * @property string $create_date
- * @property integer $hash
- * @property integer $current_stage_situation
- * @property integer $previous_stage_situation
- * @property integer $admission_type
- * @property integer $hash_classroom
- * @property integer $hash_student
+ * @property int $hash
+ * @property int $current_stage_situation
+ * @property int $previous_stage_situation
+ * @property int $admission_type
+ * @property int $hash_classroom
+ * @property int $hash_student
  * @property string $date_cancellation_enrollment
- * @property integer $aee_cognitive_functions
- * @property integer $aee_autonomous_life
- * @property integer $aee_curriculum_enrichment
- * @property integer $aee_accessible_teaching
- * @property integer $aee_libras
- * @property integer $aee_portuguese
- * @property integer $aee_soroban
- * @property integer $aee_braille
- * @property integer $aee_mobility_techniques
- * @property integer $aee_caa
- * @property integer $aee_optical_nonoptical
+ * @property int $aee_cognitive_functions
+ * @property int $aee_autonomous_life
+ * @property int $aee_curriculum_enrichment
+ * @property int $aee_accessible_teaching
+ * @property int $aee_libras
+ * @property int $aee_portuguese
+ * @property int $aee_soroban
+ * @property int $aee_braille
+ * @property int $aee_mobility_techniques
+ * @property int $aee_caa
+ * @property int $aee_optical_nonoptical
  * @property string $observation
- * @property integer $daily_order
- * @property integer $status
+ * @property int $daily_order
+ * @property int $status
  * @property string $transfer_date
- * @property integer $stage
- * @property integer $reenrollment
- * @property integer $sedsp_sync
+ * @property int $stage
+ * @property int $reenrollment
+ * @property int $sedsp_sync
  * @property string $class_transfer_date
  * @property string $school_readmission_date
  * @property string $enrollment_date
- * @property integer $current_enrollment
+ * @property int $current_enrollment
  *
  * The followings are the available model relations:
  * @property StudentIdentification $studentFk
@@ -92,7 +92,7 @@ class StudentEnrollment extends AltActiveRecord
 
     /**
      * Returns the static model of the specified AR class.
-     * @param string $className active record class name.
+     * @param string $className active record class name
      * @return StudentEnrollment the static model class
      */
     public static function model($className = __CLASS__)
@@ -118,7 +118,7 @@ class StudentEnrollment extends AltActiveRecord
                 'updateAttribute' => 'updated_at',
                 'setUpdateOnCreate' => true,
                 'timestampExpression' => new CDbExpression('CONVERT_TZ(NOW(), "+00:00", "-03:00")'),
-            ]
+            ],
         ];
 
         // Verifica se o usuário está associado a uma escola
@@ -146,7 +146,7 @@ class StudentEnrollment extends AltActiveRecord
             'vehicle_type_waterway_boat_5_15' => Yii::t('default', 'Vehicle Type Waterway Boat 5 15'),
             'vehicle_type_waterway_boat_15_35' => Yii::t('default', 'Vehicle Type Waterway Boat 15 35'),
             'vehicle_type_waterway_boat_35' => Yii::t('default', 'Vehicle Type Waterway Boat 35'),
-            'vehicle_type_metro_or_train' => Yii::t('default', 'Vehicle Type Metro Or Train')
+            'vehicle_type_metro_or_train' => Yii::t('default', 'Vehicle Type Metro Or Train'),
         ];
     }
 
@@ -162,7 +162,7 @@ class StudentEnrollment extends AltActiveRecord
     }
 
     /**
-     * @return array validation rules for model attributes.
+     * @return array validation rules for model attributes
      */
     public function rules()
     {
@@ -185,7 +185,7 @@ class StudentEnrollment extends AltActiveRecord
     }
 
     /**
-     * @return array relational rules.
+     * @return array relational rules
      */
     public function relations()
     {
@@ -264,7 +264,7 @@ class StudentEnrollment extends AltActiveRecord
 
     /**
      * Retrieves a list of models based on the current search/filter conditions.
-     * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
+     * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions
      */
     public function getEnrollmentPastYear()
     {
@@ -272,6 +272,7 @@ class StudentEnrollment extends AltActiveRecord
         $criteria->with = ['studentFk', 'classroomFk'];
         $criteria->compare('student_fk', $this->student_fk);
         $criteria->compare('classroomFk.school_year', $this->classroomFk->school_year - 1);
+
         return @StudentEnrollment::model()->find($criteria);
     }
 
@@ -316,10 +317,10 @@ class StudentEnrollment extends AltActiveRecord
                         // Make all other columns sortable, too
                     ],
                     'defaultOrder' => [
-                        'studentFk.name' => CSort::SORT_ASC
+                        'studentFk.name' => CSort::SORT_ASC,
                     ],
                 ],
-                'pagination' => false
+                'pagination' => false,
             ]
         );
     }
@@ -332,6 +333,7 @@ class StudentEnrollment extends AltActiveRecord
             ->bindParam(':student_fk', $this->student_fk)
             ->bindParam(':classroom_fk', $this->classroom_fk)
             ->queryRow();
+
         return $count['qtd'] > 0;
     }
 
@@ -346,9 +348,9 @@ class StudentEnrollment extends AltActiveRecord
     }
 
     /**
-     * Get all faults by discipline
+     * Get all faults by discipline.
      *
-     * @param integer $disciplineId
+     * @param int $disciplineId
      * @return ClassFaults[]
      */
     public function getFaultsByDiscipline($disciplineId)
@@ -361,6 +363,7 @@ class StudentEnrollment extends AltActiveRecord
                 array_push($faults, $fault);
             }
         }
+
         return $faults;
     }
 
@@ -377,7 +380,7 @@ class StudentEnrollment extends AltActiveRecord
             ->select('count(DISTINCT CONCAT(s.`year`, s.`month`, s.`day`))')
             ->bindValues([
                 ':classroomId' => $classroomId,
-                ':studentId' => $studentId
+                ':studentId' => $studentId,
             ]);
 
         if (!$isMinorEducation) {
@@ -437,12 +440,14 @@ class StudentEnrollment extends AltActiveRecord
                 array_push($faults, $fault);
             }
         }
+
         return $faults;
     }
 
     public static function getFileInformation($enrollment_id)
     {
         $sql = 'SELECT * FROM studentsfile WHERE enrollment_id = :enrollment_id';
+
         return Yii::app()->db->createCommand($sql)
             ->bindParam(':enrollment_id', $enrollment_id)
             ->queryRow();
@@ -456,13 +461,14 @@ class StudentEnrollment extends AltActiveRecord
             if (isset($disciplines[$grade->discipline_fk])) {
                 $frequencyAndMean = FrequencyAndMeanByDiscipline::model()->findByAttributes([
                     'enrollment_fk' => $grade->enrollment_fk,
-                    'discipline_fk' => $grade->discipline_fk
+                    'discipline_fk' => $grade->discipline_fk,
                 ]);
 
                 $result[$grade->discipline_fk] = ['final_average' => $frequencyAndMean->final_average, 'frequency' => $frequencyAndMean->frequency];
             }
         }
         ksort($result);
+
         return $result;
     }
 
@@ -478,7 +484,7 @@ class StudentEnrollment extends AltActiveRecord
                 10 => 'Artes',
                 11 => 'Educação Física',
                 26 => 'Ensino Religioso',
-            ]
+            ],
         ];
 
         $disciplines = ClassroomController::classroomDisciplineLabelResumeArray();
@@ -507,7 +513,7 @@ class StudentEnrollment extends AltActiveRecord
             if (isset($disciplines[$grade->discipline_fk])) {
                 $frequencyAndMean = FrequencyAndMeanByDiscipline::model()->findByAttributes([
                     'enrollment_fk' => $grade->enrollment_fk,
-                    'discipline_fk' => $grade->discipline_fk
+                    'discipline_fk' => $grade->discipline_fk,
                 ]);
 
                 $disciplineType = '';
@@ -630,7 +636,7 @@ class StudentEnrollment extends AltActiveRecord
             'work_days' => $workDays,
             'work_days_discipline' => $workDaysByDiscipline,
             'frequency' => $frequency,
-            'absences' => $absences
+            'absences' => $absences,
         ];
 
         return $result;
@@ -651,7 +657,7 @@ class StudentEnrollment extends AltActiveRecord
             '10' => StudentEnrollment::STATUS_INDETERMINED,
             '11' => StudentEnrollment::STATUS_DEATH,
             '12' => StudentEnrollment::STATUS_ADVANCED,
-            '13' => StudentEnrollment::STATUS_REINTEGRATED
+            '13' => StudentEnrollment::STATUS_REINTEGRATED,
         ];
 
         return $status;
@@ -673,7 +679,7 @@ class StudentEnrollment extends AltActiveRecord
             '10' => StudentEnrollment::STATUS_INDETERMINED,
             '11' => StudentEnrollment::STATUS_DEATH,
             '12' => StudentEnrollment::STATUS_ADVANCED,
-            '13' => StudentEnrollment::STATUS_REINTEGRATED
+            '13' => StudentEnrollment::STATUS_REINTEGRATED,
         ];
 
         return $status[$this->status];
@@ -687,9 +693,10 @@ class StudentEnrollment extends AltActiveRecord
             '10',
             '6',
             '5',
-            null
+            null,
         ];
         $stages = new CList($refActiveStatus, true);
+
         return $stages->contains($this->status . '');
     }
 
@@ -708,7 +715,7 @@ class StudentEnrollment extends AltActiveRecord
             StudentEnrollment::STATUS_INDETERMINED => '10',
             StudentEnrollment::STATUS_DEATH => '11',
             StudentEnrollment::STATUS_ADVANCED => '12',
-            StudentEnrollment::STATUS_REINTEGRATED => '13'
+            StudentEnrollment::STATUS_REINTEGRATED => '13',
         ];
 
         return $statusList[$status];
@@ -721,7 +728,7 @@ class StudentEnrollment extends AltActiveRecord
             $studentData = [
                 'id' => $student['id'],
                 'name' => $student['name'],
-                'diary' => ''
+                'diary' => '',
             ];
 
             foreach ($schedule->classDiaries as $classDiary) {

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Caso de uso para atualização dos parametros para calculo de média
+ * Caso de uso para atualização dos parametros para calculo de média.
  *
  * @property int $gradeRules
  * @property [] $partialRecoveries
@@ -16,7 +16,7 @@ class UpdateGradePartialRecoveryUsecase
 
     public function exec()
     {
-        foreach ($this->partialRecoveries as  $partialRecovery) {
+        foreach ($this->partialRecoveries as $partialRecovery) {
             $modelPartialRecovery = GradePartialRecovery::model()->findByPk($partialRecovery['id']);
 
             if ($partialRecovery['operation'] === 'delete') {

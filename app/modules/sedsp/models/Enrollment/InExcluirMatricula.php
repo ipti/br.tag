@@ -24,12 +24,14 @@ class InExcluirMatricula implements JsonSerializable
     public function setInAluno(?InAluno $inAluno): self
     {
         $this->inAluno = $inAluno;
+
         return $this;
     }
 
     public function setInNumClasse(?string $inNumClasse): self
     {
         $this->inNumClasse = $inNumClasse;
+
         return $this;
     }
 

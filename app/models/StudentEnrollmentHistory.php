@@ -4,9 +4,9 @@
  * This is the model class for table "student_enrollment_history".
  *
  * The followings are the available columns in table 'student_enrollment_history':
- * @property integer $id
- * @property integer $student_enrollment_fk
- * @property integer $status
+ * @property int $id
+ * @property int $student_enrollment_fk
+ * @property int $status
  * @property string $enrollment_date
  * @property string $transfer_date
  * @property string $class_transfer_date
@@ -34,14 +34,14 @@ class StudentEnrollmentHistory extends TagModel
                 'class' => 'zii.behaviors.CTimestampBehavior',
                 'createAttribute' => 'created_at',
                 'timestampExpression' => new CDbExpression('CONVERT_TZ(NOW(), "+00:00", "-03:00")'),
-            ]
+            ],
         ];
 
         return $behaviors;
     }
 
     /**
-     * @return array validation rules for model attributes.
+     * @return array validation rules for model attributes
      */
     public function rules()
     {
@@ -58,7 +58,7 @@ class StudentEnrollmentHistory extends TagModel
     }
 
     /**
-     * @return array relational rules.
+     * @return array relational rules
      */
     public function relations()
     {
@@ -96,7 +96,7 @@ class StudentEnrollmentHistory extends TagModel
      * - Pass data provider to CGridView, CListView or any similar widget.
      *
      * @return CActiveDataProvider the data provider that can return the models
-     * based on the search/filter conditions.
+     * based on the search/filter conditions
      */
     public function search()
     {
@@ -121,7 +121,7 @@ class StudentEnrollmentHistory extends TagModel
     /**
      * Returns the static model of the specified AR class.
      * Please note that you should have this exact method in all your CActiveRecord descendants!
-     * @param string $className active record class name.
+     * @param string $className active record class name
      * @return StudentEnrollmentHistory the static model class
      */
     public static function model($className = __CLASS__)

@@ -19,6 +19,5 @@ return [
     'We can place the student learning in 4 quality levels of proficiency. Proper learning encompasses profiente and advanced levels.' => 'Podemos posicionar o aprendizado dos alunos em 4 níveis qualitativos de proficiência. O aprendizado adequado engloba os níveis profiente e avançado.',
 
     'We can verify that the results have improved over the years.' => 'Podemos verificar se os resultados melhoraram ao longo dos anos.',
-    'Evolution of learning in school' => 'Evolução do aprendizado na escola'
-
+    'Evolution of learning in school' => 'Evolução do aprendizado na escola',
 ];

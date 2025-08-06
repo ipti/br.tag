@@ -24,6 +24,7 @@ class GenerateRaUseCase
         if ($outStudent->getOutNumRa() !== null) {
             $student->gov_id = $outStudent->getOutNumRa();
             $student->save();
+
             return 'RA já cadastrado';
         }
 
@@ -41,6 +42,7 @@ class GenerateRaUseCase
         );
 
         $studentSEDDataSource = new StudentSEDDataSource();
+
         return $studentSEDDataSource->addStudentToSed($inFichaAluno);
     }
 }

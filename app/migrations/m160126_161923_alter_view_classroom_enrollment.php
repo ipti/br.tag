@@ -43,6 +43,7 @@ class m160126_161923_alter_view_classroom_enrollment extends CDbMigration
     public function down()
     {
         echo "m160126_161923_alter_view_classroom_enrollment does not support migration down.\n";
+
         return false;
     }
 

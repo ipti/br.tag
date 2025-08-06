@@ -65,18 +65,21 @@ class OutRelacaoClasses
     public function setOutAnoLetivo(?string $outAnoLetivo): self
     {
         $this->outAnoLetivo = $outAnoLetivo;
+
         return $this;
     }
 
     public function setOutCodEscola(?string $outCodEscola): self
     {
         $this->outCodEscola = $outCodEscola;
+
         return $this;
     }
 
     public function setOutDescNomeAbrevEscola(?string $outDescNomeAbrevEscola): self
     {
         $this->outDescNomeAbrevEscola = $outDescNomeAbrevEscola;
+
         return $this;
     }
 
@@ -86,18 +89,21 @@ class OutRelacaoClasses
     public function setOutClasses(?array $outClasses): self
     {
         $this->outClasses = $outClasses;
+
         return $this;
     }
 
     public function setOutErro(?string $outErro): self
     {
         $this->outErro = $outErro;
+
         return $this;
     }
 
     public function setOutProcessoId(?string $outProcessoID): self
     {
         $this->outProcessoID = $outProcessoID;
+
         return $this;
     }
 

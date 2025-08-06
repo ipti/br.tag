@@ -106,72 +106,84 @@ class InRecursoAvaliacao implements JsonSerializable
     public function setInNenhum(?string $inNenhum): self
     {
         $this->inNenhum = $inNenhum;
+
         return $this;
     }
 
     public function setInAuxilioLeitor(?string $inAuxilioLeitor): self
     {
         $this->inAuxilioLeitor = $inAuxilioLeitor;
+
         return $this;
     }
 
     public function setInAuxilioTranscricao(?string $inAuxilioTranscricao): self
     {
         $this->inAuxilioTranscricao = $inAuxilioTranscricao;
+
         return $this;
     }
 
     public function setInGuiaInterprete(?string $inGuiaInterprete): self
     {
         $this->inGuiaInterprete = $inGuiaInterprete;
+
         return $this;
     }
 
     public function setInInterpreteLibras(?string $inInterpreteLibras): self
     {
         $this->inInterpreteLibras = $inInterpreteLibras;
+
         return $this;
     }
 
     public function setInLeituraLabial(?string $inLeituraLabial): self
     {
         $this->inLeituraLabial = $inLeituraLabial;
+
         return $this;
     }
 
     public function setInProvaBraile(?string $inProvaBraile): self
     {
         $this->inProvaBraile = $inProvaBraile;
+
         return $this;
     }
 
     public function setInProvaAmpliada(?string $inProvaAmpliada): self
     {
         $this->inProvaAmpliada = $inProvaAmpliada;
+
         return $this;
     }
 
     public function setInFonteProva(?string $inFonteProva): self
     {
         $this->inFonteProva = $inFonteProva;
+
         return $this;
     }
 
     public function setInProvaVideoLibras(?string $inProvaVideoLibras): self
     {
         $this->inProvaVideoLibras = $inProvaVideoLibras;
+
         return $this;
     }
 
     public function setInCdAudioDefVisual(?string $inCdAudioDefVisual): self
     {
         $this->inCdAudioDefVisual = $inCdAudioDefVisual;
+
         return $this;
     }
 
     public function setInProvaLinguaPortuguesa(?string $inProvaLinguaPortuguesa): self
     {
         $this->inProvaLinguaPortuguesa = $inProvaLinguaPortuguesa;
+
         return $this;
     }
 

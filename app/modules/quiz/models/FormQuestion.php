@@ -21,14 +21,14 @@ class FormQuestion extends TagModel
     }
 
     /**
-     * @return array validation rules for model attributes.
+     * @return array validation rules for model attributes
      */
     public function rules()
     {
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return [
-            ['quiz, question, answer, student', 'safe']
+            ['quiz, question, answer, student', 'safe'],
         ];
     }
 
@@ -41,14 +41,14 @@ class FormQuestion extends TagModel
             'quiz' => 'Quiz',
             'question' => 'Question',
             'student' => 'Student',
-            'answer' => 'Answer'
+            'answer' => 'Answer',
         ];
     }
 
     /**
      * Returns the static model of the specified AR class.
      * Please note that you should have this exact method in all your CActiveRecord descendants!
-     * @param string $className active record class name.
+     * @param string $className active record class name
      * @return FormQuestion the static model class
      */
     public static function model($className = __CLASS__)

@@ -34,12 +34,14 @@ class OutTiposEnsino
     public function setOutTipoEnsino(?array $outTipoEnsino): self
     {
         $this->outTipoEnsino = $outTipoEnsino;
+
         return $this;
     }
 
     public function setOutProcessoId(?string $outProcessoID): self
     {
         $this->outProcessoID = $outProcessoID;
+
         return $this;
     }
 

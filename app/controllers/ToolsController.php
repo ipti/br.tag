@@ -8,8 +8,7 @@ class ToolsController extends Controller
     {
         $tools = [
             ['name' => 'Visualizar Logs', 'url' => Yii::app()->createUrl('tools/viewLogs')],
-            ['name' => 'OpCache', 'url' => Yii::app()->createUrl('tools/opcache')]
-
+            ['name' => 'OpCache', 'url' => Yii::app()->createUrl('tools/opcache')],
         ];
 
         $this->render('index', [

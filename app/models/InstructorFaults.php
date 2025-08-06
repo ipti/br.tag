@@ -4,9 +4,9 @@
  * This is the model class for table "class_faults".
  *
  * The followings are the available columns in table 'class_faults':
- * @property integer $id
- * @property integer $schedule_fk
- * @property integer $instructor_fk
+ * @property int $id
+ * @property int $schedule_fk
+ * @property int $instructor_fk
  * @property string $justification
  *
  * The followings are the available model relations:
@@ -17,7 +17,7 @@ class InstructorFaults extends TagModel
 {
     /**
      * Returns the static model of the specified AR class.
-     * @param string $className active record class name.
+     * @param string $className active record class name
      * @return InstructorFaults the static model class
      */
     public static function model($className = __CLASS__)
@@ -51,7 +51,7 @@ class InstructorFaults extends TagModel
     }
 
     /**
-     * @return array validation rules for model attributes.
+     * @return array validation rules for model attributes
      */
     public function rules()
     {
@@ -68,7 +68,7 @@ class InstructorFaults extends TagModel
     }
 
     /**
-     * @return array relational rules.
+     * @return array relational rules
      */
     public function relations()
     {
@@ -89,13 +89,13 @@ class InstructorFaults extends TagModel
             'id' => Yii::t('default', 'ID'),
             'schedule_fk' => Yii::t('default', 'Schedule Fk'),
             'instructor_fk' => Yii::t('default', 'Instructor Fk'),
-            'justification' => Yii::t('default', 'Justification')
+            'justification' => Yii::t('default', 'Justification'),
         ];
     }
 
     /**
      * Retrieves a list of models based on the current search/filter conditions.
-     * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
+     * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions
      */
     public function search()
     {

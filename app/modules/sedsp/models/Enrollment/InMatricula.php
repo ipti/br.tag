@@ -34,18 +34,21 @@ class InMatricula implements JsonSerializable
     public function setInDataInicioMatricula(?string $inDataInicioMatricula): self
     {
         $this->inDataInicioMatricula = $inDataInicioMatricula;
+
         return $this;
     }
 
     public function setInNumAluno(?string $inNumAluno): self
     {
         $this->inNumAluno = $inNumAluno;
+
         return $this;
     }
 
     public function setInNumClasse(?string $inNumClasse): self
     {
         $this->inNumClasse = $inNumClasse;
+
         return $this;
     }
 

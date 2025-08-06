@@ -88,6 +88,7 @@ class DefaultController extends Controller
         if (!$fileDir || !file_exists($fileDir)) {
             Yii::app()->user->setFlash('error', Yii::t('default', 'Arquivo de exportação não encontrado! Tente exportar novamente.'));
             $this->render('index');
+
             return;
         }
 

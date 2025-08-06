@@ -4,14 +4,14 @@
  * This is the model class for table "log".
  *
  * The followings are the available columns in table 'log':
- * @property integer $id
+ * @property int $id
  * @property string $reference
  * @property string $reference_ids
  * @property string $crud
  * @property string $date
  * @property string $additional_info
  * @property string $school_fk
- * @property integer $user_fk
+ * @property int $user_fk
  *
  * The followings are the available model relations:
  * @property SchoolIdentification $schoolFk
@@ -28,7 +28,7 @@ class Log extends TagModel
     }
 
     /**
-     * @return array validation rules for model attributes.
+     * @return array validation rules for model attributes
      */
     public function rules()
     {
@@ -49,7 +49,7 @@ class Log extends TagModel
     }
 
     /**
-     * @return array relational rules.
+     * @return array relational rules
      */
     public function relations()
     {
@@ -88,7 +88,7 @@ class Log extends TagModel
      * - Pass data provider to CGridView, CListView or any similar widget.
      *
      * @return CActiveDataProvider the data provider that can return the models
-     * based on the search/filter conditions.
+     * based on the search/filter conditions
      */
     public function search()
     {
@@ -116,7 +116,7 @@ class Log extends TagModel
     /**
      * Returns the static model of the specified AR class.
      * Please note that you should have this exact method in all your CActiveRecord descendants!
-     * @param string $className active record class name.
+     * @param string $className active record class name
      * @return Log the static model class
      */
     public static function model($className = __CLASS__)
@@ -252,10 +252,11 @@ class Log extends TagModel
                 $text = 'O Cardápio "' . $log->additional_info . '" foi adicionado.';
                 $icon = 'cardapio';
         }
+
         return [
             'text' => $text,
             'icon' => $icon,
-            'color' => $color
+            'color' => $color,
         ];
     }
 }

@@ -4,11 +4,11 @@
  * This is the model class for table "food_request_item_received".
  *
  * The followings are the available columns in table 'food_request_item_received':
- * @property integer $id
- * @property integer $food_fk
- * @property integer $farmer_fk
- * @property integer $food_request_fk
- * @property double $amount
+ * @property int $id
+ * @property int $food_fk
+ * @property int $farmer_fk
+ * @property int $food_request_fk
+ * @property float $amount
  * @property string $measurementUnit
  * @property string $date
  *
@@ -36,12 +36,12 @@ class FoodRequestItemReceived extends CActiveRecord
                 'updateAttribute' => 'updated_at',
                 'setUpdateOnCreate' => true,
                 'timestampExpression' => new CDbExpression('CONVERT_TZ(NOW(), "+00:00", "-03:00")'),
-            ]
+            ],
         ];
     }
 
     /**
-     * @return array validation rules for model attributes.
+     * @return array validation rules for model attributes
      */
     public function rules()
     {
@@ -57,7 +57,7 @@ class FoodRequestItemReceived extends CActiveRecord
     }
 
     /**
-     * @return array relational rules.
+     * @return array relational rules
      */
     public function relations()
     {
@@ -96,7 +96,7 @@ class FoodRequestItemReceived extends CActiveRecord
      * - Pass data provider to CGridView, CListView or any similar widget.
      *
      * @return CActiveDataProvider the data provider that can return the models
-     * based on the search/filter conditions.
+     * based on the search/filter conditions
      */
     public function search()
     {
@@ -118,7 +118,7 @@ class FoodRequestItemReceived extends CActiveRecord
     /**
      * Returns the static model of the specified AR class.
      * Please note that you should have this exact method in all your CActiveRecord descendants!
-     * @param string $className active record class name.
+     * @param string $className active record class name
      * @return FoodRequestItemReceived the static model class
      */
     public static function model($className = __CLASS__)

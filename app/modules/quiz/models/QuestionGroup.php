@@ -4,9 +4,9 @@
  * This is the model class for table "question_group".
  *
  * The followings are the available columns in table 'question_group':
- * @property integer $id
+ * @property int $id
  * @property string $name
- * @property integer $quiz_id
+ * @property int $quiz_id
  *
  * The followings are the available model relations:
  * @property Quiz $quiz
@@ -23,7 +23,7 @@ class QuestionGroup extends TagModel
     }
 
     /**
-     * @return array validation rules for model attributes.
+     * @return array validation rules for model attributes
      */
     public function rules()
     {
@@ -40,7 +40,7 @@ class QuestionGroup extends TagModel
     }
 
     /**
-     * @return array relational rules.
+     * @return array relational rules
      */
     public function relations()
     {
@@ -74,7 +74,7 @@ class QuestionGroup extends TagModel
      * - Pass data provider to CGridView, CListView or any similar widget.
      *
      * @return CActiveDataProvider the data provider that can return the models
-     * based on the search/filter conditions.
+     * based on the search/filter conditions
      */
     public function search()
     {
@@ -94,7 +94,7 @@ class QuestionGroup extends TagModel
     /**
      * Returns the static model of the specified AR class.
      * Please note that you should have this exact method in all your CActiveRecord descendants!
-     * @param string $className active record class name.
+     * @param string $className active record class name
      * @return QuestionGroup the static model class
      */
     public static function model($className = __CLASS__)

@@ -14,16 +14,16 @@ Yii::createWebApplication($config);
  * @property [] $classroom
  * @property Faker\Generator $faker
  * @property CustomProvider $fakerCustom
-*/
+ */
 class ClassroomBuilder
 {
     private $faker = null;
     private $fakerCustom = null;
 
     /**
-    * Summary of group registration
-    * @var $classroom
-    */
+     * Summary of group registration.
+     * @var $classroom
+     */
     public function __construct()
     {
         $this->faker = Faker\Factory::create('pt_BR');

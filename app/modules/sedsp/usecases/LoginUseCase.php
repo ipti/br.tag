@@ -18,7 +18,7 @@ class LoginUseCase
     }
 
     /**
-     * Login into SED API and set SED_TOKEN on Yii State
+     * Login into SED API and set SED_TOKEN on Yii State.
      *
      * Access Token using the code below
      * <code>
@@ -37,7 +37,8 @@ class LoginUseCase
         $cookie = new CHttpCookie('SED_TOKEN', $auth->getAutenticacao());
         $cookie->expire = time() + 60 * 15;
         Yii::app()->request->cookies['SED_TOKEN'] = $cookie;
-        //Yii::app()->user->setState("SED_TOKEN", $auth->getAutenticacao());
+
+        // Yii::app()->user->setState("SED_TOKEN", $auth->getAutenticacao());
         return Yii::app()->request->cookies['SED_TOKEN']->value;
     }
 
@@ -47,7 +48,7 @@ class LoginUseCase
             if (!isset(Yii::app()->request->cookies['SED_TOKEN'])) {
                 $this->exec('SME701', 'zyd780mhz1s5');
             }
-        } catch (\Throwable $th) {
+        } catch (Throwable $th) {
             return $th->getMessage();
         }
     }

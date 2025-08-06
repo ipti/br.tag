@@ -11,9 +11,9 @@ Yii::import('application.modules.sedsp.models.*');
 class GenRA
 {
     /**
-     * Summary of exec
+     * Summary of exec.
      * @param int $tag_student_id StudentIdentificantion Id from TAG
-     * @param boolean $force Force search from TAG
+     * @param bool $force Force search from TAG
      * @return DadosAluno
      */
     public function exec($id, $force = false)
@@ -25,6 +25,7 @@ class GenRA
             if (!isset($TryRA->outErro)) {
                 $ucadd = new AddRACodeToTAG();
                 $student = $ucadd->exec($id, $TryRA->getoutAluno()->outNumRA);
+
                 return $student->gov_id;
             } else {
                 if ($force) {
@@ -40,6 +41,7 @@ class GenRA
                 throw new Exception('Erro 500');
             }
         }
+
         return 'Tentar Novamente';
     }
 }

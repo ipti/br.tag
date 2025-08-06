@@ -58,8 +58,8 @@
             return [
                 'valid' => true,
                 'classrooms' => $classrooms,
-                'minorSchoolingClassroom' => $minorSchoolingClassroom
-            ] ;
+                'minorSchoolingClassroom' => $minorSchoolingClassroom,
+            ];
         }
 
         public function getMinorSchoolingClassrooms()
@@ -80,7 +80,7 @@
         }
 
         /**
-         * Summary of getClassContents
+         * Summary of getClassContents.
          * @param mixed $classroom_fk
          * @param mixed $date
          * @param mixed $discipline_fk
@@ -162,7 +162,7 @@
         }
 
         /**
-         * Summary of SaveClassContents
+         * Summary of SaveClassContents.
          * @param mixed $classContent
          * @param mixed $stage_fk
          * @param mixed $date
@@ -194,7 +194,7 @@
                 'schedule_fk = :schedule_fk and coursePlanFk.users_fk = :user_fk',
                 [
                     'schedule_fk' => $schedule->id,
-                    'user_fk' => Yii::app()->user->loginInfos->id
+                    'user_fk' => Yii::app()->user->loginInfos->id,
                 ]
             ), 'id');
 

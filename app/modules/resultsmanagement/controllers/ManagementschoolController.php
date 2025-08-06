@@ -7,7 +7,7 @@ class ManagementschoolController extends CController
     public function actionIndex($sid)
     {
         $school = SchoolIdentification::model()->findByPk($sid);
-        $this->render('index', ['school' => $school, ]);
+        $this->render('index', ['school' => $school]);
     }
 
     public function actionPerformance($sid)
@@ -30,7 +30,7 @@ class ManagementschoolController extends CController
             $efficiency = yii::app()->db->createCommand($sql)->queryAll(true, [
                 ':sid' => $sid,
                 ':year' => yii::app()->user->year,
-                ':media' => $media
+                ':media' => $media,
             ]);
             $efficiencies[$unity . 'º Bimestre'] = [];
             $efficiencies[$unity . 'º Bimestre']['bad'] = 0;
@@ -52,7 +52,7 @@ class ManagementschoolController extends CController
 
     public function actionFrequency($sid)
     {
-        /* @var $classrooms Classroom[]*/
+        /* @var $classrooms Classroom[] */
         $school = SchoolIdentification::model()->findByPk($sid);
         $classrooms = Classroom::model()->findAll(['condition' => 'school_inep_fk = :sid and school_year = :year', 'order' => 'name', 'params' => [':sid' => $sid, ':year' => yii::app()->user->year]]);
         $classroomOptions = [];
@@ -81,6 +81,7 @@ class ManagementschoolController extends CController
             return false;
         }
         echo json_encode($results);
+
         return true;
     }
 
@@ -100,17 +101,17 @@ class ManagementschoolController extends CController
 				group by sc.day, sc.month, sc.discipline_fk
 				order by sc.month, sc.day, sc.discipline_fk;";
         $i = 0;
-        $params = [':sid' => $sid, ':year' => yii::app()->user->year, ];
-        ($cid != 'all' ? $params[':cid'] = $cid : $i);
-        ($mid != 'all' ? $params[':mid'] = $mid : $i);
-        ($did != 'all' && $did != '-1' ? $params[':did'] = $did : $i);
+        $params = [':sid' => $sid, ':year' => yii::app()->user->year];
+        $cid != 'all' ? $params[':cid'] = $cid : $i;
+        $mid != 'all' ? $params[':mid'] = $mid : $i;
+        $did != 'all' && $did != '-1' ? $params[':did'] = $did : $i;
         $classes = yii::app()->db->createCommand($sql)->queryAll(true, $params);
         $sql = "Select count(*) from student_enrollment e
 					join classroom cr on (cr.id = e.classroom_fk)
 					where cr.school_year = :year and cr.school_inep_fk = :sid
 					$cFilter;";
-        $params = [':sid' => $sid, ':year' => yii::app()->user->year, ];
-        ($cid != 'all' ? $params[':cid'] = $cid : $i);
+        $params = [':sid' => $sid, ':year' => yii::app()->user->year];
+        $cid != 'all' ? $params[':cid'] = $cid : $i;
         $enrollments = yii::app()->db->createCommand($sql)->queryScalar($params);
         echo json_encode(['classes' => $classes, 'enrollments' => $enrollments]);
     }
@@ -140,6 +141,7 @@ class ManagementschoolController extends CController
         }
         $results = yii::app()->db->createCommand($sql)->queryAll(true, $params);
         echo json_encode($results);
+
         return true;
     }
 
@@ -167,7 +169,7 @@ class ManagementschoolController extends CController
 					$dFilter
 				  c.school_year = :year && c.school_inep_fk = :sid";
 
-        $params = [':sid' => $sid, ':year' => yii::app()->user->year, ];
+        $params = [':sid' => $sid, ':year' => yii::app()->user->year];
         $grades = yii::app()->db->createCommand($sql)->queryAll(true, $params);
 
         echo json_encode(['grades' => $grades]);
@@ -222,7 +224,7 @@ class ManagementschoolController extends CController
             $option = ($g['grade'] < 5) ? 'bad'
                     : (($g['grade'] >= 5 && $g['grade'] < 7) ? 'regular'
                     : (($g['grade'] >= 7 && $g['grade'] < 9) ? 'good'
-                    : 'best')) ;
+                    : 'best'));
             $result[$g['bimester']][$option] += intval($g['count']);
         }
 

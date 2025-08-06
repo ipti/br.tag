@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Caso de uso para salvavemto da estrutura de notas e avaliação
+ * Caso de uso para salvavemto da estrutura de notas e avaliação.
  *
  * @property string $gradeRulesId
  * @property string $gradeRulesName
@@ -35,8 +35,7 @@ class UpdateGradeStructUsecase
         $ruleType,
         $hasPartialRecovery,
         $partialRecoveries
-    )
-    {
+    ) {
         $this->gradeRulesId = $gradeRulesId;
         $this->gradeRulesName = $gradeRulesName;
         $this->reply = $reply;
@@ -67,6 +66,7 @@ class UpdateGradeStructUsecase
                 $this->hasPartialRecovery,
                 $this->partialRecoveries
             );
+
             return $justOneUsecase->exec();
         } elseif ($this->reply === self::ALL_STAGES) {
             // A = Toda a Matriz Curricular
@@ -110,6 +110,7 @@ class UpdateGradeStructUsecase
     private function getMatrixesForAllModalities($stage)
     {
         $modality = EdcensoStageVsModality::model()->find('id = :id', [':id' => $stage]);
+
         return Yii::app()->db->createCommand('
             select esvm.id from curricular_matrix cm
             join edcenso_stage_vs_modality esvm on esvm.id = cm.stage_fk

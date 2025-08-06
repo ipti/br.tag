@@ -58,36 +58,42 @@ class OutLstTelefone
     public function setOutDddNumero(?string $outDDDNumero): self
     {
         $this->outDDDNumero = $outDDDNumero;
+
         return $this;
     }
 
     public function setOutNumero(?string $outNumero): self
     {
         $this->outNumero = $outNumero;
+
         return $this;
     }
 
     public function setOutTipoTelefone(?string $outTipoTelefone): self
     {
         $this->outTipoTelefone = $outTipoTelefone;
+
         return $this;
     }
 
     public function setOutDescTipoTelefone(?string $outDescTipoTelefone): self
     {
         $this->outDescTipoTelefone = $outDescTipoTelefone;
+
         return $this;
     }
 
     public function setOutComplemento(?string $outComplemento): self
     {
         $this->outComplemento = $outComplemento;
+
         return $this;
     }
 
     public function setOutSms(?string $outSMS): self
     {
         $this->outSMS = $outSMS;
+
         return $this;
     }
 

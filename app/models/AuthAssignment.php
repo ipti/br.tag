@@ -5,7 +5,7 @@
  *
  * The followings are the available columns in table 'AuthAssignment':
  * @property string $itemname
- * @property integer $userid
+ * @property int $userid
  * @property string $bizrule
  * @property string $data
  */
@@ -13,7 +13,7 @@ class AuthAssignment extends TagModel
 {
     /**
      * Returns the static model of the specified AR class.
-     * @param string $className active record class name.
+     * @param string $className active record class name
      * @return AuthAssignment the static model class
      */
     public static function model($className = __CLASS__)
@@ -30,7 +30,7 @@ class AuthAssignment extends TagModel
     }
 
     /**
-     * @return array validation rules for model attributes.
+     * @return array validation rules for model attributes
      */
     public function rules()
     {
@@ -48,7 +48,7 @@ class AuthAssignment extends TagModel
     }
 
     /**
-     * @return array relational rules.
+     * @return array relational rules
      */
     public function relations()
     {
@@ -73,7 +73,7 @@ class AuthAssignment extends TagModel
 
     /**
      * Retrieves a list of models based on the current search/filter conditions.
-     * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
+     * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions
      */
     public function search()
     {

@@ -10,9 +10,9 @@ class DefaultController extends Controller
             $getDisciplines = new GetDisciplines();
             $disciplines = $getDisciplines->exec();
             $this->render('index', [
-                'disciplines' => $disciplines
+                'disciplines' => $disciplines,
             ]);
-        } catch (\Throwable $th) {
+        } catch (Throwable $th) {
             Yii::app()->user->setFlash('error', Yii::t('default', 'Ocorreu um erro ao carregar as turmas.'));
             var_dump($th);
         }
@@ -48,7 +48,7 @@ class DefaultController extends Controller
     {
         $this->render('classDays', [
             'discipline_name' => $discipline_name,
-            'classroom_name' => $classroom_name
+            'classroom_name' => $classroom_name,
         ]);
     }
 
@@ -59,9 +59,9 @@ class DefaultController extends Controller
         if ($classroom->calendar_fk != null) {
             $result['months'] = [];
             $calendar = $classroom->calendarFk;
-            $begin = new Datetime($calendar->start_date);
+            $begin = new DateTime($calendar->start_date);
             $begin->modify('first day of this month');
-            $end = new Datetime($calendar->end_date);
+            $end = new DateTime($calendar->end_date);
             $end->modify('first day of next month');
             $interval = DateInterval::createFromDateString('1 month');
             $period = new DatePeriod($begin, $interval, $end);
@@ -83,6 +83,7 @@ class DefaultController extends Controller
         }
 
         $condition = TagUtils::isSubstituteInstructor($classroom) ? 'is not null' : 'is null';
+
         return 'and substitute_instructor_fk ' . $condition;
     }
 
@@ -103,7 +104,7 @@ class DefaultController extends Controller
                     'classroom_fk' => $classroomId,
                     'year' => $year,
                     'month' => $month,
-                    'discipline_fk' => $disciplineId
+                    'discipline_fk' => $disciplineId,
                 ]
             );
         } else {
@@ -112,7 +113,7 @@ class DefaultController extends Controller
                 [
                     'classroom_fk' => $classroomId,
                     'year' => $year,
-                    'month' => $month
+                    'month' => $month,
                 ]
             );
         }
@@ -177,7 +178,7 @@ class DefaultController extends Controller
     public function actionRenderAccordion()
     {
         $course_class_id = $_POST['id'];
-        $getCourseClasses = new  GetCourseClasses();
+        $getCourseClasses = new GetCourseClasses();
         $types = $getCourseClasses->exec($course_class_id);
         $plan_name = $_POST['plan_name'];
         $this->renderPartial('_accordion', ['plan_name' => $plan_name]);
@@ -271,6 +272,7 @@ class DefaultController extends Controller
                 ]);
             }
         }
+
         return $result;
     }
 }

@@ -13,7 +13,7 @@ class UserIdentity extends CUserIdentity
      * are both 'demo'.
      * In practical applications, this should be changed to authenticate
      * against some persistent user identity storage (e.g. database).
-     * @return boolean whether authentication succeeds.
+     * @return bool whether authentication succeeds
      */
     //	public function authenticate()
     //	{
@@ -34,6 +34,7 @@ class UserIdentity extends CUserIdentity
     public function isMd5($string)
     {
         $md5_pattern = '/^[a-fA-F0-9]{32}$/';
+
         return preg_match($md5_pattern, $string);
     }
 
@@ -64,7 +65,7 @@ class UserIdentity extends CUserIdentity
             ) {
                 $userSchools = [];
                 $this->setState('hardfoot', false);
-                //@done s2 - mostrar apenas escolas ativas
+                // @done s2 - mostrar apenas escolas ativas
                 $userSchools = SchoolIdentification::model()->findAllByAttributes(['situation' => '1'], ['order' => 'name']);
                 $school = isset($userSchools[0]) ? $userSchools[0]->inep_id : '';
             } else {
@@ -77,8 +78,9 @@ class UserIdentity extends CUserIdentity
             $this->setState('usersSchools', $userSchools);
             $this->setState('school', $school);
             $this->errorCode = self::ERROR_NONE;
-            //AdminController::actionBackup(false);
+            // AdminController::actionBackup(false);
         }
+
         return !$this->errorCode;
     }
 }

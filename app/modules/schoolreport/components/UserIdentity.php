@@ -15,16 +15,18 @@ class UserIdentity extends CUserIdentity
             foreach ($names as $n) {
                 $pass .= $n[0];
             }
-            //var_dump($pass);exit;
+
+            // var_dump($pass);exit;
             return strtoupper($pass);
         }
+
         return '';
     }
 
     /**
      * Authenticates a user.
      *
-     * @return boolean whether authentication succeeds.
+     * @return bool whether authentication succeeds
      */
     public function authenticate()
     {
@@ -57,13 +59,14 @@ class UserIdentity extends CUserIdentity
                     $result[$classroom->school_year][$enrollment->id] = [
                         'name' => $student->name,
                         'classroom_id' => $classroom->id,
-                        'classroom_name' => $classroom->name
+                        'classroom_name' => $classroom->name,
                     ];
                 }
             }
             $this->setState('enrollments', $result);
             $this->errorCode = self::ERROR_NONE;
         }
+
         return !$this->errorCode;
     }
 }

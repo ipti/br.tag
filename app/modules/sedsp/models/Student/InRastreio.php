@@ -42,24 +42,28 @@ class InRastreio implements JsonSerializable
     public function setInUsuarioRemoto(?string $inUsuarioRemoto): self
     {
         $this->inUsuarioRemoto = $inUsuarioRemoto;
+
         return $this;
     }
 
     public function setInNomeUsuario(?string $inNomeUsuario): self
     {
         $this->inNomeUsuario = $inNomeUsuario;
+
         return $this;
     }
 
     public function setInNumCpf(?string $inNumCPF): self
     {
         $this->inNumCPF = $inNumCPF;
+
         return $this;
     }
 
     public function setInLocalPerfilAcesso(?string $inLocalPerfilAcesso): self
     {
         $this->inLocalPerfilAcesso = $inLocalPerfilAcesso;
+
         return $this;
     }
 

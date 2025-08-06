@@ -7,35 +7,35 @@
  * @property string $register_type
  * @property string $school_inep_id_fk
  * @property string $inep_id
- * @property integer $id
+ * @property int $id
  * @property string $name
  * @property string $civil_name
  * @property string $email
  * @property string $nis
  * @property string $birthday_date
- * @property integer $sex
- * @property integer $color_race
- * @property boolean $filiation
+ * @property int $sex
+ * @property int $color_race
+ * @property bool $filiation
  * @property string $filiation_1
  * @property string $filiation_2
- * @property integer $nationality
- * @property integer $edcenso_nation_fk
- * @property integer $edcenso_uf_fk
- * @property integer $edcenso_city_fk
- * @property boolean $deficiency
- * @property boolean $deficiency_type_blindness
- * @property boolean $deficiency_type_low_vision
- * @property boolean $deficiency_type_monocular_vision
- * @property boolean $deficiency_type_deafness
- * @property boolean $deficiency_type_disability_hearing
- * @property boolean $deficiency_type_deafblindness
- * @property boolean $deficiency_type_phisical_disability
- * @property boolean $deficiency_type_intelectual_disability
- * @property boolean $deficiency_type_multiple_disabilities
- * @property boolean $deficiency_type_autism
- * @property boolean $deficiency_type_gifted
- * @property integer $hash
- * @property integer $users_fk
+ * @property int $nationality
+ * @property int $edcenso_nation_fk
+ * @property int $edcenso_uf_fk
+ * @property int $edcenso_city_fk
+ * @property bool $deficiency
+ * @property bool $deficiency_type_blindness
+ * @property bool $deficiency_type_low_vision
+ * @property bool $deficiency_type_monocular_vision
+ * @property bool $deficiency_type_deafness
+ * @property bool $deficiency_type_disability_hearing
+ * @property bool $deficiency_type_deafblindness
+ * @property bool $deficiency_type_phisical_disability
+ * @property bool $deficiency_type_intelectual_disability
+ * @property bool $deficiency_type_multiple_disabilities
+ * @property bool $deficiency_type_autism
+ * @property bool $deficiency_type_gifted
+ * @property int $hash
+ * @property int $users_fk
  * @property string $id_indigenous_people
  *
  * The followings are the available model relations:
@@ -58,7 +58,7 @@ class InstructorIdentification extends AltActiveRecord
 
     /**
      * Returns the static model of the specified AR class.
-     * @param string $className active record class name.
+     * @param string $className active record class name
      * @return InstructorIdentification the static model class
      */
     public static function model($className = __CLASS__)
@@ -75,7 +75,7 @@ class InstructorIdentification extends AltActiveRecord
     }
 
     /**
-     * @return array validation rules for model attributes.
+     * @return array validation rules for model attributes
      */
     public function rules()
     {
@@ -98,7 +98,7 @@ class InstructorIdentification extends AltActiveRecord
     }
 
     /**
-     * @return array relational rules.
+     * @return array relational rules
      */
     public function relations()
     {
@@ -153,13 +153,13 @@ class InstructorIdentification extends AltActiveRecord
             'deficiency_type_autism' => Yii::t('default', 'Deficiency Type Autism'),
             'deficiency_type_gifted' => Yii::t('default', 'Deficiency Type Gifted'),
             'users_fk' => 'Users Fk',
-            'id_indigenous_people' => Yii::t('default', 'Id Indigenous People')
+            'id_indigenous_people' => Yii::t('default', 'Id Indigenous People'),
         ];
     }
 
     /**
      * Retrieves a list of models based on the current search/filter conditions.
-     * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
+     * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions
      */
     public function search()
     {
@@ -167,7 +167,7 @@ class InstructorIdentification extends AltActiveRecord
         // should not be searched.
 
         $criteria = new CDbCriteria();
-        //$criteria->with = array('documents');
+        // $criteria->with = array('documents');
 
         $criteria->compare('register_type', $this->register_type, true);
 
@@ -184,10 +184,10 @@ class InstructorIdentification extends AltActiveRecord
             'criteria' => $criteria,
             'sort' => [
                 'defaultOrder' => [
-                    'name' => CSort::SORT_ASC
+                    'name' => CSort::SORT_ASC,
                 ],
             ],
-            'pagination' => false
+            'pagination' => false,
         ]);
     }
 
@@ -198,7 +198,7 @@ class InstructorIdentification extends AltActiveRecord
             'curricularMatrixes.teachingMatrixes.teachingDataFk' => [
                 'condition' => 'teachingDataFk.instructor_fk=:instructor_fk',
                 'params' => [':instructor_fk' => $this->id],
-            ]
+            ],
         ])
         ->findAll([
             'select' => 'DISTINCT ed.*',

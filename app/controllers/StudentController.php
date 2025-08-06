@@ -12,13 +12,13 @@ Yii::import('application.modules.sedsp.datasources.sed.Enrollment.*');
 
 class StudentController extends Controller implements AuthenticateSEDTokenInterface
 {
-    //@done s1 - validação de todos os campos - Colocar uma ? para explicar as regras de cada campo(em todas as telas)
-    //@done s1 - Recuperar endereço pelo CEP
-    //@done s1 - validar CPF
-    //@done s1 - Campo Cartórios - Colocar em ordem alfabética
-    //@done s1 - Campo TIpo de Certidão Civil (Add as opções)
-    //@done s1 - atualizar dependencia de select2
-    //@done s1 - corrigir o deletar
+    // @done s1 - validação de todos os campos - Colocar uma ? para explicar as regras de cada campo(em todas as telas)
+    // @done s1 - Recuperar endereço pelo CEP
+    // @done s1 - validar CPF
+    // @done s1 - Campo Cartórios - Colocar em ordem alfabética
+    // @done s1 - Campo TIpo de Certidão Civil (Add as opções)
+    // @done s1 - atualizar dependencia de select2
+    // @done s1 - corrigir o deletar
     public const CREATE = 'create';
     public const UPDATE = 'update';
     /**
@@ -75,7 +75,7 @@ class StudentController extends Controller implements AuthenticateSEDTokenInterf
                     'getcities',
                     'getnotaryoffice',
                     'getnations',
-                    'delete'
+                    'delete',
                 ],
                 'users' => ['@'],
             ],
@@ -88,7 +88,7 @@ class StudentController extends Controller implements AuthenticateSEDTokenInterf
 
     /**
      * Displays a particular model.
-     * @param integer $id the ID of the model to be displayed
+     * @param int $id the ID of the model to be displayed
      */
     public function actionView($id)
     {
@@ -141,7 +141,7 @@ class StudentController extends Controller implements AuthenticateSEDTokenInterf
         $criteria->condition = 't.student_fk = :student_fk AND s.classroom_fk = :classroom_id';
         $criteria->params = [
             ':student_fk' => $stdIdentification->id,
-            ':classroom_id' => $classroom->id
+            ':classroom_id' => $classroom->id,
         ];
 
         $classFaults = ClassFaults::model()->count($criteria);
@@ -160,7 +160,7 @@ class StudentController extends Controller implements AuthenticateSEDTokenInterf
         } else {
             echo json_encode([
                 'success' => false,
-                'message' => 'A matrícula não pode ser excluída, pois já contém notas e/ou frequência cadastradas.'
+                'message' => 'A matrícula não pode ser excluída, pois já contém notas e/ou frequência cadastradas.',
             ]);
         }
 
@@ -252,7 +252,7 @@ class StudentController extends Controller implements AuthenticateSEDTokenInterf
             'draw' => intval($requestData['draw']),
             'recordsTotal' => intval($totalData),
             'recordsFiltered' => intval($totalFiltered),
-            'data' => $data
+            'data' => $data,
         ];
 
         echo json_encode($json_data);
@@ -359,7 +359,7 @@ class StudentController extends Controller implements AuthenticateSEDTokenInterf
     public function actionCreate()
     {
         $modelStudentIdentification = new StudentIdentification();
-        //@todo Checar o paramentro antes
+        // @todo Checar o paramentro antes
         $modelStudentIdentification->deficiency = 0;
         $modelStudentDocumentsAndAddress = new StudentDocumentsAndAddress();
         $modelEnrollment = new StudentEnrollment();
@@ -407,7 +407,7 @@ class StudentController extends Controller implements AuthenticateSEDTokenInterf
                 }
             }
 
-            //Atributos comuns entre as tabelas
+            // Atributos comuns entre as tabelas
             $modelStudentDocumentsAndAddress->school_inep_id_fk = $modelStudentIdentification->school_inep_id_fk;
             $modelStudentDocumentsAndAddress->student_fk = $modelStudentIdentification->inep_id;
             date_default_timezone_set('America/Recife');
@@ -502,14 +502,14 @@ class StudentController extends Controller implements AuthenticateSEDTokenInterf
             'modelStudentDisorder' => $modelStudentDisorder,
             'modelEnrollment' => $modelEnrollment,
             'vaccines' => $vaccines,
-            'studentVaccinesSaves' => $studentVaccinesSaves
+            'studentVaccinesSaves' => $studentVaccinesSaves,
         ]);
     }
 
     /**
      * Updates a particular model.
      * If update is successful, the browser will be redirected to the 'view' page.
-     * @param integer $id the ID of the model to be updated
+     * @param int $id the ID of the model to be updated
      */
     public function actionUpdate($id)
     {
@@ -543,7 +543,7 @@ class StudentController extends Controller implements AuthenticateSEDTokenInterf
             $modelStudentDocumentsAndAddress->attributes = $_POST[$this->STUDENT_DOCUMENTS_AND_ADDRESS];
             $modelStudentRestrictions->attributes = $_POST[$this->STUDENT_RESTRICTIONS];
             $modelStudentDisorder->attributes = $_POST[$this->STUDENT_DISORDER];
-            //Atributos comuns entre as tabelas
+            // Atributos comuns entre as tabelas
             $modelStudentDocumentsAndAddress->id = $modelStudentIdentification->id;
             $modelStudentDocumentsAndAddress->school_inep_id_fk = $modelStudentIdentification->school_inep_id_fk;
             $modelStudentDocumentsAndAddress->student_fk = $modelStudentIdentification->id;
@@ -668,7 +668,7 @@ class StudentController extends Controller implements AuthenticateSEDTokenInterf
             'modelStudentDisorder' => $modelStudentDisorder,
             'modelEnrollment' => $modelEnrollment,
             'vaccines' => $vaccines,
-            'studentVaccinesSaves' => $studentVaccinesSaves
+            'studentVaccinesSaves' => $studentVaccinesSaves,
         ]);
     }
 
@@ -681,7 +681,7 @@ class StudentController extends Controller implements AuthenticateSEDTokenInterf
             $currentEnrollment = StudentEnrollment::model()->findByAttributes(['student_fk' => $modelStudentIdentification->id, 'current_enrollment' => 1]);
             $currentEnrollment = $currentEnrollment == null ? StudentEnrollment::model()->findByPk($modelStudentIdentification->lastEnrollment->id) : $currentEnrollment;
             if ($currentEnrollment != null) {
-                //salvar o histórico de matrícula antiga
+                // salvar o histórico de matrícula antiga
                 $currentEnrollmentHistory = new StudentEnrollmentHistory();
                 $currentEnrollmentHistory->student_enrollment_fk = $currentEnrollment->id;
                 $currentEnrollmentHistory->status = $currentEnrollment->status;
@@ -713,7 +713,7 @@ class StudentController extends Controller implements AuthenticateSEDTokenInterf
 
             $modelEnrollment = StudentEnrollment::model()->findByAttributes(['student_fk' => $modelStudentIdentification->id, 'classroom_fk' => $_POST['StudentEnrollment']['classroom_fk']]);
             if ($modelEnrollment != null) {
-                //salvar o histórico de matrícula nova
+                // salvar o histórico de matrícula nova
                 $studentEnrollmentHistory = new StudentEnrollmentHistory();
                 $studentEnrollmentHistory->student_enrollment_fk = $modelEnrollment->id;
                 $studentEnrollmentHistory->status = $modelEnrollment->status;
@@ -769,7 +769,7 @@ class StudentController extends Controller implements AuthenticateSEDTokenInterf
     /**
      * Deletes a particular model.
      * If deletion is successful, the browser will be redirected to the 'admin' page.
-     * @param integer $id the ID of the model to be deleted
+     * @param int $id the ID of the model to be deleted
      */
     public function actionDelete($id)
     {
@@ -815,7 +815,7 @@ class StudentController extends Controller implements AuthenticateSEDTokenInterf
             } else {
                 throw new CHttpException(404, 'The requested page does not exist.');
             }
-        } catch (\Throwable $th) {
+        } catch (Throwable $th) {
             Yii::app()->user->setFlash(
                 'error',
                 Yii::t(
@@ -862,7 +862,7 @@ class StudentController extends Controller implements AuthenticateSEDTokenInterf
                 'criteria' => [
                     'condition' => 'school_inep_id_fk=' . $school,
                 ],
-                'pagination' => false
+                'pagination' => false,
             ]
         );
         $buttons = '';
@@ -883,7 +883,7 @@ class StudentController extends Controller implements AuthenticateSEDTokenInterf
                     [
                         'href' => yii::app()->createUrl('student/update', ['id' => $sid]),
                         'class' => 'btn btn-primary btn-icon glyphicons eye_open',
-                        'style' => 'margin-top: 5px; width: 110px'
+                        'style' => 'margin-top: 5px; width: 110px',
                     ],
                     '<i></i>Visualizar aluno'
                 );
@@ -898,7 +898,7 @@ class StudentController extends Controller implements AuthenticateSEDTokenInterf
                             ['type' => $type, 'enrollment_id' => $enrollmentId]
                         ),
                         'class' => 'btn btn-primary btn-icon glyphicons notes_2',
-                        'style' => 'margin-top: 5px; width: 110px'
+                        'style' => 'margin-top: 5px; width: 110px',
                     ],
                     '<i></i>Ficha individual'
                 );
@@ -918,13 +918,14 @@ class StudentController extends Controller implements AuthenticateSEDTokenInterf
         $text = preg_replace('/[\t\n\r\0\x0B]/', '', $text);
         $text = preg_replace('/([\s])\1+/', ' ', $text);
         $text = trim($text);
+
         return $text;
     }
 
     /**
      * Returns the data model based on the primary key given in the GET variable.
      * If the data model is not found, an HTTP exception will be raised.
-     * @param integer the ID of the model to be loaded
+     * @param int the ID of the model to be loaded
      * @param string the MODEL wich will be loaded
      */
     public function loadModel($id, $model)

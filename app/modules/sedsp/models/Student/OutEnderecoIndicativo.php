@@ -66,49 +66,52 @@ class OutEnderecoIndicativo
     public function setOutLogradouro(?string $outLogradouro): self
     {
         $this->outLogradouro = $outLogradouro;
+
         return $this;
     }
 
     public function setOutNumero(?string $outNumero): self
     {
         $this->outNumero = $outNumero;
+
         return $this;
     }
 
     public function setOutBairro(?string $outBairro): self
     {
         $this->outBairro = $outBairro;
+
         return $this;
     }
 
     public function setOutNomeCidade(?string $outNomeCidade): self
     {
         $this->outNomeCidade = $outNomeCidade;
+
         return $this;
     }
 
     public function setOutLatitude(?string $outLatitude): self
     {
         $this->outLatitude = $outLatitude;
+
         return $this;
     }
 
     public function setOutLongitude(?string $outLongitude): self
     {
         $this->outLongitude = $outLongitude;
+
         return $this;
     }
 
     public function setOutCep(?string $outCep): self
     {
         $this->outCep = $outCep;
+
         return $this;
     }
 
-    /**
-     * @param array $data
-     * @return self
-     */
     public static function fromJson(array $data): self
     {
         return new self(

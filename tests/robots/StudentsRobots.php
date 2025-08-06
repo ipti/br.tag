@@ -292,7 +292,7 @@ class StudentsRobots
     /**
      * Preencher profissão do responsável.
      * @author Evellyn Jade de Cerqueira Reis- <ti.jade@ipti.org.br>
-    */
+     */
     public function responsableJob($responsableJob)
     {
         $this->tester->fillField('#responsableJob input[type=text]', $responsableJob);
@@ -704,9 +704,9 @@ class StudentsRobots
     }
 
     /**
-    * Botão de adicionar matricula.
-    * @author Evellyn Jade de Cerqueira Reis- <ti.jade@ipti.org.br>
-    */
+     * Botão de adicionar matricula.
+     * @author Evellyn Jade de Cerqueira Reis- <ti.jade@ipti.org.br>
+     */
     public function btnAddMatriculation()
     {
         $this->tester->waitForElement('#new-enrollment-button');
@@ -714,9 +714,9 @@ class StudentsRobots
     }
 
     /**
-    * Selecionar a sala de aula do estudante.
-    * @author Evellyn Jade de Cerqueira Reis- <ti.jade@ipti.org.br>
-    */
+     * Selecionar a sala de aula do estudante.
+     * @author Evellyn Jade de Cerqueira Reis- <ti.jade@ipti.org.br>
+     */
     public function classroom($classroom)
     {
         $script = "document.querySelector('#class-select select').value = '{$classroom}';";
@@ -826,7 +826,7 @@ class StudentsRobots
     }
 
     /**
-     * Checkbox para o tipo de transporte
+     * Checkbox para o tipo de transporte.
      * @author Evellyn Jade de Cerqueira Reis- <ti.jade@ipti.org.br>
      */
     public function typeTransport()
@@ -846,9 +846,9 @@ class StudentsRobots
     }
 
     /**
-    * Checkbox que indica que o estudante tem deficiência.
-    * @author Evellyn Jade de Cerqueira Reis- <ti.jade@ipti.org.br>
-    */
+     * Checkbox que indica que o estudante tem deficiência.
+     * @author Evellyn Jade de Cerqueira Reis- <ti.jade@ipti.org.br>
+     */
     public function deficiency()
     {
         $script = "document.querySelector('#deficiency-checkbox input[type=checkbox]').click();";
@@ -856,9 +856,9 @@ class StudentsRobots
     }
 
     /**
-    * Checkbox do tipo de deficiência.
-    * @author Evellyn Jade de Cerqueira Reis- <ti.jade@ipti.org.br>
-    */
+     * Checkbox do tipo de deficiência.
+     * @author Evellyn Jade de Cerqueira Reis- <ti.jade@ipti.org.br>
+     */
     public function typeDeficiency()
     {
         $script = "document.querySelector('#StudentIdentification_deficiencies input[type=checkbox]').click();";
@@ -866,9 +866,9 @@ class StudentsRobots
     }
 
     /**
-    * Checkbox para os Recursos requeridos em avaliações do INEP (Prova Brasil, SAEB, outros).
-    * @author Evellyn Jade de Cerqueira Reis- <ti.jade@ipti.org.br>
-    */
+     * Checkbox para os Recursos requeridos em avaliações do INEP (Prova Brasil, SAEB, outros).
+     * @author Evellyn Jade de Cerqueira Reis- <ti.jade@ipti.org.br>
+     */
     public function resourcesInep()
     {
         $script = "document.querySelector('#resources-checkbox input[type=checkbox]').click();";

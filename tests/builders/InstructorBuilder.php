@@ -22,7 +22,7 @@ class InstructorBuilder
     private $fakerCustom = null;
 
     /**
-     * Summary of instructor
+     * Summary of instructor.
      * @var $instructor
      * @var $instructorVariable
      * @var $instructorDocumentsAddress

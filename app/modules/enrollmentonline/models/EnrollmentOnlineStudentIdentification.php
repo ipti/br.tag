@@ -5,24 +5,24 @@
  *
  * The followings are the available columns in table 'enrollment_online_student_identification':
  * @property string $classroom_inep_id
- * @property integer $classroom_fk
- * @property integer $id
+ * @property int $classroom_fk
+ * @property int $id
  * @property string $name
  * @property string $birthday
  * @property string $cpf
- * @property integer $sex
- * @property integer $color_race
- * @property integer $deficiency
- * @property integer $deficiency_type_blindness
- * @property integer $deficiency_type_low_vision
- * @property integer $deficiency_type_deafness
- * @property integer $deficiency_type_disability_hearing
- * @property integer $deficiency_type_deafblindness
- * @property integer $deficiency_type_phisical_disability
- * @property integer $deficiency_type_intelectual_disability
- * @property integer $deficiency_type_multiple_disabilities
- * @property integer $deficiency_type_autism
- * @property integer $deficiency_type_gifted
+ * @property int $sex
+ * @property int $color_race
+ * @property int $deficiency
+ * @property int $deficiency_type_blindness
+ * @property int $deficiency_type_low_vision
+ * @property int $deficiency_type_deafness
+ * @property int $deficiency_type_disability_hearing
+ * @property int $deficiency_type_deafblindness
+ * @property int $deficiency_type_phisical_disability
+ * @property int $deficiency_type_intelectual_disability
+ * @property int $deficiency_type_multiple_disabilities
+ * @property int $deficiency_type_autism
+ * @property int $deficiency_type_gifted
  * @property string $last_change
  * @property string $mother_name
  * @property string $father_name
@@ -34,17 +34,17 @@
  * @property string $number
  * @property string $complement
  * @property string $neighborhood
- * @property integer $zone
- * @property integer $edcenso_city_fk
- * @property integer $edcenso_uf_fk
- * @property integer $unavailable
- * @property integer $student_fk
- * @property integer $edcenso_stage_vs_modality_fk
- * @property integer $event_pre_registration_fk
- * @property integer $stages_vacancy_pre_registration_fk
+ * @property int $zone
+ * @property int $edcenso_city_fk
+ * @property int $edcenso_uf_fk
+ * @property int $unavailable
+ * @property int $student_fk
+ * @property int $edcenso_stage_vs_modality_fk
+ * @property int $event_pre_registration_fk
+ * @property int $stages_vacancy_pre_registration_fk
  * @property string $created_at
  * @property string $updated_at
- * @property integer $user_fk
+ * @property int $user_fk
  *
  * The followings are the available model relations:
  * @property EnrollmentOnlineEnrollmentSolicitation[] $enrollmentOnlineEnrollmentSolicitations
@@ -67,7 +67,7 @@ class EnrollmentOnlineStudentIdentification extends CActiveRecord
     }
 
     /**
-     * @return array validation rules for model attributes.
+     * @return array validation rules for model attributes
      */
     public function rules()
     {
@@ -90,7 +90,7 @@ class EnrollmentOnlineStudentIdentification extends CActiveRecord
     }
 
     /**
-     * @return array relational rules.
+     * @return array relational rules
      */
     public function relations()
     {
@@ -169,7 +169,7 @@ class EnrollmentOnlineStudentIdentification extends CActiveRecord
      * - Pass data provider to CGridView, CListView or any similar widget.
      *
      * @return CActiveDataProvider the data provider that can return the models
-     * based on the search/filter conditions.
+     * based on the search/filter conditions
      */
     public function search()
     {
@@ -227,7 +227,7 @@ class EnrollmentOnlineStudentIdentification extends CActiveRecord
     /**
      * Returns the static model of the specified AR class.
      * Please note that you should have this exact method in all your CActiveRecord descendants!
-     * @param string $className active record class name.
+     * @param string $className active record class name
      * @return EnrollmentOnlineStudentIdentification the static model class
      */
     public static function model($className = __CLASS__)

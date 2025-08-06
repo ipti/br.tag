@@ -7,32 +7,31 @@
  * @property string $register_type
  * @property string $school_inep_id_fk
  * @property string $inep_id
- * @property integer $id
+ * @property int $id
  * @property string $cpf
- * @property integer $area_of_residence
- * @property integer $diff_location
+ * @property int $area_of_residence
+ * @property int $diff_location
  * @property string $cep
  * @property string $address
  * @property string $address_number
  * @property string $complement
  * @property string $neighborhood
- * @property integer $edcenso_uf_fk
- * @property integer $edcenso_city_fk
- * @property integer $hash
+ * @property int $edcenso_uf_fk
+ * @property int $edcenso_city_fk
+ * @property int $hash
  *
  * The followings are the available model relations:
  * @property SchoolIdentification $schoolInepIdFk
  * @property EdcensoUf $edcensoUfFk
  * @property EdcensoCity $edcensoCityFk
  */
-
 class InstructorDocumentsAndAddress extends AltActiveRecord
 {
     public const SCENARIO_IMPORT = 'SCENARIO_IMPORT';
 
     /**
      * Returns the static model of the specified AR class.
-     * @param string $className active record class name.
+     * @param string $className active record class name
      * @return InstructorDocumentsAndAddress the static model class
      */
     public static function model($className = __CLASS__)
@@ -49,7 +48,7 @@ class InstructorDocumentsAndAddress extends AltActiveRecord
     }
 
     /**
-     * @return array validation rules for model attributes.
+     * @return array validation rules for model attributes
      */
     public function rules()
     {
@@ -74,7 +73,7 @@ class InstructorDocumentsAndAddress extends AltActiveRecord
     }
 
     /**
-     * @return array relational rules.
+     * @return array relational rules
      */
     public function relations()
     {
@@ -112,7 +111,7 @@ class InstructorDocumentsAndAddress extends AltActiveRecord
 
     /**
      * Retrieves a list of models based on the current search/filter conditions.
-     * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
+     * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions
      */
     public function search()
     {

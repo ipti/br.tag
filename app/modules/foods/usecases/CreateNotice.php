@@ -2,12 +2,12 @@
 
     Yii::import('application.modules.foods.services.*');
     /**
-      * @property CreateNotice $CreateNotice
-      */
+     * @property CreateNotice $CreateNotice
+     */
     class CreateNotice
     {
         /**
-         * Summary of firebaseService
+         * Summary of firebaseService.
          * @var FireBaseService $firebaseService
          */
         private $firebaseService;

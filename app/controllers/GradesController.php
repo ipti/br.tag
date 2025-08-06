@@ -27,7 +27,6 @@ class GradesController extends Controller
             [
                 'allow', // allow authenticated user to perform 'create' and 'update' actions
                 'actions' => [
-
                     'getmodalities',
                     'grades',
                     'getGrades',
@@ -41,7 +40,7 @@ class GradesController extends Controller
                     'getReportCardGrades',
                     'saveGradesReportCard',
                     'saveGradesRelease',
-                    'getClassroomStages'
+                    'getClassroomStages',
                 ],
                 'users' => ['@'],
             ],
@@ -70,7 +69,7 @@ class GradesController extends Controller
     }
 
     /**
-     * Show the view
+     * Show the view.
      */
     public function actionGrades()
     {
@@ -165,7 +164,7 @@ class GradesController extends Controller
     {
         $classroomId = Yii::app()->request->getPost('classroom');
         $stage = Yii::app()->request->getPost('stage');
-        if (isset(($stage)) && $stage !== '') {
+        if (isset($stage) && $stage !== '') {
             $criteria = new CDbCriteria();
             $criteria->alias = 'gu';
             $criteria->join = 'join grade_rules gr on gr.id = gu.grade_rules_fk';
@@ -262,11 +261,11 @@ class GradesController extends Controller
             }
 
             if (!$gradeResult->validate()) {
-                die(print_r($gradeResult->getErrors()));
+                exit(print_r($gradeResult->getErrors()));
             }
             if ($gradeResult->save()) {
                 TLog::info('GradeResult salvo com sucesso.', [
-                    'GradeResult' => $gradeResult->id
+                    'GradeResult' => $gradeResult->id,
                 ]);
             }
         }
@@ -284,13 +283,13 @@ class GradesController extends Controller
         TLog::info('Executando: SaveGradesRelease', [
             'Discipline' => $discipline,
             'Classroom' => $classroomId,
-            'Rule' => $rule
+            'Rule' => $rule,
         ]);
 
         $classroom = Classroom::model()->findByPk($classroomId);
 
         $gradeRules = GradeRules::model()->findByAttributes([
-            'edcenso_stage_vs_modality_fk' => $classroom->edcenso_stage_vs_modality_fk
+            'edcenso_stage_vs_modality_fk' => $classroom->edcenso_stage_vs_modality_fk,
         ]);
 
         foreach ($students as $std) {
@@ -321,15 +320,12 @@ class GradesController extends Controller
             }
 
             if (!$gradeResult->validate()) {
-                throw new CHttpException(
-                    '400',
-                    'Não foi possível validar as notas adicionadas: ' . TagUtils::stringfyValidationErrors($gradeResult)
-                );
+                throw new CHttpException('400', 'Não foi possível validar as notas adicionadas: ' . TagUtils::stringfyValidationErrors($gradeResult));
             }
 
             if ($gradeResult->save()) {
                 TLog::info('Executando SaveGradesRelease: GradeResult salvo com sucesso.', [
-                    'GradeResult' => $gradeResult->id
+                    'GradeResult' => $gradeResult->id,
                 ]);
             }
 
@@ -343,7 +339,7 @@ class GradesController extends Controller
                 TLog::info('Executando: CalculateFinalMediaUsecase', [
                     'GradesResult' => $gradeResult->id,
                     'GradeRules' => $gradeRules->id,
-                    'CountUnities' => count($std['grades'])
+                    'CountUnities' => count($std['grades']),
                 ]);
                 $usecaseFinalMedia = new CalculateFinalMediaUsecase(
                     $gradeResult,
@@ -372,7 +368,7 @@ class GradesController extends Controller
 
             if ($gradeResult->save()) {
                 TLog::info('Executado: saveGradesReportCard.', [
-                    'GradeResult' => $gradeResult
+                    'GradeResult' => $gradeResult,
                 ]);
             }
 
@@ -414,7 +410,7 @@ class GradesController extends Controller
                     [
                         'select' => 'rule_type',
                         'condition' => 'edcenso_stage_vs_modality_fk = :stageId',
-                        'params' => [':stageId' => $studentEnrollment->classroomFk->edcenso_stage_vs_modality_fk]
+                        'params' => [':stageId' => $studentEnrollment->classroomFk->edcenso_stage_vs_modality_fk],
                     ]
                 );
                 if ($rules->rule_type == 'C') {
@@ -442,7 +438,7 @@ class GradesController extends Controller
                         'value' => $gradeResult['grade_' . $index],
                         'concept' => $gradeResult['grade_concept_' . $index],
                         'faults' => $gradeResult['grade_faults_' . $index],
-                        'givenClasses' => $gradeResult['given_classes_' . $index]
+                        'givenClasses' => $gradeResult['given_classes_' . $index],
                     ]);
                 }
 
@@ -494,7 +490,7 @@ class GradesController extends Controller
                     [
                         'select' => 'rule_type, has_final_recovery',
                         'condition' => 'edcenso_stage_vs_modality_fk = :stageId',
-                        'params' => [':stageId' => $studentEnrollment->classroomFk->edcenso_stage_vs_modality_fk]
+                        'params' => [':stageId' => $studentEnrollment->classroomFk->edcenso_stage_vs_modality_fk],
                     ]
                 );
                 $concepts = GradeConcept::model()->findAll();
@@ -520,7 +516,7 @@ class GradesController extends Controller
                         'value' => $gradeResult['grade_' . $index],
                         'concept' => $gradeResult['grade_concept_' . $index],
                         'faults' => $gradeResult['grade_faults_' . $index],
-                        'givenClasses' => $gradeResult['given_classes_' . $index]
+                        'givenClasses' => $gradeResult['given_classes_' . $index],
                     ]);
                 }
 
@@ -576,7 +572,7 @@ class GradesController extends Controller
                     }
                     if ($gradeObject->save()) {
                         TLog::info('GradeObject salva com sucesso.', [
-                            'GradeObject' => $gradeObject->id
+                            'GradeObject' => $gradeObject->id,
                         ]);
                     }
                 }
@@ -591,7 +587,7 @@ class GradesController extends Controller
                     $gradeObject->grade = isset($gradePartialRecovery['value']) && $gradePartialRecovery['value'] !== '' ? $gradePartialRecovery['value'] : null;
                     if ($gradeObject->save()) {
                         TLog::info('GradeObject de PartialRecovery salva com sucesso.', [
-                            'GradeObject' => $gradeObject->id
+                            'GradeObject' => $gradeObject->id,
                         ]);
                     }
                 }
@@ -698,7 +694,7 @@ class GradesController extends Controller
         TLog::info('Executando: SaveGradeResults.', [
             'Classroom' => $classroomId,
             'Discipline' => $disciplineId,
-            'Stage' => $stage
+            'Stage' => $stage,
         ]);
         $usecase = new CalculateGradeResultsUsecase(
             $classroomId,
@@ -709,7 +705,7 @@ class GradesController extends Controller
         TLog::info('Finalizado: SaveGradeResults.', [
             'Classroom' => $classroomId,
             'Discipline' => $disciplineId,
-            'Stage' => $stage
+            'Stage' => $stage,
         ]);
     }
 }

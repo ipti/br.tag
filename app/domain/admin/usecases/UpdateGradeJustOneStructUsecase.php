@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Caso de uso para salvavemto da estrutura de notas e avaliação
+ * Caso de uso para salvavemto da estrutura de notas e avaliação.
  *
  * @property string $gradeRulesId
  * @property string $gradeRulesName
@@ -34,8 +34,7 @@ class UpdateGradeJustOneStructUsecase
         $ruleType,
         $hasPartialRecovery,
         $partialRecoveries
-    )
-    {
+    ) {
         $this->gradeRulesId = $gradeRulesId;
         $this->gradeRulesName = $gradeRulesName;
         $this->stages = $stages;

@@ -4,11 +4,11 @@
  * This is the model class for table "edcenso_ies".
  *
  * The followings are the available columns in table 'edcenso_ies':
- * @property integer $id
+ * @property int $id
  * @property string  $name
- * @property integer $edcenso_uf_fk
- * @property integer $edcenso_city_fk
- * @property integer $administrative_dependency_code
+ * @property int $edcenso_uf_fk
+ * @property int $edcenso_city_fk
+ * @property int $administrative_dependency_code
  * @property string  $administrative_dependency_name
  * @property string  $institution_type
  * @property string  $working_status
@@ -20,7 +20,7 @@ class EdcensoIES extends TagModel
 {
     /**
      * Returns the static model of the specified AR class.
-     * @param string $className active record class name.
+     * @param string $className active record class name
      * @return EdcensoIES the static model class
      */
     public static function model($className = __CLASS__)
@@ -37,7 +37,7 @@ class EdcensoIES extends TagModel
     }
 
     /**
-     * @return array validation rules for model attributes.
+     * @return array validation rules for model attributes
      */
     public function rules()
     {
@@ -46,7 +46,7 @@ class EdcensoIES extends TagModel
         return [
             ['id, code, name', 'required'],
             ['id, code', 'numerical', 'integerOnly' => true],
-            //array('name', 'length', 'max'=>50),
+            // array('name', 'length', 'max'=>50),
             // The following rule is used by search().
             // Please remove those attributes that should not be searched.
             ['id, code, name', 'safe', 'on' => 'search'],
@@ -54,7 +54,7 @@ class EdcensoIES extends TagModel
     }
 
     /**
-     * @return array relational rules.
+     * @return array relational rules
      */
     //	public function relations()
     //	{
@@ -74,14 +74,14 @@ class EdcensoIES extends TagModel
         return [
             'id' => Yii::t('default', 'ID'),
             'edcenso_uf_fk' => Yii::t('default', 'Edcenso Uf Fk'),
-            //'code' => Yii::t('default', 'Code'),
+            // 'code' => Yii::t('default', 'Code'),
             'name' => Yii::t('default', 'Name'),
         ];
     }
 
     /**
      * Retrieves a list of models based on the current search/filter conditions.
-     * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
+     * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions
      */
     public function search()
     {

@@ -87,7 +87,7 @@ class DefaultController extends Controller implements AuthenticateSEDTokenInterf
                     $this->redirect(['index']);
                 }
             }
-        } catch (\Throwable $th) {
+        } catch (Throwable $th) {
             Yii::app()->user->setFlash('error', Yii::t('default', 'Ocorreu um erro ao cadastrar o aluno. Certifique-se de digitar um RA válido'));
             $this->redirect(['index']);
         }
@@ -124,6 +124,7 @@ class DefaultController extends Controller implements AuthenticateSEDTokenInterf
                 return $modelStudentIdentification->name;
             }
         }
+
         return false;
     }
 
@@ -146,14 +147,14 @@ class DefaultController extends Controller implements AuthenticateSEDTokenInterf
             }
 
             $this->redirect(['index']);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             Yii::app()->user->setFlash('error', Yii::t('default', $e->getMessage()));
             $this->redirect(['index']);
         }
     }
 
     /**
-     * Summary of registerClassroom
+     * Summary of registerClassroom.
      * @param string $classroomNum
      * @return void
      */
@@ -165,6 +166,7 @@ class DefaultController extends Controller implements AuthenticateSEDTokenInterf
         if ($existingClassroom) {
             $msg = 'O Cadastro da Turma ' . $existingClassroom->name . " já existe! <a href='" . Yii::app()->createUrl('classroom/update&id=' . $existingClassroom->id) . "' style='color:white;'>Clique aqui para visualizar.</a>";
             Yii::app()->user->setFlash('error', Yii::t('default', $msg));
+
             return;
         }
 
@@ -212,7 +214,7 @@ class DefaultController extends Controller implements AuthenticateSEDTokenInterf
                 Yii::app()->user->setFlash('success', Yii::t('default', $msg));
                 $this->redirect(['index']);
             }
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             Yii::app()->user->setFlash('error', Yii::t('default', $e->getMessage()));
             $this->redirect(['index']);
         }

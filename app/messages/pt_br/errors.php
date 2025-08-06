@@ -1,4 +1,5 @@
 <?php
+
 /*
  * The BSD-3-Clause
   Copyright (c) 2011, Instituto de Pesquisas em Tecnologia e Inovação(IPTI).
@@ -31,7 +32,7 @@ IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 POSSIBILITY OF SUCH DAMAGE.
  */
 return [
-    //Meses
+    // Meses
     'Can not delete' => 'Não é possível excluir, é provavel que existam registros associados a este item',
     'February' => 'Fevereiro',
     'March' => 'Março',
@@ -44,5 +45,4 @@ return [
     'October' => 'Outubro',
     'November' => 'Novembro',
     'December' => 'Dezembro',
-
 ];

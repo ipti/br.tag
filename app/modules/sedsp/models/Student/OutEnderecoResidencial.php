@@ -122,84 +122,98 @@ class OutEnderecoResidencial
     public function setOutLogradouro(?string $outLogradouro): self
     {
         $this->outLogradouro = $outLogradouro;
+
         return $this;
     }
 
     public function setOutNumero(?string $outNumero): self
     {
         $this->outNumero = $outNumero;
+
         return $this;
     }
 
     public function setOutAreaLogradouro(?string $outAreaLogradouro): self
     {
         $this->outAreaLogradouro = $outAreaLogradouro;
+
         return $this;
     }
 
     public function setOutComplemento(?string $outComplemento): self
     {
         $this->outComplemento = $outComplemento;
+
         return $this;
     }
 
     public function setOutBairro(?string $outBairro): self
     {
         $this->outBairro = $outBairro;
+
         return $this;
     }
 
     public function setOutNomeCidade(?string $outNomeCidade): self
     {
         $this->outNomeCidade = $outNomeCidade;
+
         return $this;
     }
 
     public function setOutUfCidade(?string $outUFCidade): self
     {
         $this->outUFCidade = $outUFCidade;
+
         return $this;
     }
 
     public function setOutLatitude(?string $outLatitude): self
     {
         $this->outLatitude = $outLatitude;
+
         return $this;
     }
 
     public function setOutLongitude(?string $outLongitude): self
     {
         $this->outLongitude = $outLongitude;
+
         return $this;
     }
 
     public function setOutCep(?string $outCep): self
     {
         $this->outCep = $outCep;
+
         return $this;
     }
 
     public function setOutCodMunicipioDne(?string $outCodMunicipioDNE): self
     {
         $this->outCodMunicipioDNE = $outCodMunicipioDNE;
+
         return $this;
     }
 
     public function setOutCodArea(?string $outCodArea): self
     {
         $this->outCodArea = $outCodArea;
+
         return $this;
     }
 
     public function setOutCodLocalizacao(?string $outCodLocalizacao): self
     {
         $this->outCodLocalizacao = $outCodLocalizacao;
+
         return $this;
     }
 
     public function setOutLocalizacaoDiferenciada(?string $outLocalizacaoDiferenciada): self
     {
         $this->outLocalizacaoDiferenciada = $outLocalizacaoDiferenciada;
+
         return $this;
     }
 

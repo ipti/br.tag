@@ -10,5 +10,5 @@ return [
     'Disciplines' => 'Componentes curriculares/eixos',
     'Workload' => 'Carga Horária',
     'Credits' => 'Horários Semanais',
-    'Add' => 'Adicionar'
+    'Add' => 'Adicionar',
 ];

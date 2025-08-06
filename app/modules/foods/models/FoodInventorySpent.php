@@ -4,11 +4,11 @@
  * This is the model class for table "food_inventory_spent".
  *
  * The followings are the available columns in table 'food_inventory_spent':
- * @property integer $id
- * @property double $amount
+ * @property int $id
+ * @property float $amount
  * @property string $date
  * @property string $motivation
- * @property integer $food_inventory_fk
+ * @property int $food_inventory_fk
  *
  * The followings are the available model relations:
  * @property FoodInventory $foodInventoryFk
@@ -24,7 +24,7 @@ class FoodInventorySpent extends TagModel
     }
 
     /**
-     * @return array validation rules for model attributes.
+     * @return array validation rules for model attributes
      */
     public function rules()
     {
@@ -43,7 +43,7 @@ class FoodInventorySpent extends TagModel
     }
 
     /**
-     * @return array relational rules.
+     * @return array relational rules
      */
     public function relations()
     {
@@ -78,7 +78,7 @@ class FoodInventorySpent extends TagModel
      * - Pass data provider to CGridView, CListView or any similar widget.
      *
      * @return CActiveDataProvider the data provider that can return the models
-     * based on the search/filter conditions.
+     * based on the search/filter conditions
      */
     public function search()
     {
@@ -100,7 +100,7 @@ class FoodInventorySpent extends TagModel
     /**
      * Returns the static model of the specified AR class.
      * Please note that you should have this exact method in all your CActiveRecord descendants!
-     * @param string $className active record class name.
+     * @param string $className active record class name
      * @return FoodInventorySpent the static model class
      */
     public static function model($className = __CLASS__)

@@ -3,7 +3,7 @@
 require_once __DIR__ . '/CWebTestCaseCustom.php';
 /**
  * Change the following URL based on your server configuration
- * Make sure the URL ends with a slash so that we can use relative URLs in test cases
+ * Make sure the URL ends with a slash so that we can use relative URLs in test cases.
  */
 define('TEST_BASE_URL', 'http://localhost');
 

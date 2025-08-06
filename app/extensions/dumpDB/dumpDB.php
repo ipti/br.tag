@@ -6,14 +6,12 @@
  * @version 0.2
  * @author Rodrigo Zadra Armond <rodzadra@gmail.com>
  *
- *
  * Usage:
  * <pre>
  *      Yii::import('ext.dumpDB.dumpDB');
  *           $dumper = new dumpDB();
  *           echo $dumper->getDump();
  * </pre>
- *
  *
  * Saving the dump to a file:
  * <pre>
@@ -43,15 +41,15 @@ class dumpDB
     private $db = null;
     private $db_connected = null;
 
-    //max size of the query in megabytes - this value will be multiplied by 1024.
+    // max size of the query in megabytes - this value will be multiplied by 1024.
     private $max_query_size = 50;
 
-    //this can be useful when a view is defined by/for a different user or
-    //that doesn't exists on the DB which this SQL will be imported
+    // this can be useful when a view is defined by/for a different user or
+    // that doesn't exists on the DB which this SQL will be imported
     private $removeViewDefiner = false;
 
     /**
-     * construct class
+     * construct class.
      *
      * @param string $dsn      - 'mysql:host=[REMOTE_HOST];dbname=[DATABASE]'
      * @param string $username - username
@@ -73,7 +71,7 @@ class dumpDB
 
     /**
      * set/unset the parameter that remove the DEFINER option (USER) from
-     * generated "create view" params
+     * generated "create view" params.
      *
      * @param bool $b - default FALSE
      * @return bool - the value of $this->removeViewdefiner
@@ -81,11 +79,12 @@ class dumpDB
     public function setRemoveViewDefinerSecurity($b = false)
     {
         $this->removeViewDefiner = ($b === true) ? $b : false;
+
         return $this->removeViewDefiner;
     }
 
     /**
-     * set the max kilobyte the generated query can have
+     * set the max kilobyte the generated query can have.
      *
      * @param integet $size - default 50(Mb)
      * @return void
@@ -95,24 +94,24 @@ class dumpDB
         if (!isset($size)) {
             return;
         }
-        $this->max_query_size = (int)$size * 1024;
+        $this->max_query_size = (int) $size * 1024;
+
         return;
     }
 
     /**
-     * return the max size (Kb) the generated query can have
-     *
+     * return the max size (Kb) the generated query can have.
      *
      * @return int
      */
     public function getMaxQuerySize()
     {
-        return (int)$this->max_query_size . 'Mb';
+        return (int) $this->max_query_size . 'Mb';
     }
 
     /**
-     * Dump all tables
-     * @param boolean $download - if the generated data is to be sent to browser
+     * Dump all tables.
+     * @param bool $download - if the generated data is to be sent to browser
      * @return file|strings
      */
     public function getDump($download = true)
@@ -134,11 +133,12 @@ class dumpDB
             header('Content-type:application/sql');
             header('Content-Disposition:attachment;filename=downloaded.sql');
         }
+
         return $result;
     }
 
     /**
-     * Generate constraints to all tables
+     * Generate constraints to all tables.
      * @return string
      */
     private function getConstraints()
@@ -171,7 +171,7 @@ class dumpDB
     }
 
     /**
-     * Set sql file header
+     * Set sql file header.
      * @return string
      */
     private function setHeader()
@@ -192,7 +192,7 @@ class dumpDB
     }
 
     /**
-     * Set sql file footer
+     * Set sql file footer.
      * @return string
      */
     private function setFooter()
@@ -207,8 +207,7 @@ class dumpDB
     }
 
     /**
-     * Create table dump
-     * @param $tableName
+     * Create table dump.
      * @return mixed
      */
     private function dumpTable($tableName)
@@ -253,6 +252,7 @@ class dumpDB
         if (empty($rows)) {
             echo PHP_EOL;
             echo '-- --------------------------------------------------------' . PHP_EOL;
+
             return;
         }
 
@@ -280,7 +280,7 @@ class dumpDB
             $imploded_row = ' (' . implode(', ', $row) . ')';
             echo $imploded_row;
 
-            //$query_size +=mb_strlen($imploded_row, 'UTF-8');
+            // $query_size +=mb_strlen($imploded_row, 'UTF-8');
             $query_size += strlen($imploded_row);
 
             if ($i < $rowsCount - 1) {
@@ -303,7 +303,7 @@ class dumpDB
     }
 
     /**
-     * creates the views schema
+     * creates the views schema.
      *
      * @return string
      */
@@ -311,7 +311,7 @@ class dumpDB
     {
         $result = null;
 
-        //$this->db_connected  = $this->db->createCommand('SELECT DATABASE() AS db')->queryAll()[0];
+        // $this->db_connected  = $this->db->createCommand('SELECT DATABASE() AS db')->queryAll()[0];
         $db_views = $this->db->createCommand('SHOW FULL TABLES IN ' . $this->db_connected . ' WHERE TABLE_TYPE LIKE "VIEW";')->queryAll();
 
         foreach ($db_views as $view) {
@@ -343,7 +343,7 @@ class dumpDB
     }
 
     /**
-     * Get mysql tables list
+     * Get mysql tables list.
      * @return array
      */
     private function getTables()
@@ -359,6 +359,6 @@ class dumpDB
         }
 
         return $result;
-        //return $this->db->getSchema()->getTables();
+        // return $this->db->getSchema()->getTables();
     }
 }

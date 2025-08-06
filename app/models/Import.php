@@ -33,7 +33,7 @@ class Import extends CFormModel
             'year' => 'Ano do arquivo',
             'file' => 'Arquivo',
             'importWithError' => 'Importar com erro?',
-            'probable' => 'Resultado provável?'
+            'probable' => 'Resultado provável?',
         ];
     }
 
@@ -45,6 +45,7 @@ class Import extends CFormModel
         $file = fopen($this->file, 'r');
         if ($file == false) {
             $this->setError('file', 'O arquivo não existe.');
+
             return;
         }
 
@@ -253,6 +254,7 @@ class Import extends CFormModel
                 $studentDocumentModel->student_fk = $studentIdentificationModel->inep_id;
                 $studentDocumentModel->id = $studentIdentificationModel->id;
                 $studentDocumentModel->save();
+
                 return;
             }
         }
@@ -304,6 +306,7 @@ class Import extends CFormModel
             if ($instructorIdentificationModel->save(false)) {
                 $instructorDocumentModel->id = $instructorIdentificationModel->id;
                 $instructorDocumentModel->save();
+
                 return;
             }
         }

@@ -51,7 +51,7 @@ class DefaultController extends Controller
 
             $professional = Professional::model()->findByAttributes([
                 'inep_id_fk' => Yii::app()->user->school,
-                'cpf_professional' => [$modelProfessional->cpf_professional, str_replace(['.', '-'], '', $modelProfessional->cpf_professional)]
+                'cpf_professional' => [$modelProfessional->cpf_professional, str_replace(['.', '-'], '', $modelProfessional->cpf_professional)],
             ]);
 
             if ($professional === null) {
@@ -76,7 +76,7 @@ class DefaultController extends Controller
     /**
      * Updates a particular model.
      * If update is successful, the browser will be redirected to the 'view' page.
-     * @param integer $id the ID of the model to be updated
+     * @param int $id the ID of the model to be updated
      */
     public function actionUpdate($id)
     {
@@ -119,14 +119,14 @@ class DefaultController extends Controller
         $this->render('update', [
             'modelProfessional' => $modelProfessional,
             'modelAttendances' => $modelAttendances,
-            'modelAttendance' => $modelAttendance
+            'modelAttendance' => $modelAttendance,
         ]);
     }
 
     /**
      * Deletes a particular model.
      * If deletion is successful, the browser will be redirected to the 'admin' page.
-     * @param integer $id the ID of the model to be deleted
+     * @param int $id the ID of the model to be deleted
      */
     public function actionDelete($id)
     {
@@ -155,7 +155,7 @@ class DefaultController extends Controller
                 'condition' => 'inep_id_fk = ' . Yii::app()->user->school,
             ], 'pagination' => [
                 'pageSize' => count($query),
-            ]
+            ],
         ]);
         $this->render('index', [
             'dataProvider' => $dataProvider,

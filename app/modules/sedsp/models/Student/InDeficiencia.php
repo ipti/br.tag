@@ -66,42 +66,49 @@ class InDeficiencia implements JsonSerializable
     public function setInCodNecessidade(?string $inCodNecessidade): self
     {
         $this->inCodNecessidade = $inCodNecessidade;
+
         return $this;
     }
 
     public function setInMobilidadeReduzida(?int $inMobilidadeReduzida): self
     {
         $this->inMobilidadeReduzida = $inMobilidadeReduzida;
+
         return $this;
     }
 
     public function setInTipoMobilidadeReduzida(?string $inTipoMobilidadeReduzida): self
     {
         $this->inTipoMobilidadeReduzida = $inTipoMobilidadeReduzida;
+
         return $this;
     }
 
     public function setInCuidador(?int $inCuidador): self
     {
         $this->inCuidador = $inCuidador;
+
         return $this;
     }
 
     public function setInTipoCuidador(?string $inTipoCuidador): self
     {
         $this->inTipoCuidador = $inTipoCuidador;
+
         return $this;
     }
 
     public function setInProfSaude(?int $inProfSaude): self
     {
         $this->inProfSaude = $inProfSaude;
+
         return $this;
     }
 
     public function setInTipoProfSaude(?string $inTipoProfSaude): self
     {
         $this->inTipoProfSaude = $inTipoProfSaude;
+
         return $this;
     }
 

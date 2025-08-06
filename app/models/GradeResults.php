@@ -4,29 +4,29 @@
  * This is the model class for table "grade_results".
  *
  * The followings are the available columns in table 'grade_results':
- * @property integer $id
- * @property double $grade_1
- * @property double $grade_2
- * @property double $grade_3
- * @property double $grade_4
- * @property double $grade_5
- * @property double $grade_6
- * @property double $grade_7
- * @property double $grade_8
- * @property double $rec_partial_1
- * @property double $rec_partial_2
- * @property double $rec_partial_3
- * @property double $rec_partial_4
- * @property double $rec_partial_5
- * @property double $rec_partial_6
- * @property double $rec_partial_7
- * @property double $rec_partial_8
- * @property double $sem_rec_partial_1
- * @property double $sem_rec_partial_2
- * @property double $sem_rec_partial_3
- * @property double $sem_rec_partial_4
- * @property double $rec_final
- * @property double $final_media
+ * @property int $id
+ * @property float $grade_1
+ * @property float $grade_2
+ * @property float $grade_3
+ * @property float $grade_4
+ * @property float $grade_5
+ * @property float $grade_6
+ * @property float $grade_7
+ * @property float $grade_8
+ * @property float $rec_partial_1
+ * @property float $rec_partial_2
+ * @property float $rec_partial_3
+ * @property float $rec_partial_4
+ * @property float $rec_partial_5
+ * @property float $rec_partial_6
+ * @property float $rec_partial_7
+ * @property float $rec_partial_8
+ * @property float $sem_rec_partial_1
+ * @property float $sem_rec_partial_2
+ * @property float $sem_rec_partial_3
+ * @property float $sem_rec_partial_4
+ * @property float $rec_final
+ * @property float $final_media
  * @property string $grade_concept_1
  * @property string $grade_concept_2
  * @property string $grade_concept_3
@@ -36,29 +36,29 @@
  * @property string $grade_concept_7
  * @property string $grade_concept_8
  * @property string $situation
- * @property integer $enrollment_fk
- * @property integer $discipline_fk
- * @property integer $grade_faults_1
- * @property integer $grade_faults_2
- * @property integer $grade_faults_3
- * @property integer $grade_faults_4
- * @property integer $grade_faults_5
- * @property integer $grade_faults_6
- * @property integer $grade_faults_7
- * @property integer $grade_faults_8
- * @property integer $given_classes_1
- * @property integer $given_classes_2
- * @property integer $given_classes_3
- * @property integer $given_classes_4
- * @property integer $given_classes_5
- * @property integer $given_classes_6
- * @property integer $given_classes_7
- * @property integer $given_classes_8
- * @property integer $final_concept
+ * @property int $enrollment_fk
+ * @property int $discipline_fk
+ * @property int $grade_faults_1
+ * @property int $grade_faults_2
+ * @property int $grade_faults_3
+ * @property int $grade_faults_4
+ * @property int $grade_faults_5
+ * @property int $grade_faults_6
+ * @property int $grade_faults_7
+ * @property int $grade_faults_8
+ * @property int $given_classes_1
+ * @property int $given_classes_2
+ * @property int $given_classes_3
+ * @property int $given_classes_4
+ * @property int $given_classes_5
+ * @property int $given_classes_6
+ * @property int $given_classes_7
+ * @property int $given_classes_8
+ * @property int $final_concept
  * @property string $created_at
  * @property string $updated_at
- * @property double $sem_avarage_1
- * @property double $sem_avarage_2
+ * @property float $sem_avarage_1
+ * @property float $sem_avarage_2
  *
  * The followings are the available model relations:
  * @property StudentEnrollment $enrollmentFk
@@ -76,19 +76,19 @@ class GradeResults extends TagModel
 
     public function behaviors()
     {
-        return  [
+        return [
             'CTimestampBehavior' => [
                 'class' => 'zii.behaviors.CTimestampBehavior',
                 'createAttribute' => 'created_at',
                 'updateAttribute' => 'updated_at',
                 'setUpdateOnCreate' => true,
                 'timestampExpression' => new CDbExpression('CONVERT_TZ(NOW(), "+00:00", "-03:00")'),
-            ]
+            ],
         ];
     }
 
     /**
-     * @return array validation rules for model attributes.
+     * @return array validation rules for model attributes
      */
     public function rules()
     {
@@ -107,7 +107,7 @@ class GradeResults extends TagModel
     }
 
     /**
-     * @return array relational rules.
+     * @return array relational rules
      */
     public function relations()
     {
@@ -193,7 +193,7 @@ class GradeResults extends TagModel
      * - Pass data provider to CGridView, CListView or any similar widget.
      *
      * @return CActiveDataProvider the data provider that can return the models
-     * based on the search/filter conditions.
+     * based on the search/filter conditions
      */
     public function search()
     {
@@ -265,7 +265,7 @@ class GradeResults extends TagModel
     /**
      * Returns the static model of the specified AR class.
      * Please note that you should have this exact method in all your CActiveRecord descendants!
-     * @param string $className active record class name.
+     * @param string $className active record class name
      * @return GradeResults the static model class
      */
     public static function model($className = __CLASS__)

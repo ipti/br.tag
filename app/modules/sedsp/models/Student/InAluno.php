@@ -17,7 +17,7 @@ class InAluno implements JsonSerializable
     }
 
     /**
-     * Get the value of inNumRA
+     * Get the value of inNumRA.
      */
     public function getInNumRA()
     {
@@ -25,7 +25,7 @@ class InAluno implements JsonSerializable
     }
 
     /**
-     * Set the value of inNumRA
+     * Set the value of inNumRA.
      */
     public function setInNumRA($inNumRA): self
     {
@@ -35,7 +35,7 @@ class InAluno implements JsonSerializable
     }
 
     /**
-     * Get the value of inDigitoRA
+     * Get the value of inDigitoRA.
      */
     public function getInDigitoRA()
     {
@@ -43,7 +43,7 @@ class InAluno implements JsonSerializable
     }
 
     /**
-     * Set the value of inDigitoRA
+     * Set the value of inDigitoRA.
      */
     public function setInDigitoRA($inDigitoRA): self
     {
@@ -53,7 +53,7 @@ class InAluno implements JsonSerializable
     }
 
     /**
-     * Get the value of inSiglaUFRA
+     * Get the value of inSiglaUFRA.
      */
     public function getInSiglaUFRA()
     {
@@ -61,7 +61,7 @@ class InAluno implements JsonSerializable
     }
 
     /**
-     * Set the value of inSiglaUFRA
+     * Set the value of inSiglaUFRA.
      */
     public function setInSiglaUFRA($inSiglaUFRA): self
     {

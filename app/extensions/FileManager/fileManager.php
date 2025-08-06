@@ -35,7 +35,7 @@ class fileManager
      * Write file.
      * @param string $location
      * @param string $text
-     * @return boolean
+     * @return bool
      */
     public function write($location, $text)
     {
@@ -50,6 +50,7 @@ class fileManager
         } catch (Exception $e) {
             return false;
         }
+
         return true;
     }
 
@@ -57,7 +58,7 @@ class fileManager
      * Open the file.
      * @param string $location
      * @param string $mode
-     * @return boolean|file
+     * @return bool|file
      */
     public function open($location, $mode = 'r')
     {
@@ -66,6 +67,7 @@ class fileManager
             if ($file == false) {
                 return false;
             }
+
             return $file;
         } catch (Exception $e) {
             return false;
@@ -75,12 +77,13 @@ class fileManager
     /**
      * Close a file.
      * @param file $file
-     * @return boolean
+     * @return bool
      */
     public function close($file)
     {
         try {
             fclose($file);
+
             return true;
         } catch (Exception $e) {
             return false;
@@ -89,7 +92,7 @@ class fileManager
 
     /**
      * Close all files.
-     * @return boolean
+     * @return bool
      */
     public function closeAll()
     {
