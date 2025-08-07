@@ -5,16 +5,22 @@
  * @property int $discipline
  * @property int $stage
  */
-class CalculateGradeResultsUsecase {
-    public function __construct($classroom, $discipline, $stage) {
+class CalculateGradeResultsUsecase
+{
+    private $classroomId;
+    private $discipline;
+    private $stage;
+    public function __construct($classroom, $discipline, $stage)
+    {
         $this->classroomId = $classroom;
         $this->discipline = $discipline;
         $this->stage = $stage;
     }
 
-    public function exec() {
+    public function exec()
+    {
         $classroom = Classroom::model()->findByPk($this->classroomId);
-        if($this->stage === "") {
+        if ($this->stage === "") {
             $this->stage = $classroom->edcenso_stage_vs_modality_fk;
         }
         $criteria = new CDbCriteria();
@@ -27,7 +33,7 @@ class CalculateGradeResultsUsecase {
 
         $gradeRules = GradeRules::model()->find($criteria);
 
-        if($gradeRules->rule_type === "N") {
+        if ($gradeRules->rule_type === "N") {
             $usercase = new CalculateNumericGradeUsecase($this->classroomId, $this->discipline, $this->stage);
             $usercase->exec();
             TLog::info("Notas numéricas calculadas com sucesso.", array(
@@ -36,7 +42,7 @@ class CalculateGradeResultsUsecase {
                 "Rule" => $gradeRules->id
             ));
             return;
-        } elseif ($gradeRules->rule_type === "C"){
+        } elseif ($gradeRules->rule_type === "C") {
             $usercase = new CalculateConceptGradeUsecase($this->classroomId, $this->discipline, $this->stage);
             $usercase->exec();
             TLog::info("Notas por conceito calculadas com sucesso.", array(

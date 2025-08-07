@@ -566,6 +566,24 @@ class GradesController extends Controller
         $stage = Yii::app()->request->getPost("stage");
         $isConcept = Yii::app()->request->getPost("isConcept");
 
+        $this->saveGrades(
+            $students,
+            $disciplineId,
+            $classroomId,
+            $stage,
+            $isConcept
+        );
+
+
+    }
+
+    private function saveGrades(
+        $students,
+        $disciplineId,
+        $classroomId,
+        $stage,
+        $isConcept,
+    ) {
         $transaction = Yii::app()->db->beginTransaction();
         try {
             foreach ($students as $student) {
@@ -622,8 +640,6 @@ class GradesController extends Controller
             $transaction->rollback();
             throw new CHttpException(500, "Erro inesperado ao salvar notas do aluno");
         }
-
-
     }
 
     public function actionGetGrades()
@@ -651,8 +667,45 @@ class GradesController extends Controller
 
     }
 
-    public function actionClassClosure($classroom) {
-        var_dump("ssaaa");
+    public function actionClassClosure()
+    {
+
+        Yii::import("application.domain.grades.usecases.GetStudentGradesByDisciplineUsecase");
+        $year = Yii::app()->user->year;
+
+        $schoolfk = yii::app()->user->school;
+
+        $classrooms = Classroom::model()->findAllByAttributes(["school_inep_fk" =>$schoolfk ]);
+
+        foreach ($classrooms as $classroom) {
+
+            $disciplines = Yii::app()->db->createCommand(
+                "select curricular_matrix.discipline_fk
+                from curricular_matrix
+                    join edcenso_discipline ed on ed.id = curricular_matrix.discipline_fk
+                where stage_fk = :stage_fk and school_year = :year and ed.id < 100 order by ed.name "
+            )->bindParam(":stage_fk", $classroom->edcenso_stage_vs_modality_fk)
+                ->bindParam(":year", Yii::app()->user->year)->queryAll();
+
+            $criteria = new CDbCriteria();
+            $criteria->alias = 'gu';
+            $criteria->distinct = true;
+            $criteria->join = 'INNER JOIN grade_rules gr ON gr.id = gu.grade_rules_fk';
+            $criteria->join .= ' INNER JOIN classroom_vs_grade_rules cgr ON cgr.grade_rules_fk = gu.grade_rules_fk';
+            $criteria->join .= ' INNER JOIN classroom c ON c.id = cgr.classroom_fk';
+            $criteria->join .= ' INNER JOIN grade_rules_vs_edcenso_stage_vs_modality grvesvm ON grvesvm.grade_rules_fk = gr.id AND grvesvm.edcenso_stage_vs_modality_fk = c.edcenso_stage_vs_modality_fk';
+            $criteria->condition = 'cgr.classroom_fk = :classroomId';
+            $criteria->params = array(':classroomId' => $classroom->id);
+            $unities = GradeUnity::model()->findAll(condition: $criteria);
+
+            foreach ($disciplines as $discipline) {
+
+                self::saveGradeResults($classroom->id, $discipline["discipline_fk"], $classroom->edcenso_stage_vs_modality_fk);
+            }
+
+        }
+
+
     }
 
     public function actionCalculateFinalMedia()
