@@ -2,7 +2,7 @@
 
 /**
  * Yii 1.1 stub - CClientScript
- * Gerencia a inclusão de scripts e folhas de estilo no HTML
+ * Gerencia a inclusão de scripts e folhas de estilo no HTML.
  */
 class CClientScript extends CApplicationComponent
 {
@@ -19,7 +19,7 @@ class CClientScript extends CApplicationComponent
     public $packages = [];
 
     /**
-     * Registra um arquivo JavaScript
+     * Registra um arquivo JavaScript.
      * @param string $url
      * @param int $position
      * @return $this
@@ -30,7 +30,7 @@ class CClientScript extends CApplicationComponent
     }
 
     /**
-     * Registra um bloco de script JavaScript
+     * Registra um bloco de script JavaScript.
      * @param string $id
      * @param string $script
      * @param int $position
@@ -42,7 +42,7 @@ class CClientScript extends CApplicationComponent
     }
 
     /**
-     * Registra um arquivo CSS
+     * Registra um arquivo CSS.
      * @param string $url
      * @param string $media
      * @return $this
@@ -53,7 +53,7 @@ class CClientScript extends CApplicationComponent
     }
 
     /**
-     * Registra um bloco de CSS
+     * Registra um bloco de CSS.
      * @param string $id
      * @param string $css
      * @return $this
@@ -64,7 +64,7 @@ class CClientScript extends CApplicationComponent
     }
 
     /**
-     * Marca um pacote de script como registrado
+     * Marca um pacote de script como registrado.
      * @param string $name
      * @return $this
      */

@@ -2,7 +2,7 @@
 
 /**
  * Yii 1.1 stub - CUserIdentity
- * Classe base para autenticação de usuários
+ * Classe base para autenticação de usuários.
  */
 class CUserIdentity extends CComponent implements IUserIdentity
 {
@@ -49,7 +49,7 @@ class CUserIdentity extends CComponent implements IUserIdentity
     }
 
     /**
-     * Armazena um valor associado a uma chave no estado da identidade
+     * Armazena um valor associado a uma chave no estado da identidade.
      * @param string $key
      * @param mixed $value
      */
@@ -59,7 +59,7 @@ class CUserIdentity extends CComponent implements IUserIdentity
     }
 
     /**
-     * Retorna o valor de uma chave armazenada no estado da identidade
+     * Retorna o valor de uma chave armazenada no estado da identidade.
      * @param string $key
      * @param mixed $defaultValue
      * @return mixed

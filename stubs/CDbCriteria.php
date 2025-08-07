@@ -2,14 +2,14 @@
 
 /**
  * Yii 1.1 stub - CDbCriteria
- * https://www.yiiframework.com/doc/api/1.1/CDbCriteria
+ * https://www.yiiframework.com/doc/api/1.1/CDbCriteria.
  */
 class CDbCriteria
 {
     /** @var string */
     public $select = '*';
 
-    /** @var boolean */
+    /** @var bool */
     public $distinct;
 
     /** @var string */
@@ -42,7 +42,7 @@ class CDbCriteria
     /** @var mixed */
     public $alias;
 
-    /** @var boolean */
+    /** @var bool */
     public $together;
 
     /** @var array */
@@ -61,52 +61,66 @@ class CDbCriteria
      * Merges this criteria with another.
      * @param CDbCriteria $criteria
      */
-    public function mergeWith($criteria, $useAnd = true) {}
+    public function mergeWith($criteria, $useAnd = true)
+    {
+    }
 
     /**
-     * Adds a condition to the existing `condition` with "AND"
+     * Adds a condition to the existing `condition` with "AND".
      * @param string $condition
      * @param string $operator
      */
-    public function addCondition($condition, $operator = 'AND') {}
+    public function addCondition($condition, $operator = 'AND')
+    {
+    }
 
     /**
-     * Adds an IN condition
+     * Adds an IN condition.
      * @param string $column
      * @param array $values
      * @param string $operator
      */
-    public function addInCondition($column, $values, $operator = 'AND') {}
+    public function addInCondition($column, $values, $operator = 'AND')
+    {
+    }
 
     /**
-     * Adds a NOT IN condition
+     * Adds a NOT IN condition.
      * @param string $column
      * @param array $values
      * @param string $operator
      */
-    public function addNotInCondition($column, $values, $operator = 'AND') {}
+    public function addNotInCondition($column, $values, $operator = 'AND')
+    {
+    }
 
     /**
-     * Adds a search condition (LIKE)
+     * Adds a search condition (LIKE).
      * @param string $column
      * @param string $keyword
-     * @param boolean $escape
+     * @param bool $escape
      * @param string $operator
      */
-    public function addSearchCondition($column, $keyword, $escape = true, $operator = 'AND') {}
+    public function addSearchCondition($column, $keyword, $escape = true, $operator = 'AND')
+    {
+    }
 
     /**
-     * Adds a BETWEEN condition
+     * Adds a BETWEEN condition.
      * @param string $column
      * @param mixed $valueStart
      * @param mixed $valueEnd
      * @param string $operator
      */
-    public function addBetweenCondition($column, $valueStart, $valueEnd, $operator = 'AND') {}
+    public function addBetweenCondition($column, $valueStart, $valueEnd, $operator = 'AND')
+    {
+    }
 
     /**
      * Adds a column to the select clause.
      * @param string $column
      */
-    public function addSelect($column) {}
+    public function addSelect($column)
+    {
+    }
 }

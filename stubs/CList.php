@@ -2,7 +2,7 @@
 
 /**
  * Yii 1.1 stub - CList
- * https://www.yiiframework.com/doc/api/1.1/CList
+ * https://www.yiiframework.com/doc/api/1.1/CList.
  */
 class CList extends CComponent implements IteratorAggregate, ArrayAccess, Countable
 {
@@ -12,14 +12,14 @@ class CList extends CComponent implements IteratorAggregate, ArrayAccess, Counta
     protected $_d = [];
 
     /**
-     * @var boolean whether the list is read-only
+     * @var bool whether the list is read-only
      */
     protected $_r = false;
 
     /**
      * Constructor.
      * @param array $data initial data
-     * @param boolean $readOnly whether the list is read-only
+     * @param bool $readOnly whether the list is read-only
      */
     public function __construct($data = [], $readOnly = false)
     {
@@ -28,7 +28,7 @@ class CList extends CComponent implements IteratorAggregate, ArrayAccess, Counta
     }
 
     /**
-     * @return boolean whether this list is read-only
+     * @return bool whether this list is read-only
      */
     public function getReadOnly()
     {
@@ -56,7 +56,7 @@ class CList extends CComponent implements IteratorAggregate, ArrayAccess, Counta
     /**
      * Returns whether there is an item at the specified offset.
      * @param int $offset
-     * @return boolean
+     * @return bool
      */
     public function offsetExists($offset)
     {
@@ -130,8 +130,10 @@ class CList extends CComponent implements IteratorAggregate, ArrayAccess, Counta
         if (isset($this->_d[$index])) {
             $item = $this->_d[$index];
             $this->offsetUnset($index);
+
             return $item;
         }
+
         return null;
     }
 

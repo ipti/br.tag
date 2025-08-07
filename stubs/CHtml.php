@@ -2,7 +2,7 @@
 
 /**
  * Yii 1.1 stub - CHtml
- * https://www.yiiframework.com/doc/api/1.1/CHtml
+ * https://www.yiiframework.com/doc/api/1.1/CHtml.
  */
 class CHtml
 {
@@ -232,7 +232,7 @@ class CHtml
      * @param string $valueField the attribute name for list option values
      * @param string $textField the attribute name(s) for list option labels. Multiple attributes can be concatenated with '.' (e.g. 'firstName.lastName')
      * @param string|null $groupField the attribute name for group labels (optional)
-     * @return array the list data that can be used in dropDownList, listBox etc.
+     * @return array the list data that can be used in dropDownList, listBox etc
      */
     public static function listData($models, $valueField, $textField, $groupField = null)
     {

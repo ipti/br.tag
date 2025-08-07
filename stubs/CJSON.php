@@ -2,7 +2,7 @@
 
 /**
  * Yii 1.1 stub - CJSON
- * https://www.yiiframework.com/doc/api/1.1/CJSON
+ * https://www.yiiframework.com/doc/api/1.1/CJSON.
  */
 class CJSON
 {

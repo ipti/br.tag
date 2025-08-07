@@ -2,7 +2,7 @@
 
 /**
  * Yii 1.1 stub - CApplicationComponent
- * Classe base para componentes da aplicação
+ * Classe base para componentes da aplicação.
  */
 class CApplicationComponent extends CComponent
 {
