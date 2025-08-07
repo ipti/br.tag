@@ -283,8 +283,8 @@ class AdminCommand extends CConsoleCommand
         if ($conn) {
 
             foreach ($studentAll as $index => $student) {
-                $hash_student = hexdec(crc32($student->name.$student->birthday));
-                if(!isset($loads['students'][$hash_student])){
+                $hash_student = hexdec(crc32($student->name . $student->birthday));
+                if (!isset($loads['students'][$hash_student]))
                     $loads['students'][$hash_student] = $student->attributes;
                     $loads['students'][$hash_student]['hash'] = $hash_student;
                 }
