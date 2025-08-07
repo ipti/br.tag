@@ -10,12 +10,12 @@ class AdminController extends Controller
     {
         return [
             [
-                'allow', // allow authenticated user to perform 'create' and 'update' actions
+                'allow',
                 'actions' => ['CreateUser', 'index', 'conflicts'],
                 'users' => ['*'],
             ],
             [
-                'allow', // allow authenticated user to perform 'create' and 'update' actions
+                'allow',
                 'actions' => [
                     'import',
                     'export',
@@ -67,12 +67,10 @@ class AdminController extends Controller
         $connection->connectionString = "mysql:host=$host;";
         $connection->setActive(true);
 
-        // Obter lista de bancos de dados
         $databases = [];
         $command = $connection->createCommand('SHOW DATABASES');
         $dbList = $command->queryColumn();
 
-        // Remover bancos de sistema
         $ignoredDbs = ['information_schema', 'mysql', 'performance_schema', 'sys'];
         $databases = array_diff($dbList, $ignoredDbs);
 
@@ -107,14 +105,12 @@ SELECT
             }
         }
 
-        // Exibir os resultados em formato de tabela
         echo "<table border='1'><tr><th>Database</th><th>Professores</th><th>Alunos</th><th>Secreátios Escolares</th><th>Coordenadores Pedagógicos</th></tr>";
         foreach ($results as $result) {
             echo '<tr><td>' . $result['database'] . '</td><td>' . $result['professores'] . '</td><td>' . $result['alunos'] . '</td><td>' . $result['secretarios'] . '</td><td>' . $result['coordenadores'] . '</td></tr>';
         }
         echo '</table>';
 
-        // Gerar CSV
         $csvFile = 'resultados.csv';
         $fp = fopen($csvFile, 'w');
         fputcsv($fp, ['Database', 'Professores', 'Alunos', 'Secretários Escolares', 'Coordenadores Pedagógicos']);
@@ -157,7 +153,6 @@ SELECT
         $dataEncoded = $adapter->export($loadedData);
         file_put_contents($pathFileJson, $dataEncoded);
 
-        // Envia o arquivo JSON como download
         header('Content-Disposition: attachment; filename="' . basename($pathFileJson) . '"');
         header('Content-Type: application/force-download');
         header('Content-Length: ' . filesize($pathFileJson));
@@ -321,26 +316,20 @@ SELECT
     private function exportToCSV($result, $path)
     {
         try {
-            // Create Directories
             $this->createDirectoriesIfNotExist($path);
 
-            // Create a file pointer with PHP.
             $output = fopen($path, 'w');
 
             if ($output !== false) {
-                // Escrever os cabeçalhos no arquivo CSV
                 fputcsv($output, array_keys($result[0]), ';');
 
-                // Escrever os dados no arquivo CSV
                 foreach ($result as $row) {
-                    $row = array_map('strval', $row); // Converter todos os valores para string
+                    $row = array_map('strval', $row);
                     fputcsv($output, $row, ';');
                 }
-                // Fechar o arquivo
                 fclose($output);
             }
 
-            // Set PHP headers for CSV output.
             header('Content-Disposition: attachment; filename="' . basename($path) . '"');
             header('Content-Type: application/force-download');
             header('Content-Length: ' . filesize($path));
@@ -357,16 +346,11 @@ SELECT
 
     private function createDirectoriesIfNotExist($filePath)
     {
-        // Extrai o diretório do caminho do arquivo
         $directoryPath = dirname($filePath);
 
-        // Verifica se o diretório já existe
-        if (!is_dir($directoryPath)) {
-            // Tenta criar o diretório recursivamente
-            if (!mkdir($directoryPath, 0777, true)) {
-                // Caso falhe, lança uma exceção
-                throw new Exception("Falha ao criar diretórios: $directoryPath");
-            }
+        if (!is_dir($directoryPath) && !mkdir($directoryPath, 0777, true) ) {
+            throw new Exception("Falha ao criar diretórios: $directoryPath");
+
         }
     }
 
@@ -438,7 +422,6 @@ SELECT
                     $password = $passwordHasher->bcriptHash($_POST['Users']['password']);
 
                     $model->password = $password;
-                    // form inputs are valid, do something here
                     if ($model->save()) {
                         $save = true;
                         foreach ($_POST['schools'] as $school) {
@@ -780,7 +763,6 @@ SELECT
 
     public function actionDeleteUser($id)
     {
-        // Query para buscar os registros relacionados ao ID no banco
         $user = Users::model()->findByPk($id);
         $userSchool = UsersSchool::model()->findAllByAttributes(['user_fk' => $id]);
         $authAssign = AuthAssignment::model()->findByAttributes(['userid' => $id]);
@@ -788,31 +770,25 @@ SELECT
         $delete = false;
 
         if ($user !== null) {
-            // Atualizando a coluna que referência ao usuário na tabela de identificação de professor
-            // A função save abstrai o processo de identificar se está ocorrendo um UPDATE ou INSERT
             if ($instructorId !== null) {
                 $instructorId->users_fk = null;
                 $instructorId->save();
             }
 
-            // Excluindo o registro na tabela que representa o cargo de um profissional cadastrado
             if ($authAssign !== null) {
                 $authAssign->delete('auth_assignment', 'userid =' . $id);
             }
 
-            // Excluindo o registro na tabela que representa o acesso às escolas do usuário
             if ($userSchool !== null) {
                 foreach ($userSchool as $register) {
                     $register->delete('users_school', 'user_fk=' . $id);
                 }
             }
 
-            // Excluindo o registro na tabela de usuário
             $user->delete('users', 'id=' . $id);
             $delete = true;
         }
 
-        // Redirecionando para a tela de gerenciar usuários
         if ($delete) {
             Yii::app()->user->setFlash('success', Yii::t('default', 'Usuário excluído com sucesso!'));
             $this->redirect(['admin/manageUsers']);
@@ -886,7 +862,6 @@ SELECT
         $model = Users::model()->findByPk($id);
         $actualRole = $model->getRole();
         $userSchools = UsersSchool::model()->findAllByAttributes(['user_fk' => $id]);
-        // Atribuindo valores da superglobal _POST à variáveis locais a fim de evitar o uso de globais
         $users = Yii::app()->request->getPost('Users');
         $schools = Yii::app()->request->getPost('schools');
         $instructor = Yii::app()->request->getPost('instructor');
@@ -1079,7 +1054,8 @@ SELECT
         foreach ($logs as $log) {
             $array['school'] = $log->schoolFk->name;
             $array['user'] = $log->userFk->name;
-            $array['action'] = $log->crud == 'U' ? 'Editar' : ($log->crud == 'C' ? 'Criar' : 'Remover');
+            $logEntryAction = ($log->crud == 'C' ? 'Criar' : 'Remover');
+            $array['action'] = $log->crud == 'U' ? 'Editar' : $logEntryAction;
             $date = new DateTime($log->date);
             $array['date'] = $date->format('d/m/Y H:i:s');
             $array['event'] = $log->loadIconsAndTexts($log)['text'];
