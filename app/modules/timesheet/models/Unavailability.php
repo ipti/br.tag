@@ -13,7 +13,6 @@
      * The followings are the available model relations:
      * @property InstructorIdentification $instructorSchoolFk
      */
-
     class Unavailability extends TagModel
     {
         /**
@@ -58,11 +57,11 @@
         public function attributeLabels()
         {
             return [
-                'id' => Yii::t('timesheetModule.labels', 'ID'),
-                'instructor_school_fk' => Yii::t('timesheetModule.labels', 'Instructor'),
-                'week_day' => Yii::t('timesheetModule.labels', 'Week Day'),
-                'schedule' => Yii::t('timesheetModule.labels', 'Schedule'),
-                'turn' => Yii::t('timesheetModule.labels', 'Turn'),
+                'id' => yii::t('timesheetModule.labels', 'ID'),
+                'instructor_school_fk' => yii::t('timesheetModule.labels', 'Instructor'),
+                'week_day' => yii::t('timesheetModule.labels', 'Week Day'),
+                'schedule' => yii::t('timesheetModule.labels', 'Schedule'),
+                'turn' => yii::t('timesheetModule.labels', 'Turn'),
             ];
         }
 

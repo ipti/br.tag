@@ -17,7 +17,7 @@ class SchoolMapper
 
         $school_id = self::mapToTAGInepId($outEscolas->outCodEscola);
         $school_tag = SchoolIdentification::model()->find('inep_id = :inep_id', [':inep_id' => $school_id]);
-        if ($school_tag === null) {
+        if ($school_tag == null) {
             $school_tag = new SchoolIdentification();
             $school_tag->inep_id = $school_id;
             $school_tag->regulation = 1;
@@ -52,7 +52,7 @@ class SchoolMapper
         $result['SchoolUnities'] = [];
         foreach ($outEscolas->getOutUnidades() as $outUnidade) {
             $school_unity_tag = SedspSchoolUnities::model()->find('code = :code', [':code' => $outUnidade->getOutCodUnidade()]);
-            if ($school_unity_tag === null) {
+            if ($school_unity_tag == null) {
                 $school_unity_tag = new SedspSchoolUnities();
                 $school_unity_tag->code = $outUnidade->getOutCodUnidade();
                 $school_unity_tag->school_inep_id_fk = $school_id;

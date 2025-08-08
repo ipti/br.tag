@@ -39,7 +39,7 @@ $cs = Yii::app()->getClientScript();
 
     <div class="row-fluid">
         <div class="span12">
-            <h1><?= Yii::t('timesheetModule.timesheet', 'Assign Substitute Instructor') ?></h1>
+            <h1><?= yii::t('timesheetModule.timesheet', 'Assign Substitute Instructor') ?></h1>
         </div>
     </div>
 
@@ -48,7 +48,7 @@ $cs = Yii::app()->getClientScript();
             <div class="column clearleft is-four-fifths row">
                 <!-- Classroom -->
                 <div class="t-field-select">
-                    <?php echo CHtml::label(Yii::t('default', 'Classroom') . ' *', 'classroom', ['class' => 'control-label required small-label']); ?>
+                    <?php echo CHtml::label(yii::t('default', 'Classroom') . ' *', 'classroom', ['class' => 'control-label required small-label']); ?>
                     <?=
                         CHtml::dropDownList(
                             'classroom_fk',
@@ -58,7 +58,7 @@ $cs = Yii::app()->getClientScript();
                                 ['school_inep_fk' => Yii::app()->user->school, 'school_year' => Yii::app()->user->year]
                             ), 'id', 'name'),
                             [
-                                'prompt' => Yii::t('timesheetModule.timesheet', 'Select a Classroom'),
+                                'prompt' => yii::t('timesheetModule.timesheet', 'Select a Classroom'),
                                 'class' => 'select-search-on t-field-select__input classroom-id',
                                 'id' => 'classrooms'
                             ]
@@ -68,7 +68,7 @@ $cs = Yii::app()->getClientScript();
 
                 <!-- Instructor -->
                 <div class="t-field-select instructors-field hide">
-                    <?php echo CHtml::label(Yii::t('default', 'Instructor'), 'instructor', ['class' => 't-field-select__label--required']); ?>
+                    <?php echo CHtml::label(yii::t('default', 'Instructor'), 'instructor', ['class' => 't-field-select__label--required']); ?>
                     <select
                         class="select-search-on t-field-select__input frequency-input"
                         style="min-width: 185px"
@@ -79,36 +79,36 @@ $cs = Yii::app()->getClientScript();
                 <!-- Month -->
                 <div class="t-field-select month-field hide">
                     <?php echo CHtml::label(
-    Yii::t('default', 'Month') . '/Ano',
+    yii::t('default', 'Month') . '/Ano',
     'month',
     ['class' => 't-field-select__label--required']
 ); ?>
                     <?=
-                                                                CHtml::dropDownList('month', '', [
-                                                                    1 => 'Janeiro',
-                                                                    2 => 'Fevereiro',
-                                                                    3 => 'Março',
-                                                                    4 => 'Abril',
-                                                                    5 => 'Maio',
-                                                                    6 => 'Junho',
-                                                                    7 => 'Julho',
-                                                                    8 => 'Agosto',
-                                                                    9 => 'Setembro',
-                                                                    10 => 'Outubro',
-                                                                    11 => 'Novembro',
-                                                                    12 => 'Dezembro'
-                                                                ], [
-                                                                    'key' => 'id',
-                                                                    'class' => 'select-search-on t-field-select__input',
-                                                                    'prompt' => 'Seleciona o mês',
-                                                                    'id' => 'month'
-                                                                ]);
+                        CHtml::dropDownList('month', '', [
+                            1 => 'Janeiro',
+                            2 => 'Fevereiro',
+                            3 => 'Março',
+                            4 => 'Abril',
+                            5 => 'Maio',
+                            6 => 'Junho',
+                            7 => 'Julho',
+                            8 => 'Agosto',
+                            9 => 'Setembro',
+                            10 => 'Outubro',
+                            11 => 'Novembro',
+                            12 => 'Dezembro'
+                        ], [
+                            'key' => 'id',
+                            'class' => 'select-search-on t-field-select__input',
+                            'prompt' => 'Seleciona o mês',
+                            'id' => 'month'
+                        ]);
 ?>
                 </div>
 
                 <!-- Discipline -->
                 <div class="t-field-select disciplines-field hide">
-                    <?php echo CHtml::label(Yii::t('default', 'Discipline'), 'discipline', ['class' => 't-field-select__label']); ?>
+                    <?php echo CHtml::label(yii::t('default', 'Discipline'), 'discipline', ['class' => 't-field-select__label']); ?>
                     <select
                         class="select-search-on t-field-select__input"
                         style="min-width: 185px;"

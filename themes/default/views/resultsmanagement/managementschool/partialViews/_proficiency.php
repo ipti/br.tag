@@ -5,15 +5,15 @@
  */
 ?>
 <div class="separator bottom"></div>
-<h5><?=Yii::t('resultsmanagementModule.managementSchool', 'Proficiency')?></h5>
+<h5><?=yii::t('resultsmanagementModule.managementSchool', 'Proficiency')?></h5>
 
-<p class="tab-description"><?= Yii::t('resultsmanagementModule.managementSchool', 'We can place the student learning in 4 quality levels of proficiency. Proper learning encompasses profiente and advanced levels.')?></p>
+<p class="tab-description"><?= yii::t('resultsmanagementModule.managementSchool', 'We can place the student learning in 4 quality levels of proficiency. Proper learning encompasses profiente and advanced levels.')?></p>
 
 <div class="separator bottom"></div>
 <div class="container-fluid">
     <div class="row">
         <div class="col-md-6">
-            <?= CHtml::dropDownList('proficiency-classroom', '', $classrooms, [
+            <?= Chtml::dropDownList('proficiency-classroom', '', $classrooms, [
                 'class' => 'filter-select',
                 'ajax' => [
                     'type' => 'get',
@@ -24,7 +24,7 @@
             ]); ?>
         </div>
         <div class="col-md-6">
-            <?= CHtml::dropDownList('proficiency-discipline', '', [], [
+            <?= Chtml::dropDownList('proficiency-discipline', '', [], [
                 'class' => 'filter-select',
             ]); ?>
         </div>

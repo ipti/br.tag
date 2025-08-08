@@ -1,7 +1,7 @@
 <?php
-/** @var $this OnlineEnrollmentStudentIdentificationController */
-/** @var $model OnlineEnrollmentStudentIdentification */
-/** @var $form CActiveForm */
+/* @var $this OnlineEnrollmentStudentIdentificationController */
+/* @var $model OnlineEnrollmentStudentIdentification */
+/* @var $form CActiveForm */
 
 $baseScriptUrl = Yii::app()->controller->module->baseScriptUrl;
 $cs = Yii::app()->getClientScript();
@@ -114,15 +114,15 @@ $this->widget('zii.widgets.jui.CJuiDatePicker', $options);
                         <div class="t-field-text column">
                             <?php echo $form->labelEx($model, 'color_race', ['class' => 't-field-text__label']); ?>
                             <?php
-                                                                                    echo $form->DropDownList($model, 'color_race', [
-                                                                                        null => 'Selecione a cor/raça',
-                                                                                        '0' => 'Não declarada',
-                                                                                        '1' => 'Branca',
-                                                                                        '2' => 'Preta',
-                                                                                        '3' => 'Parda',
-                                                                                        '4' => 'Amarela',
-                                                                                        '5' => 'Indígena'
-                                                                                    ], ['class' => 'select-search-off t-field-select__input select2-container js-field-required']);
+                            echo $form->DropDownList($model, 'color_race', [
+                                null => 'Selecione a cor/raça',
+                                '0' => 'Não declarada',
+                                '1' => 'Branca',
+                                '2' => 'Preta',
+                                '3' => 'Parda',
+                                '4' => 'Amarela',
+                                '5' => 'Indígena'
+                            ], ['class' => 'select-search-off t-field-select__input select2-container js-field-required']);
 ?>
                             <?php echo $form->error($model, 'color_race'); ?>
                         </div>

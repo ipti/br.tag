@@ -66,13 +66,13 @@ class CalendarEvent extends TagModel
     public function attributeLabels()
     {
         return [
-            'id' => Yii::t('calendarModule.labels', 'ID'),
-            'name' => Yii::t('calendarModule.labels', 'Name'),
-            'start_date' => Yii::t('calendarModule.labels', 'Start Date'),
-            'end_date' => Yii::t('calendarModule.labels', 'End Date'),
-            'calendar_fk' => Yii::t('calendarModule.labels', 'Calendar'),
-            'calendar_event_type_fk' => Yii::t('calendarModule.labels', 'Event Type'),
-            'copyable' => Yii::t('calendarModule.labels', 'Copyable'),
+            'id' => yii::t('calendarModule.labels', 'ID'),
+            'name' => yii::t('calendarModule.labels', 'Name'),
+            'start_date' => yii::t('calendarModule.labels', 'Start Date'),
+            'end_date' => yii::t('calendarModule.labels', 'End Date'),
+            'calendar_fk' => yii::t('calendarModule.labels', 'Calendar'),
+            'calendar_event_type_fk' => yii::t('calendarModule.labels', 'Event Type'),
+            'copyable' => yii::t('calendarModule.labels', 'Copyable'),
             'school_fk' => 'School Fk',
         ];
     }

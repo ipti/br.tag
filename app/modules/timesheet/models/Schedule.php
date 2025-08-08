@@ -163,13 +163,13 @@ class Schedule extends TagModel
     public static function weekDays()
     {
         return [
-            0 => Yii::t('timesheetModule.instructors', 'Sunday'),
-            1 => Yii::t('timesheetModule.instructors', 'Monday'),
-            2 => Yii::t('timesheetModule.instructors', 'Tuesday'),
-            3 => Yii::t('timesheetModule.instructors', 'Wednesday'),
-            4 => Yii::t('timesheetModule.instructors', 'Thursday'),
-            5 => Yii::t('timesheetModule.instructors', 'Friday'),
-            6 => Yii::t('timesheetModule.instructors', 'Saturday'),
+            0 => yii::t('timesheetModule.instructors', 'Sunday'),
+            1 => yii::t('timesheetModule.instructors', 'Monday'),
+            2 => yii::t('timesheetModule.instructors', 'Tuesday'),
+            3 => yii::t('timesheetModule.instructors', 'Wednesday'),
+            4 => yii::t('timesheetModule.instructors', 'Thursday'),
+            5 => yii::t('timesheetModule.instructors', 'Friday'),
+            6 => yii::t('timesheetModule.instructors', 'Saturday'),
         ];
     }
 }

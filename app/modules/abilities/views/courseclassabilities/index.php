@@ -1,6 +1,6 @@
 <?php
-/** @var $this CourseClassAbilitiesController */
-/** @var $dataProvider CActiveDataProvider */
+/* @var $this CourseClassAbilitiesController */
+/* @var $dataProvider CActiveDataProvider */
 
 $this->breadcrumbs = [
     'Course Class Abilities',

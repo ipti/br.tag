@@ -22,7 +22,7 @@ class SchoolStructureValidation extends Register
                 ];
             }
         } elseif ($collun3 != 1 && $collun8 != 1) {
-            if ($value !== null) {
+            if ($value != null) {
                 return ['status' => false, 'erro' => "Valor $value deveria ser nulo"];
             }
         }
@@ -40,7 +40,7 @@ class SchoolStructureValidation extends Register
                 return ['status' => false, 'erro' => "valor $value não permitido"];
             }
         } else {
-            if ($value !== null) {
+            if ($value != null) {
                 return ['status' => false, 'erro' => "operation_location_building não é 1. Valor $value deveria ser nulo"];
             }
         }
@@ -134,7 +134,7 @@ class SchoolStructureValidation extends Register
     public function equipmentAmounts($amounts)
     {
         foreach ($amounts as $key => $value) {
-            if (!$value === null) {
+            if (!$value == null) {
                 $result = $this->isGreaterThan($value, '0');
                 if (!$result['status']) {
                     return ['status' => false, 'erro' => $result['erro']];
@@ -153,14 +153,14 @@ class SchoolStructureValidation extends Register
     // 86
     public function internetAccess($collun, $value)
     {
-        if ($collun !== null) {
+        if ($collun != null) {
             if (!in_array($value, ['0', '1'])) {
                 $value = $this->ifNull($value);
 
                 return ['status' => false, 'erro' => "valor $value não permitido"];
             }
         } else {
-            if ($value !== null) {
+            if ($value != null) {
                 return ['status' => false, 'erro' => "Coluna 82 é nulo. Valor $value deve ser nulo"];
             }
         }
@@ -252,7 +252,7 @@ class SchoolStructureValidation extends Register
                 return ['status' => false, 'erro' => "Valor $value não permitido"];
             }
         } else {
-            if ($value !== null) {
+            if ($value != null) {
                 return ['status' => false, 'erro' => "Valor $value deveria ser nulo"];
             }
         }
@@ -318,7 +318,7 @@ class SchoolStructureValidation extends Register
     {
         if ($collun101 != '1') {
             foreach ($languages as $key => $value) {
-                if ($value !== null) {
+                if ($value != null) {
                     return ['status' => false, 'erro' => 'Valor deveria ser nulo'];
                 }
             }
@@ -337,7 +337,7 @@ class SchoolStructureValidation extends Register
     public function edcensoNativeLanguages($collun102, $value)
     {
         if ($collun102 != '1') {
-            if ($value !== null) {
+            if ($value != null) {
                 return ['status' => false, 'erro' => "Valor deveria ser nulo pois coluna 102 é $collun102"];
             }
         } else {

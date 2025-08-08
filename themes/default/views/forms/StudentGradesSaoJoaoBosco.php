@@ -53,7 +53,7 @@
 
 </style>
 <?php
-/** @var $enrollment string
+/* @var $enrollment string
  * @var $student StudentEnrollment
  * @var $school_address
  * @var $school_year string

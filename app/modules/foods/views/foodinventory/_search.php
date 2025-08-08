@@ -1,7 +1,7 @@
 <?php
-/** @var $this FoodInventoryController */
-/** @var $model FoodInventory */
-/** @var $form CActiveForm */
+/* @var $this FoodInventoryController */
+/* @var $model FoodInventory */
+/* @var $form CActiveForm */
 ?>
 
 <div class="wide form">

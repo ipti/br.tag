@@ -1,10 +1,10 @@
 <?php
 
-    /** @var $this ReportsController */
+    /* @var $this ReportsController */
 
-    /** @var $students mixed */
+    /* @var $students mixed */
 
-    /** @var $schools mixed */
+    /* @var $schools mixed */
 
     $baseUrl = Yii::app()->baseUrl;
 
@@ -92,7 +92,7 @@
 
                         if ($s['resource_none'] == 1) {
                             $student_aid[0] = 'N&atilde;o h&aacute; aux&iacute;lio';
-                        } elseif ($s['resource_none'] === null) {
+                        } elseif ($s['resource_none'] == null) {
                             $student_aid[0] = 'N&atilde;o informado';
                         } else {
                             if ($s['resource_aid_lector'] == 1) {

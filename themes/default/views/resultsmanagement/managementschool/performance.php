@@ -1,11 +1,11 @@
 <?php
-/** @var $this ManagementSchoolController
+/* @var $this ManagementSchoolController
  * @var $school SchoolIdentification
  * @var $efficiencies array
  */
 
 $baseScriptUrl = Yii::app()->controller->module->baseScriptUrl;
-$this->headerDescription = CHtml::tag('span', [], $school->name . CHtml::tag('span', [], ' | ' . Yii::t('resultsmanagementModule.managementSchool', 'Performance')));
+$this->headerDescription = CHtml::tag('span', [], $school->name . CHtml::tag('span', [], ' | ' . yii::t('resultsmanagementModule.managementSchool', 'Performance')));
 
 $baseUrl = Yii::app()->baseUrl;
 $cs = Yii::app()->getClientScript();
@@ -27,10 +27,10 @@ $cs->registerCssFile($baseScriptUrl . '/common/css/resultsmanagement.css');
         <div class="widget widget-tabs">
             <div class="widget-head">
                 <ul>
-                    <li class="active"><a href="#tab-1" data-toggle="tab"><i></i> <?=Yii::t('resultsmanagementModule.managementSchool', 'Efficiency')?></li>
-                    <li><a href="#tab-2" data-toggle="tab"><i></i>  <?=Yii::t('resultsmanagementModule.managementSchool', 'Performance')?></a></li>
-                    <li><a href="#tab-3" data-toggle="tab"><i></i>  <?=Yii::t('resultsmanagementModule.managementSchool', 'Proficiency')?></a></li>
-                    <li><a href="#tab-4" data-toggle="tab"><i></i>  <?=Yii::t('resultsmanagementModule.managementSchool', 'Evolution')?></a></li>
+                    <li class="active"><a href="#tab-1" data-toggle="tab"><i></i> <?=yii::t('resultsmanagementModule.managementSchool', 'Efficiency')?></li>
+                    <li><a href="#tab-2" data-toggle="tab"><i></i>  <?=yii::t('resultsmanagementModule.managementSchool', 'Performance')?></a></li>
+                    <li><a href="#tab-3" data-toggle="tab"><i></i>  <?=yii::t('resultsmanagementModule.managementSchool', 'Proficiency')?></a></li>
+                    <li><a href="#tab-4" data-toggle="tab"><i></i>  <?=yii::t('resultsmanagementModule.managementSchool', 'Evolution')?></a></li>
                 </ul>
             </div>
             <div class="widget-body">

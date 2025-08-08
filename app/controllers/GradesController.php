@@ -389,7 +389,7 @@ class GradesController extends Controller
         $criteria->order = 'se.daily_order, si.name';
         $studentEnrollments = StudentEnrollment::model()->findAll($criteria);
 
-        if ($studentEnrollments !== null) {
+        if ($studentEnrollments != null) {
             $result['students'] = [];
             foreach ($studentEnrollments as $studentEnrollment) {
                 // TODO: Mudar lógica de criação de tabela para turmas multiseriadas
@@ -448,7 +448,7 @@ class GradesController extends Controller
 
                 $arr['situation'] = $studentEnrollment->getCurrentStatus();
                 if ($studentEnrollment->isActive()) {
-                    $arr['situation'] = ($gradeResult->situation === null) ? '' : $gradeResult->situation;
+                    $arr['situation'] = ($gradeResult->situation == null) ? '' : $gradeResult->situation;
                 }
 
                 $result['unities'] = $unities;
@@ -474,7 +474,7 @@ class GradesController extends Controller
         $criteria->order = 'se.daily_order, si.name';
         $studentEnrollments = StudentEnrollment::model()->findAll($criteria);
 
-        if ($studentEnrollments !== null) {
+        if ($studentEnrollments != null) {
             $result['students'] = [];
             foreach ($studentEnrollments as $studentEnrollment) {
                 $unities = GradeUnity::model()->findAll(
@@ -526,7 +526,7 @@ class GradesController extends Controller
 
                 $arr['situation'] = $studentEnrollment->getCurrentStatus();
                 if ($studentEnrollment->isActive()) {
-                    $arr['situation'] = ($gradeResult->situation === null) ? '' : $gradeResult->situation;
+                    $arr['situation'] = ($gradeResult->situation == null) ? '' : $gradeResult->situation;
                 }
 
                 $result['unities'] = $unities;
@@ -557,7 +557,7 @@ class GradesController extends Controller
                 foreach ($student['grades'] as $grade) {
                     $gradeObject = Grade::model()->findByPk($grade['id']);
 
-                    if ($gradeObject === null) {
+                    if ($gradeObject == null) {
                         $gradeObject = new Grade();
                         $gradeObject->enrollment_fk = $student['enrollmentId'];
                         $gradeObject->discipline_fk = $disciplineId;
@@ -579,7 +579,7 @@ class GradesController extends Controller
                 foreach ($student['partialRecoveriesGrades'] as $gradePartialRecovery) {
                     $gradeObject = Grade::model()->findByPk($gradePartialRecovery['id']);
 
-                    if ($gradeObject === null) {
+                    if ($gradeObject == null) {
                         $gradeObject = new Grade();
                         $gradeObject->enrollment_fk = $student['enrollmentId'];
                         $gradeObject->discipline_fk = $disciplineId;

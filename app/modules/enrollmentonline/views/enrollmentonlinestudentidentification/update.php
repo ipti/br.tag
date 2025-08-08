@@ -1,6 +1,6 @@
 <?php
-/** @var $this EnrollmentOnlineStudentIdentificationController */
-/** @var $model EnrollmentOnlineStudentIdentification */
+/* @var $this EnrollmentOnlineStudentIdentificationController */
+/* @var $model EnrollmentOnlineStudentIdentification */
 
 $this->breadcrumbs = [
     'Enrollment Online Student Identifications' => ['index'],

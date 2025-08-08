@@ -1,9 +1,9 @@
 <?php
 
-/** @var $this ReportsController */
-/** @var $professor mixed */
-/** @var $classroom mixed */
-/** @var &disciplina mixed */
+/* @var $this ReportsController */
+/* @var $professor mixed */
+/* @var $classroom mixed */
+/* @var &disciplina mixed */
 
 $baseUrl = Yii::app()->baseUrl;
 $cs = Yii::app()->getClientScript();
@@ -60,7 +60,7 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
                 . '<td>' . $classroom[$i]['stage'] . '</td>';
 
             // Verificando caso em que não há componentes curriculares cadastradas na matriz curricular da etapa de ensino
-            if ($disciplina[$i]['Disciplina'] === null) {
+            if ($disciplina[$i]['Disciplina'] == null) {
                 $html .= '<td>Não há componentes curriculares cadastradas na matriz curricular para essa etapa de ensino </td>';
             } else {
                 $html .= '<td>' . $disciplina[$i]['Disciplina'] . '</td>';

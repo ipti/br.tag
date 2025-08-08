@@ -60,7 +60,7 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Grades'));
         <div class="column clearleft  is-four-fifths row wrap">
             <div class="column clearleft">
                 <div class="t-field-select">
-                    <?php echo CHtml::label(Yii::t('default', 'Classroom'), 'classroom', ['class' => 't-field-select__label--required no-wrap']); ?>
+                    <?php echo CHtml::label(yii::t('default', 'Classroom'), 'classroom', ['class' => 't-field-select__label--required no-wrap']); ?>
                     <select name="classroom" id="classroom" class="select-search-on t-field-select__input select2-container">
                     <option value="" selected>Selecione...</option>
                     <?php foreach ($classrooms as $classroom): ?>
@@ -71,7 +71,7 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Grades'));
             </div>
             <div class="column clearleft">
                 <div class="t-field-select">
-                    <?php echo CHtml::label(Yii::t('default', 'Discipline'), 'discipline', ['class' => 't-field-select__label--required no-wrap']); ?>
+                    <?php echo CHtml::label(yii::t('default', 'Discipline'), 'discipline', ['class' => 't-field-select__label--required no-wrap']); ?>
                     <?php
                 echo CHtml::dropDownList(
     'discipline',
@@ -87,7 +87,7 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Grades'));
                 </div>
             </div>
             <div class="column clearleft js-stage-select js-hide-stage">
-                    <?php echo CHtml::label(Yii::t('default', 'Etapa'), 'stage', ['class' => 't-field-select__label--required no-wrap'])?>
+                    <?php echo CHtml::label(yii::t('default', 'Etapa'), 'stage', ['class' => 't-field-select__label--required no-wrap'])?>
                     <?php
 echo CHtml::dropDownList(
     'stage',
@@ -102,7 +102,7 @@ echo CHtml::dropDownList(
 ?>
             </div>
             <div class="column clearleft">
-                    <?php echo CHtml::label(Yii::t('default', 'Unidade'), 'unities', ['class' => 't-field-select__label--required no-wrap'])?>
+                    <?php echo CHtml::label(yii::t('default', 'Unidade'), 'unities', ['class' => 't-field-select__label--required no-wrap'])?>
                     <?php
 echo CHtml::dropDownList(
     'unities',

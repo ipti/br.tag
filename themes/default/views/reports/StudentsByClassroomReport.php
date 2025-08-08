@@ -1,8 +1,8 @@
 <?php
 
-/** @var $this ReportsController */
-/** @var $classroom mixed */
-/** @var $students mixed*/
+/* @var $this ReportsController */
+/* @var $classroom mixed */
+/* @var $students mixed*/
 
 $baseUrl = Yii::app()->baseUrl;
 $cs = Yii::app()->getClientScript();

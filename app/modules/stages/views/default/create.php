@@ -1,6 +1,6 @@
     <?php
-    /** @var $this DefaultController */
-    /** @var $model EdcensoStageVsModality */
+    /* @var $this DefaultController */
+    /* @var $model EdcensoStageVsModality */
 
     $this->breadcrumbs = [
         'Edcenso Stage Vs Modalities' => ['index'],

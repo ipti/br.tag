@@ -9,7 +9,7 @@ class SchoolreportModule extends CWebModule
     {
         $this->baseUrl = Yii::app()->createUrl('schoolreport');
         $this->baseScriptUrl = Yii::app()->getAssetManager()->publish(Yii::getPathOfAlias('application.modules.schoolreport.resources'));
-        $this->layoutPath = Yii::getPathOfAlias('schoolreport.views.layouts');
+        $this->layoutPath = yii::getPathOfAlias('schoolreport.views.layouts');
         $this->layout = 'schoolreport';
 
         Yii::app()->setComponents([

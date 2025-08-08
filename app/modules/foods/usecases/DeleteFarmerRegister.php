@@ -1,11 +1,9 @@
 <?php
 
     Yii::import('application.modules.foods.services.*');
-
     /**
      * @property DeleteFarmerRegister $DeleteFarmerRegister
      */
-
     class DeleteFarmerRegister
     {
         /**

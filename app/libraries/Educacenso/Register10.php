@@ -11,10 +11,10 @@ class Register10
         $attributes = SchoolStructure::model()->findByPk(Yii::app()->user->school)->attributes;
 
         if ($attributes['operation_location_building'] == 1) {
-            if ($attributes['building_occupation_situation'] === null) {
+            if ($attributes['building_occupation_situation'] == null) {
                 $attributes['building_occupation_situation'] = '1';
             }
-            if ($attributes['shared_building_with_school'] === null || $attributes['shared_building_with_school'] == '0') {
+            if ($attributes['shared_building_with_school'] == null || $attributes['shared_building_with_school'] == '0') {
                 $attributes['shared_building_with_school'] = '0';
                 $attributes['shared_school_inep_id_1'] = '';
                 $attributes['shared_school_inep_id_2'] = '';
@@ -23,8 +23,8 @@ class Register10
                 $attributes['shared_school_inep_id_5'] = '';
                 $attributes['shared_school_inep_id_6'] = '';
             } elseif (
-                $attributes['shared_school_inep_id_1'] === null && $attributes['shared_school_inep_id_2'] === null && $attributes['shared_school_inep_id_3'] === null
-                && $attributes['shared_school_inep_id_4'] === null && $attributes['shared_school_inep_id_5'] === null && $attributes['shared_school_inep_id_6'] === null
+                $attributes['shared_school_inep_id_1'] == null && $attributes['shared_school_inep_id_2'] == null && $attributes['shared_school_inep_id_3'] == null
+                && $attributes['shared_school_inep_id_4'] == null && $attributes['shared_school_inep_id_5'] == null && $attributes['shared_school_inep_id_6'] == null
             ) {
                 $attributes['shared_building_with_school'] = '0';
             }
@@ -119,7 +119,7 @@ class Register10
         if ($attributes['equipments_qtd_tabletstudent'] == '0') {
             $attributes['equipments_qtd_tabletstudent'] = null;
         }
-        if ($attributes['equipments_qtd_desktop'] === null && $attributes['equipments_qtd_notebookstudent'] === null && $attributes['equipments_qtd_tabletstudent'] === null) {
+        if ($attributes['equipments_qtd_desktop'] == null && $attributes['equipments_qtd_notebookstudent'] == null && $attributes['equipments_qtd_tabletstudent'] == null) {
             $attributes['internet_access_connected_desktop'] = '0';
             if ($attributes['equipments_computer'] == '0') {
                 $attributes['internet_access_local_cable'] = '';
@@ -234,18 +234,18 @@ class Register10
             } elseif ($edcensoAlias->corder == 138) {
                 $register[$edcensoAlias->corder] = null;
                 if (
-                    $attributes['workers_garden_planting_agricultural'] === null && $attributes['workers_administrative_assistant'] === null
-                    && $attributes['workers_service_assistant'] === null && $attributes['workers_librarian'] === null
-                    && $attributes['workers_firefighter'] === null && $attributes['workers_coordinator_shift'] === null && $attributes['workers_speech_therapist'] === null
-                    && $attributes['workers_nutritionist'] === null && $attributes['workers_psychologist'] === null && $attributes['workers_cooker'] === null
-                    && $attributes['workers_support_professionals'] === null && $attributes['workers_school_secretary'] === null && $attributes['workers_security_guards'] === null
-                    && $attributes['workers_monitors'] === null && $attributes['workers_braille'] === null
+                    $attributes['workers_garden_planting_agricultural'] == null && $attributes['workers_administrative_assistant'] == null
+                    && $attributes['workers_service_assistant'] == null && $attributes['workers_librarian'] == null
+                    && $attributes['workers_firefighter'] == null && $attributes['workers_coordinator_shift'] == null && $attributes['workers_speech_therapist'] == null
+                    && $attributes['workers_nutritionist'] == null && $attributes['workers_psychologist'] == null && $attributes['workers_cooker'] == null
+                    && $attributes['workers_support_professionals'] == null && $attributes['workers_school_secretary'] == null && $attributes['workers_security_guards'] == null
+                    && $attributes['workers_monitors'] == null && $attributes['workers_braille'] == null
                 ) {
                     $register[$edcensoAlias->corder] = 1;
                 }
             } else {
                 $register[$edcensoAlias->corder] = $edcensoAlias->default;
-                if ($edcensoAlias['attr'] !== null && $attributes[$edcensoAlias['attr']] !== $edcensoAlias->default) {
+                if ($edcensoAlias['attr'] != null && $attributes[$edcensoAlias['attr']] !== $edcensoAlias->default) {
                     $register[$edcensoAlias->corder] = $attributes[$edcensoAlias['attr']] ?? $edcensoAlias->default;
                 }
             }

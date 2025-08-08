@@ -1,6 +1,6 @@
 <?php
-/** @var $this DefaultController */
-/** @var $error array */
+/* @var $this DefaultController */
+/* @var $error array */
 $themeUrl = Yii::app()->theme->baseUrl;
 $homeUrl = Yii::app()->controller->module->baseUrl;
 $baseScriptUrl = Yii::app()->controller->module->baseScriptUrl;
@@ -21,17 +21,17 @@ $this->pageTitle = Yii::app()->name . ' - Error';
                 <h2 class="ui image header">
                     <img src="<?=$baseScriptUrl ?>/common/img/logo.png" class="image">
                     <div class="content">
-                        <?= Yii::t('lunchModule.error', 'Something happen') ?>
+                        <?= yii::t('lunchModule.error', 'Something happen') ?>
                     </div>
                 </h2>
             </div>
             <div class="ui left aligned segment negative message">
-                <div class="header">  <?= Yii::t('lunchModule.error', 'Attention!') ?> Erro <?= $error['code'] ?>, <?= $error['message'] ?></div>
-                <p> <?= Yii::t('lunchModule.error', 'Contact us') ?></p>
+                <div class="header">  <?= yii::t('lunchModule.error', 'Attention!') ?> Erro <?= $error['code'] ?>, <?= $error['message'] ?></div>
+                <p> <?= yii::t('lunchModule.error', 'Contact us') ?></p>
                 <p>(79) 3255-1664 ou (79) 9680-3343</p>
             </div>
             <div class="ui left aligned segment" style="max-height: 300px; overflow-x:auto;overflow-y:auto;white-space:normal;">
-                <p><?= Yii::t('lunchModule.error>', 'Technical Information') ?>:<p>
+                <p><?= yii::t('lunchModule.error>', 'Technical Information') ?>:<p>
                 <p><?= json_encode($error); ?></p>
             </div>
             <div class="ui segment">

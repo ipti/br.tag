@@ -9,7 +9,7 @@ class ProfessionalModule extends CWebModule
     {
         $this->baseUrl = Yii::app()->createUrl('professional');
         $this->baseScriptUrl = Yii::app()->getAssetManager()->publish(Yii::getPathOfAlias('application.modules.professional.resources'));
-        // $this->layoutPath = Yii::getPathOfAlias("professional.views.layouts");
+        // $this->layoutPath = yii::getPathOfAlias("professional.views.layouts");
 
         $this->setImport([
             'professional.models.*', 'professional.components.*',

@@ -1,8 +1,8 @@
 <?php
-/** @var $this FarmerRegisterController */
-/** @var $model FarmerRegister */
-/** @var $modelFarmerFoods FarmerFoods */
-/** @var $form CActiveForm */
+/* @var $this FarmerRegisterController */
+/* @var $model FarmerRegister */
+/* @var $modelFarmerFoods FarmerFoods */
+/* @var $form CActiveForm */
 
 $baseUrl = Yii::app()->baseUrl;
 $themeUrl = Yii::app()->theme->baseUrl;

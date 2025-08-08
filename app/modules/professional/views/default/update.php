@@ -1,6 +1,6 @@
 <?php
-/** @var $this ProfessionalController */
-/** @var $model Professional */
+/* @var $this ProfessionalController */
+/* @var $model Professional */
 
 $this->breadcrumbs = [
     'Professionals' => ['index'],

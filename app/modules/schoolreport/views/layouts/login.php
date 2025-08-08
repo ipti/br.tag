@@ -1,5 +1,5 @@
 <?php
-/** @var $content String Conteúdo da página.
+/* @var $content String Conteúdo da página.
  */
 $themeUrl = Yii::app()->theme->baseUrl;
 $homeUrl = Yii::app()->controller->module->baseUrl;

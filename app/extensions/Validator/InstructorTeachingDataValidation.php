@@ -55,7 +55,7 @@ class instructorTeachingDataValidation extends Register
                 return ['status' => false, 'erro' => $result['erro']];
             }
         } else {
-            if ($value !== null) {
+            if ($value != null) {
                 return ['status' => false, 'erro' => "value $value deveria ser nulo"];
             }
         }
@@ -66,7 +66,7 @@ class instructorTeachingDataValidation extends Register
     public function disciplineOne($discipline_code_one, $role, $assistance_type, $edcenso_svm)
     {
         if (in_array($role, ['1', '5']) && !in_array($assistance_type, ['4', '5']) && !in_array($edcenso_svm, ['1', '2', '3', '65'])) {
-            if ($discipline_code_one === null) {
+            if ($discipline_code_one == null) {
                 return ['status' => false, 'erro' => 'value não deveria ser nulo'];
             }
         }
@@ -88,7 +88,7 @@ class instructorTeachingDataValidation extends Register
                 in_array($assistance_type, ['4', '5']) ||
                 in_array($edcenso_svm, ['1', '2', '3', '65']))) {
             foreach ($disciplines_codes as $key => $value) {
-                if ($value !== null) {
+                if ($value != null) {
                     return ['status' => false, 'erro' => "value de $value de ordem $key deveria ser nulo"];
                 }
             }

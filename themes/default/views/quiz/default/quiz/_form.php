@@ -1,5 +1,5 @@
 <?php
-/** @var $this calendar.defaultController
+/* @var $this calendar.defaultController
  * @var $modelCalendar Calendar
  * @var $modelEvent CalendarEvent
  * @var $cs CClientScript

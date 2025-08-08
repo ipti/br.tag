@@ -41,7 +41,7 @@ class UpdateGradePartialRecoveryUsecase
             }
 
             if ($modelPartialRecovery->save()) {
-                if ($partialRecovery['weights'] !== null) {
+                if ($partialRecovery['weights'] != null) {
                     $this->savePartialRecoveryWeights($partialRecovery['weights'], $modelPartialRecovery->id);
                 }
 
@@ -91,7 +91,7 @@ class UpdateGradePartialRecoveryUsecase
     {
         foreach ($weights as $recoveryWeight) {
             $recoveryWeights = GradePartialRecoveryWeights::model()->findByPk($recoveryWeight->id);
-            if ($recoveryWeights === null) {
+            if ($recoveryWeights == null) {
                 $recoveryWeights = new GradePartialRecoveryWeights();
             }
             $recoveryWeights->weight = $recoveryWeight['weight'];

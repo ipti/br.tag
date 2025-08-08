@@ -42,6 +42,7 @@ class Controller extends CController
         }
 
         if (Yii::app()->user->isGuest && Yii::app()->request->isAjaxRequest) {
+            // Se a sessão expirou e é uma requisição AJAX
             header('HTTP/1.1 401 Unauthorized');
             echo json_encode(['redirect' => Yii::app()->createUrl('site/login')]);
             Yii::app()->end();
@@ -57,7 +58,7 @@ class Controller extends CController
         SentrySdk::getCurrentHub()->setSpan($transaction);
 
         if (parent::beforeAction($action)) {
-
+            // Verifica o timeout com base na última atividade
             if (isset(Yii::app()->user->authTimeout)) {
                 $lastActivity = Yii::app()->user->getState('last_activity');
                 $timeout = Yii::app()->user->authTimeout;
@@ -69,6 +70,7 @@ class Controller extends CController
                 }
             }
 
+            // Atualiza a última atividade
             Yii::app()->user->setState('last_activity', time());
 
             return true;
@@ -83,6 +85,7 @@ class Controller extends CController
         if ($transaction) {
             $transaction->finish();
         }
+        // SentrySdk::getCurrentHub()->flush();
 
         return parent::afterAction($action);
     }

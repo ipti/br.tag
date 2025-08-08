@@ -55,7 +55,7 @@ class Import extends CFormModel
 
         while (true) {
             $line = fgets($file);
-            if ($line === null) {
+            if ($line == null) {
                 break;
             }
 
@@ -110,7 +110,7 @@ class Import extends CFormModel
 
         foreach ($lines as $line) {
             $schoolIdentificationModel = SchoolIdentification::model()->find('inep_id = :inep_id', ['inep_id' => $line[1]]);
-            if ($schoolIdentificationModel === null) {
+            if ($schoolIdentificationModel == null) {
                 $schoolIdentificationModel = new SchoolIdentification();
             }
 
@@ -128,7 +128,7 @@ class Import extends CFormModel
             $edcensoDistrict = EdcensoDistrict::model()->findByAttributes(['edcenso_city_fk' => $edcensoCityId]);
             $schoolIdentificationModel->edcenso_uf_fk = $edcensoCity->edcenso_uf_fk;
             $schoolIdentificationModel->edcenso_district_fk = $edcensoDistrict->id;
-            $schoolIdentificationModel->id_difflocation = $schoolIdentificationModel->id_difflocation === '' ? 7 : $schoolIdentificationModel->id_difflocation;
+            $schoolIdentificationModel->id_difflocation = $schoolIdentificationModel->id_difflocation == '' ? 7 : $schoolIdentificationModel->id_difflocation;
             if (!$schoolIdentificationModel->save()) {
                 $this->setFailure('00', $line);
             }
@@ -143,7 +143,7 @@ class Import extends CFormModel
 
         foreach ($lines as $line) {
             $schoolStructureModel = SchoolStructure::model()->find('school_inep_id_fk = :school_inep_id_fk', ['school_inep_id_fk' => $line[1]]);
-            if ($schoolStructureModel === null) {
+            if ($schoolStructureModel == null) {
                 $schoolStructureModel = new SchoolStructure();
             }
 
@@ -170,7 +170,7 @@ class Import extends CFormModel
 
         foreach ($lines as $line) {
             $classroomModel = Classroom::model()->find('school_inep_fk = :school_inep_fk and school_year = :year and name = :name', ['school_inep_fk' => $line[1], 'year' => $year, 'name' => $line[4]]);
-            if ($classroomModel === null) {
+            if ($classroomModel == null) {
                 $classroomModel = new Classroom();
             }
 
@@ -212,9 +212,9 @@ class Import extends CFormModel
         $fields = EdcensoAlias::model()->findAllByAttributes(['register' => 301, 'year' => $year]);
 
         $studentIdentificationModel = StudentIdentification::model()->find("inep_id is not null and inep_id != '' and inep_id = :inep_id", ['inep_id' => $line[3]]);
-        if ($studentIdentificationModel === null) {
+        if ($studentIdentificationModel == null) {
             $studentDocumentModel = StudentDocumentsAndAddress::model()->find("cpf is not null and cpf != '' and cpf = :cpf", ['cpf' => $line[4]]);
-            if ($studentDocumentModel === null) {
+            if ($studentDocumentModel == null) {
                 $studentIdentificationModel = StudentIdentification::model()->find('name = :name and birthday = :birthday', ['name' => $line[5], 'birthday' => $line[6]]);
             }
         }
@@ -247,7 +247,7 @@ class Import extends CFormModel
         $studentIdentificationModel->censo_own_system_code = $line[2];
         $studentIdentificationModel->send_year = $this->year;
         $studentDocumentModel->school_inep_id_fk = $studentIdentificationModel->school_inep_id_fk;
-        $studentDocumentModel->residence_zone = $studentDocumentModel->residence_zone === '' ? 1 : $studentDocumentModel->residence_zone;
+        $studentDocumentModel->residence_zone = $studentDocumentModel->residence_zone == '' ? 1 : $studentDocumentModel->residence_zone;
         $studentDocumentModel->setScenario('censoimport');
         if ($studentIdentificationModel->validate() && $studentDocumentModel->validate()) {
             if ($studentIdentificationModel->save(false)) {
@@ -267,9 +267,9 @@ class Import extends CFormModel
         $fields = EdcensoAlias::model()->findAllByAttributes(['register' => 302, 'year' => $year]);
 
         $instructorIdentificationModel = InstructorIdentification::model()->find("inep_id is not null and inep_id != '' and inep_id = :inep_id", ['inep_id' => $line[3]]);
-        if ($instructorIdentificationModel === null) {
+        if ($instructorIdentificationModel == null) {
             $instructorDocumentModel = InstructorDocumentsAndAddress::model()->find("cpf is not null and cpf != '' and cpf = :cpf", ['cpf' => $line[4]]);
-            if ($instructorDocumentModel === null) {
+            if ($instructorDocumentModel == null) {
                 $instructorIdentificationModel = InstructorIdentification::model()->find('name = :name and birthday_date = :birthday_date', ['name' => $line[5], 'birthday_date' => $line[6]]);
             }
         }
@@ -377,7 +377,7 @@ class Import extends CFormModel
             $classroom = Classroom::model()->findByAttributes(['school_inep_fk' => $line[1], 'school_year' => $year, 'censo_own_system_code' => $line[4]]);
             $instructor = InstructorIdentification::model()->findByAttributes(['school_inep_id_fk' => $line[1], 'censo_own_system_code' => $line[2]]);
             $instructorTeachingModel = InstructorTeachingData::model()->find('instructor_fk = :instructor_fk and classroom_id_fk = :classroom_id_fk', ['instructor_fk' => $instructor->id, 'classroom_id_fk' => $classroom->id]);
-            if ($instructorTeachingModel === null) {
+            if ($instructorTeachingModel == null) {
                 $instructorTeachingModel = new InstructorTeachingData(InstructorTeachingData::SCENARIO_IMPORT);
                 $instructorTeachingModel->classroom_id_fk = $classroom->id;
                 $instructorTeachingModel->instructor_fk = $instructor->id;
@@ -414,7 +414,7 @@ class Import extends CFormModel
             // $student = StudentIdentification::model()->findByAttributes(['school_inep_id_fk' => $line[1], 'censo_own_system_code' => $line[2]]);
             $student = StudentIdentification::model()->findByAttributes(['inep_id' => $inepId]);
             $studentEnrollmentModel = StudentEnrollment::model()->find('student_fk = :student_fk and classroom_fk = :classroom_fk', ['student_fk' => $student->id, 'classroom_fk' => $classroom->id]);
-            if ($studentEnrollmentModel === null) {
+            if ($studentEnrollmentModel == null) {
                 $studentEnrollmentModel = new StudentEnrollment();
                 $studentEnrollmentModel->classroom_fk = $classroom->id;
                 $studentEnrollmentModel->student_fk = $student->id;

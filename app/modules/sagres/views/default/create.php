@@ -1,6 +1,6 @@
 <?php
-/** @var $this ProvisionAcountsController */
-/** @var $model ProvisionAcounts */
+/* @var $this ProvisionAcountsController */
+/* @var $model ProvisionAcounts */
 
 $this->breadcrumbs = [
     'Professionals' => ['index'],

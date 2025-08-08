@@ -1,6 +1,6 @@
 <?php
-/** @var $this FoodInventoryController */
-/** @var $data FoodInventory */
+/* @var $this FoodInventoryController */
+/* @var $data FoodInventory */
 ?>
 
 <div class="view">

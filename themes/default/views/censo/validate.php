@@ -111,13 +111,13 @@
             <div class="alert alert-success">
                 <?php echo Yii::app()->user->getFlash('success') ?>
             </div>
-        <?php } elseif (Yii::app()->user->hasFlash('error')) { ?>
+        <?php } else if (Yii::app()->user->hasFlash('error')) { ?>
             <div class="alert alert-error">
                 <?php echo Yii::app()->user->getFlash('success') ?>
             </div>
         <?php } ?>
         <div class="row  t-buttons-container">
-            <a href="<?= CHtml::normalizeUrl(['censo/export', 'withoutCertificates' => 0]) ?>" class="t-button-primary js-export-link" style="margin:0;">
+            <a href="<?= CHtml::normalizeUrl(array('censo/export', 'withoutCertificates' => 0)) ?>" class="t-button-primary js-export-link" style="margin:0;">
                 <?= Yii::t('default', 'Exportar arquivo de migração') ?>
             </a>
             <!-- <button class="t-button-primary js-export-censo" style="margin:0;">
@@ -128,7 +128,7 @@
                     style="margin:0;">
                     <?= Yii::t('default', 'Exportar arquivo de identificação') ?>
                 </a>
-                <a href="<?= CHtml::normalizeUrl(['censo/inepImport']) ?>" class="t-button-secondary"
+                <a href="<?= CHtml::normalizeUrl(array('censo/inepImport')) ?>" class="t-button-secondary"
                     style="margin:0;">
                     <?= Yii::t('default', 'Importar INEP ID') ?>
                 </a>

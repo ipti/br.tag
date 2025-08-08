@@ -6,7 +6,6 @@
      * $yiic migrate up --migrationPath=application.modules.timesheet.migrations
      *
      */
-
     class m160311_140704_timeseet_tables extends CDbMigration
     {
         public function up()

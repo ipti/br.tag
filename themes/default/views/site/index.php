@@ -9,7 +9,7 @@ $cs->registerScriptFile($baseUrl . '/js/site/index.js?v=' . TAG_VERSION, CClient
 // $cs->registerScriptFile(Yii::app()->theme->baseUrl . '/js/amcharts/lang/pt.js?v='.TAG_VERSION, CClientScript::POS_END);
 // $cs->registerScriptFile(Yii::app()->theme->baseUrl . '/js/amcharts/themes/light.js?v='.TAG_VERSION, CClientScript::POS_END);
 
-/** @var $this SiteController */
+/* @var $this SiteController */
 
 $cs->registerScript(
     'vars',
@@ -151,7 +151,7 @@ $logCount = count(Log::model()->findAll('school_fk = :school', [':school' => Yii
 <script>
     $(".pre-enrollment-icon").on('click', function () {
         var str = $(this).attr('class');
-        if (str.match(/circle-o/g) !== null) {
+        if (str.match(/circle-o/g) != null) {
             $(this).removeClass('fa-circle-o');
             $(this).addClass('fa-circle');
         } else {

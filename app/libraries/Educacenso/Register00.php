@@ -35,17 +35,17 @@ class Register00
         }
 
         $hasInepHeadSchool = false;
-        if (empty($attributes['inep_head_school']) || $attributes['inep_head_school'] === null) {
+        if (empty($attributes['inep_head_school']) || $attributes['inep_head_school'] == null) {
             $attributes['offer_or_linked_unity'] = '0';
         } else {
             $attributes['offer_or_linked_unity'] = '1';
             $hasInepHeadSchool = true;
         }
-        if (!$hasInepHeadSchool && ($attributes['ies_code'] !== null && !empty($attributes['ies_code']))) {
+        if (!$hasInepHeadSchool && ($attributes['ies_code'] != null && !empty($attributes['ies_code']))) {
             $attributes['offer_or_linked_unity'] = '2';
         }
 
-        if (empty($attributes['ddd']) || $attributes['ddd'] === null) {
+        if (empty($attributes['ddd']) || $attributes['ddd'] == null) {
             $attributes['phone_number'] = '';
             $attributes['other_phone_number'] = '';
         }
@@ -107,10 +107,10 @@ class Register00
                     $attributes['regulation_organ_state'] = '1';
                 }
             }
-            if ($attributes['regulation_organ_state'] === null) {
+            if ($attributes['regulation_organ_state'] == null) {
                 $attributes['regulation_organ_state'] = '0';
             }
-            if ($attributes['regulation_organ_municipal'] === null) {
+            if ($attributes['regulation_organ_municipal'] == null) {
                 $attributes['regulation_organ_municipal'] = '0';
             }
         }
@@ -118,7 +118,7 @@ class Register00
         $edcensoAliases = EdcensoAlias::model()->findAll('year = :year and register = 0 order by corder', [':year' => $year]);
         foreach ($edcensoAliases as $edcensoAlias) {
             $register[$edcensoAlias->corder] = $edcensoAlias->default;
-            if ($edcensoAlias['attr'] !== null && $attributes[$edcensoAlias['attr']] !== $edcensoAlias->default) {
+            if ($edcensoAlias['attr'] != null && $attributes[$edcensoAlias['attr']] !== $edcensoAlias->default) {
                 $register[$edcensoAlias->corder] = $attributes[$edcensoAlias['attr']];
             }
         }

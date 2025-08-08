@@ -1,6 +1,6 @@
 <?php
-/** @var $this DefaultController */
-/** @var $error array */
+/* @var $this DefaultController */
+/* @var $error array */
 $themeUrl = Yii::app()->theme->baseUrl;
 $homeUrl = Yii::app()->controller->module->baseUrl;
 $baseScriptUrl = Yii::app()->controller->module->baseScriptUrl;

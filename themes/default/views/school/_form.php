@@ -274,7 +274,7 @@ echo $form->error($modelSchoolIdentification, 'initial_date');
     ['class' => 't-field-text__label']
 ); ?>
                                 <?php
-                                                                                                $options = DatePickerWidget::renderDatePickerFinal($modelSchoolIdentification, 'final_date');
+                                $options = DatePickerWidget::renderDatePickerFinal($modelSchoolIdentification, 'final_date');
 $options['htmlOptions'] = array_merge(isset($options['htmlOptions']) ? $options['htmlOptions'] : [], ['style' => 'background-color: #fff;']);
 $this->widget('zii.widgets.jui.CJuiDatePicker', $options);
 
@@ -510,10 +510,10 @@ echo $form->error($modelSchoolIdentification, 'final_date');
                                             'data' => ['cep' => 'js:this.value'],
                                             'success' => "function(data){
                                     data = jQuery.parseJSON(data);
-                                    if(data.UF === null) $(formIdentification+'cep').val('').trigger('focusout');
-                                    $(formIdentification+'edcenso_uf_fk').val(data['UF']).trigger('change').select2('readonly',data.UF !== null);
+                                    if(data.UF == null) $(formIdentification+'cep').val('').trigger('focusout');
+                                    $(formIdentification+'edcenso_uf_fk').val(data['UF']).trigger('change').select2('readonly',data.UF != null);
                                     setTimeout(function(){
-                                    $(formIdentification+'edcenso_city_fk').val(data['City']).trigger('change').select2('readonly',data.City !== null);
+                                    $(formIdentification+'edcenso_city_fk').val(data['City']).trigger('change').select2('readonly',data.City != null);
                                     }, 500);
                                 }"
                                         ],
@@ -2805,7 +2805,7 @@ echo $form->dropDownList(
                             <div class="t-field-select">
                                 <label class="t-field-select__label">Estado</label>
                                 <?php
-                                                                                                echo $form->dropDownList(
+                                echo $form->dropDownList(
                                     $modelManagerIdentification,
                                     'edcenso_uf_fk',
                                     CHtml::listData(EdcensoUf::model()->findAll([
@@ -2828,7 +2828,7 @@ echo $form->dropDownList(
                             <div class="t-field-select">
                                 <label class="t-field-select__label">Cidade</label>
                                 <?php
-                                                                                                echo $form->dropDownList(
+                                echo $form->dropDownList(
                                     $modelManagerIdentification,
                                     'edcenso_city_fk',
                                     CHtml::listData(EdcensoCity::model()->findAllByAttributes([

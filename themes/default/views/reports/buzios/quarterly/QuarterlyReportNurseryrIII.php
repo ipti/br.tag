@@ -1,6 +1,6 @@
 <?php
-/** @var $this ReportsController */
-/** @var $report mixed */
+/* @var $this ReportsController */
+/* @var $report mixed */
 $baseUrl = Yii::app()->baseUrl;
 $cs = Yii::app()->getClientScript();
 $cs->registerScriptFile($baseUrl . '/js/reports/QuarterlyReport/_initialization.js?v=' . TAG_VERSION, CClientScript::POS_END);
@@ -14,7 +14,7 @@ if ($turno == 'M') {
     $turno = 'Vespertino';
 } elseif ($turno == 'N') {
     $turno = 'Noturno';
-} elseif ($turno === '' || $turno === null) {
+} elseif ($turno == '' || $turno == null) {
     $turno = '______________________';
 }
 ?>

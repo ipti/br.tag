@@ -1,6 +1,6 @@
 <?php
-/** @var $this FarmerRegisterController */
-/** @var $model FarmerRegister */
+/* @var $this FarmerRegisterController */
+/* @var $model FarmerRegister */
 
 $this->breadcrumbs = [
     'Farmer Registers' => ['index'],

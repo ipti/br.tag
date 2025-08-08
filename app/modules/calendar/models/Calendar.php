@@ -65,11 +65,11 @@ class Calendar extends TagModel
     public function attributeLabels()
     {
         return [
-            'id' => Yii::t('calendarModule.labels', 'ID'),
-            'title' => Yii::t('calendarModule.labels', 'Title'),
-            'start_date' => Yii::t('calendarModule.labels', 'Start Date'),
-            'end_date' => Yii::t('calendarModule.labels', 'End Date'),
-            'school_year' => Yii::t('calendarModule.labels', 'School Year'),
+            'id' => yii::t('calendarModule.labels', 'ID'),
+            'title' => yii::t('calendarModule.labels', 'Title'),
+            'start_date' => yii::t('calendarModule.labels', 'Start Date'),
+            'end_date' => yii::t('calendarModule.labels', 'End Date'),
+            'school_year' => yii::t('calendarModule.labels', 'School Year'),
         ];
     }
 

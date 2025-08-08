@@ -1,5 +1,5 @@
 <?php
-/** @var $form CActiveForm */
+/* @var $form CActiveForm */
 ?>
 
 

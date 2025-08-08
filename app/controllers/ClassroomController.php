@@ -155,7 +155,7 @@ class ClassroomController extends Controller
         $result = ['html' => '', 'val' => ''];
 
         $result['html'] = CHtml::tag('option', ['value' => ''], CHtml::encode('Selecione o Tipo de Atendimento'), true);
-        if ($schoolStructure !== null) {
+        if ($schoolStructure != null) {
             $encode = [
                 0 => CHtml::encode('Não se Aplica'),
                 1 => CHtml::encode('Classe Hospitalar'),
@@ -661,7 +661,7 @@ class ClassroomController extends Controller
             $criteria->params = [':classroomId' => $modelClassroom->id, ':stageId' => $stage->id];
             $gradeRulesQuery = GradeRules::model()->find($criteria);
 
-            $gradeRulesStages[$stage->id] = $gradeRulesQuery === null ? '' : $gradeRulesQuery;
+            $gradeRulesStages[$stage->id] = $gradeRulesQuery == null ? '' : $gradeRulesQuery;
         }
 
         $gradeRules = GradeRules::model()->findAll();
@@ -703,7 +703,7 @@ class ClassroomController extends Controller
         $edcensoStageVsModalities = $this->getSchoolStagesModels();
 
         $disableFieldsWhenItsUBATUBA = false;
-        if (Yii::app()->features->isEnable('FEAT_SEDSP') && $modelClassroom->gov_id !== null && !empty($modelClassroom->studentEnrollments)) {
+        if (Yii::app()->features->isEnable('FEAT_SEDSP') && $modelClassroom->gov_id != null && !empty($modelClassroom->studentEnrollments)) {
             $disableFieldsWhenItsUBATUBA = true;
         }
 
@@ -858,7 +858,7 @@ class ClassroomController extends Controller
                             $outConsultaTurmaClasse = $dataSource->getConsultClass($inConsultaTurmaClasse);
 
                             if (!property_exists($outConsultaTurmaClasse, 'outErro')) {
-                                $result = $modelClassroom->syncToSEDSP('edit', $outConsultaTurmaClasse->outAnoLetivo !== null ? 'edit' : 'create');
+                                $result = $modelClassroom->syncToSEDSP('edit', $outConsultaTurmaClasse->outAnoLetivo != null ? 'edit' : 'create');
                             } else {
                                 $result = ['flash' => 'error', 'message' => $outConsultaTurmaClasse->outErro];
                             }
@@ -895,7 +895,7 @@ class ClassroomController extends Controller
             $criteria->params = [':classroomId' => $modelClassroom->id, ':stageId' => $stage->id];
             $gradeRulesQuery = GradeRules::model()->find($criteria);
 
-            $gradeRulesStages[$stage->id] = $gradeRulesQuery === null ? '' : $gradeRulesQuery;
+            $gradeRulesStages[$stage->id] = $gradeRulesQuery == null ? '' : $gradeRulesQuery;
         }
 
         $gradeRules = GradeRules::model()->findAll();
@@ -1030,7 +1030,7 @@ class ClassroomController extends Controller
         $outConsultaTurmaClasse = $dataSource->getConsultClass($inConsultaTurmaClasse);
 
         if (!property_exists($outConsultaTurmaClasse, 'outErro')) {
-            $result = $modelClassroom->syncToSEDSP('edit', $outConsultaTurmaClasse->outAnoLetivo !== null ? 'edit' : 'create');
+            $result = $modelClassroom->syncToSEDSP('edit', $outConsultaTurmaClasse->outAnoLetivo != null ? 'edit' : 'create');
         } else {
             $result = ['flash' => 'error', 'message' => $outConsultaTurmaClasse->outErro];
         }
@@ -1079,22 +1079,22 @@ class ClassroomController extends Controller
         if ($model == $this->MODEL_CLASSROOM) {
             $return = Classroom::model()->findByPk($id);
             $complementaryActivitiesArray = [];
-            if ($return->complementary_activity_type_1 !== null) {
+            if ($return->complementary_activity_type_1 != null) {
                 array_push($complementaryActivitiesArray, $return->complementary_activity_type_1);
             }
-            if ($return->complementary_activity_type_2 !== null) {
+            if ($return->complementary_activity_type_2 != null) {
                 array_push($complementaryActivitiesArray, $return->complementary_activity_type_2);
             }
-            if ($return->complementary_activity_type_3 !== null) {
+            if ($return->complementary_activity_type_3 != null) {
                 array_push($complementaryActivitiesArray, $return->complementary_activity_type_3);
             }
-            if ($return->complementary_activity_type_4 !== null) {
+            if ($return->complementary_activity_type_4 != null) {
                 array_push($complementaryActivitiesArray, $return->complementary_activity_type_4);
             }
-            if ($return->complementary_activity_type_5 !== null) {
+            if ($return->complementary_activity_type_5 != null) {
                 array_push($complementaryActivitiesArray, $return->complementary_activity_type_5);
             }
-            if ($return->complementary_activity_type_6 !== null) {
+            if ($return->complementary_activity_type_6 != null) {
                 array_push($complementaryActivitiesArray, $return->complementary_activity_type_6);
             }
             $return->complementary_activity_type_1 = $complementaryActivitiesArray;
@@ -1260,8 +1260,8 @@ class ClassroomController extends Controller
                         'enrollmentId' => $studentEnrollment->id,
                         'valid' => false,
                         'studentName' => $studentIdentification->name,
-                        'identificationMessage' => $response['identification'] !== null ? $response['identification']->outErro : null,
-                        'enrollmentMessage' => $response['enrollment'] !== null ? $response['enrollment']->outErro : null,
+                        'identificationMessage' => $response['identification'] != null ? $response['identification']->outErro : null,
+                        'enrollmentMessage' => $response['enrollment'] != null ? $response['enrollment']->outErro : null,
                     ]);
                 } else {
                     array_push($result, [

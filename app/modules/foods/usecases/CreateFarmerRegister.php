@@ -1,11 +1,9 @@
 <?php
 
     Yii::import('application.modules.foods.services.*');
-
     /**
      * @property CreateFarmerRegister $CreateFarmerRegister
      */
-
     class CreateFarmerRegister
     {
         /**

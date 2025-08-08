@@ -1,6 +1,6 @@
 <?php
-/** @var $this GradeConceptController */
-/** @var $model GradeConcept */
+/* @var $this GradeConceptController */
+/* @var $model GradeConcept */
 
 $this->breadcrumbs = [
     'Grade Concepts' => ['index'],

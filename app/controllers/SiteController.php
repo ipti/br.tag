@@ -45,7 +45,7 @@ class SiteController extends Controller
         // renders the view file 'protected/views/site/index.php'
         // using the default layout 'protected/views/layouts/main.php'
         if (Yii::app()->user->isGuest) {
-            $this->redirect(Yii::app()->createUrl('site/login'));
+            $this->redirect(yii::app()->createUrl('site/login'));
         }
 
         $this->loadLogsHtml(5);
@@ -225,9 +225,9 @@ class SiteController extends Controller
         $warns = [];
 
         // Verifica a existência de turmas na escola
-        $listSchoolClassrooms = Classroom::model()->findallByAttributes(['school_inep_fk' => Yii::app()->user->school, 'school_year' => Yii::app()->user->year]);
+        $listSchoolClassrooms = Classroom::model()->findallByAttributes(['school_inep_fk' => yii::app()->user->school, 'school_year' => Yii::app()->user->year]);
         if (count($listSchoolClassrooms) == 0) {
-            $schoolModel = SchoolIdentification::model()->findByAttributes(['inep_id' => Yii::app()->user->school]);
+            $schoolModel = SchoolIdentification::model()->findByAttributes(['inep_id' => yii::app()->user->school]);
             $warning = 'Escola <b>' . $schoolModel->name . '</b> está sem turmas cadastradas.';
 
             $htmlpart = '<li class="row justify-content--start  home-page-table-item blue" title=\'' . $warning . '\'>'
@@ -242,7 +242,7 @@ class SiteController extends Controller
             foreach ($listSchoolClassrooms as $classroom) {
                 // Se houver turma, verificar se existe etapa vinculada à turma
                 $stage = $classroom->edcensoStageVsModalityFk;
-                if ($stage === null) {
+                if ($stage == null) {
                     $warning = 'Turma <b>' . $classroom->name . '</b> está sem etapa.';
                     $htmlpart = '<li class="row justify-content--start  home-page-table-item blue" title=\'' . $warning . '\'>'
                         . '<div  class="column align-items--center warn-div" style="text-overflow: ellipsis;">'
@@ -281,7 +281,7 @@ class SiteController extends Controller
 
                 // Se houver turma, verificar se existe calendario vinculado a ela
                 $calendar = $classroom->calendarFk;
-                if ($calendar === null) {
+                if ($calendar == null) {
                     $warning = 'Turma <b>' . $classroom->name . '</b> não possui calendário vinculado.';
                     $htmlpart = '<li class="row justify-content--start  home-page-table-item blue" title=\'' . $warning . '\'>'
                         . '<div  class="column align-items--center warn-div" style="text-overflow: ellipsis;">'

@@ -53,9 +53,9 @@ foreach ($groups as $group) { ?>
                             $active = false;
                         } ?>" id="group-<?= $group->id ?>">
                             <?php
-                                                                                    foreach ($questions[$group->id] as $formQuestion) {
-                                                                                        $this->widget('quiz.widgets.QuestionWidget', ['model' => $formQuestion]);
-                                                                                    }
+                                    foreach ($questions[$group->id] as $formQuestion) {
+                                        $this->widget('quiz.widgets.QuestionWidget', ['model' => $formQuestion]);
+                                    }
     ?>
                         </div>  <!-- .tab-pane -->
                 <?php  } ?>

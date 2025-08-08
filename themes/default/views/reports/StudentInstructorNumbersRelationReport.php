@@ -1,7 +1,7 @@
 <?php
-/** @var $this ReportsController */
-/** @var $instructor mixed */
-/** @var $classroom mixed */
+/* @var $this ReportsController */
+/* @var $instructor mixed */
+/* @var $classroom mixed */
 
 $baseUrl = Yii::app()->baseUrl;
 $cs = Yii::app()->getClientScript();
@@ -76,7 +76,7 @@ if (count($classroom) == 0) {
             . '<td>' . $c['name'] . '</td>'
             . '<td>' . $c['assistance_type'] . '</td>'
             . '<td>' . $c['time'] . '</td>'
-            . '<td>' . ($c['mais_educacao_participator'] === null ? 'Nao se Aplica' : 'Outros') . '</td>'
+            . '<td>' . ($c['mais_educacao_participator'] == null ? 'Nao se Aplica' : 'Outros') . '</td>'
             . '<td>' . $c['students'] . '</td>'
             . '<td>' . $cargos[0] . '</td>'
             . '<td>' . $cargos[1] . '</td>'

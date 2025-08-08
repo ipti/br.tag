@@ -166,7 +166,7 @@
   <div id="boxDate"  class="row-grid no-border">
     <div class="col no-border">
       <span class="pull-right">
-        <?= $school->edcensoCityFk->name?>(<?=$school->edcensoUfFk->acronym?>), <?php echo date('d') . ' de ' . Yii::t('default', date('F')) . ' de ' . date('Y') . '.' ?>
+        <?= $school->edcensoCityFk->name?>(<?=$school->edcensoUfFk->acronym?>), <?php echo date('d') . ' de ' . yii::t('default', date('F')) . ' de ' . date('Y') . '.' ?>
       </span>
     </div>
   </div>

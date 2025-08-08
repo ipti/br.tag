@@ -1,6 +1,6 @@
 <?php
-/** @var $this StudentAeeRecordController */
-/** @var $model StudentAeeRecord */
+/* @var $this StudentAeeRecordController */
+/* @var $model StudentAeeRecord */
 
 $this->breadcrumbs = [
     'Student Aee Records' => ['index'],

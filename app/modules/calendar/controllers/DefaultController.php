@@ -99,7 +99,7 @@ class DefaultController extends Controller
     public function actionChangeEvent()
     {
         $event = CalendarEvent::model()->findByPk($_POST['id']);
-        if (Yii::app()->getAuthManager()->checkAccess('admin', Yii::app()->user->loginInfos->id) || $event === null || $event->school_fk !== null) {
+        if (Yii::app()->getAuthManager()->checkAccess('admin', Yii::app()->user->loginInfos->id) || $event == null || $event->school_fk != null) {
             $result = Yii::app()->db->createCommand('
             select count(s.id) as qtd from schedule s
             join classroom cr on s.classroom_fk = cr.id
@@ -109,7 +109,7 @@ class DefaultController extends Controller
             $isSoftUnavailableEvent = $_POST['eventTypeFk'] == 101 || $_POST['eventTypeFk'] == 104;
             $isPreviousDate = strtotime($_POST['startDate']) < strtotime('now');
 
-            if ($event === null) {
+            if ($event == null) {
                 $event = new CalendarEvent();
                 $event->school_fk = Yii::app()->getAuthManager()->checkAccess('admin', Yii::app()->user->loginInfos->id) ? null : Yii::app()->user->school;
             } else {
@@ -212,7 +212,7 @@ class DefaultController extends Controller
     public function actionDeleteEvent()
     {
         $event = CalendarEvent::model()->findByPk($_POST['id']);
-        if (Yii::app()->getAuthManager()->checkAccess('admin', Yii::app()->user->loginInfos->id) || $event->school_fk !== null) {
+        if (Yii::app()->getAuthManager()->checkAccess('admin', Yii::app()->user->loginInfos->id) || $event->school_fk != null) {
             $result = Yii::app()->db->createCommand('
             select count(s.id) as qtd from schedule s
             join classroom cr on s.classroom_fk = cr.id
@@ -313,7 +313,7 @@ class DefaultController extends Controller
                 CalendarStages::model()->deleteAll($criteria);
                 foreach ($_POST['stages'] as $stageId) {
                     $calendarStage = CalendarStages::model()->find('calendar_fk = :calendar_fk and stage_fk = :stage_fk', ['calendar_fk' => $calendar->id, 'stage_fk' => $stageId]);
-                    if ($calendarStage === null) {
+                    if ($calendarStage == null) {
                         $calendarStage = new CalendarStages();
                         $calendarStage->stage_fk = $stageId;
                         $calendarStage->calendar_fk = $calendar->id;
@@ -405,7 +405,7 @@ class DefaultController extends Controller
                     $unity['initial_date'] = $calendarInitialDate;
                 } else {
                     $gradeUnityPeriod = GradeUnityPeriods::model()->find('grade_unity_fk = :grade_unity_fk and calendar_fk = :calendar_fk', [':grade_unity_fk' => $gradeUnity->id, ':calendar_fk' => $calendar->id]);
-                    $unity['initial_date'] = $gradeUnityPeriod === null ? '' : date('d/m/Y', strtotime($gradeUnityPeriod->initial_date));
+                    $unity['initial_date'] = $gradeUnityPeriod == null ? '' : date('d/m/Y', strtotime($gradeUnityPeriod->initial_date));
                 }
                 array_push($stageArray['unities'], $unity);
             }
@@ -423,7 +423,7 @@ class DefaultController extends Controller
             } else {
                 foreach ($_POST['gradeUnities'] as $gup) {
                     $gradeUnityPeriod = GradeUnityPeriods::model()->find('grade_unity_fk = :gradeUnityFk and calendar_fk = :calendar_fk', [':gradeUnityFk' => $gup['gradeUnityFk'], ':calendar_fk' => $_POST['calendarFk']]);
-                    if ($gradeUnityPeriod === null) {
+                    if ($gradeUnityPeriod == null) {
                         $gradeUnityPeriod = new GradeUnityPeriods();
                         $gradeUnityPeriod->grade_unity_fk = $gup['gradeUnityFk'];
                         $gradeUnityPeriod->calendar_fk = $_POST['calendarFk'];

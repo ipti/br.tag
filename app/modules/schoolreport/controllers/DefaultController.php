@@ -11,7 +11,7 @@ class DefaultController extends Controller
     public function actionIndex()
     {
         if (Yii::app()->user->isGuest) {
-            $this->redirect(Yii::app()->createUrl('schoolreport/default/login'));
+            $this->redirect(yii::app()->createUrl('schoolreport/default/login'));
         } else {
             $this->render('select');
         }
@@ -32,9 +32,9 @@ class DefaultController extends Controller
     public function actionGrades($eid)
     {
         if (Yii::app()->user->isGuest) {
-            $this->redirect(Yii::app()->createUrl('schoolreport/default/login'));
+            $this->redirect(yii::app()->createUrl('schoolreport/default/login'));
         } else {
-            /** @var $enrollment StudentEnrollment
+            /* @var $enrollment StudentEnrollment
              * @var $classroom Classroom
              * @var $classboards ClassBoard[]
              * @var $cb ClassBoard
@@ -59,9 +59,9 @@ class DefaultController extends Controller
     public function actionGetGrades($eid)
     {
         if (Yii::app()->user->isGuest) {
-            $this->redirect(Yii::app()->createUrl('schoolreport/default/login'));
+            $this->redirect(yii::app()->createUrl('schoolreport/default/login'));
         } else {
-            /** @var $grade Grade */
+            /* @var $grade Grade */
             $grades = Grade::model()->findAll('enrollment_fk = :eid', [':eid' => $eid]);
 
             $result = [];
@@ -87,24 +87,24 @@ class DefaultController extends Controller
             // display the login form
             $this->render('login', ['model' => $model]);
         } else {
-            $this->redirect(Yii::app()->createUrl('schoolreport/default/select'));
+            $this->redirect(yii::app()->createUrl('schoolreport/default/select'));
         }
     }
 
     public function actionLogout()
     {
         if (Yii::app()->user->isGuest) {
-            $this->redirect(Yii::app()->createUrl('schoolreport/default/login'));
+            $this->redirect(yii::app()->createUrl('schoolreport/default/login'));
         } else {
             Yii::app()->user->logout(false);
-            $this->redirect(Yii::app()->createUrl('schoolreport/default/login'));
+            $this->redirect(yii::app()->createUrl('schoolreport/default/login'));
         }
     }
 
     public function actionSelect()
     {
         if (Yii::app()->user->isGuest) {
-            $this->redirect(Yii::app()->createUrl('schoolreport/default/login'));
+            $this->redirect(yii::app()->createUrl('schoolreport/default/login'));
         } else {
             $this->render('select');
         }
@@ -113,9 +113,9 @@ class DefaultController extends Controller
     public function actionFrequency($eid)
     {
         if (Yii::app()->user->isGuest) {
-            $this->redirect(Yii::app()->createUrl('schoolreport/default/login'));
+            $this->redirect(yii::app()->createUrl('schoolreport/default/login'));
         } else {
-            /** @var $enrollment StudentEnrollment
+            /* @var $enrollment StudentEnrollment
              * @var $classroom Classroom
              * @var $classboards ClassBoard[]
              * @var $cb ClassBoard
@@ -135,8 +135,8 @@ class DefaultController extends Controller
             )->queryAll(true, [':cid' => $classroom->id]);
 
             foreach ($classesList as $c) {
-                $did = $c['discipline_fk'] === null ? -1 : $c['discipline_fk'];
-                $dName = $c['discipline_fk'] === null ? 'Todos os componentes curriculares/eixos' : $c['discipline_name'];
+                $did = $c['discipline_fk'] == null ? -1 : $c['discipline_fk'];
+                $dName = $c['discipline_fk'] == null ? 'Todos os componentes curriculares/eixos' : $c['discipline_name'];
                 $classes = $c['classes'];
                 $month = $c['month'];
                 if (!isset($frequency[$did])) {
@@ -157,7 +157,7 @@ class DefaultController extends Controller
                       and month = :month
                     GROUP BY eid, discipline_fk,  month;"
                 )->queryRow(true, [':eid' => $eid, ':month' => $month]);
-                $faults = $f['faults'] === null ? 0 : $f['faults'];
+                $faults = $f['faults'] == null ? 0 : $f['faults'];
                 $frequency[$did]['months'][$month] = ['faults' => intval($faults), 'classes' => intval($classes)];
             }
             asort($frequency, SORT_STRING);

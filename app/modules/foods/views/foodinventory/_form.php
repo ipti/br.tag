@@ -1,8 +1,8 @@
 <?php
-/** @var $this FoodInventoryController */
-/** @var $model FoodInventory */
-/** @var foodInventoryData[] $foodInventoryData foodInventoryData[] */
-/** @var $form CActiveForm */
+/* @var $this FoodInventoryController */
+/* @var $model FoodInventory */
+/* @var foodInventoryData[] $foodInventoryData foodInventoryData[] */
+/* @var $form CActiveForm */
 
 $baseUrl = Yii::app()->baseUrl;
 $themeUrl = Yii::app()->theme->baseUrl;

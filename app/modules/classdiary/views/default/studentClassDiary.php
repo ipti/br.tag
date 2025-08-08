@@ -23,7 +23,7 @@ $disabled = ($studentFault === true) ? '' : 'disabled';
     <div class="row">
         <div class="column is-half clearfix">
             <div class="t-field-tarea clear-margin--bottom">
-                    <?= CHtml::label('Justificativa de falta', 'title'); ?>
+                    <?= chtml::label('Justificativa de falta', 'title'); ?>
                     <?php echo CHtml::textArea('justification', $justification, ['maxlength' => 500, 'disabled' => $disabled]); ?>
             </div>
         </div>
@@ -33,7 +33,7 @@ $disabled = ($studentFault === true) ? '' : 'disabled';
         <div class="column is-half clearfix">
             <h3>Avaliação Individual do Aluno</h3>
             <div class="t-field-tarea">
-                        <?= CHtml::label('Observação', 'title'); ?>
+                        <?= chtml::label('Observação', 'title'); ?>
                         <?php echo CHtml::textArea('student_observation', $student_observation, ['maxlength' => 500]); ?>
             </div>
         </div>

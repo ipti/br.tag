@@ -26,13 +26,9 @@
         "rector/rector": "dev-main",
         "goetas-webservices/xsd2php-runtime": "0.2.16",
         "phpunit/phpunit": "^8.5",
-        "phpunit/phpunit-selenium": "^8.0",
-        "phpstan/phpstan": "2.1.x-dev",
-        "phpstan/phpstan-strict-rules": "2.0.x-dev"
+        "phpunit/phpunit-selenium": "^8.0"
     },
     "scripts": {
-        "format": "./vendor/bin/php-cs-fixer fix --config=.php-cs-fixer.php",
-        "lint": "./vendor/bin/phpstan analyse",
         "mess": "./vendor/bin/phpmd",
         "sass": "./vendor/bin/pscss",
         "test": "./vendor/bin/codecept run acceptance --steps",
@@ -42,17 +38,5 @@
         "allow-plugins": {
             "php-http/discovery": true
         }
-    },
-    "autoload-dev": {
-        "classmap": [
-            "app/models/",
-            "app/commands/",
-            "app/components/",
-            "vendor/yiisoft/yii/framework/yiilite.php"
-        ],
-        "exclude-from-classmap": [
-	        "vendor/yiisoft/yii/framework/YiiBase.php",
-	        "vendor/yiisoft/yii/framework/yii.php"
-        ]
     }
 }

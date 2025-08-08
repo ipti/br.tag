@@ -1,7 +1,7 @@
 <?php
-/** @var $this ReportsController */
-/** @var $report Mixed */
-/** @var $school SchoolIdentification*/
+/* @var $this ReportsController */
+/* @var $report Mixed */
+/* @var $school SchoolIdentification*/
 $baseUrl = Yii::app()->baseUrl;
 $cs = Yii::app()->getClientScript();
 $cs->registerScriptFile($baseUrl . '/js/reports/StudentsDeclarationReport/_initialization.js?v=' . TAG_VERSION, CClientScript::POS_END);
@@ -55,7 +55,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
         <br>
         <br>
         <p style="margin: 0 auto; text-align: right; width:600px">
-            <?=$school->edcensoCityFk->name?>(<?=$school->edcensoUfFk->acronym?>), <?php echo date('d') . ' de ' . Yii::t('default', date('F')) . ' de ' . date('Y') . '.' ?>
+            <?=$school->edcensoCityFk->name?>(<?=$school->edcensoUfFk->acronym?>), <?php echo date('d') . ' de ' . yii::t('default', date('F')) . ' de ' . date('Y') . '.' ?>
         </p>
         <br>
         <br>

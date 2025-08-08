@@ -194,7 +194,7 @@ class GradesController extends Controller
         $criteria->order = 'se.daily_order, si.name';
         $studentEnrollments = StudentEnrollment::model()->findAll($criteria);
 
-        if ($studentEnrollments !== null) {
+        if ($studentEnrollments != null) {
             $result = [];
             $result['students'] = [];
             $arr = [];
@@ -221,7 +221,7 @@ class GradesController extends Controller
                     );
                 }
 
-                $arr['finalMedia'] = $gradeResult !== null ? $gradeResult->final_media : '';
+                $arr['finalMedia'] = $gradeResult != null ? $gradeResult->final_media : '';
                 array_push($result['students'], $arr);
             }
 
@@ -244,7 +244,7 @@ class GradesController extends Controller
             foreach ($student['grades'] as $grade) {
                 $gradeObject = Grade::model()->find('id = :id', [':id' => $grade->id]);
 
-                if ($gradeObject === null) {
+                if ($gradeObject == null) {
                     $gradeObject = new Grade();
                     $gradeObject->enrollment_fk = $student['enrollmentId'];
                     $gradeObject->discipline_fk = $disciplineId;
@@ -273,7 +273,7 @@ class GradesController extends Controller
         $criteria->order = 'si.name';
         $studentEnrollments = StudentEnrollment::model()->findAll($criteria);
 
-        if ($studentEnrollments !== null) {
+        if ($studentEnrollments != null) {
             $criteria = new CDbCriteria();
             $criteria->alias = 'gum';
             $criteria->join = 'join grade_unity gu on gu.id = gum.grade_unity_fk';
@@ -281,7 +281,7 @@ class GradesController extends Controller
             $criteria->params = [':stage' => $studentEnrollments[0]->classroomFk->edcenso_stage_vs_modality_fk];
             $gradeModalities = GradeUnityModality::model()->findAll($criteria);
 
-            if ($gradeModalities !== null) {
+            if ($gradeModalities != null) {
                 $conceptOptions = GradeConcept::model()->findAll();
                 foreach ($conceptOptions as $conceptOption) {
                     $result['conceptOptions'][$conceptOption->id] = $conceptOption->name;
@@ -325,9 +325,9 @@ class GradesController extends Controller
                     }
                     $gradeResult = GradeResults::model()->find('enrollment_fk = :enrollment_fk and discipline_fk = :discipline_fk', ['enrollment_fk' => $studentEnrollment->id, 'discipline_fk' => $_POST['discipline']]);
                     if (!$result['isUnityConcept']) {
-                        $arr['finalMedia'] = $gradeResult !== null ? $gradeResult->final_media : '';
+                        $arr['finalMedia'] = $gradeResult != null ? $gradeResult->final_media : '';
                     }
-                    $arr['situation'] = $gradeResult !== null ? ($gradeResult->situation !== null ? $gradeResult->situation : '') : '';
+                    $arr['situation'] = $gradeResult != null ? ($gradeResult->situation != null ? $gradeResult->situation : '') : '';
                     array_push($result['students'], $arr);
                 }
 
@@ -369,7 +369,7 @@ class GradesController extends Controller
                     'discipline_fk' => $discipline,
                 ]
             );
-            if ($gradeResult === null) {
+            if ($gradeResult == null) {
                 $gradeResult = new GradeResults();
                 $gradeResult->enrollment_fk = $studentEnrollment->id;
                 $gradeResult->discipline_fk = $discipline;
@@ -546,7 +546,7 @@ class GradesController extends Controller
                 $allGradesFilled = true;
                 $situation = 'Aprovado';
                 foreach ($studentEnrollment->gradeResults as $gradeResult) {
-                    if ($gradeResult->situation === null) {
+                    if ($gradeResult->situation == null) {
                         $allGradesFilled = false;
                     } elseif ($gradeResult->situation == 'Reprovado') {
                         $situation = 'Reprovado';

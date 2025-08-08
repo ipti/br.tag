@@ -1,7 +1,7 @@
 <?php
-/** @var $this CourseClassAbilitiesController */
-/** @var $model CourseClassAbilities */
-/** @var $form CActiveForm */
+/* @var $this CourseClassAbilitiesController */
+/* @var $model CourseClassAbilities */
+/* @var $form CActiveForm */
 ?>
 
 <div class="form">

@@ -46,14 +46,14 @@ $cs->registerScriptFile($baseScriptUrl . '/classDiary/functions.js?v=' . TAG_VER
                     <div class="column is-two-fifths clearfix t-field-select">
                         <label for="" class="t-field-select__label--required">Plano de aula</label>
                         <?php echo CHtml::dropDownList(
-                        'coursePlans',
-                        '',
-                        $coursePlans,
-                        [
-                            'class' => 'select-search-on t-margin-none--top js-course-plan-id t-field-select__input',
-                            'prompt' => 'Selecione um plano',
-                            'id' => 'coursePlan', 'style' => 'width: 100%;']
-                    ); ?>
+                            'coursePlans',
+                            '',
+                            $coursePlans,
+                            [
+                                'class' => 'select-search-on t-margin-none--top js-course-plan-id t-field-select__input',
+                                'prompt' => 'Selecione um plano',
+                                'id' => 'coursePlan', 'style' => 'width: 100%;']
+                        ); ?>
                     </div>
                 </div>
                 <div class="row t-field-text">
@@ -72,14 +72,14 @@ $cs->registerScriptFile($baseScriptUrl . '/classDiary/functions.js?v=' . TAG_VER
                     <div class="column is-two-fifths clearfix t-field-select">
                         <label for="" class="t-field-select__label--required">Habilidade(s)</label>
                         <?php echo CHtml::dropDownList(
-                            'abilities',
-                            '',
-                            $abilities,
-                            [
-                                'class' => 'select-search-on t-margin-none--top t-field-select__input js-add-abilities',
-                                'prompt' => 'Selecione um plano',
-                                'id' => 'coursePlan', 'style' => 'width: 100%;']
-                        ); ?>
+                                'abilities',
+                                '',
+                                $abilities,
+                                [
+                                    'class' => 'select-search-on t-margin-none--top t-field-select__input js-add-abilities',
+                                    'prompt' => 'Selecione um plano',
+                                    'id' => 'coursePlan', 'style' => 'width: 100%;']
+                            ); ?>
                     </div>
                 </div>
                 <div class="row">

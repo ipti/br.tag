@@ -1,7 +1,7 @@
 <?php
-/** @var $this UsersController */
-/** @var $model Users */
-/** @var $form CActiveForm */
+/* @var $this UsersController */
+/* @var $model Users */
+/* @var $form CActiveForm */
 ?>
 
 
@@ -59,7 +59,7 @@ $this->setPageTitle('TAG - Estrutura de Unidades e Avaliações');
             <div class="row margin-bottom-none">
                 <div class="t-field-select column is-three-fifths clearfix">
 
-                    <?php echo CHtml::label(Yii::t('default', 'Etapas'), 'modality_fk', ['class' => 't-field-select__label--required', 'style' => 'width: 54px;']); ?>
+                    <?php echo CHtml::label(yii::t('default', 'Etapas'), 'modality_fk', ['class' => 't-field-select__label--required', 'style' => 'width: 54px;']); ?>
                         <?php
                     echo $form->dropDownList(
     $gradeUnity,

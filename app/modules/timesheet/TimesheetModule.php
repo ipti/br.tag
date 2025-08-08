@@ -10,7 +10,7 @@
         {
             $this->baseUrl = Yii::app()->createUrl('timesheet');
             $this->baseScriptUrl = Yii::app()->getAssetManager()->publish(Yii::getPathOfAlias('application.modules.timesheet.resources'));
-            // $this->layoutPath = Yii::getPathOfAlias("timesheet.views.layouts");
+            // $this->layoutPath = yii::getPathOfAlias("timesheet.views.layouts");
 
             $this->setImport([
                 'timesheet.models.*', 'timesheet.components.*',

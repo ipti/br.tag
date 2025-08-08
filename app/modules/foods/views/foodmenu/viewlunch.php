@@ -41,20 +41,20 @@ $isNutritionist = Yii::app()->getAuthManager()->checkAccess('nutritionist', Yii:
         </div>
     </div>
     <div class="t-buttons-container">
-        <a class="t-button-primary"  href="<?php echo Yii::app()->createUrl('foods/foodmenu/index') ?>">
+        <a class="t-button-primary"  href="<?php echo yii::app()->createUrl('foods/foodmenu/index') ?>">
             Preparar Cardápio
         </a>
         <div class="mobile-row">
-            <a class="t-button-secondary" style="margin-right:10px;" href="<?php echo Yii::app()->createUrl('foods/foodinventory') ?>">
+            <a class="t-button-secondary" style="margin-right:10px;" href="<?php echo yii::app()->createUrl('foods/foodinventory') ?>">
                 Estoque
             </a>
-            <a class="t-button-secondary" style="margin-right:10px;" href="<?php echo Yii::app()->createUrl('foods/foodRequest') ?>">
+            <a class="t-button-secondary" style="margin-right:10px;" href="<?php echo yii::app()->createUrl('foods/foodRequest') ?>">
                 Solicitações
             </a>
-            <a class="t-button-secondary" style="margin-right:10px;" href="<?php echo Yii::app()->createUrl('foods/farmerregister') ?>">
+            <a class="t-button-secondary" style="margin-right:10px;" href="<?php echo yii::app()->createUrl('foods/farmerregister') ?>">
                 Agricultor
             </a>
-            <a class="t-button-secondary" style="margin-right:10px;" href="<?php echo Yii::app()->createUrl('foods/foodnotice') ?>">
+            <a class="t-button-secondary" style="margin-right:10px;" href="<?php echo yii::app()->createUrl('foods/foodnotice') ?>">
                 Editais
             </a>
             <a class="t-button-secondary js-expansive-panel show--mobile">

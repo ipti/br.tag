@@ -1,7 +1,7 @@
 <?php
-/** @var $this StudentAeeRecordController */
-/** @var $model StudentAeeRecord */
-/** @var $form CActiveForm */
+/* @var $this StudentAeeRecordController */
+/* @var $model StudentAeeRecord */
+/* @var $form CActiveForm */
 
 $baseUrl = Yii::app()->baseUrl;
 $themeUrl = Yii::app()->theme->baseUrl;

@@ -24,7 +24,7 @@ class ChangeEnrollmentStatusUsecase
         $disciplines = $this->getDisciplines($this->enrollment->id);
 
         foreach ($disciplines as $discipline) {
-            if ($discipline->final_media !== null) {
+            if ($discipline->final_media != null) {
                 $isAllGradesFinalMediaFilled = false;
             }
 

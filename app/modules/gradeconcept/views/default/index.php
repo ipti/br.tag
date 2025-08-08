@@ -1,6 +1,6 @@
 <?php
-/** @var $this GradeConceptController */
-/** @var $dataProvider CActiveDataProvider */
+/* @var $this GradeConceptController */
+/* @var $dataProvider CActiveDataProvider */
 
 $this->breadcrumbs = [
     'Grade Concepts',

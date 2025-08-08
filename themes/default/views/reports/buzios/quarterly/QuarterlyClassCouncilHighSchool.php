@@ -1,6 +1,6 @@
 <?php
-/** @var $this ReportsController */
-/** @var $report mixed */
+/* @var $this ReportsController */
+/* @var $report mixed */
 $baseUrl = Yii::app()->baseUrl;
 $cs = Yii::app()->getClientScript();
 $cs->registerScriptFile($baseUrl . '/js/reports/QuartelyClassCouncil/_initialization.js?v=' . TAG_VERSION, CClientScript::POS_END);
@@ -14,7 +14,7 @@ if ($turno == 'M') {
     $turno = 'Vesperitino';
 } elseif ($turno == 'N') {
     $turno = 'Noturno';
-} elseif ($turno === '' || $turno === null) {
+} elseif ($turno == '' || $turno == null) {
     $turno = '___________';
 }
 ?>
@@ -95,19 +95,19 @@ if ($turno == 'M') {
             if ($c['status'] == 1) {
                 echo '';
             } elseif ($c['status'] == 2) {
-                if ($c['date_cancellation'] !== null) {
+                if ($c['date_cancellation'] != null) {
                     echo 'Trans. ' . $date_cancellation;
                 } else {
                     echo 'Trans. ____/____/______';
                 }
             } elseif ($c['status'] == 3) {
-                if ($c['date_cancellation'] !== null) {
+                if ($c['date_cancellation'] != null) {
                     echo 'Cancel. ' . $date_cancellation;
                 } else {
                     echo 'Cancel. ____/____/______';
                 }
             } elseif ($c['status'] == 4) {
-                if ($c['date_cancellation'] !== null) {
+                if ($c['date_cancellation'] != null) {
                     echo 'Evad. ' . $date_cancellation;
                 } else {
                     echo 'Evad. ____/____/______';

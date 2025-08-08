@@ -1,7 +1,7 @@
 <?php
 
-/** @var $this InstructorController */
-/** @var $dataProvider CActiveDataProvider */
+/* @var $this InstructorController */
+/* @var $dataProvider CActiveDataProvider */
 
 $baseUrl = Yii::app()->baseUrl;
 $themeUrl = Yii::app()->theme->baseUrl;
@@ -38,7 +38,7 @@ $form = $this->beginWidget('CActiveForm', [
         </div>
         <div class="row wrap filter-bar margin-bottom-none">
             <div>
-                <?php echo CHtml::label(Yii::t('default', 'Instructor') . ' *', 'instructor', ['class' => 'control-label required', 'style' => 'width: 80px;']); ?>
+                <?php echo CHtml::label(yii::t('default', 'Instructor') . ' *', 'instructor', ['class' => 'control-label required', 'style' => 'width: 80px;']); ?>
 
                 <select class="select-search-on control-input frequency-input" id="instructor">
                     <option>Selecione o professor</option>
@@ -50,7 +50,7 @@ $form = $this->beginWidget('CActiveForm', [
 
             <!-- turmas -->
             <div class="classroom-container" style="display: none">
-                <?php echo CHtml::label(Yii::t('default', 'Classroom') . ' *', 'classroom', ['class' => 'control-label required', 'style' => 'width: 64px;']); ?>
+                <?php echo CHtml::label(yii::t('default', 'Classroom') . ' *', 'classroom', ['class' => 'control-label required', 'style' => 'width: 64px;']); ?>
 
                 <?php
             echo CHtml::dropDownList('classrooms', '', [], [
@@ -62,7 +62,7 @@ $form = $this->beginWidget('CActiveForm', [
 
             <!-- disciplina -->
             <div class="disciplines-container" style="display: none">
-                <?php echo CHtml::label(Yii::t('default', 'Discipline') . ' *', 'disciplines', ['class' => 'control-label required', 'style' => 'width: 185px;']); ?>
+                <?php echo CHtml::label(yii::t('default', 'Discipline') . ' *', 'disciplines', ['class' => 'control-label required', 'style' => 'width: 185px;']); ?>
                 <?php
 echo CHtml::dropDownList('disciplines', '', [], [
     'key' => 'id',
@@ -72,7 +72,7 @@ echo CHtml::dropDownList('disciplines', '', [], [
             </div>
 
             <div>
-                <?php echo CHtml::label(Yii::t('default', 'Month') . ' *', 'month', ['class' => 'control-label required', 'style' => 'width: 53px;']); ?>
+                <?php echo CHtml::label(yii::t('default', 'Month') . ' *', 'month', ['class' => 'control-label required', 'style' => 'width: 53px;']); ?>
                 <?php
 echo CHtml::dropDownList('month', '', [
     1 => 'Janeiro',
@@ -126,7 +126,7 @@ echo CHtml::dropDownList('month', '', [
                     <div class="modal-body">
                         <div class="row-fluid">
                             <div class="span12">
-                                <?= CHtml::label('Justificativa', 'title', ['class' => 'control-label']); ?>
+                                <?= chtml::label('Justificativa', 'title', ['class' => 'control-label']); ?>
                                 <div class="form-control">
                                     <input type="hidden" id="justification-classroomid">
                                     <input type="hidden" id="justification-instructorid">

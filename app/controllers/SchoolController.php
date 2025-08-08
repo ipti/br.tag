@@ -105,11 +105,11 @@ class SchoolController extends Controller
 
     public function actionGetCities($Uf = null)
     {
-        $school = new SchoolIdentification();
         if (isset($_POST[$this->SCHOOL_IDENTIFICATION])) {
+            $school = new SchoolIdentification();
             $school->attributes = $_POST[$this->SCHOOL_IDENTIFICATION];
         }
-        $uf = $Uf === null ? $school->edcenso_uf_fk : $Uf;
+        $uf = $Uf == null ? $school->edcenso_uf_fk : $Uf;
 
         $data = EdcensoCity::model()->findAll('edcenso_uf_fk=:uf_id', [':uf_id' => (int) $school->edcenso_uf_fk]);
         $data = CHtml::listData($data, 'id', 'name');
@@ -128,7 +128,7 @@ class SchoolController extends Controller
             $school = new SchoolIdentification();
             $school->attributes = $_POST[$this->SCHOOL_IDENTIFICATION];
         }
-        $city = $CITY === null ? $school->edcenso_city_fk : $CITY;
+        $city = $CITY == null ? $school->edcenso_city_fk : $CITY;
 
         $data = EdcensoDistrict::model()->findAll('edcenso_city_fk=:city_id', [':city_id' => $city]);
         $data = CHtml::listData($data, 'code', 'name');
@@ -313,7 +313,7 @@ class SchoolController extends Controller
 
                             foreach ($_POST[$this->SCHOOL_STRUCTURE]['stages'] as $stage) {
                                 $schoolStages = SchoolStages::model()->find('school_fk = :school_fk and edcenso_stage_vs_modality_fk = :edcenso_stage_vs_modality_fk', [':school_fk' => $modelSchoolIdentification->inep_id, ':edcenso_stage_vs_modality_fk' => $stage]);
-                                if ($schoolStages === null) {
+                                if ($schoolStages == null) {
                                     $schoolStages = new SchoolStages();
                                     $schoolStages->school_fk = $modelSchoolIdentification->inep_id;
                                     $schoolStages->edcenso_stage_vs_modality_fk = $stage;
@@ -452,22 +452,22 @@ class SchoolController extends Controller
         }
         $schoolStruct->stages = $stagesArray;
         $sharedSchoolInedIdArray = [];
-        if ($schoolStruct->shared_school_inep_id_1 !== null) {
+        if ($schoolStruct->shared_school_inep_id_1 != null) {
             array_push($sharedSchoolInedIdArray, $schoolStruct->shared_school_inep_id_1);
         }
-        if ($schoolStruct->shared_school_inep_id_2 !== null) {
+        if ($schoolStruct->shared_school_inep_id_2 != null) {
             array_push($sharedSchoolInedIdArray, $schoolStruct->shared_school_inep_id_2);
         }
-        if ($schoolStruct->shared_school_inep_id_3 !== null) {
+        if ($schoolStruct->shared_school_inep_id_3 != null) {
             array_push($sharedSchoolInedIdArray, $schoolStruct->shared_school_inep_id_1);
         }
-        if ($schoolStruct->shared_school_inep_id_4 !== null) {
+        if ($schoolStruct->shared_school_inep_id_4 != null) {
             array_push($sharedSchoolInedIdArray, $schoolStruct->shared_school_inep_id_4);
         }
-        if ($schoolStruct->shared_school_inep_id_5 !== null) {
+        if ($schoolStruct->shared_school_inep_id_5 != null) {
             array_push($sharedSchoolInedIdArray, $schoolStruct->shared_school_inep_id_5);
         }
-        if ($schoolStruct->shared_school_inep_id_6 !== null) {
+        if ($schoolStruct->shared_school_inep_id_6 != null) {
             array_push($sharedSchoolInedIdArray, $schoolStruct->shared_school_inep_id_6);
         }
         $schoolStruct->shared_school_inep_id_1 = $sharedSchoolInedIdArray;
@@ -490,7 +490,7 @@ class SchoolController extends Controller
     {
         $model = $this->loadModel($id, $this->SCHOOL_IDENTIFICATION);
         header('Content-Type: ' . $model->logo_file_type);
-        if ($model->logo_file_content !== null) {
+        if ($model->logo_file_content != null) {
             echo $model->logo_file_content;
 
             return;

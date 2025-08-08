@@ -1,6 +1,6 @@
 <?php
-/** @var $this FoodRequestController */
-/** @var $data FoodRequest */
+/* @var $this FoodRequestController */
+/* @var $data FoodRequest */
 ?>
 
 <div class="view">

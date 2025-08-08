@@ -90,10 +90,24 @@ class TagUtils extends CApplicationComponent
             return $date;
         }
 
-        return self::valideDateFormat($date);
+        // Verifica se a date está no formato dd/mm/yyyy
+        if (preg_match('/^\d{2}\/\d{2}\/\d{4}$/', $date)) {
+            return $date;
+        }
 
+        // Verifica se a date está no formato yyyy-mm-dd
+        if (preg_match('/^\d{4}-\d{2}-\d{2}$/', $date)) {
+            $dateParts = explode('-', $date);
+            $dia = $dateParts[2];
+            $mes = $dateParts[1];
+            $ano = $dateParts[0];
+
+            return "$dia/$mes/$ano";
+        }
+
+        // Retorna a date original se não corresponder a nenhum formato conhecido
+        return $date;
     }
-
 
     public static function isSubstituteInstructor($classroom)
     {
@@ -119,7 +133,7 @@ class TagUtils extends CApplicationComponent
                 return strtoupper($element);
             }, $instance);
 
-            return in_array(strtoupper(INSTANCE), $instances, false);
+            return in_array(strtoupper(INSTANCE), $instances);
         }
 
         return strtoupper(INSTANCE) === strtoupper($instance);
@@ -151,20 +165,5 @@ class TagUtils extends CApplicationComponent
         }, array_keys($errors), array_values($errors));
 
         return implode("\n", $result);
-    }
-
-    private static function valideDateFormat($date){
-        if (preg_match('/^\d{2}\/\d{2}\/\d{4}$/', $date)) {
-            return $date;
-        }
-        if (preg_match('/^\d{4}-\d{2}-\d{2}$/', $date)) {
-            $dateParts = explode('-', $date);
-            $dia = $dateParts[2];
-            $mes = $dateParts[1];
-            $ano = $dateParts[0];
-
-            return "$dia/$mes/$ano";
-        }
-        return $date;
     }
 }

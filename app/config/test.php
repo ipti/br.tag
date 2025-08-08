@@ -1,6 +1,7 @@
 <?php
 
-defined('DBNAME') || define('DBNAME', 'demo.tag.ong.br');
+// require(dirname(__FILE__).'/main.php');
+defined('DBNAME') or define('DBNAME', 'demo.tag.ong.br');
 $HOST = 'localhost:3306';
 $USER = 'root';
 $SECRET = 'root';

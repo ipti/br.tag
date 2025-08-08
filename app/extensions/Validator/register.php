@@ -17,7 +17,7 @@ class Register
 
     public function isNull($x)
     {
-        if ($x === null) {
+        if ($x == null) {
             return ['status' => true, 'erro' => ''];
         }
 
@@ -26,7 +26,7 @@ class Register
 
     public function ifNull($value)
     {
-        if ($value === null) {
+        if ($value == null) {
             $value = 'nulo';
         }
 
@@ -198,7 +198,7 @@ class Register
 
     public function validateDateformart($date)
     {
-        if ($date === '' || $date === null) {
+        if ($date == '' || $date == null) {
             return ['status' => false, 'erro' => 'Campo obrigatório.'];
         }
 
@@ -354,7 +354,7 @@ class Register
                 return ['status' => false, 'erro' => 'As filiações não podem ser idênticas'];
             }
         } else {
-            if (!($filiation_mother === null && $filiation_father === null)) {
+            if (!($filiation_mother == null && $filiation_father == null)) {
                 return ['status' => false, 'erro' => 'Ambas filiãções deveriam ser nulas campo 11 é 0'];
             }
         }
@@ -384,9 +384,9 @@ class Register
 
     public function ufcity($nationality, $nation, $city)
     {
-        if ($nationality == 1 && ($nation === '' || !isset($city))) {
+        if ($nationality == 1 && ($nation == '' || !isset($city))) {
             return ['status' => false, 'erro' => 'Cidade deveria ser preenchida'];
-        } elseif (!($city === '' || isset($city))) {
+        } elseif (!($city == '' || isset($city))) {
             return ['status' => false, 'erro' => 'Cidade não deveria ser preenchida'];
         }
 
@@ -465,7 +465,7 @@ class Register
                 return ['status' => false, 'erro' => $result['erro']];
             }
         } else {
-            if ($value !== null) {
+            if ($value != null) {
                 return ['status' => false, 'erro' => "value $value deveria ser nulo"];
             }
         }
@@ -506,7 +506,7 @@ class Register
         $result = [];
 
         foreach ($items as $key => $value) {
-            if ($value !== null) {
+            if ($value != null) {
                 if (array_key_exists($value, $result)) {
                     ++$result[$value];
                 } else {

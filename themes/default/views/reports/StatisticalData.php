@@ -1,5 +1,5 @@
 <?php
-/** @var $this ReportsController */
+/* @var $this ReportsController */
 $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
 ?>
 

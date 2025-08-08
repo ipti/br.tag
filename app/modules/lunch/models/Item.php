@@ -72,7 +72,7 @@ class Item extends TagModel
 
     public function getConcatName()
     {
-        $school = School::model()->findByPk(Yii::app()->user->school);
+        $school = School::model()->findByPk(yii::app()->user->school);
 
         $criteria = new CDbCriteria();
         $criteria->select = 'SUM(amount) as amount';

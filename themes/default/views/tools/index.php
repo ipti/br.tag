@@ -1,6 +1,6 @@
 <?php
-/** @var $this ToolsController */
-/** @var $tools array */
+/* @var $this ToolsController */
+/* @var $tools array */
 
 $this->setPageTitle('TAG - Ferramentas');
 $this->breadcrumbs = [

@@ -1,7 +1,7 @@
 <?php
-/** @var SchoolConfiguration $model */
-/** @var SchoolConfigurationControler $this */
-/** @var CActiveForm $form */
+/* @var $model SchoolConfiguration */
+/* @var $this SchoolConfigurationControler */
+/* @var $form CActiveForm */
 
 $this->setPageTitle('TAG - ' . Yii::t('wizardModule.labels', 'School Configuration'));
 

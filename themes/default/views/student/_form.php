@@ -6,10 +6,9 @@
  * @var $cs CClientScript
  * @var StudentIdentification $modelStudentIdentification StudentIdentification
  * @var StudentDocumentsAndAddress $modelStudentDocumentsAndAddress StudentDocumentsAndAddress
- * @var StudentEnrollment $modelEnrollment StudentEnrollment
  *
  */
-/** @var $modelStudentIdentification /app/models/StudentIdentification */
+/* @var $modelStudentIdentification /app/models/StudentIdentification */
 $baseUrl = Yii::app()->baseUrl;
 $themeUrl = Yii::app()->theme->baseUrl;
 $cs = Yii::app()->getClientScript();
@@ -162,15 +161,15 @@ echo $form->errorSummary($modelStudentDocumentsAndAddress);
               <div class="t-field-text" id="nameStudents">
                 <?php echo $form->label($modelStudentIdentification, 'name', ['class' => 't-field-text__label--required']); ?>
                 <?php echo $form->textField(
-    $modelStudentIdentification,
-    'name',
-    [
-        'size' => 60,
-        'maxlength' => 100,
-        'class' => 't-field-text__input js-trim-name',
-        'placeholder' => 'Digite o Nome de Apresentação'
-    ]
-); ?>
+                  $modelStudentIdentification,
+                  'name',
+                  array(
+                    'size' => 60,
+                    'maxlength' => 100,
+                    'class' => 't-field-text__input js-trim-name',
+                    'placeholder' => 'Digite o Nome de Apresentação'
+                  )
+                ); ?>
                 <span id="similarMessage" data-toggle="tooltip" data-placement="top" data-original-title="">
                   <img id="warningNameIcon" onclick="displayRecords()" style="display: none;"
                     src="<?php echo $themeUrl . '/img/warning-icon.svg' ?>" alt="icone aviso">
@@ -183,7 +182,7 @@ echo $form->errorSummary($modelStudentDocumentsAndAddress);
             <!-- Nome civil -->
             <div class="column clearleft--on-mobile is-two-fifths">
               <div class="t-field-checkbox js-hide-not-required" id="show-student-civil-name-box">
-                <input type="checkbox" class="t-field-checkbox__input" id="show-student-civil-name" <?php if ($modelStudentIdentification->civil_name !== null) {
+                <input type="checkbox" class="t-field-checkbox__input" id="show-student-civil-name" <?php if ($modelStudentIdentification->civil_name != null) {
                     echo 'checked';
                 } ?>>
                 <label class="t-field-checkbox__label">Esse é um nome social?</label>
@@ -191,14 +190,14 @@ echo $form->errorSummary($modelStudentDocumentsAndAddress);
               <div class="t-field-text student-civil-name" id="civilName" style="display: none;">
                 <?php echo $form->label($modelStudentIdentification, 'civil_name', ['class' => 't-field-text__label--required']); ?>
                 <?php echo $form->textField(
-                    $modelStudentIdentification,
-                    'civil_name',
-                    [
-                        'size' => 60,
-                        'maxlength' => 100,
-                        'class' => 't-field-text__input js-trim-name',
-                        'placeholder' => 'Digite o Nome Civil'
-                    ]
+                  $modelStudentIdentification,
+                  'civil_name',
+                  array(
+                    'size' => 60,
+                    'maxlength' => 100,
+                    'class' => 't-field-text__input js-trim-name',
+                    'placeholder' => 'Digite o Nome Civil'
+                  )
                 ); ?>
                 <?php echo $form->error($modelStudentIdentification, 'civil_name'); ?>
               </div>
@@ -223,7 +222,7 @@ echo $form->error($modelStudentIdentification, 'birthday');
             <div class="column clearleft--on-mobile is-two-fifths">
                 <div class="t-field-text js-hide-not-required" id="show-student-cpf-box" style="display:flex; flex-direction:row; gap:0 0.5rem;">
                     <input type="checkbox" class="t-field-checkbox__input" id="show-cpf-reason"
-                        <?php if ($modelStudentDocumentsAndAddress->cpf !== null) {
+                        <?php if ($modelStudentDocumentsAndAddress->cpf != null) {
                             echo 'checked';
                         } ?>>
                     <label class="t-field-checkbox__label">Aluno possui CPF?</label>
@@ -399,7 +398,7 @@ echo $form->dropDownList(
               <div class="t-field-select js-hide-not-required" id="scholarity-select">
                 <?php echo CHtml::label('Escolaridade', 'scholarity', ['class' => 't-field-select__label']); ?>
                 <?php
-                                                echo $form->dropDownList(
+                echo $form->dropDownList(
                     $modelStudentIdentification,
                     'scholarity',
                     [
@@ -695,21 +694,21 @@ echo $form->dropDownList(
               <div class="t-field-select" id="filiation-select">
                 <?php echo $form->label($modelStudentIdentification, 'filiation', ['class' => 't-field-select__label--required']); ?>
                 <?php
-                    if (Yii::app()->features->isEnable('FEAT_SEDSP')) {
-                        echo $form->DropDownList(
-                            $modelStudentIdentification,
-                            'filiation',
-                            ['1' => 'Pai e/ou Mãe'],
-                            ['class' => 'select-search-off t-field-select__input select2-container']
-                        );
-                    } else {
-                        echo $form->DropDownList(
-                            $modelStudentIdentification,
-                            'filiation',
-                            [null => 'Selecione a filiação', '0' => 'Não declarado/Ignorado', '1' => 'Pai e/ou Mãe'],
-                            ['class' => 'select-search-off t-field-select__input select2-container']
-                        );
-                    }
+                if (Yii::app()->features->isEnable('FEAT_SEDSP')) {
+                    echo $form->DropDownList(
+                        $modelStudentIdentification,
+                        'filiation',
+                        ['1' => 'Pai e/ou Mãe'],
+                        ['class' => 'select-search-off t-field-select__input select2-container']
+                    );
+                } else {
+                    echo $form->DropDownList(
+                        $modelStudentIdentification,
+                        'filiation',
+                        [null => 'Selecione a filiação', '0' => 'Não declarado/Ignorado', '1' => 'Pai e/ou Mãe'],
+                        ['class' => 'select-search-off t-field-select__input select2-container']
+                    );
+                }
 ?>
                 <?php echo $form->error($modelStudentIdentification, 'filiation'); ?>
               </div>
@@ -1063,7 +1062,7 @@ echo $form->dropDownList(
                         'value' => 1,
                         'class' => 't-field-checkbox__input',
                         'uncheckValue' => 0,
-                        'checked' => ($modelStudentDocumentsAndAddress->id === '') ? 'checked' : $modelStudentDocumentsAndAddress->received_cc
+                        'checked' => ($modelStudentDocumentsAndAddress->id == '') ? 'checked' : $modelStudentDocumentsAndAddress->received_cc
                     ]
                 ); ?>
                 <label class="t-field-checkbox">
@@ -1078,7 +1077,7 @@ echo $form->dropDownList(
                         'value' => 1,
                         'class' => 't-field-checkbox__input',
                         'uncheckValue' => 0,
-                        'checked' => ($modelStudentDocumentsAndAddress->id === '') ? 'checked' : $modelStudentDocumentsAndAddress->received_address
+                        'checked' => ($modelStudentDocumentsAndAddress->id == '') ? 'checked' : $modelStudentDocumentsAndAddress->received_address
                     ]
                 ); ?>
                 <label class="t-field-checkbox ">
@@ -1095,7 +1094,7 @@ echo $form->dropDownList(
                         'value' => 1,
                         'class' => 't-field-checkbox__input',
                         'uncheckValue' => 0,
-                        'checked' => ($modelStudentDocumentsAndAddress->id === '') ? 'checked' : $modelStudentDocumentsAndAddress->received_photo
+                        'checked' => ($modelStudentDocumentsAndAddress->id == '') ? 'checked' : $modelStudentDocumentsAndAddress->received_photo
                     ]
                 ); ?>
                 <label class="t-field-checkbox ">
@@ -1110,7 +1109,7 @@ echo $form->dropDownList(
                         'value' => 1,
                         'class' => 't-field-checkbox__input',
                         'uncheckValue' => 0,
-                        'checked' => ($modelStudentDocumentsAndAddress->id === '') ? 'checked' : $modelStudentDocumentsAndAddress->received_nis
+                        'checked' => ($modelStudentDocumentsAndAddress->id == '') ? 'checked' : $modelStudentDocumentsAndAddress->received_nis
                     ]
                 ); ?>
                 <label class="t-field-checkbox ">
@@ -1127,7 +1126,7 @@ echo $form->dropDownList(
                         'value' => 1,
                         'class' => 't-field-checkbox__input',
                         'uncheckValue' => 0,
-                        'checked' => ($modelStudentDocumentsAndAddress->id === '') ? 'checked' : $modelStudentDocumentsAndAddress->received_responsable_rg
+                        'checked' => ($modelStudentDocumentsAndAddress->id == '') ? 'checked' : $modelStudentDocumentsAndAddress->received_responsable_rg
                     ]
                 ); ?>
                 <label class="t-field-checkbox">
@@ -1142,7 +1141,7 @@ echo $form->dropDownList(
                         'value' => 1,
                         'class' => 't-field-checkbox__input',
                         'uncheckValue' => 0,
-                        'checked' => ($modelStudentDocumentsAndAddress->id === '') ? 'checked' : $modelStudentDocumentsAndAddress->received_responsable_cpf
+                        'checked' => ($modelStudentDocumentsAndAddress->id == '') ? 'checked' : $modelStudentDocumentsAndAddress->received_responsable_cpf
                     ]
                 ); ?>
                 <label class="t-field-checkbox">
@@ -1159,7 +1158,7 @@ echo $form->dropDownList(
                         'value' => 1,
                         'class' => 't-field-checkbox__input',
                         'uncheckValue' => 0,
-                        'checked' => ($modelStudentDocumentsAndAddress->id === '') ? 'checked' : $modelStudentDocumentsAndAddress->consent_form
+                        'checked' => ($modelStudentDocumentsAndAddress->id == '') ? 'checked' : $modelStudentDocumentsAndAddress->consent_form
                     ]
                 ); ?>
                 <?php echo StudentDocumentsAndAddress::model()->attributeLabels()['consent_form']; ?>
@@ -1172,7 +1171,7 @@ echo $form->dropDownList(
                         'value' => 1,
                         'class' => 't-field-checkbox__input',
                         'uncheckValue' => 0,
-                        'checked' => ($modelStudentDocumentsAndAddress->id === '') ? 'checked' : $modelStudentDocumentsAndAddress->received_sus_card
+                        'checked' => ($modelStudentDocumentsAndAddress->id == '') ? 'checked' : $modelStudentDocumentsAndAddress->received_sus_card
                     ]
                 ); ?>
                 <?php echo StudentDocumentsAndAddress::model()->attributeLabels()['received_sus_card']; ?>
@@ -1187,7 +1186,7 @@ echo $form->dropDownList(
                         'value' => 1,
                         'class' => 't-field-checkbox__input',
                         'uncheckValue' => 0,
-                        'checked' => ($modelStudentDocumentsAndAddress->id === '') ? 'checked' : $modelStudentDocumentsAndAddress->received_student_rg
+                        'checked' => ($modelStudentDocumentsAndAddress->id == '') ? 'checked' : $modelStudentDocumentsAndAddress->received_student_rg
                     ]
                 ); ?>
                 <?php echo StudentDocumentsAndAddress::model()->attributeLabels()['received_student_rg']; ?>
@@ -1200,7 +1199,7 @@ echo $form->dropDownList(
                         'value' => 1,
                         'class' => 't-field-checkbox__input',
                         'uncheckValue' => 0,
-                        'checked' => ($modelStudentDocumentsAndAddress->id === '') ? 'checked' : $modelStudentDocumentsAndAddress->received_student_cpf
+                        'checked' => ($modelStudentDocumentsAndAddress->id == '') ? 'checked' : $modelStudentDocumentsAndAddress->received_student_cpf
                     ]
                 ); ?>
                 <?php echo StudentDocumentsAndAddress::model()->attributeLabels()['received_student_cpf']; ?>
@@ -2235,7 +2234,7 @@ echo $form->dropDownList(
           </div>
           <div class="row-fluid">
             <?php
-                                            $error = $modelEnrollment->getErrors('enrollment_id');
+            $error = $modelEnrollment->getErrors('enrollment_id');
 if (!empty($error)):
     ?>
               <div class="alert alert-error">
@@ -2245,7 +2244,7 @@ if (!empty($error)):
             <div id="enrollment" class="widget widget-scroll margin-bottom-none">
               <div class="row">
                 <h3>
-                  <?php echo Yii::t('default', 'Enrollments'); ?>
+                  <?php echo yii::t('default', 'Enrollments'); ?>
                 </h3>
               </div>
               <div class="row">
@@ -2260,7 +2259,7 @@ if (!empty($error)):
                             <h4 class="t-title"><?php echo $me->classroomFk->name ?>
                               - <?php echo $me->classroomFk->school_year ?></h4>
                             <?php
-                  switch (strval($me->status)) {
+                  switch ($me->status) {
                       case '1':
                           $enrollment_date = '';
                           if (isset($me->enrollment_date)) {
@@ -2385,7 +2384,7 @@ if (!empty($error)):
                           </div>
                           <div class="enrollment-history">
                             <?php foreach (array_reverse($me->studentEnrollmentHistories) as $studentEnrollmentHistory) {
-                                switch (strval($studentEnrollmentHistory->status)) {
+                                switch ($studentEnrollmentHistory->status) {
                                     case '1':
                                         $enrollment_date = '';
                                         if (isset($studentEnrollmentHistory->enrollment_date)) {
@@ -2476,23 +2475,23 @@ if (!empty($error)):
                         <?php } ?>
                         <div class="reports">
                           <?php
-                                          if ($me->classroomFk->school_year == date('Y')) {
-                                              $date = date('Y-m-d');
-                                              $quizs = Quiz::model()->findAll(
-                                                  'status = 1 AND init_date <=:init_date AND final_date >=:final_date',
-                                                  [':init_date' => $date, ':final_date' => $date]
-                                              );
-                                              if (count($quizs) > 0) {
-                                                  foreach ($quizs as $quiz) {
-                                                      $link = Yii::app()->createUrl('quiz/default/answer', ['quizId' => $quiz->id, 'studentId' => $me->studentFk->id]); ?>
+                          if ($me->classroomFk->school_year == date('Y')) {
+                              $date = date('Y-m-d');
+                              $quizs = Quiz::model()->findAll(
+                                  'status = 1 AND init_date <=:init_date AND final_date >=:final_date',
+                                  [':init_date' => $date, ':final_date' => $date]
+                              );
+                              if (count($quizs) > 0) {
+                                  foreach ($quizs as $quiz) {
+                                      $link = Yii::app()->createUrl('quiz/default/answer', ['quizId' => $quiz->id, 'studentId' => $me->studentFk->id]); ?>
                                 <a class="t-button-secondary mobile-margin" rel="noopener" target="_blank" href="<?= $link ?>">
                                   <span class="t-icon-printer"></span>
                                   <?php echo $quiz->name ?>
                                 </a>
                                 <?php
-                                                  }
-                                              }
-                                          } ?>
+                                  }
+                              }
+                          } ?>
                         </div>
                         <?php if ($me->classroomFk->school_year >= Yii::app()->user->year) { ?>
                           <div class="row">
@@ -2559,7 +2558,7 @@ if (!empty($error)):
                     </label>
                     </div>
                     <div class="t-field-checkbox">
-                    <?php echo $modelStudentDisorder->others !== null ?
+                    <?php echo $modelStudentDisorder->others != null ?
     "<input type='checkbox' id='others-check' checked>" :
     "<input type='checkbox' id='others-check'>" ?>
                     <label class="t-field-checkbox">
@@ -2639,7 +2638,7 @@ if (!empty($error)):
                   </label>
                 </div>
                 <div class="t-field-checkbox">
-                  <?php echo $modelStudentRestrictions->others !== null ?
+                  <?php echo $modelStudentRestrictions->others != null ?
 "<input type='checkbox' id='others-check' checked>" :
 "<input type='checkbox' id='others-check'>" ?>
                   <label class="t-field-checkbox">
@@ -2713,6 +2712,6 @@ if (isset($_GET['censo']) && isset($_GET['id'])) {
   var formIdentification = '#StudentIdentification_';
   var formDocumentsAndAddress = '#StudentDocumentsAndAddress_';
   var formEnrollment = '#StudentEnrollment_';
-  var updateDependenciesURL = '<?php echo Yii::app()->createUrl('enrollment/updatedependencies') ?>';
+  var updateDependenciesURL = '<?php echo yii::app()->createUrl('enrollment/updatedependencies') ?>';
   var filled = -1;
 </script>

@@ -17,7 +17,6 @@
      * @property SchoolStages[] $schoolStages
      * @property StudentEnrollment[] $studentEnrollments
      */
-
     class EdcensoStageVsModality extends TagModel
     {
         /**

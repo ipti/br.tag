@@ -418,7 +418,7 @@ class StudentDocumentsAndAddressValidation extends Register
     // campo 23
     public function isCEPValid($cep)
     {
-        if ($cep === null) {
+        if ($cep == null) {
             return ['status' => false, 'erro' => 'O campo CEP é uma informação obrigatória.'];
         } elseif (strlen($cep) != 8) {
             return ['status' => false, 'erro' => 'O campo CEP está com tamanho diferente do especificado.'];
@@ -447,15 +447,15 @@ class StudentDocumentsAndAddressValidation extends Register
     public function isAdressValid($field, $cep, $allowed_lenght)
     {
         $regex = '/^[0-9 a-z.,-ºª ]+$/';
-        if ($cep === null) {
-            if ($field === null) {
+        if ($cep == null) {
+            if ($field == null) {
                 return ['status' => false, 'erro' => 'O campo não pode ser nulo.'];
             }
         } elseif (strlen($field) > $allowed_lenght || strlen($field) <= 0) {
             return ['status' => false, 'erro' => 'O campo está com tamanho incorreto.'];
         } elseif (!preg_match($regex, $field)) {
             return ['status' => false, 'erro' => 'O campo foi preenchido com valor inválido.'];
-        } elseif ($field === null) {
+        } elseif ($field == null) {
             return ['status' => false, 'erro' => 'O campo não pode ser nulo.'];
         }
 

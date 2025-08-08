@@ -1,6 +1,6 @@
 <?php
-/** @var $this FoodInventoryController */
-/** @var $dataProvider CActiveDataProvider */
+/* @var $this FoodInventoryController */
+/* @var $dataProvider CActiveDataProvider */
 
 $this->setPageTitle('TAG - ' . Yii::t('default', 'Estoque'));
 

@@ -11,7 +11,6 @@
      * @property InstructorDisciplines[] $instructorStages
      * @property InstructorDisciplines[] $instructorDisciplines
      */
-
     class TimesheetInstructor extends TagModel
     {
         public static function model($className = __CLASS__)
@@ -67,7 +66,7 @@
                 ':schedule' => $schedule,
             ]);
 
-            return $una !== null;
+            return $una != null;
         }
 
         public function getInstructorUnavailabilities($turn)

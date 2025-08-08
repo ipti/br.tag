@@ -49,7 +49,7 @@ class FoodMenuService
         }
 
         $result['totalStudents'] = $totalStudents;
-        if ($students !== null && $foods !== null) {
+        if ($students != null && $foods != null) {
             $result['processFood'] = $this->processFood($foods, $studentsTurn);
         }
 

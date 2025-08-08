@@ -1,5 +1,5 @@
 <?php
-/** @var $this DefaultController */
+/* @var $this DefaultController */
 
 $this->setPageTitle('TAG - ' . Yii::t('default', 'SEDSP'));
 
@@ -109,11 +109,11 @@ $cs->registerScriptFile($baseScriptUrl . '/common/js/functions.js?v=1.1', CClien
             </button>
             <h4 class="modal-title" id="myModalLabel">Importar Aluno usando o RA</h4>
         </div>
-        <form class="form-vertical" id="addStudentRA" action="<?php echo Yii::app()->createUrl('sedsp/default/ImportStudentRA') ?>" method="post" onsubmit="return validateFormStudent();">
+        <form class="form-vertical" id="addStudentRA" action="<?php echo yii::app()->createUrl('sedsp/default/ImportStudentRA') ?>" method="post" onsubmit="return validateFormStudent();">
             <div class="modal-body">
                 <div class="row-fluid">
                     <div class=" span12">
-                    <?php echo CHtml::label(Yii::t('default', 'RA do Aluno'), 'year', ['class' => 'control-label']); ?>
+                    <?php echo CHtml::label(yii::t('default', 'RA do Aluno'), 'year', ['class' => 'control-label']); ?>
                     <input name="numRA" id="numRA" type="text" placeholder="Digite o RA" style="width: 97.5%;" oninput="validateRA();" minlength="12" maxlength="12" required>
                     <span id="ra-char-count"><?php echo 12; ?> caracteres restantes</span>
                     <div id="ra-warning" style="display: none; color:#D21C1C">O RA deve ter exatamente 12 dígitos.</div>
@@ -149,13 +149,13 @@ $cs->registerScriptFile($baseScriptUrl . '/common/js/functions.js?v=1.1', CClien
             </button>
             <h4 class="modal-title" id="myModalLabel">Cadastrar Escola</h4>
         </div>
-        <form class="form-vertical" id="addSchool" action="<?php echo Yii::app()->createUrl('sedsp/default/AddSchool') ?>" method="post">
+        <form class="form-vertical" id="addSchool" action="<?php echo yii::app()->createUrl('sedsp/default/AddSchool') ?>" method="post">
             <div class="modal-body">
                 <div class="row-fluid">
                     <div class=" span12">
-                        <?php echo CHtml::label(Yii::t('default', 'Nome da Escola'), 'school_id', ['class' => 'control-label']); ?>
+                        <?php echo CHtml::label(yii::t('default', 'Nome da Escola'), 'school_id', ['class' => 'control-label']); ?>
                         <input type="text" name="schoolName" id="schoolName" style="width: 97.7%;" placeholder="Digite o Nome da Escola">
-                        <?php echo CHtml::label(Yii::t('default', 'Nome do Município'), 'school_id', ['class' => 'control-label']); ?>
+                        <?php echo CHtml::label(yii::t('default', 'Nome do Município'), 'school_id', ['class' => 'control-label']); ?>
                         <input type="text" name="schoolMun" id="schoolMun" style="width: 97.7%;" placeholder="Digite o Nome do Município">
                     </div>
                 </div>
@@ -229,7 +229,7 @@ $cs->registerScriptFile($baseScriptUrl . '/common/js/functions.js?v=1.1', CClien
                         </thead>
                         <tbody>
                             <?php
-                                                    $inep_id = Yii::app()->user->school;
+                            $inep_id = Yii::app()->user->school;
 $classes = Classroom::model()->findAllByAttributes(
     ['school_inep_fk' => $inep_id],
     'gov_id IS NOT NULL'

@@ -1,8 +1,8 @@
 <?php
 
-/** @var $this ReportsController */
-/** @var $instructor mixed */
-/** @var $classroom mixed */
+/* @var $this ReportsController */
+/* @var $instructor mixed */
+/* @var $classroom mixed */
 
 $baseUrl = Yii::app()->baseUrl;
 $cs = Yii::app()->getClientScript();
@@ -60,12 +60,12 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
                             . '<td>' . $p['name'] . '</td>'
                             . '<td>' . (
                                 $p['scholarity'] == 1 ? 'Fundamental Incompleto' : (
-                                    $p['scholarity'] == 2 ? 'Fundamental Completo' : (
-                                        $p['scholarity'] == 3 ? 'Ensino M&eacute;dio � Normal/Magist&eacute;rio' : (
-                                            $p['scholarity'] == 4 ? 'Ensino M&eacute;dio � Normal/Magist&eacute;rio Ind&iacute;gena' : ($p['scholarity'] == 5 ? 'Ensino M&eacute;dio' : 'Superior')
-                                        )
-                                    )
-                                )
+                                $p['scholarity'] == 2 ? 'Fundamental Completo' : (
+                                $p['scholarity'] == 3 ? 'Ensino M&eacute;dio � Normal/Magist&eacute;rio' : (
+                                $p['scholarity'] == 4 ? 'Ensino M&eacute;dio � Normal/Magist&eacute;rio Ind&iacute;gena' : ($p['scholarity'] == 5 ? 'Ensino M&eacute;dio' : 'Superior')
+                            )
+                            )
+                            )
                             ) . '</td>'
 
                             . '</tr>';

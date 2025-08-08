@@ -1,6 +1,6 @@
 <?php
-/** @var $this FoodNoticeController */
-/** @var $model FoodNotice */
+/* @var $this FoodNoticeController */
+/* @var $model FoodNotice */
 $this->breadcrumbs = [
     'Food Notices' => ['index'],
     'Create',

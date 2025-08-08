@@ -1,7 +1,7 @@
 <?php
-/** @var $this ProfessionalController */
-/** @var $modelProfessional Professional */
-/** @var $form CActiveForm */
+/* @var $this ProfessionalController */
+/* @var $modelProfessional Professional */
+/* @var $form CActiveForm */
 ?>
 
 <div class="form">

@@ -12,7 +12,7 @@ class LunchController extends Controller
 
     public function init()
     {
-        $this->school = School::model()->findByPk(Yii::app()->user->school);
+        $this->school = School::model()->findByPk(yii::app()->user->school);
     }
 
     public function actionIndex()
@@ -38,7 +38,7 @@ class LunchController extends Controller
                 $menu->save();
                 Log::model()->saveAction('lunch_menu', $menu->id, 'C', $menu->name);
                 Yii::app()->user->setFlash('success', Yii::t('lunchModule.lunch', 'Menu inserted successfully!'));
-                $this->redirect(Yii::app()->createUrl('lunch/lunch/update', ['id' => $menu->id]));
+                $this->redirect(yii::app()->createUrl('lunch/lunch/update', ['id' => $menu->id]));
             } else {
                 Yii::app()->user->setFlash('error', Yii::t('lunchModule.lunch', 'Error when adding menu.'));
                 $this->render('create', ['menu' => $menu]);
@@ -50,7 +50,7 @@ class LunchController extends Controller
 
     public function actionUpdate($id)
     {
-        /** @var $menu Menu */
+        /* @var $menu Menu */
         $request = Yii::app()->getRequest();
         $menuPost = $request->getPost('Menu', false);
 
@@ -86,7 +86,7 @@ class LunchController extends Controller
                 $menu->save();
                 Log::model()->saveAction('lunch_menu', $menu->id, 'U', $menu->name);
                 Yii::app()->user->setFlash('success', Yii::t('lunchModule.lunch', 'Menu updated successfully!'));
-                $this->redirect(Yii::app()->createUrl('lunch/lunch/update', ['id' => $menu->id]));
+                $this->redirect(yii::app()->createUrl('lunch/lunch/update', ['id' => $menu->id]));
             } else {
                 Yii::app()->user->setFlash('error', Yii::t('lunchModule.lunch', 'Error when updating menu.'));
                 $this->render('update', ['menu' => $menu]);
@@ -106,7 +106,7 @@ class LunchController extends Controller
 
     public function actionRemovePortion()
     {
-        /** @var $mealPortion MealPortion */
+        /* @var $mealPortion MealPortion */
 
         $request = Yii::app()->getRequest();
         $portionId = $request->getPost('id', false);
@@ -121,7 +121,7 @@ class LunchController extends Controller
         } else {
             Yii::app()->user->setFlash('error', Yii::t('lunchModule.lunch', 'Error, portion not found.'));
         }
-        $this->redirect(Yii::app()->createUrl('lunch/lunch/update', ['id' => $menuPost['id']]));
+        $this->redirect(yii::app()->createUrl('lunch/lunch/update', ['id' => $menuPost['id']]));
     }
 
     public function actionGetFoodAlias()
@@ -164,8 +164,8 @@ class LunchController extends Controller
 
     public function actionAddPortion()
     {
-        /** @var $mealPortion MealPortion */
-        /** @var $portion Portion */
+        /* @var $mealPortion MealPortion */
+        /* @var $portion Portion */
 
         $request = Yii::app()->getRequest();
         $menuPost = $request->getPost('Menu', false);
@@ -180,7 +180,7 @@ class LunchController extends Controller
                 $isNewPortion = true;
             } else {
                 Yii::app()->user->setFlash('error', Yii::t('lunchModule.lunch', 'Error when adding new Portion.'));
-                $this->redirect(Yii::app()->createUrl('lunch/lunch/update', ['id' => $menuPost['id']]));
+                $this->redirect(yii::app()->createUrl('lunch/lunch/update', ['id' => $menuPost['id']]));
             }
         }
 
@@ -208,20 +208,20 @@ class LunchController extends Controller
             }
         }
 
-        $this->redirect(Yii::app()->createUrl('lunch/lunch/update', ['id' => $menuPost['id']]));
+        $this->redirect(yii::app()->createUrl('lunch/lunch/update', ['id' => $menuPost['id']]));
     }
 
     public function actionAddMeal()
     {
-        /** @var $menuMeal MenuMeal */
-        /** @var $meal Meal */
+        /* @var $menuMeal MenuMeal */
+        /* @var $meal Meal */
 
         $request = Yii::app()->getRequest();
         $menuMealPost = $request->getPost('MenuMeal', false);
         $mealPost = $request->getPost('Meal', false);
         if ($mealPost) {
             $meal = new Meal();
-            $meal->restrictions = empty($mealPost['restrictions']) ? Yii::t('lunchModule.lunch', 'None') : $mealPost['restrictions'];
+            $meal->restrictions = empty($mealPost['restrictions']) ? yii::t('lunchModule.lunch', 'None') : $mealPost['restrictions'];
             if ($meal->validate()) {
                 $meal->save();
 
@@ -242,13 +242,13 @@ class LunchController extends Controller
             }
         }
 
-        $this->redirect(Yii::app()->createUrl('lunch/lunch/update', ['id' => $menuMealPost['menu_fk']]));
+        $this->redirect(yii::app()->createUrl('lunch/lunch/update', ['id' => $menuMealPost['menu_fk']]));
     }
 
     public function actionChangeMeal()
     {
-        /** @var $menuMeal MenuMeal */
-        /** @var $meal Meal */
+        /* @var $menuMeal MenuMeal */
+        /* @var $meal Meal */
 
         $request = Yii::app()->getRequest();
         $menuMealPost = $request->getPost('MenuMeal', false);
@@ -271,6 +271,6 @@ class LunchController extends Controller
                 Yii::app()->user->setFlash('error', Yii::t('lunchModule.lunch', 'Error when updating meal.'));
             }
         }
-        $this->redirect(Yii::app()->createUrl('lunch/lunch/update', ['id' => $menuMealPost['menu_fk']]));
+        $this->redirect(yii::app()->createUrl('lunch/lunch/update', ['id' => $menuMealPost['menu_fk']]));
     }
 }

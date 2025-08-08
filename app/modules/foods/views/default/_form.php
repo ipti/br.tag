@@ -1,7 +1,7 @@
 <?php
-/** @var $this FoodMenuController */
-/** @var $model FoodMenu */
-/** @var $form CActiveForm */
+/* @var $this FoodMenuController */
+/* @var $model FoodMenu */
+/* @var $form CActiveForm */
 
 $baseScriptUrl = Yii::app()->controller->module->baseScriptUrl;
 $cs = Yii::app()->getClientScript();

@@ -1,5 +1,5 @@
 <?php
-/** @var $content String Conteúdo da página. */
+/* @var $content String Conteúdo da página. */
 
 $themeUrl = Yii::app()->theme->baseUrl;
 $homeUrl = Yii::app()->controller->module->baseUrl;
@@ -47,7 +47,7 @@ $year = Yii::app()->user->year;
     <div id="wrapper">
         <div id="content">
             <div class="header-block">
-                <h2><?= Yii::t('resultsmanagementModule.layout', 'Results Management') ?>
+                <h2><?= yii::t('resultsmanagementModule.layout', 'Results Management') ?>
                     <div class="separator bottom"></div>
                     <div class="border-header header-description">
                         <?= $this->headerDescription ?>

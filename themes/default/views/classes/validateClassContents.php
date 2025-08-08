@@ -103,7 +103,7 @@ switch ($ad) {
             <div class="mobile-row">
                 <div class="column clearleft">
                     <div class="t-field-select">
-                        <?php echo CHtml::label(Yii::t('default', 'Classroom'), 'classroom', ['class' => 'control-label t-field-select__label--required', 'style' => 'width: 53px;']); ?>
+                        <?php echo CHtml::label(yii::t('default', 'Classroom'), 'classroom', ['class' => 'control-label t-field-select__label--required', 'style' => 'width: 53px;']); ?>
                         <select class="select-search-on t-field-select__input " id="classroom" name="classroom">
                             <option value="">Selecione a turma</option>
                             <?php foreach ($classrooms as $classroom) : ?>
@@ -115,7 +115,7 @@ switch ($ad) {
                 </div>
                 <div class="column month-container">
                     <div class="t-field-select">
-                        <?php echo CHtml::label(Yii::t('default', 'Month') . '/Ano', 'month', ['class' => 'control-label t-field-select__label--required', 'style' => 'width: 80px;']); ?>
+                        <?php echo CHtml::label(yii::t('default', 'Month') . '/Ano', 'month', ['class' => 'control-label t-field-select__label--required', 'style' => 'width: 80px;']); ?>
                         <select class="select-search-on t-field-select__input" id="month"
                                 style="min-width: 185px;"></select>
                     </div>
@@ -124,7 +124,7 @@ switch ($ad) {
             <div class="mobile-row helper printSelect selectComponente">
                 <div class="column clearleft on-tablet disciplines-container" style="display: none;">
                     <div class="t-field-select">
-                        <?php echo CHtml::label(Yii::t('default', 'Discipline'), 'disciplines', ['class' => 'control-label t-field-select__label--required']); ?>
+                        <?php echo CHtml::label(yii::t('default', 'Discipline'), 'disciplines', ['class' => 'control-label t-field-select__label--required']); ?>
                         <?php
         echo CHtml::dropDownList('disciplines', '', [], [
             'key' => 'id',

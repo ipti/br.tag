@@ -1,6 +1,6 @@
 <?php
-/** @var $this FoodInventoryController */
-/** @var $model FoodInventory */
+/* @var $this FoodInventoryController */
+/* @var $model FoodInventory */
 
 $this->breadcrumbs = [
     'Food Inventories' => ['index'],

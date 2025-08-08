@@ -250,7 +250,7 @@ class InstructorController extends Controller
         $modelInstructorDocumentsAndAddress = $this->loadModel($id, $this->InstructorDocumentsAndAddress);
         $modelInstructorDocumentsAndAddress = isset($modelInstructorDocumentsAndAddress) ? $modelInstructorDocumentsAndAddress : new InstructorDocumentsAndAddress();
         $modelInstructorVariableData = $this->loadModel($id, $this->InstructorVariableData);
-        if ($modelInstructorVariableData === null) {
+        if ($modelInstructorVariableData == null) {
             $modelInstructorVariableData = new InstructorVariableData();
         }
         $scholId = $modelInstructorIdentification->school_inep_id_fk;
@@ -479,7 +479,7 @@ preenchidos';
             $data = EdcensoCity::model()->find('cep_initial <= ' . $cep . ' and cep_final >= ' . $cep);
         }
 
-        $result = ($data === null) ? ['UF' => null, 'City' => null] : [
+        $result = ($data == null) ? ['UF' => null, 'City' => null] : [
             'UF' => $data->edcenso_uf_fk, 'City' => $data->id,
         ];
         echo json_encode($result);
@@ -672,8 +672,8 @@ preenchidos';
         $criteria->together = true;
         $criteria->order = 'name';
         $enrollments = InstructorTeachingData::model()->findAllByAttributes(['classroom_id_fk' => $_POST['classroom'], 'instructor_fk' => $_POST['instructor']], $criteria);
-        if ($schedules !== null) {
-            if ($enrollments !== null) {
+        if ($schedules != null) {
+            if ($enrollments != null) {
                 $instructors = [];
                 $dayName = ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'];
                 foreach ($enrollments as $enrollment) {
@@ -689,7 +689,7 @@ preenchidos';
                             'week_day' => $dayName[$schedule->week_day],
                             'schedule' => $schedule->schedule,
                             'idSchedule' => $schedule->id,
-                            'fault' => $instructorFault !== null,
+                            'fault' => $instructorFault != null,
                             'justification' => $instructorFault->justification,
                         ]);
                     }
@@ -743,7 +743,7 @@ preenchidos';
 
     public function actionSaveFrequency()
     {
-        if ($_POST['instructorId'] !== null) {
+        if ($_POST['instructorId'] != null) {
             if ($_POST['fault'] == '1') {
                 $instructorFault = new InstructorFaults();
                 $instructorFault->instructor_fk = $_POST['instructorId'];
@@ -759,13 +759,13 @@ preenchidos';
     {
         $schedule = Schedule::model()->find('classroom_fk = :classroom_fk and day = :day and month = :month and id = :schedule', ['classroom_fk' => $_POST['classroomId'], 'day' => $_POST['day'], 'month' => $_POST['month'], 'schedule' => $_POST['schedule']]);
         $instructorFault = InstructorFaults::model()->find('schedule_fk = :schedule_fk and instructor_fk = :instructor_fk', ['schedule_fk' => $schedule->id, 'instructor_fk' => $_POST['instructorId']]);
-        $instructorFault->justification = $_POST['justification'] === '' ? null : $_POST['justification'];
+        $instructorFault->justification = $_POST['justification'] == '' ? null : $_POST['justification'];
         $instructorFault->save();
     }
 
     public function actionGetClassrooms($instructorId = null)
     {
-        if ($instructorId === null) {
+        if ($instructorId == null) {
             $instructorId = Yii::app()->request->getPost('instructorId', null);
         }
         $sql = 'SELECT c.id, esvm.id as stage_fk, ii.name as instructor_name, ed.id as edcenso_discipline_fk, ed.name as discipline_name, esvm.name as stage_name, c.name

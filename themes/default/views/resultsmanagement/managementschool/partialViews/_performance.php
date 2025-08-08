@@ -5,14 +5,14 @@
  */
 ?>
 <div class="separator bottom"></div>
-<h5><?=Yii::t('resultsmanagementModule.managementSchool', 'Performance')?></h5>
-<p class="tab-description"><?= Yii::t('resultsmanagementModule.managementSchool', 'Based on the notes and the number of students it is possible to calculate the proportion of students with learning appropriate to your school stage')?></p>
+<h5><?=yii::t('resultsmanagementModule.managementSchool', 'Performance')?></h5>
+<p class="tab-description"><?= yii::t('resultsmanagementModule.managementSchool', 'Based on the notes and the number of students it is possible to calculate the proportion of students with learning appropriate to your school stage')?></p>
 
 <div class="separator bottom"></div>
 <div class="container-fluid">
 <div class="row">
     <div class="col-md-4">
-        <?= CHtml::dropDownList('classroom', '', $classrooms, [
+        <?= Chtml::dropDownList('classroom', '', $classrooms, [
             'class' => 'filter-select',
             'ajax' => [
                 'type' => 'get',
@@ -23,12 +23,12 @@
         ]); ?>
     </div>
     <div class="col-md-4">
-        <?= CHtml::dropDownList('unit', '', [], [
+        <?= Chtml::dropDownList('unit', '', [], [
             'class' => 'filter-select',
         ]); ?>
     </div>
     <div class="col-md-4">
-        <?= CHtml::dropDownList('discipline', '', [], [
+        <?= Chtml::dropDownList('discipline', '', [], [
             'class' => 'filter-select',
         ]); ?>
     </div>

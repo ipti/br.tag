@@ -1,5 +1,5 @@
 <?php
-/** @var $this ReportsController
+/* @var $this ReportsController
 @var $school SchoolIdentification
  */
 $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);

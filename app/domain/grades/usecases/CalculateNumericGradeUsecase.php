@@ -108,12 +108,12 @@ class CalculateNumericGradeUsecase
     {
         foreach ($gradesRecoveries as $gradeRecoveryAndUnities) {
             $partialRecoveryMedia = $this->calculatePartialRecoveryMedia($studentEnrollment, $discipline, $gradeRecoveryAndUnities, $gradeResult);
-            if ($partialRecoveryMedia !== null) {
+            if ($partialRecoveryMedia != null) {
                 $partialRecoveryMedia = is_nan($partialRecoveryMedia ?? NAN) ? '' : round($partialRecoveryMedia, 1);
             }
-            if ($gradeRecoveryAndUnities['partialRecovery']->semester !== null) {
+            if ($gradeRecoveryAndUnities['partialRecovery']->semester != null) {
                 $semesterRec = $gradeRecoveryAndUnities['partialRecovery']->semester;
-                if ($partialRecoveryMedia !== null) {
+                if ($partialRecoveryMedia != null) {
                     $gradeResult['sem_rec_partial_' . $semesterRec] = $partialRecoveryMedia < $gradeResult['sem_avarage_' . $semesterRec] ? $gradeResult['sem_avarage_' . $semesterRec] : $partialRecoveryMedia;
                 } else {
                     $gradeResult['sem_rec_partial_' . $semesterRec] = $partialRecoveryMedia;
@@ -169,7 +169,7 @@ class CalculateNumericGradeUsecase
             ->bindParam(':discipline_id', $discipline)
             ->bindParam(':unity_id', $unityId)->queryAll(), 'id');
 
-        if ($gradesIds === null) {
+        if ($gradesIds == null) {
             return [];
         }
 
@@ -223,7 +223,7 @@ class CalculateNumericGradeUsecase
             ]
         );
 
-        $isNewGradeResult = $gradeResult === null;
+        $isNewGradeResult = $gradeResult == null;
 
         if ($isNewGradeResult) {
             $gradeResult = new GradeResults();
@@ -385,7 +385,7 @@ class CalculateNumericGradeUsecase
             ->bindParam(':discipline_id', $discipline)
             ->bindParam(':unity_id', $unityId)->queryAll(), 'id');
 
-        if ($gradesIds === null) {
+        if ($gradesIds == null) {
             return [];
         }
 

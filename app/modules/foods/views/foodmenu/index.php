@@ -1,6 +1,6 @@
 <?php
-/** @var $this FoodMenuController */
-/** @var $model FoodMenu */
+/* @var $this FoodMenuController */
+/* @var $model FoodMenu */
 
 $this->setPageTitle('TAG - ' . Yii::t('default', 'Cardápios'));
 

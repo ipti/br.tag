@@ -1,6 +1,6 @@
 <?php
-/** @var $this FoodNoticeController */
-/** @var $dataProvider CActiveDataProvider */
+/* @var $this FoodNoticeController */
+/* @var $dataProvider CActiveDataProvider */
 
 $this->breadcrumbs = [
     'Food Notices',

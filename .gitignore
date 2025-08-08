@@ -14,4 +14,3 @@ vendor
 docker/mysql/dbfiles
 node_modules
 app/import/*
-.php-cs-fixer.cache

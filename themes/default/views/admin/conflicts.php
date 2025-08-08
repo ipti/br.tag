@@ -1,5 +1,5 @@
 <?php
-    /** @var $this AdminController */
+    /* @var $this AdminController */
 
     $baseUrl = Yii::app()->baseUrl;
     $cs = Yii::app()->getClientScript();
@@ -71,9 +71,9 @@
 										</div>
 										<div class="conflict-values">
 											<?php
-							                    foreach ($attributes1 as $key => $value) :
-							                        if (isset($diff[$key])) :
-							                            ?>
+                                                foreach ($attributes1 as $key => $value) :
+                                                    if (isset($diff[$key])) :
+                                                        ?>
 														<p class="conflict-value">
 															<strong><?= $conflict[1]->getAttributeLabel($key) ?>
 																:</strong> <?= $value ?>

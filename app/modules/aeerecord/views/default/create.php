@@ -1,6 +1,6 @@
 <?php
-/** @var $this StudentAeeRecordController */
-/** @var $model StudentAeeRecord */
+/* @var $this StudentAeeRecordController */
+/* @var $model StudentAeeRecord */
 
 $this->setPageTitle('TAG - ' . Yii::t('default', 'Cadastrar Ficha AEE'));
 $this->breadcrumbs = [

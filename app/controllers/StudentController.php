@@ -392,14 +392,14 @@ class StudentController extends Controller implements AuthenticateSEDTokenInterf
             $modelStudentIdentification->name = trim($modelStudentIdentification->name);
 
             // Validação CPF->Certidão->Nome
-            if ($modelStudentDocumentsAndAddress->cpf !== null) {
+            if ($modelStudentDocumentsAndAddress->cpf != null) {
                 $student_test_cpf = StudentDocumentsAndAddress::model()->find('cpf=:cpf', [':cpf' => $modelStudentDocumentsAndAddress->cpf]);
                 if (isset($student_test_cpf)) {
                     Yii::app()->user->setFlash('error', Yii::t('default', 'O CPF do responsável informado já está cadastrado'));
                     $this->redirect(['index']);
                 }
             }
-            if ($modelStudentDocumentsAndAddress->civil_certification_term_number !== null) {
+            if ($modelStudentDocumentsAndAddress->civil_certification_term_number != null) {
                 $student_test_certificate = StudentDocumentsAndAddress::model()->find('civil_certification_term_number=:civil_certification_term_number', [':civil_certification_term_number' => $modelStudentDocumentsAndAddress->civil_certification_term_number]);
                 if (isset($student_test_certificate)) {
                     Yii::app()->user->setFlash('error', Yii::t('default', 'O Nº do Termo da Certidão informado já está cadastrado'));
@@ -679,8 +679,8 @@ class StudentController extends Controller implements AuthenticateSEDTokenInterf
         $modelSchool = SchoolIdentification::model()->findAll();
         if (isset($_POST['StudentEnrollment'])) {
             $currentEnrollment = StudentEnrollment::model()->findByAttributes(['student_fk' => $modelStudentIdentification->id, 'current_enrollment' => 1]);
-            $currentEnrollment = $currentEnrollment === null ? StudentEnrollment::model()->findByPk($modelStudentIdentification->lastEnrollment->id) : $currentEnrollment;
-            if ($currentEnrollment !== null) {
+            $currentEnrollment = $currentEnrollment == null ? StudentEnrollment::model()->findByPk($modelStudentIdentification->lastEnrollment->id) : $currentEnrollment;
+            if ($currentEnrollment != null) {
                 // salvar o histórico de matrícula antiga
                 $currentEnrollmentHistory = new StudentEnrollmentHistory();
                 $currentEnrollmentHistory->student_enrollment_fk = $currentEnrollment->id;
@@ -712,7 +712,7 @@ class StudentController extends Controller implements AuthenticateSEDTokenInterf
             }
 
             $modelEnrollment = StudentEnrollment::model()->findByAttributes(['student_fk' => $modelStudentIdentification->id, 'classroom_fk' => $_POST['StudentEnrollment']['classroom_fk']]);
-            if ($modelEnrollment !== null) {
+            if ($modelEnrollment != null) {
                 // salvar o histórico de matrícula nova
                 $studentEnrollmentHistory = new StudentEnrollmentHistory();
                 $studentEnrollmentHistory->student_enrollment_fk = $modelEnrollment->id;
@@ -866,7 +866,7 @@ class StudentController extends Controller implements AuthenticateSEDTokenInterf
             ]
         );
         $buttons = '';
-        if ($sid !== null) {
+        if ($sid != null) {
             $student = $this->loadModel($sid, $this->STUDENT_IDENTIFICATION);
             if (isset($student->studentEnrollments[0]->id)) {
                 $enrollmentId = $student->studentEnrollments[0]->id;
@@ -881,7 +881,7 @@ class StudentController extends Controller implements AuthenticateSEDTokenInterf
                 $buttons = CHtml::tag(
                     'a',
                     [
-                        'href' => Yii::app()->createUrl('student/update', ['id' => $sid]),
+                        'href' => yii::app()->createUrl('student/update', ['id' => $sid]),
                         'class' => 'btn btn-primary btn-icon glyphicons eye_open',
                         'style' => 'margin-top: 5px; width: 110px',
                     ],
@@ -893,7 +893,7 @@ class StudentController extends Controller implements AuthenticateSEDTokenInterf
                     'a',
                     [
                         'target' => '_blank',
-                        'href' => Yii::app()->createUrl(
+                        'href' => yii::app()->createUrl(
                             '/forms/StudentFileForm',
                             ['type' => $type, 'enrollment_id' => $enrollmentId]
                         ),

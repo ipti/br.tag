@@ -43,7 +43,7 @@ class ReportsController extends Controller
     public function beforeAction($action)
     {
         if (Yii::app()->user->isGuest) {
-            $this->redirect(Yii::app()->createUrl('site/login'));
+            $this->redirect(yii::app()->createUrl('site/login'));
         }
 
         $this->year = Yii::app()->user->year;
@@ -431,7 +431,7 @@ class ReportsController extends Controller
         // Cria a primeira linha da tabela com o grupo de estágios
         $stageNumberGroups = [];
         foreach ($stages as $stage) {
-            if ($stageNumberGroups[$stage['stageNumber']] === null) {
+            if ($stageNumberGroups[$stage['stageNumber']] == null) {
                 // Adiciona indexado pelo stageNumber do array $stage a quantidade de celulas do estágio e o nome
                 $stageNumberGroups[$stage['stageNumber']]['colspan'] = 0;
                 $stageNumberGroups[$stage['stageNumber']]['colname'] = $this->translateStageNumbers($stage['stageNumber']);
