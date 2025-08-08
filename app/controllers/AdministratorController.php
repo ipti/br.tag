@@ -1107,12 +1107,14 @@
                         } elseif ($regType == 50 && $column > 41 && $column < 44) {
                             continue;
                         } else {
-                            if ($regType == '51' && $column == 3) {
-                                $withoutcomma = true;
-                                $value = '(SELECT id FROM instructor_identification WHERE BINARY inep_id = BINARY ' . $lines[$line][2] . ' LIMIT 0,1)';
-                            } elseif ($regType == '51' && $column == 5) {
-                                $withoutcomma = true;
-                                $value = '(SELECT id FROM classroom WHERE BINARY inep_id = BINARY ' . $lines[$line][4] . ' LIMIT 0,1)';
+                            if ($regType == '51') {
+                                if($column == 3){
+                                    $withoutcomma = true;
+                                    $value = '(SELECT id FROM instructor_identification WHERE BINARY inep_id = BINARY ' . $lines[$line][2] . ' LIMIT 0,1)';
+                                } elseif($column == 5 ){
+                                    $withoutcomma = true;
+                                    $value = '(SELECT id FROM classroom WHERE BINARY inep_id = BINARY ' . $lines[$line][4] . ' LIMIT 0,1)';
+                                }
                             } elseif ($regType == '80' && $column == 3) {
                                 $withoutcomma = true;
                                 $value = '(SELECT id FROM student_identification WHERE BINARY inep_id = BINARY ' . $lines[$line][2] . ' LIMIT 0,1)';
@@ -1408,7 +1410,7 @@
 
             $classroom_tagId = $studentIndetification_tagId = [];
 
-            foreach ($tables as $index => $table) {
+            foreach ($tables as $table) {
                 $objects = [];
                 switch ($table) {
                     case 'school_identification':
@@ -1481,41 +1483,7 @@
                 }
                 $keys = array_keys($array[0]);
                 $sql .= "INSERT INTO $tables[$i]";
-                switch ($i) {
-                    case 0:
-                        $sql .= ' (`' . implode('`, `', $keys) . '`, `tag_id`) VALUES';
-                        break;
-                    case 1:
-                        $sql .= ' (`' . implode('`, `', $keys) . '`, `tag_id`) VALUES';
-                        break;
-                    case 2:
-                        $sql .= ' (`' . implode('`, `', $keys) . '`, `tag_id`) VALUES';
-                        break;
-                    case 3:
-                        $sql .= ' (`' . implode('`, `', $keys) . '`, `tag_id`) VALUES';
-                        break;
-                    case 4:
-                        $sql .= ' (`' . implode('`, `', $keys) . '`, `tag_id`) VALUES';
-                        break;
-                    case 5:
-                        $sql .= ' (`' . implode('`, `', $keys) . '`, `tag_id`) VALUES';
-                        break;
-                    case 6:
-                        $sql .= ' (`' . implode('`, `', $keys) . '`, `tag_id`,  `classroom_tag_id`) VALUES';
-                        break;
-                    case 7:
-                        $sql .= ' (`' . implode('`, `', $keys) . '`, `tag_id`) VALUES';
-                        break;
-                    case 8:
-                        $sql .= ' (`' . implode('`, `', $keys) . '`, `tag_id`) VALUES';
-                        break;
-                    case 9:
-                        $sql .= ' (`' . implode('`, `', $keys) . '`, `tag_id`,  `student_identification_tag_id`, `fk_classroom_tag_id`) VALUES';
-                        break;
-                    default:
-                        break;
-                }
-                // $sql .= " (`" . implode("`, `", $keys) . "`, `tag_id`) VALUES";
+                $sql = $this->sqlInsertTable($i,$keys,$sql);
 
                 foreach ($array as $value) {
                     $tagId = '';
@@ -1580,6 +1548,50 @@
                 }
                 $sql = substr($sql, 0, -2) . ';';
             }
+            if($this->checkImportDocument($importToFile, $sql)){
+                return;
+            }
+        }
+
+        private function sqlInsertTable($i,$keys,$SQL){
+            $sql = $SQL;
+                switch ($i) {
+                case 0:
+                    $sql .= ' (`' . implode('`, `', $keys) . '`, `tag_id`) VALUES';
+                    break;
+                case 1:
+                    $sql .= ' (`' . implode('`, `', $keys) . '`, `tag_id`) VALUES';
+                    break;
+                case 2:
+                    $sql .= ' (`' . implode('`, `', $keys) . '`, `tag_id`) VALUES';
+                    break;
+                case 3:
+                    $sql .= ' (`' . implode('`, `', $keys) . '`, `tag_id`) VALUES';
+                    break;
+                case 4:
+                    $sql .= ' (`' . implode('`, `', $keys) . '`, `tag_id`) VALUES';
+                    break;
+                case 5:
+                    $sql .= ' (`' . implode('`, `', $keys) . '`, `tag_id`) VALUES';
+                    break;
+                case 6:
+                    $sql .= ' (`' . implode('`, `', $keys) . '`, `tag_id`,  `classroom_tag_id`) VALUES';
+                    break;
+                case 7:
+                    $sql .= ' (`' . implode('`, `', $keys) . '`, `tag_id`) VALUES';
+                    break;
+                case 8:
+                    $sql .= ' (`' . implode('`, `', $keys) . '`, `tag_id`) VALUES';
+                    break;
+                case 9:
+                    $sql .= ' (`' . implode('`, `', $keys) . '`, `tag_id`,  `student_identification_tag_id`, `fk_classroom_tag_id`) VALUES';
+                    break;
+                default:
+                    break;
+            }
+            return $SQL;
+        }
+        private function checkImportDocument($importToFile,$sql){
             if ($importToFile) {
                 ini_set('memory_limit', '128M');
                 $fileName = './app/export/exportSQL ' . date('Y-m-d') . '.sql';
@@ -1596,7 +1608,7 @@
                 fclose($file);
                 unlink($fileName);
 
-                return;
+                return false;
             } else {
                 try {
                     Yii::app()->db2->schema->commandBuilder->createSqlCommand($sql)->query();
@@ -1608,6 +1620,7 @@
                 ini_set('memory_limit', '128M');
                 Yii::app()->user->setFlash('success', Yii::t('default', 'Escola exportada com sucesso!'));
                 $this->redirect(['index']);
+                return true;
             }
         }
 
