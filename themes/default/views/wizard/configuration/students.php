@@ -1,7 +1,7 @@
 <?php
-/* @var $this ClassroomConfigurationControler */
-/* @var $form CActiveForm */
-/* @var $title String */
+/** @var $this ClassroomConfigurationControler */
+/** @var $form CActiveForm */
+/** @var $title String */
 
 $baseUrl = Yii::app()->baseUrl;
 $themeUrl = Yii::app()->theme->baseUrl;
@@ -45,11 +45,11 @@ $model = new StudentEnrollment();
                         <div class="row-fluid">
                             <div class="span5">
                                 <div class="control-group t-multiselect" id="classrooms-select">
-                                    <?php echo Chtml::label('Turma de ' . $lastYear . ':', '', ['class' => 'controls control-label ml-10 required']); ?>
+                                    <?php echo CHtml::label('Turma de ' . $lastYear . ':', '', ['class' => 'controls control-label ml-10 required']); ?>
                                     <div class="controls">
-                                        <?php echo chtml::dropDownList('Classrooms', '', CHtml::listData(Classroom::model()->findAll(
+                                        <?php echo CHtml::dropDownList('Classrooms', '', CHtml::listData(Classroom::model()->findAll(
     'school_year = :sy AND school_inep_fk = :si order by name',
-    ['sy' => (Yii::app()->user->year - 1), 'si' => yii::app()->user->school]
+    ['sy' => (Yii::app()->user->year - 1), 'si' => Yii::app()->user->school]
 ), 'id', 'name'), [
     'class' => 'select-search-on',
     'multiple' => 'multiple',
@@ -61,11 +61,11 @@ $model = new StudentEnrollment();
                             </div>
                             <div class="span5">
                                 <div class="control-group" id="oneClassrom-select">
-                                    <?php echo Chtml::label('Turma de ' . Yii::app()->user->year . ':', '', ['class' => 'controls control-label ml-10 required']); ?>
+                                    <?php echo CHtml::label('Turma de ' . Yii::app()->user->year . ':', '', ['class' => 'controls control-label ml-10 required']); ?>
                                     <div class="controls">
                                         <?php echo $form->dropDownList($model, 'classroom_fk', CHtml::listData(Classroom::model()->findAll(
     'school_year = :sy AND school_inep_fk = :si order by name',
-    ['sy' => (Yii::app()->user->year), 'si' => yii::app()->user->school]
+    ['sy' => (Yii::app()->user->year), 'si' => Yii::app()->user->school]
 ), 'id', 'name'), ['prompt' => 'Selecione uma Turma', 'class' => 'select-search-on']); ?>
                                         <?php echo $form->error($model, 'classroom_fk'); ?>
                                     </div>
@@ -95,7 +95,7 @@ $model = new StudentEnrollment();
         });
     });
     var formEnrollment = '#StudentEnrollment_';
-    var updateDependenciesURL = "<?php echo yii::app()->createUrl('enrollment/updatedependencies') ?>";
+    var updateDependenciesURL = "<?php echo Yii::app()->createUrl('enrollment/updatedependencies') ?>";
 </script>
 
 <style>

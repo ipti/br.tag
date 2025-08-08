@@ -1,7 +1,7 @@
 <?php
-/* @var $this GradeConceptController */
-/* @var $model GradeConcept */
-/* @var $form CActiveForm */
+/** @var $this GradeConceptController */
+/** @var $model GradeConcept */
+/** @var $form CActiveForm */
 
 $baseUrl = Yii::app()->baseUrl;
 $themeUrl = Yii::app()->theme->baseUrl;

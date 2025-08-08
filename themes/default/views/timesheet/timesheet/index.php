@@ -49,7 +49,7 @@ $this->setPageTitle('TAG - ' . Yii::t('timesheetModule.timesheet', 'Timesheet'))
 
     <div class="row-fluid">
         <div class="span12">
-            <h1><?= yii::t('timesheetModule.timesheet', 'Timesheet') ?></h1>
+            <h1><?= Yii::t('timesheetModule.timesheet', 'Timesheet') ?></h1>
             <div class="buttons span9">
             </div>
         </div>
@@ -58,20 +58,20 @@ $this->setPageTitle('TAG - ' . Yii::t('timesheetModule.timesheet', 'Timesheet'))
     <div class="home">
         <div class="filter-bar margin-bottom-none">
             <div>
-                <?php echo CHtml::label(yii::t('default', 'Classroom') . ' *', 'classroom', ['class' => 'control-label required small-label']); ?>
-                <?= CHtml::dropDownList('classroom_fk', '', CHtml::listData(Classroom::model()->findAll('school_inep_fk = :school_inep_fk and school_year = :school_year order by name', ['school_inep_fk' => Yii::app()->user->school, 'school_year' => Yii::app()->user->year]), 'id', 'name'), ['prompt' => yii::t('timesheetModule.timesheet', 'Select a Classroom'), 'class' => 'select-search-on control-input classroom-id']); ?>
+                <?php echo CHtml::label(Yii::t('default', 'Classroom') . ' *', 'classroom', ['class' => 'control-label required small-label']); ?>
+                <?= CHtml::dropDownList('classroom_fk', '', CHtml::listData(Classroom::model()->findAll('school_inep_fk = :school_inep_fk and school_year = :school_year order by name', ['school_inep_fk' => Yii::app()->user->school, 'school_year' => Yii::app()->user->year]), 'id', 'name'), ['prompt' => Yii::t('timesheetModule.timesheet', 'Select a Classroom'), 'class' => 'select-search-on control-input classroom-id']); ?>
             </div>
             <div class="schedule-info display-hide">
                 <div style="margin-bottom: 2px;">
                     <button class="t-button-primary btn-generate-timesheet">
-                        <i></i><?= yii::t('timesheetModule.timesheet', 'Generate automatic timesheet') ?>
+                        <i></i><?= Yii::t('timesheetModule.timesheet', 'Generate automatic timesheet') ?>
                     </button>
                 </div>
             </div>
             <div class="schedule-info display-hide">
                 <a style="margin-bottom: 2px;" href="<?php echo Yii::app()->createUrl('timesheet/timesheet/substituteInstructor')?>">
                     <button class="t-button-primary t-button-secondary">
-                        <i></i><?= yii::t('timesheetModule.timesheet', 'Assign Substitute Instructor') ?>
+                        <i></i><?= Yii::t('timesheetModule.timesheet', 'Assign Substitute Instructor') ?>
                     </button>
                 </a>
             </div>
@@ -116,7 +116,7 @@ foreach ($calendarTypes as $calendarType) {
     /**@var $type CalendarEventType */
     $html .= '<div class="span3 calendar-subtitles calendar-' . $calendarType->color . '">'
         . '<i class="fa ' . $calendarType->icon . '"></i>&nbsp;'
-        . '<span>' . yii::t('timesheetModule.timesheet', $calendarType->name) . '</span>'
+        . '<span>' . Yii::t('timesheetModule.timesheet', $calendarType->name) . '</span>'
         . '</div>';
 }
 echo $html; ?>
@@ -186,10 +186,10 @@ echo $html; ?>
 
             <div class="modal-footer justify-content--end">
                 <button type="button" class="tag-button-light small-button" data-dismiss="modal">
-                    <?= yii::t('timesheetModule.instructors', 'Cancel') ?>
+                    <?= Yii::t('timesheetModule.instructors', 'Cancel') ?>
                 </button>
                 <button type="button" class="t-button-primary " id="add-instructors-disciplines-button">
-                    <?= yii::t('timesheetModule.instructors', 'Add') ?>
+                    <?= Yii::t('timesheetModule.instructors', 'Add') ?>
                 </button>
             </div>
         </div>
@@ -223,10 +223,10 @@ echo $html; ?>
 
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">
-                    <?= yii::t('timesheetModule.timesheet', 'Cancel') ?>
+                    <?= Yii::t('timesheetModule.timesheet', 'Cancel') ?>
                 </button>
                 <button type="button" class="btn btn-primary" id="change-instructor-button">
-                    <?= yii::t('timesheetModule.timesheet', 'Change') ?>
+                    <?= Yii::t('timesheetModule.timesheet', 'Change') ?>
                 </button>
             </div>
         </div>
@@ -239,7 +239,7 @@ echo $html; ?>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="position:static;">
                 <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/Close.svg" alt="" style="vertical-align: -webkit-baseline-middle">
             </button>
-            <h4 class="modal-title" id="myModalLabel"><?= yii::t('timesheetModule.index', 'Generate Another Timesheet') ?></h4>
+            <h4 class="modal-title" id="myModalLabel"><?= Yii::t('timesheetModule.index', 'Generate Another Timesheet') ?></h4>
         </div>
         <form method="post">
             <div class="modal-body">
@@ -249,8 +249,8 @@ echo $html; ?>
                 </div>
 
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal"><?= yii::t('timesheetModule.index', 'Cancel') ?></button>
-                    <button type="button" class="btn btn-primary confirm-timesheet-generation" data-dismiss="modal"><?= yii::t('timesheetModule.index', 'Confirm') ?></button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal"><?= Yii::t('timesheetModule.index', 'Cancel') ?></button>
+                    <button type="button" class="btn btn-primary confirm-timesheet-generation" data-dismiss="modal"><?= Yii::t('timesheetModule.index', 'Confirm') ?></button>
                 </div>
             </div>
         </form>
@@ -263,7 +263,7 @@ echo $html; ?>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="position:static;">
                 <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/Close.svg" alt="" style="vertical-align: -webkit-baseline-middle">
             </button>
-            <h4 class="modal-title" id="myModalLabel"><?= yii::t('timesheetModule.index', 'Add Schedule') ?></h4>
+            <h4 class="modal-title" id="myModalLabel"><?= Yii::t('timesheetModule.index', 'Add Schedule') ?></h4>
         </div>
         <form method="post">
             <div class="modal-body">
@@ -285,8 +285,8 @@ echo $html; ?>
                 </div>
 
                 <div class="modal-footer">
-                    <button type="button" class="cancel-add-schedule btn btn-default" data-dismiss="modal"><?= yii::t('timesheetModule.index', 'Cancel') ?></button>
-                    <button type="button" class="btn btn-primary btn-add-schedule"><?= yii::t('timesheetModule.index', 'Add') ?></button>
+                    <button type="button" class="cancel-add-schedule btn btn-default" data-dismiss="modal"><?= Yii::t('timesheetModule.index', 'Cancel') ?></button>
+                    <button type="button" class="btn btn-primary btn-add-schedule"><?= Yii::t('timesheetModule.index', 'Add') ?></button>
                 </div>
             </div>
         </form>
@@ -310,7 +310,7 @@ echo $html; ?>
                 </div>
 
                 <div class="modal-footer" style="display:block">
-                    <button type="button" class="btn btn-primary" style="float: right;" data-dismiss="modal"><?= yii::t('timesheetModule.index', 'Cancel') ?></button>
+                    <button type="button" class="btn btn-primary" style="float: right;" data-dismiss="modal"><?= Yii::t('timesheetModule.index', 'Cancel') ?></button>
                 </div>
             </div>
         </form>

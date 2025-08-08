@@ -55,7 +55,7 @@ $cs = Yii::app()->getClientScript();
                         <div class=" span12">
                             <div class="control-group">
                                 <?php
-                                echo chtml::dropDownList('Classrooms', '', CHtml::listData(Classroom::model()->findAllByAttributes(['school_year' => $lastYear, 'school_inep_fk' => $school], ['order' => 'name ASC']), 'id', 'name'), [
+                                echo CHtml::dropDownList('Classrooms', '', CHtml::listData(Classroom::model()->findAllByAttributes(['school_year' => $lastYear, 'school_inep_fk' => $school], ['order' => 'name ASC']), 'id', 'name'), [
                                     'class' => 'select-search-on',
                                     'multiple' => 'multiple',
                                     'placeholder' => Yii::t('default', 'Select Classroom'),

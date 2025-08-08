@@ -235,7 +235,7 @@ class CourseplanController extends Controller
 
         $abilities = [];
 
-        if ($disciplineId != null) {
+        if ($disciplineId !== null) {
             $criteria->condition = 'cca.edcenso_discipline_fk = :discipline and parent_fk is null';
             $criteria->params = [':discipline' => $disciplineId];
             $abilities = CourseClassAbilities::model()->findAll($criteria);
@@ -302,7 +302,7 @@ class CourseplanController extends Controller
             $courseClassIds = [];
             $i = 1;
             foreach ($_POST['course-class'] as $cc) {
-                if ($cc['id'] == '') {
+                if ($cc['id'] === '') {
                     $courseClass = new CourseClass();
                     $courseClass->course_plan_fk = $coursePlan->id;
                 } else {
@@ -321,7 +321,7 @@ class CourseplanController extends Controller
                 CourseClassHasClassAbility::model()->deleteAll("course_class_fk = :course_class_fk and course_class_ability_fk not in ( '" . $abilitiesMerged . "' )", [':course_class_fk' => $courseClass->id]);
                 foreach ($cc['ability'] as $abilityId) {
                     $courseClassHasClassAbility = CourseClassHasClassAbility::model()->find('course_class_fk = :course_class_fk and course_class_ability_fk = :course_class_ability_fk', ['course_class_fk' => $courseClass->id, 'course_class_ability_fk' => $abilityId]);
-                    if ($courseClassHasClassAbility == null) {
+                    if ($courseClassHasClassAbility === null) {
                         $courseClassHasClassAbility = new CourseClassHasClassAbility();
                         $courseClassHasClassAbility->course_class_fk = $courseClass->id;
                         $courseClassHasClassAbility->course_class_ability_fk = $abilityId;
@@ -340,11 +340,11 @@ class CourseplanController extends Controller
                     }
                 }
 
-                if ($cc['resource'] != null) {
+                if ($cc['resource'] !== null) {
                     $idsArray = [];
                     foreach ($cc['resource'] as $r) {
                         $courseClassHasClassResource = CourseClassHasClassResource::model()->find('id = :id', ['id' => $r['id']]);
-                        if ($courseClassHasClassResource == null) {
+                        if ($courseClassHasClassResource === null) {
                             $courseClassHasClassResource = new CourseClassHasClassResource();
                             $courseClassHasClassResource->course_class_fk = $courseClass->id;
                             $courseClassHasClassResource->course_class_resource_fk = $r['value'];
@@ -721,7 +721,7 @@ class CourseplanController extends Controller
     {
         $resource = Yii::app()->request->getPost('resource');
         $existingResources = CourseClassResources::model()->findAllByAttributes(['name' => $resource]);
-        if ($existingResources == null) {
+        if ($existingResources === null) {
             echo json_encode(['valid' => true]);
             Yii::app()->end();
         }
@@ -737,8 +737,8 @@ class CourseplanController extends Controller
      * @throws CHttpException
      */
     public function loadModel(
-            $id
-        ) {
+        $id
+    ) {
         $model = CoursePlan::model()->findByPk($id);
         if ($model === null) {
             throw new CHttpException(404, 'The requested page does not exist.');

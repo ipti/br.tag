@@ -103,7 +103,7 @@ class FoodmenuController extends Controller
         $request = Yii::app()->request->getPost('foodMenu');
         $modelFoodMenu = $this->loadModel($id);
         $modelMenuMeals = FoodMenuMeal::model()->findAllByAttributes(['food_menuId' => $modelFoodMenu->id]);
-        if ($request == null) {
+        if ($request === null) {
             // Bloco de código para identificar qual o público alvo do cardápio
             $publicTargetSql = '
              SELECT fpt.id, fpt.name FROM food_public_target fpt
@@ -144,7 +144,7 @@ class FoodmenuController extends Controller
         // Trecho do código para excluir todos os registros associados ao cardápio
         $transaction = Yii::app()->db->beginTransaction();
 
-        if ($modelFoodMenu != null) {
+        if ($modelFoodMenu !== null) {
             $modelFoodMenu->start_date = DateTime::createFromFormat('d/m/Y', $request['start_date'])->format('Y-m-d');
             $modelFoodMenu->final_date = DateTime::createFromFormat('d/m/Y', $request['final_date'])->format('Y-m-d');
             $modelFoodMenu->week = $request['week'];

@@ -1,6 +1,6 @@
 <?php
-/* @var $this FoodRequestController */
-/* @var $model FoodRequest */
+/** @var $this FoodRequestController */
+/** @var $model FoodRequest */
 
 $this->breadcrumbs = [
     'Food Requests' => ['index'],

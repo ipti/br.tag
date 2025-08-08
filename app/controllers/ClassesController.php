@@ -548,7 +548,7 @@ class ClassesController extends Controller
     {
         if ($student['diary'] != '') {
             $classDiary = ClassDiaries::model()->find('schedule_fk = :schedule_fk and student_fk = :student_fk', [':schedule_fk' => $schedule->id, ':student_fk' => $student['id']]);
-            if ($classDiary == null) {
+            if ($classDiary === null) {
                 $classDiary = new ClassDiaries();
                 $classDiary->schedule_fk = $schedule->id;
                 $classDiary->student_fk = $student['id'];
@@ -635,11 +635,11 @@ class ClassesController extends Controller
         $criteria->together = true;
         $criteria->order = 'name';
         $enrollments = StudentEnrollment::model()->findAllByAttributes(['classroom_fk' => $_POST['classroom']], $criteria);
-        if ($schedules != null) {
+        if ($schedules !== null) {
             $scheduleDays = $this->getScheduleDays($schedules);
             $schedulePerDays = $this->getSchedulePerDays($schedules);
 
-            if ($enrollments != null) {
+            if ($enrollments !== null) {
                 $students = [];
                 $dayName = ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'];
                 foreach ($enrollments as $enrollment) {
@@ -660,7 +660,7 @@ class ClassesController extends Controller
                             'day' => $schedule->day,
                             'week_day' => $dayName[$schedule->week_day],
                             'schedule' => $schedule->schedule,
-                            'fault' => $classFault != null,
+                            'fault' => $classFault !== null,
                             'justification' => $classFault->justification,
                             'date' => $date,
                             'valid' => $valid,
@@ -772,7 +772,7 @@ class ClassesController extends Controller
 
     private function saveFrequency($schedule)
     {
-        if ($_POST['studentId'] != null) {
+        if ($_POST['studentId'] !== null) {
             if ($_POST['fault'] == '1') {
                 $classFault = new ClassFaults();
                 $classFault->student_fk = $_POST['studentId'];
@@ -788,7 +788,7 @@ class ClassesController extends Controller
                 foreach ($enrollments as $enrollment) {
                     $classFault = ClassFaults::model()->find('schedule_fk = :schedule_fk and student_fk = :student_fk', ['schedule_fk' => $schedule->id, 'student_fk' => $enrollment->student_fk]);
                     $valid = $this->verifyStatusEnrollment($enrollment, $schedule);
-                    if ($classFault == null && $valid) {
+                    if ($classFault === null && $valid) {
                         $classFault = new ClassFaults();
                         $classFault->student_fk = $enrollment->student_fk;
                         $classFault->schedule_fk = $schedule->id;
@@ -845,7 +845,7 @@ class ClassesController extends Controller
         $schedules = Schedule::model()->findAll('classroom_fk = :classroom_fk and day = :day and month = :month and year = :year ', ['classroom_fk' => $_POST['classroomId'], 'day' => $_POST['day'], 'month' => $_POST['month'], 'year' => $_POST['year']]);
         foreach ($schedules as $schedule) {
             $classFault = ClassFaults::model()->find('schedule_fk = :schedule_fk and student_fk = :student_fk', ['schedule_fk' => $schedule->id, 'student_fk' => $_POST['studentId']]);
-            $classFault->justification = $_POST['justification'] == '' ? null : $_POST['justification'];
+            $classFault->justification = $_POST['justification'] === '' ? null : $_POST['justification'];
             $classFault->save();
         }
     }
@@ -857,13 +857,13 @@ class ClassesController extends Controller
         if ($isMinor == false) {
             $schedule = Schedule::model()->find('classroom_fk = :classroom_fk and day = :day and month = :month and year = :year and schedule = :schedule', ['classroom_fk' => $_POST['classroomId'], 'day' => $_POST['day'], 'month' => $_POST['month'], 'year' => $_POST['year'], 'schedule' => $_POST['schedule']]);
             $classFault = ClassFaults::model()->find('schedule_fk = :schedule_fk and student_fk = :student_fk', ['schedule_fk' => $schedule->id, 'student_fk' => $_POST['studentId']]);
-            $classFault->justification = $_POST['justification'] == '' ? null : $_POST['justification'];
+            $classFault->justification = $_POST['justification'] === '' ? null : $_POST['justification'];
             $classFault->save();
         } else {
             $schedules = Schedule::model()->findAll('classroom_fk = :classroom_fk and day = :day and month = :month and year = :year ', ['classroom_fk' => $_POST['classroomId'], 'day' => $_POST['day'], 'month' => $_POST['month'], 'year' => $_POST['year']]);
             foreach ($schedules as $schedule) {
                 $classFault = ClassFaults::model()->find('schedule_fk = :schedule_fk and student_fk = :student_fk', ['schedule_fk' => $schedule->id, 'student_fk' => $_POST['studentId']]);
-                $classFault->justification = $_POST['justification'] == '' ? null : $_POST['justification'];
+                $classFault->justification = $_POST['justification'] === '' ? null : $_POST['justification'];
                 $classFault->save();
             }
         }
@@ -877,7 +877,7 @@ class ClassesController extends Controller
         $result = [];
         $classroom = Classroom::model()->findByPk($_POST['classroom']);
         $isMinor = $classroom->edcensoStageVsModalityFk->unified_frequency == 1 ? true : $this->checkIsStageMinorEducation($classroom);
-        if ($classroom->calendar_fk != null) {
+        if ($classroom->calendar_fk !== null) {
             $result['months'] = [];
             $calendar = $classroom->calendarFk;
             $begin = new DateTime($calendar->start_date);

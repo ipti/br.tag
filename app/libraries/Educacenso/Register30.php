@@ -95,7 +95,7 @@ class Register30
                 } else {
                     $variabledata = InstructorVariableData::model()->findByPk($instructor_inepid_id);
                 }
-                if ($variabledata == null) {
+                if ($variabledata === null) {
                     $variabledata = InstructorVariableData::model()->findByPk($teachingData->instructorFk->id);
                 }
                 $variabledata->id = $teachingData->instructorFk->id;
@@ -539,8 +539,8 @@ class Register30
     {
         $registers = [];
 
-        $classrooms = Classroom::model()->findAllByAttributes(['school_inep_fk' => yii::app()->user->school, 'school_year' => Yii::app()->user->year]);
-        $managerIdentification = ManagerIdentification::model()->findByAttributes(['school_inep_id_fk' => yii::app()->user->school]);
+        $classrooms = Classroom::model()->findAllByAttributes(['school_inep_fk' => Yii::app()->user->school, 'school_year' => Yii::app()->user->year]);
+        $managerIdentification = ManagerIdentification::model()->findByAttributes(['school_inep_id_fk' => Yii::app()->user->school]);
         $highEducationCourses = EdcensoCourseOfHigherEducation::model()->findAll();
 
         $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);

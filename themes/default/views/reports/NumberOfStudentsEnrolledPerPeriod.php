@@ -1,6 +1,6 @@
 <?php
-/* @var $this ReportsController */
-/* @var $report mixed */
+/** @var $this ReportsController */
+/** @var $report mixed */
 $baseUrl = Yii::app()->baseUrl;
 $cs = Yii::app()->getClientScript();
 $cs->registerScriptFile($baseUrl . '/js/reports/BFReport/_initialization.js?v=' . TAG_VERSION, CClientScript::POS_END);
@@ -37,7 +37,7 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
         </thead>
         <tbody>
             <?php
-                        $ordem = 1;
+                                                $ordem = 1;
 foreach ($report as $r) {
     $ordemStr = $ordem < 10 ? '0' . $ordem : $ordem; ?>
                 <tr>
@@ -57,7 +57,7 @@ foreach ($report as $r) {
                     <td style="text-align:center;"><?= $r['status_descricao'] ?></td>
                 </tr>
             <?php
-            $ordem++;
+                                            $ordem++;
 }
 ?>
             <tr>

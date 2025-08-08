@@ -1,5 +1,5 @@
 <?php
-/* @var $menuModel Menu
+/** @var $menuModel Menu
  * @var $meals Meals
  * @var $form CActiveForm
  * @var $isUpdate Boolean
@@ -49,36 +49,36 @@ $form = $this->beginWidget('CActiveForm', [
 <div class="row">
     <div class="column is-two-fifths">
         <div class="t-field-text">
-            <?= CHTML::activeLabel($menuModel, 'date', ['class' => 'control-label t-field-text__label']) ?>
+            <?= CHtml::activeLabel($menuModel, 'date', ['class' => 'control-label t-field-text__label']) ?>
 
             <?php $date = 'date';
 ?>
-            <?= CHTML::textField(
-    chtml::resolveName($menuModel, $date),
+            <?= CHtml::textField(
+    CHtml::resolveName($menuModel, $date),
     date('d/m/Y', strtotime($menuModel->date)),
     ['class' => 'form-control t-field-text____input']
 ) ?>
 
         </div>
         <div class="t-field-text">
-            <?= CHTML::activeLabel($menuModel, 'name', ['class' => 't-field-text__label']) ?>
+            <?= CHtml::activeLabel($menuModel, 'name', ['class' => 't-field-text__label']) ?>
             <?php $name = 'name'; ?>
-            <?= CHTML::textField(
-                    chtml::resolveName($menuModel, $name),
-                    $menuModel->name,
-                    ['class' => 't-field-text__input', 'placeholder' => 'Digite o Nome do Cardápio']
-                ) ?>
+            <?= CHtml::textField(
+                CHtml::resolveName($menuModel, $name),
+                $menuModel->name,
+                ['class' => 't-field-text__input', 'placeholder' => 'Digite o Nome do Cardápio']
+            ) ?>
 
         </div>
         <div class="t-field-select">
-            <?= CHTML::activeLabel($menuModel, 'turn', ['class' => 't-field-select__label'])?>
+            <?= CHtml::activeLabel($menuModel, 'turn', ['class' => 't-field-select__label'])?>
             <?php $turn = 'turn'; ?>
             <?= CHtml::dropDownList(
-                    chtml::resolveName($menuModel, $turn),
-                    $menuModel->turn,
-                    ['M' => 'Manhã', 'T' => 'Tarde', 'N' => 'Noite'],
-                    ['class' => 'select-search-on t-field-select__input']
-                )?>
+                CHtml::resolveName($menuModel, $turn),
+                $menuModel->turn,
+                ['M' => 'Manhã', 'T' => 'Tarde', 'N' => 'Noite'],
+                ['class' => 'select-search-on t-field-select__input']
+            )?>
         </div>
 
         <div class="form-group-container">
@@ -103,7 +103,7 @@ $form = $this->beginWidget('CActiveForm', [
             </div>
             <div class="form-group-container" style="margin-bottom: 20px;">
                 <h4 class="heading glyphicons notes">
-                    <i></i><?= yii::t('lunchModule.lunch', 'Meals') ?>
+                    <i></i><?= Yii::t('lunchModule.lunch', 'Meals') ?>
                 </h4>
             </div>
             <div class="form-group-container" style="width: 98%;">
@@ -120,7 +120,7 @@ $form = $this->beginWidget('CActiveForm', [
                         </thead>
                         <tbody>
                             <?php
-                                $odd = false;
+                            $odd = false;
     foreach ($meals as $meal) :
         $portions = $meal['portions'];
         $meal = $meal['meal'];
@@ -199,14 +199,14 @@ $form = $this->beginWidget('CActiveForm', [
                 </button>
                 <h4 class="modal-title"><?= Yii::t('lunchModule.stock', 'Add Portion'); ?></h4>
             </div>
-            <form id="portion" method="post" action="<?= yii::app()->createUrl('lunch/lunch/addPortion') ?>">
+            <form id="portion" method="post" action="<?= Yii::app()->createUrl('lunch/lunch/addPortion') ?>">
                 <?= CHtml::hiddenField('Menu[id]', $menuModel->id, ['id' => 'menu-id']) ?>
                 <?= CHtml::hiddenField('MealPortion[meal_fk]', '', ['id' => 'meal-id']) ?>
                 <div class="modal-body">
                     <div id="is-add-amount" class="widget widget-scroll margin-bottom-none">
                         <div class="widget-head" style="background: none;">
                             <h4 class="heading">
-                                <i></i><?= yii::t('lunchModule.stock', 'Add Amount') ?>
+                                <i></i><?= Yii::t('lunchModule.stock', 'Add Amount') ?>
                             </h4>
                         </div>
                         <div class="widget-body">
@@ -281,14 +281,14 @@ $form = $this->beginWidget('CActiveForm', [
                 </button>
                 <h4 class="modal-title"><?= Yii::t('lunchModule.stock', 'Remove Portion'); ?></h4>
             </div>
-            <form id="portion" method="post" action="<?= yii::app()->createUrl('lunch/lunch/removePortion') ?>">
+            <form id="portion" method="post" action="<?= Yii::app()->createUrl('lunch/lunch/removePortion') ?>">
                 <?= CHtml::hiddenField('Menu[id]', $menuModel->id, ['id' => 'menu-id']) ?>
                 <?= CHtml::hiddenField('MealPortion[id]', '', ['id' => 'meal-portion-id']) ?>
                 <div class="modal-body">
                     <div id="is-add-amount" class="widget widget-scroll margin-bottom-none">
                         <div class="widget-head" style="background: none;">
                             <h4 class="heading">
-                                <i></i><?= yii::t('lunchModule.stock', 'Remove Amount') ?>
+                                <i></i><?= Yii::t('lunchModule.stock', 'Remove Amount') ?>
                             </h4>
                         </div>
                         <div class="widget-body" style="overflow: hidden;">
@@ -331,12 +331,12 @@ $form = $this->beginWidget('CActiveForm', [
                 </button>
                 <h4 class="modal-title"><?= Yii::t('lunchModule.lunch', 'Add Lunch'); ?></h4>
             </div>
-            <form id="portion" method="post" action="<?= yii::app()->createUrl('lunch/lunch/addMeal') ?>">
+            <form id="portion" method="post" action="<?= Yii::app()->createUrl('lunch/lunch/addMeal') ?>">
                 <?= CHtml::hiddenField('MenuMeal[menu_fk]', $menuModel->id, ['id' => 'menu-id']) ?>
                 <div class="modal-body">
                     <div id="is-add-amount" class="widget widget-scroll margin-bottom-none">
                         <h4 class="heading">
-                            <i></i><?= yii::t('lunchModule.lunch', 'New Lunch') ?>
+                            <i></i><?= Yii::t('lunchModule.lunch', 'New Lunch') ?>
                         </h4>
                         <div class="widget-body" style="overflow: hidden;">
                             <div class="row-fluid">
@@ -371,14 +371,14 @@ $form = $this->beginWidget('CActiveForm', [
                 </button>
                 <h4 class="modal-title"><?= Yii::t('lunchModule.lunch', 'Update Lunch'); ?></h4>
             </div>
-            <form id="portion" method="post" action="<?= yii::app()->createUrl('lunch/lunch/changeMeal') ?>">
+            <form id="portion" method="post" action="<?= Yii::app()->createUrl('lunch/lunch/changeMeal') ?>">
                 <?= CHtml::hiddenField('MenuMeal[menu_fk]', $menuModel->id, ['id' => 'menu-id']) ?>
                 <?= CHtml::hiddenField('MenuMeal[meal_fk]', '', ['id' => 'meal-id']) ?>
                 <div class="modal-body">
                     <div id="is-add-amount" class="widget widget-scroll margin-bottom-none">
                         <div class="widget-head" style="background: none;">
                             <h4 class="heading">
-                                <i></i><?= yii::t('lunchModule.lunch', 'Lunch Info') ?>
+                                <i></i><?= Yii::t('lunchModule.lunch', 'Lunch Info') ?>
                             </h4>
                         </div>
                         <div class="widget-body" style="overflow: hidden;">

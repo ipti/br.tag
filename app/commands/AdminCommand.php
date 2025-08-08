@@ -2,14 +2,11 @@
 
 class AdminCommand extends CConsoleCommand
 {
-    // Define attributes and methods!
+
     public function run($args)
     {
-        // defined('YII_DEBUG') or define('YII_DEBUG',false);
         ini_set('display_errors', '1');
         error_reporting(1);
-        // define("YII_ENBLE_ERROR_HANDLER",false);
-        // define("YII_ENBLE_EXCEPTION_HANDLER",false);
 
         ini_set('max_execution_time', 0);
         ini_set('memory_limit', '288M');
@@ -32,20 +29,16 @@ class AdminCommand extends CConsoleCommand
                 @$fileNameBak = $dbname . '.json.bak';
                 $fileImportBak = fopen($fileNameBak, 'r');
 
-                if ($fileImport == false && $fileImportBak == false) {
+                if (!$fileImport && !$fileImportBak) {
                     echo "Exportando..\n";
                     $loads = $this->prepareExport();
-                    // var_dump($loads['classroom']);exit;
-                    // if(isset($loads['classroom'])){
                     $datajson = serialize($loads);
                     $file = fopen($fileName, 'w');
                     fwrite($file, $datajson);
                     fclose($file);
-                    // }
+
                 }
 
-                // $fileName = $dbname . ".json";
-                // rename($fileName.'.bak.json', $fileName);
                 echo 'fim exportação\n';
             }
         }
@@ -81,13 +74,8 @@ class AdminCommand extends CConsoleCommand
         return str_replace($search, $replace, $value);
     }
 
-    public function loadMaster($loads)
-    {
-        ini_set('max_execution_time', 0);
-        ini_set('memory_limit', '-1');
-        set_time_limit(0);
-        // ignore_user_abort();
-        foreach ($loads['schools'] as $index => $scholl) {
+    private function loadSchools($schools){
+        foreach ($schools as $scholl) {
             echo 'Importando escola' . $scholl['name'] . "..\n";
             $saveschool = new SchoolIdentification();
             $saveschool->setDb2Connection(true);
@@ -107,7 +95,9 @@ class AdminCommand extends CConsoleCommand
                 exit;
             }
         }
-        foreach ($loads['schools_structure'] as $index => $structure) {
+    }
+    private function loadSchoolsStructure($schoolsStructure){
+        foreach ($schoolsStructure as $structure) {
             $saveschool = new SchoolStructure();
             $saveschool->setDb2Connection(true);
             $saveschool->setScenario('search');
@@ -126,7 +116,9 @@ class AdminCommand extends CConsoleCommand
                 exit;
             }
         }
-        foreach ($loads['classrooms'] as $index => $class) {
+    }
+    private function loadClassrooms($classrooms){
+        foreach ($loads['classrooms'] as $class) {
             echo 'Importando turma' . $class['name'] . "..\n";
             $saveclass = new Classroom();
             $saveclass->setScenario('search');
@@ -147,74 +139,9 @@ class AdminCommand extends CConsoleCommand
                 exit;
             }
         }
-
-        /*foreach ($loads['students'] as $i => $student) {
-            echo "Importando aluno". $student['name']."..\n";
-            $savestudent = new StudentIdentification();
-            $savestudent->setScenario('search');
-            $savestudent->setDb2Connection(true);
-            $savestudent->refreshMetaData();
-            $savestudent = $savestudent->findByAttributes(array('hash'=>$student['hash']));
-            if (!isset($savestudent)){
-                $savestudent = new StudentIdentification();
-                $savestudent->setScenario('search');
-                $savestudent->setDb2Connection(true);
-                $savestudent->refreshMetaData();
-            }
-            $savestudent->attributes = $student;
-            $savestudent->hash = $student['hash'];
-            $savestudent->save();
-            if(!empty($savestudent->errors)){
-                var_dump($savestudent->errors);exit;
-            }
-
-        }
-
-        foreach ($loads['documentsaddress'] as $i => $documentsaddress) {
-            echo "Importando aluno". $documentsaddress['hash']."..\n";
-            $savedocument = new StudentDocumentsAndAddress();
-            $savedocument->setScenario('search');
-            $savedocument->setDb2Connection(true);
-            $savedocument->refreshMetaData();
-            $savedocument = $savedocument->findByAttributes(array('hash'=>$documentsaddress['hash']));
-            if (!isset($exist)){
-                $savedocument = new StudentDocumentsAndAddress();
-                $savedocument->setScenario('search');
-                $savedocument->setDb2Connection(true);
-                $savedocument->refreshMetaData();
-            }
-            $savedocument->attributes = $documentsaddress;
-            $savedocument->hash = $documentsaddress['hash'];
-            $savedocument->save();
-            if(!empty($savedocument->errors)){
-                var_dump($savedocument->errors);exit;
-            }
-        }
-
-        foreach ($loads['enrollments'] as $index => $enrollment) {
-            echo "Importando matrícula". $enrollment['hash']."..\n";
-            $saveenrollment = new StudentEnrollment();
-            $saveenrollment->setScenario('search');
-            $saveenrollment->setDb2Connection(true);
-            $saveenrollment->refreshMetaData();
-            $saveenrollment = $saveenrollment->findByAttributes(array('hash'=>$enrollment['hash']));
-            if (!isset($saveenrollment)){
-                $saveenrollment = new StudentEnrollment();
-                $saveenrollment->setScenario('search');
-                $saveenrollment->setDb2Connection(true);
-                $saveenrollment->refreshMetaData();
-            }
-            $saveenrollment->attributes = $enrollment;
-            $saveenrollment->hash = $enrollment['hash'];
-            $saveenrollment->hash_classroom = $enrollment['hash_classroom'];
-            $saveenrollment->hash_student = $enrollment['hash_student'];
-            $saveenrollment->save();
-            if(!empty($saveenrollment->errors)){
-                    var_dump($saveenrollment->errors);exit;
-            }
-        }
-        */
-        foreach ($loads['instructors'] as $i => $instructor) {
+    }
+    private function loadInstructors($instructors){
+        foreach ($instructors as $instructor) {
             echo 'Importando Professor' . $instructor['name'] . "..\n";
             $saveinstructor = new InstructorIdentification();
             $saveinstructor->setScenario('search');
@@ -244,14 +171,16 @@ class AdminCommand extends CConsoleCommand
                 exit;
             }
         }
-        foreach ($loads['idocuments'] as $i => $documentsaddress) {
+    }
+    private function loadDocuments ($documents){
+        foreach ($documents as $documentsaddress) {
             echo 'Importando Documento Professor' . $documentsaddress['hash'] . "..\n";
             $saveidocument = new InstructorDocumentsAndAddress();
             $saveidocument->setScenario('search');
             $saveidocument->setDb2Connection(true);
             $saveidocument->refreshMetaData();
             $saveidocument = $saveidocument->findByAttributes(['hash' => $documentsaddress['hash']]);
-            // var_dump($saveidocument);
+
             if (!isset($saveidocument)) {
                 $saveidocument = new InstructorDocumentsAndAddress();
                 $saveidocument->setScenario('search');
@@ -267,7 +196,9 @@ class AdminCommand extends CConsoleCommand
                 exit;
             }
         }
-        foreach ($loads['instructorsteachingdata'] as $index => $teachingdata) {
+    }
+    private function loadInstructorsTeachingData($instructorsTeachingData){
+        foreach ($instructorsTeachingData as $teachingdata) {
             echo 'Importando Teaching Data' . $teachingdata['hash'] . "..\n";
             $saveteaching = new InstructorTeachingData();
             $saveteaching->setScenario('search');
@@ -291,6 +222,9 @@ class AdminCommand extends CConsoleCommand
                 exit;
             }
         }
+    }
+    private function loadInstructorsVariableData($instructorsVariableData){
+
         foreach ($loads['instructorsvariabledata'] as $i => $variabledata) {
             echo 'Importando Variable Data Professor' . $variabledata['hash'] . "..\n";
             $savevariable = new InstructorVariableData();
@@ -313,9 +247,24 @@ class AdminCommand extends CConsoleCommand
                 var_dump($savevariable->errors);
             }
         }
-
-        // @TODO FAZER A PARTE DE PROFESSORES A PARTIR DAQUI
     }
+
+    public function loadMaster($loads)
+    {
+        ini_set('max_execution_time', 0);
+        ini_set('memory_limit', '-1');
+        set_time_limit(0);
+
+        $this->loadSchools($loads['schools']);
+        $this->loadSchoolsStructure($loads['schools_structure']);
+        $this->loadClassrooms($loads['classrooms']);
+        $this->loadInstructors($loads['instructors']);
+        $this->loadDocuments($loads['idocuments']);
+        $this->loadInstructorsTeachingData($loads['instructorsteachingdata']);
+        $this->loadInstructorsVariableData($loads['instructorsvariabledata']);
+
+    }
+
 
     public function prepareExport()
     {
@@ -329,7 +278,6 @@ class AdminCommand extends CConsoleCommand
                 JOIN classroom b ON(a.`classroom_fk`=b.id)
                 WHERE
                 b.`school_year`=$year";
-        // $sql = "SELECT inep_id as school_inep_id_fk  FROM school_identification where situation='1'";
         $schools = Yii::app()->db->createCommand($sql)->queryAll();
         $istudent = new StudentIdentification();
         $iteach = new InstructorIdentification();
@@ -346,10 +294,10 @@ class AdminCommand extends CConsoleCommand
             $conn = false;
         }
         if ($conn) {
-            /*
+
             foreach ($studentAll as $index => $student) {
-                $hash_student = hexdec(crc32($student->name.$student->birthday));
-                if(!isset($loads['students'][$hash_student])){
+                $hash_student = hexdec(crc32($student->name . $student->birthday));
+                if (!isset($loads['students'][$hash_student]))
                     $loads['students'][$hash_student] = $student->attributes;
                     $loads['students'][$hash_student]['hash'] = $hash_student;
                 }
@@ -360,8 +308,8 @@ class AdminCommand extends CConsoleCommand
                     $loads['documentsaddress'][$hash_student] = $idocs->findByPk($student->id)->attributes;
                     $loads['documentsaddress'][$hash_student]['hash'] = $hash_student;
                 }
-            }*/
-            foreach ($teachAll as $index => $teach) {
+            }
+            foreach ($teachAll as $teach) {
                 $hash_teach = hexdec(crc32($teach->name . $teach->birthday_date));
                 if (!isset($loads['instructors'][$hash_teach])) {
                     $loads['instructors'][$hash_teach] = $teach->attributes;
@@ -377,9 +325,8 @@ class AdminCommand extends CConsoleCommand
             }
         }
 
-        foreach ($schools as $index => $schll) {
+        foreach ($schools as $schll) {
             $year = 2019;
-            // padronizar o ano no futuro
             $ischool = new SchoolIdentification();
             $ischool->setDb2Connection(false);
             $ischool->refreshMetaData();
@@ -392,34 +339,17 @@ class AdminCommand extends CConsoleCommand
             $hash_school = hexdec(crc32($school->inep_id . $school->name));
             $loads['schools'][$hash_school] = $school->attributes;
             $loads['schools'][$hash_school]['hash'] = $hash_school;
-            // @todo adicionado load na tabela de schoolstructure
+
             $loads['schools_structure'][$hash_school] = $school->structure->attributes;
             $loads['schools_structure'][$hash_school]['hash'] = $hash_school;
             foreach ($classrooms as $iclass => $classroom) {
                 $hash_classroom = hexdec(crc32($school->inep_id . $classroom->id . $classroom->school_year));
                 $loads['classrooms'][$hash_classroom] = $classroom->attributes;
                 $loads['classrooms'][$hash_classroom]['hash'] = $hash_classroom;
-                /*foreach ($classroom->studentEnrollments as $ienrollment => $enrollment) {
-                    $enrollment->setDb2Connection(false);
-                    $enrollment->refreshMetaData();
-                    $hash_student = hexdec(crc32($enrollment->studentFk->name.$enrollment->studentFk->birthday));
-                    if(!isset($loads['students'][$hash_student])){
-                        $loads['students'][$hash_student] = $enrollment->studentFk->attributes;
-                        $loads['students'][$hash_student]['hash'] = $hash_student;
-                    }
-                    if(!isset($loads['documentsaddress'][$hash_student])){
-                        $loads['documentsaddress'][$hash_student] = $enrollment->studentFk->documentsFk->attributes;
-                        $loads['documentsaddress'][$hash_student]['hash'] = $hash_student;
-                    }
-                    $hash_enrollment = hexdec(crc32($hash_classroom.$hash_student));
-                    $loads['enrollments'][$hash_enrollment] = $enrollment->attributes;
-                    $loads['enrollments'][$hash_enrollment]['hash'] = $hash_enrollment;
-                    $loads['enrollments'][$hash_enrollment]['hash_classroom'] = $hash_classroom;
-                    $loads['enrollments'][$hash_enrollment]['hash_student'] = $hash_student;
-                }*/
+
 
                 foreach ($classroom->instructorTeachingDatas as $iteaching => $teachingData) {
-                    // CARREGAR AS INFORMAÇÕES DE TEACHING DATA;
+
                     $hash_instructor = hexdec(crc32($teachingData->instructorFk->name . $teachingData->instructorFk->birthday_date));
                     $hash_teachingdata = hexdec(crc32($hash_classroom . $hash_instructor));
                     $loads['instructorsteachingdata'][$hash_teachingdata] = $teachingData->attributes;
@@ -427,7 +357,6 @@ class AdminCommand extends CConsoleCommand
                     $loads['instructorsteachingdata'][$hash_teachingdata]['hash_classroom'] = $hash_classroom;
                     $loads['instructorsteachingdata'][$hash_teachingdata]['hash'] = $hash_teachingdata;
 
-                    // CARREGAR AS INFORMAÇÕES DE TEACHING DATA;
                     if (!isset($loads['instructors'][$hash_instructor])) {
                         $loads['instructors'][$hash_instructor] = $teachingData->instructorFk->attributes;
                         $loads['instructors'][$hash_instructor]['hash'] = $hash_instructor;

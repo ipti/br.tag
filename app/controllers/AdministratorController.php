@@ -15,11 +15,12 @@
     // @done S2 - Criar usuários padrões.
 
     // @done S2 - Mensagens de retorno ao executar os scripts.
+    define('SCHOOL_INEP_ID_FK', 'school_inep_id_fk');
 
     class AdministratorController extends Controller
     {
         public $layout = 'fullmenu';
-
+        private $s
         public function accessRules()
         {
             return [
@@ -86,11 +87,9 @@
             // Fazer Download no Final
             // Arquivo Json para adcionar no ZIP
             $json = [];
-            $json['student'] = [];
-            $json['classroom'] = [];
 
-            $school = yii::app()->user->school;
-            $year = yii::app()->user->year;
+            $school = Yii::app()->user->school;
+            $year = Yii::app()->user->year;
             $filterStudent = 'school_inep_id_fk = ' . $school;
             $filterClassroom = 'school_inep_fk = ' . $school . ' and school_year = ' . $year;
 
@@ -108,7 +107,30 @@
             $students = StudentIdentification::model()->findAll($filterStudent);
             $classrooms = Classroom::model()->findAll($filterClassroom);
 
-            $updateFKID = "UPDATE `schedule` as c
+            $updateFKID = $this->sqlUpdateFKID();
+            Yii::app()->db->schema->commandBuilder->createSqlCommand($updateFKID)->query();
+
+            $json['student'] = $this->mapStudents($students);
+
+            $json['classroom'] = $this->mapClassroom($classrooms);
+
+            $json_encode = json_encode($json);
+            $date = date('d_m_Y H_i_s');
+            $zipName = 'ArquivoSincronizacaoTAG_' . $school . '_' . $date . '.zip';
+            $tempArchiveZip = new ZipArchive();
+            $tempArchiveZip->open($zipName, ZipArchive::CREATE);
+            $tempArchiveZip->addFromString($school . '_' . $date . '.json', $json_encode);
+            $tempArchiveZip->close();
+
+            if (file_exists($zipName)) {
+                header('Content-type: application/zip');
+                header('Content-Disposition: attachment; filename="' . $zipName . '"');
+                readfile($zipName);
+                unlink($zipName);
+            }
+        }
+        private function sqlUpdateFKID(){
+            return "UPDATE `schedule` as c
             SET `fkid` = CONCAT((select school_inep_fk from classroom as cr where cr.id = c.classroom_fk),';',c.id)
             WHERE true;
             UPDATE `class_board` as c
@@ -174,8 +196,8 @@
             UPDATE `student_identification` as c
             SET `fkid` = CONCAT(c.school_inep_id_fk,';',c.id)
             WHERE true;";
-            yii::app()->db->schema->commandBuilder->createSqlCommand($updateFKID)->query();
-
+        }
+        private function mapStudents($students){
             $studentArray = [];
             foreach ($students as $student) {
                 $sfkid = $student->fkid;
@@ -187,9 +209,11 @@
                 $studentArray[$sfkid]['documents']['attributes'] = $documents->attributes;
                 $studentArray[$sfkid]['attributes'] = $student->attributes;
             }
-            $json['student'] = $studentArray;
-
+            return $studentArray;
+        }
+        private function mapClassroom ($classrooms) {
             $classroomArray = [];
+
             foreach ($classrooms as $classroom) {
                 $cfkid = $classroom->fkid;
                 $classroomArray[$cfkid] = $classroomArray[$cfkid]['attributes'] = [];
@@ -197,8 +221,25 @@
 
                 $classroomArray[$cfkid]['classes'] = [];
                 $classes = $classroom->classes;
-                $classesArray = [];
-                foreach ($classes as $class) {
+
+                $classroomArray[$cfkid]['classes'] = $this->loadClasses($classes);
+                $classroomArray[$cfkid]['classboards'] = [];
+                $classBoards = $classroom->classBoards;
+
+                $classroomArray[$cfkid]['classboards'] = $this->loadClassBoard($classBoards);
+
+                $classroomArray[$cfkid]['enrollments'] = [];
+                $enrollments = $classroom->studentEnrollments;
+
+                $classroomArray[$cfkid]['enrollments'] = $this->loadEnrollments($enrollments);
+            }
+
+            return $classroomArray;
+        }
+
+        private function loadClasses ($classes){
+            $classesArray = [];
+            foreach ($classes as $class) {
                     $csfkid = $class->fkid;
                     $classesArray[$csfkid] = [];
                     $classesArray[$csfkid]['attributes'] = [];
@@ -215,46 +256,27 @@
                     }
                     $classesArray[$csfkid]['faults'] = $faultArray;
                 }
-                $classroomArray[$cfkid]['classes'] = $classesArray;
-
-                $classroomArray[$cfkid]['classboards'] = [];
-                $classBoards = $classroom->classBoards;
-                $classBoardArray = [];
-                foreach ($classBoards as $classboard) {
-                    $cbfkid = $classboard->fkid;
-                    $classBoardArray[$cbfkid] = [];
-                    $classBoardArray[$cbfkid]['attributes'] = [];
-                    $classBoardArray[$cbfkid]['attributes'] = $classboard->attributes;
-                }
-                $classroomArray[$cfkid]['classboards'] = $classBoardArray;
-
-                $classroomArray[$cfkid]['enrollments'] = [];
-                $enrollments = $classroom->studentEnrollments;
-                $enrollmentsArray = [];
-                foreach ($enrollments as $enrollment) {
-                    $efkid = $enrollment->fkid;
-                    $enrollmentsArray[$efkid] = [];
-                    $enrollmentsArray[$efkid]['attributes'] = [];
-                    $enrollmentsArray[$efkid]['attributes'] = $enrollment->attributes;
-                }
-                $classroomArray[$cfkid]['enrollments'] = $enrollmentsArray;
+            return $classesArray;
+        }
+        private function loadClassBoard($classBoards){
+            $classBoardArray = [];
+            foreach ($classBoards as $classboard) {
+                $cbfkid = $classboard->fkid;
+                $classBoardArray[$cbfkid] = [];
+                $classBoardArray[$cbfkid]['attributes'] = [];
+                $classBoardArray[$cbfkid]['attributes'] = $classboard->attributes;
             }
-            $json['classroom'] = $classroomArray;
-
-            $json_encode = json_encode($json);
-            $date = date('d_m_Y H_i_s');
-            $zipName = 'ArquivoSincronizacaoTAG_' . $school . '_' . $date . '.zip';
-            $tempArchiveZip = new ZipArchive();
-            $tempArchiveZip->open($zipName, ZipArchive::CREATE);
-            $tempArchiveZip->addFromString($school . '_' . $date . '.json', $json_encode);
-            $tempArchiveZip->close();
-
-            if (file_exists($zipName)) {
-                header('Content-type: application/zip');
-                header('Content-Disposition: attachment; filename="' . $zipName . '"');
-                readfile($zipName);
-                unlink($zipName);
+            return $classBoardArray;
+        }
+        private function loadEnrollments($enrollments){
+            $enrollmentsArray = [];
+            foreach ($enrollments as $enrollment) {
+                $efkid = $enrollment->fkid;
+                $enrollmentsArray[$efkid] = [];
+                $enrollmentsArray[$efkid]['attributes'] = [];
+                $enrollmentsArray[$efkid]['attributes'] = $enrollment->attributes;
             }
+            return $enrollmentsArray;
         }
 
         /**
@@ -321,7 +343,7 @@
             $mode = 'r';
 
             $fileImport = fopen($fileDir, $mode);
-            if ($fileImport == false) {
+            if (!$fileImport) {
                 exit('O arquivo não existe.');
             }
 
@@ -519,28 +541,28 @@
             $count = 0;
 
             foreach ($dirFiles as $fileName) {
-                if ($fileName != '.' && $fileName != '..' && $fileName != 'readme' && $fileName != '_version' && substr('abcdef', -1) != '~') {
-                    if ($version != '' && $version < $fileName) {
-                        $file = $fm->open($updateDir . $fileName);
-                        $sql = '';
-                        while (true) {
-                            $fileLine = fgets($file);
-                            $sql .= $fileLine;
-                            if ($fileLine == null) {
-                                break;
-                            }
-                        }
+                if (($fileName != '.' && $fileName != '..' && $fileName != 'readme' && $fileName != '_version' && substr('abcdef', -1) != '~')&& ($version != '' && $version < $fileName)) {
 
-                        $result = Yii::app()->db->createCommand($sql)->query();
-
-                        if ($result) {
-                            $file = $fm->write($updateDir . '_version', $fileName);
-                            Yii::app()->user->setFlash('success', Yii::t('default', 'Atualização Concluída!'));
-                            $count++;
-                        } else {
-                            Yii::app()->user->setFlash('error', Yii::t('default', 'Erro ao atualizar!'));
+                    $file = $fm->open($updateDir . $fileName);
+                    $sql = '';
+                    while (true) {
+                        $fileLine = fgets($file);
+                        $sql .= $fileLine;
+                        if ($fileLine === null) {
+                            break;
                         }
                     }
+
+                    $result = Yii::app()->db->createCommand($sql)->query();
+
+                    if ($result) {
+                        $fm->write($updateDir . '_version', $fileName);
+                        Yii::app()->user->setFlash('success', Yii::t('default', 'Atualização Concluída!'));
+                        $count++;
+                    } else {
+                        Yii::app()->user->setFlash('error', Yii::t('default', 'Erro ao atualizar!'));
+                    }
+
                 }
             }
             if ($count == 0) {
@@ -557,25 +579,6 @@
          */
         public static function actionBackup($return = true)
         {
-            /* Yii::import('ext.dumpDB.dumpDB');
-              $dumper = new dumpDB();
-              $dump = $dumper->getDump(false);
-
-              $fileDir = Yii::app()->basePath . '/backup/' . date('Y-m-d') . '.sql';
-
-              Yii::import('ext.FileManager.fileManager');
-              $fm = new fileManager();
-              $result = $fm->write($fileDir, $dump);
-
-              if ($return) {
-              if ($result) {
-              Yii::app()->user->setFlash('success', Yii::t('default', 'Backup efetuado com Sucesso!'));
-              } else {
-              Yii::app()->user->setFlash('error', Yii::t('default', 'Backup falhou!'));
-              }
-              Yii::app()->controller->redirect('?r=admin/index');
-              }
-              return $result; */
             return 0;
         }
 
@@ -756,7 +759,6 @@
                 $instructorVariables = InstructorVariableData::model()->findByPk($instructor->id);
                 $export .= implode('|', $instructorVariables->attributes);
                 $export .= "\n";
-                // $export .= "50|\n";
 
                 // Dados de Docência do Professor
                 $criteria->select = 't.*';
@@ -931,7 +933,7 @@
 
             // Abre o arquivo
             $file = fopen($fileDir, $mode);
-            if ($file == false) {
+            if (!$file) {
                 exit('O arquivo não existe.');
             }
 
@@ -954,7 +956,7 @@
             while (true) {
                 // Próxima linha do arquivo
                 $fileLine = fgets($file);
-                if ($fileLine == null) {
+                if ($fileLine === null) {
                     break;
                 }
 
@@ -1106,12 +1108,14 @@
                         } elseif ($regType == 50 && $column > 41 && $column < 44) {
                             continue;
                         } else {
-                            if ($regType == '51' && $column == 3) {
-                                $withoutcomma = true;
-                                $value = '(SELECT id FROM instructor_identification WHERE BINARY inep_id = BINARY ' . $lines[$line][2] . ' LIMIT 0,1)';
-                            } elseif ($regType == '51' && $column == 5) {
-                                $withoutcomma = true;
-                                $value = '(SELECT id FROM classroom WHERE BINARY inep_id = BINARY ' . $lines[$line][4] . ' LIMIT 0,1)';
+                            if ($regType == '51') {
+                                if($column == 3){
+                                    $withoutcomma = true;
+                                    $value = '(SELECT id FROM instructor_identification WHERE BINARY inep_id = BINARY ' . $lines[$line][2] . ' LIMIT 0,1)';
+                                } elseif($column == 5 ){
+                                    $withoutcomma = true;
+                                    $value = '(SELECT id FROM classroom WHERE BINARY inep_id = BINARY ' . $lines[$line][4] . ' LIMIT 0,1)';
+                                }
                             } elseif ($regType == '80' && $column == 3) {
                                 $withoutcomma = true;
                                 $value = '(SELECT id FROM student_identification WHERE BINARY inep_id = BINARY ' . $lines[$line][2] . ' LIMIT 0,1)';
@@ -1194,6 +1198,8 @@
                             $modalities_professional = true;
                         }
                         break;
+                    default:
+                        break;
                 }
             }
 
@@ -1247,6 +1253,8 @@
                     case '80':
                         $str_fields[$regType] = 'INSERT INTO student_enrollment (`register_type`,`school_inep_id_fk`,`student_inep_id`,`student_fk`,`classroom_inep_id`,`classroom_fk`,`enrollment_id`,`unified_class`,`edcenso_stage_vs_modality_fk`,`another_scholarization_place`,`public_transport`,`transport_responsable_government`,`vehicle_type_van`,`vehicle_type_microbus`,`vehicle_type_bus`,`vehicle_type_bike`,`vehicle_type_animal_vehicle`,`vehicle_type_other_vehicle`,`vehicle_type_waterway_boat_5`,`vehicle_type_waterway_boat_5_15`,`vehicle_type_waterway_boat_15_35`,`vehicle_type_waterway_boat_35`,`vehicle_type_metro_or_train`,`student_entry_form`) VALUES ' . $lines . ' ON DUPLICATE KEY UPDATE register_type = register_type;';
                         break;
+                    default:
+                        break;
                 }
             }
 
@@ -1264,48 +1272,49 @@
         public function actionLoadToMaster()
         {
             $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
-            $classrooms = Classroom::model()->findAllByAttributes(['school_inep_fk' => yii::app()->user->school, 'school_year' => Yii::app()->user->year]);
+            $classrooms = Classroom::model()->findAllByAttributes(['school_inep_fk' => Yii::app()->user->school, 'school_year' => Yii::app()->user->year]);
             $loads['school'] = $school->attributes;
             $loads['school']['hash'] = hexdec(crc32($school->inep_id . $school->name));
             foreach ($classrooms as $iclass => $classroom) {
-                $hash_classroom = hexdec(crc32($school->inep_id . $classroom->id . $classroom->school_year));
+                $hashClassroom = hexdec(crc32($school->inep_id . $classroom->id . $classroom->school_year));
                 $loads['classrooms'][$iclass] = $classroom->attributes;
-                $loads['classrooms'][$iclass]['hash'] = $hash_classroom;
+                $loads['classrooms'][$iclass]['hash'] = $hashClassroom;
                 foreach ($classroom->studentEnrollments as $ienrollment => $enrollment) {
+                    $hashStudent = '';
                     if (!isset($loads['students'][$enrollment->student_fk])) {
-                        $hash_student = hexdec(crc32($enrollment->studentFk->name . $enrollment->studentFk->birthday));
+                        $hashStudent = hexdec(crc32($enrollment->studentFk->name . $enrollment->studentFk->birthday));
                         $loads['students'][$enrollment->student_fk] = $enrollment->studentFk->attributes;
-                        $loads['students'][$enrollment->student_fk]['hash'] = $hash_student;
+                        $loads['students'][$enrollment->student_fk]['hash'] = $hashStudent;
                     }
                     if (!isset($loads['documentsaddress'][$enrollment->student_fk])) {
                         $loads['documentsaddress'][$enrollment->student_fk] = StudentDocumentsAndAddress::model()->findByPk($enrollment->student_fk)->attributes;
-                        $loads['documentsaddress'][$enrollment->student_fk]['hash'] = $hash_student;
+                        $loads['documentsaddress'][$enrollment->student_fk]['hash'] = $hashStudent;
                     }
-                    $hash_enrollment = hexdec(crc32($hash_classroom . $hash_student));
+                    $hashEnrollment = hexdec(crc32($hashClassroom . $hashStudent));
                     $loads['enrollments'][$ienrollment] = $enrollment->attributes;
-                    $loads['enrollments'][$ienrollment]['hash'] = $hash_enrollment;
-                    $loads['enrollments'][$ienrollment]['hash_classroom'] = $hash_classroom;
-                    $loads['enrollments'][$ienrollment]['hash_student'] = $hash_student;
+                    $loads['enrollments'][$ienrollment]['hash'] = $hashEnrollment;
+                    $loads['enrollments'][$ienrollment]['hash_classroom'] = $hashClassroom;
+                    $loads['enrollments'][$ienrollment]['hash_student'] = $hashStudent;
                 }
                 foreach ($classroom->instructorTeachingDatas as $iteaching => $teachingData) {
                     // CARREGAR AS INFORMAÇÕES DE TEACHING DATA;
-                    $hash_instructor = hexdec(crc32($teachingData->instructorFk->name . $teachingData->instructorFk->birthday_date));
-                    $hash_teachingdata = hexdec(crc32($hash_classroom . $hash_instructor));
+                    $hashInstructor = hexdec(crc32($teachingData->instructorFk->name . $teachingData->instructorFk->birthday_date));
+                    $hashTeachingdata = hexdec(crc32($hashClassroom . $hashInstructor));
                     $loads['instructorsteachingdata'][$teachingData->instructor_fk][$classroom->id] = $teachingData->attributes;
-                    $loads['instructorsteachingdata'][$teachingData->instructor_fk][$classroom->id]['hash_instructor'] = $hash_instructor;
-                    $loads['instructorsteachingdata'][$teachingData->instructor_fk][$classroom->id]['hash_classroom'] = $hash_classroom;
-                    $loads['instructorsteachingdata'][$teachingData->instructor_fk][$classroom->id]['hash'] = $hash_teachingdata;
+                    $loads['instructorsteachingdata'][$teachingData->instructor_fk][$classroom->id]['hash_instructor'] = $hashInstructor;
+                    $loads['instructorsteachingdata'][$teachingData->instructor_fk][$classroom->id]['hash_classroom'] = $hashClassroom;
+                    $loads['instructorsteachingdata'][$teachingData->instructor_fk][$classroom->id]['hash'] = $hashTeachingdata;
 
                     // CARREGAR AS INFORMAÇÕES DE TEACHING DATA;
                     if (!isset($loads['instructors'][$teachingData->instructor_fk])) {
                         $loads['instructors'][$teachingData->instructor_fk] = $teachingData->instructorFk->attributes;
-                        $loads['instructors'][$teachingData->instructor_fk]['hash'] = $hash_instructor;
+                        $loads['instructors'][$teachingData->instructor_fk]['hash'] = $hashInstructor;
                         $loads['idocuments'][$teachingData->instructor_fk] = $teachingData->instructorFk->attributes;
-                        $loads['idocuments'][$teachingData->instructor_fk]['hash'] = $hash_instructor;
+                        $loads['idocuments'][$teachingData->instructor_fk]['hash'] = $hashInstructor;
                     }
                     if (!isset($loads['instructorsvariabledata'][$teachingData->instructor_fk])) {
                         $loads['instructorsvariabledata'][$teachingData->instructor_fk] = $teachingData->instructorFk->instructorVariableData->attributes;
-                        $loads['instructorsvariabledata'][$teachingData->instructor_fk]['hash'] = $hash_instructor;
+                        $loads['instructorsvariabledata'][$teachingData->instructor_fk]['hash'] = $hashInstructor;
                     }
                 }
             }
@@ -1402,16 +1411,18 @@
 
             $classroom_tagId = $studentIndetification_tagId = [];
 
-            foreach ($tables as $index => $table) {
+            foreach ($tables as $table) {
                 $objects = [];
                 switch ($table) {
                     case 'school_identification':
                         break;
                     case 'school_structure':
-                        $objects = SchoolStructure::model()->findAllByPk(yii::app()->user->school);
+                        $objects = SchoolStructure::model()->findAllByPk(Yii::app()->user->school);
                         break;
                     case 'classroom':
-                        $objects = Classroom::model()->findAllByAttributes(['school_inep_fk' => yii::app()->user->school, 'school_year' => Yii::app()->user->year]);
+                        $objects = Classroom::model()->findAllByAttributes(['school_inep_fk' => Yii::app()->user->school, 'school_year' => Yii::app()->user->year]);
+                        break;
+                    default:
                         break;
                 }
             }
@@ -1420,42 +1431,44 @@
                 $array = [];
                 $objects = '';
                 switch ($i) {
-                    case '0':
-                        $objects = SchoolIdentification::model()->findAllByPk(yii::app()->user->school);
+                    case 0:
+                        $objects = SchoolIdentification::model()->findAllByPk(Yii::app()->user->school);
                         break;
-                    case '1':
-                        $objects = SchoolStructure::model()->findAllByPk(yii::app()->user->school);
+                    case 1:
+                        $objects = SchoolStructure::model()->findAllByPk(Yii::app()->user->school);
                         break;
-                    case '2':
-                        $objects = Classroom::model()->findAllByAttributes(['school_inep_fk' => yii::app()->user->school, 'school_year' => date('Y')]);
+                    case 2:
+                        $objects = Classroom::model()->findAllByAttributes(['school_inep_fk' => Yii::app()->user->school, 'school_year' => date('Y')]);
                         break;
-                    case '3':
+                    case 3:
                         $query = 'select ii.* from instructor_teaching_data itd join instructor_identification ii on ii.id = itd.instructor_fk join classroom c on itd.classroom_id_fk = c.id where itd.school_inep_id_fk = :school_inep_id_fk and c.school_year = :year';
-                        $objects = InstructorIdentification::model()->findAllBySql($query, [':school_inep_id_fk' => yii::app()->user->school, ':year' => date('Y')]);
+                        $objects = InstructorIdentification::model()->findAllBySql($query, [SCHOOL_INEP_ID_FK => Yii::app()->user->school, ':year' => date('Y')]);
                         break;
-                    case '4':
+                    case 4:
                         $query = 'select idaa.* from instructor_teaching_data itd join instructor_documents_and_address idaa on idaa.id = itd.instructor_fk join classroom c on itd.classroom_id_fk = c.id where itd.school_inep_id_fk = :school_inep_id_fk and c.school_year = :year';
-                        $objects = InstructorDocumentsAndAddress::model()->findAllBySql($query, [':school_inep_id_fk' => yii::app()->user->school, ':year' => date('Y')]);
+                        $objects = InstructorDocumentsAndAddress::model()->findAllBySql($query, [SCHOOL_INEP_ID_FK => Yii::app()->user->school, ':year' => date('Y')]);
                         break;
-                    case '5':
+                    case 5:
                         $query = 'select ivd.* from instructor_teaching_data itd join instructor_variable_data ivd on ivd.id = itd.instructor_fk join classroom c on itd.classroom_id_fk = c.id where itd.school_inep_id_fk = :school_inep_id_fk and c.school_year = :year';
-                        $objects = InstructorVariableData::model()->findAllBySql($query, [':school_inep_id_fk' => yii::app()->user->school, ':year' => date('Y')]);
+                        $objects = InstructorVariableData::model()->findAllBySql($query, [SCHOOL_INEP_ID_FK => Yii::app()->user->school, ':year' => date('Y')]);
                         break;
-                    case '6':
+                    case 6:
                         $query = 'select itd.* from instructor_teaching_data itd join instructor_identification ii on ii.id = itd.instructor_fk join classroom c on itd.classroom_id_fk = c.id where itd.school_inep_id_fk = :school_inep_id_fk and c.school_year = :year';
-                        $objects = InstructorTeachingData::model()->findAllBySql($query, [':school_inep_id_fk' => yii::app()->user->school, ':year' => date('Y')]);
+                        $objects = InstructorTeachingData::model()->findAllBySql($query, [SCHOOL_INEP_ID_FK => Yii::app()->user->school, ':year' => date('Y')]);
                         break;
-                    case '7':
+                    case 7:
                         $query = 'select si.* from student_identification si join student_enrollment se on si.id = se.student_fk join classroom c on c.id = se.classroom_fk where c.school_year = :year and se.school_inep_id_fk = :school_inep_id_fk';
-                        $objects = StudentIdentification::model()->findAllBySql($query, [':school_inep_id_fk' => yii::app()->user->school, ':year' => date('Y')]);
+                        $objects = StudentIdentification::model()->findAllBySql($query, [SCHOOL_INEP_ID_FK => Yii::app()->user->school, ':year' => date('Y')]);
                         break;
-                    case '8':
+                    case 8:
                         $query = 'select sdaa.* from student_documents_and_address sdaa join student_enrollment se on sdaa.id = se.student_fk join classroom c on c.id = se.classroom_fk where c.school_year = :year and se.school_inep_id_fk = :school_inep_id_fk';
-                        $objects = StudentDocumentsAndAddress::model()->findAllBySql($query, [':school_inep_id_fk' => yii::app()->user->school, ':year' => date('Y')]);
+                        $objects = StudentDocumentsAndAddress::model()->findAllBySql($query, [SCHOOL_INEP_ID_FK => Yii::app()->user->school, ':year' => date('Y')]);
                         break;
-                    case '9':
+                    case 9:
                         $query = 'select se.* from student_enrollment se join classroom c on c.id = se.classroom_fk where c.school_year = :year and se.school_inep_id_fk = :school_inep_id_fk';
-                        $objects = StudentEnrollment::model()->findAllBySql($query, [':school_inep_id_fk' => yii::app()->user->school, ':year' => date('Y')]);
+                        $objects = StudentEnrollment::model()->findAllBySql($query, [SCHOOL_INEP_ID_FK => Yii::app()->user->school, ':year' => date('Y')]);
+                        break;
+                    default:
                         break;
                 }
                 foreach ($objects as $object) {
@@ -1471,92 +1484,62 @@
                 }
                 $keys = array_keys($array[0]);
                 $sql .= "INSERT INTO $tables[$i]";
-                switch ($i) {
-                    case '0':
-                        $sql .= ' (`' . implode('`, `', $keys) . '`, `tag_id`) VALUES';
-                        break;
-                    case '1':
-                        $sql .= ' (`' . implode('`, `', $keys) . '`, `tag_id`) VALUES';
-                        break;
-                    case '2':
-                        $sql .= ' (`' . implode('`, `', $keys) . '`, `tag_id`) VALUES';
-                        break;
-                    case '3':
-                        $sql .= ' (`' . implode('`, `', $keys) . '`, `tag_id`) VALUES';
-                        break;
-                    case '4':
-                        $sql .= ' (`' . implode('`, `', $keys) . '`, `tag_id`) VALUES';
-                        break;
-                    case '5':
-                        $sql .= ' (`' . implode('`, `', $keys) . '`, `tag_id`) VALUES';
-                        break;
-                    case '6':
-                        $sql .= ' (`' . implode('`, `', $keys) . '`, `tag_id`,  `classroom_tag_id`) VALUES';
-                        break;
-                    case '7':
-                        $sql .= ' (`' . implode('`, `', $keys) . '`, `tag_id`) VALUES';
-                        break;
-                    case '8':
-                        $sql .= ' (`' . implode('`, `', $keys) . '`, `tag_id`) VALUES';
-                        break;
-                    case '9':
-                        $sql .= ' (`' . implode('`, `', $keys) . '`, `tag_id`,  `student_identification_tag_id`, `fk_classroom_tag_id`) VALUES';
-                        break;
-                }
-                // $sql .= " (`" . implode("`, `", $keys) . "`, `tag_id`) VALUES";
+                $sql = $this->sqlInsertTable($i,$keys,$sql);
 
                 foreach ($array as $value) {
                     $tagId = '';
                     switch ($i) {
-                        case '0':
+                        case 0:
                             $tagId = md5($value['inep_id']);
                             $sql .= " ('" . str_replace("''", 'null', implode("', '", $value)) . "', '" . $tagId . "'),";
                             break;
-                        case '1':
+                        case 1:
                             $tagId = md5($value['school_inep_id_fk']);
                             $sql .= " ('" . str_replace("''", 'null', implode("', '", $value)) . "', '" . $tagId . "'),";
                             break;
-                        case '2':
+                        case 2:
                             $tagId = md5($value['school_inep_fk'] . $value['name'] . $value['school_year']);
                             $sql .= " ('" . str_replace("''", 'null', implode("', '", $value)) . "', '" . $tagId . "'),";
                             $classroom_tagId[$value['id']] = $tagId;
                             break;
-                        case '3':
+                        case 3:
                             $tagId = md5($value['name'] . $value['birthday_date']);
                             $sql .= " ('" . str_replace("''", 'null', implode("', '", $value)) . "', '" . $tagId . "'),";
                             break;
-                        case '4':
+                        case 4:
                             $instructorIdentification = InstructorIdentification::model()->findByAttributes(['id' => $value['id']]);
                             $tagId = md5($instructorIdentification->name . $instructorIdentification->birthday_date);
                             $sql .= " ('" . str_replace("''", 'null', implode("', '", $value)) . "', '" . $tagId . "'),";
                             break;
-                        case '5':
+                        case 5:
                             $instructorIdentification = InstructorIdentification::model()->findByAttributes(['id' => $value['id']]);
                             $tagId = md5($instructorIdentification->name . $instructorIdentification->birthday_date);
                             $sql .= " ('" . str_replace("''", 'null', implode("', '", $value)) . "', '" . $tagId . "'),";
                             break;
-                        case '6':
+                        case 6:
                             $instructorIdentification = InstructorIdentification::model()->findByAttributes(['id' => $value['instructor_fk']]);
                             $classroom = Classroom::model()->findByAttributes(['id' => $value['classroom_id_fk']]);
                             $tagId = md5($instructorIdentification->name . $instructorIdentification->birthday_date . $classroom->name . $classroom->school_year);
                             $sql .= " ('" . str_replace("''", 'null', implode("', '", $value)) . "', '" . $tagId . "', '" . $classroom_tagId[$classroom->id] . "'),";
                             break;
-                        case '7':
+                        case 7:
                             $tagId = md5($value['name'] . $value['birthday']);
                             $sql .= " ('" . str_replace("''", 'null', implode("', '", $value)) . "', '" . $tagId . "'),";
                             $studentIndetification_tagId[$value['id']] = $tagId;
                             break;
-                        case '8':
+                        case 8:
                             $studentIdentification = StudentIdentification::model()->findByAttributes(['id' => $value['id']]);
                             $tagId = md5($studentIdentification->name . $studentIdentification->birthday);
                             $sql .= " ('" . str_replace("''", 'null', implode("', '", $value)) . "', '" . $tagId . "'),";
                             break;
-                        case '9':
+                        case 9:
                             $studentIdentification = StudentIdentification::model()->findByAttributes(['id' => $value['student_fk']]);
                             $classroom = Classroom::model()->findByAttributes(['id' => $value['classroom_fk']]);
                             $tagId = md5($studentIdentification->name . $studentIdentification->birthday . $classroom->name . $classroom->school_year);
                             $sql .= " ('" . str_replace("''", 'null', implode("', '", $value)) . "', '" . $tagId . "', '" . $studentIndetification_tagId[$studentIdentification->id] . "', '" . $classroom_tagId[$classroom->id] . "'),";
                             break;
+                        default:
+                        break;
                     }
                     // $sql .= " ('" . str_replace("''", "null", implode("', '", $value)) . "', '" . $tagId . "'),";
                 }
@@ -1566,6 +1549,50 @@
                 }
                 $sql = substr($sql, 0, -2) . ';';
             }
+            if($this->checkImportDocument($importToFile, $sql)){
+                return;
+            }
+        }
+
+        private function sqlInsertTable($i,$keys,$SQL){
+            $sql = $SQL;
+                switch ($i) {
+                case 0:
+                    $sql .= ' (`' . implode('`, `', $keys) . '`, `tag_id`) VALUES';
+                    break;
+                case 1:
+                    $sql .= ' (`' . implode('`, `', $keys) . '`, `tag_id`) VALUES';
+                    break;
+                case 2:
+                    $sql .= ' (`' . implode('`, `', $keys) . '`, `tag_id`) VALUES';
+                    break;
+                case 3:
+                    $sql .= ' (`' . implode('`, `', $keys) . '`, `tag_id`) VALUES';
+                    break;
+                case 4:
+                    $sql .= ' (`' . implode('`, `', $keys) . '`, `tag_id`) VALUES';
+                    break;
+                case 5:
+                    $sql .= ' (`' . implode('`, `', $keys) . '`, `tag_id`) VALUES';
+                    break;
+                case 6:
+                    $sql .= ' (`' . implode('`, `', $keys) . '`, `tag_id`,  `classroom_tag_id`) VALUES';
+                    break;
+                case 7:
+                    $sql .= ' (`' . implode('`, `', $keys) . '`, `tag_id`) VALUES';
+                    break;
+                case 8:
+                    $sql .= ' (`' . implode('`, `', $keys) . '`, `tag_id`) VALUES';
+                    break;
+                case 9:
+                    $sql .= ' (`' . implode('`, `', $keys) . '`, `tag_id`,  `student_identification_tag_id`, `fk_classroom_tag_id`) VALUES';
+                    break;
+                default:
+                    break;
+            }
+            return $SQL;
+        }
+        private function checkImportDocument($importToFile,$sql){
             if ($importToFile) {
                 ini_set('memory_limit', '128M');
                 $fileName = './app/export/exportSQL ' . date('Y-m-d') . '.sql';
@@ -1582,18 +1609,19 @@
                 fclose($file);
                 unlink($fileName);
 
-                return;
+                return false;
             } else {
                 try {
-                    yii::app()->db2->schema->commandBuilder->createSqlCommand($sql)->query();
+                    Yii::app()->db2->schema->commandBuilder->createSqlCommand($sql)->query();
                 } catch (Exception $e) {
                     var_dump($e);
                     exit;
                 }
-                yii::app()->db2->schema->commandBuilder->createSqlCommand($sql)->query();
+                Yii::app()->db2->schema->commandBuilder->createSqlCommand($sql)->query();
                 ini_set('memory_limit', '128M');
                 Yii::app()->user->setFlash('success', Yii::t('default', 'Escola exportada com sucesso!'));
                 $this->redirect(['index']);
+                return true;
             }
         }
 
@@ -1619,7 +1647,7 @@
         private function getTableRow($object, $value = null, $where = null)
         {
             $table = $object->tableName();
-            if ($where == null) {
+            if ($where === null) {
                 $sql = "select * from $table where tag_id = '$value';";
             } else {
                 $sql = "select * from $table where $where;";
@@ -1694,109 +1722,7 @@
 
         public function actionImportFromMaster()
         {
-            //			$tables = [
-            //				"school_identification", "school_structure", "classroom", "instructor_identification",
-            //				"instructor_documents_and_address", "instructor_variable_data", "instructor_teaching_data",
-            //				"student_identification", "student_documents_and_address", "student_enrollment"
-            //			];
-//
-            //			for ($i = 0; $i < count($tables); $i++) {
-            //				$model = $pk = $object = null;
-            //				switch ($i) {
-            //					case "0":
-            //						$model = SchoolIdentification::model();
-            //						$pk = "inep_id";
-            //						$sqlCondition = "inep_id = :id";
-            //						$object = new SchoolIdentification();
-            //						break;
-            //					case "1":
-            //						$model = SchoolStructure::model();
-            //						$pk = "school_inep_id_fk";
-            //						$sqlCondition = "school_inep_id_fk = :id";
-            //						$object = new SchoolStructure();
-            //						break;
-            //					case "2":
-            //						$model = Classroom::model();
-            //						$pk = "id";
-            //						$sqlCondition = "school_inep_fk = :school and id = :id";
-            //						$schoolKey = "school_inep_fk";
-            //						$object = new Classroom();
-            //						break;
-            //					case "3":
-            //						$model = InstructorIdentification::model();
-            //						$pk = "id";
-            //						$sqlCondition = "school_inep_id_fk = :school and id = :id";
-            //						$schoolKey = "school_inep_id_fk";
-            //						$object = new InstructorIdentification();
-            //						break;
-            //					case "4":
-            //						$model = InstructorDocumentsAndAddress::model();
-            //						$pk = "id";
-            //						$sqlCondition = "school_inep_id_fk = :school and id = :id";
-            //						$schoolKey = "school_inep_id_fk";
-            //						$object = new InstructorDocumentsAndAddress();
-            //						break;
-            //					case "5":
-            //						$model = InstructorVariableData::model();
-            //						$pk = "id";
-            //						$sqlCondition = "school_inep_id_fk = :school and id = :id";
-            //						$schoolKey = "school_inep_id_fk";
-            //						$object = new InstructorVariableData();
-            //						break;
-            //					case "6":
-            //						$model = InstructorTeachingData::model();
-            //						$pk = "id";
-            //						$sqlCondition = "school_inep_id_fk = :school and id = :id";
-            //						$schoolKey = "school_inep_id_fk";
-            //						$object = new InstructorTeachingData();
-            //						break;
-            //					case "7":
-            //						$model = StudentIdentification::model();
-            //						$pk = "id";
-            //						$sqlCondition = "school_inep_id_fk = :school and id = :id";
-            //						$schoolKey = "school_inep_id_fk";
-            //						$object = new StudentIdentification();
-            //						break;
-            //					case "8":
-            //						$model = StudentDocumentsAndAddress::model();
-            //						$pk = "id";
-            //						$sqlCondition = "school_inep_id_fk = :school and id = :id";
-            //						$schoolKey = "school_inep_id_fk";
-            //						$object = new StudentDocumentsAndAddress();
-            //						break;
-            //					case "9":
-            //						$model = StudentEnrollment::model();
-            //						$pk = "id";
-            //						$sqlCondition = "school_inep_id_fk = :school and id = :id";
-            //						$schoolKey = "school_inep_id_fk";
-            //						$object = new StudentEnrollment();
-            //						break;
-            //				}
-            //				$sql = "select * from $tables[$i];";
-            //				$db2Arrays = yii::app()->db2->createCommand($sql)->queryAll();
-            //				foreach ($db2Arrays as $db2array) {
-            //					if($i < 2){
-            //						$dbObject = $model->find($sqlCondition, [
-            //							":id" => $db2array[$pk]
-            //						]);
-            //					}else {
-            //						$dbObject = $model->find($sqlCondition, [
-            //							":id" => $db2array[$pk], ":school" => $db2array[$schoolKey]
-            //						]);
-            //					}
-            //					if ($dbObject == NULL) {
-            //						$dbObject = $object;
-            //					}
-            //					if ($i == 0) {
-            //						$logoFileContent = $dbObject->logo_file_content;
-            //						$dbObject->attributes = $db2array;
-            //						$dbObject->logo_file_content = $logoFileContent;
-            //					} else {
-            //						$dbObject->attributes = $db2array;
-            //					}
-            //					$dbObject->save();
-            //				}
-            //			}
+
             $this->redirect(['index']);
         }
     }

@@ -65,7 +65,7 @@ class CalculateConceptGradeUsecase
             ]
         );
 
-        $isNewGradeResult = $gradeResult == null;
+        $isNewGradeResult = $gradeResult === null;
 
         if ($isNewGradeResult) {
             $gradeResult = new GradeResults();
@@ -131,7 +131,7 @@ class CalculateConceptGradeUsecase
         )->bindParam(':enrollment_id', $enrollmentId)
             ->bindParam(':discipline_id', $discipline)->queryAll(), 'id');
 
-        if ($gradesIds == null) {
+        if ($gradesIds === null) {
             return [];
         }
 

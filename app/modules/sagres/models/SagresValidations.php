@@ -153,7 +153,7 @@ class SagresValidations
         $strMaxLength = 100;
         $inconsistencies = [];
 
-        if ($school->getDiretor()->getNrAto() == null) {
+        if ($school->getDiretor()->getNrAto() === null) {
             $inconsistencies[] = [
                 'enrollment' => 'DIRETOR',
                 'school' => $school->getIdEscola(),
@@ -171,7 +171,7 @@ class SagresValidations
             ];
         }
 
-        if ($school->getDiretor()->getCpfDiretor() == null || !preg_match('/^[0-9]{11}$/', $school->getDiretor()->getCpfDiretor())) {
+        if ($school->getDiretor()->getCpfDiretor() === null || !preg_match('/^[0-9]{11}$/', $school->getDiretor()->getCpfDiretor())) {
             $inconsistencies[] = [
                 'enrollment' => 'DIRETOR',
                 'school' => $school->getIdEscola(),

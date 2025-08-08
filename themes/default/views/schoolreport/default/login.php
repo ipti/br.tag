@@ -1,5 +1,5 @@
 <?php
-/* @var $this DefaultController */
+/** @var $this DefaultController */
 
 $themeUrl = Yii::app()->theme->baseUrl;
 $homeUrl = Yii::app()->controller->module->baseUrl;

@@ -454,7 +454,7 @@ class ClassroomValidation extends Register
     {
         $validScolarshipStages = [1, 2, 3, 14, 15, 16, 17, 18, 19, 20, 21, 41, 22, 23, 56, 25, 26, 27, 28, 29, 35, 36, 37, 38, 69, 70, 72, 71, 74, 73, 67, 39, 40, 64, 68];
 
-        if ($stage != null) {
+        if ($stage !== null) {
             if (in_array($stage, [30, 31, 32, 33, 34, 43, 44, 51, 65, 45, 62, 60, 47, 46, 58, 48, 63, 61, 67, 68, 73, 74])) {
                 return ['status' => false, 'erro' => 'A etapa de ensino selecionada não faz mais parte do censo. Modifique-a.'];
             }
@@ -634,7 +634,7 @@ class ClassroomValidation extends Register
 
     public function containsInstructors($instructorsTeachingData)
     {
-        if ($instructorsTeachingData == null) {
+        if ($instructorsTeachingData === null) {
             return ['status' => false, 'erro' => 'A turma precisa de professores com componentes curriculares/eixos cadastrados.'];
         } else {
             $hasInstructorWithTeachingMatrix = false;
@@ -654,7 +654,7 @@ class ClassroomValidation extends Register
 
     public function containsStudents($studentsEnrollment)
     {
-        if ($studentsEnrollment == null) {
+        if ($studentsEnrollment === null) {
             return ['status' => false, 'erro' => 'A turma precisa de alunos matriculados.'];
         }
 

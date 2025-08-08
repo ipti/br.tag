@@ -1,0 +1,26 @@
+includes:
+  - vendor/phpstan/phpstan/conf/bleedingEdge.neon
+  - vendor/phpstan/phpstan-strict-rules/rules.neon
+
+parameters:
+  level: 0
+  paths:
+    - app
+    - themes
+  scanFiles:
+    - stubs/CHtml.php
+    - stubs/CJSON.php
+    - stubs/CList.php
+    - stubs/CDbCriteria.php
+    - stubs/CUserIdentity.php
+    - stubs/CApplicationComponent.php
+    - stubs/CClientScript.php
+    - instance.php
+  excludePaths:
+    - vendor/
+  ignoreErrors:
+    - '#Call to an undefined method CActiveRecord::.+#'
+    - '#Access to an undefined property CActiveRecord::.+#'
+    - '#Call to an undefined method .+::render\(\)#'
+    - '#Call to an undefined method .+::renderPartial\(\)#'
+    - '#Call to an undefined method .+::redirect\(\)#'

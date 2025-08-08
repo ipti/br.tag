@@ -102,7 +102,7 @@ class FoodNoticeController extends Controller
         $model = new FoodNotice();
         $noticeData = json_decode(Yii::app()->request->getPost('notice'), true);
 
-        if ($noticeData != null) {
+        if ($noticeData !== null) {
             $date = date('Y-m-d', strtotime(str_replace('/', '-', $noticeData['date'])));
             $uuid = Uuid::uuid4();
             $model->name = $noticeData['name'];
@@ -169,7 +169,7 @@ class FoodNoticeController extends Controller
         $model = $this->loadModel($id);
         $noticeData = json_decode(Yii::app()->request->getPost('notice'), true);
 
-        if ($noticeData != null) {
+        if ($noticeData !== null) {
             $date = strtotime(str_replace('/', '-', $noticeData['date']));
 
             $model->name = $noticeData['name'];

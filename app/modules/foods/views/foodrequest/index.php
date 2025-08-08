@@ -1,6 +1,6 @@
 <?php
-/* @var $this FoodRequestController */
-/* @var $dataProvider CActiveDataProvider */
+/** @var $this FoodRequestController */
+/** @var $dataProvider CActiveDataProvider */
 
 $this->breadcrumbs = [
     'Food Requests',
@@ -40,7 +40,7 @@ $this->menu = [
     <?php endif ?>
 
 	<div class="row  t-buttons-container">
-		<a class="t-button-primary" id="js-entry-request-button" href="<?php echo yii::app()->createUrl('foods/foodRequest/create') ?>" type="button">Gerar Solicitação</a>
+		<a class="t-button-primary" id="js-entry-request-button" href="<?php echo Yii::app()->createUrl('foods/foodRequest/create') ?>" type="button">Gerar Solicitação</a>
 	</div>
 
 	<div class="row">

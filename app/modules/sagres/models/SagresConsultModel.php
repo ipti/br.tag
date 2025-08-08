@@ -259,7 +259,7 @@ class SagresConsultModel
         $strMaxLength = 100;
         $inconsistencies = [];
 
-        if ($diretor->getNrAto() == null) {
+        if ($diretor->getNrAto() === null) {
             $inconsistencyModel = new ValidationSagresModel();
             $inconsistencyModel->enrollment = 'DIRETOR';
             $inconsistencyModel->school = $school['name'];

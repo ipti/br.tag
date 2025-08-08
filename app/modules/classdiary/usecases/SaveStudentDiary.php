@@ -1,9 +1,11 @@
 <?php
 
-    yii::import('application.modules.classdiary.services.*');
+    Yii::import('application.modules.classdiary.services.*');
+
     /**
      * @property SaveStudentDiary $SaveStudentDiary
      */
+
     class SaveStudentDiary
     {
         private $studentService;

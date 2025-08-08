@@ -7,55 +7,47 @@
  */
 class UserIdentity extends CUserIdentity
 {
-    /**
-     * Authenticates a user.
-     * The example implementation makes sure if the username and password
-     * are both 'demo'.
-     * In practical applications, this should be changed to authenticate
-     * against some persistent user identity storage (e.g. database).
-     * @return bool whether authentication succeeds
-     */
-    //	public function authenticate()
-    //	{
-    //		$users=array(
-    //			// username => password
-    //			'demo'=>'demo',
-    //			'admin'=>'admin',
-    //		);
-    //		if(!isset($users[$this->username]))
-    //			$this->errorCode=self::ERROR_USERNAME_INVALID;
-    //		elseif($users[$this->username]!==$this->password)
-    //			$this->errorCode=self::ERROR_PASSWORD_INVALID;
-    //		else
-    //			$this->errorCode=self::ERROR_NONE;
-    //		return !$this->errorCode;
-    //	}
-//
+
     public function isMd5($string)
     {
-        $md5_pattern = '/^[a-fA-F0-9]{32}$/';
+        $md5Pattern = '/^[a-fA-F0-9]{32}$/';
 
-        return preg_match($md5_pattern, $string);
+        return preg_match($md5Pattern, $string);
     }
 
     public function authenticate()
     {
         $record = Users::model()->findByAttributes(['username' => $this->username]);
 
+        if( $this->hasMd5PassValidadeError($record)){
+            $this->errorCode = self::ERROR_PASSWORD_INVALID;
+        }
+
+        if ($record === null || !$record->active) {
+            $this->errorCode = self::ERROR_USERNAME_INVALID;
+        } else{
+            $this->errorCode = $this->passwordVerification($record) === "errorNone" ? self::ERROR_NONE : self::ERROR_PASSWORD_INVALID;
+        }
+
+        return !$this->errorCode;
+    }
+
+
+    private function hasMd5PassValidadeError($record){
         if ($this->isMd5($record->password)) {
             if ($record->password === md5($this->password)) {
                 $passwordHasher = new PasswordHasher();
                 $record->password = $passwordHasher->bcriptHash($this->password);
                 $record->save();
+                return false;
             } else {
-                $this->errorCode = self::ERROR_PASSWORD_INVALID;
+               return true;
             }
         }
-
-        if ($record === null || !$record->active) {
-            $this->errorCode = self::ERROR_USERNAME_INVALID;
-        } elseif (!password_verify($this->password, $record->password)) {
-            $this->errorCode = self::ERROR_PASSWORD_INVALID;
+    }
+    private function passwordVerification($record){
+        if (!password_verify($this->password, $record->password)) {
+            return "passInvalid";
         } else {
             if (
                 Yii::app()->getAuthManager()->checkAccess('admin', $record->id)
@@ -65,7 +57,6 @@ class UserIdentity extends CUserIdentity
             ) {
                 $userSchools = [];
                 $this->setState('hardfoot', false);
-                // @done s2 - mostrar apenas escolas ativas
                 $userSchools = SchoolIdentification::model()->findAllByAttributes(['situation' => '1'], ['order' => 'name']);
                 $school = isset($userSchools[0]) ? $userSchools[0]->inep_id : '';
             } else {
@@ -77,10 +68,7 @@ class UserIdentity extends CUserIdentity
             $this->setState('loginInfos', $record);
             $this->setState('usersSchools', $userSchools);
             $this->setState('school', $school);
-            $this->errorCode = self::ERROR_NONE;
-            // AdminController::actionBackup(false);
+            return "errorNone";
         }
-
-        return !$this->errorCode;
     }
 }

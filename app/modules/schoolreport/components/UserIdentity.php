@@ -47,7 +47,7 @@ class UserIdentity extends CUserIdentity
             $this->setState('info', ['cpf' => $students[0]->responsable_cpf, 'name' => $responsible]);
             $result = [];
             foreach ($students as $student) {
-                /* @var $student StudentIdentification
+                /** @var $student StudentIdentification
                  * @var $enrollment StudentEnrollment
                  * @var $classroom Classroom */
                 $enrollments = StudentEnrollment::model()->findAllByAttributes(['student_fk' => $student->id]);

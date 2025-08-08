@@ -1,11 +1,11 @@
 <?php
-/* @var $this ManagementSchoolController
+/** @var $this ManagementSchoolController
  * @var $school SchoolIdentification
  */
 
 $baseScriptUrl = Yii::app()->controller->module->baseScriptUrl;
 
-$this->headerDescription = CHtml::tag('span', [], $school->name . CHtml::tag('span', [], ' | ' . yii::t('resultsmanagementModule.managementSchool', 'Frequency')));
+$this->headerDescription = CHtml::tag('span', [], $school->name . CHtml::tag('span', [], ' | ' . Yii::t('resultsmanagementModule.managementSchool', 'Frequency')));
 
 $baseUrl = Yii::app()->baseUrl;
 $cs = Yii::app()->getClientScript();
@@ -23,7 +23,7 @@ $cs->registerCssFile($baseScriptUrl . '/common/css/resultsmanagement.css');
 ?>
 <div class="row">
     <div class="col-md-4">
-        <?= Chtml::dropDownList('classroom', '', $classrooms, [
+        <?= CHtml::dropDownList('classroom', '', $classrooms, [
             'class' => 'filter-select',
             'ajax' => [
                 'type' => 'get',
@@ -34,12 +34,12 @@ $cs->registerCssFile($baseScriptUrl . '/common/css/resultsmanagement.css');
         ]); ?>
     </div>
     <div class="col-md-4">
-        <?= Chtml::dropDownList('month', '', [], [
+        <?= CHtml::dropDownList('month', '', [], [
             'class' => 'filter-select',
         ]); ?>
     </div>
     <div class="col-md-4">
-        <?= Chtml::dropDownList('discipline', '', [], [
+        <?= CHtml::dropDownList('discipline', '', [], [
             'class' => 'filter-select',
         ]); ?>
     </div>

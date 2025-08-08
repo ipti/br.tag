@@ -21,7 +21,7 @@ class FormsRepository
             ':enrollment_fk' => $enrollmentId,
             ':discipline_fk' => $disciplineId,
         ]);
-        if ($gradeResult != null) {
+        if ($gradeResult !== null) {
             for ($i = 1; $i <= 8; $i++) {
                 $totalContents += $gradeResult['given_classes_' . $i];
             }
@@ -54,7 +54,7 @@ class FormsRepository
             ':enrollment_fk' => $enrollmentId,
             ':discipline_fk' => $disciplineId,
         ]);
-        if ($gradeResult != null) {
+        if ($gradeResult !== null) {
             for ($i = 1; $i <= 8; $i++) {
                 $totalFaults += $gradeResult['grade_faults_' . $i];
             }
@@ -87,7 +87,7 @@ class FormsRepository
                 ':calendar_fk' => $classroomFk->calendar_fk,
                 ':grade_unity_fk' => $unity->id,
             ]);
-            if ($unityPeriods != null) {
+            if ($unityPeriods !== null) {
                 array_push($unityDates, $unityPeriods->initial_date);
             }
         }
@@ -870,13 +870,13 @@ class FormsRepository
         $matchedConcept = null;
 
         foreach ($concepts as $concept) {
-            if ($finalMedia >= $concept['value'] && $concept['value'] != null) {
+            if ($finalMedia >= $concept['value'] && $concept['value'] !== null) {
                 $matchedConcept = $concept['name'];
                 break;
             }
         }
 
-        if ($matchedConcept != null) {
+        if ($matchedConcept !== null) {
             return $matchedConcept;
         }
 

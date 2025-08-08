@@ -947,7 +947,7 @@ class CensoController extends Controller
         }
 
         // campo 3
-        if ($collumn['inep_id'] != '' && $collumn['inep_id'] != null) {
+        if ($collumn['inep_id'] != '' && $collumn['inep_id'] !== null) {
             $result = $iiv->isValidPersonInepId($collumn['inep_id'], $school_inep_id_fk);
             if (!$result['status']) {
                 array_push($log, ['inep_id' => $result['erro']]);
@@ -1255,7 +1255,7 @@ class CensoController extends Controller
         }
 
         // campo 3
-        if ($collumn['inep_id'] != '' && $collumn['inep_id'] != null) {
+        if ($collumn['inep_id'] != '' && $collumn['inep_id'] !== null) {
             $result = $stiv->isValidPersonInepId($collumn['inep_id'], $school_inep_id_fk);
             if (!$result['status']) {
                 array_push($log, ['inep_id' => $result['erro']]);
@@ -1768,7 +1768,7 @@ class CensoController extends Controller
     {
         Yii::import('ext.Validator.*');
         $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
-        $managerIdentification = ManagerIdentification::model()->findByAttributes(['school_inep_id_fk' => yii::app()->user->school]);
+        $managerIdentification = ManagerIdentification::model()->findByAttributes(['school_inep_id_fk' => Yii::app()->user->school]);
         $schoolstructure = SchoolStructure::model()->findByPk(Yii::app()->user->school);
         $schoolcolumn = $school->attributes;
         $managerIdentificationColumn = $managerIdentification->attributes;
@@ -1776,7 +1776,7 @@ class CensoController extends Controller
         $log['school']['info'] = $school->attributes;
         $log['school']['validate']['identification'] = $this->validateSchool($schoolcolumn, $managerIdentificationColumn);
         $log['school']['validate']['structure'] = $this->validateSchoolStructure($schoolstructurecolumn, $schoolcolumn);
-        $classrooms = Classroom::model()->with('studentEnrollments.classroomFk')->with('instructorTeachingDatas.instructorFk')->findAllByAttributes(['school_inep_fk' => yii::app()->user->school, 'school_year' => Yii::app()->user->year]);
+        $classrooms = Classroom::model()->with('studentEnrollments.classroomFk')->with('instructorTeachingDatas.instructorFk')->findAllByAttributes(['school_inep_fk' => Yii::app()->user->school, 'school_year' => Yii::app()->user->year]);
 
         $processedInstructors = [];
         foreach ($classrooms as $iclass => $classroom) {
@@ -1885,19 +1885,19 @@ class CensoController extends Controller
     {
         $linha = '';
         foreach ($itens as $s) {
-            if ($s['id'] == null) {
+            if ($s['id'] === null) {
                 $linha .= '||';
             } else {
                 $linha .= $s['id'] . '|';
             }
 
-            if ($s['cpf'] == null) {
+            if ($s['cpf'] === null) {
                 $linha .= '|';
             } else {
                 $linha .= $s['cpf'] . '|';
             }
 
-            if ($s['civil_register_enrollment_number'] == null) {
+            if ($s['civil_register_enrollment_number'] === null) {
                 $linha .= '|';
             } else {
                 $fill = true;
@@ -1923,13 +1923,13 @@ class CensoController extends Controller
             }
 
             $s['name'] = preg_replace('/[^A-Z ]/', '', htmlentities(strtoupper($s['name'])));
-            if ($s['name'] == null) {
+            if ($s['name'] === null) {
                 $linha .= '|';
             } else {
                 $linha .= strtoupper($s['name']) . '|';
             }
 
-            if ($s['birthday'] == null) {
+            if ($s['birthday'] === null) {
                 $linha .= '|';
             } else {
                 $linha .= $s['birthday'] . '|';
@@ -1937,19 +1937,19 @@ class CensoController extends Controller
 
             $s['filiation_1'] = preg_replace('/[^A-Z ]/', '', htmlentities(strtoupper($s['filiation_1'])));
             $s['filiation_2'] = preg_replace('/[^A-Z ]/', '', htmlentities(strtoupper($s['filiation_2'])));
-            if ($s['filiation_1'] == null) {
+            if ($s['filiation_1'] === null) {
                 $linha .= '|';
             } else {
                 $linha .= strtoupper($s['filiation_1']) . '|';
             }
 
-            if ($s['filiation_2'] == null) {
+            if ($s['filiation_2'] === null) {
                 $linha .= '|';
             } else {
                 $linha .= strtoupper($s['filiation_2']) . '|';
             }
 
-            if ($s['edcenso_city_fk'] == null) {
+            if ($s['edcenso_city_fk'] === null) {
                 $linha .= '2806305|';
             } else {
                 $linha .= $s['edcenso_city_fk'] . '|';
@@ -2323,13 +2323,13 @@ class CensoController extends Controller
                         'joinType' => 'INNER JOIN',
                         'condition' => 'edcensoStageVsModalityFk.stage IN (4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 41, 56)',
                     ],
-                ])->findAllByAttributes(['school_inep_fk' => yii::app()->user->school, 'school_year' => Yii::app()->user->year]);
+                ])->findAllByAttributes(['school_inep_fk' => Yii::app()->user->school, 'school_year' => Yii::app()->user->year]);
 
                 if (count($classrooms) == 0) {
                     $attributes['basic_education_cycle_organized'] = '';
                 }
                 foreach ($attributes as $i => $attr) {
-                    if ($attr == '') {
+                    if ($attr === '') {
                         $ordem = EdcensoAlias::model()->findAllByAttributes(['register' => $register, 'attr' => $i])[0];
                         $attributes[$i] = $ordem->default;
                     }
@@ -2359,7 +2359,7 @@ class CensoController extends Controller
                             $attributes[$i] = '';
                         }
                     }
-                    //	$attributes['another_scholarization_place'] = '';
+                //	$attributes['another_scholarization_place'] = '';
                 } else {
                     foreach ($classroom->attributes as $i => $attr) {
                         $pos = strstr($i, 'aee_');
@@ -2874,7 +2874,7 @@ class CensoController extends Controller
                         Deve permanecer no final das validações do registro 20
                     */
                 foreach ($attributes as $i => $attr) {
-                    if ($attr == '') {
+                    if ($attr === '') {
                         $ordem = EdcensoAlias::model()->findAllByAttributes(['register' => $register, 'attr' => $i])[0];
                         $attributes[$i] = $ordem->default;
                     }
@@ -2933,7 +2933,7 @@ class CensoController extends Controller
         //        $this->normalizeField2019($school->register_type, $school->attributes);
         //        $schoolStructure = SchoolStructure::model()->findByPk(Yii::app()->user->school);
         //        $this->normalizeField2019($schoolStructure->register_type, $schoolStructure->attributes);
-        //        $classrooms = Classroom::model()->findAllByAttributes(["school_inep_fk" => yii::app()->user->school, "school_year" => Yii::app()->user->year]);
+        //        $classrooms = Classroom::model()->findAllByAttributes(["school_inep_fk" => Yii::app()->user->school, "school_year" => Yii::app()->user->year]);
         //        foreach ($classrooms as $iclass => $classroom) {
         //            $log['classrooms'][$iclass] = $classroom->attributes;
         //            foreach ($classroom->instructorTeachingDatas as $iteaching => $teachingData) {
@@ -3135,7 +3135,7 @@ class CensoController extends Controller
             }
             while (true) {
                 $fileLine = fgets($file);
-                if ($fileLine == null) {
+                if ($fileLine === null) {
                     break;
                 }
                 $lineFields_Aux = explode('|', $fileLine);
@@ -3145,7 +3145,7 @@ class CensoController extends Controller
             $counterStudents = 0;
             $counterInstructos = 0;
             foreach ($lineFields as $index => $line) {
-                if ($line[8] == null || !preg_match('/^[0-9]+$/', $line[8])) {
+                if ($line[8] === null || !preg_match('/^[0-9]+$/', $line[8])) {
                     continue;
                 }
 
@@ -3158,7 +3158,7 @@ class CensoController extends Controller
                         $instructor->documents->update(['inep_id']);
                         $instructor->inep_id = $line[8];
                         $instructor->update(['inep_id']);
-                        if ($instructor->instructorVariableData != null) {
+                        if ($instructor->instructorVariableData !== null) {
                             $instructor->instructorVariableData->inep_id = $line[8];
                             $instructor->instructorVariableData->update(['inep_id']);
                         }
@@ -3212,7 +3212,7 @@ class CensoController extends Controller
             }
             while (true) {
                 $fileLine = fgets($file);
-                if ($fileLine == null) {
+                if ($fileLine === null) {
                     break;
                 }
                 $lineFields_Aux = explode('|', $fileLine);
@@ -3263,7 +3263,7 @@ class CensoController extends Controller
                             $instructor->documents->update(['inep_id']);
                             $instructor->inep_id = $line[8];
                             $instructor->update(['inep_id']);
-                            if ($instructor->instructorVariableData != null) {
+                            if ($instructor->instructorVariableData !== null) {
                                 $instructor->instructorVariableData->inep_id = $line[8];
                                 $instructor->instructorVariableData->update(['inep_id']);
                             }
@@ -3344,7 +3344,7 @@ class CensoController extends Controller
         while (true) {
             // Próxima linha do arquivo
             $fileLine = fgets($file);
-            if ($fileLine == null) {
+            if ($fileLine === null) {
                 break;
             }
 
@@ -3372,7 +3372,7 @@ class CensoController extends Controller
         $fields = EdcensoAlias::model()->findAllByAttributes(['register' => $register, 'version' => '2025']);
         $orderInepId = $this->getOrderInepId($fields) - 1;
         foreach ($lines as $iline => $line) {
-            if (is_null($orderInepId) || !isset($line[$orderInepId]) || $line[$orderInepId] == '') {
+            if (is_null($orderInepId) || !isset($line[$orderInepId]) || $line[$orderInepId] === '') {
                 continue;
             }
 

@@ -303,7 +303,7 @@ class StudentMapper
         $inepId = Yii::app()->user->school;
 
         $studentIdentification = StudentIdentification::model()->find('name = :name and filiation_1 = :filiation_1', [':name' => $outDadosPessoais->getOutNomeAluno(), 'filiation_1' => $outDadosPessoais->getOutNomeMae()]);
-        if ($studentIdentification == null) {
+        if ($studentIdentification === null) {
             $studentIdentification = new StudentIdentification();
             $studentIdentification->name = $outDadosPessoais->getOutNomeAluno();
             $studentIdentification->filiation_1 = $outDadosPessoais->getOutNomeMae();

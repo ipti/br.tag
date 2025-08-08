@@ -104,7 +104,7 @@ class ChageStudentStatusByGradeUsecase
 
         $this->gradeResult->situation = $disapprovedSituation;
 
-        if ($finalMedia >= $approvationMedia && ($frequency >= '75' || $frequency == null)) {
+        if ($finalMedia >= $approvationMedia && ($frequency >= '75' || $frequency === null)) {
             $this->gradeResult->situation = $approvedSituation;
         } elseif ($this->gradeRule->has_final_recovery) {
             $recoveryMedia = $this->gradeResult->rec_final;
