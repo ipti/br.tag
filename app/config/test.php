@@ -1,7 +1,6 @@
 <?php
 
-// require(dirname(__FILE__).'/main.php');
-defined('DBNAME') or define('DBNAME', 'demo.tag.ong.br');
+defined('DBNAME') || define('DBNAME', 'demo.tag.ong.br');
 $HOST = 'localhost:3306';
 $USER = 'root';
 $SECRET = 'root';
@@ -15,17 +14,12 @@ define('DBCONFIG', serialize([
 ]));
 
 return CMap::mergeArray(
-    require (dirname(__FILE__) . '/main.php'),
+    require_once dirname(__FILE__) . '/main.php',
     [
         'components' => [
             'fixture' => [
                 'class' => 'system.test.CDbFixtureManager',
             ],
-            /* uncomment the following to provide test database connection
-            // 'db'=>array(
-            // 	'connectionString'=>'DSN for test database',
-            // ),
-            // */
         ],
     ]
 );
