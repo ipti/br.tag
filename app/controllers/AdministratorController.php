@@ -15,11 +15,12 @@
     // @done S2 - Criar usuários padrões.
 
     // @done S2 - Mensagens de retorno ao executar os scripts.
+    define('SCHOOL_INEP_ID_FK', 'school_inep_id_fk');
 
     class AdministratorController extends Controller
     {
         public $layout = 'fullmenu';
-
+        private $s
         public function accessRules()
         {
             return [
@@ -1441,31 +1442,31 @@
                         break;
                     case 3:
                         $query = 'select ii.* from instructor_teaching_data itd join instructor_identification ii on ii.id = itd.instructor_fk join classroom c on itd.classroom_id_fk = c.id where itd.school_inep_id_fk = :school_inep_id_fk and c.school_year = :year';
-                        $objects = InstructorIdentification::model()->findAllBySql($query, [':school_inep_id_fk' => Yii::app()->user->school, ':year' => date('Y')]);
+                        $objects = InstructorIdentification::model()->findAllBySql($query, [SCHOOL_INEP_ID_FK => Yii::app()->user->school, ':year' => date('Y')]);
                         break;
                     case 4:
                         $query = 'select idaa.* from instructor_teaching_data itd join instructor_documents_and_address idaa on idaa.id = itd.instructor_fk join classroom c on itd.classroom_id_fk = c.id where itd.school_inep_id_fk = :school_inep_id_fk and c.school_year = :year';
-                        $objects = InstructorDocumentsAndAddress::model()->findAllBySql($query, [':school_inep_id_fk' => Yii::app()->user->school, ':year' => date('Y')]);
+                        $objects = InstructorDocumentsAndAddress::model()->findAllBySql($query, [SCHOOL_INEP_ID_FK => Yii::app()->user->school, ':year' => date('Y')]);
                         break;
                     case 5:
                         $query = 'select ivd.* from instructor_teaching_data itd join instructor_variable_data ivd on ivd.id = itd.instructor_fk join classroom c on itd.classroom_id_fk = c.id where itd.school_inep_id_fk = :school_inep_id_fk and c.school_year = :year';
-                        $objects = InstructorVariableData::model()->findAllBySql($query, [':school_inep_id_fk' => Yii::app()->user->school, ':year' => date('Y')]);
+                        $objects = InstructorVariableData::model()->findAllBySql($query, [SCHOOL_INEP_ID_FK => Yii::app()->user->school, ':year' => date('Y')]);
                         break;
                     case 6:
                         $query = 'select itd.* from instructor_teaching_data itd join instructor_identification ii on ii.id = itd.instructor_fk join classroom c on itd.classroom_id_fk = c.id where itd.school_inep_id_fk = :school_inep_id_fk and c.school_year = :year';
-                        $objects = InstructorTeachingData::model()->findAllBySql($query, [':school_inep_id_fk' => Yii::app()->user->school, ':year' => date('Y')]);
+                        $objects = InstructorTeachingData::model()->findAllBySql($query, [SCHOOL_INEP_ID_FK => Yii::app()->user->school, ':year' => date('Y')]);
                         break;
                     case 7:
                         $query = 'select si.* from student_identification si join student_enrollment se on si.id = se.student_fk join classroom c on c.id = se.classroom_fk where c.school_year = :year and se.school_inep_id_fk = :school_inep_id_fk';
-                        $objects = StudentIdentification::model()->findAllBySql($query, [':school_inep_id_fk' => Yii::app()->user->school, ':year' => date('Y')]);
+                        $objects = StudentIdentification::model()->findAllBySql($query, [SCHOOL_INEP_ID_FK => Yii::app()->user->school, ':year' => date('Y')]);
                         break;
                     case 8:
                         $query = 'select sdaa.* from student_documents_and_address sdaa join student_enrollment se on sdaa.id = se.student_fk join classroom c on c.id = se.classroom_fk where c.school_year = :year and se.school_inep_id_fk = :school_inep_id_fk';
-                        $objects = StudentDocumentsAndAddress::model()->findAllBySql($query, [':school_inep_id_fk' => Yii::app()->user->school, ':year' => date('Y')]);
+                        $objects = StudentDocumentsAndAddress::model()->findAllBySql($query, [SCHOOL_INEP_ID_FK => Yii::app()->user->school, ':year' => date('Y')]);
                         break;
                     case 9:
                         $query = 'select se.* from student_enrollment se join classroom c on c.id = se.classroom_fk where c.school_year = :year and se.school_inep_id_fk = :school_inep_id_fk';
-                        $objects = StudentEnrollment::model()->findAllBySql($query, [':school_inep_id_fk' => Yii::app()->user->school, ':year' => date('Y')]);
+                        $objects = StudentEnrollment::model()->findAllBySql($query, [SCHOOL_INEP_ID_FK => Yii::app()->user->school, ':year' => date('Y')]);
                         break;
                     default:
                         break;
@@ -1721,109 +1722,7 @@
 
         public function actionImportFromMaster()
         {
-            //			$tables = [
-            //				"school_identification", "school_structure", "classroom", "instructor_identification",
-            //				"instructor_documents_and_address", "instructor_variable_data", "instructor_teaching_data",
-            //				"student_identification", "student_documents_and_address", "student_enrollment"
-            //			];
-//
-            //			for ($i = 0; $i < count($tables); $i++) {
-            //				$model = $pk = $object = null;
-            //				switch ($i) {
-            //					case "0":
-            //						$model = SchoolIdentification::model();
-            //						$pk = "inep_id";
-            //						$sqlCondition = "inep_id = :id";
-            //						$object = new SchoolIdentification();
-            //						break;
-            //					case "1":
-            //						$model = SchoolStructure::model();
-            //						$pk = "school_inep_id_fk";
-            //						$sqlCondition = "school_inep_id_fk = :id";
-            //						$object = new SchoolStructure();
-            //						break;
-            //					case "2":
-            //						$model = Classroom::model();
-            //						$pk = "id";
-            //						$sqlCondition = "school_inep_fk = :school and id = :id";
-            //						$schoolKey = "school_inep_fk";
-            //						$object = new Classroom();
-            //						break;
-            //					case "3":
-            //						$model = InstructorIdentification::model();
-            //						$pk = "id";
-            //						$sqlCondition = "school_inep_id_fk = :school and id = :id";
-            //						$schoolKey = "school_inep_id_fk";
-            //						$object = new InstructorIdentification();
-            //						break;
-            //					case "4":
-            //						$model = InstructorDocumentsAndAddress::model();
-            //						$pk = "id";
-            //						$sqlCondition = "school_inep_id_fk = :school and id = :id";
-            //						$schoolKey = "school_inep_id_fk";
-            //						$object = new InstructorDocumentsAndAddress();
-            //						break;
-            //					case "5":
-            //						$model = InstructorVariableData::model();
-            //						$pk = "id";
-            //						$sqlCondition = "school_inep_id_fk = :school and id = :id";
-            //						$schoolKey = "school_inep_id_fk";
-            //						$object = new InstructorVariableData();
-            //						break;
-            //					case "6":
-            //						$model = InstructorTeachingData::model();
-            //						$pk = "id";
-            //						$sqlCondition = "school_inep_id_fk = :school and id = :id";
-            //						$schoolKey = "school_inep_id_fk";
-            //						$object = new InstructorTeachingData();
-            //						break;
-            //					case "7":
-            //						$model = StudentIdentification::model();
-            //						$pk = "id";
-            //						$sqlCondition = "school_inep_id_fk = :school and id = :id";
-            //						$schoolKey = "school_inep_id_fk";
-            //						$object = new StudentIdentification();
-            //						break;
-            //					case "8":
-            //						$model = StudentDocumentsAndAddress::model();
-            //						$pk = "id";
-            //						$sqlCondition = "school_inep_id_fk = :school and id = :id";
-            //						$schoolKey = "school_inep_id_fk";
-            //						$object = new StudentDocumentsAndAddress();
-            //						break;
-            //					case "9":
-            //						$model = StudentEnrollment::model();
-            //						$pk = "id";
-            //						$sqlCondition = "school_inep_id_fk = :school and id = :id";
-            //						$schoolKey = "school_inep_id_fk";
-            //						$object = new StudentEnrollment();
-            //						break;
-            //				}
-            //				$sql = "select * from $tables[$i];";
-            //				$db2Arrays = Yii::app()->db2->createCommand($sql)->queryAll();
-            //				foreach ($db2Arrays as $db2array) {
-            //					if($i < 2){
-            //						$dbObject = $model->find($sqlCondition, [
-            //							":id" => $db2array[$pk]
-            //						]);
-            //					}else {
-            //						$dbObject = $model->find($sqlCondition, [
-            //							":id" => $db2array[$pk], ":school" => $db2array[$schoolKey]
-            //						]);
-            //					}
-            //					if ($dbObject === null) {
-            //						$dbObject = $object;
-            //					}
-            //					if ($i == 0) {
-            //						$logoFileContent = $dbObject->logo_file_content;
-            //						$dbObject->attributes = $db2array;
-            //						$dbObject->logo_file_content = $logoFileContent;
-            //					} else {
-            //						$dbObject->attributes = $db2array;
-            //					}
-            //					$dbObject->save();
-            //				}
-            //			}
+
             $this->redirect(['index']);
         }
     }

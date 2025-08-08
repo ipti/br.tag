@@ -59,8 +59,7 @@ class AdminController extends Controller
     public function actionExportCountUsers()
     {
         $host = getenv('HOST_DB_TAG');
-        $user = getenv('USER_DB_TAG');
-        $pwd = getenv('PWD_DB_TAG');
+
 
         $connection = Yii::app()->db;
         $connection->setActive(false);
@@ -1032,6 +1031,8 @@ SELECT
                     break;
                 case 'date':
                     $criteria->order .= $_POST['columns'][$order['column']]['data'];
+                    break;
+                default:
                     break;
             }
             $criteria->order .= ' ' . $order['dir'];
