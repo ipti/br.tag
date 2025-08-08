@@ -14,7 +14,7 @@ define('DBCONFIG', serialize([
 ]));
 
 return CMap::mergeArray(
-    require (dirname(__FILE__) . '/main.php'),
+    require(dirname(__FILE__) . '/main.php'),
     [
         'components' => [
             'fixture' => [

@@ -274,7 +274,7 @@ echo $form->error($modelSchoolIdentification, 'initial_date');
     ['class' => 't-field-text__label']
 ); ?>
                                 <?php
-                                                                                                $options = DatePickerWidget::renderDatePickerFinal($modelSchoolIdentification, 'final_date');
+                                                                                                                                $options = DatePickerWidget::renderDatePickerFinal($modelSchoolIdentification, 'final_date');
 $options['htmlOptions'] = array_merge(isset($options['htmlOptions']) ? $options['htmlOptions'] : [], ['style' => 'background-color: #fff;']);
 $this->widget('zii.widgets.jui.CJuiDatePicker', $options);
 
@@ -2805,7 +2805,7 @@ echo $form->dropDownList(
                             <div class="t-field-select">
                                 <label class="t-field-select__label">Estado</label>
                                 <?php
-                                                                                                echo $form->dropDownList(
+                                                                                                                                echo $form->dropDownList(
                                     $modelManagerIdentification,
                                     'edcenso_uf_fk',
                                     CHtml::listData(EdcensoUf::model()->findAll([
@@ -2828,7 +2828,7 @@ echo $form->dropDownList(
                             <div class="t-field-select">
                                 <label class="t-field-select__label">Cidade</label>
                                 <?php
-                                                                                                echo $form->dropDownList(
+                                                                                                                                echo $form->dropDownList(
                                     $modelManagerIdentification,
                                     'edcenso_city_fk',
                                     CHtml::listData(EdcensoCity::model()->findAllByAttributes([

@@ -60,7 +60,6 @@ class AdminController extends Controller
     {
         $host = getenv('HOST_DB_TAG');
 
-
         $connection = Yii::app()->db;
         $connection->setActive(false);
         $connection->connectionString = "mysql:host=$host;";
@@ -347,9 +346,8 @@ SELECT
     {
         $directoryPath = dirname($filePath);
 
-        if (!is_dir($directoryPath) && !mkdir($directoryPath, 0777, true) ) {
+        if (!is_dir($directoryPath) && !mkdir($directoryPath, 0777, true)) {
             throw new Exception("Falha ao criar diretórios: $directoryPath");
-
         }
     }
 
