@@ -57,6 +57,7 @@ class Controller extends CController
         SentrySdk::getCurrentHub()->setSpan($transaction);
 
         if (parent::beforeAction($action)) {
+
             if (isset(Yii::app()->user->authTimeout)) {
                 $lastActivity = Yii::app()->user->getState('last_activity');
                 $timeout = Yii::app()->user->authTimeout;

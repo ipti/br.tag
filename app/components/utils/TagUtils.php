@@ -91,7 +91,9 @@ class TagUtils extends CApplicationComponent
         }
 
         return self::valideDateFormat($date);
+
     }
+
 
     public static function isSubstituteInstructor($classroom)
     {
@@ -151,8 +153,7 @@ class TagUtils extends CApplicationComponent
         return implode("\n", $result);
     }
 
-    private static function valideDateFormat($date)
-    {
+    private static function valideDateFormat($date){
         if (preg_match('/^\d{2}\/\d{2}\/\d{4}$/', $date)) {
             return $date;
         }

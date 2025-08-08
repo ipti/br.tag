@@ -98,11 +98,11 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                                 <div class="t-field-select">
                                     <?php echo CHtml::label(Yii::t('default', 'Stage'), 'modality_fk', ['class' => 'control-label t-field-select__label--required']); ?>
                                     <?php
-                                                                                                                                                                        echo $form->dropDownList($coursePlan, 'modality_fk', CHtml::listData($stages, 'id', 'name'), [
-                                                                                                                                                                            'key' => 'id',
-                                                                                                                                                                            'class' => 'select-search-on t-field-select__input',
-                                                                                                                                                                            'prompt' => 'Selecione a etapa...',
-                                                                                                                                                                        ]);
+                                                                                                        echo $form->dropDownList($coursePlan, 'modality_fk', CHtml::listData($stages, 'id', 'name'), [
+                                                                                                            'key' => 'id',
+                                                                                                            'class' => 'select-search-on t-field-select__input',
+                                                                                                            'prompt' => 'Selecione a etapa...',
+                                                                                                        ]);
 ?>
                                     <img class="js-course-plan-loading-disciplines"  style="margin: 10px 20px;" height="30px" width="30px" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/loadingTag.gif" alt="TAG Loading">
                                 </div>

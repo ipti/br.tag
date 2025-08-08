@@ -67,7 +67,7 @@ $tableWhiteFieldsComplete = '<td></td><td></td><td></td><td></td><td></td>
             </thead>
             <tbody>
                 <?php
-                                                                $count = 1;
+                                                    $count = 1;
 foreach ($students as $student) { ?>
                     <tr>
                         <td><?= $count < 10 ? '0' . $count : $count?></td>

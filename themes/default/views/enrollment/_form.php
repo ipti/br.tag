@@ -107,9 +107,9 @@ echo $form->error($model, 'classroom_fk');
                             </div>
 
                             <?php //@done s1 - criar campo de selecionar o Stage
-                                                                                                                            //@done s1 - alterar banco para suprir a necessidade do filtro por Stage
-                                                                                                                            //@done s1 - criar requisição ajax para filtrar a modalidade por Stage
-                                                                                                                            ?>
+                                                                                            //@done s1 - alterar banco para suprir a necessidade do filtro por Stage
+                                                                                            //@done s1 - criar requisição ajax para filtrar a modalidade por Stage
+                                                                                            ?>
                             <div class="t-field-select">
                                 <?php echo CHtml::label('Etapa', 'Stage', ['class' => 't-field-select__label']); ?>
 

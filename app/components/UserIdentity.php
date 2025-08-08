@@ -7,6 +7,7 @@
  */
 class UserIdentity extends CUserIdentity
 {
+
     public function isMd5($string)
     {
         $md5Pattern = '/^[a-fA-F0-9]{32}$/';
@@ -18,21 +19,21 @@ class UserIdentity extends CUserIdentity
     {
         $record = Users::model()->findByAttributes(['username' => $this->username]);
 
-        if ($this->hasMd5PassValidadeError($record)) {
+        if( $this->hasMd5PassValidadeError($record)){
             $this->errorCode = self::ERROR_PASSWORD_INVALID;
         }
 
         if ($record === null || !$record->active) {
             $this->errorCode = self::ERROR_USERNAME_INVALID;
-        } else {
-            $this->errorCode = $this->passwordVerification($record) === 'errorNone' ? self::ERROR_NONE : self::ERROR_PASSWORD_INVALID;
+        } else{
+            $this->errorCode = $this->passwordVerification($record) === "errorNone" ? self::ERROR_NONE : self::ERROR_PASSWORD_INVALID;
         }
 
         return !$this->errorCode;
     }
 
-    private function hasMd5PassValidadeError($record)
-    {
+
+    private function hasMd5PassValidadeError($record){
         if ($this->isMd5($record->password)) {
             if ($record->password === md5($this->password)) {
                 $passwordHasher = new PasswordHasher();
@@ -40,15 +41,13 @@ class UserIdentity extends CUserIdentity
                 $record->save();
                 return false;
             } else {
-                return true;
+               return true;
             }
         }
     }
-
-    private function passwordVerification($record)
-    {
+    private function passwordVerification($record){
         if (!password_verify($this->password, $record->password)) {
-            return 'passInvalid';
+            return "passInvalid";
         } else {
             if (
                 Yii::app()->getAuthManager()->checkAccess('admin', $record->id)
@@ -69,7 +68,7 @@ class UserIdentity extends CUserIdentity
             $this->setState('loginInfos', $record);
             $this->setState('usersSchools', $userSchools);
             $this->setState('school', $school);
-            return 'errorNone';
+            return "errorNone";
         }
     }
 }

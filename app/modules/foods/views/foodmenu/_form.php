@@ -110,7 +110,7 @@ $cs->registerScriptFile($baseScriptUrl . '/functions.js?v=' . TAG_VERSION, CClie
         <div class="t-margin-none--top column">
                 <label for="stages" class="t-field-select__label--required">Etapas de ensino</label>
                 <?php
-	                                echo CHtml::dropDownList(
+	                        echo CHtml::dropDownList(
 	    'Etapas',
 	    $stages,
 	    CHtml::listData(EdcensoStageVsModality::model()->findAll(), 'id', 'name'),
