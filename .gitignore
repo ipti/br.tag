@@ -15,3 +15,6 @@ docker/mysql/dbfiles
 node_modules
 app/import/*
 .php-cs-fixer.cache
+
+/app/export/InfoTagCSV
+/app/export/InfoTagJSON
