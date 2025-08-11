@@ -756,7 +756,6 @@
                 $instructorVariables = InstructorVariableData::model()->findByPk($instructor->id);
                 $export .= implode('|', $instructorVariables->attributes);
                 $export .= "\n";
-                // $export .= "50|\n";
 
                 // Dados de Docência do Professor
                 $criteria->select = 't.*';
@@ -1503,8 +1502,6 @@
                         $sql .= ' (`' . implode('`, `', $keys) . '`, `tag_id`,  `student_identification_tag_id`, `fk_classroom_tag_id`) VALUES';
                         break;
                 }
-                // $sql .= " (`" . implode("`, `", $keys) . "`, `tag_id`) VALUES";
-
                 foreach ($array as $value) {
                     $tagId = '';
                     switch ($i) {
@@ -1558,7 +1555,6 @@
                             $sql .= " ('" . str_replace("''", 'null', implode("', '", $value)) . "', '" . $tagId . "', '" . $studentIndetification_tagId[$studentIdentification->id] . "', '" . $classroom_tagId[$classroom->id] . "'),";
                             break;
                     }
-                    // $sql .= " ('" . str_replace("''", "null", implode("', '", $value)) . "', '" . $tagId . "'),";
                 }
                 $sql = substr($sql, 0, -1) . ' ON DUPLICATE KEY UPDATE ';
                 foreach ($keys as $key) {
