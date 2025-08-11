@@ -321,7 +321,7 @@
             $mode = 'r';
 
             $fileImport = fopen($fileDir, $mode);
-            if ($fileImport == false) {
+            if (!$fileImport) {
                 exit('O arquivo não existe.');
             }
 
@@ -930,7 +930,7 @@
 
             // Abre o arquivo
             $file = fopen($fileDir, $mode);
-            if ($file == false) {
+            if (!$file) {
                 exit('O arquivo não existe.');
             }
 
@@ -953,7 +953,7 @@
             while (true) {
                 // Próxima linha do arquivo
                 $fileLine = fgets($file);
-                if ($fileLine == null) {
+                if (empty($fileLine)) {
                     break;
                 }
 
