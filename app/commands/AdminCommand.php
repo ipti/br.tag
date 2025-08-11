@@ -302,7 +302,6 @@ class AdminCommand extends CConsoleCommand
         $loads = [];
 
         $schools = $this->getSchoolIdsByYear($year);
-        //$studentAll = (new StudentIdentification())->findAll();
         $teachAll = $this->getAllInstructors();
 
         if ($this->hasDb2Connection()) {
@@ -377,7 +376,7 @@ class AdminCommand extends CConsoleCommand
         $classrooms = $this->getClassroomsBySchoolYear($schoolInepId, $year);
 
         foreach ($classrooms as $classroom) {
-            $this->loadClassroomData($school->inep_id, $classroom, $hashSchool, $loads);
+            $this->loadClassroomData($school->inep_id, $classroom,  $loads);
         }
     }
 
@@ -397,7 +396,7 @@ class AdminCommand extends CConsoleCommand
         return $c->findAllByAttributes(['school_inep_fk' => $schoolId, 'school_year' => $year]);
     }
 
-    private function loadClassroomData($schoolInepId, $classroom, $hashSchool, &$loads)
+    private function loadClassroomData($schoolInepId, $classroom, &$loads)
     {
         $hashClassroom = hexdec(crc32($schoolInepId . $classroom->id . $classroom->school_year));
         $loads['classrooms'][$hashClassroom] = $classroom->attributes;
