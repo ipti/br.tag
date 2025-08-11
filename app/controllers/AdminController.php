@@ -58,13 +58,11 @@ class AdminController extends Controller
 
     public function actionExportCountUsers()
     {
-        $HOST = getenv('HOST_DB_TAG');
-        $USER = getenv('USER_DB_TAG');
-        $PWD = getenv('PWD_DB_TAG');
+        $host = getenv('HOST_DB_TAG');
 
         $connection = Yii::app()->db;
         $connection->setActive(false);
-        $connection->connectionString = "mysql:host=$HOST;";
+        $connection->connectionString = "mysql:host=$host;";
         $connection->setActive(true);
 
         // Obter lista de bancos de dados
@@ -76,7 +74,7 @@ class AdminController extends Controller
         $ignoredDbs = ['information_schema', 'mysql', 'performance_schema', 'sys'];
         $databases = array_diff($dbList, $ignoredDbs);
 
-        $sql_query = "
+        $sqlQuery = "
 SELECT
     (SELECT COUNT(*) FROM instructor_identification) AS professores,
     (SELECT COUNT(*) FROM student_identification) AS alunos,
@@ -89,10 +87,10 @@ SELECT
         foreach ($databases as $dbname) {
             try {
                 $connection->setActive(false);
-                $connection->connectionString = "mysql:host=$HOST;dbname=$dbname";
+                $connection->connectionString = "mysql:host=$host;dbname=$dbname";
                 $connection->setActive(true);
 
-                $command = $connection->createCommand($sql_query);
+                $command = $connection->createCommand($sqlQuery);
                 $result = $command->queryRow();
 
                 $results[] = [
@@ -115,8 +113,8 @@ SELECT
         echo '</table>';
 
         // Gerar CSV
-        $csv_file = 'resultados.csv';
-        $fp = fopen($csv_file, 'w');
+        $csvFile = 'resultados.csv';
+        $fp = fopen($csvFile, 'w');
         fputcsv($fp, ['Database', 'Professores', 'Alunos', 'Secretários Escolares', 'Coordenadores Pedagógicos']);
 
         foreach ($results as $result) {
@@ -125,7 +123,7 @@ SELECT
 
         fclose($fp);
 
-        echo "<p><a href='$csv_file' download>Baixar CSV</a></p>";
+        echo "<p><a href='$csvFile' download>Baixar CSV</a></p>";
     }
 
     public function actionExportMaster()
@@ -508,7 +506,7 @@ SELECT
 
     public function actionGetUnities()
     {
-        $grade_rules_id = Yii::app()->request->getPost('grade_rules_id');
+        $gradeRulesId = Yii::app()->request->getPost('grade_rules_id');
 
         $result = [];
         $result['unities'] = [];
@@ -517,7 +515,7 @@ SELECT
         $criteria->alias = 'gu';
         $criteria->condition = 'grade_rules_fk = :grade_rules_fk';
         $criteria->addInCondition('gu.type', [GradeUnity::TYPE_UNITY, GradeUnity::TYPE_UNITY_BY_CONCEPT, GradeUnity::TYPE_UNITY_WITH_RECOVERY]);
-        $criteria->params = array_merge([':grade_rules_fk' => $grade_rules_id], $criteria->params);
+        $criteria->params = array_merge([':grade_rules_fk' => $gradeRulesId], $criteria->params);
         $criteria->order = 'gu.id';
 
         $gradeUnities = GradeUnity::model()
@@ -534,7 +532,7 @@ SELECT
         }
 
         $criteria->condition = 'grade_rules_fk = :grade_rules_fk and gu.type = :type';
-        $criteria->params = [':grade_rules_fk' => $grade_rules_id, ':type' => GradeUnity::TYPE_FINAL_RECOVERY];
+        $criteria->params = [':grade_rules_fk' => $gradeRulesId, ':type' => GradeUnity::TYPE_FINAL_RECOVERY];
 
         $finalRecovery = GradeUnity::model()
             ->with('gradeUnityModalities')
@@ -547,7 +545,7 @@ SELECT
 
         $gradeRules = GradeRules::model()
             ->findByPk(
-                $grade_rules_id
+                $gradeRulesId
             );
 
         $stageIds = Yii::app()->db->createCommand('
@@ -563,7 +561,7 @@ SELECT
             ORDER BY
                 esvm.name
         ')
-            ->bindParam(':grade_rule', $grade_rules_id)
+            ->bindParam(':grade_rule', $gradeRulesId)
             ->queryColumn();
         $result['edcenso_stage_vs_modality_fk'] = $stageIds;
         $result['approvalMedia'] = $gradeRules->approvation_media;
