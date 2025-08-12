@@ -12,6 +12,13 @@ Yii::import('application.modules.sedsp.mappers.*');
 Yii::import('application.modules.sedsp.usecases.*');
 Yii::import('application.modules.sedsp.usecases.Enrollment.*');
 
+define('CLASSROOM_ID',':classroomId');
+define("CLASSROOM_ID_SQL",'c.id = :classroomId');
+define('FILTER_ID_NOT_EQUAL','&& id!="');
+define('STAGES','stages.*');
+
+
+
 // -----------------------------------------CLASSE VALIDADA ATÉ A SEQUENCIA 35!!------------------------
 class ClassroomController extends Controller
 {
@@ -22,9 +29,9 @@ class ClassroomController extends Controller
      * using two-column layout. See 'protected/views/layouts/column2.php'.
      */
     public $layout = 'fullmenu';
-    public $MODEL_CLASSROOM = 'Classroom';
-    public $MODEL_TEACHING_DATA = 'InstructorTeachingData';
-    public $MODEL_STUDENT_ENROLLMENT = 'StudentEnrollment';
+    public $modelClassroomName = 'Classroom';
+    public $modelTeachingData = 'InstructorTeachingData';
+    public $modelStudentEnrollment = 'StudentEnrollment';
 
     /**
      * @return array action filters
@@ -113,8 +120,8 @@ class ClassroomController extends Controller
         join classroom_vs_grade_rules cvgr on cvgr.grade_rules_fk = gr.id
         join classroom c on c.id = cvgr.classroom_fk
     ';
-        $criteria->condition = 'c.id = :classroomId';
-        $criteria->params = [':classroomId' => $classroomId];
+        $criteria->condition = CLASSROOM_ID_SQL;
+        $criteria->params = [CLASSROOM_ID => $classroomId];
         $selectedOptions = GradeRules::model()->findAll($criteria);
 
         // Todas as opções disponíveis (sem filtros)
@@ -201,11 +208,11 @@ class ClassroomController extends Controller
 
         $where = '';
         $where .= $id1 != 'null' ? 'id!="' . $id1 . '" ' : '';
-        $where .= $id2 != 'null' ? '&& id!="' . $id2 . '" ' : '';
-        $where .= $id3 != 'null' ? '&& id!="' . $id3 . '" ' : '';
-        $where .= $id4 != 'null' ? '&& id!="' . $id4 . '" ' : '';
-        $where .= $id5 != 'null' ? '&& id!="' . $id5 . '" ' : '';
-        $where .= $id6 != 'null' ? '&& id!="' . $id6 . '" ' : '';
+        $where .= $id2 != 'null' ? FILTER_ID_NOT_EQUAL . $id2 . '" ' : '';
+        $where .= $id3 != 'null' ? FILTER_ID_NOT_EQUAL . $id3 . '" ' : '';
+        $where .= $id4 != 'null' ? FILTER_ID_NOT_EQUAL . $id4 . '" ' : '';
+        $where .= $id5 != 'null' ? FILTER_ID_NOT_EQUAL . $id5 . '" ' : '';
+        $where .= $id6 != 'null' ? FILTER_ID_NOT_EQUAL . $id6 . '" ' : '';
 
         $data = EdcensoComplementaryActivityType::model()->findAll($where);
         $data = CHtml::listData($data, 'id', 'name');
@@ -292,32 +299,59 @@ class ClassroomController extends Controller
         $stage = $modelClassroom->edcenso_stage_vs_modality_fk;
         $putNull = ($type == 4 || $type == 5) || ($stage == 1 || $stage == 2 || $stage == 3 || $stage == 65);
 
-        $modelClassroom->discipline_chemistry = $putNull ? null : (isset($discipline[1]) ? $discipline[1] : 0);
-        $modelClassroom->discipline_physics = $putNull ? null : (isset($discipline[2]) ? $discipline[2] : 0);
-        $modelClassroom->discipline_mathematics = $putNull ? null : (isset($discipline[3]) ? $discipline[3] : 0);
-        $modelClassroom->discipline_biology = $putNull ? null : (isset($discipline[4]) ? $discipline[4] : 0);
-        $modelClassroom->discipline_science = $putNull ? null : (isset($discipline[5]) ? $discipline[5] : 0);
-        $modelClassroom->discipline_language_portuguese_literature = $putNull ? null : (isset($discipline[6]) ? $discipline[6] : 0);
-        $modelClassroom->discipline_foreign_language_english = $putNull ? null : (isset($discipline[7]) ? $discipline[7] : 0);
-        $modelClassroom->discipline_foreign_language_spanish = $putNull ? null : (isset($discipline[8]) ? $discipline[8] : 0);
-        $modelClassroom->discipline_foreign_language_other = $putNull ? null : (isset($discipline[9]) ? $discipline[9] : 0);
-        $modelClassroom->discipline_arts = $putNull ? null : (isset($discipline[10]) ? $discipline[10] : 0);
-        $modelClassroom->discipline_physical_education = $putNull ? null : (isset($discipline[11]) ? $discipline[11] : 0);
-        $modelClassroom->discipline_history = $putNull ? null : (isset($discipline[12]) ? $discipline[12] : 0);
-        $modelClassroom->discipline_geography = $putNull ? null : (isset($discipline[13]) ? $discipline[13] : 0);
-        $modelClassroom->discipline_philosophy = $putNull ? null : (isset($discipline[14]) ? $discipline[14] : 0);
-        $modelClassroom->discipline_informatics = $putNull ? null : (isset($discipline[16]) ? $discipline[16] : 0);
-        $modelClassroom->discipline_professional_disciplines = $putNull ? null : (isset($discipline[17]) ? $discipline[17] : 0);
-        $modelClassroom->discipline_special_education_and_inclusive_practices = $putNull ? null : (isset($discipline[20]) ? $discipline[20] : 0);
-        $modelClassroom->discipline_sociocultural_diversity = $putNull ? null : (isset($discipline[21]) ? $discipline[21] : 0);
-        $modelClassroom->discipline_libras = $putNull ? null : (isset($discipline[23]) ? $discipline[23] : 0);
-        $modelClassroom->discipline_pedagogical = $putNull ? null : (isset($discipline[25]) ? $discipline[25] : 0);
-        $modelClassroom->discipline_religious = $putNull ? null : (isset($discipline[26]) ? $discipline[26] : 0);
-        $modelClassroom->discipline_native_language = $putNull ? null : (isset($discipline[27]) ? $discipline[27] : 0);
-        $modelClassroom->discipline_social_study = $putNull ? null : (isset($discipline[28]) ? $discipline[28] : 0);
-        $modelClassroom->discipline_sociology = $putNull ? null : (isset($discipline[29]) ? $discipline[29] : 0);
-        $modelClassroom->discipline_foreign_language_franch = $putNull ? null : (isset($discipline[30]) ? $discipline[30] : 0);
-        $modelClassroom->discipline_others = $putNull ? null : (isset($discipline[99]) ? $discipline[99] : 0);
+        $disciplineChemistry = isset($discipline[1]) ? $discipline[1] : 0;
+        $disciplinePhysics = isset($discipline[2]) ? $discipline[2] : 0;
+        $disciplineMathematics = isset($discipline[3]) ? $discipline[3] : 0;
+        $disciplineBiology = isset($discipline[4]) ? $discipline[4] : 0;
+        $disciplineScience = isset($discipline[5]) ? $discipline[5] : 0;
+        $disciplinePortugueseLiterature = isset($discipline[6]) ? $discipline[6] : 0;
+        $disciplineEnglish = isset($discipline[7]) ? $discipline[7] : 0;
+        $disciplineSpanish = isset($discipline[8]) ? $discipline[8] : 0;
+        $disciplineOtherLanguage = isset($discipline[9]) ? $discipline[9] : 0;
+        $disciplineArts = isset($discipline[10]) ? $discipline[10] : 0;
+        $disciplinePhysicalEducation = isset($discipline[11]) ? $discipline[11] : 0;
+        $disciplineHistory = isset($discipline[12]) ? $discipline[12] : 0;
+        $disciplineGeography = isset($discipline[13]) ? $discipline[13] : 0;
+        $disciplinePhilosophy = isset($discipline[14]) ? $discipline[14] : 0;
+        $disciplineInformatics = isset($discipline[16]) ? $discipline[16] : 0;
+        $disciplineProfessional = isset($discipline[17]) ? $discipline[17] : 0;
+        $disciplineSpecialEducation = isset($discipline[20]) ? $discipline[20] : 0;
+        $disciplineSocioculturalDiversity = isset($discipline[21]) ? $discipline[21] : 0;
+        $disciplineLibras = isset($discipline[23]) ? $discipline[23] : 0;
+        $disciplinePedagogical = isset($discipline[25]) ? $discipline[25] : 0;
+        $disciplineReligious = isset($discipline[26]) ? $discipline[26] : 0;
+        $disciplineNativeLanguage = isset($discipline[27]) ? $discipline[27] : 0;
+        $disciplineSocialStudy = isset($discipline[28]) ? $discipline[28] : 0;
+        $disciplineSociology = isset($discipline[29]) ? $discipline[29] : 0;
+        $disciplineFrench = isset($discipline[30]) ? $discipline[30] : 0;
+        $disciplineOthers = isset($discipline[99]) ? $discipline[99] : 0;
+
+        $modelClassroom->discipline_chemistry = $putNull ? null : $disciplineChemistry;
+        $modelClassroom->discipline_physics = $putNull ? null : $disciplinePhysics;
+        $modelClassroom->discipline_mathematics = $putNull ? null : $disciplineMathematics;
+        $modelClassroom->discipline_biology = $putNull ? null :$disciplineBiology;
+        $modelClassroom->discipline_science = $putNull ? null : $disciplineScience;
+        $modelClassroom->discipline_language_portuguese_literature =$disciplinePortugueseLiterature;
+        $modelClassroom->discipline_foreign_language_english = $putNull ? null : $disciplineEnglish;
+        $modelClassroom->discipline_foreign_language_spanish = $putNull ? null : $disciplineSpanish;
+        $modelClassroom->discipline_foreign_language_other = $putNull ? null : $disciplineOtherLanguage;
+        $modelClassroom->discipline_arts = $putNull ? null : $disciplineArts;
+        $modelClassroom->discipline_physical_education = $putNull ? null : $disciplinePhysicalEducation;
+        $modelClassroom->discipline_history = $putNull ? null : $disciplineHistory;
+        $modelClassroom->discipline_geography = $putNull ? null : $disciplineGeography;
+        $modelClassroom->discipline_philosophy = $putNull ? null : $disciplinePhilosophy;
+        $modelClassroom->discipline_informatics = $putNull ? null : $disciplineInformatics;
+        $modelClassroom->discipline_professional_disciplines = $putNull ? null : $disciplineProfessional;
+        $modelClassroom->discipline_special_education_and_inclusive_practices = $putNull ? null : $disciplineSpecialEducation;
+        $modelClassroom->discipline_sociocultural_diversity = $putNull ? null : $disciplineSocioculturalDiversity;
+        $modelClassroom->discipline_libras = $putNull ? null : $disciplineLibras;
+        $modelClassroom->discipline_pedagogical = $putNull ? null : $disciplinePedagogical;
+        $modelClassroom->discipline_religious = $putNull ? null : $disciplineReligious;
+        $modelClassroom->discipline_native_language = $putNull ? null :$disciplineNativeLanguage;
+        $modelClassroom->discipline_social_study = $putNull ? null : $disciplineSocialStudy;
+        $modelClassroom->discipline_sociology = $putNull ? null : $disciplineSociology;
+        $modelClassroom->discipline_foreign_language_franch = $putNull ? null : $disciplineFrench;
+        $modelClassroom->discipline_others = $putNull ? null : $disciplineOthers;
     }
 
     // @done s1 - criar função para pegar os labels das disciplinas separando pelo id do educacenso
@@ -385,7 +419,7 @@ class ClassroomController extends Controller
             ->with('edcensoStageVsModalityFk.curricularMatrixes.disciplineFk')
             ->find('t.id = :classroom', [':classroom' => $classroom->id]);
 
-        foreach ($classroomModel->edcensoStageVsModalityFk->curricularMatrixes as $key => $matrix) {
+        foreach ($classroomModel->edcensoStageVsModalityFk->curricularMatrixes as $matrix) {
             $disciplines[$matrix->disciplineFk->id] = $matrix->disciplineFk->name;
         }
 
@@ -451,7 +485,7 @@ class ClassroomController extends Controller
         // @done S1 - Modificar o banco para ter a relação estrangeira dos professores e turmas
         // @done S1 - Criar Trigger ou solução similar para colocar o auto increment do professor no instructor_fk da turma
         // @done s1 - Atualizar o teachingdata ao atualizar o classroom
-        $modelClassroom = $this->loadModel($id, $this->MODEL_CLASSROOM);
+        $modelClassroom = $this->loadModel($id, $this->modelClassroomName);
 
         if (!empty($_POST)) {
             $enrollments = $_POST;
@@ -470,7 +504,7 @@ class ClassroomController extends Controller
 
     public function actionBatchUpdateTotal($id)
     {
-        $modelClassroom = $this->loadModel($id, $this->MODEL_CLASSROOM);
+        $modelClassroom = $this->loadModel($id, $this->modelClassroomName);
 
         if (!empty($_POST)) {
             $enrollments = $_POST;
@@ -499,7 +533,7 @@ class ClassroomController extends Controller
         // @done S1 - Modificar o banco para ter a relação estrangeira dos professores e turmas
         // @done S1 - Criar Trigger ou solução similar para colocar o auto increment do professor no instructor_fk da turma
         // @done s1 - Atualizar o teachingdata ao atualizar o classroom
-        $modelClassroom = $this->loadModel($id, $this->MODEL_CLASSROOM);
+        $modelClassroom = $this->loadModel($id, $this->modelClassroomName);
 
         if (!empty($_POST)) {
             $enrollments = $_POST;
@@ -527,7 +561,7 @@ class ClassroomController extends Controller
 
     public function actionBatchupdatEnrollment($id)
     {
-        $modelClassroom = $this->loadModel($id, $this->MODEL_CLASSROOM);
+        $modelClassroom = $this->loadModel($id, $this->modelClassroomName);
         if (!empty($_POST)) {
             $enrollments = $_POST;
             foreach ($enrollments as $eid => $field) {
@@ -642,12 +676,12 @@ class ClassroomController extends Controller
 
         $criteria = new CDbCriteria();
         $criteria->alias = 'stages';
-        $criteria->select = 'stages.*';
+        $criteria->select = FILTER_ID_NOT_EQUAL;
         $criteria->join = 'INNER JOIN student_enrollment se ON se.edcenso_stage_vs_modality_fk = stages.id';
         $criteria->join .= ' INNER JOIN classroom c ON c.id = se.classroom_fk';
-        $criteria->condition = 'c.id = :classroomId';
+        $criteria->condition = CLASSROOM_ID_SQL;
         $criteria->group = 'stages.name';
-        $criteria->params = [':classroomId' => $modelClassroom->id];
+        $criteria->params = [CLASSROOM_ID => $modelClassroom->id];
         $stages = EdcensoStageVsModality::model()->findAll($criteria);
 
         $gradeRulesStages = [];
@@ -658,7 +692,7 @@ class ClassroomController extends Controller
             $criteria->join = 'INNER JOIN grade_rules_vs_edcenso_stage_vs_modality grvesvm ON grvesvm.grade_rules_fk = gr.id ';
             $criteria->join .= 'INNER JOIN classroom_vs_grade_rules cvgr ON cvgr.grade_rules_fk = gr.id';
             $criteria->condition = 'cvgr.classroom_fk = :classroomId and grvesvm.edcenso_stage_vs_modality_fk = :stageId';
-            $criteria->params = [':classroomId' => $modelClassroom->id, ':stageId' => $stage->id];
+            $criteria->params = [CLASSROOM_ID => $modelClassroom->id, ':stageId' => $stage->id];
             $gradeRulesQuery = GradeRules::model()->find($criteria);
 
             $gradeRulesStages[$stage->id] = $gradeRulesQuery == null ? '' : $gradeRulesQuery;
@@ -681,8 +715,8 @@ class ClassroomController extends Controller
 
     public function actionUpdate($id)
     {
-        $modelClassroom = $this->loadModel($id, $this->MODEL_CLASSROOM);
-        $modelTeachingData = $this->loadModel($id, $this->MODEL_TEACHING_DATA);
+        $modelClassroom = $this->loadModel($id, $this->modelClassroomName);
+        $modelTeachingData = $this->loadModel($id, $this->modelTeachingData);
         $studentsEnrollments = $modelClassroom->studentEnrollments;
         $modelEnrollments = [];
         foreach ($studentsEnrollments as $studentEnrollment) {
@@ -709,7 +743,6 @@ class ClassroomController extends Controller
 
         if (isset($_POST['enrollments']) && isset($_POST['toclassroom'])) {
             $enrollments = $_POST['enrollments'];
-            $count_students = count($_POST['enrollments']);
             if (!empty($_POST['toclassroom'])) {
                 $class_room = Classroom::model()->findByPk($_POST['toclassroom']);
                 foreach ($enrollments as $enrollment) {
@@ -770,9 +803,7 @@ class ClassroomController extends Controller
             $modelClassroom->calendar_fk = $_POST['calendar_fk'];
             $modelClassroom->assistance_type = $this->defineAssistanceType($modelClassroom);
 
-            if (Yii::app()->features->isEnable('FEAT_SEDSP') && !$disableFieldsWhenItsUBATUBA) {
-                if (
-                    $beforeChangeClassroom->turn != $modelClassroom->turn ||
+            if ((Yii::app()->features->isEnable('FEAT_SEDSP') && !$disableFieldsWhenItsUBATUBA)&&($beforeChangeClassroom->turn != $modelClassroom->turn ||
                     $beforeChangeClassroom->sedsp_acronym != $modelClassroom->sedsp_acronym ||
                     $beforeChangeClassroom->sedsp_classnumber != $modelClassroom->sedsp_classnumber ||
                     $beforeChangeClassroom->sedsp_max_physical_capacity != $modelClassroom->sedsp_max_physical_capacity ||
@@ -785,10 +816,10 @@ class ClassroomController extends Controller
                     $beforeChangeClassroom->week_days_wednesday != $modelClassroom->week_days_wednesday ||
                     $beforeChangeClassroom->week_days_thursday != $modelClassroom->week_days_thursday ||
                     $beforeChangeClassroom->week_days_friday != $modelClassroom->week_days_friday ||
-                    $beforeChangeClassroom->week_days_saturday != $modelClassroom->week_days_saturday
-                ) {
-                    $modelClassroom->sedsp_sync = 0;
-                }
+                    $beforeChangeClassroom->week_days_saturday != $modelClassroom->week_days_saturday)) {
+
+                $modelClassroom->sedsp_sync = 0;
+
             }
 
             $disciplines = json_decode($_POST['disciplines'], true);
@@ -876,12 +907,12 @@ class ClassroomController extends Controller
 
         $criteria = new CDbCriteria();
         $criteria->alias = 'stages';
-        $criteria->select = 'stages.*';
+        $criteria->select = FILTER_ID_NOT_EQUAL;
         $criteria->join = 'INNER JOIN student_enrollment se ON se.edcenso_stage_vs_modality_fk = stages.id';
         $criteria->join .= ' INNER JOIN classroom c ON c.id = se.classroom_fk';
-        $criteria->condition = 'c.id = :classroomId';
+        $criteria->condition = CLASSROOM_ID_SQL;
         $criteria->group = 'stages.name';
-        $criteria->params = [':classroomId' => $modelClassroom->id];
+        $criteria->params = [CLASSROOM_ID => $modelClassroom->id];
         $stages = EdcensoStageVsModality::model()->findAll($criteria);
 
         $gradeRulesStages = [];
@@ -892,7 +923,7 @@ class ClassroomController extends Controller
             $criteria->join = 'INNER JOIN grade_rules_vs_edcenso_stage_vs_modality grvesvm ON grvesvm.grade_rules_fk = gr.id ';
             $criteria->join .= 'INNER JOIN classroom_vs_grade_rules cvgr ON cvgr.grade_rules_fk = gr.id';
             $criteria->condition = 'cvgr.classroom_fk = :classroomId and grvesvm.edcenso_stage_vs_modality_fk = :stageId';
-            $criteria->params = [':classroomId' => $modelClassroom->id, ':stageId' => $stage->id];
+            $criteria->params = [CLASSROOM_ID => $modelClassroom->id, ':stageId' => $stage->id];
             $gradeRulesQuery = GradeRules::model()->find($criteria);
 
             $gradeRulesStages[$stage->id] = $gradeRulesQuery == null ? '' : $gradeRulesQuery;
@@ -927,12 +958,12 @@ class ClassroomController extends Controller
         if (TagUtils::isMultiStage($classroom->edcenso_stage_vs_modality_fk)) {
             $criteria = new CDbCriteria();
             $criteria->alias = 'stages';
-            $criteria->select = 'stages.*';
+            $criteria->select = FILTER_ID_NOT_EQUAL;
             $criteria->join = 'INNER JOIN student_enrollment se ON se.edcenso_stage_vs_modality_fk = stages.id';
             $criteria->join .= ' INNER JOIN classroom c ON c.id = se.classroom_fk';
-            $criteria->condition = 'c.id = :classroomId';
+            $criteria->condition = CLASSROOM_ID_SQL;
             $criteria->group = 'stages.name';
-            $criteria->params = [':classroomId' => $classroom->id];
+            $criteria->params = [CLASSROOM_ID => $classroom->id];
             $stages = EdcensoStageVsModality::model()->findAll($criteria);
 
             foreach ($stages as $stage) {
@@ -953,34 +984,34 @@ class ClassroomController extends Controller
     // @done s1 - excluir Matriculas, TeachingData e Turma
     public function actionDelete($id)
     {
-        $classroom = $this->loadModel($id, $this->MODEL_CLASSROOM);
-        $teachingDatas = $this->loadModel($id, $this->MODEL_TEACHING_DATA);
+        $classroom = $this->loadModel($id, $this->modelClassroomName);
+        $teachingDatas = $this->loadModel($id, $this->modelTeachingData);
         $transaction = Yii::app()->db->beginTransaction();
         $ableToDelete = true;
-        if (Yii::app()->features->isEnable('FEAT_SEDSP')) {
-            if ($classroom->gov_id !== null) {
-                $loginUseCase = new LoginUseCase();
-                $loginUseCase->checkSEDToken();
+        if ((Yii::app()->features->isEnable('FEAT_SEDSP')) && !empty($classroom->gov_id)) {
 
-                $inConsultaTurmaClasse = new InConsultaTurmaClasse(
-                    Yii::app()->user->year,
-                    $classroom->gov_id
-                );
-                $dataSource = new ClassroomSEDDataSource();
-                $outConsultaTurmaClasse = $dataSource->getConsultClass($inConsultaTurmaClasse);
+            $loginUseCase = new LoginUseCase();
+            $loginUseCase->checkSEDToken();
 
-                if (!property_exists($outConsultaTurmaClasse, 'outErro')) {
-                    $inExcluirTurmaClasse = new InExcluirTurmaClasse($classroom->gov_id);
-                    $result = $dataSource->excluirTurmaClasse($inExcluirTurmaClasse);
-                    if ($result->outErro !== null) {
-                        $ableToDelete = false;
-                        $erro = $result->outErro;
-                    }
-                } else {
+            $inConsultaTurmaClasse = new InConsultaTurmaClasse(
+                Yii::app()->user->year,
+                $classroom->gov_id
+            );
+            $dataSource = new ClassroomSEDDataSource();
+            $outConsultaTurmaClasse = $dataSource->getConsultClass($inConsultaTurmaClasse);
+
+            if (!property_exists($outConsultaTurmaClasse, 'outErro')) {
+                $inExcluirTurmaClasse = new InExcluirTurmaClasse($classroom->gov_id);
+                $result = $dataSource->excluirTurmaClasse($inExcluirTurmaClasse);
+                if ($result->outErro !== null) {
                     $ableToDelete = false;
-                    $erro = $outConsultaTurmaClasse->outErro;
+                    $erro = $result->outErro;
                 }
+            } else {
+                $ableToDelete = false;
+                $erro = $outConsultaTurmaClasse->outErro;
             }
+
         }
         if ($ableToDelete) {
             try {
@@ -1076,7 +1107,7 @@ class ClassroomController extends Controller
     {
         $return = null;
 
-        if ($model == $this->MODEL_CLASSROOM) {
+        if ($model == $this->modelClassroomName) {
             $return = Classroom::model()->findByPk($id);
             $complementaryActivitiesArray = [];
             if ($return->complementary_activity_type_1 != null) {
@@ -1098,11 +1129,11 @@ class ClassroomController extends Controller
                 array_push($complementaryActivitiesArray, $return->complementary_activity_type_6);
             }
             $return->complementary_activity_type_1 = $complementaryActivitiesArray;
-        } elseif ($model == $this->MODEL_TEACHING_DATA) {
+        } elseif ($model == $this->modelTeachingData) {
             $classroom = $id;
             $instructors = InstructorTeachingData::model()->findAll('classroom_id_fk = ' . $classroom);
             $return = $instructors;
-        } elseif ($model == $this->MODEL_STUDENT_ENROLLMENT) {
+        } elseif ($model == $this->modelStudentEnrollment) {
             $classroom = $id;
             $student = StudentEnrollment::model()->findAll('classroom_fk = ' . $classroom);
             $return = $student;
@@ -1227,7 +1258,6 @@ class ClassroomController extends Controller
         }, $enrollments);
 
         echo json_encode($result);
-        /* Yii::app()->user->setFlash('success', Yii::t('default', 'dayli order')); */
     }
 
     public function getSchoolStagesModels()
