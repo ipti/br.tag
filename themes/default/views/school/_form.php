@@ -812,7 +812,7 @@ echo $form->error($modelSchoolIdentification, 'final_date');
                     <div class="row">
                         <div class="column is-two-fifths clearleft">
                             <div class="t-field-select">
-                                <?php //@done s1 - Tem que filtrar de acordo com o estado e cidade, no momento está listando todos
+                                <?php
                                 ?>
                                 <?php echo $form->label(
                                     $modelSchoolIdentification,
