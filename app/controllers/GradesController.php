@@ -728,6 +728,7 @@ class GradesController extends Controller
 
 
                 }
+                $classroom->is_closed = 1;
             }
 
 
