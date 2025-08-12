@@ -79,8 +79,6 @@ class Register10
             $attributes['acessability_visual_signaling'] = '0';
         }
 
-        // todo: fazer inexistent pra dependencies (é muito campo)
-
         if ($attributes['classroom_count'] == '0') {
             $attributes['classroom_count'] = null;
         }

@@ -2,6 +2,10 @@
 
 Yii::import('application.repository.FormsRepository', true);
 
+define('CLASSROOM_FK',':classroom_fk');
+define('CLASSROOM_ID',':classroomId');
+define('STAGE_ID',':stageId');
+define('ENROLLMENT_FK_AND_DISCIPLINE_FK','enrollment_fk = :enrollment_fk and discipline_fk = :discipline_fk');
 class GradesController extends Controller
 {
     public $layout = 'fullmenu';
@@ -104,7 +108,7 @@ class GradesController extends Controller
         $criteria->join .= ' INNER JOIN classroom ON classroom.id = student_enrollment.classroom_fk';
         $criteria->condition = 'classroom.id = :classroomId';
         $criteria->group = 'stages.name';
-        $criteria->params = [':classroomId' => $classroomId];
+        $criteria->params = [CLASSROOM_ID => $classroomId];
         $stages = EdcensoStageVsModality::model()->findAll($criteria);
 
         echo CHtml::tag(
@@ -182,7 +186,7 @@ class GradesController extends Controller
             $criteria->join .= ' INNER JOIN classroom c ON c.id = cgr.classroom_fk';
             $criteria->join .= ' INNER JOIN grade_rules_vs_edcenso_stage_vs_modality grvesvm ON grvesvm.grade_rules_fk = gr.id AND grvesvm.edcenso_stage_vs_modality_fk = c.edcenso_stage_vs_modality_fk';
             $criteria->condition = 'cgr.classroom_fk = :classroomId';
-            $criteria->params = [':classroomId' => $classroomId];
+            $criteria->params = [CLASSROOM_ID => $classroomId];
             $unities = GradeUnity::model()->findAll($criteria);
         }
         $result = [];
@@ -227,7 +231,7 @@ class GradesController extends Controller
 
         foreach ($students as $std) {
             $mediaFinal = 0;
-            $gradeResult = GradeResults::model()->find('enrollment_fk = :enrollment_fk and discipline_fk = :discipline_fk', ['enrollment_fk' => $std['enrollmentId'], 'discipline_fk' => $discipline]);
+            $gradeResult = GradeResults::model()->find(ENROLLMENT_FK_AND_DISCIPLINE_FK, ['enrollment_fk' => $std['enrollmentId'], 'discipline_fk' => $discipline]);
             if (!isset($gradeResult)) {
                 $gradeResult = new GradeResults();
             }
@@ -385,22 +389,18 @@ class GradesController extends Controller
         $criteria->alias = 'se';
         $criteria->join = 'join student_identification si on si.id = se.student_fk';
         $criteria->condition = 'classroom_fk = :classroom_fk';
-        $criteria->params = [':classroom_fk' => $_POST['classroom']];
+        $criteria->params = [CLASSROOM_FK => $_POST['classroom']];
         $criteria->order = 'se.daily_order, si.name';
         $studentEnrollments = StudentEnrollment::model()->findAll($criteria);
 
         if ($studentEnrollments != null) {
             $result['students'] = [];
             foreach ($studentEnrollments as $studentEnrollment) {
-                // TODO: Mudar lógica de criação de tabela para turmas multiseriadas
-                // $stage = isset($studentEnrollment->edcenso_stage_vs_modality_fk)
-                //     ? $studentEnrollment->edcenso_stage_vs_modality_fk :
-                //     $studentEnrollment->classroomFk->edcenso_stage_vs_modality_fk;
 
                 $unities = GradeUnity::model()->findAll(
                     'edcenso_stage_vs_modality_fk = :stageId and (type = :type or type = :type2 or type = :type3)',
                     [
-                        ':stageId' => $studentEnrollment->classroomFk->edcenso_stage_vs_modality_fk,
+                        STAGE_ID => $studentEnrollment->classroomFk->edcenso_stage_vs_modality_fk,
                         ':type' => GradeUnity::TYPE_UNITY,
                         ':type2' => GradeUnity::TYPE_UNITY_WITH_RECOVERY,
                         ':type3' => GradeUnity::TYPE_UNITY_BY_CONCEPT,
@@ -410,7 +410,7 @@ class GradesController extends Controller
                     [
                         'select' => 'rule_type',
                         'condition' => 'edcenso_stage_vs_modality_fk = :stageId',
-                        'params' => [':stageId' => $studentEnrollment->classroomFk->edcenso_stage_vs_modality_fk],
+                        'params' => [STAGE_ID => $studentEnrollment->classroomFk->edcenso_stage_vs_modality_fk],
                     ]
                 );
                 if ($rules->rule_type == 'C') {
@@ -428,7 +428,7 @@ class GradesController extends Controller
                 $discipline = Yii::app()->request->getPost('discipline');
 
                 $gradeResult = GradeResults::model()->find(
-                    'enrollment_fk = :enrollment_fk and discipline_fk = :discipline_fk',
+                    ENROLLMENT_FK_AND_DISCIPLINE_FK,
                     ['enrollment_fk' => $studentEnrollment->id, 'discipline_fk' => $discipline]
                 );
 
@@ -470,7 +470,7 @@ class GradesController extends Controller
         $criteria->alias = 'se';
         $criteria->join = 'join student_identification si on si.id = se.student_fk';
         $criteria->condition = 'classroom_fk = :classroom_fk';
-        $criteria->params = [':classroom_fk' => $_POST['classroom']];
+        $criteria->params = [CLASSROOM_FK => $_POST['classroom']];
         $criteria->order = 'se.daily_order, si.name';
         $studentEnrollments = StudentEnrollment::model()->findAll($criteria);
 
@@ -480,7 +480,7 @@ class GradesController extends Controller
                 $unities = GradeUnity::model()->findAll(
                     'edcenso_stage_vs_modality_fk = :stageId and (type = :type or type = :type2 or type = :type3)',
                     [
-                        ':stageId' => $studentEnrollment->classroomFk->edcenso_stage_vs_modality_fk,
+                        STAGE_ID => $studentEnrollment->classroomFk->edcenso_stage_vs_modality_fk,
                         ':type' => GradeUnity::TYPE_UNITY,
                         ':type2' => GradeUnity::TYPE_UNITY_WITH_RECOVERY,
                         ':type3' => GradeUnity::TYPE_UNITY_BY_CONCEPT,
@@ -490,7 +490,7 @@ class GradesController extends Controller
                     [
                         'select' => 'rule_type, has_final_recovery',
                         'condition' => 'edcenso_stage_vs_modality_fk = :stageId',
-                        'params' => [':stageId' => $studentEnrollment->classroomFk->edcenso_stage_vs_modality_fk],
+                        'params' => [STAGE_ID => $studentEnrollment->classroomFk->edcenso_stage_vs_modality_fk],
                     ]
                 );
                 $concepts = GradeConcept::model()->findAll();
@@ -506,7 +506,7 @@ class GradesController extends Controller
                 $discipline = Yii::app()->request->getPost('discipline');
 
                 $gradeResult = GradeResults::model()->find(
-                    'enrollment_fk = :enrollment_fk and discipline_fk = :discipline_fk',
+                    ENROLLMENT_FK_AND_DISCIPLINE_FK,
                     ['enrollment_fk' => $studentEnrollment->id, 'discipline_fk' => $discipline]
                 );
 
@@ -649,7 +649,7 @@ class GradesController extends Controller
             $criteria->join = 'INNER JOIN grade_rules_vs_edcenso_stage_vs_modality grvesvm ON grvesvm.grade_rules_fk = gr.id ';
             $criteria->join .= 'INNER JOIN classroom_vs_grade_rules cvgr ON cvgr.grade_rules_fk = gr.id';
             $criteria->condition = 'cvgr.classroom_fk = :classroomId and grvesvm.edcenso_stage_vs_modality_fk = :stageId';
-            $criteria->params = [':classroomId' => $classroom->id, ':stageId' => $stage];
+            $criteria->params = [CLASSROOM_ID => $classroom->id, STAGE_ID => $stage];
             $gradeRules = GradeRules::model()->find($criteria);
 
             TLog::info('Começado processo de calcular média final.', ['Classroom' => $classroom->id, 'GradeRules' => $gradeRules->id]);
