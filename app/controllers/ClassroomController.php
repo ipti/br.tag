@@ -16,9 +16,8 @@ define('CLASSROOM_ID',':classroomId');
 define("CLASSROOM_ID_SQL",'c.id = :classroomId');
 define('FILTER_ID_NOT_EQUAL','&& id!="');
 define('STAGES','stages.*');
-
-
-
+define('INNNER_JOIN_STUDENT_ENROLLMENT_AND_EDCENSO_STAGE_VS_MODALITY_FK1','INNER JOIN student_enrollment se ON se.edcenso_stage_vs_modality_fk = stages.id');
+define('INNNER_JOIN_CLASSROOM_ON_CLASSROOM_ID',' INNER JOIN classroom c ON c.id = se.classroom_fk');
 // -----------------------------------------CLASSE VALIDADA ATÉ A SEQUENCIA 35!!------------------------
 class ClassroomController extends Controller
 {
@@ -677,8 +676,8 @@ class ClassroomController extends Controller
         $criteria = new CDbCriteria();
         $criteria->alias = 'stages';
         $criteria->select = FILTER_ID_NOT_EQUAL;
-        $criteria->join = 'INNER JOIN student_enrollment se ON se.edcenso_stage_vs_modality_fk = stages.id';
-        $criteria->join .= ' INNER JOIN classroom c ON c.id = se.classroom_fk';
+        $criteria->join = INNNER_JOIN_STUDENT_ENROLLMENT_AND_EDCENSO_STAGE_VS_MODALITY_FK1;
+        $criteria->join .= INNNER_JOIN_CLASSROOM_ON_CLASSROOM_ID;
         $criteria->condition = CLASSROOM_ID_SQL;
         $criteria->group = 'stages.name';
         $criteria->params = [CLASSROOM_ID => $modelClassroom->id];
@@ -908,8 +907,8 @@ class ClassroomController extends Controller
         $criteria = new CDbCriteria();
         $criteria->alias = 'stages';
         $criteria->select = FILTER_ID_NOT_EQUAL;
-        $criteria->join = 'INNER JOIN student_enrollment se ON se.edcenso_stage_vs_modality_fk = stages.id';
-        $criteria->join .= ' INNER JOIN classroom c ON c.id = se.classroom_fk';
+        $criteria->join = INNNER_JOIN_STUDENT_ENROLLMENT_AND_EDCENSO_STAGE_VS_MODALITY_FK1;
+        $criteria->join .= INNNER_JOIN_CLASSROOM_ON_CLASSROOM_ID;
         $criteria->condition = CLASSROOM_ID_SQL;
         $criteria->group = 'stages.name';
         $criteria->params = [CLASSROOM_ID => $modelClassroom->id];
@@ -959,8 +958,8 @@ class ClassroomController extends Controller
             $criteria = new CDbCriteria();
             $criteria->alias = 'stages';
             $criteria->select = FILTER_ID_NOT_EQUAL;
-            $criteria->join = 'INNER JOIN student_enrollment se ON se.edcenso_stage_vs_modality_fk = stages.id';
-            $criteria->join .= ' INNER JOIN classroom c ON c.id = se.classroom_fk';
+            $criteria->join = INNNER_JOIN_STUDENT_ENROLLMENT_AND_EDCENSO_STAGE_VS_MODALITY_FK1;
+            $criteria->join .= INNNER_JOIN_CLASSROOM_ON_CLASSROOM_ID;
             $criteria->condition = CLASSROOM_ID_SQL;
             $criteria->group = 'stages.name';
             $criteria->params = [CLASSROOM_ID => $classroom->id];
