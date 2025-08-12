@@ -85,7 +85,6 @@ class GradeUnityModality extends TagModel
      */
     public function search()
     {
-
         $criteria = new CDbCriteria();
 
         $criteria->compare('id', $this->id);

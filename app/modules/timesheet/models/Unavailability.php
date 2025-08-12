@@ -13,6 +13,7 @@
      * The followings are the available model relations:
      * @property InstructorIdentification $instructorSchoolFk
      */
+
     class Unavailability extends TagModel
     {
         /**
@@ -78,7 +79,6 @@
          */
         public function search()
         {
-
             $criteria = new CDbCriteria();
 
             $criteria->compare('id', $this->id);

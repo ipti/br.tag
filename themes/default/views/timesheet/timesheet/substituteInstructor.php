@@ -84,25 +84,25 @@ $cs = Yii::app()->getClientScript();
     ['class' => 't-field-select__label--required']
 ); ?>
                     <?=
-                        CHtml::dropDownList('month', '', [
-                            1 => 'Janeiro',
-                            2 => 'Fevereiro',
-                            3 => 'Março',
-                            4 => 'Abril',
-                            5 => 'Maio',
-                            6 => 'Junho',
-                            7 => 'Julho',
-                            8 => 'Agosto',
-                            9 => 'Setembro',
-                            10 => 'Outubro',
-                            11 => 'Novembro',
-                            12 => 'Dezembro'
-                        ], [
-                            'key' => 'id',
-                            'class' => 'select-search-on t-field-select__input',
-                            'prompt' => 'Seleciona o mês',
-                            'id' => 'month'
-                        ]);
+                                            CHtml::dropDownList('month', '', [
+                                                1 => 'Janeiro',
+                                                2 => 'Fevereiro',
+                                                3 => 'Março',
+                                                4 => 'Abril',
+                                                5 => 'Maio',
+                                                6 => 'Junho',
+                                                7 => 'Julho',
+                                                8 => 'Agosto',
+                                                9 => 'Setembro',
+                                                10 => 'Outubro',
+                                                11 => 'Novembro',
+                                                12 => 'Dezembro'
+                                            ], [
+                                                'key' => 'id',
+                                                'class' => 'select-search-on t-field-select__input',
+                                                'prompt' => 'Seleciona o mês',
+                                                'id' => 'month'
+                                            ]);
 ?>
                 </div>
 

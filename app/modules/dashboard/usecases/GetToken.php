@@ -1,9 +1,11 @@
 <?php
 
     Yii::import('application.modules.dashboard.services.*');
+
     /**
      * @property GetToken $GetToken
      */
+
     class GetToken
     {
         /**

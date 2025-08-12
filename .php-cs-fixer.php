@@ -1,6 +1,17 @@
 <?php
 
+
+$finder = PhpCsFixer\Finder::create()
+    ->in(__DIR__ . '/app')
+    ->in(__DIR__ . '/themes')
+    ->exclude([
+        'vendor',
+        'runtime',
+    ])
+    ->name('*.php');
+
 return (new PhpCsFixer\Config())
+    ->setFinder($finder)
     ->setRules([
         '@PSR12' => true,
         'array_indentation' => true,
@@ -97,5 +108,5 @@ return (new PhpCsFixer\Config())
         'space_after_semicolon' => true,
         // 'single_blank_line_at_eof' => false
     ])
-    // ->setIndent("\t")
+    ->setIndent('    ')
     ->setLineEnding("\n");

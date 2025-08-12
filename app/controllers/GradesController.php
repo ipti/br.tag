@@ -2,10 +2,10 @@
 
 Yii::import('application.repository.FormsRepository', true);
 
-define('CLASSROOM_FK',':classroom_fk');
-define('CLASSROOM_ID',':classroomId');
-define('STAGE_ID',':stageId');
-define('ENROLLMENT_FK_AND_DISCIPLINE_FK','enrollment_fk = :enrollment_fk and discipline_fk = :discipline_fk');
+define('CLASSROOM_FK', ':classroom_fk');
+define('CLASSROOM_ID', ':classroomId');
+define('STAGE_ID', ':stageId');
+define('ENROLLMENT_FK_AND_DISCIPLINE_FK', 'enrollment_fk = :enrollment_fk and discipline_fk = :discipline_fk');
 class GradesController extends Controller
 {
     public $layout = 'fullmenu';
@@ -396,7 +396,6 @@ class GradesController extends Controller
         if ($studentEnrollments != null) {
             $result['students'] = [];
             foreach ($studentEnrollments as $studentEnrollment) {
-
                 $unities = GradeUnity::model()->findAll(
                     'edcenso_stage_vs_modality_fk = :stageId and (type = :type or type = :type2 or type = :type3)',
                     [

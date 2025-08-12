@@ -11,6 +11,7 @@
      * @property InstructorDisciplines[] $instructorStages
      * @property InstructorDisciplines[] $instructorDisciplines
      */
+
     class TimesheetInstructor extends TagModel
     {
         public static function model($className = __CLASS__)

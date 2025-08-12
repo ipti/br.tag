@@ -14,6 +14,7 @@
      * @property EdcensoDiscipline $disciplineFk
      * @property EdcensoStageVsModality $stageFk
      */
+
     class TimesheetCurricularMatrix extends TagModel
     {
         /**
@@ -79,7 +80,6 @@
          */
         public function search()
         {
-
             $criteria = new CDbCriteria();
 
             $criteria->with = ['stageFk', 'disciplineFk'];

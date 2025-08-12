@@ -35,8 +35,8 @@
                     <div class="buttons" id="save">
                         <?php echo CHtml::htmlButton(
         '<i></i>' . ($model->isNewRecord
-                                ? Yii::t('default', 'Create')
-                                : Yii::t('default', 'Save')),
+                                                    ? Yii::t('default', 'Create')
+                                                    : Yii::t('default', 'Save')),
         ['type' => 'submit', 'class' => 'btn btn-icon btn-primary last glyphicons circle_ok']
     );
     ?>

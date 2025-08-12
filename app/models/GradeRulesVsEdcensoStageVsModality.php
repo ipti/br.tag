@@ -76,7 +76,6 @@ class GradeRulesVsEdcensoStageVsModality extends CActiveRecord
      */
     public function search()
     {
-
         $criteria = new CDbCriteria();
 
         $criteria->compare('id', $this->id);

@@ -14,6 +14,7 @@
      * @property TimesheetInstructor $instructorFk
      * @property EdcensoStageVsModality $stageVsModalityFk
      */
+
     class InstructorDisciplines extends TagModel
     {
         /**
@@ -80,7 +81,6 @@
          */
         public function search()
         {
-
             $criteria = new CDbCriteria();
 
             $criteria->compare('id', $this->id);

@@ -71,9 +71,9 @@
 										</div>
 										<div class="conflict-values">
 											<?php
-                                                foreach ($attributes1 as $key => $value) :
-                                                    if (isset($diff[$key])) :
-                                                        ?>
+							                    foreach ($attributes1 as $key => $value) :
+							                        if (isset($diff[$key])) :
+							                            ?>
 														<p class="conflict-value">
 															<strong><?= $conflict[1]->getAttributeLabel($key) ?>
 																:</strong> <?= $value ?>

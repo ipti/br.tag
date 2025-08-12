@@ -737,8 +737,8 @@ class CourseplanController extends Controller
      * @throws CHttpException
      */
     public function loadModel(
-            $id
-        ) {
+        $id
+    ) {
         $model = CoursePlan::model()->findByPk($id);
         if ($model === null) {
             throw new CHttpException(404, 'The requested page does not exist.');

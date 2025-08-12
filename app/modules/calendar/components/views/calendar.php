@@ -289,11 +289,11 @@ $calendars = Calendar::model()->findAll('YEAR(start_date) = :year', [':year' => 
                     <?= chtml::label(yii::t('calendarModule.labels', 'Copy From'), 'copy', ['class' => 'control-label']); ?>
                     <div class="form-control">
                         <?= chtml::dropDownList(
-                    'copy',
-                    '',
-                    chtml::listData(Calendar::model()->findAll(), 'id', 'title'),
-                    ['prompt' => yii::t('calendarModule.labels', 'Select calendar base'), 'class' => 'span9', 'style' => 'width:100%']
-                ) ?>
+                            'copy',
+                            '',
+                            chtml::listData(Calendar::model()->findAll(), 'id', 'title'),
+                            ['prompt' => yii::t('calendarModule.labels', 'Select calendar base'), 'class' => 'span9', 'style' => 'width:100%']
+                        ) ?>
                     </div>
                 </div>
             </div>

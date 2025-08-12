@@ -54,8 +54,8 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                             <?php foreach ($classrooms as $classroom) : ?>
                                 <option value="<?= $classroom->id ?>"
                                         fundamentalMaior="<?= (int)(!TagUtils::isStageMinorEducation(
-                                $classroom->edcenso_stage_vs_modality_fk
-                            )) . '' ?>">
+                            $classroom->edcenso_stage_vs_modality_fk
+                        )) . '' ?>">
                                     <?= $classroom->name ?>
                                 </option>
                             <?php endforeach; ?>
@@ -66,10 +66,10 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                 <div class="column month-container">
                     <div class="t-field-select">
                         <?php echo CHtml::label(
-                                                yii::t('default', 'Month') . '/Ano',
-                                                'month',
-                                                ['class' => 't-field-select__label--required']
-                                            ); ?>
+                                            yii::t('default', 'Month') . '/Ano',
+                                            'month',
+                                            ['class' => 't-field-select__label--required']
+                                        ); ?>
                         <select class="select-search-on t-field-select__input js-load-frequency" id="month"
                                 style="min-width: 185px;"></select>
                     </div>

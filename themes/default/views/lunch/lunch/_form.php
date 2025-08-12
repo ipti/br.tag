@@ -64,21 +64,21 @@ $form = $this->beginWidget('CActiveForm', [
             <?= CHTML::activeLabel($menuModel, 'name', ['class' => 't-field-text__label']) ?>
             <?php $name = 'name'; ?>
             <?= CHTML::textField(
-                    chtml::resolveName($menuModel, $name),
-                    $menuModel->name,
-                    ['class' => 't-field-text__input', 'placeholder' => 'Digite o Nome do Cardápio']
-                ) ?>
+                chtml::resolveName($menuModel, $name),
+                $menuModel->name,
+                ['class' => 't-field-text__input', 'placeholder' => 'Digite o Nome do Cardápio']
+            ) ?>
 
         </div>
         <div class="t-field-select">
             <?= CHTML::activeLabel($menuModel, 'turn', ['class' => 't-field-select__label'])?>
             <?php $turn = 'turn'; ?>
             <?= CHtml::dropDownList(
-                    chtml::resolveName($menuModel, $turn),
-                    $menuModel->turn,
-                    ['M' => 'Manhã', 'T' => 'Tarde', 'N' => 'Noite'],
-                    ['class' => 'select-search-on t-field-select__input']
-                )?>
+                chtml::resolveName($menuModel, $turn),
+                $menuModel->turn,
+                ['M' => 'Manhã', 'T' => 'Tarde', 'N' => 'Noite'],
+                ['class' => 'select-search-on t-field-select__input']
+            )?>
         </div>
 
         <div class="form-group-container">
@@ -120,7 +120,7 @@ $form = $this->beginWidget('CActiveForm', [
                         </thead>
                         <tbody>
                             <?php
-                                $odd = false;
+                            $odd = false;
     foreach ($meals as $meal) :
         $portions = $meal['portions'];
         $meal = $meal['meal'];

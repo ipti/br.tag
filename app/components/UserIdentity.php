@@ -7,7 +7,6 @@
  */
 class UserIdentity extends CUserIdentity
 {
-
     public function isMd5($string)
     {
         $md5Pattern = '/^[a-fA-F0-9]{32}$/';
@@ -75,5 +74,4 @@ class UserIdentity extends CUserIdentity
         $this->setState('usersSchools', $schools);
         $this->setState('school', $school);
     }
-
 }

@@ -43,10 +43,10 @@ class AdminCommand extends CConsoleCommand
                 $this->importDatabase($dbname);
             }
         }
-
     }
 
-    private function exportDatabase(string $dbname){
+    private function exportDatabase(string $dbname)
+    {
         echo "Conectando a $dbname..\n";
         Yii::app()->db->setActive(false);
         Yii::app()->db->connectionString = "mysql:host=51.81.125.135:31160;dbname=$dbname";
@@ -109,10 +109,10 @@ class AdminCommand extends CConsoleCommand
         $this->loadDocuments($loads['idocuments']);
         $this->loadInstructorsTeachingData($loads['instructorsteachingdata']);
         $this->loadInstructorsVariableData($loads['instructorsvariabledata']);
-
     }
 
-    private function loadSchools($schools){
+    private function loadSchools($schools)
+    {
         foreach ($schools as $scholl) {
             echo 'Importando escola' . $scholl['name'] . "..\n";
             $saveschool = new SchoolIdentification();
@@ -135,8 +135,9 @@ class AdminCommand extends CConsoleCommand
         }
     }
 
-    private function loadSchoolStructure($schoolStructures){
-        foreach ( $schoolStructures as $structure) {
+    private function loadSchoolStructure($schoolStructures)
+    {
+        foreach ($schoolStructures as $structure) {
             $saveschool = new SchoolStructure();
             $saveschool->setDb2Connection(true);
             $saveschool->setScenario('search');
@@ -157,8 +158,9 @@ class AdminCommand extends CConsoleCommand
         }
     }
 
-    private function loadClassrooms($classrooms){
-                foreach ($classrooms as $class) {
+    private function loadClassrooms($classrooms)
+    {
+        foreach ($classrooms as $class) {
             echo 'Importando turma' . $class['name'] . "..\n";
             $saveclass = new Classroom();
             $saveclass->setScenario('search');
@@ -179,9 +181,10 @@ class AdminCommand extends CConsoleCommand
                 exit;
             }
         }
-
     }
-    private function loadInstructors($instructors){
+
+    private function loadInstructors($instructors)
+    {
         foreach ($instructors as $instructor) {
             echo 'Importando Professor' . $instructor['name'] . "..\n";
             $saveinstructor = new InstructorIdentification();
@@ -214,8 +217,9 @@ class AdminCommand extends CConsoleCommand
         }
     }
 
-    private function loadDocuments($documents){
-          foreach ($documents as $documentsaddress) {
+    private function loadDocuments($documents)
+    {
+        foreach ($documents as $documentsaddress) {
             echo 'Importando Documento Professor' . $documentsaddress['hash'] . "..\n";
             $saveidocument = new InstructorDocumentsAndAddress();
             $saveidocument->setScenario('search');
@@ -239,7 +243,8 @@ class AdminCommand extends CConsoleCommand
         }
     }
 
-    private function loadInstructorsTeachingData($instructorsTeachingData){
+    private function loadInstructorsTeachingData($instructorsTeachingData)
+    {
         foreach ($instructorsTeachingData as $teachingdata) {
             echo 'Importando Teaching Data' . $teachingdata['hash'] . "..\n";
             $saveteaching = new InstructorTeachingData();
@@ -266,7 +271,8 @@ class AdminCommand extends CConsoleCommand
         }
     }
 
-    private function loadInstructorsVariableData($instructorsVariableData){
+    private function loadInstructorsVariableData($instructorsVariableData)
+    {
         foreach ($instructorsVariableData as $variabledata) {
             echo 'Importando Variable Data Professor' . $variabledata['hash'] . "..\n";
             $savevariable = new InstructorVariableData();
@@ -342,7 +348,7 @@ class AdminCommand extends CConsoleCommand
         }
     }
 
-    private function loadInstructorData( $instructors,  &$loads)
+    private function loadInstructorData($instructors, &$loads)
     {
         foreach ($instructors as $teach) {
             $hash = hexdec(crc32($teach->name . $teach->birthday_date));
@@ -362,7 +368,7 @@ class AdminCommand extends CConsoleCommand
         }
     }
 
-    private function loadSchoolData($schoolInepId, $year,  &$loads)
+    private function loadSchoolData($schoolInepId, $year, &$loads)
     {
         $school = $this->getSchoolById($schoolInepId);
         $hashSchool = hexdec(crc32($school->inep_id . $school->name));
@@ -376,7 +382,7 @@ class AdminCommand extends CConsoleCommand
         $classrooms = $this->getClassroomsBySchoolYear($schoolInepId, $year);
 
         foreach ($classrooms as $classroom) {
-            $this->loadClassroomData($school->inep_id, $classroom,  $loads);
+            $this->loadClassroomData($school->inep_id, $classroom, $loads);
         }
     }
 

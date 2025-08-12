@@ -69,7 +69,6 @@ class QuestionGroupQuestion extends TagModel
      */
     public function search()
     {
-
         $criteria = new CDbCriteria();
 
         $criteria->compare('question_group_id', $this->question_group_id);

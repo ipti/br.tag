@@ -1,8 +1,8 @@
 <?php
 
-
-class AdminControllerUtils{
-
-    public function oi(){}
-
+class AdminControllerUtils
+{
+    public function oi()
+    {
+    }
 }

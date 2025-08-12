@@ -15,14 +15,23 @@
     // @done S2 - Criar usuários padrões.
 
     // @done S2 - Mensagens de retorno ao executar os scripts.
-    define('CONTENT_DIPOSITION_ATTACHMENT_FILENAME','Content-Disposition: attachment; filename="');
-    define('CLASSROOM_SCHOOL_YEAR_VALUE','c.school_year = :value');
+
+    define('CONTENT_DIPOSITION_ATTACHMENT_FILENAME', 'Content-Disposition: attachment; filename="');
+
+    define('CLASSROOM_SCHOOL_YEAR_VALUE', 'c.school_year = :value');
+
     define('CONTENT_LENGHT', 'Content-Length: ');
-    define('SCHOOL_INEP_ID_FK',':school_inep_id_fk');
-    define('VALUE_CONSTANT',':value');
-    define("YEAR_CONSTANT",':year');
-    define("ON_DUPLICATE_KEY_UPDATE_REGISTER_TYPE",' ON DUPLICATE KEY UPDATE register_type = register_type;');
-    define('LIMIT_0_1',' LIMIT 0,1)');
+
+    define('SCHOOL_INEP_ID_FK', ':school_inep_id_fk');
+
+    define('VALUE_CONSTANT', ':value');
+
+    define('YEAR_CONSTANT', ':year');
+
+    define('ON_DUPLICATE_KEY_UPDATE_REGISTER_TYPE', ' ON DUPLICATE KEY UPDATE register_type = register_type;');
+
+    define('LIMIT_0_1', ' LIMIT 0,1)');
+
     class AdministratorController extends Controller
     {
         public $layout = 'fullmenu';
@@ -90,7 +99,6 @@
             set_time_limit(0);
             ini_set('memory_limit', '-1');
 
-
             $json = [];
 
             $school = yii::app()->user->school;
@@ -112,7 +120,7 @@
             $students = StudentIdentification::model()->findAll($filterStudent);
             $classrooms = Classroom::model()->findAll($filterClassroom);
 
-            $this -> updateFKID();
+            $this->updateFKID();
 
             $json['student'] = $this->loadStudents($students);
 
@@ -133,7 +141,9 @@
                 unlink($zipName);
             }
         }
-        private function loadStudents ($students){
+
+        private function loadStudents($students)
+        {
             $studentArray = [];
             foreach ($students as $student) {
                 $sfkid = $student->fkid;
@@ -147,7 +157,9 @@
             }
             return $studentArray;
         }
-        private function loadClassrooms ($classrooms){
+
+        private function loadClassrooms($classrooms)
+        {
             $classroomArray = [];
             foreach ($classrooms as $classroom) {
                 $cfkid = $classroom->fkid;
@@ -200,7 +212,9 @@
             }
             return $classroomArray;
         }
-        private function updateFKID(){
+
+        private function updateFKID()
+        {
             $updateFKID = "UPDATE `schedule` as c
             SET `fkid` = CONCAT((select school_inep_fk from classroom as cr where cr.id = c.classroom_fk),';',c.id)
             WHERE true;
@@ -269,6 +283,7 @@
             WHERE true;";
             yii::app()->db->schema->commandBuilder->createSqlCommand($updateFKID)->query();
         }
+
         /**
          *
          * @param CActiveRecord $model
@@ -350,30 +365,30 @@
             $exit = '';
 
             $studentModel = StudentIdentification::model();
-            $studentValues = $this->syncStudentIdentification($students,$studentModel);
+            $studentValues = $this->syncStudentIdentification($students, $studentModel);
             $this->createMultipleInsertOnDuplicateKeyUpdate($studentModel, $studentValues)->query();
 
             $documentModel = StudentDocumentsAndAddress::model();
-            $documentValues = $this->syncStudentDocumentAndAddress($students,$documentModel);
+            $documentValues = $this->syncStudentDocumentAndAddress($students, $documentModel);
 
             $this->createMultipleInsertOnDuplicateKeyUpdate($documentModel, $documentValues)->query();
 
             $classroomModel = Classroom::model();
-            $classroomValues = $this->syncClassroom($classrooms,$classroomModel);
+            $classroomValues = $this->syncClassroom($classrooms, $classroomModel);
 
             $this->createMultipleInsertOnDuplicateKeyUpdate($classroomModel, $classroomValues)->query();
 
             $classesModel = Schedule::model();
-            $classesValues = $this->syncClasses($classrooms,$classesModel,$classroomModel);
+            $classesValues = $this->syncClasses($classrooms, $classesModel, $classroomModel);
 
             $this->createMultipleInsertOnDuplicateKeyUpdate($classesModel, $classesValues)->query();
 
             $enrollmentsModel = StudentEnrollment::model();
-            $enrollmentsValues = $this->syncEnrollments($classrooms,$enrollmentsModel,$students, $studentModel,$classroomModel);
+            $enrollmentsValues = $this->syncEnrollments($classrooms, $enrollmentsModel, $students, $studentModel, $classroomModel);
             $this->createMultipleInsertOnDuplicateKeyUpdate($enrollmentsModel, $enrollmentsValues)->query();
 
             $faultsModel = ClassFaults::model();
-            $faultsValues = $this->synctFaults($classrooms,$faultsModel,$classesModel,$enrollmentsModel);
+            $faultsValues = $this->synctFaults($classrooms, $faultsModel, $classesModel, $enrollmentsModel);
 
             $this->createMultipleInsertOnDuplicateKeyUpdate($faultsModel, $faultsValues)->query();
 
@@ -383,7 +398,8 @@
             echo $exit;
         }
 
-        private function syncStudentIdentification ($students,$studentModel){
+        private function syncStudentIdentification($students, $studentModel)
+        {
             $studentValues = [];
 
             foreach ($students as $student) {
@@ -394,11 +410,12 @@
                     $student['attributes']['id'] = $myStudent->id;
                 }
                 array_push($studentValues, $student['attributes']);
-
             }
             return $studentValues;
         }
-        private function syncStudentDocumentAndAddress($students,$documentModel){
+
+        private function syncStudentDocumentAndAddress($students, $documentModel)
+        {
             $documentValues = [];
             foreach ($students as $student) {
                 $document = $student['documents'];
@@ -413,7 +430,8 @@
             return $documentValues;
         }
 
-        private function syncClassroom($classrooms, $classroomModel){
+        private function syncClassroom($classrooms, $classroomModel)
+        {
             $classroomValues = [];
             foreach ($classrooms as $classroom) {
                 $myClassroom = $classroomModel->findByAttributes(['fkid' => $classroom['attributes']['fkid']]);
@@ -426,7 +444,9 @@
             }
             return $classroomValues;
         }
-        private function syncClasses($classrooms,$classesModel,$classroomModel){
+
+        private function syncClasses($classrooms, $classesModel, $classroomModel)
+        {
             $classesValues = [];
             foreach ($classrooms as $classroom) {
                 foreach ($classroom['classes'] as $class) {
@@ -444,19 +464,22 @@
             }
             return $classesValues;
         }
-        private function syncEnrollments($classrooms,$enrollmentsModel,$students, $studentModel,$classroomModel){
+
+        private function syncEnrollments($classrooms, $enrollmentsModel, $students, $studentModel, $classroomModel)
+        {
             $enrollmentsValues = [];
             foreach ($classrooms as $classroom) {
                 foreach ($classroom['enrollments'] as $enrollment) {
                     $myEnrollment = $enrollmentsModel->findByAttributes(['fkid' => $enrollment['attributes']['fkid']]);
-                    $data= $this->assignOrUpdateEnrollmentAttributes($myEnrollment,$classroomModel,$classroom,$students,$enrollment,$studentModel);
-                    array_push($enrollmentsValues,  $data);
+                    $data = $this->assignOrUpdateEnrollmentAttributes($myEnrollment, $classroomModel, $classroom, $students, $enrollment, $studentModel);
+                    array_push($enrollmentsValues, $data);
                 }
             }
             return $enrollmentsValues;
         }
-        private function assignOrUpdateEnrollmentAttributes($myEnrollment,$classroomModel,$classroom,$students,&$enrollment,$studentModel){
 
+        private function assignOrUpdateEnrollmentAttributes($myEnrollment, $classroomModel, $classroom, $students, &$enrollment, $studentModel)
+        {
             if ($myEnrollment === null) {
                 $myClassroom = $classroomModel->findByAttributes(['fkid' => $classroom['attributes']['fkid']]);
                 $studentFkid = null;
@@ -479,19 +502,22 @@
             return $enrollment['attributes'];
         }
 
-        private function synctFaults ($classrooms,$faultsModel,$classesModel,$enrollmentsModel){
+        private function synctFaults($classrooms, $faultsModel, $classesModel, $enrollmentsModel)
+        {
             $faultsValues = [];
             foreach ($classrooms as $classroom) {
                 foreach ($classroom['classes'] as $class) {
                     foreach ($class['faults'] as $fault) {
-                        $data = $this-> assignOrUpdateFaultAttributes($fault,$faultsModel,$classesModel,$class,$classroom,$enrollmentsModel);
+                        $data = $this->assignOrUpdateFaultAttributes($fault, $faultsModel, $classesModel, $class, $classroom, $enrollmentsModel);
                         array_push($faultsValues, $data);
                     }
                 }
             }
             return $faultsValues;
         }
-        private function assignOrUpdateFaultAttributes(&$fault,$faultsModel,$classesModel,$class,$classroom,$enrollmentsModel){
+
+        private function assignOrUpdateFaultAttributes(&$fault, $faultsModel, $classesModel, $class, $classroom, $enrollmentsModel)
+        {
             $myFault = $faultsModel->findByAttributes(['fkid' => $fault['attributes']['fkid']]);
             if ($myFault === null) {
                 $myClass = $classesModel->findByAttributes(['fkid' => $class['attributes']['fkid']]);
@@ -540,7 +566,7 @@
             $count = 0;
 
             foreach ($dirFiles as $fileName) {
-                if (($fileName != '.' && $fileName != '..' && $fileName != 'readme' && $fileName != '_version' && substr('abcdef', -1) != '~')&& $version != '' && $version < $fileName) {
+                if (($fileName != '.' && $fileName != '..' && $fileName != 'readme' && $fileName != '_version' && substr('abcdef', -1) != '~') && $version != '' && $version < $fileName) {
                     if ($this->executeSqlFromFile($file)) {
                         $fm->write($updateDir . '_version', $fileName);
                         Yii::app()->user->setFlash('success', Yii::t('default', 'Atualização Concluída!'));
@@ -557,7 +583,8 @@
             $this->render('index');
         }
 
-        private function executeSqlFromFile ($file){
+        private function executeSqlFromFile($file)
+        {
             $sql = '';
             while (true) {
                 $fileLine = fgets($file);
@@ -886,21 +913,25 @@
             }
             $this->render('createUser', ['model' => $model]);
         }
-        private function userModelValidade(&$model){
-             if ($model->validate()) {
-                    $password = $_POST['Users']['password'];
-                    $confirm = $_POST['Confirm'];
-                    if ($password == $confirm) {
-                        $passwordHasher = new PasswordHasher();
-                        $model->password = $passwordHasher->bcriptHash($password);
-                        // form inputs are valid, do something here
-                        $this->userModelSave($model);
-                    } else {
-                        $model->addError('password', Yii::t('default', 'Confirm Password') . ': ' . Yii::t('help', 'Confirm'));
-                    }
+
+        private function userModelValidade(&$model)
+        {
+            if ($model->validate()) {
+                $password = $_POST['Users']['password'];
+                $confirm = $_POST['Confirm'];
+                if ($password == $confirm) {
+                    $passwordHasher = new PasswordHasher();
+                    $model->password = $passwordHasher->bcriptHash($password);
+                    // form inputs are valid, do something here
+                    $this->userModelSave($model);
+                } else {
+                    $model->addError('password', Yii::t('default', 'Confirm Password') . ': ' . Yii::t('help', 'Confirm'));
                 }
+            }
         }
-        private function userModelSave(&$model){
+
+        private function userModelSave(&$model)
+        {
             if ($model->save()) {
                 $save = true;
                 foreach ($_POST['schools'] as $school) {
@@ -917,6 +948,7 @@
                 }
             }
         }
+
         public function actionImport()
         {
             set_time_limit(0);
@@ -1340,7 +1372,6 @@
                 fpassthru($file);
                 fclose($file);
                 unlink($fileName);
-
             } else {
                 $saveschool = new SchoolIdentification();
                 $saveschool->setDb2Connection(true);
@@ -1562,7 +1593,6 @@
                 fpassthru($file);
                 fclose($file);
                 unlink($fileName);
-
             } else {
                 try {
                     yii::app()->db2->schema->commandBuilder->createSqlCommand($sql)->query();
@@ -1577,26 +1607,24 @@
             }
         }
 
-        private function exportTablesToMaster ($tables){
+        private function exportTablesToMaster($tables)
+        {
             $objects = [];
             foreach ($tables as $table) {
-
                 switch ($table) {
                     case 'school_identification':
                         break;
                     case 'school_structure':
-                        array_push($objects,SchoolStructure::model()->findAllByPk(yii::app()->user->school));
+                        array_push($objects, SchoolStructure::model()->findAllByPk(yii::app()->user->school));
                         break;
                     case 'classroom':
-                        array_push($objects,Classroom::model()->findAllByAttributes(['school_inep_fk' => yii::app()->user->school, 'school_year' => Yii::app()->user->year]););
+                        array_push($objects, Classroom::model()->findAllByAttributes(['school_inep_fk' => yii::app()->user->school, 'school_year' => Yii::app()->user->year]));
                         break;
                     default:
                         break;
                 }
             }
-
         }
-
 
         /**
          * Descobre similaridade em uma tabela.

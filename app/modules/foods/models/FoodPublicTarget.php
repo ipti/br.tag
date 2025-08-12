@@ -67,7 +67,6 @@ class FoodPublicTarget extends TagModel
      */
     public function search()
     {
-
         $criteria = new CDbCriteria();
 
         $criteria->compare('name', $this->name, true);

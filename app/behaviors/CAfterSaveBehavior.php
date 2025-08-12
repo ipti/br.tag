@@ -4,7 +4,8 @@ class CAfterSaveBehavior extends CActiveRecordBehavior
 {
     public $schoolInepId = '';
 
-    public function afterSave($event){
-    //added logic here
+    public function afterSave($event)
+    {
+        //added logic here
     }
 }

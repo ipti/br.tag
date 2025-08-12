@@ -241,10 +241,10 @@ $garbageOtherPercent = number_format(($garbageOther / $structureCount) * 100, $d
                     <h5><span><?= yii::t('resultsmanagementModule.sideInfo', 'TOTAL SCHOOLS')?>: </span><?=$schoolsCount?></h5>
                     <span>
                     <?= yii::t(
-                            'resultsmanagementModule.sideInfo',
-                            'Working : {active} | Not working: {inactive} | Extinct: {extinct}',
-                            ['{active}' => $schoolsActive, '{inactive}' => $schoolsInactive, '{extinct}' => $schoolsExtinct]
-                        )?>
+                        'resultsmanagementModule.sideInfo',
+                        'Working : {active} | Not working: {inactive} | Extinct: {extinct}',
+                        ['{active}' => $schoolsActive, '{inactive}' => $schoolsInactive, '{extinct}' => $schoolsExtinct]
+                    )?>
                 </span>
 
                     <div class="separator bottom"></div>

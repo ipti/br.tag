@@ -161,15 +161,15 @@ echo $form->errorSummary($modelStudentDocumentsAndAddress);
               <div class="t-field-text" id="nameStudents">
                 <?php echo $form->label($modelStudentIdentification, 'name', ['class' => 't-field-text__label--required']); ?>
                 <?php echo $form->textField(
-                  $modelStudentIdentification,
-                  'name',
-                  array(
-                    'size' => 60,
-                    'maxlength' => 100,
-                    'class' => 't-field-text__input js-trim-name',
-                    'placeholder' => 'Digite o Nome de Apresentação'
-                  )
-                ); ?>
+    $modelStudentIdentification,
+    'name',
+    [
+        'size' => 60,
+        'maxlength' => 100,
+        'class' => 't-field-text__input js-trim-name',
+        'placeholder' => 'Digite o Nome de Apresentação'
+    ]
+); ?>
                 <span id="similarMessage" data-toggle="tooltip" data-placement="top" data-original-title="">
                   <img id="warningNameIcon" onclick="displayRecords()" style="display: none;"
                     src="<?php echo $themeUrl . '/img/warning-icon.svg' ?>" alt="icone aviso">
@@ -190,14 +190,14 @@ echo $form->errorSummary($modelStudentDocumentsAndAddress);
               <div class="t-field-text student-civil-name" id="civilName" style="display: none;">
                 <?php echo $form->label($modelStudentIdentification, 'civil_name', ['class' => 't-field-text__label--required']); ?>
                 <?php echo $form->textField(
-                  $modelStudentIdentification,
-                  'civil_name',
-                  array(
-                    'size' => 60,
-                    'maxlength' => 100,
-                    'class' => 't-field-text__input js-trim-name',
-                    'placeholder' => 'Digite o Nome Civil'
-                  )
+                    $modelStudentIdentification,
+                    'civil_name',
+                    [
+                        'size' => 60,
+                        'maxlength' => 100,
+                        'class' => 't-field-text__input js-trim-name',
+                        'placeholder' => 'Digite o Nome Civil'
+                    ]
                 ); ?>
                 <?php echo $form->error($modelStudentIdentification, 'civil_name'); ?>
               </div>
@@ -398,7 +398,7 @@ echo $form->dropDownList(
               <div class="t-field-select js-hide-not-required" id="scholarity-select">
                 <?php echo CHtml::label('Escolaridade', 'scholarity', ['class' => 't-field-select__label']); ?>
                 <?php
-                echo $form->dropDownList(
+                                echo $form->dropDownList(
                     $modelStudentIdentification,
                     'scholarity',
                     [
@@ -694,21 +694,21 @@ echo $form->dropDownList(
               <div class="t-field-select" id="filiation-select">
                 <?php echo $form->label($modelStudentIdentification, 'filiation', ['class' => 't-field-select__label--required']); ?>
                 <?php
-                if (Yii::app()->features->isEnable('FEAT_SEDSP')) {
-                    echo $form->DropDownList(
-                        $modelStudentIdentification,
-                        'filiation',
-                        ['1' => 'Pai e/ou Mãe'],
-                        ['class' => 'select-search-off t-field-select__input select2-container']
-                    );
-                } else {
-                    echo $form->DropDownList(
-                        $modelStudentIdentification,
-                        'filiation',
-                        [null => 'Selecione a filiação', '0' => 'Não declarado/Ignorado', '1' => 'Pai e/ou Mãe'],
-                        ['class' => 'select-search-off t-field-select__input select2-container']
-                    );
-                }
+                  if (Yii::app()->features->isEnable('FEAT_SEDSP')) {
+                      echo $form->DropDownList(
+                          $modelStudentIdentification,
+                          'filiation',
+                          ['1' => 'Pai e/ou Mãe'],
+                          ['class' => 'select-search-off t-field-select__input select2-container']
+                      );
+                  } else {
+                      echo $form->DropDownList(
+                          $modelStudentIdentification,
+                          'filiation',
+                          [null => 'Selecione a filiação', '0' => 'Não declarado/Ignorado', '1' => 'Pai e/ou Mãe'],
+                          ['class' => 'select-search-off t-field-select__input select2-container']
+                      );
+                  }
 ?>
                 <?php echo $form->error($modelStudentIdentification, 'filiation'); ?>
               </div>
@@ -2234,7 +2234,7 @@ echo $form->dropDownList(
           </div>
           <div class="row-fluid">
             <?php
-            $error = $modelEnrollment->getErrors('enrollment_id');
+                            $error = $modelEnrollment->getErrors('enrollment_id');
 if (!empty($error)):
     ?>
               <div class="alert alert-error">
@@ -2475,23 +2475,23 @@ if (!empty($error)):
                         <?php } ?>
                         <div class="reports">
                           <?php
-                          if ($me->classroomFk->school_year == date('Y')) {
-                              $date = date('Y-m-d');
-                              $quizs = Quiz::model()->findAll(
-                                  'status = 1 AND init_date <=:init_date AND final_date >=:final_date',
-                                  [':init_date' => $date, ':final_date' => $date]
-                              );
-                              if (count($quizs) > 0) {
-                                  foreach ($quizs as $quiz) {
-                                      $link = Yii::app()->createUrl('quiz/default/answer', ['quizId' => $quiz->id, 'studentId' => $me->studentFk->id]); ?>
+                                  if ($me->classroomFk->school_year == date('Y')) {
+                                      $date = date('Y-m-d');
+                                      $quizs = Quiz::model()->findAll(
+                                          'status = 1 AND init_date <=:init_date AND final_date >=:final_date',
+                                          [':init_date' => $date, ':final_date' => $date]
+                                      );
+                                      if (count($quizs) > 0) {
+                                          foreach ($quizs as $quiz) {
+                                              $link = Yii::app()->createUrl('quiz/default/answer', ['quizId' => $quiz->id, 'studentId' => $me->studentFk->id]); ?>
                                 <a class="t-button-secondary mobile-margin" rel="noopener" target="_blank" href="<?= $link ?>">
                                   <span class="t-icon-printer"></span>
                                   <?php echo $quiz->name ?>
                                 </a>
                                 <?php
-                                  }
-                              }
-                          } ?>
+                                          }
+                                      }
+                                  } ?>
                         </div>
                         <?php if ($me->classroomFk->school_year >= Yii::app()->user->year) { ?>
                           <div class="row">

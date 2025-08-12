@@ -12,6 +12,7 @@
      * @property InstructorIdentification $instructorFk
      * @property SchoolIdentification $schoolFk
      */
+
     class InstructorSchool extends TagModel
     {
         /**
@@ -74,7 +75,6 @@
          */
         public function search()
         {
-
             $criteria = new CDbCriteria();
 
             $criteria->compare('id', $this->id);

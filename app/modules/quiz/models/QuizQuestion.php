@@ -68,7 +68,6 @@ class QuizQuestion extends TagModel
      */
     public function search()
     {
-
         $criteria = new CDbCriteria();
 
         $criteria->compare('quiz_id', $this->quiz_id);

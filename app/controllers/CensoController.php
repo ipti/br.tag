@@ -265,8 +265,6 @@ class CensoController extends Controller
             $schoolIdentificationColumn['private_school_s_system'],
         ];
 
-
-
         // campo 37
         $result = $siv->isCNPJValid(
             $schoolIdentificationColumn['private_school_maintainer_cnpj'],
@@ -1448,7 +1446,6 @@ class CensoController extends Controller
         $check = Yii::app()->db->createCommand($sql)->queryAll();
         $result = $sda->isEqual($check[0]['status'], '1', "Não há tal student_inep_id $student_inep_id");
 
-
         // campo 9
         $result = $sda->isAllowed($collumn['civil_certification'], ['1', '2']);
 
@@ -1457,8 +1454,7 @@ class CensoController extends Controller
             if (!$result['status']) {
                 array_push($log, ['civil_register_enrollment_number' => $result['erro']]);
             }
-          }
-
+        }
 
         // campo 19
         if (!empty($collumn['cpf'])) {
@@ -1474,7 +1470,6 @@ class CensoController extends Controller
         }
 
         // campo 21
-
 
         $result = $sda->isAreaOfResidenceValid($collumn['residence_zone']);
         if (!$result['status']) {
@@ -1596,8 +1591,6 @@ class CensoController extends Controller
                 $collumn['vehicle_type_waterway_boat_35'],
                 $collumn['vehicle_type_metro_or_train'],
             ];
-
-
         }
 
         // 24
@@ -2059,7 +2052,6 @@ class CensoController extends Controller
                     $attributes['regulation'] = '2';
                 }
 
-
                 if (empty($attributes['inep_head_school'])) {
                     $attributes['offer_or_linked_unity'] = '0';
                 }
@@ -2232,7 +2224,7 @@ class CensoController extends Controller
                             $attributes[$i] = '';
                         }
                     }
-                    //	$attributes['another_scholarization_place'] = '';
+                //	$attributes['another_scholarization_place'] = '';
                 } else {
                     foreach ($classroom->attributes as $i => $attr) {
                         $pos = strstr($i, 'aee_');
@@ -2436,7 +2428,6 @@ class CensoController extends Controller
                 break;
             case '70':
                 if (empty($attributes['address'])) {
-
                     $attributes['edcenso_uf_fk'] = '';
                     $attributes['number'] = '';
                     $attributes['complement'] = '';
@@ -2628,7 +2619,7 @@ class CensoController extends Controller
                 $countdisc = 1;
                 foreach ($attributes as $i => $attr) {
                     $pos = strstr($i, 'discipline');
-                    if ($pos && $attributes[$i] >= 99 ) {
+                    if ($pos && $attributes[$i] >= 99) {
                         $attributes[$i] = ($countdisc == 1) ? 99 : '';
                         $countdisc++;
                     }
@@ -2770,8 +2761,6 @@ class CensoController extends Controller
         }
 
         return $this->redirect(['index']);
-
-
     }
 
     public function actionExportIdentification()
@@ -2917,7 +2906,6 @@ class CensoController extends Controller
                                 $counterInstructos++;
                             }
                         }
-
                     }
                 } else {
                     $student = StudentIdentification::model()->with('documentsFk')->with('studentEnrollments')->findByPk($line[0]);

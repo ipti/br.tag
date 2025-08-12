@@ -84,7 +84,7 @@ class TagUtils extends CApplicationComponent
     {
         $date = trim($date);
 
-        if (empty($date) || is_null($date)||preg_match('/^\d{2}\/\d{2}\/\d{4}$/', $date)) {
+        if (empty($date) || is_null($date) || preg_match('/^\d{2}\/\d{2}\/\d{4}$/', $date)) {
             return $date;
         }
 

@@ -143,7 +143,6 @@ class ManagerIdentification extends TagModel
      */
     public function search()
     {
-
         $criteria = new CDbCriteria();
 
         $criteria->compare('register_type', $this->register_type, true);

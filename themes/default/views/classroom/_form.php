@@ -278,29 +278,29 @@ echo CHtml::hiddenField('events', '', ['id' => 'events']);
                             <div class="t-field-select">
                                 <?= $form->label($modelClassroom, 'turn', ['class' => 't-field-select__label--required']); ?>
                                 <?php
-                                echo $form->DropDownList(
-                                    $modelClassroom,
-                                    'turn',
-                                    [
-                                        null => 'Selecione o turno',
-                                        'M' => 'Manhã',
-                                        'T' => 'Tarde',
-                                        'N' => 'Noite',
-                                        'I' => 'Integral'
-                                    ],
-                                    [
-                                        'class' => 'select-search-off t-field-select__input',
-                                        'style' => 'width: 100%',
-                                        'disabled' => $disabledFields,
-                                        'ajax' => [
-                                            'type' => 'POST',
-                                            'url' => CController::createUrl('classroom/updateTime'),
-                                            'success' => 'function(data){
+                                                                    echo $form->DropDownList(
+                                                                        $modelClassroom,
+                                                                        'turn',
+                                                                        [
+                                                                            null => 'Selecione o turno',
+                                                                            'M' => 'Manhã',
+                                                                            'T' => 'Tarde',
+                                                                            'N' => 'Noite',
+                                                                            'I' => 'Integral'
+                                                                        ],
+                                                                        [
+                                                                            'class' => 'select-search-off t-field-select__input',
+                                                                            'style' => 'width: 100%',
+                                                                            'disabled' => $disabledFields,
+                                                                            'ajax' => [
+                                                                                'type' => 'POST',
+                                                                                'url' => CController::createUrl('classroom/updateTime'),
+                                                                                'success' => 'function(data){
                                                 				updateTime(data);
                                                 		}',
-                                        ],
-                                    ]
-                                );
+                                                                            ],
+                                                                        ]
+                                                                    );
 ?>
                                 <?= $form->error($modelClassroom, 'turn'); ?>
                             </div>
@@ -488,7 +488,7 @@ echo CHtml::hiddenField('events', '', ['id' => 'events']);
                                 <div class="">
                                     <?php
 
-                                    $activities = EdcensoComplementaryActivityType::model()->findAll();
+                                                                        $activities = EdcensoComplementaryActivityType::model()->findAll();
 
 $options = [];
 foreach ($activities as $activity) {
@@ -632,8 +632,8 @@ echo $form->dropDownList(
 
                             </div>
                             <?php
-                            if (TagUtils::isMultiStage($modelClassroom->edcenso_stage_vs_modality_fk)):
-                                ?>
+                                                            if (TagUtils::isMultiStage($modelClassroom->edcenso_stage_vs_modality_fk)):
+                                                                ?>
                                 <div class="js-mutiple-structure">
                                     <h3>
                                         Estruturas de Unidade Por Etapa
@@ -647,16 +647,16 @@ echo $form->dropDownList(
                                                         <?= $stage->name ?>
                                                     </label>
                                                     <?php echo CHtml::dropDownList(
-                                    'grade_rules_' . $stage->id,
-                                    $gradeRulesStages[$stage->id],
-                                    CHtml::listData($gradeRules, 'id', 'name'),
-                                    [
-                                        'class' => 'select-search-on select2-container',
-                                        'prompt' => 'Selecione a Regra de Avaliação',
-                                        'id' => 'gradeRules',
-                                        'style' => 'width: 100%;'
-                                    ]
-                                ); ?>
+                                                                    'grade_rules_' . $stage->id,
+                                                                    $gradeRulesStages[$stage->id],
+                                                                    CHtml::listData($gradeRules, 'id', 'name'),
+                                                                    [
+                                                                        'class' => 'select-search-on select2-container',
+                                                                        'prompt' => 'Selecione a Regra de Avaliação',
+                                                                        'id' => 'gradeRules',
+                                                                        'style' => 'width: 100%;'
+                                                                    ]
+                                                                ); ?>
                                                 </div>
                                             </div>
                                         <?php endforeach; ?>
@@ -664,7 +664,7 @@ echo $form->dropDownList(
                                     </div>
                                 </div>
                             <?php
-                            endif;
+                                                            endif;
 ?>
                         </div>
                         <div class="column">

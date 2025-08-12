@@ -129,7 +129,7 @@ echo isset($error['variableData']) ? $error['variableData'] : '';
                                         [
                                             'size' => 60,
                                             'maxlength' => 100,
-                                            'class'=>'js-trim-name',
+                                            'class' => 'js-trim-name',
                                             'placeholder' => 'Digite o Nome de Apresentação'
                                         ]
                                     );
@@ -160,16 +160,16 @@ echo isset($error['variableData']) ? $error['variableData'] : '';
                                 </div>
                                 <div class="controls">
                                     <?php echo $form->textField(
-                                        $modelInstructorIdentification,
-                                        'civil_name',
-                                        array(
-                                            'size' => 60,
-                                            'maxlength' => 100,
-                                            'class'=>'js-trim-name',
-                                            'placeholder' => 'Digite o Nome Civil'
-                                        )
-                                    );
-                                    ?>
+    $modelInstructorIdentification,
+    'civil_name',
+    [
+        'size' => 60,
+        'maxlength' => 100,
+        'class' => 'js-trim-name',
+        'placeholder' => 'Digite o Nome Civil'
+    ]
+);
+?>
                                     <span class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('help', 'Instructor Full Civil Name'); ?>"><i></i></span>
                                     <?php echo $form->error($modelInstructorIdentification, 'civil_name'); ?>
                                 </div>
@@ -263,7 +263,7 @@ echo isset($error['variableData']) ? $error['variableData'] : '';
                                 </div>
                                 <div style="margin-left: 23px">
 									<?php
-                                        $this->widget('zii.widgets.jui.CJuiDatePicker', DatePickerWidget::renderDatePicker($modelInstructorIdentification, 'birthday_date'));
+                                                                            $this->widget('zii.widgets.jui.CJuiDatePicker', DatePickerWidget::renderDatePicker($modelInstructorIdentification, 'birthday_date'));
 echo CHtml::link('	Limpar', '#', [
     'onclick' => '$("#' . CHtml::activeId($modelInstructorIdentification, 'birthday_date') . '").datepicker("setDate", null); return false;',
 ]);
@@ -544,7 +544,7 @@ echo $form->error($modelInstructorIdentification, 'birthday_date');
                                 <div class="controls" id="InstructorIdentification_deficiencies">
                                     <label class="checkbox">
                                         <?php
-                                        echo InstructorIdentification::model()->attributeLabels()['deficiency_type_blindness'];
+                                                                                echo InstructorIdentification::model()->attributeLabels()['deficiency_type_blindness'];
 echo $form->checkBox(
     $modelInstructorIdentification,
     'deficiency_type_blindness',
@@ -724,7 +724,7 @@ echo $form->error(
                             <div class="control-group">
                                 <div class="controls">
                                     <?php
-                                    echo $form->label(
+                                                                        echo $form->label(
                                         $modelInstructorDocumentsAndAddress,
                                         'address',
                                         ['class' => 't-field-select__label--required']
@@ -761,7 +761,7 @@ echo $form->error(
                                 </div>
                                 <div class="controls">
                                     <?php
-                                    echo $form->textField(
+                                                                        echo $form->textField(
                                         $modelInstructorDocumentsAndAddress,
                                         'address_number',
                                         [
@@ -1376,7 +1376,7 @@ echo CHtml::label(Yii::t(
                                                         <div class="control-group">
                                                             <div class="controls">
                                                                 <?php
-                                                                echo $form->label(
+                                                                                                                                echo $form->label(
                                                                     $modelInstructorVariableData,
                                                                     'high_education_course_code_1_fk',
                                                                     [
@@ -1608,7 +1608,7 @@ foreach ($ufs as $k => $uf) {
                                                         <div class="control-group">
                                                             <div class="controls">
                                                                 <?php
-                                                                echo $form->label(
+                                                                                                                                echo $form->label(
                                                                     $modelInstructorVariableData,
                                                                     'high_education_course_code_2_fk',
                                                                     [
@@ -1824,7 +1824,7 @@ echo CHtml::label(Yii::t(
                                                         <div class="control-group">
                                                             <div class="controls">
                                                                 <?php
-                                                                echo $form->label(
+                                                                                                                                echo $form->label(
                                                                     $modelInstructorVariableData,
                                                                     'high_education_course_code_3_fk',
                                                                     [

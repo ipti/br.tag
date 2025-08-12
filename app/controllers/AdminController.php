@@ -2,7 +2,7 @@
 
 Yii::import('application.domain.admin.usecases.*');
 
-define('WHERE_ID','id = :id');
+define('WHERE_ID', 'id = :id');
 class AdminController extends Controller
 {
     public $layout = 'fullmenu';
@@ -102,7 +102,7 @@ SELECT
                     'coordenadores' => $result['coordenadores'] ?? 0,
                 ];
             } catch (Exception $e) {
-               // add exception
+                // add exception
             }
         }
 
@@ -270,14 +270,14 @@ SELECT
     {
         $pathFile = './app/export/InfoTagCSV/faults_' . Yii::app()->user->year . '.csv';
 
-
         $classrooms = Classroom::model()->findAllByAttributes(['school_year' => Yii::app()->user->year]);
 
         $result = $this->loadExportFaults($classrooms);
         $this->exportToCSV($result, $pathFile);
     }
 
-    private function loadExportFaults($classrooms){
+    private function loadExportFaults($classrooms)
+    {
         $results = [];
         foreach ($classrooms as $classroom) {
             if ($classroom->calendar_fk != null) {
@@ -291,12 +291,14 @@ SELECT
                     array_push($months, $dt->format('m/Y'));
                 }
 
-                array_push($results,$this->loadExportStudentEnrollmentFaults($classroom,$months) );
+                array_push($results, $this->loadExportStudentEnrollmentFaults($classroom, $months));
             }
         }
         return $results;
     }
-    private function loadExportStudentEnrollmentFaults ($classroom,$months){
+
+    private function loadExportStudentEnrollmentFaults($classroom, $months)
+    {
         $result = [];
 
         foreach ($classroom->studentEnrollments as $studentEnrollment) {
@@ -309,27 +311,28 @@ SELECT
                 AND cf.student_fk = :student_fk',
                 [
                     'classroom_fk' => $classroom->id,
-                    'student_fk'   => $student->id
+                    'student_fk' => $student->id
                 ]
             );
 
-            $result[] = $this->loadExportStudentEnrollmentFaultsInMonths($months,$student,$classroom,$classFaults);
+            $result[] = $this->loadExportStudentEnrollmentFaultsInMonths($months, $student, $classroom, $classFaults);
         }
 
         return $result;
     }
 
-    private function loadExportStudentEnrollmentFaultsInMonths($months,$student,$classroom,$classFaults){
+    private function loadExportStudentEnrollmentFaultsInMonths($months, $student, $classroom, $classFaults)
+    {
         $rows = [];
 
         foreach ($months as $month) {
             $usedDays = [];
             $row = [
-                'inep_aluno'  => $student->inep_id,
-                'nome_aluno'  => $student->name,
-                'turma'       => $classroom->name,
-                'mes'         => $month,
-                'total_faltas'=> 0
+                'inep_aluno' => $student->inep_id,
+                'nome_aluno' => $student->name,
+                'turma' => $classroom->name,
+                'mes' => $month,
+                'total_faltas' => 0
             ];
 
             foreach ($classFaults as $fault) {
