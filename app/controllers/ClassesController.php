@@ -6,6 +6,22 @@ Yii::import('application.modules.timesheet.models.TimesheetInstructor', true);
 Yii::import('application.modules.timesheet.models.InstructorSchool', true);
 Yii::import('application.modules.timesheet.models.Unavailability', true);
 
+
+define('MODALITY_FK',':modality_fk');
+define('SCHOOL_YEAR',':school_year');
+define('SCHOOL_INEP_FK',':school_inep_fk');
+define('USERS_FK',':users_fk');
+define('DISCIPLINE_FK',':discipline_fk');
+define('YEAR_CONSTANTS',':year');
+define('CLASSROOM',':classroom');
+define('MONTH_CONSTANTS',':month');
+define('SCHEDULE_FK_AND_STUDENT_FK','schedule_fk = :schedule_fk and student_fk = :student_fk');
+define('JOIN_INTRUCTOR_TEACHING_DATA_ON_INSTRUCTOR_DATA_CLASSROOM_FK',' join instructor_teaching_data on instructor_teaching_data.classroom_id_fk = c.id ');
+define('JOIN_INSTRUCTOR_IDENTIFICATION_ON_INSTRUCTOR_TEACHING_DATA_INSTRUCTOR_FK',' join instructor_identification on instructor_teaching_data.instructor_fk = instructor_identification.id ');
+define('CLASSROOM_SCHOOL_YEAR_AND_SCHOOL_INEP_FK','c.school_year = :school_year and c.school_inep_fk = :school_inep_fk and instructor_identification.users_fk = :users_fk');
+define('GROUP_BY_DAY_ORDER_BY_DAY',' group by day order by day, schedule');
+define('SCHOOL_YEAR_AND_SCHOOL_INEP_FK','school_year = :school_year and school_inep_fk = :school_inep_fk order by name'
+);
 class ClassesController extends Controller
 {
     /**
@@ -73,20 +89,20 @@ class ClassesController extends Controller
             $criteria = new CDbCriteria();
             $criteria->alias = 'c';
             $criteria->join = ''
-                . ' join instructor_teaching_data on instructor_teaching_data.classroom_id_fk = c.id '
-                . ' join instructor_identification on instructor_teaching_data.instructor_fk = instructor_identification.id ';
-            $criteria->condition = 'c.school_year = :school_year and c.school_inep_fk = :school_inep_fk and instructor_identification.users_fk = :users_fk';
+                . JOIN_INTRUCTOR_TEACHING_DATA_ON_INSTRUCTOR_DATA_CLASSROOM_FK
+                . JOIN_INSTRUCTOR_IDENTIFICATION_ON_INSTRUCTOR_TEACHING_DATA_INSTRUCTOR_FK;
+            $criteria->condition = CLASSROOM_SCHOOL_YEAR_AND_SCHOOL_INEP_FK;
             $criteria->order = 'name';
             $criteria->params = [
-                ':school_year' => Yii::app()->user->year,
-                ':school_inep_fk' => Yii::app()->user->school,
-                ':users_fk' => Yii::app()->user->loginInfos->id,
+                SCHOOL_YEAR => Yii::app()->user->year,
+                SCHOOL_INEP_FK => Yii::app()->user->school,
+                USERS_FK => Yii::app()->user->loginInfos->id,
             ];
 
             $classrooms = Classroom::model()->findAll($criteria);
         } else {
             $classrooms = Classroom::model()->findAll(
-                'school_year = :school_year and school_inep_fk = :school_inep_fk order by name',
+                SCHOOL_YEAR_AND_SCHOOL_INEP_FK,
                 [
                     'school_year' => Yii::app()->user->year,
                     'school_inep_fk' => Yii::app()->user->school,
@@ -107,20 +123,20 @@ class ClassesController extends Controller
             $criteria = new CDbCriteria();
             $criteria->alias = 'c';
             $criteria->join = ''
-                . ' join instructor_teaching_data on instructor_teaching_data.classroom_id_fk = c.id '
-                . ' join instructor_identification on instructor_teaching_data.instructor_fk = instructor_identification.id ';
-            $criteria->condition = 'c.school_year = :school_year and c.school_inep_fk = :school_inep_fk and instructor_identification.users_fk = :users_fk';
+                . JOIN_INTRUCTOR_TEACHING_DATA_ON_INSTRUCTOR_DATA_CLASSROOM_FK
+                . JOIN_INSTRUCTOR_IDENTIFICATION_ON_INSTRUCTOR_TEACHING_DATA_INSTRUCTOR_FK;
+            $criteria->condition = CLASSROOM_SCHOOL_YEAR_AND_SCHOOL_INEP_FK;
             $criteria->order = 'name';
             $criteria->params = [
-                ':school_year' => Yii::app()->user->year,
-                ':school_inep_fk' => Yii::app()->user->school,
-                ':users_fk' => Yii::app()->user->loginInfos->id,
+                SCHOOL_YEAR => Yii::app()->user->year,
+                SCHOOL_INEP_FK => Yii::app()->user->school,
+                USERS_FK => Yii::app()->user->loginInfos->id,
             ];
 
             $classrooms = Classroom::model()->findAll($criteria);
         } else {
             $classrooms = Classroom::model()->findAll(
-                'school_year = :school_year and school_inep_fk = :school_inep_fk order by name',
+                SCHOOL_YEAR_AND_SCHOOL_INEP_FK,
                 [
                     'school_year' => Yii::app()->user->year,
                     'school_inep_fk' => Yii::app()->user->school,
@@ -170,11 +186,11 @@ class ClassesController extends Controller
                         and YEAR(cp.start_date) = :year
                         order by ed.name, cp.name'
                     )
-                        ->bindParam(':school_inep_fk', Yii::app()->user->school)
-                        ->bindParam(':modality_fk', $schedules[0]->classroomFk->edcenso_stage_vs_modality_fk)
-                        ->bindParam(':discipline_fk', $disciplineId)
-                        ->bindParam(':users_fk', Yii::app()->user->loginInfos->id)
-                        ->bindParam(':year', $year)
+                        ->bindParam(SCHOOL_INEP_FK, Yii::app()->user->school)
+                        ->bindParam(MODALITY_FK, $schedules[0]->classroomFk->edcenso_stage_vs_modality_fk)
+                        ->bindParam(DISCIPLINE_FK, $disciplineId)
+                        ->bindParam(USERS_FK, Yii::app()->user->loginInfos->id)
+                        ->bindParam(YEAR_CONSTANTS, $year)
                         ->queryAll();
                 } else {
                     $courseClasses = Yii::app()->db->createCommand(
@@ -185,10 +201,10 @@ class ClassesController extends Controller
                         and YEAR(cp.start_date) = :year
                         order by ed.name, cp.name'
                     )
-                        ->bindParam(':school_inep_fk', Yii::app()->user->school)
-                        ->bindParam(':modality_fk', $schedules[0]->classroomFk->edcenso_stage_vs_modality_fk)
-                        ->bindParam(':users_fk', Yii::app()->user->loginInfos->id)
-                        ->bindParam(':year', $year)
+                        ->bindParam(SCHOOL_INEP_FK, Yii::app()->user->school)
+                        ->bindParam(MODALITY_FK, $schedules[0]->classroomFk->edcenso_stage_vs_modality_fk)
+                        ->bindParam(USERS_FK, Yii::app()->user->loginInfos->id)
+                        ->bindParam(YEAR_CONSTANTS, $year)
                         ->queryAll();
 
                     $additionalClasses = Yii::app()->db->createCommand(
@@ -199,10 +215,10 @@ class ClassesController extends Controller
                         and YEAR(cp.start_date) = :year
                         order by cp.name'
                     )
-                        ->bindParam(':school_inep_fk', Yii::app()->user->school)
-                        ->bindParam(':modality_fk', $schedules[0]->classroomFk->edcenso_stage_vs_modality_fk)
-                        ->bindParam(':users_fk', Yii::app()->user->loginInfos->id)
-                        ->bindParam(':year', $year)
+                        ->bindParam(SCHOOL_INEP_FK, Yii::app()->user->school)
+                        ->bindParam(MODALITY_FK, $schedules[0]->classroomFk->edcenso_stage_vs_modality_fk)
+                        ->bindParam(USERS_FK, Yii::app()->user->loginInfos->id)
+                        ->bindParam(YEAR_CONSTANTS, $year)
                         ->queryAll();
 
                     $courseClasses = array_merge($courseClasses, $additionalClasses);
@@ -217,10 +233,10 @@ class ClassesController extends Controller
                         and YEAR(cp.start_date) = :year
                         order by ed.name, cp.name'
                     )
-                        ->bindParam(':school_inep_fk', Yii::app()->user->school)
-                        ->bindParam(':modality_fk', $schedules[0]->classroomFk->edcenso_stage_vs_modality_fk)
-                        ->bindParam(':discipline_fk', $disciplineId)
-                        ->bindParam(':year', $year)
+                        ->bindParam(SCHOOL_INEP_FK, Yii::app()->user->school)
+                        ->bindParam(MODALITY_FK, $schedules[0]->classroomFk->edcenso_stage_vs_modality_fk)
+                        ->bindParam(DISCIPLINE_FK, $disciplineId)
+                        ->bindParam(YEAR_CONSTANTS, $year)
                         ->queryAll();
                 } else {
                     $courseClasses = Yii::app()->db->createCommand(
@@ -231,9 +247,9 @@ class ClassesController extends Controller
                         and YEAR(cp.start_date) = :year
                         order by ed.name, cp.name'
                     )
-                        ->bindParam(':school_inep_fk', Yii::app()->user->school)
-                        ->bindParam(':modality_fk', $schedules[0]->classroomFk->edcenso_stage_vs_modality_fk)
-                        ->bindParam(':year', $year)
+                        ->bindParam(SCHOOL_INEP_FK, Yii::app()->user->school)
+                        ->bindParam(MODALITY_FK, $schedules[0]->classroomFk->edcenso_stage_vs_modality_fk)
+                        ->bindParam(YEAR_CONSTANTS, $year)
                         ->queryAll();
 
                     $additionalClasses = Yii::app()->db->createCommand(
@@ -244,9 +260,9 @@ class ClassesController extends Controller
                         and YEAR(cp.start_date) = :year
                         order by cp.name'
                     )
-                        ->bindParam(':school_inep_fk', Yii::app()->user->school)
-                        ->bindParam(':modality_fk', $schedules[0]->classroomFk->edcenso_stage_vs_modality_fk)
-                        ->bindParam(':year', $year)
+                        ->bindParam(SCHOOL_INEP_FK, Yii::app()->user->school)
+                        ->bindParam(MODALITY_FK, $schedules[0]->classroomFk->edcenso_stage_vs_modality_fk)
+                        ->bindParam(YEAR_CONSTANTS, $year)
                         ->queryAll();
 
                     $courseClasses = array_merge($courseClasses, $additionalClasses);
@@ -262,7 +278,7 @@ class ClassesController extends Controller
                 'totalClassContents' => $totalClassContents,
             ]);
         } else {
-            echo json_encode(['valid' => false, 'error' => 'Mês/Ano ' . ($isMinorEducation == false ? 'e Disciplina' : '') . ' sem aula no Quadro de Horário.']);
+            echo json_encode(['valid' => false, 'error' => 'Mês/Ano ' . (!$isMinorEducation ? 'e Disciplina' : '') . ' sem aula no Quadro de Horário.']);
         }
     }
 
@@ -274,9 +290,9 @@ class ClassesController extends Controller
                 where sc.year = :year and sc.month = :month and sc.classroom_fk = :classroom
                 and sc.unavailable = 0'
             )
-                ->bindParam(':classroom', $classroomId)
-                ->bindParam(':month', $month)
-                ->bindParam(':year', $year)
+                ->bindParam(YEAR_CONSTANTS, $classroomId)
+                ->bindParam(MONTH_CONSTANTS, $month)
+                ->bindParam(YEAR_CONSTANTS, $year)
                 ->queryScalar();
         }
 
@@ -285,9 +301,9 @@ class ClassesController extends Controller
             where sc.year = :year and sc.month = :month and sc.classroom_fk = :classroom
             and sc.discipline_fk = :discipline and sc.unavailable = 0'
         )
-            ->bindParam(':classroom', $classroomId)
-            ->bindParam(':month', $month)
-            ->bindParam(':year', $year)
+            ->bindParam(YEAR_CONSTANTS, $classroomId)
+            ->bindParam(MONTH_CONSTANTS, $month)
+            ->bindParam(YEAR_CONSTANTS, $year)
             ->bindParam(':discipline', $disciplineId)
             ->queryScalar();
     }
@@ -301,9 +317,9 @@ class ClassesController extends Controller
                 where sc.year = :year and sc.month = :month and sc.classroom_fk = :classroom
                 and sc.unavailable = 0'
             )
-                ->bindParam(':classroom', $classroomId)
-                ->bindParam(':month', $month)
-                ->bindParam(':year', $year)
+                ->bindParam(YEAR_CONSTANTS, $classroomId)
+                ->bindParam(MONTH_CONSTANTS, $month)
+                ->bindParam(YEAR_CONSTANTS, $year)
                 ->queryScalar();
         }
 
@@ -313,9 +329,9 @@ class ClassesController extends Controller
             where sc.year = :year and sc.month = :month and sc.classroom_fk = :classroom
             and sc.discipline_fk = :discipline and sc.unavailable = 0'
         )
-            ->bindParam(':classroom', $classroomId)
-            ->bindParam(':month', $month)
-            ->bindParam(':year', $year)
+            ->bindParam(YEAR_CONSTANTS, $classroomId)
+            ->bindParam(MONTH_CONSTANTS, $month)
+            ->bindParam(YEAR_CONSTANTS, $year)
             ->bindParam(':discipline', $disciplineId)
             ->queryScalar();
     }
@@ -325,7 +341,7 @@ class ClassesController extends Controller
         $instructorFilter = $this->getInstructorFilter(Classroom::model()->findByPk($classroomId));
 
         return Schedule::model()->findAll(
-            'classroom_fk = :classroom_fk and month = :month and year = :year and discipline_fk = :discipline_fk and unavailable = 0 ' . $instructorFilter . ' group by day order by day, schedule',
+            'classroom_fk = :classroom_fk and month = :month and year = :year and discipline_fk = :discipline_fk and unavailable = 0 ' . $instructorFilter . GROUP_BY_DAY_ORDER_BY_DAY,
             [
                 'classroom_fk' => $classroomId,
                 'month' => $month,
@@ -346,7 +362,7 @@ class ClassesController extends Controller
         $instructorFilter = $this->getInstructorFilter(Classroom::model()->findByPk($classroomId));
 
         return Schedule::model()->findAll(
-            'classroom_fk = :classroom_fk and month = :month and year = :year and unavailable = 0 ' . $instructorFilter . ' group by day order by day, schedule',
+            'classroom_fk = :classroom_fk and month = :month and year = :year and unavailable = 0 ' . $instructorFilter . GROUP_BY_DAY_ORDER_BY_DAY,
             [
                 'classroom_fk' => $classroomId,
                 'month' => $month,
@@ -403,10 +419,10 @@ class ClassesController extends Controller
             $classContents = ClassContents::model()->findAll(
                 'year = :year AND month = :month AND day = :day AND discipline_fk = :discipline_fk AND classroom_fk = :classroom_fk',
                 [
-                    ':year' => $schedule->year,
-                    ':month' => $schedule->month,
+                    YEAR_CONSTANTS => $schedule->year,
+                    MONTH_CONSTANTS => $schedule->month,
                     ':day' => $schedule->day,
-                    ':discipline_fk' => $schedule->discipline_fk,
+                    DISCIPLINE_FK => $schedule->discipline_fk,
                     ':classroom_fk' => $schedule->classroom_fk,
                 ]
             );
@@ -460,7 +476,7 @@ class ClassesController extends Controller
 
         foreach ($classContents as $classContent) {
             $scheduleKey = array_search($classContent['day'], array_column($schedules, 'day'));
-            if ($scheduleKey !== false) {
+            if ($scheduleKey) {
                 $this->saveSchedule($schedules[$scheduleKey], $classContent);
             }
         }
@@ -547,7 +563,7 @@ class ClassesController extends Controller
     private function saveClassDiary($student, $schedule)
     {
         if ($student['diary'] != '') {
-            $classDiary = ClassDiaries::model()->find('schedule_fk = :schedule_fk and student_fk = :student_fk', [':schedule_fk' => $schedule->id, ':student_fk' => $student['id']]);
+            $classDiary = ClassDiaries::model()->find(SCHEDULE_FK_AND_STUDENT_FK, [':schedule_fk' => $schedule->id, ':student_fk' => $student['id']]);
             if ($classDiary == null) {
                 $classDiary = new ClassDiaries();
                 $classDiary->schedule_fk = $schedule->id;
@@ -556,7 +572,7 @@ class ClassesController extends Controller
             $classDiary->diary = $student['diary'] === '' ? null : $student['diary'];
             $classDiary->save();
         } else {
-            ClassDiaries::model()->deleteAll('schedule_fk = :schedule_fk and student_fk = :student_fk', [':schedule_fk' => $schedule->id, ':student_fk' => $student['id']]);
+            ClassDiaries::model()->deleteAll(SCHEDULE_FK_AND_STUDENT_FK, [':schedule_fk' => $schedule->id, ':student_fk' => $student['id']]);
         }
     }
 
@@ -573,11 +589,11 @@ class ClassesController extends Controller
             $criteria = new CDbCriteria();
             $criteria->alias = 'c';
             $criteria->join = ''
-                . ' join instructor_teaching_data on instructor_teaching_data.classroom_id_fk = c.id '
-                . ' join instructor_identification on instructor_teaching_data.instructor_fk = instructor_identification.id ';
-            $criteria->condition = 'c.school_year = :school_year and c.school_inep_fk = :school_inep_fk and instructor_identification.users_fk = :users_fk';
+                . JOIN_INTRUCTOR_TEACHING_DATA_ON_INSTRUCTOR_DATA_CLASSROOM_FK
+                . JOIN_INSTRUCTOR_IDENTIFICATION_ON_INSTRUCTOR_TEACHING_DATA_INSTRUCTOR_FK;
+            $criteria->condition = CLASSROOM_SCHOOL_YEAR_AND_SCHOOL_INEP_FK;
             $criteria->order = 'name';
-            $criteria->params = [':school_year' => Yii::app()->user->year, ':school_inep_fk' => Yii::app()->user->school, ':users_fk' => Yii::app()->user->loginInfos->id];
+            $criteria->params = [SCHOOL_YEAR => Yii::app()->user->year, SCHOOL_INEP_FK => Yii::app()->user->school, USERS_FK => Yii::app()->user->loginInfos->id];
             $classrooms = Classroom::model()->findAll($criteria);
             $this->render(
                 'frequencyInstructor',
@@ -586,7 +602,7 @@ class ClassesController extends Controller
                 ]
             );
         } else {
-            $classrooms = Classroom::model()->findAll('school_year = :school_year and school_inep_fk = :school_inep_fk order by name', ['school_year' => Yii::app()->user->year, 'school_inep_fk' => Yii::app()->user->school]);
+            $classrooms = Classroom::model()->findAll(SCHOOL_YEAR_AND_SCHOOL_INEP_FK, ['school_year' => Yii::app()->user->year, 'school_inep_fk' => Yii::app()->user->school]);
             $this->render(
                 'frequency',
                 [
@@ -594,9 +610,6 @@ class ClassesController extends Controller
                 ]
             );
         }
-        // $this->render('frequency', array(
-        //     'classrooms' => $classrooms
-        // ));
     }
 
     /**
@@ -609,7 +622,7 @@ class ClassesController extends Controller
 
         $instructorFilter = $this->getInstructorFilter($classroom);
 
-        if ($isMinor == false) {
+        if (!$isMinor) {
             $schedules = Schedule::model()->findAll(
                 'classroom_fk = :classroom_fk and year = :year and month = :month and discipline_fk = :discipline_fk and unavailable = 0 ' . $instructorFilter . '  order by day, schedule',
                 [
@@ -621,7 +634,7 @@ class ClassesController extends Controller
             );
         } else {
             $schedules = Schedule::model()->findAll(
-                'classroom_fk = :classroom_fk and year = :year and month = :month and unavailable = 0 ' . $instructorFilter . ' group by day order by day, schedule',
+                'classroom_fk = :classroom_fk and year = :year and month = :month and unavailable = 0 ' . $instructorFilter . GROUP_BY_DAY_ORDER_BY_DAY,
                 [
                     'classroom_fk' => $_POST['classroom'],
                     'year' => $_POST['year'],
@@ -649,7 +662,7 @@ class ClassesController extends Controller
                     $array['status'] = $enrollment->status;
                     $array['statusLabel'] = $enrollment->getCurrentStatus();
                     foreach ($schedules as $schedule) {
-                        $classFault = ClassFaults::model()->find('schedule_fk = :schedule_fk and student_fk = :student_fk', ['schedule_fk' => $schedule->id, 'student_fk' => $enrollment->student_fk]);
+                        $classFault = ClassFaults::model()->find(SCHEDULE_FK_AND_STUDENT_FK, ['schedule_fk' => $schedule->id, 'student_fk' => $enrollment->student_fk]);
                         $available = date('Y-m-d') >= $schedule->year . '-' . str_pad($schedule->month, 2, '0', STR_PAD_LEFT) . '-' . str_pad($schedule->day, 2, '0', STR_PAD_LEFT);
                         $date = $this->gerateDate($schedule->day, $schedule->month, $schedule->year, 0);
 
@@ -673,7 +686,7 @@ class ClassesController extends Controller
                 echo json_encode(['valid' => false, 'error' => 'Matricule alunos nesta turma para trazer o Quadro de Frequência.']);
             }
         } else {
-            echo json_encode(['valid' => false, 'error' => 'Mês/Ano ' . ($isMinor == false ? 'e Disciplina' : '') . ' sem aula no Quadro de Horário.']);
+            echo json_encode(['valid' => false, 'error' => 'Mês/Ano ' . (!$isMinor ? 'e Disciplina' : '') . ' sem aula no Quadro de Horário.']);
         }
     }
 
@@ -696,7 +709,7 @@ class ClassesController extends Controller
             $month = ($schedule->month < 10) ? '0' . $schedule->month : $schedule->month;
             $date = $day . '/' . $month . '/' . $schedule->year;
             $index = array_search($date, array_column($result, 'date'));
-            if ($index === false) {
+            if (!$index) {
                 array_push($result, [
                     'day' => $schedule->day,
                     'date' => $date,
@@ -739,7 +752,7 @@ class ClassesController extends Controller
         foreach ($schedules as $schedule) {
             $date = $this->gerateDate($schedule->day, $schedule->month, $schedule->year, 0);
             $index = array_search($date, array_column($result, 'date'));
-            if ($index === false) {
+            if (!$index) {
                 array_push($result, [
                     'schedulePerDays' => [$schedule->schedule],
                     'date' => $date,
@@ -759,7 +772,7 @@ class ClassesController extends Controller
     {
         $classroom = Classroom::model()->findByPk($_POST['classroomId']);
         $isMinor = $classroom->edcensoStageVsModalityFk->unified_frequency == 1 ? true : $this->checkIsStageMinorEducation($classroom);
-        if ($isMinor == false) {
+        if (!$isMinor) {
             $schedule = Schedule::model()->find('classroom_fk = :classroom_fk and day = :day and year = :year and month = :month and schedule = :schedule', ['classroom_fk' => $_POST['classroomId'], 'day' => $_POST['day'], 'month' => $_POST['month'], 'year' => $_POST['year'], 'schedule' => $_POST['schedule']]);
             $this->saveFrequency($schedule);
         } else {
@@ -779,14 +792,14 @@ class ClassesController extends Controller
                 $classFault->schedule_fk = $schedule->id;
                 $classFault->save();
             } else {
-                ClassFaults::model()->deleteAll('schedule_fk = :schedule_fk and student_fk = :student_fk', ['schedule_fk' => $schedule->id, 'student_fk' => $_POST['studentId']]);
+                ClassFaults::model()->deleteAll(SCHEDULE_FK_AND_STUDENT_FK, ['schedule_fk' => $schedule->id, 'student_fk' => $_POST['studentId']]);
             }
         } else {
             if ($_POST['fault'] == '1') {
                 $enrollments = StudentEnrollment::model()->findAll('classroom_fk = :classroom_fk', ['classroom_fk' => $_POST['classroomId']]);
 
                 foreach ($enrollments as $enrollment) {
-                    $classFault = ClassFaults::model()->find('schedule_fk = :schedule_fk and student_fk = :student_fk', ['schedule_fk' => $schedule->id, 'student_fk' => $enrollment->student_fk]);
+                    $classFault = ClassFaults::model()->find(SCHEDULE_FK_AND_STUDENT_FK, ['schedule_fk' => $schedule->id, 'student_fk' => $enrollment->student_fk]);
                     $valid = $this->verifyStatusEnrollment($enrollment, $schedule);
                     if ($classFault == null && $valid) {
                         $classFault = new ClassFaults();
@@ -844,7 +857,7 @@ class ClassesController extends Controller
     {
         $schedules = Schedule::model()->findAll('classroom_fk = :classroom_fk and day = :day and month = :month and year = :year ', ['classroom_fk' => $_POST['classroomId'], 'day' => $_POST['day'], 'month' => $_POST['month'], 'year' => $_POST['year']]);
         foreach ($schedules as $schedule) {
-            $classFault = ClassFaults::model()->find('schedule_fk = :schedule_fk and student_fk = :student_fk', ['schedule_fk' => $schedule->id, 'student_fk' => $_POST['studentId']]);
+            $classFault = ClassFaults::model()->find(SCHEDULE_FK_AND_STUDENT_FK, ['schedule_fk' => $schedule->id, 'student_fk' => $_POST['studentId']]);
             $classFault->justification = $_POST['justification'] == '' ? null : $_POST['justification'];
             $classFault->save();
         }
@@ -854,15 +867,15 @@ class ClassesController extends Controller
     {
         $classroom = Classroom::model()->findByPk($_POST['classroomId']);
         $isMinor = $classroom->edcensoStageVsModalityFk->unified_frequency == 1 ? true : $this->checkIsStageMinorEducation($classroom);
-        if ($isMinor == false) {
+        if (!$isMinor) {
             $schedule = Schedule::model()->find('classroom_fk = :classroom_fk and day = :day and month = :month and year = :year and schedule = :schedule', ['classroom_fk' => $_POST['classroomId'], 'day' => $_POST['day'], 'month' => $_POST['month'], 'year' => $_POST['year'], 'schedule' => $_POST['schedule']]);
-            $classFault = ClassFaults::model()->find('schedule_fk = :schedule_fk and student_fk = :student_fk', ['schedule_fk' => $schedule->id, 'student_fk' => $_POST['studentId']]);
+            $classFault = ClassFaults::model()->find(SCHEDULE_FK_AND_STUDENT_FK, ['schedule_fk' => $schedule->id, 'student_fk' => $_POST['studentId']]);
             $classFault->justification = $_POST['justification'] == '' ? null : $_POST['justification'];
             $classFault->save();
         } else {
             $schedules = Schedule::model()->findAll('classroom_fk = :classroom_fk and day = :day and month = :month and year = :year ', ['classroom_fk' => $_POST['classroomId'], 'day' => $_POST['day'], 'month' => $_POST['month'], 'year' => $_POST['year']]);
             foreach ($schedules as $schedule) {
-                $classFault = ClassFaults::model()->find('schedule_fk = :schedule_fk and student_fk = :student_fk', ['schedule_fk' => $schedule->id, 'student_fk' => $_POST['studentId']]);
+                $classFault = ClassFaults::model()->find(SCHEDULE_FK_AND_STUDENT_FK, ['schedule_fk' => $schedule->id, 'student_fk' => $_POST['studentId']]);
                 $classFault->justification = $_POST['justification'] == '' ? null : $_POST['justification'];
                 $classFault->save();
             }
@@ -892,7 +905,7 @@ class ClassesController extends Controller
             }
 
             $result['disciplines'] = [];
-            if ($isMinor == false) {
+            if (!$isMinor) {
                 if (Yii::app()->getAuthManager()->checkAccess('instructor', Yii::app()->user->loginInfos->id)) {
                     $disciplines = Yii::app()->db->createCommand(
                         'select ed.id, ed.name from teaching_matrixes tm
@@ -903,7 +916,7 @@ class ClassesController extends Controller
                 where ii.users_fk = :userid and itd.classroom_id_fk = :crid order by ed.name'
                     )->bindParam(':userid', Yii::app()->user->loginInfos->id)->bindParam(':crid', $classroom->id)->queryAll();
                 } else {
-                    $disciplines = Yii::app()->db->createCommand('select ed.id, ed.name from curricular_matrix join edcenso_discipline ed on ed.id = curricular_matrix.discipline_fk where stage_fk = :stage_fk and school_year = :year order by ed.name')->bindParam(':stage_fk', $classroom->edcenso_stage_vs_modality_fk)->bindParam(':year', Yii::app()->user->year)->queryAll();
+                    $disciplines = Yii::app()->db->createCommand('select ed.id, ed.name from curricular_matrix join edcenso_discipline ed on ed.id = curricular_matrix.discipline_fk where stage_fk = :stage_fk and school_year = :year order by ed.name')->bindParam(':stage_fk', $classroom->edcenso_stage_vs_modality_fk)->bindParam(YEAR_CONSTANTS, Yii::app()->user->year)->queryAll();
                 }
                 foreach ($disciplines as $discipline) {
                     array_push($result['disciplines'], ['id' => $discipline['id'], 'name' => $discipline['name']]);
@@ -963,8 +976,8 @@ class ClassesController extends Controller
             }
         } else {
             echo CHtml::tag('option', ['value' => ''], CHtml::encode('Selecione o componente curricular/eixo'), true);
-            $classr = Yii::app()->db->createCommand('select curricular_matrix.discipline_fk from curricular_matrix join edcenso_discipline ed on ed.id = curricular_matrix.discipline_fk where stage_fk = :stage_fk and school_year = :year order by ed.name')->bindParam(':stage_fk', $classroom->edcenso_stage_vs_modality_fk)->bindParam(':year', Yii::app()->user->year)->queryAll();
-            foreach ($classr as $i => $discipline) {
+            $classr = Yii::app()->db->createCommand('select curricular_matrix.discipline_fk from curricular_matrix join edcenso_discipline ed on ed.id = curricular_matrix.discipline_fk where stage_fk = :stage_fk and school_year = :year order by ed.name')->bindParam(':stage_fk', $classroom->edcenso_stage_vs_modality_fk)->bindParam(YEAR_CONSTANTS, Yii::app()->user->year)->queryAll();
+            foreach ($classr as $discipline) {
                 if (isset($discipline['discipline_fk'])) {
                     echo htmlspecialchars(CHtml::tag('option', ['value' => $discipline['discipline_fk']], CHtml::encode($disciplinesLabels[$discipline['discipline_fk']]), true));
                 }

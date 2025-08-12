@@ -1012,7 +1012,6 @@
             }
             // Pega os valores para preencher o insert.
             $values = $this->getInsertValues($registerLines);
-            $instructorInepIds = $values['instructor'];
             $insertValue = $values['insert'];
 
             // Pega o código SQL com os valores passados
@@ -1119,7 +1118,6 @@
 
                 $isRegInstructorIdentification = ($regType == '30');
                 $isRegInstructorDocumentsAndAddress = ($regType == '40');
-                $isRegInstructorVariableData = ($regType == '50');
                 $isRegInstructorTeachingData = ($regType == '51');
 
                 $isStudentIdentification = ($regType == '60');
@@ -1146,15 +1144,12 @@
                             if ($regType == '51' && $column == 3) {
                                 $withoutcomma = true;
                                 $value = '(SELECT id FROM instructor_identification WHERE BINARY inep_id = BINARY ' . $lines[$line][2] . LIMIT_0_1;
-                            } elseif ($regType == '51' && $column == 5) {
+                            } elseif (($regType == '51' && $column == 5)||($regType == '80' && $column == 5)) {
                                 $withoutcomma = true;
                                 $value = '(SELECT id FROM classroom WHERE BINARY inep_id = BINARY ' . $lines[$line][4] . LIMIT_0_1;
                             } elseif ($regType == '80' && $column == 3) {
                                 $withoutcomma = true;
                                 $value = '(SELECT id FROM student_identification WHERE BINARY inep_id = BINARY ' . $lines[$line][2] . LIMIT_0_1;
-                            } elseif ($regType == '80' && $column == 5) {
-                                $withoutcomma = true;
-                                $value = '(SELECT id FROM classroom WHERE BINARY inep_id = BINARY ' . $lines[$line][4] . LIMIT_0_1;
                             }
                         }
 
@@ -1195,9 +1190,8 @@
                     }
                 }
             }
-            $return = ['insert' => $insertValue, 'instructor' => $instructorInepIds];
 
-            return $return;
+            return  ['insert' => $insertValue, 'instructor' => $instructorInepIds];
         }
 
         public function areThereByModalitie($sql)
@@ -1536,10 +1530,6 @@
                             $sql .= " ('" . str_replace("''", 'null', implode("', '", $value)) . "', '" . $tagId . "'),";
                             break;
                         case '4':
-                            $instructorIdentification = InstructorIdentification::model()->findByAttributes(['id' => $value['id']]);
-                            $tagId = md5($instructorIdentification->name . $instructorIdentification->birthday_date);
-                            $sql .= " ('" . str_replace("''", 'null', implode("', '", $value)) . "', '" . $tagId . "'),";
-                            break;
                         case '5':
                             $instructorIdentification = InstructorIdentification::model()->findByAttributes(['id' => $value['id']]);
                             $tagId = md5($instructorIdentification->name . $instructorIdentification->birthday_date);
@@ -1624,6 +1614,7 @@
                         break;
                 }
             }
+            return $objects;
         }
 
         /**
