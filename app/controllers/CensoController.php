@@ -67,43 +67,43 @@ class CensoController extends Controller
 
     public function areThereByModalitie($sql)
     {
-        $people_by_modalitie = Yii::app()->db->createCommand($sql)->queryAll();
-        $modalities_regular = false;
-        $modalities_especial = false;
-        $modalities_eja = false;
-        $modalities_professional = false;
-        foreach ($people_by_modalitie as $key => $item) {
+        $peopleByModalitie = Yii::app()->db->createCommand($sql)->queryAll();
+        $modalitiesRegular = false;
+        $modalitiesEspecial = false;
+        $modalitiesEja = false;
+        $modalitiesProfessional = false;
+        foreach ($peopleByModalitie as $item) {
             switch ($item['modalities']) {
                 case '1':
                     if ($item['number_of'] > '0') {
-                        $modalities_regular = true;
+                        $modalitiesRegular = true;
                     }
                     break;
                 case '2':
                     if ($item['number_of'] > '0') {
-                        $modalities_especial = true;
+                        $modalitiesEspecial = true;
                     }
                     break;
 
                 case '3':
                     if ($item['number_of'] > '0') {
-                        $modalities_eja = true;
+                        $modalitiesEja = true;
                     }
                     break;
 
                 case '4':
                     if ($item['number_of'] > '0') {
-                        $modalities_professional = true;
+                        $modalitiesProfessional = true;
                     }
                     break;
             }
         }
 
         return [
-            'modalities_regular' => $modalities_regular,
-            'modalities_especial' => $modalities_especial,
-            'modalities_eja' => $modalities_eja,
-            'modalities_professional' => $modalities_professional,
+            'modalities_regular' => $modalitiesRegular,
+            'modalities_especial' => $modalitiesEspecial,
+            'modalities_eja' => $modalitiesEja,
+            'modalities_professional' => $modalitiesProfessional,
         ];
     }
 
@@ -298,10 +298,10 @@ class CensoController extends Controller
         }
 
         // campo 41
-        $inep_head_school = $schoolIdentificationColumn['inep_head_school'];
+        $inepHeadSchool = $schoolIdentificationColumn['inep_head_school'];
         $sql = "SELECT 	si.inep_head_school, si.situation
 			FROM 	school_identification AS si
-			WHERE 	inep_id = '$inep_head_school';";
+			WHERE 	inep_id = '$inepHeadSchool';";
         $check = Yii::app()->db->createCommand($sql)->queryAll();
         if (!empty($check)) {
             $result = $siv->inepHeadSchool(
@@ -409,7 +409,7 @@ class CensoController extends Controller
     public function validateSchoolStructure($collumn, $school)
     {
         $ssv = new SchoolStructureValidation();
-        $school_inep_id_fk = $collumn['school_inep_id_fk'];
+        $schoolInepIdFk = $collumn['school_inep_id_fk'];
         $log = [];
 
         // campo 1
@@ -420,21 +420,21 @@ class CensoController extends Controller
 
         // campo 2
         $sql = 'SELECT inep_id FROM school_identification;';
-        $inep_ids = Yii::app()->db->createCommand($sql)->queryAll();
-        foreach ($inep_ids as $key => $value) {
-            $allowed_school_inep_ids[] = $value['inep_id'];
+        $inepIds = Yii::app()->db->createCommand($sql)->queryAll();
+        foreach ($inepIds as $value) {
+            $allowedSchoolInepIds[] = $value['inep_id'];
         }
 
         $result = $ssv->isAllowed(
-            $school_inep_id_fk,
-            $allowed_school_inep_ids
+            $schoolInepIdFk,
+            $allowedSchoolInepIds
         );
         if (!$result['status']) {
             array_push($log, ['school_inep_id_fk' => $result['erro']]);
         }
 
         // campo 3 à 11
-        $operation_locations = [
+        $operationLocations = [
             $collumn['operation_location_building'],
             $collumn['operation_location_temple'],
             $collumn['operation_location_businness_room'],
@@ -445,7 +445,7 @@ class CensoController extends Controller
             $collumn['operation_location_prison_unity'],
             $collumn['operation_location_other'],
         ];
-        $result = $ssv->atLeastOne($operation_locations);
+        $result = $ssv->atLeastOne($operationLocations);
         if (!$result['status']) {
             array_push($log, ['operation_locations' => $result['erro']]);
         }
@@ -466,7 +466,7 @@ class CensoController extends Controller
         //        if (!$result["status"]) array_push($log, array("shared_building_with_school" => $result["erro"]));
 
         // campos 14 à 19
-        $shared_school_inep_ids = [
+        $sharedSchoolInepIds = [
             $collumn['shared_school_inep_id_1'],
             $collumn['shared_school_inep_id_2'],
             $collumn['shared_school_inep_id_3'],
@@ -474,7 +474,7 @@ class CensoController extends Controller
             $collumn['shared_school_inep_id_5'],
             $collumn['shared_school_inep_id_6'],
         ];
-        $result = $ssv->sharedSchoolInep($collumn['shared_building_with_school'], $collumn['school_inep_id_fk'], $shared_school_inep_ids);
+        $result = $ssv->sharedSchoolInep($collumn['shared_building_with_school'], $collumn['school_inep_id_fk'], $sharedSchoolInepIds);
         if (!$result['status']) {
             array_push($log, ['Escolas com qual e compartilhada' => $result['erro']]);
         }
@@ -484,7 +484,7 @@ class CensoController extends Controller
         //        if (!$result["status"]) array_push($log, array("consumed_water_type" => $result["erro"]));
 
         // campos 21 à 25
-        $water_supplys = [
+        $waterSupplys = [
             $collumn['water_supply_public'],
             $collumn['water_supply_artesian_well'],
             $collumn['water_supply_well'],
@@ -492,19 +492,19 @@ class CensoController extends Controller
             $collumn['water_supply_inexistent'],
             $collumn['water_supply_car'],
         ];
-        $result = $ssv->supply($water_supplys);
+        $result = $ssv->supply($waterSupplys);
         if (!$result['status']) {
             array_push($log, ['Suprimento de Agua' => $result['erro']]);
         }
 
         // campos 26 à 29
-        $energy_supplys = [
+        $energySupplys = [
             $collumn['energy_supply_public'],
             $collumn['energy_supply_generator'],
             $collumn['energy_supply_generator_alternative'],
             $collumn['energy_supply_inexistent'],
         ];
-        $result = $ssv->supply($energy_supplys);
+        $result = $ssv->supply($energySupplys);
         if (!$result['status']) {
             array_push($log, ['Suprimento de Energia' => $result['erro']]);
         }
@@ -522,14 +522,14 @@ class CensoController extends Controller
         }
 
         // campos 33 à 38
-        $garbage_destinations = [
+        $garbageDestinations = [
             $collumn['garbage_destination_collect'],
             $collumn['garbage_destination_burn'],
             $collumn['garbage_destination_public'],
             $collumn['garbage_destination_throw_away'],
             $collumn['garbage_destination_bury'],
         ];
-        $result = $ssv->atLeastOne($garbage_destinations);
+        $result = $ssv->atLeastOne($garbageDestinations);
         if (!$result['status']) {
             array_push($log, ['Destino do lixo' => $result['erro']]);
         }
@@ -679,13 +679,13 @@ class CensoController extends Controller
         //        $result = $ssv->isGreaterThan($collumn["employees_count"], "0");
         //        if (!$result["status"]) array_push($log, array("employees_count" => $result["erro"]));
 
-        $school_inep_fk = $school['inep_id'];
+        $schoolInepFk = $school['inep_id'];
         // campo 89
         $sql = 'SELECT  COUNT(pedagogical_mediation_type) AS number_of
 		FROM 	classroom
-		WHERE 	school_inep_fk = "$school_inep_id_fk" AND
+		WHERE 	school_inep_fk = "$schoolInepIdFk" AND
 				(pedagogical_mediation_type =  "1" OR pedagogical_mediation_type =  "2");';
-        $pedagogical_mediation_type = Yii::app()->db->createCommand($sql)->queryAll();
+        $pedagogicalMediationType = Yii::app()->db->createCommand($sql)->queryAll();
 
         $result = $ssv->schoolFeeding($collumn['feeding']);
         if (!$result['status']) {
@@ -698,10 +698,10 @@ class CensoController extends Controller
 						INNER JOIN
 					edcenso_stage_vs_modality AS esm
 						ON esm.id = cr.edcenso_stage_vs_modality_fk
-			WHERE 	stage IN (2,3,7) AND cr.school_inep_fk = '$school_inep_fk';";
-        $number_of_schools = Yii::app()->db->createCommand($sql)->queryAll();
+			WHERE 	stage IN (2,3,7) AND cr.school_inep_fk = '$schoolInepFk';";
+        $numberOfSchools = Yii::app()->db->createCommand($sql)->queryAll();
 
-        $result = $ssv->schoolCicle($collumn['basic_education_cycle_organized'], $number_of_schools);
+        $result = $ssv->schoolCicle($collumn['basic_education_cycle_organized'], $numberOfSchools);
         if (!$result['status']) {
             array_push($log, ['basic_education_cycle_organized' => $result['erro']]);
         }
@@ -727,13 +727,13 @@ class CensoController extends Controller
 					edcenso_stage_vs_modality AS esm
 						ON esm.id = cr.edcenso_stage_vs_modality_fk
 			WHERE 	cr.assistance_type NOT IN (4,5) AND
-					cr.school_inep_fk =  '$school_inep_id_fk' AND
+					cr.school_inep_fk =  '$schoolInepIdFk' AND
 					esm.stage NOT IN (1,2);";
-        $pedagogical_formation_by_alternance = Yii::app()->db->createCommand($sql)->queryAll();
+        $pedagogicalFormationByAlternance = Yii::app()->db->createCommand($sql)->queryAll();
 
         $result = $ssv->pedagogicalFormation(
             $collumn['pedagogical_formation_by_alternance'],
-            $pedagogical_formation_by_alternance[0]['number_of']
+            $pedagogicalFormationByAlternance[0]['number_of']
         );
         if (!$result['status']) {
             array_push($log, ['pedagogical_formation_by_alternance' => $result['erro']]);
@@ -898,22 +898,22 @@ class CensoController extends Controller
         return $log;
     }
 
-    public function validateInstructor($collumn, $instructor_documents_and_address)
+    public function validateInstructor($collumn, $instructorDocumentsAndAddress)
     {
         $sql = 'SELECT inep_id FROM school_identification;';
-        $inep_ids = Yii::app()->db->createCommand($sql)->queryAll();
-        foreach ($inep_ids as $key => $value) {
-            $allowed_school_inep_ids[] = $value['inep_id'];
+        $inepIds = Yii::app()->db->createCommand($sql)->queryAll();
+        foreach ($inepIds as $value) {
+            $allowedSchoolInepIds[] = $value['inep_id'];
         }
 
         $iiv = new InstructorIdentificationValidation();
-        $school_inep_id_fk = $collumn['school_inep_id_fk'];
+        $schoolInepIdFk = $collumn['school_inep_id_fk'];
         $log = [];
 
         // campo 2
         $result = $iiv->isAllowedInepId(
-            $school_inep_id_fk,
-            $allowed_school_inep_ids
+            $schoolInepIdFk,
+            $allowedSchoolInepIds
         );
         if (!$result['status']) {
             array_push($log, ['school_inep_id_fk' => $result['erro']]);
@@ -921,7 +921,7 @@ class CensoController extends Controller
 
         // campo 3
         if ($collumn['inep_id'] != '' && $collumn['inep_id'] != null) {
-            $result = $iiv->isValidPersonInepId($collumn['inep_id'], $school_inep_id_fk);
+            $result = $iiv->isValidPersonInepId($collumn['inep_id'], $schoolInepIdFk);
             if (!$result['status']) {
                 array_push($log, ['inep_id' => $result['erro']]);
             }
@@ -937,7 +937,7 @@ class CensoController extends Controller
         $result = $iiv->isNameValid(
             trim($collumn['name']),
             100,
-            $instructor_documents_and_address['cpf']
+            $instructorDocumentsAndAddress['cpf']
         );
         if (!$result['status']) {
             array_push($log, ['name' => $result['erro']]);
@@ -969,11 +969,11 @@ class CensoController extends Controller
         }
 
         // campo 11, 12, 13
-        $result = $iiv->isNameValid(trim($collumn['filiation_1']), 100, $instructor_documents_and_address['cpf']);
+        $result = $iiv->isNameValid(trim($collumn['filiation_1']), 100, $instructorDocumentsAndAddress['cpf']);
         if (!$result['status']) {
             array_push($log, ['filiation' => $result['erro']]);
         }
-        $result = $iiv->isNameValid(trim($collumn['filiation_2']), 100, $instructor_documents_and_address['cpf']);
+        $result = $iiv->isNameValid(trim($collumn['filiation_2']), 100, $instructorDocumentsAndAddress['cpf']);
         if (!$result['status']) {
             array_push($log, ['filiation' => $result['erro']]);
         }
@@ -981,7 +981,7 @@ class CensoController extends Controller
             $collumn['filiation'],
             $collumn['filiation_1'],
             $collumn['filiation_2'],
-            $instructor_documents_and_address['cpf'],
+            $instructorDocumentsAndAddress['cpf'],
             100
         );
         if (!$result['status']) {
@@ -1049,28 +1049,28 @@ class CensoController extends Controller
         $idav = new InstructorDocumentsAndAddressValidation();
         $log = [];
 
-        $school_inep_id_fk = $collumn['school_inep_id_fk'];
-        $instructor_inep_id = $collumn['inep_id'];
+        $schoolInepIdFk = $collumn['school_inep_id_fk'];
+        $instructorInepId = $collumn['inep_id'];
 
         $sql = 'SELECT inep_id FROM school_identification;';
-        $inep_ids = Yii::app()->db->createCommand($sql)->queryAll();
-        foreach ($inep_ids as $key => $value) {
-            $allowed_school_inep_ids[] = $value['inep_id'];
+        $inepIds = Yii::app()->db->createCommand($sql)->queryAll();
+        foreach ($inepIds as $value) {
+            $allowedSchoolInepIds[] = $value['inep_id'];
         }
         // campo 2
         $result = $idav->isAllowedInepId(
-            $school_inep_id_fk,
-            $allowed_school_inep_ids
+            $schoolInepIdFk,
+            $allowedSchoolInepIds
         );
         if (!$result['status']) {
             array_push($log, ['school_inep_id_fk' => $result['erro']]);
         }
 
         // campo 3
-        if (!empty($instructor_inep_id)) {
-            $sql = "SELECT COUNT(inep_id) AS status FROM instructor_documents_and_address WHERE inep_id =  '$instructor_inep_id'";
+        if (!empty($instructorInepId)) {
+            $sql = "SELECT COUNT(inep_id) AS status FROM instructor_documents_and_address WHERE inep_id =  '$instructorInepId'";
             $check = Yii::app()->db->createCommand($sql)->queryAll();
-            $result = $idav->isEqual($check[0]['status'], '1', "Não há tal inep_id $instructor_inep_id");
+            $result = $idav->isEqual($check[0]['status'], '1', "Não há tal inep_id $instructorInepId");
         }
 
         // campo 4
@@ -1079,7 +1079,7 @@ class CensoController extends Controller
             array_push($log, ['id' => $result['erro']]);
         }
 
-        if (empty($instructor_inep_id) || !empty($collumn['cpf'])) {
+        if (empty($instructorInepId) || !empty($collumn['cpf'])) {
             $result = $idav->isCPFValid($collumn['cpf']);
             if (!$result['status']) {
                 array_push($log, ['cpf' => $result['erro']]);
@@ -1097,32 +1097,32 @@ class CensoController extends Controller
     public function validateInstructorData($collumn)
     {
         $sql = 'SELECT inep_id FROM school_identification;';
-        $inep_ids = Yii::app()->db->createCommand($sql)->queryAll();
-        foreach ($inep_ids as $key => $value) {
-            $allowed_school_inep_ids[] = $value['inep_id'];
+        $inepIds = Yii::app()->db->createCommand($sql)->queryAll();
+        foreach ($inepIds as $value) {
+            $allowedSchoolInepIds[] = $value['inep_id'];
         }
 
         $itdv = new InstructorTeachingDataValidation();
-        $school_inep_id_fk = $collumn['school_inep_id_fk'];
-        $instructor_inep_id = $collumn['instructor_inep_id'];
-        $instructor_fk = $collumn['instructor_fk'];
-        $classroom_fk = $collumn['classroom_id_fk'];
+        $schoolInepIdFk = $collumn['school_inep_id_fk'];
+        $instructorInepId = $collumn['instructor_inep_id'];
+        $instructorFk = $collumn['instructor_fk'];
+        $classroomFk = $collumn['classroom_id_fk'];
         $log = [];
 
         // campo 2
         $result = $itdv->isAllowedInepId(
-            $school_inep_id_fk,
-            $allowed_school_inep_ids
+            $schoolInepIdFk,
+            $allowedSchoolInepIds
         );
         if (!$result['status']) {
             array_push($log, ['school_inep_id_fk' => $result['erro']]);
         }
 
         // campo 4
-        $sql = "SELECT COUNT(id) AS status FROM instructor_identification WHERE id =  '$instructor_fk'";
+        $sql = "SELECT COUNT(id) AS status FROM instructor_identification WHERE id =  '$instructorFk'";
         $check = Yii::app()->db->createCommand($sql)->queryAll();
 
-        $result = $itdv->isEqual($check[0]['status'], '1', 'Não há tal instructor_fk $instructor_fk');
+        $result = $itdv->isEqual($check[0]['status'], '1', 'Não há tal instructor_fk $instructorFk');
         if (!$result['status']) {
             array_push($log, ['instructor_fk' => $result['erro']]);
         }
@@ -1134,10 +1134,10 @@ class CensoController extends Controller
         }
 
         // campo 6
-        $sql = "SELECT COUNT(id) AS status FROM classroom WHERE id = '$classroom_fk';";
+        $sql = "SELECT COUNT(id) AS status FROM classroom WHERE id = '$classroomFk';";
         $check = Yii::app()->db->createCommand($sql)->queryAll();
 
-        $result = $itdv->isEqual($check[0]['status'], '1', 'Não há tal classroom_id_fk $classroom_fk');
+        $result = $itdv->isEqual($check[0]['status'], '1', 'Não há tal classroom_id_fk $classroomFk');
         if (!$result['status']) {
             array_push($log, ['classroom_id_fk' => $result['erro']]);
         }
@@ -1145,20 +1145,20 @@ class CensoController extends Controller
         // campo 7
         $sql = "SELECT assistance_type, pedagogical_mediation_type, edcenso_stage_vs_modality_fk
 			FROM classroom
-			WHERE id = '$classroom_fk';";
+			WHERE id = '$classroomFk';";
         $check = Yii::app()->db->createCommand($sql)->queryAll();
-        $assistance_type = $check[0]['assistance_type'];
-        $pedagogical_mediation_type = $check[0]['pedagogical_mediation_type'];
-        $edcenso_svm = $check[0]['edcenso_stage_vs_modality_fk'];
+        $assistanceType = $check[0]['assistance_type'];
+        $pedagogicalMediationType = $check[0]['pedagogical_mediation_type'];
+        $edcensoSvm = $check[0]['edcenso_stage_vs_modality_fk'];
 
         $sql = "SELECT count(cr.id) AS status_instructor
 			FROM 	classroom as cr
 						INNER JOIN
 					instructor_teaching_data AS itd
 						ON itd.classroom_id_fk = cr.id
-			WHERE 	cr.id = '$classroom_fk' AND itd.id != '$instructor_fk';";
+			WHERE 	cr.id = '$classroomFk' AND itd.id != '$instructorFk';";
         $check = Yii::app()->db->createCommand($sql)->queryAll();
-        $status_instructor = $check[0]['status_instructor'];
+        $statusInstructor = $check[0]['status_instructor'];
 
         $sql = "SELECT count(si.id) AS status_student
 			FROM 	classroom AS cr
@@ -1174,20 +1174,20 @@ class CensoController extends Controller
 						INNER JOIN
 					student_identification AS si
 					 	on si.id = se.student_fk
-			WHERE 	cr.id = '$classroom_fk' AND ii.id = '$instructor_fk'
+			WHERE 	cr.id = '$classroomFk' AND ii.id = '$instructorFk'
 					AND
 					(ii.deficiency_type_deafness = '1' OR ii.deficiency_type_disability_hearing = '1' OR
 					ii.deficiency_type_deafblindness = '1' OR si.deficiency_type_deafness = '1' OR
 					si.deficiency_type_deafblindness = '1');";
         $check = Yii::app()->db->createCommand($sql)->queryAll();
-        $status_student = $check[0]['status_student'];
+        $statusStudent = $check[0]['status_student'];
 
         $result = $itdv->checkRole(
             $collumn['role'],
-            $pedagogical_mediation_type,
-            $assistance_type,
-            $status_instructor,
-            $status_student
+            pedagogical_mediation_type: $pedagogicalMediationType,
+            $assistanceType,
+            $statusInstructor,
+            $statusStudent
         );
 
         if (!$result['status']) {
@@ -1200,19 +1200,19 @@ class CensoController extends Controller
     public function validateStudentIdentification($collumn, $studentdocument, $classroom)
     {
         $sql = 'SELECT inep_id FROM school_identification;';
-        $inep_ids = Yii::app()->db->createCommand($sql)->queryAll();
-        foreach ($inep_ids as $key => $value) {
-            $allowed_school_inep_ids[] = $value['inep_id'];
+        $inepIds = Yii::app()->db->createCommand($sql)->queryAll();
+        foreach ($inepIds as $value) {
+            $allowedSchoolInepIds[] = $value['inep_id'];
         }
 
         $stiv = new StudentIdentificationValidation();
-        $school_inep_id_fk = $collumn['school_inep_id_fk'];
+        $schoolInepIdFk = $collumn['school_inep_id_fk'];
         $log = [];
 
         // campo 2
         $result = $stiv->isAllowedInepId(
-            $school_inep_id_fk,
-            $allowed_school_inep_ids
+            $schoolInepIdFk,
+            $allowedSchoolInepIds
         );
         if (!$result['status']) {
             array_push($log, ['school_inep_id_fk' => $result['erro']]);
@@ -1220,7 +1220,7 @@ class CensoController extends Controller
 
         // campo 3
         if ($collumn['inep_id'] != '' && $collumn['inep_id'] != null) {
-            $result = $stiv->isValidPersonInepId($collumn['inep_id'], $school_inep_id_fk);
+            $result = $stiv->isValidPersonInepId($collumn['inep_id'], $schoolInepIdFk);
             if (!$result['status']) {
                 array_push($log, ['inep_id' => $result['erro']]);
             }
@@ -1298,7 +1298,7 @@ class CensoController extends Controller
         // if (!$result["status"]) array_push($log, array("edcenso_uf_fk" => $result["erro"]));
 
         // campo 16
-        $student_id = $collumn['id'];
+        $studentId = $collumn['id'];
 
         $sql = "SELECT 	COUNT(cr.id) AS status
 			FROM 	student_identification as si
@@ -1308,7 +1308,7 @@ class CensoController extends Controller
           				INNER JOIN
           			classroom AS cr
           				ON se.classroom_fk = cr.id
-			WHERE si.id = '$student_id' AND (cr.assistance_type = 5 OR cr.modality = 2)
+			WHERE si.id = '$studentId' AND (cr.assistance_type = 5 OR cr.modality = 2)
 			GROUP BY si.id;";
 
         @$hasspecialneeds = Yii::app()->db->createCommand($sql)->queryAll();
@@ -1324,7 +1324,7 @@ class CensoController extends Controller
 
         // campo 17 à 24 e 26 à 29
 
-        $deficiencies_whole = [
+        $deficienciesWhole = [
             $collumn['deficiency_type_blindness'],
             $collumn['deficiency_type_low_vision'],
             $collumn['deficiency_type_deafness'],
@@ -1344,12 +1344,12 @@ class CensoController extends Controller
             ['Deficiência Auditiva' => [$collumn['deficiency_type_disability_hearing'] => [$collumn['deficiency_type_deafblindness']]]],
         ];
 
-        $result = $stiv->checkDeficiencies($collumn['deficiency'], $deficiencies_whole, $excludingdeficiencies);
+        $result = $stiv->checkDeficiencies($collumn['deficiency'], $deficienciesWhole, $excludingdeficiencies);
         if (!$result['status']) {
             array_push($log, ['Tipos de Deficiencia' => $result['erro']]);
         }
 
-        $deficiencies_sample = [
+        $deficienciesSample = [
             $collumn['deficiency_type_blindness'],
             $collumn['deficiency_type_low_vision'],
             $collumn['deficiency_type_deafness'],
@@ -1374,7 +1374,7 @@ class CensoController extends Controller
             $collumn['resource_none'],
         ];
 
-        $studenteDisorder = StudentIdentification::model()->with('studentDisorders')->findByPk($student_id)->studentDisorders->attributes;
+        $studenteDisorder = StudentIdentification::model()->with('studentDisorders')->findByPk($studentId)->studentDisorders->attributes;
         $disorders = [
             $studenteDisorder['disorders_impact_learning'],
             $studenteDisorder['dyscalculia'],
@@ -1385,14 +1385,14 @@ class CensoController extends Controller
             $studenteDisorder['tpac'],
         ];
 
-        array_pop($deficiencies_whole);
+        array_pop($deficienciesWhole);
 
-        $result = $stiv->inNeedOfResources($collumn['deficiency'], $deficiencies_whole, $resources, $disorders);
+        $result = $stiv->inNeedOfResources($collumn['deficiency'], $deficienciesWhole, $resources, $disorders);
         if (!$result['status']) {
             array_push($log, ['Recursos requeridos em avaliacoes do INEP' => $result['erro']]);
         }
 
-        $result = $stiv->atLeastOne($deficiencies_whole);
+        $result = $stiv->atLeastOne($deficienciesWhole);
         if ($classroom['aee'] == 1 && ($collumn['deficiency'] == 0 || !$result['status'])) {
             array_push($log, ['Deficiencia' => 'O aluno está matriculado na turma de Atendimento Educacional Especializado "' . $classroom['name'] . '", mas nenhum tipo de deficiência foi marcado.']);
         }
@@ -1402,21 +1402,21 @@ class CensoController extends Controller
 
     public function validateStudentDocumentsAddress($collumn, $studentident)
     {
-        $student_inep_id = $collumn['student_fk'];
+        $studentInepId = $collumn['student_fk'];
         $sql = 'SELECT inep_id FROM school_identification;';
-        $inep_ids = Yii::app()->db->createCommand($sql)->queryAll();
-        foreach ($inep_ids as $key => $value) {
-            $allowed_school_inep_ids[] = $value['inep_id'];
+        $inepIds = Yii::app()->db->createCommand($sql)->queryAll();
+        foreach ($inepIds as $value) {
+            $allowedSchoolInepIds[] = $value['inep_id'];
         }
         $sql = 'SELECT inep_id FROM student_identification;';
         $array = Yii::app()->db->createCommand($sql)->queryAll();
-        foreach ($array as $key => $value) {
+        foreach ($array as $value) {
             $allowed_students_inep_ids[] = $value['inep_id'];
         }
 
         $sda = new StudentDocumentsAndAddressValidation();
-        $school_inep_id_fk = $collumn['school_inep_id_fk'];
-        $student_inep_id_fk = $collumn['student_fk'];
+        $schoolInepIdFk = $collumn['school_inep_id_fk'];
+        $studentInepIdFk = $collumn['student_fk'];
         $log = [];
 
         $nationality = $studentident['nationality'];
@@ -1424,12 +1424,12 @@ class CensoController extends Controller
         date_default_timezone_set('America/Bahia');
         $date = date('d/m/Y');
 
-        $civil_certification = $collumn['civil_certification'];
+        $civilCertification = $collumn['civil_certification'];
 
         // campo 2
         $result = $sda->isAllowedInepId(
-            $school_inep_id_fk,
-            $allowed_school_inep_ids
+            $schoolInepIdFk,
+            $allowedSchoolInepIds
         );
         if (!$result['status']) {
             array_push($log, ['school_inep_id_fk' => $result['erro']]);
@@ -1437,19 +1437,19 @@ class CensoController extends Controller
 
         // campo 3
         $result = $sda->isAllowedInepId(
-            $student_inep_id_fk,
+            $studentInepIdFk,
             $allowed_students_inep_ids
         );
 
         // campo 4
-        $sql = "SELECT COUNT(inep_id) AS status FROM student_identification WHERE inep_id = '$student_inep_id';";
+        $sql = "SELECT COUNT(inep_id) AS status FROM student_identification WHERE inep_id = '$studentInepId';";
         $check = Yii::app()->db->createCommand($sql)->queryAll();
-        $result = $sda->isEqual($check[0]['status'], '1', "Não há tal student_inep_id $student_inep_id");
+        $result = $sda->isEqual($check[0]['status'], '1', "Não há tal student_inep_id $studentInepId");
 
         // campo 9
         $result = $sda->isAllowed($collumn['civil_certification'], ['1', '2']);
 
-        if ($civil_certification == 2 && $collumn['civil_register_enrollment_number'] !== '') {
+        if ($civilCertification == 2 && $collumn['civil_register_enrollment_number'] !== '') {
             $result = $sda->isCivilRegisterNumberValid($collumn['civil_register_enrollment_number'], $studentident['birthday']);
             if (!$result['status']) {
                 array_push($log, ['civil_register_enrollment_number' => $result['erro']]);
@@ -1487,37 +1487,37 @@ class CensoController extends Controller
     public function validateEnrollment($collumn)
     {
         $sql = 'SELECT inep_id FROM school_identification;';
-        $inep_ids = Yii::app()->db->createCommand($sql)->queryAll();
-        foreach ($inep_ids as $key => $value) {
-            $allowed_school_inep_ids[] = $value['inep_id'];
+        $inepIds = Yii::app()->db->createCommand($sql)->queryAll();
+        foreach ($inepIds as $value) {
+            $allowedSchoolInepIds[] = $value['inep_id'];
         }
         $sql = 'SELECT inep_id FROM student_identification;';
         $array = Yii::app()->db->createCommand($sql)->queryAll();
-        foreach ($array as $key => $value) {
+        foreach ($array as $value) {
             $allowed_students_inep_ids[] = $value['inep_id'];
         }
 
         $sev = new StudentEnrollmentValidation();
-        $school_inep_id_fk = $collumn['school_inep_id_fk'];
-        $student_inep_id_fk = $collumn['student_inep_id'];
-        $classroom_fk = $collumn['classroom_fk'];
+        $schoolInepIdFk = $collumn['school_inep_id_fk'];
+        $studentInepIdFk = $collumn['student_inep_id'];
+        $classroomFk = $collumn['classroom_fk'];
         $log = [];
 
         // campo 2
         $result = $sev->isAllowedInepId(
-            $school_inep_id_fk,
-            $allowed_school_inep_ids
+            $schoolInepIdFk,
+            $allowedSchoolInepIds
         );
         if (!$result['status']) {
             array_push($log, ['school_inep_id_fk' => $result['erro']]);
         }
 
         // campo 4
-        $sql = "SELECT COUNT(inep_id) AS status FROM student_identification WHERE inep_id = '$student_inep_id_fk';";
+        $sql = "SELECT COUNT(inep_id) AS status FROM student_identification WHERE inep_id = '$studentInepIdFk';";
         $check = Yii::app()->db->createCommand($sql)->queryAll();
 
-        if (!empty($student_inep_id)) {
-            $result = $sev->isEqual($check[0]['status'], '1', "Não há tal student_inep_id $student_inep_id");
+        if (!empty($studentInepId)) {
+            $result = $sev->isEqual($check[0]['status'], '1', "Não há tal student_inep_id $studentInepId");
             if (!$result['status']) {
                 array_push($log, ['student_fk' => $result['erro']]);
             }
@@ -1531,10 +1531,10 @@ class CensoController extends Controller
 
         // campo 6
 
-        $sql = "SELECT COUNT(id) AS status FROM classroom WHERE id = '$classroom_fk';";
+        $sql = "SELECT COUNT(id) AS status FROM classroom WHERE id = '$classroomFk';";
         $check = Yii::app()->db->createCommand($sql)->queryAll();
 
-        $result = $sev->isEqual($check[0]['status'], '1', 'Não há tal classroom_id $classroom_fk');
+        $result = $sev->isEqual($check[0]['status'], '1', 'Não há tal classroom_id $classroomFk');
         if (!$result['status']) {
             array_push($log, ['classroom_fk' => $result['erro']]);
         }
@@ -1547,26 +1547,26 @@ class CensoController extends Controller
 
         // campo 8
 
-        $sql = "SELECT COUNT(id) AS status FROM classroom WHERE id = '$classroom_fk' AND edcenso_stage_vs_modality_fk = '3';";
+        $sql = "SELECT COUNT(id) AS status FROM classroom WHERE id = '$classroomFk' AND edcenso_stage_vs_modality_fk = '3';";
         $check = Yii::app()->db->createCommand($sql)->queryAll();
 
         // campo 9
 
-        $sql = "SELECT edcenso_stage_vs_modality_fk, aee FROM classroom WHERE id = '$classroom_fk';";
+        $sql = "SELECT edcenso_stage_vs_modality_fk, aee FROM classroom WHERE id = '$classroomFk';";
         $check = Yii::app()->db->createCommand($sql)->queryAll();
 
-        $edcenso_svm = $check[0]['edcenso_stage_vs_modality_fk'];
+        $edcensoSvm = $check[0]['edcenso_stage_vs_modality_fk'];
         $aee = $check[0]['aee'];
 
         // campo 10
-        $sql = "SELECT pedagogical_mediation_type FROM classroom WHERE id = '$classroom_fk';";
+        $sql = "SELECT pedagogical_mediation_type FROM classroom WHERE id = '$classroomFk';";
         $check = Yii::app()->db->createCommand($sql)->queryAll();
-        $pedagogical_mediation_type = $check[0]['pedagogical_mediation_type'];
+        $pedagogicalMediationType = $check[0]['pedagogical_mediation_type'];
 
         // campo 11
         //  setar nulo na exportação
         if (!empty($collumn['public_transport'])) {
-            $result = $sev->publicTransportation($collumn['public_transport'], $pedagogical_mediation_type);
+            $result = $sev->publicTransportation($collumn['public_transport'], $pedagogicalMediationType);
             if (!$result['status']) {
                 array_push($log, ['public_transport' => $result['erro']]);
             }
@@ -1579,7 +1579,7 @@ class CensoController extends Controller
 
             // campo 13 à 23
 
-            $vehicules_types = [
+            $vehiculesTypes = [
                 $collumn['vehicle_type_van'],
                 $collumn['vehicle_type_microbus'],
                 $collumn['vehicle_type_bus'],
@@ -1597,18 +1597,18 @@ class CensoController extends Controller
 
         $sql = "SELECT se.administrative_dependence
 			FROM school_identification AS se
-			WHERE se.inep_id = '$school_inep_id_fk';";
+			WHERE se.inep_id = '$schoolInepIdFk';";
 
         $check = Yii::app()->db->createCommand($sql)->queryAll();
 
-        $administrative_dependence = $check[0]['administrative_dependence'];
+        $administrativeDependence = $check[0]['administrative_dependence'];
 
-        $result = $sev->studentEntryForm($collumn['student_entry_form'], $administrative_dependence, $edcenso_svm);
+        $result = $sev->studentEntryForm($collumn['student_entry_form'], $administrativeDependence, $edcensoSvm);
         if (!$result['status']) {
             array_push($log, ['student_entry_form' => $result['erro']]);
         }
 
-        $result = $sev->isValidMultiClassroom($edcenso_svm, $collumn['edcenso_stage_vs_modality_fk']);
+        $result = $sev->isValidMultiClassroom($edcensoSvm, $collumn['edcenso_stage_vs_modality_fk']);
 
         if (!$result['status']) {
             array_push($log, ['Etapa de Ensino' => $result['erro'], 'type' => $result['type']]);
@@ -1843,7 +1843,7 @@ class CensoController extends Controller
             $attributes['id'] = $attributes['school_inep_id_fk'];
             $pos = 'b';
             $ordens = EdcensoAlias::model()->findAllByAttributes(['register' => $register]);
-            foreach ($ordens as $kord => $ord) {
+            foreach ($ordens as $ord) {
                 $evalin = '$this->tmpexp["' . $pos . '"][' . $attributes['id'] . '][' . $ord->corder . '] = "' . $ord->default . '";';
                 eval($evalin);
             }
@@ -1888,7 +1888,7 @@ class CensoController extends Controller
         }
 
         $attributes = $this->fixMistakesExport($reg, $attributes);
-        foreach ($attributes as $key => $attr) {
+        foreach ($attributes as $attr) {
             $ordem = EdcensoAlias::model()->findAllByAttributes(['register' => $register, 'attr' => $key])[0];
             if (isset($ordem->corder)) {
                 if (($reg == 70 || $reg == 40) && $key == 'edcenso_city_fk') {
@@ -1907,7 +1907,7 @@ class CensoController extends Controller
 
     public function normalizeFields($register, $attributes)
     {
-        $FIELDS = [
+        $fields = [
             '00' => [
                 'COLUMNS' => 42,
             ],
@@ -1943,7 +1943,7 @@ class CensoController extends Controller
             ],
         ];
         $attributes = $this->fixMistakesExport($register, $attributes);
-        $qtdcolumns = $FIELDS[$register]['COLUMNS'];
+        $qtdcolumns = $fields[$register]['COLUMNS'];
         $qtdattrs = count($attributes);
         $total = $qtdattrs - $qtdcolumns;
         for ($i = 1; $i <= $total; $i++) {
@@ -2006,9 +2006,8 @@ class CensoController extends Controller
         if ($digDois == 10) {
             $digDois = 1;
         }
-        $return = $digUm . $digDois;
 
-        return $return;
+        return $digUm . $digDois;
     }
 
     public function sanitizeString($string)
@@ -2023,7 +2022,7 @@ class CensoController extends Controller
     {
         $modelTeachingData = Classroom::model()->findByPk($id)->instructorTeachingDatas;
         $teachingDataDisciplines = [];
-        foreach ($modelTeachingData as $key => $model) {
+        foreach ($modelTeachingData as $model) {
             $disciplines = ClassroomController::teachingDataDiscipline2array($model);
             foreach ($disciplines as $discipline) {
                 if ($discipline->id > 99) {
@@ -3088,7 +3087,7 @@ class CensoController extends Controller
             $lineFields = [];
 
             // Troca os campos vazios por 'null'
-            foreach ($lineFields_Aux as $key => $field) {
+            foreach ($lineFields_Aux as $field) {
                 $value = !(isset($field)) ? '' : trim($field);
                 $lineFields[$key] = $value;
             }
