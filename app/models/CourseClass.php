@@ -41,7 +41,6 @@ class CourseClass extends TagModel
             ['fkid', 'length', 'max' => 40],
 
             // The following rule is used by search().
-            // @todo Please remove those attributes that should not be searched.
             ['id, order, content, course_plan_fk, fkid, methodology', 'safe', 'on' => 'search'],
         ];
     }
@@ -91,7 +90,6 @@ class CourseClass extends TagModel
      */
     public function search()
     {
-        // @todo Please modify the following code to remove attributes that should not be searched.
 
         $criteria = new CDbCriteria();
 

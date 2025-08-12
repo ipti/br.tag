@@ -36,7 +36,6 @@ class FoodMenuVsEdcensoStageVsModality extends TagModel
             ['edcenso_stage_vs_modality_fk, food_menu_fk', 'numerical', 'integerOnly' => true],
             ['created_at, updated_at', 'safe'],
             // The following rule is used by search().
-            // @todo Please remove those attributes that should not be searched.
             ['id, edcenso_stage_vs_modality_fk, food_menu_fk, created_at, updated_at', 'safe', 'on' => 'search'],
         ];
     }
@@ -82,7 +81,6 @@ class FoodMenuVsEdcensoStageVsModality extends TagModel
      */
     public function search()
     {
-        // @todo Please modify the following code to remove attributes that should not be searched.
 
         $criteria = new CDbCriteria();
 

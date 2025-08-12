@@ -34,7 +34,6 @@
             return [
                 ['stage_fk, discipline_fk, workload, credits', 'required'],
                 ['stage_fk, discipline_fk, workload, credits', 'numerical', 'integerOnly' => true],
-                // @todo Please remove those attributes that should not be searched.
                 ['id, stage_fk, discipline_fk, workload, credits', 'safe', 'on' => 'search'],
             ];
         }
@@ -80,7 +79,6 @@
          */
         public function search()
         {
-            // @todo Please modify the following code to remove attributes that should not be searched.
 
             $criteria = new CDbCriteria();
 

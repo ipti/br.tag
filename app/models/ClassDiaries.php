@@ -34,7 +34,6 @@ class ClassDiaries extends TagModel
             ['schedule_fk, student_fk, diary', 'required'],
             ['schedule_fk, student_fk', 'numerical', 'integerOnly' => true],
             // The following rule is used by search().
-            // @todo Please remove those attributes that should not be searched.
             ['id, schedule_fk, student_fk, diary', 'safe', 'on' => 'search'],
         ];
     }
@@ -79,7 +78,6 @@ class ClassDiaries extends TagModel
      */
     public function search()
     {
-        // @todo Please modify the following code to remove attributes that should not be searched.
 
         $criteria = new CDbCriteria();
 

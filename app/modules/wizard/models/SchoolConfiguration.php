@@ -49,7 +49,6 @@ class SchoolConfiguration extends TagModel
             ['school_inep_id_fk', 'length', 'max' => 8],
             ['morning_initial, morning_final, afternoom_initial, afternoom_final, night_initial, night_final, allday_initial, allday_final, exam1, exam2, exam3, exam4, recovery1, recovery2, recovery3, recovery4, recovery_final', 'safe'],
             // The following rule is used by search().
-            // @todo Please remove those attributes that should not be searched.
             ['id, school_inep_id_fk, morning_initial, morning_final, afternoom_initial, afternoom_final, night_initial, night_final, allday_initial, allday_final, exam1, exam2, exam3, exam4, recovery1, recovery2, recovery3, recovery4, recovery_final', 'safe', 'on' => 'search'],
         ];
     }
@@ -108,7 +107,6 @@ class SchoolConfiguration extends TagModel
      */
     public function search()
     {
-        // @todo Please modify the following code to remove attributes that should not be searched.
 
         $criteria = new CDbCriteria();
 

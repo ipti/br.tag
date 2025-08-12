@@ -35,7 +35,6 @@ class QuestionOption extends TagModel
             ['description', 'length', 'max' => 255],
             ['answer', 'length', 'max' => 255],
             // The following rule is used by search().
-            // @todo Please remove those attributes that should not be searched.
             ['id, description, answer, question_id', 'safe', 'on' => 'search'],
         ];
     }
@@ -80,7 +79,6 @@ class QuestionOption extends TagModel
      */
     public function search()
     {
-        // @todo Please modify the following code to remove attributes that should not be searched.
 
         $criteria = new CDbCriteria();
 

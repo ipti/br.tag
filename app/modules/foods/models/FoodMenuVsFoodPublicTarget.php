@@ -32,7 +32,6 @@ class FoodMenuVsFoodPublicTarget extends TagModel
         return [
             ['food_menu_fk, food_public_target_fk', 'numerical', 'integerOnly' => true],
             // The following rule is used by search().
-            // @todo Please remove those attributes that should not be searched.
             ['id, food_menu_fk, food_public_target_fk', 'safe', 'on' => 'search'],
         ];
     }
@@ -76,7 +75,6 @@ class FoodMenuVsFoodPublicTarget extends TagModel
      */
     public function search()
     {
-        // @todo Please modify the following code to remove attributes that should not be searched.
 
         $criteria = new CDbCriteria();
 

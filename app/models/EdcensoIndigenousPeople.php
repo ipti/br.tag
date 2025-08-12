@@ -30,7 +30,6 @@ class EdcensoIndigenousPeople extends CActiveRecord
             ['id_indigenous_people', 'length', 'max' => 10],
             ['name', 'length', 'max' => 50],
             // The following rule is used by search().
-            // @todo Please remove those attributes that should not be searched.
             ['id, id_indigenous_people, name', 'safe', 'on' => 'search'],
         ];
     }
@@ -72,7 +71,6 @@ class EdcensoIndigenousPeople extends CActiveRecord
      */
     public function search()
     {
-        // @todo Please modify the following code to remove attributes that should not be searched.
 
         $criteria = new CDbCriteria();
 

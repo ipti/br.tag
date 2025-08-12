@@ -34,7 +34,6 @@ class ProvisionAccounts extends TagModel
             ['name_unidade_gestora', 'length', 'max' => 150],
             ['cpf_responsavel, cpf_gestor', 'length', 'max' => 14],
             // The following rule is used by search().
-            // @todo Please remove those attributes that should not be searched.
             ['id, cod_unidade_gestora, name_unidade_gestora, cpf_responsavel, cpf_gestor', 'safe', 'on' => 'search'],
         ];
     }
@@ -78,7 +77,6 @@ class ProvisionAccounts extends TagModel
      */
     public function search()
     {
-        // @todo Please modify the following code to remove attributes that should not be searched.
 
         $criteria = new CDbCriteria();
 

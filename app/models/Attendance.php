@@ -35,7 +35,7 @@ class Attendance extends TagModel
             ['professional_fk', 'numerical', 'integerOnly' => true],
             ['local', 'length', 'min' => 5, 'max' => 100],
             // The following rule is used by search().
-            // @todo Please remove those attributes that should not be searched.
+
             ['id_attendance, date, local, professional_fk', 'safe', 'on' => 'search'],
         ];
     }
@@ -80,8 +80,6 @@ class Attendance extends TagModel
      */
     public function search()
     {
-        // @todo Please modify the following code to remove attributes that should not be searched.
-
         $criteria = new CDbCriteria();
 
         $criteria->compare('id_attendance', $this->id_attendance);

@@ -34,7 +34,6 @@ class WorkByExam extends TagModel
             ['classroom_fk, exam', 'required'],
             ['classroom_fk, exam, school_days, workload', 'numerical', 'integerOnly' => true],
             // The following rule is used by search().
-            // @todo Please remove those attributes that should not be searched.
             ['id, classroom_fk, exam, school_days, workload', 'safe', 'on' => 'search'],
         ];
     }
@@ -79,7 +78,6 @@ class WorkByExam extends TagModel
      */
     public function search()
     {
-        // @todo Please modify the following code to remove attributes that should not be searched.
 
         $criteria = new CDbCriteria();
 

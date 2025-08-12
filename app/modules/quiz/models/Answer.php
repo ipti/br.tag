@@ -30,7 +30,6 @@ class Answer extends TagModel
             ['quiz_id, question_id, student_id, value', 'required'],
             ['quiz_id, question_id, student_id', 'numerical', 'integerOnly' => true],
             // The following rule is used by search().
-            // @todo Please remove those attributes that should not be searched.
             ['quiz_id, question_id, student_id, value', 'safe', 'on' => 'search'],
         ];
     }
@@ -76,7 +75,6 @@ class Answer extends TagModel
      */
     public function search()
     {
-        // @todo Please modify the following code to remove attributes that should not be searched.
 
         $criteria = new CDbCriteria();
 

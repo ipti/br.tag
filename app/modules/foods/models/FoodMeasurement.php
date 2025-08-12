@@ -32,7 +32,6 @@ class FoodMeasurement extends TagModel
             ['unit', 'length', 'max' => 14],
             ['measure', 'length', 'max' => 2],
             // The following rule is used by search().
-            // @todo Please remove those attributes that should not be searched.
             ['id, unit, value, measure', 'safe', 'on' => 'search'],
         ];
     }
@@ -75,7 +74,6 @@ class FoodMeasurement extends TagModel
      */
     public function search()
     {
-        // @todo Please modify the following code to remove attributes that should not be searched.
 
         $criteria = new CDbCriteria();
 

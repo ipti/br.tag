@@ -28,7 +28,6 @@ class QuestionGroupQuestion extends TagModel
             ['question_group_id, question_id', 'required'],
             ['question_group_id, question_id', 'numerical', 'integerOnly' => true],
             // The following rule is used by search().
-            // @todo Please remove those attributes that should not be searched.
             ['question_group_id, question_id', 'safe', 'on' => 'search'],
         ];
     }
@@ -70,7 +69,6 @@ class QuestionGroupQuestion extends TagModel
      */
     public function search()
     {
-        // @todo Please modify the following code to remove attributes that should not be searched.
 
         $criteria = new CDbCriteria();
 

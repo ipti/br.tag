@@ -92,7 +92,6 @@ class InstructorIdentification extends AltActiveRecord
             ['birthday_date', 'length', 'max' => 10],
             ['hash', 'length', 'max' => 40],
             // The following rule is used by search().
-            // @todo Please remove those attributes that should not be searched.
             ['register_type, id_indigenous_people,school_inep_id_fk, inep_id, id, name, civil_name, email, nis, birthday_date, sex, color_race, filiation, filiation_1, filiation_2, nationality, edcenso_nation_fk, edcenso_uf_fk, edcenso_city_fk, deficiency, deficiency_type_blindness, deficiency_type_low_vision, deficiency_type_monocular_vision, deficiency_type_deafness, deficiency_type_disability_hearing, deficiency_type_deafblindness, deficiency_type_phisical_disability, deficiency_type_intelectual_disability, deficiency_type_multiple_disabilities, hash, users_fk', 'safe', 'on' => 'search'],
         ];
     }

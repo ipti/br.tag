@@ -25,7 +25,7 @@ class SchoolIdentificationValidation extends Register
     }
 
     // campo 2
-    /*@todo
+    /*
     4. Deve está de acordo com a UF informada no campo 18 (UF).
     5. O código deve ser de uma entidade existente no cadastro do Inep.
     6. A escola informada deve estar entre as escolas abrangidas pelo perfil do informante.

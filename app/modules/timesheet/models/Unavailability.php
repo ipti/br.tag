@@ -34,7 +34,6 @@
                 ['instructor_school_fk, week_day, schedule, turn', 'required'],
                 ['instructor_school_fk, week_day, schedule, turn', 'numerical', 'integerOnly' => true],
                 // The following rule is used by search().
-                // @todo Please remove those attributes that should not be searched.
                 ['id, instructor_school_fk, week_day, schedule, turn', 'safe', 'on' => 'search'],
             ];
         }
@@ -79,7 +78,6 @@
          */
         public function search()
         {
-            // @todo Please modify the following code to remove attributes that should not be searched.
 
             $criteria = new CDbCriteria();
 

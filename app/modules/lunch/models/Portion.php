@@ -37,7 +37,6 @@ class Portion extends TagModel
             ['amount, unity_fk, food_fk', 'numerical', 'integerOnly' => true],
             ['measure', 'numerical'],
             // The following rule is used by search().
-            // @todo Please remove those attributes that should not be searched.
             ['id, amount, unity_fk, measure, food_fk', 'safe', 'on' => 'search'],
         ];
     }
@@ -84,7 +83,6 @@ class Portion extends TagModel
      */
     public function search()
     {
-        // @todo Please modify the following code to remove attributes that should not be searched.
 
         $criteria = new CDbCriteria();
 

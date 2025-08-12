@@ -131,7 +131,7 @@ class CensoController extends Controller
         }
 
         // campo 8 e 9
-        /*@todo
+        /*
         1. Deve ser preenchido quando o campo 7 (Situação de funcionamento) for igual a 1 (em atividade).
         2. Deve ser nulo quando o campo 7 (Situação de funcionamento) for diferente de 1 (em atividade).
 
@@ -191,7 +191,7 @@ class CensoController extends Controller
         }
 
         // campo 18
-        /* @todo
+        /*
          * 1. Deve ser preenchido.
          * 2. Deve ser preenchido com o código do estado de acordo com a “Tabela de UF”.
          * 2. O valor preenchido deve ser o mesmo que está na base do Educacenso.
@@ -1027,7 +1027,7 @@ class CensoController extends Controller
             array_push($log, ['edcenso_uf_fk' => $result['erro']]);
         }
 
-        // campo 17 -- @todo melhorar essa checagem
+        // campo 17 -- melhorar essa checagem
         /*
         $result = $iiv->ufcity($collumn['edcenso_city_fk'], $collumn['nationality']);
         if(!$result["status"]) array_push($log, array("edcenso_uf_fk"=>$result["erro"]));
@@ -1686,7 +1686,7 @@ class CensoController extends Controller
         $pedagogical_mediation_type = $check[0]['pedagogical_mediation_type'];
 
         // campo 11
-        // @todo setar nulo na exportação
+        //  setar nulo na exportação
         if (!empty($collumn['public_transport'])) {
             $result = $sev->publicTransportation($collumn['public_transport'], $pedagogical_mediation_type);
             if (!$result['status']) {
@@ -2014,7 +2014,7 @@ class CensoController extends Controller
                 eval($evalin);
             }
         }
-        // @todo $register = 40;
+        //  $register = 40;
         $attributes = $this->fixMistakesExport($reg, $attributes);
         foreach ($attributes as $key => $attr) {
             $ordem = EdcensoAlias::model()->findAllByAttributes(['register' => $register, 'attr' => $key])[0];
@@ -2382,7 +2382,7 @@ class CensoController extends Controller
                     $attributes['transport_responsable_government'] = '';
                 }
 
-                // @todo corrigir na base e no codigo depois
+                //  corrigir na base e no codigo depois
                 if ($attributes['another_scholarization_place'] == '3') {
                     $attributes['another_scholarization_place'] = '1';
                 } elseif ($attributes['another_scholarization_place'] == '1') {
@@ -2408,8 +2408,8 @@ class CensoController extends Controller
                 // se a turma já tiver etapa não enviar a etapa do aluno.
 
                 if ($attributes['public_transport'] == 0) {
-                    // @todo fazer codigo que mudar a flag de 1 e 0 para 1 ou -1 se transporte foi setado
-                    // @todo subtituir todos os valores -1 para String Vazia.
+                    //  fazer codigo que mudar a flag de 1 e 0 para 1 ou -1 se transporte foi setado
+                    //  subtituir todos os valores -1 para String Vazia.
                     $attributes['vehicle_type_van'] = '';
                     $attributes['vehicle_type_microbus'] = '';
                     $attributes['vehicle_type_bus'] = '';
@@ -2938,7 +2938,7 @@ class CensoController extends Controller
         //            $log['classrooms'][$iclass] = $classroom->attributes;
         //            foreach ($classroom->instructorTeachingDatas as $iteaching => $teachingData) {
         //                if (!isset($log['instructors'][$teachingData->instructor_fk])) {
-        //                    //@Todo fazer o sistema atualizar automaticamente quando o o cadastro entrar na escola
+        //                    // fazer o sistema atualizar automaticamente quando o o cadastro entrar na escola
         //                    $teachingData->instructorFk->documents->school_inep_id_fk = $school->inep_id;
         //                    $teachingData->instructorFk->instructorVariableData->school_inep_id_fk = $school->inep_id;
         //                    $teachingData->instructorFk->school_inep_id_fk = $school->inep_id;

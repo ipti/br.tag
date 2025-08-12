@@ -40,7 +40,6 @@ class GradeUnityModality extends TagModel
             ['name', 'length', 'max' => 50],
             ['type', 'length', 'max' => 2],
             // The following rule is used by search().
-            // @todo Please remove those attributes that should not be searched.
             ['id, name, type, weight, grade_unity_fk', 'safe', 'on' => 'search'],
         ];
     }
@@ -86,7 +85,6 @@ class GradeUnityModality extends TagModel
      */
     public function search()
     {
-        // @todo Please modify the following code to remove attributes that should not be searched.
 
         $criteria = new CDbCriteria();
 

@@ -35,7 +35,6 @@ class Question extends TagModel
             ['type, description, status', 'required'],
             ['type, status', 'numerical', 'integerOnly' => true],
             // The following rule is used by search().
-            // @todo Please remove those attributes that should not be searched.
             ['id, type, description, status', 'safe', 'on' => 'search'],
         ];
     }
@@ -81,7 +80,6 @@ class Question extends TagModel
      */
     public function search()
     {
-        // @todo Please modify the following code to remove attributes that should not be searched.
 
         $criteria = new CDbCriteria();
 
