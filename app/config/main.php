@@ -55,6 +55,7 @@ if (YII_DEBUG) {
 
 return [
     'basePath' => dirname(__FILE__) . DIRECTORY_SEPARATOR . '..',
+
     'name' => 'TAG',
     'theme' => 'default',
     'sourceLanguage' => 'pt-br',
@@ -232,6 +233,19 @@ return [
                     return $event;
                 },
             ],
+        ],
+        'session' => [
+            'class' => 'system.web.CCacheHttpSession',
+            'cacheID' => 'redis',
+            'timeout' => 3600,
+        ],
+        'redis' => [
+            'class' => 'CRedisCache',
+            'hostname' => getenv('REDIS_HOST') ?: '127.0.0.1',
+            'port' => getenv('REDIS_PORT') ?: 6379,
+            'password' => getenv('REDIS_PASSWORD'),
+            'database' => 0,
+            'keyPrefix' => defined('INSTANCE') ? INSTANCE . ':' : ''
         ],
         'log' => $log_config,
     ],

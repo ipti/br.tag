@@ -15,6 +15,9 @@ services:
       HOST_DB_TAG: 'mysql'
       USER_DB_TAG: 'root'
       PWD_DB_TAG: 'root'
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      REDIS_PASSWORD: ''
       TOKEN_FIREBASE: ''
       PWD_FIREBASE: ''
       YII_DEBUG: 1
@@ -86,10 +89,45 @@ services:
     volumes:
       - ./docker/bytebase-data:/data
 
+  redis:
+    image: redis:7
+    container_name: redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - tag-v3-network
+
+  redisinsight:
+    image: redislabs/redisinsight:latest
+    container_name: redisinsight
+    ports:
+      - "5540:5540"
+    restart: unless-stopped
+    depends_on:
+      - redis
+    networks:
+      - tag-v3-network
+
+  rediscommander:
+    image: rediscommander/redis-commander:latest
+    container_name: rediscommander
+    ports:
+      - "8081:8081"
+    restart: unless-stopped
+    environment:
+      - REDIS_HOSTS=local:redis:6379
+    depends_on:
+      - redis
+    networks:
+      - tag-v3-network
+
 networks:
   tag-v3-network:
 
 volumes:
   db-volume:
+  redis_data:
 
 

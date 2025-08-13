@@ -74,11 +74,10 @@ class UserIdentity extends CUserIdentity
                 $school = isset($record->usersSchools[0]->school_fk) ? $record->usersSchools[0]->school_fk : null;
             }
             $this->setState('version', '2.10.1');
-            $this->setState('loginInfos', $record);
-            $this->setState('usersSchools', $userSchools);
+            $this->setState('loginInfos', (object) ['id' => $record->id, 'username' => $record->username]);
+            $this->setState('usersSchools', array_map(fn($school) => (object) [ "inep_id" => $school->inep_id, "name" => $school->name], $userSchools));
             $this->setState('school', $school);
             $this->errorCode = self::ERROR_NONE;
-            // AdminController::actionBackup(false);
         }
 
         return !$this->errorCode;
