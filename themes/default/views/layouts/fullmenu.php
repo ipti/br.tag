@@ -559,9 +559,9 @@ $cs->registerCssFile(Yii::app()->baseUrl . "/sass/css/main.css?v=" . TAG_VERSION
                                             </li>
                                         <?php } ?>
                                          <li
-                                            class="t-menu-item <?= strpos($_SERVER['REQUEST_URI'], '?r=gestaopresente/index') ? 'active' : '' ?>">
+                                            class="t-menu-item <?= strpos($_SERVER['REQUEST_URI'], '?r=gestaopresente') ? 'active' : '' ?>">
                                             <a class="t-menu-item__link"
-                                                href="<?php echo yii::app()->createUrl('gestaopresente/index') ?> ">
+                                                href="<?php echo yii::app()->createUrl('gestaopresente') ?> ">
                                                 <span class="t-icon-educacenso t-menu-item__icon"></span>
                                                 <span class="t-menu-item__text">Gestão Presente</span>
                                             </a>
