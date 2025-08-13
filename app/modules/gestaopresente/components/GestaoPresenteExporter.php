@@ -8,5 +8,7 @@ class GestaoPresenteExporter extends CApplicationComponent
 
     public function extractData()
     {
+
+
     }
 }
