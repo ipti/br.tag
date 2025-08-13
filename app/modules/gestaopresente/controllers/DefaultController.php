@@ -157,7 +157,7 @@ class DefaultController extends Controller
             $reader = $command->query();
 
             // Nome do arquivo
-            $filename = 'cadastro_rematricula_estudantes_' . date('Y-m-d_H-i-s') . '.csv';
+            $filename = 'cadastro_rematricula_estudantes_' . date('Y-m-d_H-i-s') . '.xlsx';
 
              $exporter = new SimpleExcelExporter($filename);
 
