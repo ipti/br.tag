@@ -26,44 +26,65 @@ $cs->registerCssFile($baseUrl . '/css/sagres.css');
 		<br />
 	<?php endif ?>
 
-	<div class="container-box" style="display: grid;">
+	<div class="row">
+
+        <div class="column">
+            <a href="?r=gestaopresente/default/exportPersonalData" id="exportLink">
+                <button type="button" class="report-box-container">
+                    <div class="pull-left" style="margin-right: 20px;">
+                        <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/sagresIcon/export.svg" />
+                    </div>
+                    <div class="pull-left">
+                        <span class="title">Exportar Dados Pessoais (estudantes)</span><br>
+                        <span class="subtitle">Exporte arquivo csv com os dados do município</span>
+                    </div>
+                    <div id="loading-popup" style="display: none;">
+                        <div class="loading-content">
+                            <div><img height="50px" width="50px" src="/themes/default/img/loadingTag.gif" alt="TAG Loading"></div>
+                            <div class="loading-text">Aguarde enquanto o arquivo é gerado...</div>
+                        </div>
+                    </div>
+                </button>
+            </a>
+
+            <a href="?r=gestaopresente/default/exportRenrollment" id="exportLink">
+                <button type="button" class="report-box-container">
+                    <div class="pull-left" style="margin-right: 20px;">
+                        <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/sagresIcon/export.svg" />
+                    </div>
+                    <div class="pull-left">
+                        <span class="title">Exportar Cadastro e Rematricula (estudantes)</span><br>
+                        <span class="subtitle">Exporte arquivo csv com os dados do município</span>
+                    </div>
+                    <div id="loading-popup" style="display: none;">
+                        <div class="loading-content">
+                            <div><img height="50px" width="50px" src="/themes/default/img/loadingTag.gif" alt="TAG Loading"></div>
+                            <div class="loading-text">Aguarde enquanto o arquivo é gerado...</div>
+                        </div>
+                    </div>
+                </button>
+            </a>
+
+            <a href="?r=gestaopresente/default/ExportChangeEnrollment" id="exportLink">
+                <button type="button" class="report-box-container">
+                    <div class="pull-left" style="margin-right: 20px;">
+                        <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/sagresIcon/export.svg" />
+                    </div>
+                    <div class="pull-left">
+                        <span class="title">Exportar Alterar matriculas </span><br>
+                        <span class="subtitle">Exporte arquivo csv com os dados do município</span>
+                    </div>
+                    <div id="loading-popup" style="display: none;">
+                        <div class="loading-content">
+                            <div><img height="50px" width="50px" src="/themes/default/img/loadingTag.gif" alt="TAG Loading"></div>
+                            <div class="loading-text">Aguarde enquanto o arquivo é gerado...</div>
+                        </div>
+                    </div>
+                </button>
+            </a>
+        </div>
 
 
-		<a href="?r=gestaopresente/default/exportPersonalData" id="exportLink">
-			<button type="button" class="report-box-container">
-				<div class="pull-left" style="margin-right: 20px;">
-					<img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/sagresIcon/export.svg" />
-				</div>
-				<div class="pull-left">
-					<span class="title">Exportar Dados Pessoais (estudantes)</span><br>
-					<span class="subtitle">Exporte arquivo csv com os dados do município</span>
-				</div>
-				<div id="loading-popup" style="display: none;">
-					<div class="loading-content">
-						<div><img height="50px" width="50px" src="/themes/default/img/loadingTag.gif" alt="TAG Loading"></div>
-						<div class="loading-text">Aguarde enquanto o arquivo é gerado...</div>
-					</div>
-				</div>
-			</button>
-		</a>
-
-        <a href="?r=gestaopresente/default/exportRenrollment" id="exportLink">
-			<button type="button" class="report-box-container">
-				<div class="pull-left" style="margin-right: 20px;">
-					<img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/sagresIcon/export.svg" />
-				</div>
-				<div class="pull-left">
-					<span class="title">Exportar Cadastro e Rematricula (estudantes)</span><br>
-					<span class="subtitle">Exporte arquivo csv com os dados do município</span>
-				</div>
-				<div id="loading-popup" style="display: none;">
-					<div class="loading-content">
-						<div><img height="50px" width="50px" src="/themes/default/img/loadingTag.gif" alt="TAG Loading"></div>
-						<div class="loading-text">Aguarde enquanto o arquivo é gerado...</div>
-					</div>
-				</div>
-			</button>
-		</a>
 	</div>
 </div>
 
