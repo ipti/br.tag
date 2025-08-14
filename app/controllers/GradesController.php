@@ -42,7 +42,10 @@ class GradesController extends Controller
                     'getReportCardGrades',
                     'saveGradesReportCard',
                     'saveGradesRelease',
-                    'getClassroomStages'
+                    'getClassroomStages',
+                    'ClassClosure',
+                    'batchClassClose',
+                    'ClassClosureList'
                 ),
                 'users' => array('@'),
             ),
@@ -565,6 +568,24 @@ class GradesController extends Controller
         $stage = Yii::app()->request->getPost("stage");
         $isConcept = Yii::app()->request->getPost("isConcept");
 
+        $this->saveGrades(
+            $students,
+            $disciplineId,
+            $classroomId,
+            $stage,
+            $isConcept
+        );
+
+
+    }
+
+    private function saveGrades(
+        $students,
+        $disciplineId,
+        $classroomId,
+        $stage,
+        $isConcept,
+    ) {
         $transaction = Yii::app()->db->beginTransaction();
         try {
             foreach ($students as $student) {
@@ -621,8 +642,6 @@ class GradesController extends Controller
             $transaction->rollback();
             throw new CHttpException(500, "Erro inesperado ao salvar notas do aluno");
         }
-
-
     }
 
     public function actionGetGrades()
@@ -648,6 +667,92 @@ class GradesController extends Controller
         $result = $usecase->exec();
         echo CJSON::encode($result);
 
+    }
+
+    public function actionClassClosure($classroomId)
+    {
+
+        Yii::import("application.domain.grades.usecases.GetStudentGradesByDisciplineUsecase");
+        $year = Yii::app()->user->year;
+
+        $schoolfk = yii::app()->user->school;
+        if (!$classroomId) {
+            $classrooms = Classroom::model()->findAllByAttributes(["school_inep_fk" => $schoolfk, "school_year" => $year, "aee" => 0, "is_closed" => 0], ['limit' => 10]);
+        } else {
+            $classrooms = Classroom::model()->findAllByAttributes(["school_inep_fk" => $schoolfk, "id" => $classroomId]);
+        }
+
+        foreach ($classrooms as $classroom) {
+
+            if (TagUtils::isMultiStage($classroom->edcenso_stage_vs_modality_fk) == false) {
+                $disciplines = Yii::app()->db->createCommand(
+                    "select curricular_matrix.discipline_fk
+                    from curricular_matrix
+                        join edcenso_discipline ed on ed.id = curricular_matrix.discipline_fk
+                    where stage_fk = :stage_fk and school_year = :year and ed.id < 100 order by ed.name "
+                )->bindParam(":stage_fk", $classroom->edcenso_stage_vs_modality_fk)
+                    ->bindParam(":year", Yii::app()->user->year)->queryAll();
+
+                foreach ($disciplines as $discipline) {
+
+                    self::saveGradeResults($classroom->id, $discipline["discipline_fk"], $classroom->edcenso_stage_vs_modality_fk);
+
+                    $stage = $classroom->edcenso_stage_vs_modality_fk;
+
+                    $criteria = new CDbCriteria();
+                    $criteria->alias = 'gr';
+                    $criteria->join = 'INNER JOIN grade_rules_vs_edcenso_stage_vs_modality grvesvm ON grvesvm.grade_rules_fk = gr.id ';
+                    $criteria->join .= 'INNER JOIN classroom_vs_grade_rules cvgr ON cvgr.grade_rules_fk = gr.id';
+                    $criteria->condition = 'cvgr.classroom_fk = :classroomId and grvesvm.edcenso_stage_vs_modality_fk = :stageId';
+                    $criteria->params = array(':classroomId' => $classroom->id, ':stageId' => $stage);
+                    $gradeRules = GradeRules::model()->find($criteria);
+
+                    $studentEnrollments = $classroom->activeStudentEnrollments;
+                    foreach ($studentEnrollments as $enrollment) {
+
+                        $gradeUnities = new GetGradeUnitiesByDisciplineUsecase($classroom->id, $stage);
+                        $gradesStudent = $gradeUnities->exec();
+                        $countUnities = $gradeUnities->execCount();
+
+                        $gradeResult = (new GetStudentGradesResultUsecase($enrollment->id, $discipline["discipline_fk"]))->exec();
+                        $formRepository = new FormsRepository();
+                        $contentsPerDiscipline = $formRepository->contentsPerDisciplineCalculate($classroom, $discipline["discipline_fk"], $enrollment->id);
+                        $totalFaults = $enrollment->countFaultsDiscipline($discipline["discipline_fk"]);
+                        $frequency = round((($contentsPerDiscipline - $totalFaults) / ($contentsPerDiscipline ?: 1)) * 100);
+
+                        (new CalculateFinalMediaUsecase($gradeResult, $gradeRules, $countUnities, $gradesStudent))->exec();
+                        if ($gradeRules->rule_type === "N") {
+                            (new ChageStudentStatusByGradeUsecase($gradeResult, $gradeRules, $countUnities, $stage, $frequency))->exec();
+                        }
+                    }
+
+
+                }
+
+                $classroom->is_closed = 1;
+                $classroom->save();
+
+            }
+
+
+        }
+
+        echo CJSON::encode(["success" => true]);
+
+    }
+
+    public function actionClassClosureList(){
+        $schoolfk = Yii::app()->user->school;
+        $year = Yii::app()->user->year;
+        $classrooms = Classroom::model()->findAllByAttributes(["school_inep_fk" => $schoolfk, "school_year" => $year, "aee" => 0, "is_closed" => 0]);
+
+        header('Content-Type: application/json; charset="UTF-8"');
+
+        echo CJSON::encode($classrooms);
+    }
+
+    public function actionBatchClassClose(){
+        $this->render("batchclose");
     }
 
     public function actionCalculateFinalMedia()
