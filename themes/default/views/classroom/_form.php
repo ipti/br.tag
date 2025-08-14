@@ -764,6 +764,12 @@ $form = $this->beginWidget(
                         <container>
                             <row>
                                 <div class="reports">
+                                    <div class="reports_cards">
+                                        <a class="t-button-primary" rel="noopener"
+                                            href="<?= @Yii::app()->createUrl('grades/ClassClosure', array('classroomId' => $modelClassroom->id)); ?>">
+                                            <?= Yii::t('default', 'Fechar Turma') ?>
+                                        </a>
+                                    </div>
                                     <?php if (TagUtils::isInstance("BUZIOS")): ?>
                                         <div class="reports_cards">
                                             <a class="t-button-secondary" rel="noopener" target="_blank"
