@@ -2923,11 +2923,11 @@ class CensoController extends Controller
         //        $this->redirect(array('validate'));
     }
 
-    public function actionExportIdentification()
+    public function actionExportIdentification($withoutCertificates)
     {
         include dirname(__DIR__) . '/libraries/Educacenso/Educacenso.php';
         $Educacenso = new Educacenso;
-        $export = $Educacenso->exportarIdentification();
+        $export = $Educacenso->exportarIdentification($withoutCertificates);
 
         $fileDir = Yii::app()->basePath . '/export/' . date('Y_') . Yii::app()->user->school . '_IDENTIFICACAO.TXT';
 
