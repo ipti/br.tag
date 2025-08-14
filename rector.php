@@ -6,7 +6,6 @@ use Rector\Config\RectorConfig;
 use Rector\Set\ValueObject\LevelSetList;
 use Rector\Set\ValueObject\SetList;
 
-
 return static function (RectorConfig $rectorConfig): void {
     // Define os caminhos onde o Rector irá atuar
     $rectorConfig->paths([

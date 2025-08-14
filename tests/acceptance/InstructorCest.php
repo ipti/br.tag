@@ -1,17 +1,16 @@
 <?php
 
 require_once 'vendor/autoload.php';
-require_once __DIR__ . "/../robots/LoginRobots.php";
-require_once __DIR__ . "/../robots/InstructorRobots.php";
-require_once __DIR__ . "/../builders/InstructorBuilder.php";
+require_once __DIR__ . '/../robots/LoginRobots.php';
+require_once __DIR__ . '/../robots/InstructorRobots.php';
+require_once __DIR__ . '/../builders/InstructorBuilder.php';
 
 class InstructorCest
 {
     public function _before(AcceptanceTester $tester)
     {
-
-        $user = "";
-        $secret = "";
+        $user = '';
+        $secret = '';
 
         $robots = new LoginRobots($tester);
         $robots->pageLogin();
@@ -33,36 +32,36 @@ class InstructorCest
 
         // Preencher página de identificação
         // Página de Identificação
-        $robots->name($builderInstructor->instructor["name"]);
-        $robots->email($builderInstructor->instructor["email"]);
-        $robots->nationality($builderInstructor->instructor["nationality"]);
+        $robots->name($builderInstructor->instructor['name']);
+        $robots->email($builderInstructor->instructor['email']);
+        $robots->nationality($builderInstructor->instructor['nationality']);
         sleep(2);
-        $robots->cpf($builderInstructor->instructorDocumentsAddress["cpf"]);
-        $robots->state($builderInstructor->instructor["edcenso_uf_fk"]);
+        $robots->cpf($builderInstructor->instructorDocumentsAddress['cpf']);
+        $robots->state($builderInstructor->instructor['edcenso_uf_fk']);
         sleep(2);
-        $robots->city($builderInstructor->instructor["edcenso_city_fk"]);
-        $robots->nis($builderInstructor->instructor["nis"]);
-        $robots->dateOfBirth($builderInstructor->instructor["birthday_date"]);
-        $robots->gender($builderInstructor->instructor["sex"]);
-        $robots->colorRace($builderInstructor->instructor["color_race"]);
-        $robots->filiationSelect($builderInstructor->instructor["filiation"]);
-        $robots->filiationSelect1($builderInstructor->instructor["filiation_1"]);
+        $robots->city($builderInstructor->instructor['edcenso_city_fk']);
+        $robots->nis($builderInstructor->instructor['nis']);
+        $robots->dateOfBirth($builderInstructor->instructor['birthday_date']);
+        $robots->gender($builderInstructor->instructor['sex']);
+        $robots->colorRace($builderInstructor->instructor['color_race']);
+        $robots->filiationSelect($builderInstructor->instructor['filiation']);
+        $robots->filiationSelect1($builderInstructor->instructor['filiation_1']);
         $robots->btnProximo();
 
         // Preencher página de endereço
         // Página de Endereço
-        $robots->stateAddress($builderInstructor->instructor["edcenso_uf_fk"]);
+        $robots->stateAddress($builderInstructor->instructor['edcenso_uf_fk']);
         sleep(3);
-        $robots->cityAddress($builderInstructor->instructor["edcenso_city_fk"]);
-        $robots->address($builderInstructor->instructorDocumentsAddress["address"]);
-        $robots->number($builderInstructor->instructorDocumentsAddress["address_number"]);
-        $robots->neighborhood($builderInstructor->instructorDocumentsAddress["neighborhood"]);
-        $robots->location($builderInstructor->instructorDocumentsAddress["diff_location"]);
-        $robots->zone($builderInstructor->instructorDocumentsAddress["area_of_residence"]);
+        $robots->cityAddress($builderInstructor->instructor['edcenso_city_fk']);
+        $robots->address($builderInstructor->instructorDocumentsAddress['address']);
+        $robots->number($builderInstructor->instructorDocumentsAddress['address_number']);
+        $robots->neighborhood($builderInstructor->instructorDocumentsAddress['neighborhood']);
+        $robots->location($builderInstructor->instructorDocumentsAddress['diff_location']);
+        $robots->zone($builderInstructor->instructorDocumentsAddress['area_of_residence']);
         $robots->btnProximo();
 
         // Página de Dados Educacionais
-        $robots->scholarity("7");
+        $robots->scholarity('7');
         $robots->btnSave();
         sleep(5);
         $test->see('Professor adicionado com sucesso!');
@@ -82,32 +81,32 @@ class InstructorCest
 
         // Preencher página de identificação
         // Página de Identificação
-        $robots->name($builderInstructor->instructor["name"]);
-        $robots->email($builderInstructor->instructor["email"]);
-        $robots->nationality($builderInstructor->instructor["nationality"]);
+        $robots->name($builderInstructor->instructor['name']);
+        $robots->email($builderInstructor->instructor['email']);
+        $robots->nationality($builderInstructor->instructor['nationality']);
         sleep(2);
-        $robots->cpf($builderInstructor->instructorDocumentsAddress["cpf"]);
-        $robots->state($builderInstructor->instructor["edcenso_uf_fk"]);
+        $robots->cpf($builderInstructor->instructorDocumentsAddress['cpf']);
+        $robots->state($builderInstructor->instructor['edcenso_uf_fk']);
         sleep(2);
-        $robots->city($builderInstructor->instructor["edcenso_city_fk"]);
-        $robots->nis($builderInstructor->instructor["nis"]);
-        $robots->dateOfBirth($builderInstructor->instructor["birthday_date"]);
-        $robots->gender($builderInstructor->instructor["sex"]);
-        $robots->colorRace($builderInstructor->instructor["color_race"]);
-        $robots->filiationSelect($builderInstructor->instructor["filiation"]);
-        $robots->filiationSelect1($builderInstructor->instructor["filiation_1"]);
+        $robots->city($builderInstructor->instructor['edcenso_city_fk']);
+        $robots->nis($builderInstructor->instructor['nis']);
+        $robots->dateOfBirth($builderInstructor->instructor['birthday_date']);
+        $robots->gender($builderInstructor->instructor['sex']);
+        $robots->colorRace($builderInstructor->instructor['color_race']);
+        $robots->filiationSelect($builderInstructor->instructor['filiation']);
+        $robots->filiationSelect1($builderInstructor->instructor['filiation_1']);
         $robots->btnProximo();
 
         // Preencher página de endereço
         // Página de Endereço
-        $robots->stateAddress($builderInstructor->instructor["edcenso_uf_fk"]);
+        $robots->stateAddress($builderInstructor->instructor['edcenso_uf_fk']);
         sleep(3);
-        $robots->cityAddress($builderInstructor->instructor["edcenso_city_fk"]);
-        $robots->address($builderInstructor->instructorDocumentsAddress["address"]);
-        $robots->number($builderInstructor->instructorDocumentsAddress["address_number"]);
-        $robots->neighborhood($builderInstructor->instructorDocumentsAddress["neighborhood"]);
-        $robots->location($builderInstructor->instructorDocumentsAddress["diff_location"]);
-        $robots->zone($builderInstructor->instructorDocumentsAddress["area_of_residence"]);
+        $robots->cityAddress($builderInstructor->instructor['edcenso_city_fk']);
+        $robots->address($builderInstructor->instructorDocumentsAddress['address']);
+        $robots->number($builderInstructor->instructorDocumentsAddress['address_number']);
+        $robots->neighborhood($builderInstructor->instructorDocumentsAddress['neighborhood']);
+        $robots->location($builderInstructor->instructorDocumentsAddress['diff_location']);
+        $robots->zone($builderInstructor->instructorDocumentsAddress['area_of_residence']);
         $robots->btnProximo();
 
         // Página de Dados Educacionais

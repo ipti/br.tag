@@ -1,11 +1,11 @@
 <?php
+
 use GuzzleHttp\Exception\ClientException;
 
 class SchoolSEDDataSource extends SedDataSource
 {
     /**
-     * Summary of getSchool
-     * @param InEscola $inEscola
+     * Summary of getSchool.
      * @return OutEscola|OutErro
      * @throws Exception
      */
@@ -14,6 +14,7 @@ class SchoolSEDDataSource extends SedDataSource
         try {
             $url = '/ncaapi/api/DadosBasicos/Escolas';
             $response = $this->getApiResponse('GET', $url, $inEscola);
+
             return OutEscola::fromJson($response);
         } catch (ClientException $e) {
             return new OutErro($e);
@@ -22,16 +23,16 @@ class SchoolSEDDataSource extends SedDataSource
         }
     }
 
-
-        /**
+    /**
      * @param mixed $httpMethod
      * @param mixed $url
      * @param mixed $data
      * @return mixed
      */
-    private function getApiResponse($HTTPMethod, $url, $data) {
+    private function getApiResponse($HTTPMethod, $url, $data)
+    {
         $response = $this->client->request($HTTPMethod, $url, [
-            'body' => json_encode($data, JSON_UNESCAPED_UNICODE)
+            'body' => json_encode($data, JSON_UNESCAPED_UNICODE),
         ]);
 
         return json_decode($response->getBody()->getContents(), true);

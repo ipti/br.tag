@@ -13,10 +13,10 @@ class CourseClassAbilitiesController extends Controller
      */
     public function filters()
     {
-        return array(
+        return [
             'accessControl', // perform access control for CRUD operations
             'postOnly + delete', // we only allow deletion via POST request
-        );
+        ];
     }
 
     /**
@@ -26,29 +26,28 @@ class CourseClassAbilitiesController extends Controller
      */
     public function accessRules()
     {
-        return array(
-            array(
+        return [
+            [
                 'allow',
-                'actions' => array('index', 'view'),
-                'users' => array('*'),
-            ),
-            array(
+                'actions' => ['index', 'view'],
+                'users' => ['*'],
+            ],
+            [
                 'allow',
-                'actions' => array('create', 'update', 'delete'),
-                'users' => array('@'),
-            ),
-            array(
+                'actions' => ['create', 'update', 'delete'],
+                'users' => ['@'],
+            ],
+            [
                 'allow',
-                'actions' => array('admin'),
-                'users' => array('admin'),
-            ),
-            array(
+                'actions' => ['admin'],
+                'users' => ['admin'],
+            ],
+            [
                 'deny',
-                'users' => array('*'),
-            ),
-        );
+                'users' => ['*'],
+            ],
+        ];
     }
-
 
     /**
      * Creates a new model.
@@ -56,35 +55,35 @@ class CourseClassAbilitiesController extends Controller
      */
     public function actionCreate()
     {
-        $model = new CourseClassAbilities;
+        $model = new CourseClassAbilities();
 
         // Uncomment the following line if AJAX validation is needed
         // $this->performAjaxValidation($model);
 
         if (isset($_POST['CourseClassAbilities'])) {
             $model->attributes = $_POST['CourseClassAbilities'];
-            $model->type = "HABILIDADE";
+            $model->type = 'HABILIDADE';
 
             $parent = CourseClassAbilities::model()->find([
                 'condition' => 'edcenso_discipline_fk = :disc AND parent_fk IS NULL',
-                'params' => [':disc' => $model->edcenso_discipline_fk]
+                'params' => [':disc' => $model->edcenso_discipline_fk],
             ]);
             $model->parent_fk = $parent->id;
 
             if ($model->save()) {
-                $this->redirect(array('index'));
+                $this->redirect(['index']);
             }
         }
 
-        $this->render('create', array(
+        $this->render('create', [
             'model' => $model,
-        ));
+        ]);
     }
 
     /**
      * Updates a particular model.
      * If update is successful, the browser will be redirected to the 'view' page.
-     * @param integer $id the ID of the model to be updated
+     * @param int $id the ID of the model to be updated
      */
     public function actionUpdate($id)
     {
@@ -98,23 +97,23 @@ class CourseClassAbilitiesController extends Controller
 
             $parent = CourseClassAbilities::model()->find([
                 'condition' => 'edcenso_discipline_fk = :disc AND parent_fk IS NULL',
-                'params' => [':disc' => $model->edcenso_discipline_fk]
+                'params' => [':disc' => $model->edcenso_discipline_fk],
             ]);
             $model->parent_fk = $parent->id;
             if ($model->save()) {
-                $this->redirect(array('index'));
+                $this->redirect(['index']);
             }
         }
 
-        $this->render('update', array(
+        $this->render('update', [
             'model' => $model,
-        ));
+        ]);
     }
 
     /**
      * Deletes a particular model.
      * If deletion is successful, the browser will be redirected to the 'admin' page.
-     * @param integer $id the ID of the model to be deleted
+     * @param int $id the ID of the model to be deleted
      */
     public function actionDelete($id)
     {
@@ -122,7 +121,7 @@ class CourseClassAbilitiesController extends Controller
 
         // if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
         if (!isset($_GET['ajax'])) {
-            $this->redirect(array('index'));
+            $this->redirect(['index']);
         }
     }
 
@@ -135,33 +134,34 @@ class CourseClassAbilitiesController extends Controller
 
         $criteria->addCondition('code IS NOT NULL');
 
-
         $criteria->addCondition("created_at >= '2025-01-01'");
 
-        $dataProvider = new CActiveDataProvider('CourseClassAbilities', array(
+        $dataProvider = new CActiveDataProvider('CourseClassAbilities', [
             'criteria' => $criteria,
             'pagination' => false,
-        ));
+        ]);
         $this->render(
             'index',
-            array(
+            [
                 'dataProvider' => $dataProvider,
-            )
+            ]
         );
     }
 
     /**
      * Returns the data model based on the primary key given in the GET variable.
      * If the data model is not found, an HTTP exception will be raised.
-     * @param integer $id the ID of the model to be loaded
+     * @param int $id the ID of the model to be loaded
      * @return CourseClassAbilities the loaded model
      * @throws CHttpException
      */
     public function loadModel($id)
     {
         $model = CourseClassAbilities::model()->findByPk($id);
-        if ($model === null)
+        if ($model === null) {
             throw new CHttpException(404, 'The requested page does not exist.');
+        }
+
         return $model;
     }
 

@@ -3,9 +3,8 @@
 namespace Genericos;
 
 /**
- * Class representing OrgaoRespAtaRegPrecosTType
+ * Class representing OrgaoRespAtaRegPrecosTType.
  *
- * 
  * XSD Type: OrgaoRespAtaRegPrecos_t
  */
 class OrgaoRespAtaRegPrecosTType
@@ -21,7 +20,7 @@ class OrgaoRespAtaRegPrecosTType
     private $nome = null;
 
     /**
-     * Gets as cnpj
+     * Gets as cnpj.
      *
      * @return string
      */
@@ -31,7 +30,7 @@ class OrgaoRespAtaRegPrecosTType
     }
 
     /**
-     * Sets a new cnpj
+     * Sets a new cnpj.
      *
      * @param string $cnpj
      * @return self
@@ -39,11 +38,12 @@ class OrgaoRespAtaRegPrecosTType
     public function setCnpj($cnpj)
     {
         $this->cnpj = $cnpj;
+
         return $this;
     }
 
     /**
-     * Gets as nome
+     * Gets as nome.
      *
      * @return string
      */
@@ -53,7 +53,7 @@ class OrgaoRespAtaRegPrecosTType
     }
 
     /**
-     * Sets a new nome
+     * Sets a new nome.
      *
      * @param string $nome
      * @return self
@@ -61,7 +61,7 @@ class OrgaoRespAtaRegPrecosTType
     public function setNome($nome)
     {
         $this->nome = $nome;
+
         return $this;
     }
 }
-

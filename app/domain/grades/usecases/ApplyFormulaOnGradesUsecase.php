@@ -20,19 +20,21 @@ class ApplyFormulaOnGradesUsecase
     public function setGrades($grades)
     {
         $this->grades = $grades;
+
         return $this;
     }
 
     public function setWeights($weights)
     {
         $this->weights = $weights;
+
         return $this;
     }
 
     public function exec()
     {
         if (empty($this->grades)) {
-            throw new Exception("Não foram adicionadas notas antes de excutar o caso de uso", 1);
+            throw new Exception('Não foram adicionadas notas antes de excutar o caso de uso', 1);
         }
 
         $result = 0;
@@ -42,6 +44,7 @@ class ApplyFormulaOnGradesUsecase
                 $result = array_reduce($this->grades, function ($acc, $grade) {
                     /** @var Grade $grade */
                     $acc += floatval($grade);
+
                     return $acc;
                 });
                 break;
@@ -55,6 +58,7 @@ class ApplyFormulaOnGradesUsecase
                 $finalGrade = array_reduce($this->grades, function ($acc, $grade) {
                     /** @var Grade $grade */
                     $acc += floatval($grade);
+
                     return $acc;
                 });
                 $result = $finalGrade / sizeof($this->grades);
@@ -72,5 +76,4 @@ class ApplyFormulaOnGradesUsecase
 
         return round($result, 1);
     }
-
 }

@@ -1,14 +1,13 @@
 <?php
 
-require_once __DIR__."/../robots/LoginRobots.php";
+require_once __DIR__ . '/../robots/LoginRobots.php';
 
 class ExitCest
 {
-
     public function _before(AcceptanceTester $tester)
     {
-        $user = "";
-        $secret = "";
+        $user = '';
+        $secret = '';
 
         $robots = new LoginRobots($tester);
         $robots->pageLogin();
@@ -26,5 +25,4 @@ class ExitCest
         sleep(5);
         $teste->canSeeInCurrentUrl('site/login');
     }
-
 }

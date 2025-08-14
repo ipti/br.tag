@@ -117,6 +117,7 @@ class SimpleExcelExporter
         foreach ($row as $cell) {
             $cells[] = '<c t="inlineStr"><is><t>' . htmlspecialchars($cell) . '</t></is></c>';
         }
+
         return '<row>' . implode('', $cells) . '</row>';
     }
 }

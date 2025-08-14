@@ -2,8 +2,6 @@
 
 class TagUtils extends CApplicationComponent
 {
-
-
     public static function isInstructor()
     {
         return (bool) Yii::app()->getAuthManager()->checkAccess('instructor', Yii::app()->user->loginInfos->id);
@@ -13,12 +11,13 @@ class TagUtils extends CApplicationComponent
     {
         $criteria = new CDbCriteria();
         $criteria->condition = 't.userid = :id';
-        $criteria->params = array(':id' => Yii::app()->user->loginInfos->id);
+        $criteria->params = [':id' => Yii::app()->user->loginInfos->id];
         $authAssignment = AuthAssignment::model()->find($criteria);
 
-        if ($authAssignment->itemname == "manager") {
+        if ($authAssignment->itemname == 'manager') {
             return true;
         }
+
         return false;
     }
 
@@ -37,26 +36,30 @@ class TagUtils extends CApplicationComponent
             '15',
             '16',
             '17',
-            '18'
+            '18',
         ];
         $stages = new CList($refMinorStages, true);
+
         return $stages->contains(strval($stage));
     }
+
     public static function isStageChildishEducation($stage)
     {
         $refMinorStages = [
             '1',
             '2',
-            '3'
+            '3',
         ];
         $stages = new CList($refMinorStages, true);
+
         return $stages->contains(strval($stage));
     }
 
     public static function isStageEJA($stage): bool
     {
-        $refMinorStages = ["43", "44", "45", "46", "47", "48", "51", "58", "60", "61", "62", "63", "65", "66", "69", "70", "71", "72", "73", "74"];
+        $refMinorStages = ['43', '44', '45', '46', '47', '48', '51', '58', '60', '61', '62', '63', '65', '66', '69', '70', '71', '72', '73', '74'];
         $stages = new CList($refMinorStages, true);
+
         return $stages->contains(strval($stage));
     }
 
@@ -70,11 +73,13 @@ class TagUtils extends CApplicationComponent
             '24',
             '56',
             '83',
-            '84'
+            '84',
         ];
         $stages = new CList($refMinorStages, true);
+
         return $stages->contains(strval($stage));
     }
+
     public static function convertDateFormat($date)
     {
         // Remove espaços em branco do início e do fim da string
@@ -96,6 +101,7 @@ class TagUtils extends CApplicationComponent
             $dia = $dateParts[2];
             $mes = $dateParts[1];
             $ano = $dateParts[0];
+
             return "$dia/$mes/$ano";
         }
 
@@ -103,22 +109,22 @@ class TagUtils extends CApplicationComponent
         return $date;
     }
 
-    public static function isSubstituteInstructor($classroom){
-
-        $instructor = InstructorIdentification::model()->findByAttributes(array("users_fk" => Yii::app()->user->loginInfos->id));
+    public static function isSubstituteInstructor($classroom)
+    {
+        $instructor = InstructorIdentification::model()->findByAttributes(['users_fk' => Yii::app()->user->loginInfos->id]);
         $teachingData = InstructorTeachingData::model()->findByAttributes(
-            array(
-                "instructor_fk" => $instructor->id,
-                "classroom_id_fk" => $classroom->id
-            )
+            [
+                'instructor_fk' => $instructor->id,
+                'classroom_id_fk' => $classroom->id,
+            ]
         );
 
-        $refTeachingData = ["9"];
+        $refTeachingData = ['9'];
 
         $roles = new CList($refTeachingData, true);
+
         return $roles->contains(strval($teachingData->role));
     }
-
 
     public static function isInstance($instance)
     {
@@ -140,7 +146,7 @@ class TagUtils extends CApplicationComponent
         $roles = Yii::app()->authManager->getRoles(Yii::app()->user->id);
         $role = !empty($roles) ? key($roles) : 'default_role';  // Valor padrão
 
-        return $prefix . "_" .$role . "_" . $year . "_" . $schoolId;
+        return $prefix . '_' . $role . '_' . $year . '_' . $schoolId;
     }
 
     /**
@@ -150,15 +156,14 @@ class TagUtils extends CApplicationComponent
     {
         $errors = $record->getErrors();
         $result = array_map(function ($key, $messages) use ($record) {
-            $message = Yii::t("default", $record->getAttributeLabel($key)) . ": \n";
+            $message = Yii::t('default', $record->getAttributeLabel($key)) . ": \n";
             foreach ($messages as $value) {
-                $message .= "- " . $value . "\n";
+                $message .= '- ' . $value . "\n";
             }
+
             return $message;
         }, array_keys($errors), array_values($errors));
 
         return implode("\n", $result);
     }
 }
-
-?>
