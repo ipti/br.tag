@@ -4,14 +4,14 @@
  * This is the model class for table "log".
  *
  * The followings are the available columns in table 'log':
- * @property integer $id
+ * @property int $id
  * @property string $reference
  * @property string $reference_ids
  * @property string $crud
  * @property string $date
  * @property string $additional_info
  * @property string $school_fk
- * @property integer $user_fk
+ * @property int $user_fk
  *
  * The followings are the available model relations:
  * @property SchoolIdentification $schoolFk
@@ -28,37 +28,37 @@ class Log extends TagModel
     }
 
     /**
-     * @return array validation rules for model attributes.
+     * @return array validation rules for model attributes
      */
     public function rules()
     {
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
-        return array(
-            array('reference, reference_ids, crud, school_fk, user_fk', 'required'),
-            array('user_fk', 'numerical', 'integerOnly' => true),
-            array('reference', 'length', 'max' => 50),
-            array('reference_ids', 'length', 'max' => 20),
-            array('crud', 'length', 'max' => 1),
-            array('school_fk', 'length', 'max' => 8),
-            array('date', 'safe'),
+        return [
+            ['reference, reference_ids, crud, school_fk, user_fk', 'required'],
+            ['user_fk', 'numerical', 'integerOnly' => true],
+            ['reference', 'length', 'max' => 50],
+            ['reference_ids', 'length', 'max' => 20],
+            ['crud', 'length', 'max' => 1],
+            ['school_fk', 'length', 'max' => 8],
+            ['date', 'safe'],
             // The following rule is used by search().
             // @todo Please remove those attributes that should not be searched.
-            array('id, reference, reference_ids, crud, date, additional_info, school_fk, user_fk', 'safe', 'on' => 'search'),
-        );
+            ['id, reference, reference_ids, crud, date, additional_info, school_fk, user_fk', 'safe', 'on' => 'search'],
+        ];
     }
 
     /**
-     * @return array relational rules.
+     * @return array relational rules
      */
     public function relations()
     {
         // NOTE: you may need to adjust the relation name and the related
         // class name for the relations automatically generated below.
-        return array(
-            'schoolFk' => array(self::BELONGS_TO, 'SchoolIdentification', 'school_fk'),
-            'userFk' => array(self::BELONGS_TO, 'Users', 'user_fk'),
-        );
+        return [
+            'schoolFk' => [self::BELONGS_TO, 'SchoolIdentification', 'school_fk'],
+            'userFk' => [self::BELONGS_TO, 'Users', 'user_fk'],
+        ];
     }
 
     /**
@@ -66,7 +66,7 @@ class Log extends TagModel
      */
     public function attributeLabels()
     {
-        return array(
+        return [
             'id' => 'ID',
             'reference' => 'Reference',
             'reference_ids' => 'Reference Ids',
@@ -75,7 +75,7 @@ class Log extends TagModel
             'additional_info' => 'Additional Info',
             'school_fk' => 'School Fk',
             'user_fk' => 'User Fk',
-        );
+        ];
     }
 
     /**
@@ -88,13 +88,13 @@ class Log extends TagModel
      * - Pass data provider to CGridView, CListView or any similar widget.
      *
      * @return CActiveDataProvider the data provider that can return the models
-     * based on the search/filter conditions.
+     * based on the search/filter conditions
      */
     public function search()
     {
         // @todo Please modify the following code to remove attributes that should not be searched.
 
-        $criteria = new CDbCriteria;
+        $criteria = new CDbCriteria();
 
         $criteria->compare('id', $this->id);
         $criteria->compare('reference', $this->reference, true);
@@ -107,16 +107,16 @@ class Log extends TagModel
 
         return new CActiveDataProvider(
             $this,
-            array(
+            [
                 'criteria' => $criteria,
-            )
+            ]
         );
     }
 
     /**
      * Returns the static model of the specified AR class.
      * Please note that you should have this exact method in all your CActiveRecord descendants!
-     * @param string $className active record class name.
+     * @param string $className active record class name
      * @return Log the static model class
      */
     public static function model($className = __CLASS__)
@@ -131,7 +131,7 @@ class Log extends TagModel
         $log->reference = $reference;
         $log->reference_ids = $referenceIds;
         $log->crud = $crud;
-        $log->date = $date->format("Y-m-d H:i:s");
+        $log->date = $date->format('Y-m-d H:i:s');
         $log->user_fk = Yii::app()->user->loginInfos->id;
         $log->school_fk = Yii::app()->user->school;
         $log->additional_info = $additionalInfo;
@@ -140,122 +140,123 @@ class Log extends TagModel
 
     public static function loadIconsAndTexts($log)
     {
-        $text = $icon = $color = $crud = "";
+        $text = $icon = $color = $crud = '';
 
         switch ($log->crud) {
-            case "C":
-                $crud = "criado(a)";
-                $color = "lightgreen";
+            case 'C':
+                $crud = 'criado(a)';
+                $color = 'lightgreen';
                 break;
-            case "U":
-                $crud = "atualizado(a)";
-                $color = "lightskyblue";
+            case 'U':
+                $crud = 'atualizado(a)';
+                $color = 'lightskyblue';
                 break;
-            case "E":
-                $crud = "executado";
-                $color = "lightgreen";
+            case 'E':
+                $crud = 'executado';
+                $color = 'lightgreen';
                 break;
-            case "D":
-                $crud = "excluído(a)";
-                $color = "lightcoral";
+            case 'D':
+                $crud = 'excluído(a)';
+                $color = 'lightcoral';
                 break;
         }
 
         switch ($log->reference) {
-            case "class":
-                $infos = explode("|", $log->additional_info);
+            case 'class':
+                $infos = explode('|', $log->additional_info);
                 $text = 'As aulas ministradas da turma "' . $infos[0] . '" de ' . $infos[1] . ' do mês de ' . strtolower($infos[2]) . ' foram atualizadas.';
-                $icon = "aulas_ministradas";
+                $icon = 'aulas_ministradas';
                 break;
-            case "frequency":
-                $infos = explode("|", $log->additional_info);
+            case 'frequency':
+                $infos = explode('|', $log->additional_info);
                 $text = 'A frequência da turma "' . $infos[0] . '" de ' . $infos[1] . ' do mês de ' . strtolower($infos[2]) . ' foi atualizada.';
-                $icon = "frequencia";
+                $icon = 'frequencia';
                 break;
-            case "classroom":
-                $text = 'Turma "' . $log->additional_info . '" foi ' . $crud . ".";
-                $icon = "turmas";
+            case 'classroom':
+                $text = 'Turma "' . $log->additional_info . '" foi ' . $crud . '.';
+                $icon = 'turmas';
                 break;
-            case "courseplan":
-                $text = 'Plano de aula "' . $log->additional_info . '" foi ' . $crud . ".";
-                $icon = "plano_de_aula";
+            case 'courseplan':
+                $text = 'Plano de aula "' . $log->additional_info . '" foi ' . $crud . '.';
+                $icon = 'plano_de_aula';
                 break;
-            case "enrollment":
-                $infos = explode("|", $log->additional_info);
+            case 'enrollment':
+                $infos = explode('|', $log->additional_info);
                 $text = '"' . $infos[0] . '" foi ' . $crud . ' na turma "' . $infos[1] . '".';
-                $icon = "matricula";
+                $icon = 'matricula';
                 break;
-            case "instructor":
-                $text = 'Professor(a) "' . $log->additional_info . '" foi ' . $crud . ".";
-                $icon = "professores";
+            case 'instructor':
+                $text = 'Professor(a) "' . $log->additional_info . '" foi ' . $crud . '.';
+                $icon = 'professores';
                 break;
-            case "professional":
-                $text = 'Profissional "' . $log->additional_info . '" foi ' . $crud . ".";
-                $icon = "professional";
+            case 'professional':
+                $text = 'Profissional "' . $log->additional_info . '" foi ' . $crud . '.';
+                $icon = 'professional';
                 break;
-            case "school":
-                $text = 'Escola "' . $log->additional_info . '" foi ' . $crud . ".";
-                $icon = "escola";
+            case 'school':
+                $text = 'Escola "' . $log->additional_info . '" foi ' . $crud . '.';
+                $icon = 'escola';
                 break;
-            case "student":
-                $text = 'Aluno(a) "' . $log->additional_info . '" foi ' . $crud . ".";
-                $icon = "alunos";
+            case 'student':
+                $text = 'Aluno(a) "' . $log->additional_info . '" foi ' . $crud . '.';
+                $icon = 'alunos';
                 break;
-            case "grade":
-                $text = 'As notas da turma "' . $log->additional_info . '" foram ' . $crud . ".";
-                $icon = "notas";
+            case 'grade':
+                $text = 'As notas da turma "' . $log->additional_info . '" foram ' . $crud . '.';
+                $icon = 'notas';
                 break;
-            case "calendar":
-                $text = 'Calendário de ' . $log->additional_info . ' foi ' . $crud . ".";
-                $icon = "calendario";
+            case 'calendar':
+                $text = 'Calendário de ' . $log->additional_info . ' foi ' . $crud . '.';
+                $icon = 'calendario';
                 break;
-            case "curricular_matrix":
-                $infos = explode("|", $log->additional_info);
-                $text = 'Matriz curricular do componente curricular/eixo "' . $infos[1] . '" da etapa "' . $infos[0] . '" foi ' . $crud . ".";
-                $icon = "matriz_curricular";
+            case 'curricular_matrix':
+                $infos = explode('|', $log->additional_info);
+                $text = 'Matriz curricular do componente curricular/eixo "' . $infos[1] . '" da etapa "' . $infos[0] . '" foi ' . $crud . '.';
+                $icon = 'matriz_curricular';
                 break;
-            case "lunch_stock":
-                $infos = explode("|", $log->additional_info);
-                if ($log->crud == "C") {
+            case 'lunch_stock':
+                $infos = explode('|', $log->additional_info);
+                if ($log->crud == 'C') {
                     $text = $infos[1] . ' de ' . $infos[0] . ' foram adicionados ao estoque.';
-                    $icon = "adicionar-igrediente";
+                    $icon = 'adicionar-igrediente';
                 } else {
                     $text = $infos[1] . ' de ' . $infos[0] . ' foram removidos do estoque.';
-                    $icon = "remover-igrediente";
+                    $icon = 'remover-igrediente';
                 }
                 break;
-            case "lunch_menu":
-                $text = 'Cardápio "' . $log->additional_info . '" foi ' . $crud . ".";
-                $icon = "cardapio";
+            case 'lunch_menu':
+                $text = 'Cardápio "' . $log->additional_info . '" foi ' . $crud . '.';
+                $icon = 'cardapio';
                 break;
-            case "lunch_meal":
+            case 'lunch_meal':
                 $text = 'Uma refeição foi ' . $crud . ' no cardápio "' . $log->additional_info . '".';
-                $icon = "merenda";
+                $icon = 'merenda';
                 break;
-            case "timesheet":
+            case 'timesheet':
                 $text = 'Quadro de Horário da turma "' . $log->additional_info . '" foi gerado.';
-                $icon = "quadro_de_horario";
+                $icon = 'quadro_de_horario';
                 break;
-            case "wizard_classroom":
+            case 'wizard_classroom':
                 $text = 'Turmas de ' . $log->additional_info . ' foram reaproveitadas.';
-                $icon = "turmas";
+                $icon = 'turmas';
                 break;
-            case "wizard_student":
+            case 'wizard_student':
                 $text = 'Alunos de ' . $log->additional_info . ' foram rematriculados.';
-                $icon = "alunos";
+                $icon = 'alunos';
                 break;
-            case "educacenso":
+            case 'educacenso':
                 $text = 'Arquivo do censo da unidade escolar ' . $log->additional_info . ' foi exportado!';
-                $icon = "escola";
+                $icon = 'escola';
                 break;
-            case "foodMenu":
+            case 'foodMenu':
                 $text = 'O Cardápio "' . $log->additional_info . '" foi adicionado.';
-                $icon = "cardapio";
+                $icon = 'cardapio';
         }
+
         return [
-            "text" => $text,
-            "icon" => $icon,
-            "color" => $color
+            'text' => $text,
+            'icon' => $icon,
+            'color' => $color,
         ];
     }
 }

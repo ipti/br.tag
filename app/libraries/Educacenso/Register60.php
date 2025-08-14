@@ -45,8 +45,7 @@ class Register60
                         $enrollment['edcenso_stage_vs_modality_fk'] = '';
                     }
 
-
-                    if ($enrollment['edcenso_stage_vs_modality_fk'] != "") {
+                    if ($enrollment['edcenso_stage_vs_modality_fk'] != '') {
                         $edcensoStageVsModality = EdcensoStageVsModality::model()->findByPk($enrollment['edcenso_stage_vs_modality_fk']);
                         $enrollment['edcenso_stage_vs_modality_fk'] = $edcensoStageVsModality->edcenso_associated_stage_id;
                     }
@@ -69,46 +68,46 @@ class Register60
                                 $enrollment[$i] = $attr;
                             }
                         }
-                        //preencher um campo aee qualquer quando todos forem zerados
+                        // preencher um campo aee qualquer quando todos forem zerados
                         if (!$hasAeeFilled) {
                             $enrollment['aee_cognitive_functions'] = '1';
                         }
-                        if ($enrollment['aee_cognitive_functions'] == "" || $enrollment['aee_cognitive_functions'] == null) {
+                        if ($enrollment['aee_cognitive_functions'] == '' || $enrollment['aee_cognitive_functions'] == null) {
                             $enrollment['aee_cognitive_functions'] = '0';
                         }
-                        if ($enrollment['aee_autonomous_life'] == "" || $enrollment['aee_autonomous_life'] == null) {
+                        if ($enrollment['aee_autonomous_life'] == '' || $enrollment['aee_autonomous_life'] == null) {
                             $enrollment['aee_autonomous_life'] = '0';
                         }
-                        if ($enrollment['aee_curriculum_enrichment'] == "" || $enrollment['aee_curriculum_enrichment'] == null) {
+                        if ($enrollment['aee_curriculum_enrichment'] == '' || $enrollment['aee_curriculum_enrichment'] == null) {
                             $enrollment['aee_curriculum_enrichment'] = '0';
                         }
-                        if ($enrollment['aee_accessible_teaching'] == "" || $enrollment['aee_accessible_teaching'] == null) {
+                        if ($enrollment['aee_accessible_teaching'] == '' || $enrollment['aee_accessible_teaching'] == null) {
                             $enrollment['aee_accessible_teaching'] = '0';
                         }
-                        if ($enrollment['aee_libras'] == "" || $enrollment['aee_libras'] == null) {
+                        if ($enrollment['aee_libras'] == '' || $enrollment['aee_libras'] == null) {
                             $enrollment['aee_libras'] = '0';
                         }
-                        if ($enrollment['aee_portuguese'] == "" || $enrollment['aee_portuguese'] == null) {
+                        if ($enrollment['aee_portuguese'] == '' || $enrollment['aee_portuguese'] == null) {
                             $enrollment['aee_portuguese'] = '0';
                         }
-                        if ($enrollment['aee_soroban'] == "" || $enrollment['aee_soroban'] == null) {
+                        if ($enrollment['aee_soroban'] == '' || $enrollment['aee_soroban'] == null) {
                             $enrollment['aee_soroban'] = '0';
                         }
-                        if ($enrollment['aee_braille'] == "" || $enrollment['aee_braille'] == null) {
+                        if ($enrollment['aee_braille'] == '' || $enrollment['aee_braille'] == null) {
                             $enrollment['aee_braille'] = '0';
                         }
-                        if ($enrollment['aee_mobility_techniques'] == "" || $enrollment['aee_mobility_techniques'] == null) {
+                        if ($enrollment['aee_mobility_techniques'] == '' || $enrollment['aee_mobility_techniques'] == null) {
                             $enrollment['aee_mobility_techniques'] = '0';
                         }
-                        if ($enrollment['aee_caa'] == "" || $enrollment['aee_caa'] == null) {
+                        if ($enrollment['aee_caa'] == '' || $enrollment['aee_caa'] == null) {
                             $enrollment['aee_caa'] = '0';
                         }
-                        if ($enrollment['aee_optical_nonoptical'] == "" || $enrollment['aee_optical_nonoptical'] == null) {
+                        if ($enrollment['aee_optical_nonoptical'] == '' || $enrollment['aee_optical_nonoptical'] == null) {
                             $enrollment['aee_optical_nonoptical'] = '0';
                         }
                     }
 
-                    //um copia e cola do que se resolve no backend do registro 20 pra nao gerar inconsistencia (schooling, pedagogical_mediation_type e diff_location)
+                    // um copia e cola do que se resolve no backend do registro 20 pra nao gerar inconsistencia (schooling, pedagogical_mediation_type e diff_location)
                     $pedagogicalMediationType = $classroom->pedagogical_mediation_type == null ? '1' : $classroom->pedagogical_mediation_type;
                     $aee = $classroom->aee;
                     $complementaryActivity = $classroom->complementary_activity;
@@ -234,11 +233,11 @@ class Register60
                         $enrollment['student_inep_id'] = $student->inep_id;
                     }
 
-                    $edcensoAliases = EdcensoAlias::model()->findAll('year = :year and register = 60 order by corder', [":year" => $year]);
+                    $edcensoAliases = EdcensoAlias::model()->findAll('year = :year and register = 60 order by corder', [':year' => $year]);
                     foreach ($edcensoAliases as $edcensoAlias) {
                         $register[$edcensoAlias->corder] = $edcensoAlias->default;
-                        if ($edcensoAlias["attr"] != null && $enrollment[$edcensoAlias["attr"]] !== $edcensoAlias->default) {
-                            $register[$edcensoAlias->corder] = $enrollment[$edcensoAlias["attr"]];
+                        if ($edcensoAlias['attr'] != null && $enrollment[$edcensoAlias['attr']] !== $edcensoAlias->default) {
+                            $register[$edcensoAlias->corder] = $enrollment[$edcensoAlias['attr']];
                         }
                     }
 

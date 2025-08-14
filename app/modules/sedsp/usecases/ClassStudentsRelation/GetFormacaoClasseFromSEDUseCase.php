@@ -1,42 +1,38 @@
 <?php
 
-
 /**
- * Summary of GetFormacaoClasseFromSEDUseCase
+ * Summary of GetFormacaoClasseFromSEDUseCase.
  * @property ClassStudentsRelationSEDDataSource $classStudentsRelationSEDDataSource
  * @property GetExibirFichaAlunoFromSEDUseCase $getExibirFichaAlunoFromSEDUseCase
  */
 class GetFormacaoClasseFromSEDUseCase
 {
-
     /**
-     * Summary of exec
+     * Summary of exec.
      * @param InFormacaoClasse $inNumClasse
      * @throws InvalidArgumentException
      */
-
     public function __construct(
         ClassStudentsRelationSEDDataSource $classStudentsRelationSEDDataSource = null,
         GetExibirFichaAlunoFromSEDUseCase $getExibirFichaAlunoFromSEDUseCase = null
-    )
-    {
+    ) {
         $this->classStudentsRelationSEDDataSource = isset($classStudentsRelationSEDDataSource) ? $classStudentsRelationSEDDataSource : new ClassStudentsRelationSEDDataSource();
         $this->getExibirFichaAlunoFromSEDUseCase = isset($getExibirFichaAlunoFromSEDUseCase) ? $getExibirFichaAlunoFromSEDUseCase : new GetExibirFichaAlunoFromSEDUseCase();
     }
 
     /**
-     * Summary of exec
+     * Summary of exec.
      * @param InFormacaoClasse $inNumClasse
      */
     public function exec(InFormacaoClasse $inFormacaoClasse)
     {
         try {
             $response = $this->classStudentsRelationSEDDataSource->getClassroom($inFormacaoClasse);
-            
-            if($response->outErro !== null) {
+
+            if ($response->outErro !== null) {
                 return $response->outErro;
             }
-            
+
             $year = $response->outAnoLetivo;
             $mapper = (object) ClassroomMapper::parseToTAGFormacaoClasse($response);
 
@@ -50,8 +46,7 @@ class GetFormacaoClasseFromSEDUseCase
                     $inAluno = new InAluno($student->gov_id, null, $student->uf);
                     $studentIdentification = $this->getExibirFichaAlunoFromSEDUseCase->exec($inAluno);
                     $this->createEnrollment($tagClassroom, $studentIdentification);
-                
-                } catch (\Throwable $th) {
+                } catch (Throwable $th) {
                     $log = new LogError();
                     $log->salvarDadosEmArquivo($th->getMessage());
                     $status = false;
@@ -62,26 +57,26 @@ class GetFormacaoClasseFromSEDUseCase
             $params = [':classroomId' => $tagClassroom->id, ':year' => $year];
             $count = StudentEnrollment::model()->count(['condition' => $condition, 'params' => $params]);
 
-            $dados = [[$tagClassroom->gov_id, $count, $response->outQtdAtual],];
+            $dados = [[$tagClassroom->gov_id, $count, $response->outQtdAtual]];
             $this->createCSVFile($tagClassroom->gov_id, $dados);
 
             return $status;
         } catch (Exception $e) {
             $log = new LogError();
             $log->salvarDadosEmArquivo($e->getMessage());
+
             return false;
         }
     }
 
     public function createCSVFile($name, $dados)
     {
-
         $path = 'app/modules/sedsp/numberOfStudentsCSV/';
         if (!file_exists($path)) {
             mkdir($path, 0777, true);
         }
 
-        $name = $path . $name . ".csv";
+        $name = $path . $name . '.csv';
         $arquivo = fopen($name, 'w');
 
         // Verifica se o arquivo foi aberto com sucesso
@@ -99,9 +94,7 @@ class GetFormacaoClasseFromSEDUseCase
     }
 
     /**
-     * Summary of createEnrollment
-     * @param Classroom $classroom
-     * @param StudentIdentification $studentModel
+     * Summary of createEnrollment.
      *
      * @return bool
      */
@@ -109,11 +102,11 @@ class GetFormacaoClasseFromSEDUseCase
     {
         $enrollments = StudentMapper::getListMatriculasRa($studentModel->gov_id);
 
-        if($enrollments === null) {
+        if ($enrollments === null) {
             return false;
         }
 
-        foreach($enrollments as $enrollment) {
+        foreach ($enrollments as $enrollment) {
             $creareDate = DateTime::createFromFormat('d/m/Y', $enrollment->getOutDataInicioMatricula())->format('Y-m-d');
             if ($enrollment->getOutNumClasse() == $classroom->gov_id) {
                 $studentEnrollment = StudentEnrollment::model()->find('student_fk = :student_fk AND classroom_fk = :classroom_fk', [':student_fk' => $studentModel->id, ':classroom_fk' => $classroom->id]);
@@ -131,20 +124,22 @@ class GetFormacaoClasseFromSEDUseCase
                 if ($studentEnrollment->validate() && $studentEnrollment->save()) {
                     $studentEnrollment->sedsp_sync = 1;
                     Yii::log('Aluno matriculado com sucesso.', CLogger::LEVEL_INFO);
-                    
+
                     return $studentEnrollment->save();
                 } else {
                     $studentEnrollment->sedsp_sync = 0;
                     Yii::log($studentEnrollment->getErrors(), CLogger::LEVEL_ERROR);
+
                     return $studentEnrollment->save();
                 }
             }
+
             return false;
         }
     }
 
     /**
-     * Summary of findStudentIdentificationByGovId
+     * Summary of findStudentIdentificationByGovId.
      * @param string $studentGovId
      * @return StudentIdentification
      */
@@ -154,7 +149,7 @@ class GetFormacaoClasseFromSEDUseCase
     }
 
     /**
-     * Summary of findStudentIdentificationByName
+     * Summary of findStudentIdentificationByName.
      * @param mixed $studentName
      * @return mixed
      */
@@ -164,7 +159,7 @@ class GetFormacaoClasseFromSEDUseCase
     }
 
     /**
-     * Summary of createNewStudent
+     * Summary of createNewStudent.
      * @param mixed $inNumRA
      * @param mixed $inDigitoRA
      * @param mixed $inSiglaUFRA
@@ -176,8 +171,7 @@ class GetFormacaoClasseFromSEDUseCase
     }
 
     /**
-     * Summary of getFichaAluno
-     * @param InAluno $inAluno
+     * Summary of getFichaAluno.
      */
     public function getFichaAluno(InAluno $inAluno)
     {

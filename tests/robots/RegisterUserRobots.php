@@ -2,7 +2,6 @@
 
 class RegisterUserRobots
 {
-
     public AcceptanceTester $tester;
 
     public function __construct(AcceptanceTester $tester)
@@ -16,8 +15,8 @@ class RegisterUserRobots
      */
     public function cargo()
     {
-        $option = $this->tester->grabTextFrom("select2-chosen");
-        $this->tester->selectOption("select", $option);
+        $option = $this->tester->grabTextFrom('select2-chosen');
+        $this->tester->selectOption('select', $option);
     }
 
     /**
@@ -53,8 +52,8 @@ class RegisterUserRobots
      */
     public function escola()
     {
-        $option = $this->tester->grabTextFrom("select2-chosen");
-        $this->tester->selectOption("select", $option);
+        $option = $this->tester->grabTextFrom('select2-chosen');
+        $this->tester->selectOption('select', $option);
     }
 
     /**
@@ -63,7 +62,7 @@ class RegisterUserRobots
      */
     public function active()
     {
-        $this->tester->canSeeCheckboxIsChecked("#Users_active");
+        $this->tester->canSeeCheckboxIsChecked('#Users_active');
     }
 
     /**
@@ -72,6 +71,6 @@ class RegisterUserRobots
      */
     public function save()
     {
-         $this->tester->click("#createUser button");
+        $this->tester->click('#createUser button');
     }
 }

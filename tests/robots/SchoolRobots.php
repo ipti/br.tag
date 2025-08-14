@@ -9,12 +9,12 @@ class SchoolRobots
 
     public function school()
     {
-        $this->tester->click("#addSchool");
+        $this->tester->click('#addSchool');
     }
 
     public function name($name)
     {
-        $this->tester->fillField("#nameSchool", $name);
+        $this->tester->fillField('#nameSchool', $name);
     }
 
     public function administrativeDependency()
@@ -24,7 +24,7 @@ class SchoolRobots
 
     public function codInep($codInep)
     {
-        $this->tester->fillField("#codInep", $codInep);
+        $this->tester->fillField('#codInep', $codInep);
     }
 
     public function regulation()
@@ -36,8 +36,4 @@ class SchoolRobots
     {
         $this->tester->checkOption('#SchoolIdentification_linked_army');
     }
-
-
 }
-
-?>

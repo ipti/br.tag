@@ -1,14 +1,14 @@
 <?php
 
 require_once 'vendor/autoload.php';
-require_once __DIR__ . "/../acceptance/StudentsCest.php";
-require_once __DIR__ . "/../robots/LoginRobots.php";
+require_once __DIR__ . '/../acceptance/StudentsCest.php';
+require_once __DIR__ . '/../robots/LoginRobots.php';
 class StudentsEditCest
 {
     public function _before(AcceptanceTester $tester)
     {
-        $user = "";
-        $secret = "";
+        $user = '';
+        $secret = '';
 
         $robots = new LoginRobots($tester);
         $robots->pageLogin();
@@ -44,7 +44,7 @@ class StudentsEditCest
         $builder = new StudentBuilder();
         $dataStudent = $builder->buildCompleted();
 
-        //Data Students
+        // Data Students
         $robots->name($dataStudent->student['name']);
         $robots->civilName($dataStudent->student['civil_name']);
         $robots->dateOfBirth($dataStudent->student['birthday']);
@@ -149,7 +149,6 @@ class StudentsEditCest
      * Dados Sociais - Modelo Novo.
      * @author Evellyn Jade de Cerqueira Reis- <ti.jade@ipti.org.br>
      */
-
     public function editNewCivil(AcceptanceTester $teste)
     {
         sleep(5);
@@ -168,7 +167,7 @@ class StudentsEditCest
         $builder = new StudentBuilder();
         $dataStudent = $builder->buildCompleted();
 
-        //Data Students
+        // Data Students
         $robots->name($dataStudent->student['name']);
         $robots->civilName($dataStudent->student['civil_name']);
         $robots->dateOfBirth($dataStudent->student['birthday']);
@@ -282,7 +281,7 @@ class StudentsEditCest
         $builder = new StudentBuilder();
         $dataStudent = $builder->buildCompleted();
 
-        //Data Students
+        // Data Students
         $robots->name($dataStudent->student['name']);
         $robots->civilName($dataStudent->student['civil_name']);
         $robots->dateOfBirth($dataStudent->student['birthday']);
@@ -418,7 +417,7 @@ class StudentsEditCest
         $builder = new StudentBuilder();
         $dataStudent = $builder->buildCompleted();
 
-        //Data Students
+        // Data Students
         $robots->name($dataStudent->student['name']);
         $robots->civilName($dataStudent->student['civil_name']);
         $robots->dateOfBirth($dataStudent->student['birthday']);
@@ -472,7 +471,6 @@ class StudentsEditCest
         $robots->postCensus();
         $robots->btn4Address();
         sleep(2);
-
 
         // residence
         $robots->stateAddress($dataStudent->studentDocument['edcenso_uf_fk']);

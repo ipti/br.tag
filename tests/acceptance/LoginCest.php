@@ -1,6 +1,6 @@
 <?php
 
-require_once __DIR__."/../robots/LoginRobots.php";
+require_once __DIR__ . '/../robots/LoginRobots.php';
 
 class LoginCest
 {
@@ -8,8 +8,8 @@ class LoginCest
 
     public function frontpageWorks(AcceptanceTester $tester)
     {
-        $user = "";
-        $secret = "";
+        $user = '';
+        $secret = '';
 
         $robots = new LoginRobots($tester);
         $robots->pageLogin();
@@ -22,8 +22,8 @@ class LoginCest
 
     public function errorUser(AcceptanceTester $tester)
     {
-        $user = "coentro";
-        $secret = "";
+        $user = 'coentro';
+        $secret = '';
 
         $robots = new LoginRobots($tester);
         $robots->pageLogin();
@@ -36,8 +36,8 @@ class LoginCest
 
     public function errorPassword(AcceptanceTester $tester)
     {
-        $user = "admin";
-        $secret = "coentro";
+        $user = 'admin';
+        $secret = 'coentro';
 
         $robots = new LoginRobots($tester);
         $robots->pageLogin();
@@ -47,5 +47,4 @@ class LoginCest
         sleep(5);
         $tester->see('Usuário ou senha incorretos');
     }
-
 }

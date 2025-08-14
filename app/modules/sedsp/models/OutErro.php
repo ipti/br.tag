@@ -36,5 +36,3 @@ class OutErro
         return $this->processoID;
     }
 }
-
-?>

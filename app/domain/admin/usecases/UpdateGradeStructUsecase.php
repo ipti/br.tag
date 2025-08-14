@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Caso de uso para salvavemto da estrutura de notas e avaliação
+ * Caso de uso para salvavemto da estrutura de notas e avaliação.
  *
  * @property string $gradeRulesId
  * @property string $gradeRulesName
@@ -18,11 +18,11 @@
  */
 class UpdateGradeStructUsecase
 {
-    private const JUST_CURRENT_STAGE = "";
-    private const ALL_STAGES = "A";
-    private const STAGES_FROM_SAME_MODALITY = "S";
+    private const JUST_CURRENT_STAGE = '';
+    private const ALL_STAGES = 'A';
+    private const STAGES_FROM_SAME_MODALITY = 'S';
 
-    public function __construct($gradeRulesId, $gradeRulesName,$reply, $stages, $unities, $approvalMedia,
+    public function __construct($gradeRulesId, $gradeRulesName, $reply, $stages, $unities, $approvalMedia,
         $finalRecoverMedia, $calcFinalMedia, $hasFinalRecovery, $ruleType, $hasPartialRecovery, $partialRecoveries)
     {
         $this->gradeRulesId = $gradeRulesId;
@@ -55,6 +55,7 @@ class UpdateGradeStructUsecase
                 $this->hasPartialRecovery,
                 $this->partialRecoveries
             );
+
             return $justOneUsecase->exec();
         } elseif ($this->reply === self::ALL_STAGES) {
             // A = Toda a Matriz Curricular
@@ -73,7 +74,7 @@ class UpdateGradeStructUsecase
             $justOneUsecase = new UpdateGradeJustOneStructUsecase(
                 $this->gradeRulesId,
                 $this->gradeRulesName,
-                $stage["id"],
+                $stage['id'],
                 $unities,
                 $approvalMedia,
                 $finalRecoverMedia,
@@ -84,30 +85,30 @@ class UpdateGradeStructUsecase
             );
             $justOneUsecase->exec();
         }
-
     }
 
     private function getAllMatrixes()
     {
-        return Yii::app()->db->createCommand("
+        return Yii::app()->db->createCommand('
                 select * from curricular_matrix cm
                 where school_year = :year
-            ")
-            ->bindParam(":year", Yii::app()->user->year)->queryAll();
+            ')
+            ->bindParam(':year', Yii::app()->user->year)->queryAll();
     }
 
     private function getMatrixesForAllModalities($stage)
     {
-        $modality = EdcensoStageVsModality::model()->find("id = :id", [":id" => $stage]);
-        return Yii::app()->db->createCommand("
+        $modality = EdcensoStageVsModality::model()->find('id = :id', [':id' => $stage]);
+
+        return Yii::app()->db->createCommand('
             select esvm.id from curricular_matrix cm
             join edcenso_stage_vs_modality esvm on esvm.id = cm.stage_fk
             where school_year = :year and esvm.stage = :stage
             group by esvm.id
-        ")
-            ->bindParam(":year", Yii::app()->user->year)
-            ->bindParam(":stage", $modality->stage)
-            ->select("id")
+        ')
+            ->bindParam(':year', Yii::app()->user->year)
+            ->bindParam(':stage', $modality->stage)
+            ->select('id')
             ->queryAll();
     }
 }

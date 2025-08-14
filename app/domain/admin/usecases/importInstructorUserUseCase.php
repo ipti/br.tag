@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Caso de uso para importação de professor do edcenso e criação de usuário
+ * Caso de uso para importação de professor do edcenso e criação de usuário.
  *
  */
 class ImportInstructorUserUseCase
@@ -30,15 +30,18 @@ class ImportInstructorUserUseCase
         return $this->modelInstructorIdentification;
     }
 
-    private function createUser($modelInstructorIdentification, $modelInstructorDocumentsAndAddress) {
+    private function createUser($modelInstructorIdentification, $modelInstructorDocumentsAndAddress)
+    {
         $user = new Users();
         $user->name = $modelInstructorIdentification->name;
         $user->username = $modelInstructorDocumentsAndAddress->cpf;
         $user->password = $this->hashBirthdayDate($modelInstructorIdentification->birthday_date);
+
         return $user;
     }
 
-    private function createUserSchool($user) {
+    private function createUserSchool($user)
+    {
         $userSchool = new UsersSchool();
         $userSchool->user_fk = $user->id;
         $userSchool->school_fk = Yii::app()->user->school;

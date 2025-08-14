@@ -1,24 +1,26 @@
 <?php
+
 class DashboardService
 {
-     public function getAccessToken() {
+    public function getAccessToken()
+    {
         $url = 'https://login.microsoftonline.com/common/oauth2/token';
         $username = getenv('USER_NAME_POWER_BI');
         $pss = getenv('PSS_POWER_BI');
         $clientId = getenv('CLIENT_ID_POWER_BI');
 
-        $headers = array(
-            'Content-Type: application/x-www-form-urlencoded'
-        );
+        $headers = [
+            'Content-Type: application/x-www-form-urlencoded',
+        ];
 
-        $formData = array(
+        $formData = [
             'grant_type' => 'password',
             'client_id' => $clientId,
             'resource' => 'https://analysis.windows.net/powerbi/api',
             'scope' => 'openid',
             'username' => $username,
-            'password' => $pss
-        );
+            'password' => $pss,
+        ];
 
         $ch = curl_init($url);
         curl_setopt($ch, CURLOPT_POST, true);
@@ -32,25 +34,27 @@ class DashboardService
         curl_close($ch);
 
         if ($error) {
-            die('Erro ao obter o token de acesso: ' . $error);
+            exit('Erro ao obter o token de acesso: ' . $error);
         }
 
         $bodyObj = json_decode($response, true);
+
         // echo 'Access Token: ' . $bodyObj['access_token'];
         return $bodyObj['access_token'];
     }
 
-    public function getReportEmbedToken($accessToken, $groupId, $reportId) {
+    public function getReportEmbedToken($accessToken, $groupId, $reportId)
+    {
         $url = 'https://api.powerbi.com/v1.0/myorg/groups/' . $groupId . '/reports/' . $reportId . '/GenerateToken';
 
-        $headers = array(
+        $headers = [
             'Content-Type: application/x-www-form-urlencoded',
-            'Authorization: Bearer ' . $accessToken
-        );
+            'Authorization: Bearer ' . $accessToken,
+        ];
 
-        $formData = array(
-            'accessLevel' => 'view'
-        );
+        $formData = [
+            'accessLevel' => 'view',
+        ];
 
         $ch = curl_init($url);
         curl_setopt($ch, CURLOPT_POST, true);
@@ -64,21 +68,22 @@ class DashboardService
         curl_close($ch);
 
         if ($error) {
-            die('Erro ao obter o token de inserção do relatório: ' . $error);
+            exit('Erro ao obter o token de inserção do relatório: ' . $error);
         }
 
         $bodyObj = json_decode($response, true);
+
         // echo 'Embed Token: ' . $bodyObj['token'];
         return $bodyObj['token'];
     }
 
-    public function embedReport($groupId, $reportId) {
+    public function embedReport($groupId, $reportId)
+    {
         $accessToken = $this->getAccessToken();
         $embedToken = $this->getReportEmbedToken($accessToken, $groupId, $reportId);
+
         return $embedToken;
         // echo "Renderizar página com os parâmetros necessários.";
         // Lógica para renderizar a página com os parâmetros necessários
     }
-
-
 }

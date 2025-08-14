@@ -1,4 +1,5 @@
 <?php
+
 class DefaultController extends Controller
 {
     public function actionIndex()
@@ -159,7 +160,7 @@ class DefaultController extends Controller
             // Nome do arquivo
             $filename = 'cadastro_rematricula_estudantes_' . date('Y-m-d_H-i-s') . '.xlsx';
 
-             $exporter = new SimpleExcelExporter($filename);
+            $exporter = new SimpleExcelExporter($filename);
 
             // Ler primeira linha para extrair cabeçalhos
             $firstRow = $reader->read();

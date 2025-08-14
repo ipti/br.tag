@@ -5,8 +5,7 @@ Yii::import('application.modules.sedsp.models.*');
 class EnrollmentSEDDataSource extends SedDataSource
 {
     /**
-     * Summary of getListarMatriculasRA
-     * @param InAluno $inAluno
+     * Summary of getListarMatriculasRA.
      * @return OutListaMatriculaRA|OutErro
      * @throws Exception
      */
@@ -14,7 +13,8 @@ class EnrollmentSEDDataSource extends SedDataSource
     {
         try {
             $url = '/ncaapi/api/Matricula/ListarMatriculasRA';
-            $response = $this->getApiResponse('GET', $url, ["inAluno" => $inAluno]);
+            $response = $this->getApiResponse('GET', $url, ['inAluno' => $inAluno]);
+
             return OutListaMatriculaRA::fromJson($response);
         } catch (ClientException $e) {
             return new OutErro($e);
@@ -24,22 +24,22 @@ class EnrollmentSEDDataSource extends SedDataSource
     }
 
     /**
-     * Summary of addInscreverAluno
-     * @param InscreverAluno $inscreverAluno
+     * Summary of addInscreverAluno.
      * @return OutHandleApiResult|OutErro
      * @throws Exception
      */
     public function addInscreverAluno(InscreverAluno $inscreverAluno)
     {
-        try{
+        try {
             $url = '/ncaapi/api/Inscricao/InscreverAluno';
             $data = [
-                "inAluno" => $inscreverAluno->getInAluno(),
-                "inInscricao" => $inscreverAluno->getInInscricao(),
-                "inNivelEnsino" => $inscreverAluno->getInNivelEnsino()
+                'inAluno' => $inscreverAluno->getInAluno(),
+                'inInscricao' => $inscreverAluno->getInInscricao(),
+                'inNivelEnsino' => $inscreverAluno->getInNivelEnsino(),
             ];
 
             $response = $this->getApiResponse('POST', $url, $data);
+
             return OutHandleApiResult::fromJson($response);
         } catch (ClientException $e) {
             return new OutErro($e);
@@ -50,10 +50,11 @@ class EnrollmentSEDDataSource extends SedDataSource
 
     public function addExcluirMatricula(InExcluirMatricula $inExcluirMatricula)
     {
-        try{
+        try {
             $url = '/ncaapi/api/Matricula/ExcluirMatricula';
 
             $response = $this->getApiResponse('POST', $url, $inExcluirMatricula);
+
             return OutHandleApiResult::fromJson($response);
         } catch (ClientException $e) {
             return new OutErro($e);
@@ -63,25 +64,23 @@ class EnrollmentSEDDataSource extends SedDataSource
     }
 
     /**
-     * Summary of addMatricularAluno
-     * @param InMatricularAluno $inMatricularAluno
+     * Summary of addMatricularAluno.
      * @return OutHandleApiResult|OutErro
      * @throws Exception
      */
     public function addMatricularAluno(InMatricularAluno $inMatricularAluno)
     {
-        try{
-
+        try {
             $url = '/ncaapi/api/Matricula/MatricularAluno';
             $data = [
-                "inAnoLetivo" => $inMatricularAluno->getInAnoLetivo(),
-                "inAluno" => $inMatricularAluno->getInAluno(),
-                "inMatricula" => $inMatricularAluno->getInMatricula(),
-                "inNivelEnsino" => $inMatricularAluno->getInNivelEnsino()
+                'inAnoLetivo' => $inMatricularAluno->getInAnoLetivo(),
+                'inAluno' => $inMatricularAluno->getInAluno(),
+                'inMatricula' => $inMatricularAluno->getInMatricula(),
+                'inNivelEnsino' => $inMatricularAluno->getInNivelEnsino(),
             ];
             $response = $this->getApiResponse('POST', $url, $data);
-            return OutHandleApiResult::fromJson($response);
 
+            return OutHandleApiResult::fromJson($response);
         } catch (ClientException $e) {
             return new OutErro($e);
         } catch (Exception $exception) {
@@ -90,16 +89,16 @@ class EnrollmentSEDDataSource extends SedDataSource
     }
 
     /**
-     * Summary of getExibirMatriculaClasseRA
-     * @param InExibirMatriculaClasseRA $inExibirMatriculaClasseRA
+     * Summary of getExibirMatriculaClasseRA.
      * @return OutExibirMatriculaClasseRA|OutErro
      * @throws Exception
      */
     public function getExibirMatriculaClasseRA(InExibirMatriculaClasseRA $inExibirMatriculaClasseRA)
     {
-        try{
+        try {
             $url = '/ncaapi/api/Matricula/ExibirMatriculaClasseRA';
             $response = $this->getApiResponse('GET', $url, $inExibirMatriculaClasseRA);
+
             return OutExibirMatriculaClasseRA::fromJson($response);
         } catch (ClientException $e) {
             return new OutErro($e);
@@ -109,16 +108,16 @@ class EnrollmentSEDDataSource extends SedDataSource
     }
 
     /**
-     * Summary of addRemanejarMatricula
-     * @param InRemanejarMatricula $inRemanejarMatricula
+     * Summary of addRemanejarMatricula.
      * @return OutHandleApiResult|OutErro
      * @throws Exception
      */
     public function addRemanejarMatricula(InRemanejarMatricula $inRemanejarMatricula)
     {
-        try{
+        try {
             $url = '/ncaapi/api/Matricula/RemanejarMatricula';
             $response = $this->getApiResponse('POST', $url, $inRemanejarMatricula);
+
             return OutHandleApiResult::fromJson($response);
         } catch (ClientException $e) {
             return new OutErro($e);
@@ -128,16 +127,16 @@ class EnrollmentSEDDataSource extends SedDataSource
     }
 
     /**
-     * Summary of addReclassificarMatricula
-     * @param InReclassificarMatricula $inReclassificarMatricula
+     * Summary of addReclassificarMatricula.
      * @return OutHandleApiResult|OutErro
      * @throws Exception
      */
     public function addReclassificarMatricula(InReclassificarMatricula $inReclassificarMatricula)
     {
-        try{
+        try {
             $url = '/ncaapi/api/Matricula/ReclassificarMatricula';
             $response = $this->getApiResponse('POST', $url, $inReclassificarMatricula);
+
             return OutHandleApiResult::fromJson($response);
         } catch (ClientException $e) {
             return new OutErro($e);
@@ -146,18 +145,17 @@ class EnrollmentSEDDataSource extends SedDataSource
         }
     }
 
-
     /**
-     * Summary of addBaixarMatricula
-     * @param InBaixarMatricula $inBaixarMatricula
+     * Summary of addBaixarMatricula.
      * @return OutHandleApiResult|OutErro
      * @throws Exception
      */
     public function addBaixarMatricula(InBaixarMatricula $inBaixarMatricula)
     {
-        try{
+        try {
             $url = '/ncaapi/api/Matricula/BaixarMatricula';
             $response = $this->getApiResponse('POST', $url, $inBaixarMatricula);
+
             return OutHandleApiResult::fromJson($response);
         } catch (ClientException $e) {
             return new OutErro($e);
@@ -167,23 +165,23 @@ class EnrollmentSEDDataSource extends SedDataSource
     }
 
     /**
-     * Summary of addBaixarMatricula
-     * @param InTrocarAlunoEntreClasses $inTrocarAlunoEntreClasses
+     * Summary of addBaixarMatricula.
      * @return OutHandleApiResult|OutErro
      * @throws Exception
      */
     public function addTrocarAlunoEntreClasses(InTrocarAlunoEntreClasses $inTrocarAlunoEntreClasses)
     {
-        try{
+        try {
             $url = '/ncaapi/api/Matricula/TrocarAlunoEntreClasses';
 
             $data = [
-                "inAluno" => $inTrocarAlunoEntreClasses->getInAluno(),
-                "inMatricula" => $inTrocarAlunoEntreClasses->getInMatricula(),
-                "inNivelEnsino" => $inTrocarAlunoEntreClasses->getInNivelEnsino()
+                'inAluno' => $inTrocarAlunoEntreClasses->getInAluno(),
+                'inMatricula' => $inTrocarAlunoEntreClasses->getInMatricula(),
+                'inNivelEnsino' => $inTrocarAlunoEntreClasses->getInNivelEnsino(),
             ];
 
             $response = $this->getApiResponse('POST', $url, $data);
+
             return OutHandleApiResult::fromJson($response);
         } catch (ClientException $e) {
             return new OutErro($e);
@@ -198,9 +196,10 @@ class EnrollmentSEDDataSource extends SedDataSource
      * @param mixed $data
      * @return mixed
      */
-    private function getApiResponse($httpMethod, $url, $data) {
+    private function getApiResponse($httpMethod, $url, $data)
+    {
         $response = $this->client->request($httpMethod, $url, [
-            'body' => json_encode($data, JSON_UNESCAPED_UNICODE)
+            'body' => json_encode($data, JSON_UNESCAPED_UNICODE),
         ]);
 
         return json_decode($response->getBody()->getContents(), true);

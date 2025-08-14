@@ -1,4 +1,5 @@
 <?php
+
 return [
     'Schedule' => 'Horário',
     'Exam dates' => 'Datas das Avaliações',

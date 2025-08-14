@@ -2,7 +2,6 @@
 
 class LoginRobots
 {
-
     public AcceptanceTester $tester;
 
     public function __construct(AcceptanceTester $tester)
@@ -25,7 +24,7 @@ class LoginRobots
      */
     public function fieldUser($user)
     {
-        $this->tester->fillField("#LoginForm_username", $user);
+        $this->tester->fillField('#LoginForm_username', $user);
     }
 
     /**
@@ -34,7 +33,7 @@ class LoginRobots
      */
     public function fieldPassword($secret)
     {
-        $this->tester->fillField("#LoginForm_password", $secret);
+        $this->tester->fillField('#LoginForm_password', $secret);
     }
 
     /**
@@ -54,5 +53,4 @@ class LoginRobots
     {
         $this->tester->click('#remember');
     }
-
 }

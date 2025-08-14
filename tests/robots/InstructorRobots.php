@@ -36,19 +36,19 @@ class InstructorRobots
     /* Preencher o nome do professor */
     public function name($name)
     {
-        $this->tester->fillField("#InstructorIdentification_name", $name);
+        $this->tester->fillField('#InstructorIdentification_name', $name);
     }
 
     /* Preencher o email */
     public function email($email)
     {
-        $this->tester->fillField("#InstructorDocumentsAndAddress_cpf", $email);
+        $this->tester->fillField('#InstructorDocumentsAndAddress_cpf', $email);
     }
 
     /* Selecionar a nacionalidade */
     public function nationality($nationality)
     {
-        $this->tester->selectOption("#nationality_select select", $nationality);
+        $this->tester->selectOption('#nationality_select select', $nationality);
     }
 
     /* Preencher o cpf */
@@ -98,10 +98,11 @@ class InstructorRobots
     {
         $this->tester->executeJS("document.querySelector('#filiation-select').value = '($filiation)';");
     }
+
     /* Preencher o campo de filiação 1 */
     public function filiationSelect1($filiationName)
     {
-        $this->tester->fillField("#InstructorIdentification_filiation_1", $filiationName);
+        $this->tester->fillField('#InstructorIdentification_filiation_1', $filiationName);
     }
 
     /* Preencher o cep */
@@ -109,6 +110,7 @@ class InstructorRobots
     {
         $this->tester->fillField('#InstructorDocumentsAndAddress_cep', $cep);
     }
+
     /* Selecionar o estado */
     public function stateAddress($state)
     {
@@ -120,6 +122,7 @@ class InstructorRobots
     {
         $this->tester->executeJS("document.querySelector('#s2id_InstructorDocumentsAndAddress_edcenso_city_fk').value = '$city';");
     }
+
     /* Preencher o endereço */
     public function address($address)
     {
@@ -174,5 +177,4 @@ class InstructorRobots
         $this->tester->waitForElement('#highEducationYear input[type=text]');
         $this->tester->executeJS("document.querySelector('#highEducationYear input[type=text]').value = '{$year}';");
     }
-    /*  */
 }

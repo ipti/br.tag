@@ -4,9 +4,9 @@
  * This is the model class for table "calendar_stages".
  *
  * The followings are the available columns in table 'calendar_stages':
- * @property integer $id
- * @property integer $calendar_fk
- * @property integer $stage_fk
+ * @property int $id
+ * @property int $calendar_fk
+ * @property int $stage_fk
  *
  * The followings are the available model relations:
  * @property Calendar $calendarFk
@@ -22,34 +22,33 @@ class CalendarStages extends TagModel
         return 'calendar_stages';
     }
 
-
     /**
-     * @return array validation rules for model attributes.
+     * @return array validation rules for model attributes
      */
     public function rules()
     {
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
-        return array(
-            array('calendar_fk, stage_fk', 'required'),
-            array('calendar_fk, stage_fk', 'numerical', 'integerOnly'=>true),
+        return [
+            ['calendar_fk, stage_fk', 'required'],
+            ['calendar_fk, stage_fk', 'numerical', 'integerOnly' => true],
             // The following rule is used by search().
             // @todo Please remove those attributes that should not be searched.
-            array('id, calendar_fk, stage_fk', 'safe', 'on'=>'search'),
-        );
+            ['id, calendar_fk, stage_fk', 'safe', 'on' => 'search'],
+        ];
     }
 
     /**
-     * @return array relational rules.
+     * @return array relational rules
      */
     public function relations()
     {
         // NOTE: you may need to adjust the relation name and the related
         // class name for the relations automatically generated below.
-        return array(
-            'calendarFk' => array(self::BELONGS_TO, 'Calendar', 'calendar_fk'),
-            'stageFk' => array(self::BELONGS_TO, 'EdcensoStageVsModality', 'stage_fk'),
-        );
+        return [
+            'calendarFk' => [self::BELONGS_TO, 'Calendar', 'calendar_fk'],
+            'stageFk' => [self::BELONGS_TO, 'EdcensoStageVsModality', 'stage_fk'],
+        ];
     }
 
     /**
@@ -57,11 +56,11 @@ class CalendarStages extends TagModel
      */
     public function attributeLabels()
     {
-        return array(
+        return [
             'id' => 'ID',
             'calendar_fk' => 'Calendar Fk',
             'stage_fk' => 'Stage Fk',
-        );
+        ];
     }
 
     /**
@@ -74,30 +73,30 @@ class CalendarStages extends TagModel
      * - Pass data provider to CGridView, CListView or any similar widget.
      *
      * @return CActiveDataProvider the data provider that can return the models
-     * based on the search/filter conditions.
+     * based on the search/filter conditions
      */
     public function search()
     {
         // @todo Please modify the following code to remove attributes that should not be searched.
 
-        $criteria=new CDbCriteria;
+        $criteria = new CDbCriteria();
 
-        $criteria->compare('id',$this->id);
-        $criteria->compare('calendar_fk',$this->calendar_fk);
-        $criteria->compare('stage_fk',$this->stage_fk);
+        $criteria->compare('id', $this->id);
+        $criteria->compare('calendar_fk', $this->calendar_fk);
+        $criteria->compare('stage_fk', $this->stage_fk);
 
-        return new CActiveDataProvider($this, array(
-            'criteria'=>$criteria,
-        ));
+        return new CActiveDataProvider($this, [
+            'criteria' => $criteria,
+        ]);
     }
 
     /**
      * Returns the static model of the specified AR class.
      * Please note that you should have this exact method in all your CActiveRecord descendants!
-     * @param string $className active record class name.
+     * @param string $className active record class name
      * @return CalendarStages the static model class
      */
-    public static function model($className=__CLASS__)
+    public static function model($className = __CLASS__)
     {
         return parent::model($className);
     }

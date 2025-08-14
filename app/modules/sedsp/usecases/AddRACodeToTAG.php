@@ -10,16 +10,17 @@ Yii::import('application.modules.sedsp.models.*');
  */
 class AddRACodeToTAG
 {
-    private  $studentTAGDataSource;
-    private  $studentSEDDataSource;
+    private $studentTAGDataSource;
+    private $studentSEDDataSource;
 
-    public function __construct($studentTAGDataSource = null, $studentSEDDataSource = null) {
+    public function __construct($studentTAGDataSource = null, $studentSEDDataSource = null)
+    {
         $this->studentTAGDataSource = $studentTAGDataSource ?? new StudentTAGDataSource();
         $this->studentSEDDataSource = $studentSEDDataSource ?? new StudentSEDDataSource();
     }
 
     /**
-     * Summary of exec
+     * Summary of exec.
      * @param int $tag_student_id StudentIdentificantion Id from TAG
      * @return StudentIdentification
      */
@@ -28,12 +29,11 @@ class AddRACodeToTAG
         // Get Student From TAG database
         $student_tag = $this->studentTAGDataSource->getStudent($tag_student_id);
         $student_tag->gov_id = $racode;
-        
+
         if ($student_tag->update()) {
-           return $student_tag;
+            return $student_tag;
         }
 
-        throw new CHttpException(404,'The requested student does not updated.');
-        
+        throw new CHttpException(404, 'The requested student does not updated.');
     }
 }

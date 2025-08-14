@@ -3,9 +3,8 @@
 namespace Genericos;
 
 /**
- * Class representing NaProcLicitatorioTType
+ * Class representing NaProcLicitatorioTType.
  *
- * 
  * XSD Type: naProcLicitatorio_t
  */
 class NaProcLicitatorioTType
@@ -21,7 +20,7 @@ class NaProcLicitatorioTType
     private $ano = null;
 
     /**
-     * Gets as numero
+     * Gets as numero.
      *
      * @return int
      */
@@ -31,7 +30,7 @@ class NaProcLicitatorioTType
     }
 
     /**
-     * Sets a new numero
+     * Sets a new numero.
      *
      * @param int $numero
      * @return self
@@ -39,11 +38,12 @@ class NaProcLicitatorioTType
     public function setNumero($numero)
     {
         $this->numero = $numero;
+
         return $this;
     }
 
     /**
-     * Gets as ano
+     * Gets as ano.
      *
      * @return string
      */
@@ -53,7 +53,7 @@ class NaProcLicitatorioTType
     }
 
     /**
-     * Sets a new ano
+     * Sets a new ano.
      *
      * @param string $ano
      * @return self
@@ -61,7 +61,7 @@ class NaProcLicitatorioTType
     public function setAno($ano)
     {
         $this->ano = $ano;
+
         return $this;
     }
 }
-

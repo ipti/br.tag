@@ -3,6 +3,7 @@
 class MatrixRobots
 {
     public AcceptanceTester $tester;
+
     public function __construct(AcceptanceTester $tester)
     {
         $this->tester = $tester;
