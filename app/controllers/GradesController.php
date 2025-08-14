@@ -43,7 +43,9 @@ class GradesController extends Controller
                     'saveGradesReportCard',
                     'saveGradesRelease',
                     'getClassroomStages',
-                    'ClassClosure'
+                    'ClassClosure',
+                    'batchClassClose',
+                    'ClassClosureList'
                 ),
                 'users' => array('@'),
             ),
@@ -675,16 +677,14 @@ class GradesController extends Controller
 
         $schoolfk = yii::app()->user->school;
         if (!$classroomId) {
-            $classrooms = Classroom::model()->findAllByAttributes(["school_inep_fk" =>$schoolfk, "school_year" => $year, "aee" => 0, "is_closed"=> 0 ], ['limit' => 10]);
-        } else  {
-             $classrooms = Classroom::model()->findAllByAttributes(["school_inep_fk" =>$schoolfk, "id"=> $classroomId ]);
+            $classrooms = Classroom::model()->findAllByAttributes(["school_inep_fk" => $schoolfk, "school_year" => $year, "aee" => 0, "is_closed" => 0], ['limit' => 10]);
+        } else {
+            $classrooms = Classroom::model()->findAllByAttributes(["school_inep_fk" => $schoolfk, "id" => $classroomId]);
         }
 
         foreach ($classrooms as $classroom) {
 
-            var_dump("id: ", $classroom->id);
-            var_dump("name: ", $classroom->name);
-            if(TagUtils::isMultiStage($classroom->edcenso_stage_vs_modality_fk) == false) {
+            if (TagUtils::isMultiStage($classroom->edcenso_stage_vs_modality_fk) == false) {
                 $disciplines = Yii::app()->db->createCommand(
                     "select curricular_matrix.discipline_fk
                     from curricular_matrix
@@ -728,13 +728,31 @@ class GradesController extends Controller
 
 
                 }
+
                 $classroom->is_closed = 1;
+                $classroom->save();
+
             }
 
 
         }
 
+        echo CJSON::encode(["success" => true]);
 
+    }
+
+    public function actionClassClosureList(){
+        $schoolfk = Yii::app()->user->school;
+        $year = Yii::app()->user->year;
+        $classrooms = Classroom::model()->findAllByAttributes(["school_inep_fk" => $schoolfk, "school_year" => $year, "aee" => 0, "is_closed" => 0]);
+
+        header('Content-Type: application/json; charset="UTF-8"');
+
+        echo CJSON::encode($classrooms);
+    }
+
+    public function actionBatchClassClose(){
+        $this->render("batchclose");
     }
 
     public function actionCalculateFinalMedia()
