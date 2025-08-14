@@ -52,6 +52,7 @@ class StudentEnrollmentHistory extends TagModel
             ['student_enrollment_fk, status', 'numerical', 'integerOnly' => true],
             ['enrollment_date, transfer_date, class_transfer_date, school_readmission_date, created_at', 'safe'],
             // The following rule is used by search().
+            // @todo Please remove those attributes that should not be searched.
             ['id, student_enrollment_fk, status, enrollment_date, transfer_date, class_transfer_date, school_readmission_date, created_at', 'safe', 'on' => 'search'],
         ];
     }
@@ -99,6 +100,8 @@ class StudentEnrollmentHistory extends TagModel
      */
     public function search()
     {
+        // @todo Please modify the following code to remove attributes that should not be searched.
+
         $criteria = new CDbCriteria();
 
         $criteria->compare('id', $this->id);

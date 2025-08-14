@@ -34,6 +34,7 @@ class GradeUnityPeriods extends TagModel
             ['initial_date, grade_unity_fk, calendar_fk', 'required'],
             ['grade_unity_fk, calendar_fk', 'numerical', 'integerOnly' => true],
             // The following rule is used by search().
+            // @todo Please remove those attributes that should not be searched.
             ['id, initial_date, grade_unity_fk, calendar_fk', 'safe', 'on' => 'search'],
         ];
     }
@@ -78,6 +79,8 @@ class GradeUnityPeriods extends TagModel
      */
     public function search()
     {
+        // @todo Please modify the following code to remove attributes that should not be searched.
+
         $criteria = new CDbCriteria();
 
         $criteria->compare('id', $this->id);

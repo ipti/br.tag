@@ -33,6 +33,7 @@ class GradeRulesVsEdcensoStageVsModality extends CActiveRecord
             ['edcenso_stage_vs_modality_fk, grade_rules_fk', 'required'],
             ['edcenso_stage_vs_modality_fk, grade_rules_fk', 'numerical', 'integerOnly' => true],
             // The following rule is used by search().
+            // @todo Please remove those attributes that should not be searched.
             ['id, edcenso_stage_vs_modality_fk, grade_rules_fk', 'safe', 'on' => 'search'],
         ];
     }
@@ -76,6 +77,8 @@ class GradeRulesVsEdcensoStageVsModality extends CActiveRecord
      */
     public function search()
     {
+        // @todo Please modify the following code to remove attributes that should not be searched.
+
         $criteria = new CDbCriteria();
 
         $criteria->compare('id', $this->id);

@@ -33,6 +33,7 @@ class TeachingMatrixes extends AltActiveRecord
             ['teaching_data_fk, curricular_matrix_fk', 'required'],
             ['teaching_data_fk, curricular_matrix_fk', 'numerical', 'integerOnly' => true],
             // The following rule is used by search().
+            // @todo Please remove those attributes that should not be searched.
             ['id, teaching_data_fk, curricular_matrix_fk', 'safe', 'on' => 'search'],
         ];
     }
@@ -76,6 +77,8 @@ class TeachingMatrixes extends AltActiveRecord
      */
     public function search()
     {
+        // @todo Please modify the following code to remove attributes that should not be searched.
+
         $criteria = new CDbCriteria();
 
         $criteria->compare('id', $this->id);

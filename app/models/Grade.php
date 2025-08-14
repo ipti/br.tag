@@ -40,6 +40,7 @@ class Grade extends TagModel
             ['grade_concept_fk, enrollment_fk, discipline_fk, grade_unity_modality_fk, grade_partial_recovery_fk', 'numerical', 'integerOnly' => true],
             ['grade', 'numerical'],
             // The following rule is used by search().
+            // @todo Please remove those attributes that should not be searched.
             ['id, grade, grade_concept_fk, enrollment_fk, discipline_fk, grade_unity_modality_fk, grade_partial_recovery_fk', 'safe', 'on' => 'search'],
         ];
     }
@@ -89,6 +90,8 @@ class Grade extends TagModel
      */
     public function search()
     {
+        // @todo Please modify the following code to remove attributes that should not be searched.
+
         $criteria = new CDbCriteria();
 
         $criteria->compare('id', $this->id);

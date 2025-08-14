@@ -46,6 +46,7 @@ class Users extends AltActiveRecord
             ['username', 'length', 'max' => 32],
             ['password', 'length', 'min' => 6, 'max' => 60, 'tooShort' => 'A senha deve ter pelo menos 6 caracteres.'],
             // The following rule is used by search().
+            // @todo Please remove those attributes that should not be searched.
             ['id, name, username, password, active', 'safe', 'on' => 'search'],
         ];
     }
@@ -94,6 +95,8 @@ class Users extends AltActiveRecord
      */
     public function search()
     {
+        // @todo Please modify the following code to remove attributes that should not be searched.
+
         $criteria = new CDbCriteria();
         $criteria->condition = "username != 'admin'";
         $criteria->compare('id', $this->id);

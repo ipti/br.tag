@@ -34,6 +34,7 @@ class GradePartialRecoveryWeights extends TagModel
             ['weight, partial_recovery_fk', 'required'],
             ['weight, unity_fk, partial_recovery_fk', 'numerical', 'integerOnly' => true],
             // The following rule is used by search().
+            // @todo Please remove those attributes that should not be searched.
             ['id, weight, unity_fk, partial_recovery_fk', 'safe', 'on' => 'search'],
         ];
     }
@@ -78,6 +79,8 @@ class GradePartialRecoveryWeights extends TagModel
      */
     public function search()
     {
+        // @todo Please modify the following code to remove attributes that should not be searched.
+
         $criteria = new CDbCriteria();
 
         $criteria->compare('id', $this->id);

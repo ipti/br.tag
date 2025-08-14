@@ -35,6 +35,7 @@ class FoodMenuMealComponent extends TagModel
             ['food_menu_mealId', 'numerical', 'integerOnly' => true],
             ['description, observation', 'length', 'max' => 191],
             // The following rule is used by search().
+            // @todo Please remove those attributes that should not be searched.
             ['id, description, observation, food_menu_mealId', 'safe', 'on' => 'search'],
         ];
     }
@@ -79,6 +80,8 @@ class FoodMenuMealComponent extends TagModel
      */
     public function search()
     {
+        // @todo Please modify the following code to remove attributes that should not be searched.
+
         $criteria = new CDbCriteria();
 
         $criteria->compare('id', $this->id);

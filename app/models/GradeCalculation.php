@@ -40,6 +40,7 @@ class GradeCalculation extends TagModel
             ['name, formula', 'required'],
             ['name, formula', 'length', 'max' => 50],
             // The following rule is used by search().
+            // @todo Please remove those attributes that should not be searched.
             ['id, name, formula', 'safe', 'on' => 'search'],
         ];
     }
@@ -84,6 +85,8 @@ class GradeCalculation extends TagModel
      */
     public function search()
     {
+        // @todo Please modify the following code to remove attributes that should not be searched.
+
         $criteria = new CDbCriteria();
 
         $criteria->compare('id', $this->id);

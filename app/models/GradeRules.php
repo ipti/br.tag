@@ -40,6 +40,7 @@ class GradeRules extends TagModel
             ['approvation_media, final_recover_media', 'numerical'],
             ['rule_type', 'length', 'max' => 1],
             // The following rule is used by search().
+            // @todo Please remove those attributes that should not be searched.
             ['id, edcenso_stage_vs_modality_fk, approvation_media, final_recover_media, grade_calculation_fk, has_final_recovery, has_partial_recovery, rule_type', 'safe', 'on' => 'search'],
         ];
     }
@@ -88,6 +89,8 @@ class GradeRules extends TagModel
      */
     public function search()
     {
+        // @todo Please modify the following code to remove attributes that should not be searched.
+
         $criteria = new CDbCriteria();
 
         $criteria->compare('id', $this->id);

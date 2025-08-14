@@ -34,6 +34,7 @@ class SchoolStages extends TagModel
             ['edcenso_stage_vs_modality_fk', 'numerical', 'integerOnly' => true],
             ['school_fk', 'length', 'max' => 8],
             // The following rule is used by search().
+            // @todo Please remove those attributes that should not be searched.
             ['id, school_fk, edcenso_stage_vs_modality_fk', 'safe', 'on' => 'search'],
         ];
     }
@@ -77,6 +78,8 @@ class SchoolStages extends TagModel
      */
     public function search()
     {
+        // @todo Please modify the following code to remove attributes that should not be searched.
+
         $criteria = new CDbCriteria();
 
         $criteria->compare('id', $this->id);

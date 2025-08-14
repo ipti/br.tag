@@ -40,6 +40,7 @@ class Quiz extends TagModel
             ['init_date, final_date', 'length', 'max' => 10],
             ['description', 'safe'],
             // The following rule is used by search().
+            // @todo Please remove those attributes that should not be searched.
             ['id, name, description, status, init_date, final_date, create_date', 'safe', 'on' => 'search'],
         ];
     }
@@ -87,6 +88,8 @@ class Quiz extends TagModel
      */
     public function search()
     {
+        // @todo Please modify the following code to remove attributes that should not be searched.
+
         $criteria = new CDbCriteria();
 
         $criteria->compare('id', $this->id);

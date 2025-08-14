@@ -32,6 +32,7 @@ class EdcensoBaseDisciplines extends TagModel
             ['id', 'numerical', 'integerOnly' => true],
             ['name', 'length', 'max' => 200],
             // The following rule is used by search().
+            // @todo Please remove those attributes that should not be searched.
             ['id, name', 'safe', 'on' => 'search'],
         ];
     }
@@ -73,6 +74,8 @@ class EdcensoBaseDisciplines extends TagModel
      */
     public function search()
     {
+        // @todo Please modify the following code to remove attributes that should not be searched.
+
         $criteria = new CDbCriteria();
 
         $criteria->compare('id', $this->id);

@@ -34,6 +34,7 @@ class QuestionGroup extends TagModel
             ['id, quiz_id', 'numerical', 'integerOnly' => true],
             ['name', 'length', 'max' => 150],
             // The following rule is used by search().
+            // @todo Please remove those attributes that should not be searched.
             ['id, name, quiz_id', 'safe', 'on' => 'search'],
         ];
     }
@@ -77,6 +78,8 @@ class QuestionGroup extends TagModel
      */
     public function search()
     {
+        // @todo Please modify the following code to remove attributes that should not be searched.
+
         $criteria = new CDbCriteria();
 
         $criteria->compare('id', $this->id);

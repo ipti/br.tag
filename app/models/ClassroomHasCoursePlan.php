@@ -59,6 +59,7 @@ class ClassroomHasCoursePlan extends TagModel
             ['classroom_fk, course_plan_fk', 'required'],
             ['classroom_fk, course_plan_fk', 'numerical', 'integerOnly' => true],
             // The following rule is used by search().
+            // @todo Please remove those attributes that should not be searched.
             ['id, classroom_fk, course_plan_fk', 'safe', 'on' => 'search'],
         ];
     }
@@ -102,6 +103,8 @@ class ClassroomHasCoursePlan extends TagModel
      */
     public function search()
     {
+        // @todo Please modify the following code to remove attributes that should not be searched.
+
         $criteria = new CDbCriteria();
 
         $criteria->compare('id', $this->id);

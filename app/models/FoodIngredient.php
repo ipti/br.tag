@@ -43,6 +43,7 @@ class FoodIngredient extends TagModel
             ['observation', 'length', 'max' => 191],
             ['portion', 'length', 'max' => 20],
             // The following rule is used by search().
+            // @todo Please remove those attributes that should not be searched.
             ['id, observation, amount, replaceable, food_menu_meal_componentId, food_measurement_fk, food_id_fk, portion, measurement_for_unit', 'safe', 'on' => 'search'],
         ];
     }
@@ -94,6 +95,8 @@ class FoodIngredient extends TagModel
      */
     public function search()
     {
+        // @todo Please modify the following code to remove attributes that should not be searched.
+
         $criteria = new CDbCriteria();
 
         $criteria->compare('id', $this->id);

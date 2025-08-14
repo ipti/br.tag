@@ -34,6 +34,7 @@ class SubstituteInstructor extends CActiveRecord
             ['instructor_fk, teaching_data_fk', 'required'],
             ['instructor_fk, teaching_data_fk', 'numerical', 'integerOnly' => true],
             // The following rule is used by search().
+            // @todo Please remove those attributes that should not be searched.
             ['id, instructor_fk, teaching_data_fk', 'safe', 'on' => 'search'],
         ];
     }
@@ -78,6 +79,8 @@ class SubstituteInstructor extends CActiveRecord
      */
     public function search()
     {
+        // @todo Please modify the following code to remove attributes that should not be searched.
+
         $criteria = new CDbCriteria();
 
         $criteria->compare('id', $this->id);

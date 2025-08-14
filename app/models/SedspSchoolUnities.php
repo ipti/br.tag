@@ -35,6 +35,7 @@ class SedspSchoolUnities extends TagModel
             ['description', 'length', 'max' => 100],
             ['school_inep_id_fk', 'length', 'max' => 8],
             // The following rule is used by search().
+            // @todo Please remove those attributes that should not be searched.
             ['id, code, description, school_inep_id_fk', 'safe', 'on' => 'search'],
         ];
     }
@@ -78,6 +79,8 @@ class SedspSchoolUnities extends TagModel
      */
     public function search()
     {
+        // @todo Please modify the following code to remove attributes that should not be searched.
+
         $criteria = new CDbCriteria();
 
         $criteria->compare('id', $this->id);

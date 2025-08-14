@@ -35,6 +35,7 @@ class CalendarEventType extends TagModel
             ['unique_day', 'numerical', 'integerOnly' => true],
             ['name, icon, color', 'length', 'max' => 50],
             // The following rule is used by search().
+            // @todo Please remove those attributes that should not be searched.
             ['id, name, icon, color, unique_day', 'safe', 'on' => 'search'],
         ];
     }
@@ -79,6 +80,8 @@ class CalendarEventType extends TagModel
      */
     public function search()
     {
+        // @todo Please modify the following code to remove attributes that should not be searched.
+
         $criteria = new CDbCriteria();
 
         $criteria->compare('id', $this->id);

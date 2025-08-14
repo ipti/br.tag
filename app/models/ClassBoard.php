@@ -72,6 +72,7 @@ class ClassBoard extends TagModel
             ['discipline_fk, classroom_fk, instructor_fk, estimated_classes, given_classes, replaced_classes', 'numerical', 'integerOnly' => true],
             ['week_day_monday, week_day_tuesday, week_day_wednesday, week_day_thursday, week_day_friday, week_day_saturday, week_day_sunday', 'length', 'max' => 50],
             // The following rule is used by search().
+            // @todo Please remove those attributes that should not be searched.
             ['id, discipline_fk, classroom_fk, instructor_fk, week_day_monday, week_day_tuesday, week_day_wednesday, week_day_thursday, week_day_friday, week_day_saturday, week_day_sunday, estimated_classes, given_classes, replaced_classes', 'safe', 'on' => 'search'],
         ];
     }
@@ -127,6 +128,8 @@ class ClassBoard extends TagModel
      */
     public function search()
     {
+        // @todo Please modify the following code to remove attributes that should not be searched.
+
         $criteria = new CDbCriteria();
 
         $criteria->compare('id', $this->id);

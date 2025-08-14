@@ -38,6 +38,7 @@ class FrequencyAndMeanByDiscipline extends TagModel
             ['enrollment_fk, discipline_fk, absences', 'numerical', 'integerOnly' => true],
             ['annual_average, final_average, frequency', 'numerical'],
             // The following rule is used by search().
+            // @todo Please remove those attributes that should not be searched.
             ['id, enrollment_fk, discipline_fk, annual_average, final_average, absences, frequency', 'safe', 'on' => 'search'],
         ];
     }
@@ -85,6 +86,8 @@ class FrequencyAndMeanByDiscipline extends TagModel
      */
     public function search()
     {
+        // @todo Please modify the following code to remove attributes that should not be searched.
+
         $criteria = new CDbCriteria();
 
         $criteria->compare('id', $this->id);
