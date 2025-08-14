@@ -2,7 +2,6 @@
 
 Yii::import('application.domain.admin.usecases.*');
 
-define('WHERE_ID', 'id = :id');
 class AdminController extends Controller
 {
     public $layout = 'fullmenu';
@@ -102,7 +101,7 @@ SELECT
                     'coordenadores' => $result['coordenadores'] ?? 0,
                 ];
             } catch (Exception $e) {
-                // add exception
+                // $results[] = ["database" => $dbname, "professores" => 'Erro', "alunos" => 'Erro', "gestores" => 'Erro', "secretarios" => $e->getMessage()];
             }
         }
 
@@ -204,6 +203,10 @@ SELECT
 
         foreach ($result as &$r) {
             switch ($r['cor_raca']) {
+                case '0':
+                default:
+                    $r['cor_raca'] = 'Não declarada';
+                    break;
                 case '1':
                     $r['cor_raca'] = 'Branca';
                     break;
@@ -218,10 +221,6 @@ SELECT
                     break;
                 case '5':
                     $r['cor_raca'] = 'Indígena';
-                    break;
-                case '0':
-                default:
-                    $r['cor_raca'] = 'Não declarada';
                     break;
             }
         }
@@ -270,15 +269,9 @@ SELECT
     {
         $pathFile = './app/export/InfoTagCSV/faults_' . Yii::app()->user->year . '.csv';
 
+        $result = [];
+
         $classrooms = Classroom::model()->findAllByAttributes(['school_year' => Yii::app()->user->year]);
-
-        $result = $this->loadExportFaults($classrooms);
-        $this->exportToCSV($result, $pathFile);
-    }
-
-    private function loadExportFaults($classrooms)
-    {
-        $results = [];
         foreach ($classrooms as $classroom) {
             if ($classroom->calendar_fk != null) {
                 $dates = Yii::app()->db->createCommand('select start_date, end_date from calendar join classroom on calendar.id = classroom.calendar_fk where classroom.id = ' . $classroom->id)->queryRow();
@@ -291,73 +284,36 @@ SELECT
                     array_push($months, $dt->format('m/Y'));
                 }
 
-                array_push($results, $this->loadExportStudentEnrollmentFaults($classroom, $months));
-            }
-        }
-        return $results;
-    }
+                foreach ($classroom->studentEnrollments as $studentEnrollment) {
+                    $usedDaysForMinorEducation = [];
+                    foreach ($months as $month) {
+                        $studentIdentification = $studentEnrollment->studentFk;
+                        $row['inep_aluno'] = $studentIdentification->inep_id;
+                        $row['nome_aluno'] = $studentIdentification->name;
+                        $row['turma'] = $classroom->name;
+                        $row['mes'] = $month;
+                        $row['total_faltas'] = 0;
+                        $classFaults = ClassFaults::model()->findAllBySql('select cf.* from class_faults cf join schedule s on s.id = cf.schedule_fk where s.classroom_fk = :classroom_fk and cf.student_fk = :student_fk', ['classroom_fk' => $classroom->id, 'student_fk' => $studentIdentification->id]);
+                        foreach ($classFaults as $classFault) {
+                            $schedule = $classFault->scheduleFk;
+                            if ($month == str_pad($schedule->month, 2, '0', STR_PAD_LEFT) . '/' . $schedule->year) {
+                                if (TagUtils::isStageMinorEducation($classroom->edcenso_stage_vs_modality_fk)) {
+                                    if (!in_array($schedule->day . $schedule->month . $schedule->year, $usedDaysForMinorEducation)) {
+                                        $row['total_faltas']++;
+                                        array_push($usedDaysForMinorEducation, $schedule->day . $schedule->month . $schedule->year);
+                                    }
+                                } else {
+                                    $row['total_faltas']++;
+                                }
+                            }
+                        }
 
-    private function loadExportStudentEnrollmentFaults($classroom, $months)
-    {
-        $result = [];
-
-        foreach ($classroom->studentEnrollments as $studentEnrollment) {
-            $student = $studentEnrollment->studentFk;
-            $classFaults = ClassFaults::model()->findAllBySql(
-                'SELECT cf.*
-                FROM class_faults cf
-                JOIN schedule s ON s.id = cf.schedule_fk
-                WHERE s.classroom_fk = :classroom_fk
-                AND cf.student_fk = :student_fk',
-                [
-                    'classroom_fk' => $classroom->id,
-                    'student_fk' => $student->id
-                ]
-            );
-
-            $result[] = $this->loadExportStudentEnrollmentFaultsInMonths($months, $student, $classroom, $classFaults);
-        }
-
-        return $result;
-    }
-
-    private function loadExportStudentEnrollmentFaultsInMonths($months, $student, $classroom, $classFaults)
-    {
-        $rows = [];
-
-        foreach ($months as $month) {
-            $usedDays = [];
-            $row = [
-                'inep_aluno' => $student->inep_id,
-                'nome_aluno' => $student->name,
-                'turma' => $classroom->name,
-                'mes' => $month,
-                'total_faltas' => 0
-            ];
-
-            foreach ($classFaults as $fault) {
-                $schedule = $fault->scheduleFk;
-                $scheduleMonth = str_pad($schedule->month, 2, '0', STR_PAD_LEFT) . '/' . $schedule->year;
-
-                if ($month !== $scheduleMonth) {
-                    continue;
-                }
-
-                if (TagUtils::isStageMinorEducation($classroom->edcenso_stage_vs_modality_fk)) {
-                    $dayKey = $schedule->day . $schedule->month . $schedule->year;
-                    if (!in_array($dayKey, $usedDays)) {
-                        $row['total_faltas']++;
-                        $usedDays[] = $dayKey;
+                        array_push($result, $row);
                     }
-                } else {
-                    $row['total_faltas']++;
                 }
             }
-
-            $rows[] = $row;
         }
-
-        return $rows;
+        $this->exportToCSV($result, $pathFile);
     }
 
     private function exportToCSV($result, $path)
@@ -399,9 +355,16 @@ SELECT
 
     private function createDirectoriesIfNotExist($filePath)
     {
+        // Extrai o diretório do caminho do arquivo
         $directoryPath = dirname($filePath);
-        if (!is_dir($directoryPath) && !mkdir($directoryPath, 0777, true)) {
-            throw new Exception("Falha ao criar diretórios: $directoryPath");
+
+        // Verifica se o diretório já existe
+        if (!is_dir($directoryPath)) {
+            // Tenta criar o diretório recursivamente
+            if (!mkdir($directoryPath, 0777, true)) {
+                // Caso falhe, lança uma exceção
+                throw new Exception("Falha ao criar diretórios: $directoryPath");
+            }
         }
     }
 
@@ -461,7 +424,6 @@ SELECT
                 'username' => $_POST['Users']['name'],
             ]
         );
-
         if (isset($_POST['Users'])) {
             if (!isset($_POST['schools']) && $_POST['Role'] != 'admin' && $_POST['Role'] != 'nutritionist' && $_POST['Role'] != 'reader' && ($_POST['Role'] != 'guardian')) {
                 Yii::app()->user->setFlash('error', Yii::t('default', 'É necessário atribuir uma escola para o novo usuário criado!'));
@@ -488,7 +450,7 @@ SELECT
                             $auth->assign($_POST['Role'], $model->id);
                         }
                         if (isset($_POST['instructor']) && $_POST['instructor'] != '') {
-                            $instructors = InstructorIdentification::model()->find(WHERE_ID, ['id' => $_POST['instructor']]);
+                            $instructors = InstructorIdentification::model()->find('id = :id', ['id' => $_POST['instructor']]);
                             $instructors->users_fk = $model->id;
                             $instructors->save();
                         }
@@ -713,7 +675,7 @@ SELECT
             $gradeRules = $usecase->exec();
 
             if ($hasFinalRecovery === true) {
-                $recoveryUnity = GradeUnity::model()->find(WHERE_ID, [':id' => $finalRecovery['id']]);
+                $recoveryUnity = GradeUnity::model()->find('id = :id', [':id' => $finalRecovery['id']]);
 
                 if ($recoveryUnity === null) {
                     $recoveryUnity = new GradeUnity();
@@ -754,7 +716,7 @@ SELECT
 
                 $modalityModel->save();
             } elseif ($hasFinalRecovery === false && $finalRecovery['operation'] === 'delete' && $gradeRules->rule_type === 'N') {
-                $recoveryUnity = GradeUnity::model()->find(WHERE_ID, [':id' => $finalRecovery['id']]);
+                $recoveryUnity = GradeUnity::model()->find('id = :id', [':id' => $finalRecovery['id']]);
                 $recoveryUnity?->delete();
                 echo json_encode(['valid' => true, 'gradeRules' => $gradeRules->id]);
                 Yii::app()->end();
@@ -954,7 +916,7 @@ SELECT
                         $auth->assign($role, $model->id);
                     }
                     if (isset($instructor) && $instructor != '') {
-                        $instructors = InstructorIdentification::model()->find(WHERE_ID, ['id' => $instructor]);
+                        $instructors = InstructorIdentification::model()->find('id = :id', ['id' => $instructor]);
 
                         $instructors->users_fk = $model->id;
                         $instructors->save();
@@ -1094,8 +1056,6 @@ SELECT
                 case 'date':
                     $criteria->order .= $_POST['columns'][$order['column']]['data'];
                     break;
-                default:
-                    break;
             }
             $criteria->order .= ' ' . $order['dir'];
             if ($key < count($_POST['order']) - 1) {
@@ -1110,12 +1070,12 @@ SELECT
         $logsCount = Log::model()->count($countCriteria);
 
         $result['recordsTotal'] = $result['recordsFiltered'] = $logsCount;
+
         $result['data'] = [];
         foreach ($logs as $log) {
-            $actionButton = ($log->crud == 'C' ? 'Criar' : 'Remover');
             $array['school'] = $log->schoolFk->name;
             $array['user'] = $log->userFk->name;
-            $array['action'] = $log->crud == 'U' ? 'Editar' : $actionButton ;
+            $array['action'] = $log->crud == 'U' ? 'Editar' : ($log->crud == 'C' ? 'Criar' : 'Remover');
             $date = new DateTime($log->date);
             $array['date'] = $date->format('d/m/Y H:i:s');
             $array['event'] = $log->loadIconsAndTexts($log)['text'];
