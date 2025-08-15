@@ -70,7 +70,7 @@ class DefaultController extends Controller
         $query = <<<EOD
             SELECT
                 '' as ID_SGP_MATRICULA,
-                '' as CO_MATRICULA_REDE,
+                se.id as CO_MATRICULA_REDE,
                 '' as EDITAR_DADOS,
                 sdaa.cpf as ESTUDANTE_CPF,
                 sdaa.nis as ESTUDANTE_NU_NIS,
@@ -169,9 +169,9 @@ class DefaultController extends Controller
                 esvm.edcenso_associated_stage_id AS ESTUDANTE_ETAPA_DE_ENSINO, -- K
                 '' AS ESTUDANTE_ANO_PERIODO, -- L
                 c.school_year AS NU_ANO_MATRICULA, -- M
-                 DATE_FORMAT(se.enrollment_date, "%d/%m/%Y") AS DATA_INICIO_MATRICULA, -- N
+                DATE_FORMAT(se.enrollment_date, "%d/%m/%Y") AS DATA_INICIO_MATRICULA, -- N
                 DATE_FORMAT(c2.start_date, "%d/%m/%Y") AS DATA_INICIO_PERIODO_LETIVO, -- O
-                '' AS CO_MATRICULA_REDE, -- P
+                se.id AS CO_MATRICULA_REDE, -- P
                 1 AS TURMA_FORMA_ORGANIZACAO, -- Q
                 '' AS TURMA_ORGANIZACAO_QUANTIDADE_TOTAL, -- R
                 CASE WHEN c.turn = 'I' THEN 1 ELSE 0 END AS ESTUDANTE_INTEGRAL, -- S
@@ -236,9 +236,9 @@ class DefaultController extends Controller
                 si.filiation_1 AS ESTUDANTE_MAE_NOME,
                 si2.inep_id AS CO_ENTIDADE,
                 si2.name AS NO_ENTIDADE,
-                '' AS CO_MATRICULA_REDE,
-                c2.start_date AS DATA_INICIO_PERIODO_LETIVO,
-                se.enrollment_date AS DATA_INICIO_MATRICULA,
+                se.id AS CO_MATRICULA_REDE,
+                DATE_FORMAT(c2.start_date, "%d/%m/%Y") AS DATA_INICIO_PERIODO_LETIVO,
+                DATE_FORMAT(se.enrollment_date, "%d/%m/%Y") AS DATA_INICIO_MATRICULA,
                 c.school_year AS NU_ANO_MATRICULA,
                 esvm.edcenso_associated_stage_id AS ESTUDANTE_ETAPA_DE_ENSINO,
                 1 AS TURMA_FORMA_ORGANIZACAO,
