@@ -68,63 +68,80 @@ class DefaultController extends Controller
     public function actionExportPersonalData(): void
     {
         $query = <<<EOD
-            SELECT
-                sdaa.cpf AS ESTUDANTE_CPF,
-                sdaa.nis AS ESTUDANTE_NU_NIS,
-                si.name AS ESTUDANTE_NOME,
-                si.name AS ESTUDANTE_NOME_SOCIAL,
-                si.birthday AS ESTUDANTE_DT_NASCIMENTO,
-                si.filiation_1 AS ESTUDANTE_MAE_NOME,
-                si2.inep_id AS CO_ENTIDADE,
-                si2.name AS NO_ENTIDADE,
-                se.id AS CO_MATRICULA_REDE,
-                DATE_FORMAT(c2.start_date, "%d/%m/%Y") AS DATA_INICIO_PERIODO_LETIVO,
-                DATE_FORMAT(IFNULL(se.enrollment_date, c2.start_date), "%d/%m/%Y") AS DATA_INICIO_MATRICULA,
-                c.school_year AS NU_ANO_MATRICULA,
-                case when c.aee = 1 then 0 else esvm.edcenso_associated_stage_id end AS ESTUDANTE_ETAPA_DE_ENSINO,
-                esvm.organization_form_sgp AS TURMA_FORMA_ORGANIZACAO,
-                esvm.organization_total_quantity_sgp AS TURMA_ORGANIZACAO_QUANTIDADE_TOTAL,
-                '' AS ESTUDANTE_ANO_PERIODO,
-                '' AS ESTUDANTE_E_MAIL,
-                case when c.turn = 'I' then 1 else 0 end AS ESTUDANTE_INTEGRAL,
-                sdaa.rg_number AS ESTUDANTE_NU_RG,
-                eoie.name AS ESTUDANTE_ORGAO_EMISSOR_RG,
-                '' AS ESTUDANTE_NU_CNH,
-                sdaa.civil_register_enrollment_number AS ESTUDANTE_NU_CERTIDAO_NASCIMENTO,
-                si.responsable_cpf AS RESPONSAVEL_NU_CPF,
-                si.responsable_nis AS RESPONSAVEL_NU_NIS,
-                sdaa.address AS ESTUDANTE_DS_LOGRADOURO_RES,
-                sdaa.neighborhood AS ESTUDANTE_BAIRRO_RES,
-                sdaa.`number` AS ESTUDANTE_NU_ENDERECO_RES,
-                sdaa.cep AS ESTUDANTE_CEP_RES,
-                '' AS ESTUDANTE_CO_MUNICIPIO_RES,
-                '' AS ESTUDANTE_CO_UF_RES,
-                si.color_race AS ESTUDANTE_RACA_COR,
-                si.deficiency_type_low_vision AS ESTUDANTE_DEFICIENCIA_BAIXA_VISAO,
-                si.deficiency_type_blindness AS ESTUDANTE_DEFICIENCIA_CEGUEIRA,
-                si.deficiency_type_disability_hearing AS ESTUDANTE_DEFICIENCIA_AUDITIVA,
-                si.deficiency_type_phisical_disability AS ESTUDANTE_DEFICIENCIA_FISICA,
-                si.deficiency_type_intelectual_disability AS ESTUDANTE_DEFICIENCIA_INTELECTUAL,
-                si.deficiency_type_deafness AS ESTUDANTE_DEFICIENCIA_SURDEZ,
-                si.deficiency_type_deafblindness AS ESTUDANTE_DEFICIENCIA_SURDOCEGUEIRA,
-                si.deficiency_type_multiple_disabilities AS ESTUDANTE_DEFICIENCIA_MULTIPLA,
-                si.deficiency_type_autism AS ESTUDANTE_TRANSTORNO_ESPECTRO_AUTISTA,
-                si.deficiency_type_gifted AS ESTUDANTE_ALTAS_HABILIDADES_SUPERDOTACAO,
-                si.sex AS ESTUDANTE_GENERO,
-                '' AS ESTUDANTE_PPL
-            FROM
+            select
+                sdaa.cpf as ESTUDANTE_CPF,
+                sdaa.nis as ESTUDANTE_NU_NIS,
+                si.name as ESTUDANTE_NOME,
+                si.name as ESTUDANTE_NOME_SOCIAL,
+                si.birthday as ESTUDANTE_DT_NASCIMENTO,
+                si.filiation_1 as ESTUDANTE_MAE_NOME,
+                si2.inep_id as CO_ENTIDADE,
+                si2.name as NO_ENTIDADE,
+                se.id as CO_MATRICULA_REDE,
+                DATE_FORMAT(c2.start_date, "%d/%m/%Y") as DATA_INICIO_PERIODO_LETIVO,
+                DATE_FORMAT(IFNULL(se.enrollment_date, c2.start_date), "%d/%m/%Y") as DATA_INICIO_MATRICULA,
+                c.school_year as NU_ANO_MATRICULA,
+                case
+                    when c.aee = 1 then 0
+                    else esvm.edcenso_associated_stage_id
+                end as ESTUDANTE_ETAPA_DE_ENSINO,
+                esvm.organization_form_sgp as TURMA_FORMA_ORGANIZACAO,
+                esvm.organization_total_quantity_sgp as TURMA_ORGANIZACAO_QUANTIDADE_TOTAL,
+                '' as ESTUDANTE_ANO_PERIODO,
+                '' as ESTUDANTE_E_MAIL,
+                case
+                    when c.turn = 'I' then 1
+                    else 0
+                end as ESTUDANTE_INTEGRAL,
+                sdaa.rg_number as ESTUDANTE_NU_RG,
+                eoie.name as ESTUDANTE_ORGAO_EMISSOR_RG,
+                '' as ESTUDANTE_NU_CNH,
+                sdaa.civil_register_enrollment_number as ESTUDANTE_NU_CERTIDAO_NASCIMENTO,
+                si.responsable_cpf as RESPONSAVEL_NU_CPF,
+                si.responsable_nis as RESPONSAVEL_NU_NIS,
+                sdaa.address as ESTUDANTE_DS_LOGRADOURO_RES,
+                sdaa.neighborhood as ESTUDANTE_BAIRRO_RES,
+                sdaa.`number` as ESTUDANTE_NU_ENDERECO_RES,
+                sdaa.cep as ESTUDANTE_CEP_RES,
+                ec.id as ESTUDANTE_CO_MUNICIPIO_RES,
+                ec.edcenso_uf_fk  as ESTUDANTE_CO_UF_RES,
+                si.color_race as ESTUDANTE_RACA_COR,
+                si.deficiency_type_low_vision as ESTUDANTE_DEFICIENCIA_BAIXA_VISAO,
+                si.deficiency_type_blindness as ESTUDANTE_DEFICIENCIA_CEGUEIRA,
+                si.deficiency_type_disability_hearing as ESTUDANTE_DEFICIENCIA_AUDITIVA,
+                si.deficiency_type_phisical_disability as ESTUDANTE_DEFICIENCIA_FISICA,
+                si.deficiency_type_intelectual_disability as ESTUDANTE_DEFICIENCIA_INTELECTUAL,
+                si.deficiency_type_deafness as ESTUDANTE_DEFICIENCIA_SURDEZ,
+                si.deficiency_type_deafblindness as ESTUDANTE_DEFICIENCIA_SURDOCEGUEIRA,
+                si.deficiency_type_multiple_disabilities as ESTUDANTE_DEFICIENCIA_MULTIPLA,
+                si.deficiency_type_autism as ESTUDANTE_TRANSTORNO_ESPECTRO_AUTISTA,
+                si.deficiency_type_gifted as ESTUDANTE_ALTAS_HABILIDADES_SUPERDOTACAO,
+                si.sex as ESTUDANTE_GENERO,
+                '' as ESTUDANTE_PPL
+            from
                 student_identification si
-            JOIN student_documents_and_address sdaa USING(id)
-            JOIN student_enrollment se ON se.student_fk = si.id
-            JOIN classroom c ON c.id = se.classroom_fk
-            join edcenso_stage_vs_modality esvm on esvm.id = c.edcenso_stage_vs_modality_fk
-            JOIN calendar c2 ON c.calendar_fk = c2.id
-            JOIN school_identification si2 ON c.school_inep_fk = si2.inep_id
-            JOIN edcenso_city ec ON ec.id = si.edcenso_city_fk
-            LEFT JOIN edcenso_organ_id_emitter eoie ON sdaa.rg_number_edcenso_organ_id_emitter_fk = eoie.id
-            WHERE
+            join student_documents_and_address sdaa
+                    using(id)
+            join student_enrollment se on
+                se.student_fk = si.id
+            join classroom c on
+                c.id = se.classroom_fk
+            join edcenso_stage_vs_modality esvm on
+                esvm.id = c.edcenso_stage_vs_modality_fk
+            join calendar c2 on
+                c.calendar_fk = c2.id
+            join school_identification si2 on
+                c.school_inep_fk = si2.inep_id
+            join edcenso_city ec on
+                ec.id = si.edcenso_city_fk
+            left join edcenso_organ_id_emitter eoie on
+                sdaa.rg_number_edcenso_organ_id_emitter_fk = eoie.id
+            where
                 c.school_year = :year
-            ORDER BY si2.inep_id, si.id, se.id;
+            order by
+                si2.inep_id,
+                si.id,
+                se.id;
         EOD;
         try {
             $command = Yii::app()->db->createCommand($query);
@@ -147,6 +164,7 @@ class DefaultController extends Controller
 
             // Linhas restantes
             while (($row = $reader->read()) !== false) {
+                $row = $this->parsePersonalData($row);
                 $exporter->addRow(array_values($row));
             }
 
@@ -319,6 +337,15 @@ class DefaultController extends Controller
         } catch (Exception $e) {
             echo 'Erro: ' . $e->getMessage();
         }
+    }
+
+    private function parsePersonalData($row){
+         if (TagUtils::isStageEJA($row['ESTUDANTE_ETAPA_DE_ENSINO'])) {
+            // @TODO: ADICIONAR CALCULO PARA DETERMINAR VALOR
+            $row['ESTUDANTE_ANO_PERIODO'] = 2;
+        }
+
+        return $row;
     }
 
     private function parseChangeEnrollment($row)
