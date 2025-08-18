@@ -764,7 +764,7 @@ $form = $this->beginWidget(
                         <container>
                             <row>
                                 <div class="reports">
-                                    <div class="reports_cards">
+                                    <div class="reports_cards" style="display: none;">
                                         <a class="t-button-primary" rel="noopener"
                                             href="<?= @Yii::app()->createUrl('grades/ClassClosure', array('classroomId' => $modelClassroom->id)); ?>">
                                             <?= Yii::t('default', 'Fechar Turma') ?>
