@@ -21,74 +21,72 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
     <?php
     $ordem = 1;
 
-    if (count($report) == 0) {
-        echo "<br><span class='alert alert-primary'>Não há etapas cadastradas.</span>";
-    } else {
-        $ordem = 1;
+if (count($report) == 0) {
+    echo "<br><span class='alert alert-primary'>Não há etapas cadastradas.</span>";
+} else {
+    $ordem = 1;
+    $html = '';
+    $html .= "<table class='table table-bordered table-striped' >"
+            . '<tr>'
+            . "<th style ='width:10%;'> <b>Ordem </b> </th>"
+            . "<th style ='width:70%;'> <b>Nome da etapa </b></th>"
+            . "<th style ='width:20%;'> <b>Quantidade de Alunos </b></th>"
+            . '</tr>';
+    foreach ($report as $r) {
+        $ordemStr = $ordem < 10 ? '0' . $ordem : $ordem;
+
+        $html .= '<tr>'
+            . '<td>' . $ordemStr . '</td>'
+            . '<td>' . $r['stage']->name . '</td>'
+            . '<td>' . count($r['students']) . '</td>'
+            . '</tr>';
+
+        $ordem++;
+
+        /* código a ser descomentado de acordo com a demanda
+        echo "<h5><b>Nome da etapa: </b>" . $r['stage']->name . "</h5><br>";
+
         $html = "";
-        $html .= "<table class='table table-bordered table-striped' >"
-                ."<tr>"
-                ."<th style ='width:10%;'> <b>Ordem </b> </th>"
-                ."<th style ='width:70%;'> <b>Nome da etapa </b></th>"
-                ."<th style ='width:20%;'> <b>Quantidade de Alunos </b></th>"
-                ."</tr>";
-        foreach ($report as $r) {
-            $ordemStr = $ordem < 10 ? "0".$ordem : $ordem;
+        $html .= "<table class='table table-bordered table-striped' >";
+        $html .= "<tr>"
+            . "<th> <b>Ordem </b> </th>"
+            . "<th> <b>Identifica&ccedil;&atilde;o &Uacute;nica </b></th>"
+            . "<th> <b>RG </b></th>"
+            . "<th> <b>CPF </b></th>"
+            . "<th> <b>Data de Nascimento </b></th>"
+            . "<th> <b>Nome Completo </b></th>"
+            . "</tr>";
 
+        if (count($r["students"]) == 0) {
+            //echo "<br><span class='alert alert-primary'>N&atilde;o h&aacute; aluno nessa etapa.</span>";
+        } else {
+            foreach ($r["students"] as $s) {
+                $html .= "<tr>"
+                    . "<td>" . $ordem . "</td>"
+                    . "<td>" . $s['inep_id'] . "</td>"
+                    . "<td>" . $s['rg_number'] . "</td>"
+                    . "<td>" . $s['cpf'] . "</td>"
+                    . "<td>" . date('d/m/Y', strtotime($s['birthday'])) . "</td>"
+                    . "<td>" . $s['name'] . "</td>"
+                    . "</tr>";
 
-            $html .= "<tr>"
-                . "<td>" . $ordemStr . "</td>"
-                . "<td>" . $r['stage']->name . "</td>"
-                . "<td>" . count($r["students"]) . "</td>"
-                . "</tr>";
-
-            $ordem++;
-
-
-            /* código a ser descomentado de acordo com a demanda
-            echo "<h5><b>Nome da etapa: </b>" . $r['stage']->name . "</h5><br>";
-
-            $html = "";
-            $html .= "<table class='table table-bordered table-striped' >";
-            $html .= "<tr>"
-                . "<th> <b>Ordem </b> </th>"
-                . "<th> <b>Identifica&ccedil;&atilde;o &Uacute;nica </b></th>"
-                . "<th> <b>RG </b></th>"
-                . "<th> <b>CPF </b></th>"
-                . "<th> <b>Data de Nascimento </b></th>"
-                . "<th> <b>Nome Completo </b></th>"
-                . "</tr>";
-
-            if (count($r["students"]) == 0) {
-                //echo "<br><span class='alert alert-primary'>N&atilde;o h&aacute; aluno nessa etapa.</span>";
-            } else {
-                foreach ($r["students"] as $s) {
-                    $html .= "<tr>"
-                        . "<td>" . $ordem . "</td>"
-                        . "<td>" . $s['inep_id'] . "</td>"
-                        . "<td>" . $s['rg_number'] . "</td>"
-                        . "<td>" . $s['cpf'] . "</td>"
-                        . "<td>" . date('d/m/Y', strtotime($s['birthday'])) . "</td>"
-                        . "<td>" . $s['name'] . "</td>"
-                        . "</tr>";
-
-                    $ordem++;
-                }
+                $ordem++;
             }
-            $html .= "<tr>"
-                . "<td colspan= 5>" . " <b> Total de alunos nessa etapa: </b>" . count($r["students"]) . "</td>"
-                . "</tr>";
-
-            $html .= "</table>" . "<br><br>";
-            //echo $html;
-            $ordem = 1;
-            $html = "";*/
         }
-        $html .= "</table>";
-        echo $html;
-    }
+        $html .= "<tr>"
+            . "<td colspan= 5>" . " <b> Total de alunos nessa etapa: </b>" . count($r["students"]) . "</td>"
+            . "</tr>";
 
-    ?>
+        $html .= "</table>" . "<br><br>";
+        //echo $html;
+        $ordem = 1;
+        $html = "";*/
+    }
+    $html .= '</table>';
+    echo $html;
+}
+
+?>
     <?php $this->renderPartial('footer'); ?>
 </div>
 

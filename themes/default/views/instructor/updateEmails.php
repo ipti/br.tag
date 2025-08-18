@@ -9,19 +9,19 @@
 $baseUrl = Yii::app()->baseUrl;
 $themeUrl = Yii::app()->theme->baseUrl;
 $cs = Yii::app()->getClientScript();
-$cs->registerScriptFile($baseUrl . '/js/instructor/form/updateEmails.js?v='.TAG_VERSION, CClientScript::POS_END);
+$cs->registerScriptFile($baseUrl . '/js/instructor/form/updateEmails.js?v=' . TAG_VERSION, CClientScript::POS_END);
 
 $this->setPageTitle('TAG - ' . Yii::t('default', 'Update Instructor e-mails'));
 
 $form = $this->beginWidget('CActiveForm', [
-    'id' => 'updateEmails-form', 'enableAjaxValidation' => FALSE,
+    'id' => 'updateEmails-form', 'enableAjaxValidation' => false,
 ]);
 ?>
 <div class="main">
     <div class="row-fluid">
         <div class="mobile-row justify-content--space-between">
             <h1><?= yii::t('default', 'Update Instructor e-mails') ?></h1>
-            <?php echo CHtml::htmlButton(Yii::t('default', 'Save'), array('id' => 'save-emails', 'class' => 't-button-primary  last saveDesktop show--tabletDesktop', 'type' => 'button')); ?>
+            <?php echo CHtml::htmlButton(Yii::t('default', 'Save'), ['id' => 'save-emails', 'class' => 't-button-primary  last saveDesktop show--tabletDesktop', 'type' => 'button']); ?>
         </div>
     </div>
     <div class="tag-inner instructor-emails">

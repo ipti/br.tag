@@ -4,7 +4,7 @@ $baseScriptUrl = Yii::app()->controller->module->baseScriptUrl;
 
 $cs = Yii::app()->getClientScript();
 $cs->registerCssFile($baseScriptUrl . '/common/css/layout.css?v=1.0');
-$cs->registerScriptFile($baseScriptUrl . '/common/js/quiz.js?v='.TAG_VERSION, CClientScript::POS_END);
+$cs->registerScriptFile($baseScriptUrl . '/common/js/quiz.js?v=' . TAG_VERSION, CClientScript::POS_END);
 $this->setPageTitle('TAG - ' . Yii::t('Group', 'default'));
 
 Yii::app()->clientScript->registerMetaTag('unsafe-url', 'referrer');
@@ -12,24 +12,23 @@ Yii::app()->clientScript->registerMetaTag('origin', 'referrer');
 Yii::app()->clientScript->registerMetaTag('origin-when-cross-origin', 'referrer');
 Yii::app()->clientScript->registerMetaTag('no-referrer-when-downgrade', 'referrer');
 
-
-$form = $this->beginWidget('CActiveForm', array(
+$form = $this->beginWidget('CActiveForm', [
     'id' => 'questiongroup-form',
     'enableAjaxValidation' => false,
-));
+]);
 ?>
 
 <div class="row-fluid  hidden-print">
     <div class="span12">
         <h1><?php echo $title; ?></h1>
         <div class="tag-buttons-container buttons">
-            <?php echo CHtml::htmlButton('<i></i>' . ($questionGroup->isNewRecord ? Yii::t('default', 'Create') : Yii::t('default', 'Save')), array('id' => 'save_question_group_button', 'class' => 't-button-primary  next', 'type' => 'button'));
-            ?>
+            <?php echo CHtml::htmlButton('<i></i>' . ($questionGroup->isNewRecord ? Yii::t('default', 'Create') : Yii::t('default', 'Save')), ['id' => 'save_question_group_button', 'class' => 't-button-primary  next', 'type' => 'button']);
+?>
             <?php
-            if (!$questionGroup->isNewRecord) {
-                echo CHtml::htmlButton('<i></i>' . Yii::t('default', 'Delete'), array('id' => 'delete_question_group_button', 'class' => 't-button-primary  next', 'type' => 'button'));
-            }
-            ?>
+if (!$questionGroup->isNewRecord) {
+    echo CHtml::htmlButton('<i></i>' . Yii::t('default', 'Delete'), ['id' => 'delete_question_group_button', 'class' => 't-button-primary  next', 'type' => 'button']);
+}
+?>
         </div>
     </div>
 </div>
@@ -66,37 +65,37 @@ $form = $this->beginWidget('CActiveForm', array(
                     <div class="row">
                         <div class="column helper">
                             <div class="t-field-select">
-                                <?php echo $form->labelEx($questionGroup, 'question_group_id', array('class' => 't-field-text__label--required')); ?>
+                                <?php echo $form->labelEx($questionGroup, 'question_group_id', ['class' => 't-field-text__label--required']); ?>
                                 <?php
-                                $questionGroups = QuestionGroup::model()->findAll();
+                    $questionGroups = QuestionGroup::model()->findAll();
 
-                                echo $form->dropDownList(
-                                    $questionGroup,
-                                    'question_group_id',
-                                    CHtml::listData(
-                                        $questionGroups,
-                                        'id',
-                                        'name'
-                                    ),
-                                    array("prompt" => "Selecione um Grupo", 'class' => 'select-search-on t-field-select__input')
-                                ); ?>
+echo $form->dropDownList(
+    $questionGroup,
+    'question_group_id',
+    CHtml::listData(
+        $questionGroups,
+        'id',
+        'name'
+    ),
+    ['prompt' => 'Selecione um Grupo', 'class' => 'select-search-on t-field-select__input']
+); ?>
                                 <?php echo $form->error($questionGroup, 'question_group_id'); ?>
                             </div>
                             <!-- .control-group -->
                             <div class="t-field-select">
-                                <?php echo $form->labelEx($questionGroup, 'question_id', array('class' => 't-field-text__label--required')); ?>
+                                <?php echo $form->labelEx($questionGroup, 'question_id', ['class' => 't-field-text__label--required']); ?>
                                 <?php
-                                $questions = Question::model()->findAll();
-                                echo $form->dropDownList(
-                                    $questionGroup,
-                                    'question_id',
-                                    CHtml::listData(
-                                        $questions,
-                                        'id',
-                                        'description'
-                                    ),
-                                    array("prompt" => "Selecione uma Questão", 'class' => 'select-search-on t-field-select__input')
-                                ); ?>
+$questions = Question::model()->findAll();
+echo $form->dropDownList(
+    $questionGroup,
+    'question_id',
+    CHtml::listData(
+        $questions,
+        'id',
+        'description'
+    ),
+    ['prompt' => 'Selecione uma Questão', 'class' => 'select-search-on t-field-select__input']
+); ?>
                                 <?php echo $form->error($questionGroup, 'question_id'); ?>
                             </div>
                         </div>

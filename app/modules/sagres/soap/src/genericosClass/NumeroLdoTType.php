@@ -3,9 +3,8 @@
 namespace Genericos;
 
 /**
- * Class representing NumeroLdoTType
+ * Class representing NumeroLdoTType.
  *
- * 
  * XSD Type: numeroLdo_t
  */
 class NumeroLdoTType
@@ -21,7 +20,7 @@ class NumeroLdoTType
     private $ano = null;
 
     /**
-     * Gets as numero
+     * Gets as numero.
      *
      * @return string
      */
@@ -31,7 +30,7 @@ class NumeroLdoTType
     }
 
     /**
-     * Sets a new numero
+     * Sets a new numero.
      *
      * @param string $numero
      * @return self
@@ -39,11 +38,12 @@ class NumeroLdoTType
     public function setNumero($numero)
     {
         $this->numero = $numero;
+
         return $this;
     }
 
     /**
-     * Gets as ano
+     * Gets as ano.
      *
      * @return string
      */
@@ -53,7 +53,7 @@ class NumeroLdoTType
     }
 
     /**
-     * Sets a new ano
+     * Sets a new ano.
      *
      * @param string $ano
      * @return self
@@ -61,7 +61,7 @@ class NumeroLdoTType
     public function setAno($ano)
     {
         $this->ano = $ano;
+
         return $this;
     }
 }
-

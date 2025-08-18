@@ -17,11 +17,11 @@ $this->setPageTitle('TAG - Exportações');
 
 <div class="main">
     <?php
-    $form = $this->beginWidget('CActiveForm', array(
+    $form = $this->beginWidget('CActiveForm', [
         'id' => 'classes-form',
         'enableAjaxValidation' => false,
-    ));
-    ?>
+    ]);
+?>
     <div class="row-fluid">
         <div class="span12">
             <h1>Exportações</h1>

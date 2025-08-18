@@ -11,9 +11,9 @@ $themeUrl = Yii::app()->theme->baseUrl;
 $cs = Yii::app()->getClientScript();
 $cs->registerCssFile($baseScriptUrl . '/common/css/layout.css?v=1.2');
 $cs->registerScriptFile($baseScriptUrl . '/common/js/curricularmatrix.js?v=' . TAG_VERSION, CClientScript::POS_END);
-$cs->registerScript("vars", "var addMatrix = '" . $this->createUrl("addMatrix") . "';", CClientScript::POS_HEAD);
+$cs->registerScript('vars', "var addMatrix = '" . $this->createUrl('addMatrix') . "';", CClientScript::POS_HEAD);
 $this->setPageTitle('TAG - ' . Yii::t('curricularMatrixModule.index', 'Curricular Matrix'));
-//
+
 ?>
 
 
@@ -30,19 +30,19 @@ $this->setPageTitle('TAG - ' . Yii::t('curricularMatrixModule.index', 'Curricula
                     <div class="row clear-margin--left">
                         <div class="column">
                             <div class="t-multiselect">
-                                <?= CHtml::label(Yii::t('curricularMatrixModule.index', 'Stage'), 'stages', ['class' => "control-label"]) ?>
-                                <?= CHtml::dropDownList("stages", [], CHtml::listData(EdcensoStageVsModality::model()->findAll(), "id", "name"), [
-                                    "multiple" => "multiple",
-                                    "class" => "select-search-on control-input multiselect select3-choices"
+                                <?= CHtml::label(Yii::t('curricularMatrixModule.index', 'Stage'), 'stages', ['class' => 'control-label']) ?>
+                                <?= CHtml::dropDownList('stages', [], CHtml::listData(EdcensoStageVsModality::model()->findAll(), 'id', 'name'), [
+                                    'multiple' => 'multiple',
+                                    'class' => 'select-search-on control-input multiselect select3-choices'
                                 ]) ?>
                             </div>
                         </div>
                         <div class="column">
                             <div class="t-multiselect">
-                                <?= CHtml::label(Yii::t('curricularMatrixModule.index', 'Disciplines'), 'disciplines', ['class' => "control-label", 'style' => 'white-space: nowrap;']) ?>
-                                <?= CHtml::dropDownList("disciplines", [], CHtml::listData(EdcensoDiscipline::model()->findAll(), "id", "name"), [
-                                    "multiple" => "multiple",
-                                    "class" => "select-search-on control-input multiselect select3-choices"
+                                <?= CHtml::label(Yii::t('curricularMatrixModule.index', 'Disciplines'), 'disciplines', ['class' => 'control-label', 'style' => 'white-space: nowrap;']) ?>
+                                <?= CHtml::dropDownList('disciplines', [], CHtml::listData(EdcensoDiscipline::model()->findAll(), 'id', 'name'), [
+                                    'multiple' => 'multiple',
+                                    'class' => 'select-search-on control-input multiselect select3-choices'
                                 ]) ?>
                             </div>
                         </div>
@@ -51,14 +51,14 @@ $this->setPageTitle('TAG - ' . Yii::t('curricularMatrixModule.index', 'Curricula
                     <div class="row clear-margin--left">
                         <div class="column">
                             <div class="t-field-number">
-                                <?= CHtml::label(Yii::t('curricularMatrixModule.index', 'Workload'), 'workload', ['class' => "t-field-text__label control-label"]) ?>
-                                <?= CHtml::textField("workload", "0", ['style' => 'border: 1px solid #aaa;box-sizing:border-box;height: 43px', 'onkeypress' => 'return event.charCode == 46 || (event.charCode >= 48 && event.charCode <= 57)']) ?>
+                                <?= CHtml::label(Yii::t('curricularMatrixModule.index', 'Workload'), 'workload', ['class' => 't-field-text__label control-label']) ?>
+                                <?= CHtml::textField('workload', '0', ['style' => 'border: 1px solid #aaa;box-sizing:border-box;height: 43px', 'onkeypress' => 'return event.charCode == 46 || (event.charCode >= 48 && event.charCode <= 57)']) ?>
                             </div>
                         </div>
                         <div class="column">
                             <div class="t-field-number">
-                                <?= CHtml::label(Yii::t('curricularMatrixModule.index', 'Credits'), 'credits', ['class' => "t-field-number__label control-label"]) ?>
-                                <?= CHtml::numberField("credits", "0", ["min" => "0", "max" => "9999", 'style' => 'border: 1px solid #aaa;box-sizing:border-box;height: 43px']) ?>
+                                <?= CHtml::label(Yii::t('curricularMatrixModule.index', 'Credits'), 'credits', ['class' => 't-field-number__label control-label']) ?>
+                                <?= CHtml::numberField('credits', '0', ['min' => '0', 'max' => '9999', 'style' => 'border: 1px solid #aaa;box-sizing:border-box;height: 43px']) ?>
                             </div>
                         </div>
                     </div>
@@ -66,9 +66,9 @@ $this->setPageTitle('TAG - ' . Yii::t('curricularMatrixModule.index', 'Curricula
 
                 <div class="column justify-content--start">
                     <?= CHtml::button(Yii::t('curricularMatrixModule.index', 'Add'), [
-                        "id" => "add-matrix",
-                        "class" => "t-button-primary",
-                        "style" => "padding: 10px 10px;margin:0px 15px"
+                        'id' => 'add-matrix',
+                        'class' => 't-button-primary',
+                        'style' => 'padding: 10px 10px;margin:0px 15px'
                     ]) ?>
                 </div>
 
@@ -135,17 +135,17 @@ $this->setPageTitle('TAG - ' . Yii::t('curricularMatrixModule.index', 'Curricula
                             'header' => 'Ações',
                             'class' => 'CButtonColumn',
                             'template' => Yii::app()->getAuthManager()->checkAccess('admin', Yii::app()->user->loginInfos->id) ? '{delete}' : '',
-                            'buttons' => array(
-                                'delete' => array(
+                            'buttons' => [
+                                'delete' => [
                                     'imageUrl' => Yii::app()->theme->baseUrl . '/img/deletar.svg',
-                                ),
-                            ),
-                            'deleteButtonOptions' => array('style' => 'cursor: pointer;'),
+                                ],
+                            ],
+                            'deleteButtonOptions' => ['style' => 'cursor: pointer;'],
                         ],
 
                     ],
                 ]);
-                ?>
+?>
             </div>
         </div>
         <div class="reuse">

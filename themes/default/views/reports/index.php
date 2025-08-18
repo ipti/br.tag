@@ -4,12 +4,12 @@
 $baseUrl = Yii::app()->baseUrl;
 $cs = Yii::app()->getClientScript();
 $cs->registerCssFile($baseUrl . '/css/reports.css');
-$cs->registerScriptFile($baseUrl . '/js/reports/index/functions.js?v='.TAG_VERSION, CClientScript::POS_END);
+$cs->registerScriptFile($baseUrl . '/js/reports/index/functions.js?v=' . TAG_VERSION, CClientScript::POS_END);
 
 $this->pageTitle = 'TAG - ' . Yii::t('default', 'Reports');
-$this->breadcrumbs = array(
+$this->breadcrumbs = [
     Yii::t('default', 'Reports'),
-);
+];
 ?>
 <div class="main">
 
@@ -137,7 +137,7 @@ $this->breadcrumbs = array(
                     </button>
                 </a>
 
-                <?php if(TagUtils::isInstance(["BUZIOS", "TREINAMENTO", "DEMO", "LOCALHOST"])) : ?>
+                <?php if (TagUtils::isInstance(['BUZIOS', 'TREINAMENTO', 'DEMO', 'LOCALHOST'])) : ?>
                     <button type="button" class="report-box-container" data-toggle="modal" data-target="#quarterly-class-council" target="_blank">
                         <div class="pull-left" style="margin-right: 20px;">
                             <span class="t-icon-e-learning t-reports_icons"></span>
@@ -149,7 +149,7 @@ $this->breadcrumbs = array(
                     </button>
                 <?php endif; ?>
 
-                <a href="<?php echo Yii::app()->createUrl('reports/studentsbetween5and14yearsoldreport', array('id' => Yii::app()->user->school)) ?>" target="_blank" rel="noopener">
+                <a href="<?php echo Yii::app()->createUrl('reports/studentsbetween5and14yearsoldreport', ['id' => Yii::app()->user->school]) ?>" target="_blank" rel="noopener">
                     <button type="button" class="report-box-container">
                         <div class="pull-left" style="margin-right: 20px;">
                             <span class="t-icon-heart t-reports_icons"></span>
@@ -247,7 +247,7 @@ $this->breadcrumbs = array(
                     </div>
                 </button>
 
-                <?php if (INSTANCE == "BUZIOS" || INSTANCE == "TREINAMENTO" || INSTANCE == "DEMO" || INSTANCE == "LOCALHOST") { ?>
+                <?php if (INSTANCE == 'BUZIOS' || INSTANCE == 'TREINAMENTO' || INSTANCE == 'DEMO' || INSTANCE == 'LOCALHOST') { ?>
                     <button type="button" class="report-box-container" data-toggle="modal" data-target="#quarterly-report" target="_blank">
                         <div class="pull-left" style="margin-right: 20px;">
                             <span class="t-icon-checklist t-reports_icons"></span>
@@ -380,7 +380,7 @@ $this->breadcrumbs = array(
                     </button>
                 </a>
 
-                <a href="<?php echo Yii::app()->createUrl('reports/educationalassistantperclassroomreport', array('id' => Yii::app()->user->school)) ?>" target="_blank" rel="noopener">
+                <a href="<?php echo Yii::app()->createUrl('reports/educationalassistantperclassroomreport', ['id' => Yii::app()->user->school]) ?>" target="_blank" rel="noopener">
                     <button type="button" class="report-box-container">
                         <div class="pull-left" style="margin-right: 20px;">
                             <span class="t-icon-handshake t-reports_icons"></span>
@@ -486,7 +486,7 @@ $this->breadcrumbs = array(
                 </a>
             </div>
 
-            <?php if(Yii::app()->getAuthManager()->checkAccess('admin', Yii::app()->user->loginInfos->id)) { ?>
+            <?php if (Yii::app()->getAuthManager()->checkAccess('admin', Yii::app()->user->loginInfos->id)) { ?>
             <div class="container-box">
                 <p>Administrador</p>
 
@@ -678,15 +678,15 @@ $this->breadcrumbs = array(
                     <div class="row-fluid">
                         <div class=" span12">
                             <?php
-                            echo CHtml::label(yii::t('default', 'Classroom'), 'year', array('class' => 'control-label'));
-                            ?>
+                            echo CHtml::label(yii::t('default', 'Classroom'), 'year', ['class' => 'control-label']);
+?>
                             <select name="classroom" id="classroom" placeholder="Selecione a turma" style="width:100%" required>
                                 <?php
-                                echo "<option value='' selected>Selecione a turma</option>";
-                                foreach ($classrooms as $classroom) {
-                                    echo "<option value='" . $classroom->id . "'>" . $classroom->name . "</option>";
-                                }
-                                ?>
+    echo "<option value='' selected>Selecione a turma</option>";
+foreach ($classrooms as $classroom) {
+    echo "<option value='" . $classroom->id . "'>" . $classroom->name . '</option>';
+}
+?>
                             </select>
                             <div style="display:inline-block;margin-right: 10%;">
                                 <label for="initial-date" class="control-label">Data de Início</label>
@@ -719,15 +719,15 @@ $this->breadcrumbs = array(
                     <div class="row-fluid">
                         <div class=" span12">
                             <?php
-                            echo CHtml::label(yii::t('default', 'Classroom'), 'year', array('class' => 'control-label'));
-                            ?>
+                            echo CHtml::label(yii::t('default', 'Classroom'), 'year', ['class' => 'control-label']);
+?>
                             <select name="classroom" id="classroom" placeholder="Selecione a turma" style="width:100%" required>
                                 <?php
-                                echo "<option value='' selected>Selecione a turma</option>";
-                                foreach ($classrooms as $classroom) {
-                                    echo "<option value='" . $classroom->id . "'>" . $classroom->name . "</option>";
-                                }
-                                ?>
+    echo "<option value='' selected>Selecione a turma</option>";
+foreach ($classrooms as $classroom) {
+    echo "<option value='" . $classroom->id . "'>" . $classroom->name . '</option>';
+}
+?>
                             </select>
                         </div>
                     </div>
@@ -752,15 +752,15 @@ $this->breadcrumbs = array(
                     <div class="row-fluid">
                         <div class=" span12">
                             <?php
-                            echo CHtml::label(yii::t('default', 'Classroom'), 'year', array('class' => 'control-label'));
-                            ?>
+                            echo CHtml::label(yii::t('default', 'Classroom'), 'year', ['class' => 'control-label']);
+?>
                             <select name="classroom" id="classroom" placeholder="Selecione a turma" style="width:100%" required>
                                 <?php
-                                echo "<option value='' selected>Selecione a turma</option>";
-                                foreach ($classrooms as $classroom) {
-                                    echo "<option value='" . $classroom->id . "'>" . $classroom->name . "</option>";
-                                }
-                                ?>
+    echo "<option value='' selected>Selecione a turma</option>";
+foreach ($classrooms as $classroom) {
+    echo "<option value='" . $classroom->id . "'>" . $classroom->name . '</option>';
+}
+?>
                             </select>
                             <div class="model-quarterly-container" style="display: flex;">
                                 <div style="display:block;width:65%;margin-right:5%;">
@@ -778,12 +778,12 @@ $this->breadcrumbs = array(
                                     <label for="year" class="control-label" style="width: 100%;">Ano das reuniões</label>
                                     <select name="year" id="year" placeholder="Selecione o ano" style="width:100%" required>
                                         <?php
-                                        $years = range(date('Y'), 2014);
-                                        echo "<option value='' selected>Selecione o ano</option>";
-                                        for ($i = 0; $i < count($years); $i++) {
-                                            echo "<option value=" . $years[$i] . ">" . $years[$i] . "</option>";
-                                        }
-                                        ?>
+        $years = range(date('Y'), 2014);
+echo "<option value='' selected>Selecione o ano</option>";
+for ($i = 0; $i < count($years); $i++) {
+    echo '<option value=' . $years[$i] . '>' . $years[$i] . '</option>';
+}
+?>
                                     </select>
                                 </div>
                                 <div style="display:block;width:50%;">
@@ -849,15 +849,15 @@ $this->breadcrumbs = array(
                     <div class="row-fluid">
                         <div class=" span12">
                             <?php
-                            echo CHtml::label(yii::t('default', 'Classroom'), 'year', array('class' => 'control-label'));
-                            ?>
+                            echo CHtml::label(yii::t('default', 'Classroom'), 'year', ['class' => 'control-label']);
+?>
                             <select name="classroom" id="classroom" placeholder="Selecione a turma" style="width:100%" required>
                                 <?php
-                                echo "<option value='' selected>Selecione a turma</option>";
-                                foreach ($classrooms as $classroom) {
-                                    echo "<option value='" . $classroom->id . "'>" . $classroom->name . "</option>";
-                                }
-                                ?>
+    echo "<option value='' selected>Selecione a turma</option>";
+foreach ($classrooms as $classroom) {
+    echo "<option value='" . $classroom->id . "'>" . $classroom->name . '</option>';
+}
+?>
                             </select>
                         </div>
                     </div>
@@ -882,15 +882,15 @@ $this->breadcrumbs = array(
                     <div class="row-fluid">
                         <div class=" span12">
                             <?php
-                            echo CHtml::label(yii::t('default', 'Classroom'), 'year', array('class' => 'control-label'));
-                            ?>
+                            echo CHtml::label(yii::t('default', 'Classroom'), 'year', ['class' => 'control-label']);
+?>
                             <select name="classroom" id="classroom" placeholder="Selecione a turma" style="width:100%" required>
                                 <?php
-                                echo "<option value='' selected>Selecione a turma</option>";
-                                foreach ($classrooms as $classroom) {
-                                    echo "<option value='" . $classroom->id . "'>" . $classroom->name . "</option>";
-                                }
-                                ?>
+    echo "<option value='' selected>Selecione a turma</option>";
+foreach ($classrooms as $classroom) {
+    echo "<option value='" . $classroom->id . "'>" . $classroom->name . '</option>';
+}
+?>
                             </select>
                         </div>
                     </div>
@@ -967,15 +967,15 @@ $this->breadcrumbs = array(
                     <div class="row-fluid">
                         <div class=" span12">
                             <?php
-                            echo CHtml::label(yii::t('default', 'Classroom'), 'year', array('class' => 'control-label'));
-                            ?>
+                            echo CHtml::label(yii::t('default', 'Classroom'), 'year', ['class' => 'control-label']);
+?>
                             <select name="classroom" id="classroom" placeholder="Selecione a turma" style="width:100%" required>
                                 <?php
-                                echo "<option value='' selected>Selecione a turma</option>";
-                                foreach ($classrooms as $classroom) {
-                                    echo "<option value='" . $classroom->id . "'>" . $classroom->name . "</option>";
-                                }
-                                ?>
+    echo "<option value='' selected>Selecione a turma</option>";
+foreach ($classrooms as $classroom) {
+    echo "<option value='" . $classroom->id . "'>" . $classroom->name . '</option>';
+}
+?>
                             </select>
                         </div>
                     </div>
@@ -1000,15 +1000,15 @@ $this->breadcrumbs = array(
                     <div class="row-fluid">
                         <div class=" span12">
                             <?php
-                            echo CHtml::label(yii::t('default', 'Classroom'), 'year', array('class' => 't-field-select__label'));
-                            ?>
+                            echo CHtml::label(yii::t('default', 'Classroom'), 'year', ['class' => 't-field-select__label']);
+?>
                             <select name="classroom" id="classroom" class="t-field-select__input select2-container" placeholder="Selecione a turma">
                                 <?php
-                                echo "<option value='' selected>Selecione a turma</option>";
-                                foreach ($classrooms as $classroom) {
-                                    echo "<option value='" . $classroom->id . "'>" . $classroom->name . "</option>";
-                                }
-                                ?>
+    echo "<option value='' selected>Selecione a turma</option>";
+foreach ($classrooms as $classroom) {
+    echo "<option value='" . $classroom->id . "'>" . $classroom->name . '</option>';
+}
+?>
                             </select>
                         </div>
                     </div>
@@ -1034,15 +1034,15 @@ $this->breadcrumbs = array(
                     <div class="row-fluid">
                         <div class=" span12">
                             <?php
-                            echo CHtml::label(yii::t('default', 'Classroom'), 'year', array('class' => 'control-label'));
-                            ?>
+                            echo CHtml::label(yii::t('default', 'Classroom'), 'year', ['class' => 'control-label']);
+?>
                             <select name="classroom" id="classroom" placeholder="Selecione a turma" style="width:100%" required>
                                 <?php
-                                echo "<option value='' selected>Selecione a turma</option>";
-                                foreach ($classrooms as $classroom) {
-                                    echo "<option value='" . $classroom->id . "'>" . $classroom->name . "</option>";
-                                }
-                                ?>
+    echo "<option value='' selected>Selecione a turma</option>";
+foreach ($classrooms as $classroom) {
+    echo "<option value='" . $classroom->id . "'>" . $classroom->name . '</option>';
+}
+?>
                             </select>
                         </div>
                     </div>
@@ -1066,15 +1066,15 @@ $this->breadcrumbs = array(
                     <div class="row-fluid">
                         <div class=" span12">
                             <?php
-                            echo CHtml::label(yii::t('default', 'Classroom'), 'year', array('class' => 'control-label'));
-                            ?>
+                            echo CHtml::label(yii::t('default', 'Classroom'), 'year', ['class' => 'control-label']);
+?>
                             <select name="cns_classroom_id" id="cns_classroom_id" placeholder="Selecione a turma" style="width:100%" required>
                                 <?php
-                                echo "<option value='' selected>Selecione a turma</option>";
-                                foreach ($classrooms as $classroom) {
-                                    echo "<option value='" . $classroom->id . "'>" . $classroom->name . "</option>";
-                                }
-                                ?>
+    echo "<option value='' selected>Selecione a turma</option>";
+foreach ($classrooms as $classroom) {
+    echo "<option value='" . $classroom->id . "'>" . $classroom->name . '</option>';
+}
+?>
                             </select>
                         </div>
                     </div>
@@ -1098,15 +1098,15 @@ $this->breadcrumbs = array(
                     <div class="row-fluid">
                         <div class=" span12">
                             <?php
-                            echo CHtml::label(yii::t('default', 'Classroom'), 'year', array('class' => 'control-label'));
-                            ?>
+                            echo CHtml::label(yii::t('default', 'Classroom'), 'year', ['class' => 'control-label']);
+?>
                             <select name="classroom" id="classroom" placeholder="Selecione a turma" style="width:100%" required>
                                 <?php
-                                echo "<option value='' selected>Selecione a turma</option>";
-                                foreach ($classrooms as $classroom) {
-                                    echo "<option value='" . $classroom->id . "'>" . $classroom->name . "</option>";
-                                }
-                                ?>
+    echo "<option value='' selected>Selecione a turma</option>";
+foreach ($classrooms as $classroom) {
+    echo "<option value='" . $classroom->id . "'>" . $classroom->name . '</option>';
+}
+?>
                             </select>
                             <div class="model-quarterly-container" style="display: flex;">
                                 <div style="display:block;width:65%;margin-right:5%;">
@@ -1124,12 +1124,12 @@ $this->breadcrumbs = array(
                                     <label for="year" class="control-label" style="width: 100%;">Ano das reuniões</label>
                                     <select name="year" id="year" placeholder="Selecione o ano" style="width:100%" required>
                                         <?php
-                                        $years = range(date('Y'), 2014);
-                                        echo "<option value='' selected>Selecione o ano</option>";
-                                        for ($i = 0; $i < count($years); $i++) {
-                                            echo "<option value=" . $years[$i] . ">" . $years[$i] . "</option>";
-                                        }
-                                        ?>
+        $years = range(date('Y'), 2014);
+echo "<option value='' selected>Selecione o ano</option>";
+for ($i = 0; $i < count($years); $i++) {
+    echo '<option value=' . $years[$i] . '>' . $years[$i] . '</option>';
+}
+?>
                                     </select>
                                 </div>
                                 <div style="display:block;width:50%;">
@@ -1200,25 +1200,25 @@ $this->breadcrumbs = array(
                 <div class="row-fluid">
                     <div class=" span12">
                         <?php
-                        echo CHtml::label(yii::t('default', 'Classroom'), 'year', array('class' => 'control-label'));
-                        ?>
+                        echo CHtml::label(yii::t('default', 'Classroom'), 'year', ['class' => 'control-label']);
+?>
                         <select name="quartely_report_classroom_student" id="quartely_report_classroom_student" style="width: 100%;" required>
                             <option value="">Selecione a Turma</option>
                             <?php
-                            foreach ($classrooms as $classroom) {
-                                echo "<option value='" . $classroom->id . "'>" . $classroom->name . "</option>";
-                            }
-                            ?>
+    foreach ($classrooms as $classroom) {
+        echo "<option value='" . $classroom->id . "'>" . $classroom->name . '</option>';
+    }
+?>
                         </select>
                         <div class="classroom-student-container" style="display: none;">
                             <?php
-                            echo CHtml::label(yii::t('default', 'Student Fk'), 'year', array('class' => 'control-label'));
-                            ?>
+echo CHtml::label(yii::t('default', 'Student Fk'), 'year', ['class' => 'control-label']);
+?>
                             <select name="student" id="student" placeholder="Selecione o aluno" style="width:100%" required>
                                 <?php
-                                echo "<option value='' selected>Selecione o aluno</option>";
+    echo "<option value='' selected>Selecione o aluno</option>";
 
-                                ?>
+?>
                             </select>
                         </div>
                         <div class="classroom-student-error" style="display:none;color:#D21C1C;margin-left:5px;font-size:12px;">
@@ -1265,20 +1265,20 @@ $this->breadcrumbs = array(
                 <div class="row-fluid">
                     <div class=" span12">
                         <?php
-                        echo CHtml::label(yii::t('default', 'Classroom'), 'year', array('class' => 'control-label'));
-                        ?>
+                        echo CHtml::label(yii::t('default', 'Classroom'), 'year', ['class' => 'control-label']);
+?>
                         <select name="quarterly_follow_up_classroom" id="quarterly_follow_up_classroom" style="width: 100%;" required>
                             <option value="">Selecione a Turma</option>
                             <?php
-                            foreach ($classrooms as $classroom) {
-                                echo "<option value='" . $classroom->id . "'>" . $classroom->name . "</option>";
-                            }
-                            ?>
+    foreach ($classrooms as $classroom) {
+        echo "<option value='" . $classroom->id . "'>" . $classroom->name . '</option>';
+    }
+?>
                         </select>
                         <div class="quarterly-follow-up-disciplines-container">
                             <?php
-                            echo CHtml::label(yii::t('default', 'Discipline'), 'discipline', array('class' => 'control-label'));
-                            ?>
+echo CHtml::label(yii::t('default', 'Discipline'), 'discipline', ['class' => 'control-label']);
+?>
                             <select name="quarterly_follow_up_disciplines" id="quarterly_follow_up_disciplines" placeholder="Selecione a disciplina" style="width:100%" required>
                                 <option value="" selected>Selecione a disciplina</option>
                                 <option value="10">Arte (Educação Artística, Teatro, Dança, Música, Artes Plásticas e outras)</option>
@@ -1316,20 +1316,20 @@ $this->breadcrumbs = array(
                 <div class="row-fluid">
                     <div class=" span12">
                         <?php
-                        echo CHtml::label(yii::t('default', 'Classroom'), 'year', array('class' => 'control-label'));
-                        ?>
+                        echo CHtml::label(yii::t('default', 'Classroom'), 'year', ['class' => 'control-label']);
+?>
                         <select name="evaluation_follow_up_classroom" id="evaluation_follow_up_classroom" style="width: 100%;" required>
                             <option value="">Selecione a Turma</option>
                             <?php
-                            foreach ($classrooms as $classroom) {
-                                echo "<option value='" . $classroom->id . "'>" . $classroom->name . "</option>";
-                            }
-                            ?>
+    foreach ($classrooms as $classroom) {
+        echo "<option value='" . $classroom->id . "'>" . $classroom->name . '</option>';
+    }
+?>
                         </select>
                         <div class="evaluation-follow-up-disciplines-container">
                             <?php
-                            echo CHtml::label(yii::t('default', 'Discipline'), 'discipline', array('class' => 'control-label'));
-                            ?>
+echo CHtml::label(yii::t('default', 'Discipline'), 'discipline', ['class' => 'control-label']);
+?>
                             <select name="evaluation_follow_up_disciplines" id="evaluation_follow_up_disciplines" placeholder="Selecione a disciplina" style="width:100%" required>
                                 <option value="" selected>Selecione a disciplina</option>
                                 <option value="10">Arte (Educação Artística, Teatro, Dança, Música, Artes Plásticas e outras)</option>

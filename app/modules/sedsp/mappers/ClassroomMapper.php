@@ -3,14 +3,14 @@
 class ClassroomMapper
 {
     /**
-     * Summary of parseToTAGFormacaoClasse
-     * @param OutFormacaoClasse $outFormacaoClasse
+     * Summary of parseToTAGFormacaoClasse.
      * @return array<Classroom|StudentIdentification[]>
      */
     public static function parseToTAGFormacaoClasse(OutFormacaoClasse $outFormacaoClasse)
     {
         $stage = self::convertTipoEnsinoToStage(
-            $outFormacaoClasse->getOutCodTipoEnsino(), $outFormacaoClasse->getOutCodSerieAno()
+            $outFormacaoClasse->getOutCodTipoEnsino(),
+            $outFormacaoClasse->getOutCodSerieAno()
         );
 
         $classroomTag = new Classroom();
@@ -57,52 +57,52 @@ class ClassroomMapper
         $listStudents = [];
         $students = $outFormacaoClasse->getOutAlunos();
         foreach ($students as $student) {
-            #if ($student->getOutDescSitMatricula() === 'ATIVO') {
-                $studentIdentification = new StudentIdentification();
-                $studentIdentification->gov_id = $student->getOutNumRa();
-                $studentIdentification->name = $student->getOutNomeAluno();
-                $studentIdentification->birthday = $student->getOutDataNascimento();
+            // if ($student->getOutDescSitMatricula() === 'ATIVO') {
+            $studentIdentification = new StudentIdentification();
+            $studentIdentification->gov_id = $student->getOutNumRa();
+            $studentIdentification->name = $student->getOutNomeAluno();
+            $studentIdentification->birthday = $student->getOutDataNascimento();
 
-                $outExibirFichaAluno = $studentDatasource->exibirFichaAluno(
-                    new InAluno($student->getOutNumRa(), $student->getOutDigitoRA(), "SP")
-                )->getOutDadosPessoais();
+            $outExibirFichaAluno = $studentDatasource->exibirFichaAluno(
+                new InAluno($student->getOutNumRa(), $student->getOutDigitoRA(), 'SP')
+            )->getOutDadosPessoais();
 
-                if ($outExibirFichaAluno === null) {
-                    continue;
-                }
+            if ($outExibirFichaAluno === null) {
+                continue;
+            }
 
-                $studentIdentification->sex = $outExibirFichaAluno->getOutCodSexo();
+            $studentIdentification->sex = $outExibirFichaAluno->getOutCodSexo();
 
-                $studentIdentification->color_race = $outExibirFichaAluno->getOutCorRaca() === '6' ? '0' : $outExibirFichaAluno->getOutCorRaca();
-                $studentIdentification->filiation = 1;
-                $studentIdentification->filiation_1 = $outExibirFichaAluno->getOutNomeMae();
-                $studentIdentification->filiation_2 = $outExibirFichaAluno->getOutNomePai();
-                $studentIdentification->nationality = $outExibirFichaAluno->getOutNacionalidade();
-                $studentIdentification->uf = $student->getOutSiglaUfra();
+            $studentIdentification->color_race = $outExibirFichaAluno->getOutCorRaca() === '6' ? '0' : $outExibirFichaAluno->getOutCorRaca();
+            $studentIdentification->filiation = 1;
+            $studentIdentification->filiation_1 = $outExibirFichaAluno->getOutNomeMae();
+            $studentIdentification->filiation_2 = $outExibirFichaAluno->getOutNomePai();
+            $studentIdentification->nationality = $outExibirFichaAluno->getOutNacionalidade();
+            $studentIdentification->uf = $student->getOutSiglaUfra();
 
-                if ($outExibirFichaAluno->getOutNacionalidade() == 1) { //1 - Brasileira
-                    $studentIdentification->edcenso_nation_fk = 76;
-                } elseif ($outExibirFichaAluno->getOutNacionalidade() == 2) { //2 - Estrangeira
-                    $studentIdentification->edcenso_nation_fk = $outExibirFichaAluno->getOutCodPaisOrigem();
-                }
+            if ($outExibirFichaAluno->getOutNacionalidade() == 1) { // 1 - Brasileira
+                $studentIdentification->edcenso_nation_fk = 76;
+            } elseif ($outExibirFichaAluno->getOutNacionalidade() == 2) { // 2 - Estrangeira
+                $studentIdentification->edcenso_nation_fk = $outExibirFichaAluno->getOutCodPaisOrigem();
+            }
 
-                $studentIdentification->edcenso_uf_fk = intval(
-                    $indexedByAcronym[$outExibirFichaAluno->getOutSiglaUfra()]->id
-                );
+            $studentIdentification->edcenso_uf_fk = intval(
+                $indexedByAcronym[$outExibirFichaAluno->getOutSiglaUfra()]->id
+            );
 
-                $schoolInepIdFk = $studentIdentification->edcenso_uf_fk . $outFormacaoClasse->getOutCodEscola();
-                $studentIdentification->school_inep_id_fk = $schoolInepIdFk;
-                $studentIdentification->deficiency = 0;
-                $studentIdentification->send_year = $outFormacaoClasse->getOutAnoLetivo();
-                $studentIdentification->scholarity = $student->getOutSerieNivel();
+            $schoolInepIdFk = $studentIdentification->edcenso_uf_fk . $outFormacaoClasse->getOutCodEscola();
+            $studentIdentification->school_inep_id_fk = $schoolInepIdFk;
+            $studentIdentification->deficiency = 0;
+            $studentIdentification->send_year = $outFormacaoClasse->getOutAnoLetivo();
+            $studentIdentification->scholarity = $student->getOutSerieNivel();
 
-                $listStudents[] = $studentIdentification;
-            #}
+            $listStudents[] = $studentIdentification;
+            // }
         }
 
         $parseResult = [];
-        $parseResult["Classroom"] = $classroomTag;
-        $parseResult["Students"] = $listStudents;
+        $parseResult['Classroom'] = $classroomTag;
+        $parseResult['Students'] = $listStudents;
 
         return $parseResult;
     }
@@ -114,7 +114,7 @@ class ClassroomMapper
 
         $arrayClasses = [];
         foreach ($outClasses as $classe) {
-            $classroom = Classroom::model()->find("gov_id = :gov_id", ["gov_id" => $classe->getOutNumClasse()]);
+            $classroom = Classroom::model()->find('gov_id = :gov_id', ['gov_id' => $classe->getOutNumClasse()]);
             if ($classroom == null) {
                 $classroom = new Classroom();
                 $classroom->school_inep_fk = $schoolInepFk;
@@ -142,7 +142,8 @@ class ClassroomMapper
             $classroom->final_hour = substr($classe->getOutHorarioFim(), 0, 2);
             $classroom->final_minute = substr($classe->getOutHorarioFim(), -2);
             $classroom->edcenso_stage_vs_modality_fk = self::convertTipoEnsinoToStage(
-                $classe->getOutCodTipoEnsino(), $classe->getOutCodSerieAno()
+                $classe->getOutCodTipoEnsino(),
+                $classe->getOutCodSerieAno()
             );
             $classroom->school_year = $outRelacaoClasses->getOutAnoLetivo();
             $classroom->turn = self::convertCodTurno($classe->getOutCodTurno());
@@ -157,28 +158,28 @@ class ClassroomMapper
         }
 
         $parseResult = [];
-        $parseResult["Classrooms"] = $arrayClasses;
+        $parseResult['Classrooms'] = $arrayClasses;
 
         return $parseResult;
     }
 
     /**
-     * Summary of parseToTAGConsultaClasse
+     * Summary of parseToTAGConsultaClasse.
      * @param string $inNumClassrom
-     * @param OutConsultaTurmaClasse $outConsultaTurmaClasse
      *
      * @return Classroom
      */
     public static function parseToTAGConsultaClasse($inNumClassroom, OutConsultaTurmaClasse $outConsultaTurmaClasse)
     {
-        $classroom = Classroom::model()->find("gov_id = :gov_id", ["gov_id" => $inNumClassroom]);
+        $classroom = Classroom::model()->find('gov_id = :gov_id', ['gov_id' => $inNumClassroom]);
         $classroom->name = $outConsultaTurmaClasse->getOutDescricaoTurma();
         $classroom->initial_hour = substr($outConsultaTurmaClasse->getOutHorarioInicioAula(), 0, 2);
         $classroom->initial_minute = substr($outConsultaTurmaClasse->getOutHorarioInicioAula(), -2);
         $classroom->final_hour = substr($outConsultaTurmaClasse->getOutHorarioFimAula(), 0, 2);
         $classroom->final_minute = substr($outConsultaTurmaClasse->getOutHorarioFimAula(), -2);
         $classroom->edcenso_stage_vs_modality_fk = self::convertTipoEnsinoToStage(
-            $outConsultaTurmaClasse->getOutCodTipoEnsino(), $outConsultaTurmaClasse->getOutCodSerieAno()
+            $outConsultaTurmaClasse->getOutCodTipoEnsino(),
+            $outConsultaTurmaClasse->getOutCodSerieAno()
         );
         $classroom->school_year = $outConsultaTurmaClasse->getOutAnoLetivo();
         $classroom->turn = self::convertCodTurno($outConsultaTurmaClasse->getOutCodTurno());
@@ -195,40 +196,39 @@ class ClassroomMapper
     private static function convertCodTurno($outCodTurno)
     {
         $mapperCodTurno = [
-            "1" => 'M', //Manhã
-            "2" => 'M', //Manhã
-            "3" => 'T', //Tarde
-            "4" => 'T', //Tarde
-            "5" => 'N', //Noite
-            "6" => 'I'  //Integral
+            '1' => 'M', // Manhã
+            '2' => 'M', // Manhã
+            '3' => 'T', // Tarde
+            '4' => 'T', // Tarde
+            '5' => 'N', // Noite
+            '6' => 'I',  // Integral
         ];
 
         if (isset($mapperCodTurno[$outCodTurno])) {
             return $mapperCodTurno[$outCodTurno];
         }
 
-        throw new Exception("Código do turno não existe.", 1);
+        throw new Exception('Código do turno não existe.', 1);
     }
 
     public static function revertCodTurno($turn)
     {
         $mapperTurn = [
-            "M" => '1', //Manhã
-            "T" => '3', //Targe
-            "N" => '5', //Noite
-            "I" => '6', //Integral
+            'M' => '1', // Manhã
+            'T' => '3', // Targe
+            'N' => '5', // Noite
+            'I' => '6', // Integral
         ];
 
         if (isset($mapperTurn[$turn])) {
             return $mapperTurn[$turn];
         }
 
-        throw new Exception("Código do turno não existe.", 1);
+        throw new Exception('Código do turno não existe.', 1);
     }
 
-
     /**
-     * Summary of convertTipoEnsinoToStage
+     * Summary of convertTipoEnsinoToStage.
      * @param string $codTipoEnsino
      * @param string $codSerieAno
      * @throws \Exception
@@ -237,45 +237,45 @@ class ClassroomMapper
     public static function convertTipoEnsinoToStage($codTipoEnsino, $codSerieAno)
     {
         $mapperTipoEnsino = [
-            "3" => [
-                "0" => 43
+            '3' => [
+                '0' => 43,
             ],
-            "6" => [
-                "1" => 2,
-                "2" => 2,
-                "4" => 1,
-                "5" => 1,
-                "6" => 1,
-                "7" => 1,
-                "0" => 3
+            '6' => [
+                '1' => 2,
+                '2' => 2,
+                '4' => 1,
+                '5' => 1,
+                '6' => 1,
+                '7' => 1,
+                '0' => 3,
             ],
-            "14" => [
-                "1" => 14,
-                "2" => 15,
-                "3" => 16,
-                "4" => 17,
-                "5" => 18,
-                "6" => 19,
-                "7" => 20,
-                "8" => 21,
-                "9" => 41,
-                "0" => 24
+            '14' => [
+                '1' => 14,
+                '2' => 15,
+                '3' => 16,
+                '4' => 17,
+                '5' => 18,
+                '6' => 19,
+                '7' => 20,
+                '8' => 21,
+                '9' => 41,
+                '0' => 24,
             ],
-            "25" => [
-                "1" => 1,
-                "2" => 1,
-                "3" => 1
+            '25' => [
+                '1' => 1,
+                '2' => 1,
+                '3' => 1,
             ],
-            "26" => [
-                "2" => 1,
-                "3" => 1
+            '26' => [
+                '2' => 1,
+                '3' => 1,
             ],
-            "32" => [
-                "0" => 2
+            '32' => [
+                '0' => 2,
             ],
-            "35" => [
-                "1" => 2
-            ]
+            '35' => [
+                '1' => 2,
+            ],
         ];
 
         if (isset($mapperTipoEnsino[$codTipoEnsino][$codSerieAno])) {
@@ -288,97 +288,97 @@ class ClassroomMapper
     public static function convertStageToTipoEnsino($stage)
     {
         $mapperStage = [
-            "43" => [
-                "tipoEnsino" => 3,
-                "serieAno" => 1
+            '43' => [
+                'tipoEnsino' => 3,
+                'serieAno' => 1,
             ],
-            "2" => [
-                "tipoEnsino" => 6,
-                "serieAno" => 1
+            '2' => [
+                'tipoEnsino' => 6,
+                'serieAno' => 1,
             ],
-            "1" => [
-                "tipoEnsino" => 6,
-                "serieAno" => 4
+            '1' => [
+                'tipoEnsino' => 6,
+                'serieAno' => 4,
             ],
-            "3" => [
-                "tipoEnsino" => 6,
-                "serieAno" => 6
+            '3' => [
+                'tipoEnsino' => 6,
+                'serieAno' => 6,
             ],
-            "14" => [
-                "tipoEnsino" => 14,
-                "serieAno" => 1
+            '14' => [
+                'tipoEnsino' => 14,
+                'serieAno' => 1,
             ],
-            "15" => [
-                "tipoEnsino" => 14,
-                "serieAno" => 2
+            '15' => [
+                'tipoEnsino' => 14,
+                'serieAno' => 2,
             ],
-            "16" => [
-                "tipoEnsino" => 14,
-                "serieAno" => 3
+            '16' => [
+                'tipoEnsino' => 14,
+                'serieAno' => 3,
             ],
-            "17" => [
-                "tipoEnsino" => 14,
-                "serieAno" => 4
+            '17' => [
+                'tipoEnsino' => 14,
+                'serieAno' => 4,
             ],
-            "18" => [
-                "tipoEnsino" => 14,
-                "serieAno" => 5
+            '18' => [
+                'tipoEnsino' => 14,
+                'serieAno' => 5,
             ],
-            "19" => [
-                "tipoEnsino" => 14,
-                "serieAno" => 6
+            '19' => [
+                'tipoEnsino' => 14,
+                'serieAno' => 6,
             ],
-            "20" => [
-                "tipoEnsino" => 14,
-                "serieAno" => 7
+            '20' => [
+                'tipoEnsino' => 14,
+                'serieAno' => 7,
             ],
-            "21" => [
-                "tipoEnsino" => 14,
-                "serieAno" => 8
+            '21' => [
+                'tipoEnsino' => 14,
+                'serieAno' => 8,
             ],
-            "41" => [
-                "tipoEnsino" => 14,
-                "serieAno" => 9
+            '41' => [
+                'tipoEnsino' => 14,
+                'serieAno' => 9,
             ],
-            "24" => [
-                "tipoEnsino" => 14,
-                "serieAno" => 0
+            '24' => [
+                'tipoEnsino' => 14,
+                'serieAno' => 0,
             ],
-            "25" => [
-                "tipoEnsino" => 2,
-                "serieAno" => 1
+            '25' => [
+                'tipoEnsino' => 2,
+                'serieAno' => 1,
             ],
-            "26" => [
-                "tipoEnsino" => 2,
-                "serieAno" => 2
+            '26' => [
+                'tipoEnsino' => 2,
+                'serieAno' => 2,
             ],
-            "27" => [
-                "tipoEnsino" => 2,
-                "serieAno" => 3
+            '27' => [
+                'tipoEnsino' => 2,
+                'serieAno' => 3,
             ],
-            "28" => [
-                "tipoEnsino" => 2,
-                "serieAno" => 4
+            '28' => [
+                'tipoEnsino' => 2,
+                'serieAno' => 4,
             ],
-            "29" => [
-                "tipoEnsino" => 2,
-                "serieAno" => 0
+            '29' => [
+                'tipoEnsino' => 2,
+                'serieAno' => 0,
             ],
-            "35" => [
-                "tipoEnsino" => 2,
-                "serieAno" => 1
+            '35' => [
+                'tipoEnsino' => 2,
+                'serieAno' => 1,
             ],
-            "36" => [
-                "tipoEnsino" => 2,
-                "serieAno" => 2
+            '36' => [
+                'tipoEnsino' => 2,
+                'serieAno' => 2,
             ],
-            "37" => [
-                "tipoEnsino" => 2,
-                "serieAno" => 3
+            '37' => [
+                'tipoEnsino' => 2,
+                'serieAno' => 3,
             ],
-            "38" => [
-                "tipoEnsino" => 2,
-                "serieAno" => 4
+            '38' => [
+                'tipoEnsino' => 2,
+                'serieAno' => 4,
             ],
         ];
 
@@ -390,14 +390,14 @@ class ClassroomMapper
     }
 
     /**
-     * Summary of getNameSerieFromClasse
+     * Summary of getNameSerieFromClasse.
      * @param OutFormacaoClasse $outFormacaoClasse
      * @param OutTiposEnsino $tiposEnsino
      * @return OutTipoEnsino
      */
     private static function getNameSerieFromClasse($codTipoEnsino, $listaTiposEnsino)
     {
-        $codTypeEducation = array_column($listaTiposEnsino->getOutTipoEnsino(), "outCodTipoEnsino");
+        $codTypeEducation = array_column($listaTiposEnsino->getOutTipoEnsino(), 'outCodTipoEnsino');
         $educationTypeIndex = array_search($codTipoEnsino, $codTypeEducation);
 
         return $listaTiposEnsino->getOutTipoEnsino()[$educationTypeIndex];

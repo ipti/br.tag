@@ -6,16 +6,14 @@
 $baseUrl = Yii::app()->baseUrl;
 $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
 
-function age($date){
-    $temp = explode('/',$date);
+function age($date)
+{
+    $temp = explode('/', $date);
     //$date = str_replace('/','',$date);
-    $date1 = new DateTime($temp[2].$temp[1].$temp[0]);
+    $date1 = new DateTime($temp[2] . $temp[1] . $temp[0]);
     $age = $date1->diff(new DateTime());
     return $age->y;
-
 }
-
-
 
 ?>
 <div class="pageA4H">
@@ -43,11 +41,11 @@ function age($date){
             <th> <b>CPF Responsável</b> </th>
             <th> <b>Tel. Responsável</b> </th>
             <th> <b>Endereço</b> </th>
-            <?= ($classroom[0]['stage'] == "6" || $classroom[0]['stage'] == "7" ? "<th> <b>Ano/Turma</b> </th>" : "") ?>
+            <?= ($classroom[0]['stage'] == '6' || $classroom[0]['stage'] == '7' ? '<th> <b>Ano/Turma</b> </th>' : '') ?>
         </tr>
         <?php
-        $oldClassroom = "";
-        foreach($classroom as $c){?>
+        $oldClassroom = '';
+foreach ($classroom as $c) {?>
             <tr>
                 <td><?= $c['name'] ?></td>
                 <td><?= $c['cpf'] ?></td>
@@ -61,13 +59,12 @@ function age($date){
                 <td><?= $c['responsable_cpf'] ?></td>
                 <td><?= $c['responsable_telephone'] ?></td>
                 <td><?= $c['address'] ?></td>
-                <?= ($classroom[0]['stage'] == "6" || $classroom[0]['stage'] == "7" ? "<td>" . ($c['stage_alias'] != "" ? $c['stage_alias'] : $c['stage_name']) . "</td>" : "") ?>
+                <?= ($classroom[0]['stage'] == '6' || $classroom[0]['stage'] == '7' ? '<td>' . ($c['stage_alias'] != '' ? $c['stage_alias'] : $c['stage_name']) . '</td>' : '') ?>
             </tr>
     <?php
-            $oldClassroom = $c['classroom_id'];
-
-        }
-    ?>
+    $oldClassroom = $c['classroom_id'];
+}
+?>
     </table>
     <?php $this->renderPartial('footer'); ?>
 

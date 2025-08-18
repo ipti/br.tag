@@ -11,12 +11,12 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
 <h3 class="heading visible-print"><?php echo @$title ?></h3>
 <div id="header-report">
     <?php
-    if(isset($school->logo_file_name)){
-        echo '<img id="logo" src="data:'.
-        $school->logo_file_type.';base64,'.
-        base64_encode($school->logo_file_content).'">';
+    if (isset($school->logo_file_name)) {
+        echo '<img id="logo" src="data:' .
+        $school->logo_file_type . ';base64,' .
+        base64_encode($school->logo_file_content) . '">';
     };
-    ?>
+?>
     <ul id="info" style="margin: 30px 0px 0px;">
         <h4 style="text-align: left;margin-top: 20px;">PREFEITURA MUNICIPAL DE ARMAÇÃO DOS BÚZIOS</h4>
         <h5>Secretaria Municipal de Educação, Ciência e Tecnologia</h5>

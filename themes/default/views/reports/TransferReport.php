@@ -10,7 +10,7 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
 
 <div class="pageA4H">
     <?php $this->renderPartial('head'); ?>
-    <h3><?php echo $title  . ' - ' . Yii::app()->user->year?></h3>
+    <h3><?php echo $title . ' - ' . Yii::app()->user->year?></h3>
     <div class="row-fluid hidden-print">
         <div class="span12">
             <div class="buttons">
@@ -19,7 +19,7 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
         </div>
     </div>
     <h4 style="text-align: center;"><?php echo $header?></h4>
-    <?php if(count($report) != 0) {?>
+    <?php if (count($report) != 0) {?>
         <table class="table table-bordered table-striped" aria-labelledby="Transfer Report Table">
             <thead>
                 <tr>
@@ -36,9 +36,9 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
             <tbody>
                 <?php
                 $ordem = 1;
-                foreach ($report as $r) {?>
+        foreach ($report as $r) {?>
                     <tr>
-                        <td><?= $ordem <= 9 ? "0".$ordem : $ordem ?></td>
+                        <td><?= $ordem <= 9 ? '0' . $ordem : $ordem ?></td>
                         <td><?= $r['name']?></td>
                         <td><?= $r['cpf']?></td>
                         <td><?= $r['classroom_name']?></td>
@@ -48,8 +48,8 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
                         <td><?= TagUtils::convertDateFormat($r['transfer_date'])?></td>
                     </tr>
                 <?php
-                $ordem++;
-                }?>
+        $ordem++;
+        }?>
                 <tr>
                     <td></td>
                     <td></td>
@@ -62,7 +62,7 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
                 </tr>
             </tbody>
         </table>
-    <?php }else {?>
+    <?php } else {?>
         <div class='no-enrollments'>Não há alunos transferidos</div>
     <?php }?>
     <?php $this->renderPartial('footer'); ?>

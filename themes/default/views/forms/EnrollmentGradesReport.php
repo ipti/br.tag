@@ -10,13 +10,14 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
 function classroomDisciplineLabelResumeArray($id)
 {
     $discipline = EdcensoDiscipline::model()->findByPk($id);
-    return  substr(  empty($discipline->abbreviation) ? $discipline->name : $discipline->abbreviation, 0, 50);
+    return  substr(empty($discipline->abbreviation) ? $discipline->name : $discipline->abbreviation, 0, 50);
 }
 
 $diciplinesColumnsCount = count($baseDisciplines) + count($diversifiedDisciplines); // contador com a soma do total de disciplinas da matriz
 
-function calculateFrequence($numClasses, $numFalts): int {
-    if(empty($numClasses) || is_nan($numClasses)){
+function calculateFrequence($numClasses, $numFalts): int
+{
+    if (empty($numClasses) || is_nan($numClasses)) {
         return 100;
     }
 
@@ -48,10 +49,10 @@ function calculateFrequence($numClasses, $numFalts): int {
                     <div class="span6"><b>ALUNO: </b><?= $enrollment->studentFk->name ?></div>
                     <div class="span6"><b>DATA DE NASCIMENTO: </b><?= $enrollment->studentFk->birthday ?></div>
                     <div class="span6">
-                        <b>GÊNERO: </b><?= strtoupper($enrollment->studentFk->sex == 1 ? "Masculino" : "Feminino") ?>
+                        <b>GÊNERO: </b><?= strtoupper($enrollment->studentFk->sex == 1 ? 'Masculino' : 'Feminino') ?>
                     </div>
                     <div class="span6">
-                        <b>NATURALIDADE: </b><?= strtoupper($enrollment->studentFk->edcensoCityFk->name) . "/" . $enrollment->studentFk->edcensoUfFk->acronym ?>
+                        <b>NATURALIDADE: </b><?= strtoupper($enrollment->studentFk->edcensoCityFk->name) . '/' . $enrollment->studentFk->edcensoUfFk->acronym ?>
                     </div>
                     <div class="span6">
                         <b>IDENTIDADE: </b><?= $enrollment->studentFk->documentsFk->rg_number ?>
@@ -69,12 +70,12 @@ function calculateFrequence($numClasses, $numFalts): int {
 
                     <div class="span6">
                         <?php
-                            if($enrollment->studentFk->deficiency) {
-                                echo "<b>ATENDIMENTO EDUCACIONAL ESPECIALIZADO:/<b> &nbsp(&nbspX&nbsp)&nbspSIM &nbsp(&nbsp&nbsp)&nbspNÃO";
-                            }else {
-                                echo "<b>ATENDIMENTO EDUCACIONAL ESPECIALIZADO:</b> &nbsp(&nbsp&nbsp)&nbspSIM &nbsp(&nbspX&nbsp)&nbspNÃO";
+                            if ($enrollment->studentFk->deficiency) {
+                                echo '<b>ATENDIMENTO EDUCACIONAL ESPECIALIZADO:/<b> &nbsp(&nbspX&nbsp)&nbspSIM &nbsp(&nbsp&nbsp)&nbspNÃO';
+                            } else {
+                                echo '<b>ATENDIMENTO EDUCACIONAL ESPECIALIZADO:</b> &nbsp(&nbsp&nbsp)&nbspSIM &nbsp(&nbspX&nbsp)&nbspNÃO';
                             }
-                        ?>
+?>
                     </div>
 
                 </div>
@@ -89,7 +90,7 @@ function calculateFrequence($numClasses, $numFalts): int {
                 <tr>
                     <td style="text-align: center; min-width: 90px !important;">PARTES&nbsp;DO&nbsp;CURRÍCULO</td>
                     <?php if (count($baseDisciplines) > 0) { ?>
-                        <td colspan="<?= count($baseDisciplines) ?>" style="text-align: center; font-weight: bold; min-width:150px;"><?= $isMinorEducation ?  "Eixos/Componentes" : "BASE NACIONAL COMUM" ?></td>
+                        <td colspan="<?= count($baseDisciplines) ?>" style="text-align: center; font-weight: bold; min-width:150px;"><?= $isMinorEducation ? 'Eixos/Componentes' : 'BASE NACIONAL COMUM' ?></td>
                     <?php } ?>
                     <?php if (count($diversifiedDisciplines) > 0) { ?>
                         <td colspan="<?= count($diversifiedDisciplines) ?>" style="text-align: center; font-weight: bold; min-width:100px;">
@@ -108,7 +109,7 @@ function calculateFrequence($numClasses, $numFalts): int {
                 </tr>
                 <tr>
                     <td class="vertical-text">
-                        <?php if (TagUtils::isInstance("BUZIOS")): ?>
+                        <?php if (TagUtils::isInstance('BUZIOS')): ?>
                             <div>TRIMESTRES</div>
                         <?php else: ?>
                             <div>UNIDADES</div>
@@ -129,34 +130,34 @@ function calculateFrequence($numClasses, $numFalts): int {
                 <tbody>
                 <?php
                 $conceptUnities = false;
-                for ($i = 1; $i <= count($unities); $i++) { ?>
+for ($i = 1; $i <= count($unities); $i++) { ?>
                     <tr>
                         <td><?= strtoupper($unities[$i - 1]->name) ?></td>
                         <?php
-                        $gradeResultFaults = 0;
-                        if ($unities[$i - 1]->type == 'UC') {
-                            $conceptUnities = true;
-
-                        }
-                        for ($j = 0; $j < $diciplinesColumnsCount; $j++) {
-                            $gradeResultFaults += $result[$j]['grade_result']['grade_faults_' . $i];
-                            $gradeResult = $result[$j]['grade_result'];
-                            ?>
+        $gradeResultFaults = 0;
+    if ($unities[$i - 1]->type == 'UC') {
+        $conceptUnities = true;
+    }
+    for ($j = 0; $j < $diciplinesColumnsCount; $j++) {
+        $gradeResultFaults += $result[$j]['grade_result']['grade_faults_' . $i];
+        $gradeResult = $result[$j]['grade_result']; ?>
                             <?php if ($unities[$i - 1]->type == 'RF') { ?>
                                 <td style="text-align: center;"><?= $gradeResult['rec_final'] ?></td>
                             <?php } elseif ($unities[$i - 1]->type == 'UC') { ?>
                                 <td style="text-align: center;"><?= $gradeResult['grade_concept_' . $i] ?></td>
                                 <?php
-                                  } elseif ($gradeResult['grade_' . $i] < $gradeResult['rec_partial_' . $i] &&
-                                    isset($result[$j]["partial_recoveries"]["rec_partial_" . $i]) &&
-                                    is_array($result[$j]["partial_recoveries"]["rec_partial_" . $i]) &&
-                                    in_array('grade_' . $i, $result[$j]["partial_recoveries"]["rec_partial_" . $i])) {
+                            } elseif ($gradeResult['grade_' . $i] < $gradeResult['rec_partial_' . $i] &&
+                              isset($result[$j]['partial_recoveries']['rec_partial_' . $i]) &&
+                              is_array($result[$j]['partial_recoveries']['rec_partial_' . $i]) &&
+                              in_array('grade_' . $i, $result[$j]['partial_recoveries']['rec_partial_' . $i])) {
                                 ?>
                                 <td style="text-align: center;"><?= $gradeResult['rec_partial_' . $i] ?></td>
-                            <?php } else { ?>
+                            <?php
+                            } else { ?>
                                 <td style="text-align: center;"><?= $gradeResult['grade_' . $i] ?></td>
                             <?php } ?>
-                        <?php } ?>
+                        <?php
+    } ?>
                         <?php if ($unities[$i - 1]->type != 'RF') { ?>
                             <td style="text-align: center;"><?= $school_days[$i - 1] ?></td>
                             <td style="text-align: center;"><?= $workload[$i - 1] ?></td>
@@ -186,7 +187,7 @@ function calculateFrequence($numClasses, $numFalts): int {
                         <?php for ($i = 0; $i < $diciplinesColumnsCount; $i++) : ?>
                             <td style="text-align: center;"><?= $result[$i]['total_number_of_classes'] ?></td>
                         <?php endfor; ?>
-                    <?php endif;?>
+                    <?php endif; ?>
                     <td></td>
                     <td></td>
                     <td></td>
@@ -199,7 +200,7 @@ function calculateFrequence($numClasses, $numFalts): int {
                         <?php for ($i = 0; $i < $diciplinesColumnsCount; $i++) : ?>
                             <td style="text-align: center;"><?= $result[$i]['total_faults'] ?></td>
                         <?php endfor; ?>
-                    <?php endif;?>
+                    <?php endif; ?>
                     <td></td>
                     <td></td>
                     <td></td>
@@ -207,12 +208,12 @@ function calculateFrequence($numClasses, $numFalts): int {
                 <tr>
                     <td style="text-align:right;" colspan="1">FREQUÊNCIAS %</td>
                     <?php if ($isMinorEducation): ?>
-                        <td style="text-align: right;" colspan="<?= $diciplinesColumnsCount ?>"><?= $result[0]['frequency_percentage'] . "%" ?></td>
+                        <td style="text-align: right;" colspan="<?= $diciplinesColumnsCount ?>"><?= $result[0]['frequency_percentage'] . '%' ?></td>
                     <?php else: ?>
                         <?php for ($i = 0; $i < $diciplinesColumnsCount; $i++) : ?>
-                            <td style="text-align: center;"><?= is_nan($result[$i]['frequency_percentage'] ?? NAN) || $result[$i]['frequency_percentage'] < 0 ? "" : ceil($result[$i]['frequency_percentage']) . "%" ?></td>
+                            <td style="text-align: center;"><?= is_nan($result[$i]['frequency_percentage'] ?? NAN) || $result[$i]['frequency_percentage'] < 0 ? '' : ceil($result[$i]['frequency_percentage']) . '%' ?></td>
                         <?php endfor; ?>
-                    <?php endif;?>
+                    <?php endif; ?>
                     <td></td>
                     <td></td>
                     <td></td>
@@ -226,7 +227,7 @@ function calculateFrequence($numClasses, $numFalts): int {
                 <input type="checkbox" class="bring-date" checked> Local e Data
             </div>
             <div class="local-and-date pull-right" style="margin: 30px 25px 50px 0">
-                <span class="written-date" style=""><?=$enrollment->classroomFk->schoolInepFk->edcensoCityFk->name?>/<?=$enrollment->classroomFk->schoolInepFk->edcensoUfFk->acronym?>, <?php echo date('d') . " de " . yii::t('default', date('F')) . " de " . date('Y') . "." ?></span>
+                <span class="written-date" style=""><?=$enrollment->classroomFk->schoolInepFk->edcensoCityFk->name?>/<?=$enrollment->classroomFk->schoolInepFk->edcensoUfFk->acronym?>, <?php echo date('d') . ' de ' . yii::t('default', date('F')) . ' de ' . date('Y') . '.' ?></span>
                 <span class="line-date" style="display:none">__________________________,______________________________________________<p style="text-align: center;">Local e Data</p></span>
             </div>
             <div>

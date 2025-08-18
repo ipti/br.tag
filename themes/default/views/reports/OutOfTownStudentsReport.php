@@ -4,7 +4,7 @@
 /* @var $report mixed */
 $baseUrl = Yii::app()->baseUrl;
 $cs = Yii::app()->getClientScript();
-$cs->registerScriptFile($baseUrl . '/js/reports/OutOfTownStudentsReport/_initialization.js?v='.TAG_VERSION, CClientScript::POS_END);
+$cs->registerScriptFile($baseUrl . '/js/reports/OutOfTownStudentsReport/_initialization.js?v=' . TAG_VERSION, CClientScript::POS_END);
 $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
 ?>
 <div class="pageA4H">
@@ -29,21 +29,21 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
             <th rowspan="" style="text-align: center;">CIDADE DA ESCOLA</th>
         </tr>
         <?php
-        $rows = "";
-        foreach ($report as $key=>$r){
-            $rows .= "<tr>"
-                . "<td style='text-align: center;'>" . ($key + 1) . "</td>"
-                . "<td>" . $r['inep_id'] . "</td>"
-                . "<td>" . $r['name'] . "</td>"
-                . "<td style='text-align: center;'>" . $r['birthday'] . "</td>"
-                . "<td>" . $r['address'] . "</td>"
-                . "<td>" . $r['school'] . "</td>"
-                . "<td>" . $r['city_student'] . "</td>"
-                . "<td>" . $r['city_school'] . "</td>";
-            $rows .= "</tr>";
-        }
-        echo $rows;
-        ?>
+        $rows = '';
+foreach ($report as $key => $r) {
+    $rows .= '<tr>'
+        . "<td style='text-align: center;'>" . ($key + 1) . '</td>'
+        . '<td>' . $r['inep_id'] . '</td>'
+        . '<td>' . $r['name'] . '</td>'
+        . "<td style='text-align: center;'>" . $r['birthday'] . '</td>'
+        . '<td>' . $r['address'] . '</td>'
+        . '<td>' . $r['school'] . '</td>'
+        . '<td>' . $r['city_student'] . '</td>'
+        . '<td>' . $r['city_school'] . '</td>';
+    $rows .= '</tr>';
+}
+echo $rows;
+?>
     </table>
     <?php $this->renderPartial('footer'); ?>
 </div>

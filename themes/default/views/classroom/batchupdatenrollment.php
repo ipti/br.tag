@@ -2,10 +2,10 @@
 $baseUrl = Yii::app()->baseUrl;
 $cs = Yii::app()->getClientScript();
 
-$form = $this->beginWidget('CActiveForm', array(
+$form = $this->beginWidget('CActiveForm', [
     'id' => 'classroom-form',
     'enableAjaxValidation' => false,
-        ));
+]);
 ?>
 
 
@@ -39,22 +39,22 @@ $form = $this->beginWidget('CActiveForm', array(
                                 </thead>
                                 <tbody>
                                      <?php
-                                     if(isset($enrollments)){
-                                        foreach ($enrollments as $enr) {
-                                            $namepublic = $enr->id.'[reenrollment]';
-                                            echo "<tr><td>".$enr->studentFk->name."</a></td>";
-                                            echo "<td>".CHtml::dropDownList($namepublic, $enr->reenrollment, array('1'=>'SIM','0'=>'NÃO'))."</td></tr>";
-                                        }
-                                        echo "<tr><th>Total:</th><td>" . count($enrollments) . "</td></tr>";
-                                    } else {
-                                        echo "<tr><th>Não há alunos matriculados.</th></tr>";
-                                    }
-                                    ?>
+                                     if (isset($enrollments)) {
+                                         foreach ($enrollments as $enr) {
+                                             $namepublic = $enr->id . '[reenrollment]';
+                                             echo '<tr><td>' . $enr->studentFk->name . '</a></td>';
+                                             echo '<td>' . CHtml::dropDownList($namepublic, $enr->reenrollment, ['1' => 'SIM', '0' => 'NÃO']) . '</td></tr>';
+                                         }
+                                         echo '<tr><th>Total:</th><td>' . count($enrollments) . '</td></tr>';
+                                     } else {
+                                         echo '<tr><th>Não há alunos matriculados.</th></tr>';
+                                     }
+?>
                                 </tbody>
                                 <tfooter>
                                     <?php
-                                    echo '<tr><td><input value="Atualizar Todos" type="submit" class="btn btn-icon btn-primary"><i></i></input></td></tr>';
-                                    ?>
+echo '<tr><td><input value="Atualizar Todos" type="submit" class="btn btn-icon btn-primary"><i></i></input></td></tr>';
+?>
                                 </tfooter>
                             </table>
                         </div>

@@ -78,6 +78,53 @@ class UserIdentity extends CUserIdentity
             $this->setState('school', $school);
             $this->errorCode = self::ERROR_NONE;
         }
-        return !$this->errorCode;
+
+        if (!password_verify($this->password, $record->password)) {
+            $this->errorCode = self::ERROR_PASSWORD_INVALID;
+            $exit = false;
+        }
+
+        $this->loadUserContext($record);
+        $this->errorCode = self::ERROR_NONE;
+
+        return $exit;
+    }
+
+    private function handleLegacyPassword($record): bool
+    {
+        if ($record && $this->isMd5($record->password)) {
+            if ($record->password === md5($this->password)) {
+                $passwordHasher = new PasswordHasher();
+                $record->password = $passwordHasher->bcriptHash($this->password);
+                $record->save();
+            } else {
+                $this->errorCode = self::ERROR_PASSWORD_INVALID;
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private function loadUserContext($record): void
+    {
+        if (
+            Yii::app()->getAuthManager()->checkAccess('admin', $record->id)
+            || Yii::app()->getAuthManager()->checkAccess('nutritionist', $record->id)
+            || Yii::app()->getAuthManager()->checkAccess('reader', $record->id)
+            || Yii::app()->getAuthManager()->checkAccess('guardian', $record->id)
+        ) {
+            $this->setState('hardfoot', false);
+            $schools = SchoolIdentification::model()->findAllByAttributes(['situation' => '1'], ['order' => 'name']);
+            $school = isset($schools[0]) ? $schools[0]->inep_id : '';
+        } else {
+            $this->setState('hardfoot', true);
+            $schools = $record->usersSchools;
+            $school = isset($schools[0]->school_fk) ? $schools[0]->school_fk : null;
+        }
+
+        $this->setState('version', '2.10.1');
+        $this->setState('loginInfos', $record);
+        $this->setState('usersSchools', $schools);
+        $this->setState('school', $school);
     }
 }

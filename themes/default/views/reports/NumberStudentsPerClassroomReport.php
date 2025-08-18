@@ -3,7 +3,7 @@
 /* @var $report mixed */
 $baseUrl = Yii::app()->baseUrl;
 $cs = Yii::app()->getClientScript();
-$cs->registerScriptFile($baseUrl . '/js/reports/NumberStudentsPerClassroomReport/_initialization.js?v='.TAG_VERSION, CClientScript::POS_END);
+$cs->registerScriptFile($baseUrl . '/js/reports/NumberStudentsPerClassroomReport/_initialization.js?v=' . TAG_VERSION, CClientScript::POS_END);
 
 $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
 ?>
@@ -21,30 +21,30 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
         <table class="table table-bordered table-striped">
             <tr><th>Ordem</th><th>Cód.&nbsp;da Turma</th><th>Nome da Turma</th><th>Horário de Funcionamento</th><th>Tipo de Atendimento</th><th>Modalidade</th><th>Etapa</th><th>Nº&nbsp;de Alunos</th></tr>
             <?php
-            $html = "";
-            $count_students = 0;
-            $i = 0;
-            foreach ($report as $r) {
-                $i++;
-                $html .= "<tr>"
-                        . "<td>" . $i . "</td>"
-                        . "<td>" . $r["id"] . "</td>"
-                        . "<td>" . $r["name"] . "</td>"
-                        . "<td>" . $r["time"] . "</td>"
-                        . "<td>"
-                            . ($r["schooling"] !== null && $r["schooling"] != 0 ? "Escolarização<br>" : "")
-                            . ($r["complementary_activity"] !== null && $r["complementary_activity"] != 0 ? "Atividade Complementar<br>" : "")
-                            . ($r["aee"] !== null && $r["aee"] != 0 ? "Atendimento Educacional Especializado (AEE)<br>" : "")
-                        . "</td>"
-                        . "<td>" . $r["modality"] . "</td>"
-                        . "<td>" . $r["stage"] . "</td>"
-                        . "<td>" . $r["students"] . "</td>"
-                        . "</tr>";
-                $count_students += intval($r["students"]);
-            }
-            echo $html;
-            echo
-            "<tr>
+            $html = '';
+$count_students = 0;
+$i = 0;
+foreach ($report as $r) {
+    $i++;
+    $html .= '<tr>'
+            . '<td>' . $i . '</td>'
+            . '<td>' . $r['id'] . '</td>'
+            . '<td>' . $r['name'] . '</td>'
+            . '<td>' . $r['time'] . '</td>'
+            . '<td>'
+                . ($r['schooling'] !== null && $r['schooling'] != 0 ? 'Escolarização<br>' : '')
+                . ($r['complementary_activity'] !== null && $r['complementary_activity'] != 0 ? 'Atividade Complementar<br>' : '')
+                . ($r['aee'] !== null && $r['aee'] != 0 ? 'Atendimento Educacional Especializado (AEE)<br>' : '')
+            . '</td>'
+            . '<td>' . $r['modality'] . '</td>'
+            . '<td>' . $r['stage'] . '</td>'
+            . '<td>' . $r['students'] . '</td>'
+            . '</tr>';
+    $count_students += intval($r['students']);
+}
+echo $html;
+echo
+"<tr>
                 <td></td>
                 <td></td>
                 <td></td>
@@ -52,9 +52,9 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
                 <td></td>
                 <td></td>
                 <td style='font-weight:bold;text-align: right;'>TOTAL:</td>
-                <td style='font-weight:bold;'>".$count_students."</td>
-            </tr>"
-            ?>
+                <td style='font-weight:bold;'>" . $count_students . '</td>
+            </tr>'
+?>
             </tbody>
         </table>
     </div>

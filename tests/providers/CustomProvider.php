@@ -4,7 +4,7 @@ use Faker\Provider\Base;
 
 class CustomProvider extends Base
 {
-    public function __construct(\Faker\Generator $generator)
+    public function __construct(Faker\Generator $generator)
     {
         $this->generator = $generator;
     }
@@ -121,21 +121,24 @@ class CustomProvider extends Base
         return $this->generator->randomElement($tipos);
     }
 
-     /**
+    /**
      * Método que gera um nome para filiação.
      * @author Evellyn Jade de Cerqueira Reis- <ti.jade@ipti.org.br>
      */
-    public function filiationName() {
+    public function filiationName()
+    {
         $firstName = $this->generator->firstName();
         $lastName = $this->generator->lastName();
 
         return "$firstName $lastName";
     }
-/**
+
+    /**
      * Método que gera um nome para turma.
      * @author Evellyn Jade de Cerqueira Reis- <ti.jade@ipti.org.br>
      */
-    public function generateRandomClassName() {
+    public function generateRandomClassName()
+    {
         $adjectives = ['Red', 'Blue', 'Green', 'Yellow', 'Purple', 'Orange', 'Silver', 'Golden'];
         $nouns = ['Lions', 'Tigers', 'Bears', 'Eagles', 'Wolves', 'Dolphins', 'Sharks', 'Falcons'];
 
@@ -149,14 +152,16 @@ class CustomProvider extends Base
      * Método que gera o horário.
      * @author Evellyn Jade de Cerqueira Reis- <ti.jade@ipti.org.br>
      */
-    public function generateRandomTime() {
+    public function generateRandomTime()
+    {
         $hour = str_pad(random_int(0, 23), 2, '0', STR_PAD_LEFT);
         $minute = str_pad(random_int(0, 59), 2, '0', STR_PAD_LEFT);
 
         return "$hour:$minute";
     }
 
-    public function generateRandomEndTime($startTime) {
+    public function generateRandomEndTime($startTime)
+    {
         do {
             $endTime = $this->generateRandomTime();
         } while ($this->compareTimes($startTime, $endTime) >= 0);
@@ -164,7 +169,8 @@ class CustomProvider extends Base
         return $endTime;
     }
 
-    private function compareTimes($time1, $time2) {
+    private function compareTimes($time1, $time2)
+    {
         $time1Parts = explode(':', $time1);
         $time2Parts = explode(':', $time2);
 
@@ -180,5 +186,4 @@ class CustomProvider extends Base
 
         return $hour1 - $hour2;
     }
-
 }

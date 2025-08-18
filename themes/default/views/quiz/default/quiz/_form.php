@@ -9,29 +9,27 @@ $baseScriptUrl = Yii::app()->controller->module->baseScriptUrl;
 
 $cs = Yii::app()->getClientScript();
 $cs->registerCssFile($baseScriptUrl . '/common/css/layout.css?v=1.0');
-$cs->registerScriptFile($baseScriptUrl . '/common/js/quiz.js?v='.TAG_VERSION, CClientScript::POS_END);
-
+$cs->registerScriptFile($baseScriptUrl . '/common/js/quiz.js?v=' . TAG_VERSION, CClientScript::POS_END);
 
 $this->setPageTitle('TAG - ' . Yii::t('default', 'Quiz'));
 
-
-$form = $this->beginWidget('CActiveForm', array(
+$form = $this->beginWidget('CActiveForm', [
     'id' => 'quiz-form',
     'enableAjaxValidation' => false,
-));
+]);
 ?>
 
 <div class="row-fluid  hidden-print">
     <div class="span12">
         <h1><?php echo $title; ?></h1>
         <div class="tag-buttons-container buttons">
-            <?php echo CHtml::htmlButton('<i></i>' . ($quiz->isNewRecord ? Yii::t('default', 'Create') : Yii::t('default', 'Save')), array('id' => 'save_button', 'class' => 't-button-primary  next', 'type' => 'button'));
-            ?>
+            <?php echo CHtml::htmlButton('<i></i>' . ($quiz->isNewRecord ? Yii::t('default', 'Create') : Yii::t('default', 'Save')), ['id' => 'save_button', 'class' => 't-button-primary  next', 'type' => 'button']);
+?>
             <?php
-            if (!$quiz->isNewRecord) {
-                echo CHtml::htmlButton('<i></i>' . Yii::t('default', 'Delete'), array('id' => 'delete_button', 'class' => 't-button-primary  next', 'type' => 'button'));
-            }
-            ?>
+if (!$quiz->isNewRecord) {
+    echo CHtml::htmlButton('<i></i>' . Yii::t('default', 'Delete'), ['id' => 'delete_button', 'class' => 't-button-primary  next', 'type' => 'button']);
+}
+?>
         </div>
     </div>
 </div>
@@ -76,32 +74,32 @@ $form = $this->beginWidget('CActiveForm', array(
                     <div class="row">
                         <div class="column">
                             <div class="t-field-text">
-                                <?php echo $form->labelEx($quiz, 'name', array('class' => 'control-label t-field-text__label--required')); ?>
-                                <?php echo $form->textField($quiz, 'name', array('size' => 60, 'maxlength' => 150, 'class' => 't-field-text__input',)); ?>
+                                <?php echo $form->labelEx($quiz, 'name', ['class' => 'control-label t-field-text__label--required']); ?>
+                                <?php echo $form->textField($quiz, 'name', ['size' => 60, 'maxlength' => 150, 'class' => 't-field-text__input', ]); ?>
                                 <?php echo $form->error($quiz, 'name'); ?>
                             </div>
 
                             <div class="t-field-select" id="modality">
-                                <?php echo $form->labelEx($quiz, 'status', array('class' => 'control-label t-field-text__label--required')); ?>
+                                <?php echo $form->labelEx($quiz, 'status', ['class' => 'control-label t-field-text__label--required']); ?>
                                 <?php
-                                echo $form->DropDownList($quiz, 'status', array(
-                                    null => 'Selecione o status',
-                                    '1' => 'Ativo',
-                                    '0' => 'Inativo'
-                                ), array('class' => 'select-search-off t-field-select__input'));
-                                ?>
+                    echo $form->DropDownList($quiz, 'status', [
+                        null => 'Selecione o status',
+                        '1' => 'Ativo',
+                        '0' => 'Inativo'
+                    ], ['class' => 'select-search-off t-field-select__input']);
+?>
                                 <?php echo $form->error($quiz, 'status'); ?>
                             </div>
                         </div>
                         <div class="column">
                             <div class="t-field-text">
-                                <?php echo $form->labelEx($quiz, 'init_date', array('class' => 'control-label required')); ?>
-                                <?= $form->dateField($quiz, "init_date", array('class' => 't-field-text__input')) ?>
+                                <?php echo $form->labelEx($quiz, 'init_date', ['class' => 'control-label required']); ?>
+                                <?= $form->dateField($quiz, 'init_date', ['class' => 't-field-text__input']) ?>
                                 <?php echo $form->error($quiz, 'init_date'); ?>
                             </div>
                             <div class="t-field-text">
-                                <?php echo $form->labelEx($quiz, 'final_date', array('class' => 'control-label required')); ?>
-                                <?= $form->dateField($quiz, "final_date", array('class' => 't-field-text__input')) ?>
+                                <?php echo $form->labelEx($quiz, 'final_date', ['class' => 'control-label required']); ?>
+                                <?= $form->dateField($quiz, 'final_date', ['class' => 't-field-text__input']) ?>
                                 <?php echo $form->error($quiz, 'final_date'); ?>
                             </div>
                         </div>
@@ -110,8 +108,8 @@ $form = $this->beginWidget('CActiveForm', array(
                     <div class="row">
                         <div class="column">
                             <div class="t-field-tarea hide-responsive">
-                                <?php echo $form->labelEx($quiz, 'description', array('class' => 't-field-tarea__label')); ?>
-                                <?= $form->textArea($quiz, "description", array('rows' => 5, 'cols' => 110, 'class' => 't-field-tarea__input')) ?>
+                                <?php echo $form->labelEx($quiz, 'description', ['class' => 't-field-tarea__label']); ?>
+                                <?= $form->textArea($quiz, 'description', ['rows' => 5, 'cols' => 110, 'class' => 't-field-tarea__input']) ?>
                                 <?php echo $form->error($quiz, 'description'); ?>
                             </div>
                         </div>
@@ -124,20 +122,20 @@ $form = $this->beginWidget('CActiveForm', array(
                         <div class="row">
                             <div class="column helper">
                                 <div class="t-field-select ">
-                                    <?php echo CHtml::label('Questão', 'id', array('class' => 'control-label t-field-text__label required')); ?>
+                                    <?php echo CHtml::label('Questão', 'id', ['class' => 'control-label t-field-text__label required']); ?>
                                     <?php
-                                    $questions = Question::model()->findAll();
-                                    echo $form->dropDownList(
-                                        $quizQuestion,
-                                        'question_id',
-                                        CHtml::listData(
-                                            $questions,
-                                            'id',
-                                            'description'
-                                        ),
-                                        array("prompt" => "Selecione uma questão", 'class' => 'select-search-on t-field-select__input')
-                                    ); ?>
-                                    <?php echo $form->hiddenField($quizQuestion, 'quiz_id', array('size' => 60, 'maxlength' => 45, 'value' => $quiz->id)); ?>
+    $questions = Question::model()->findAll();
+                    echo $form->dropDownList(
+                        $quizQuestion,
+                        'question_id',
+                        CHtml::listData(
+                            $questions,
+                            'id',
+                            'description'
+                        ),
+                        ['prompt' => 'Selecione uma questão', 'class' => 'select-search-on t-field-select__input']
+                    ); ?>
+                                    <?php echo $form->hiddenField($quizQuestion, 'quiz_id', ['size' => 60, 'maxlength' => 45, 'value' => $quiz->id]); ?>
                                 </div> <!-- .control-group -->
                                 <div class="control-group">
                                     <button id="save_quiz_question_button" class="t-button-primary" type="button" name="yt0"><i></i>Salvar</button>
@@ -165,26 +163,22 @@ $form = $this->beginWidget('CActiveForm', array(
 </div>
 <?php $form = $this->endWidget();
 
-
-
 $dataQuizQuestion = [];
 
 $query = Yii::app()->db->createCommand()
     ->select('qq.quiz_id, qq.question_id, description')
     ->from('quiz_question qq')
     ->join('question qu', 'qq.question_id=qu.id')
-    ->where('qq.quiz_id=:quizId', array(':quizId' => $quiz->id))
+    ->where('qq.quiz_id=:quizId', [':quizId' => $quiz->id])
     ->queryAll();
 
 foreach ($query as $value) {
     $dataQuizQuestion[] = $value;
 }
 
-
-
-$script = "
-    var dataQuizQuestion = " . json_encode($dataQuizQuestion) . ";
-    QuizQuestion.init();";
+$script = '
+    var dataQuizQuestion = ' . json_encode($dataQuizQuestion) . ';
+    QuizQuestion.init();';
 
 $cs->registerScript('quizQuestion', $script, CClientScript::POS_END);
 

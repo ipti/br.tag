@@ -9,30 +9,29 @@
 
 $baseScriptUrl = Yii::app()->controller->module->baseScriptUrl;
 $cs = Yii::app()->getClientScript();
-$cs->registerScriptFile($baseScriptUrl . '/_initialization.js?v='.TAG_VERSION, CClientScript::POS_END);
-$cs->registerScriptFile($baseScriptUrl . '/functions.js?v='.TAG_VERSION, CClientScript::POS_END);
-$cs->registerScriptFile($baseScriptUrl . '/validations.js?v='.TAG_VERSION, CClientScript::POS_END);
-$cs->registerScriptFile($baseScriptUrl . '/pagination.js?v='.TAG_VERSION, CClientScript::POS_END);
+$cs->registerScriptFile($baseScriptUrl . '/_initialization.js?v=' . TAG_VERSION, CClientScript::POS_END);
+$cs->registerScriptFile($baseScriptUrl . '/functions.js?v=' . TAG_VERSION, CClientScript::POS_END);
+$cs->registerScriptFile($baseScriptUrl . '/validations.js?v=' . TAG_VERSION, CClientScript::POS_END);
+$cs->registerScriptFile($baseScriptUrl . '/pagination.js?v=' . TAG_VERSION, CClientScript::POS_END);
 // $cs->registerScriptFile($themeUrl . '/js/jquery/jquery.dataTables.min.js?v='.TAG_VERSION, CClientScript::POS_END);
 // $cs->registerCssFile($themeUrl . '/css/jquery.dataTables.min.css');
 // $cs->registerCssFile($themeUrl . '/css/dataTables.fontAwesome.css');
 
-
 $this->setPageTitle('TAG - ' . Yii::t('default', 'Course Plan'));
-$form = $this->beginWidget('CActiveForm', array(
+$form = $this->beginWidget('CActiveForm', [
     'id' => 'course-plan-form',
     'enableAjaxValidation' => false,
-));
+]);
 $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
 ?>
 
 <?php $readonly = Yii::app()->getAuthManager()->checkAccess('coordinator', Yii::app()->user->loginInfos->id) || $coursePlan->situation == 'APROVADO' ? 'readonly' : '' ; ?>
 
 <div class="main">
-    <?php echo ($coursePlan->situation == 'APROVADO') ||
+    <?php echo($coursePlan->situation == 'APROVADO') ||
     Yii::app()->getAuthManager()->checkAccess('coordinator', Yii::app()->user->loginInfos->id) ||
     TagUtils::isManager()
-    ? '<div id="validate-index"></div>' : '' ;  ?>
+    ? '<div id="validate-index"></div>' : '' ; ?>
     <div class="tag-inner">
         <?php if (Yii::app()->user->hasFlash('success')) : ?>
             <div class="alert alert-success">
@@ -84,24 +83,27 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                         <div class="row">
                             <div class="column flex is-two-fifths">
                                 <div class="t-field-text">
-                                    <?php echo CHtml::label(yii::t('default', 'Name'), 'name', array('class' => 'control-label t-field-text__label--required')); ?>
-                                    <?php echo $form->textField($coursePlan, 'name',
-                                    array('size' => 400, 'maxlength' => 500, 'class' => 't-field-text__input',
-                                    'placeholder' => 'Digite o Nome do Plano', 'readonly' => $readonly)); ?>
+                                    <?php echo CHtml::label(yii::t('default', 'Name'), 'name', ['class' => 'control-label t-field-text__label--required']); ?>
+                                    <?php echo $form->textField(
+        $coursePlan,
+        'name',
+        ['size' => 400, 'maxlength' => 500, 'class' => 't-field-text__input',
+            'placeholder' => 'Digite o Nome do Plano', 'readonly' => $readonly]
+    ); ?>
                                 </div>
                             </div>
                         </div>
                         <div class="row">
                             <div class="column flex is-two-fifths">
                                 <div class="t-field-select">
-                                    <?php echo CHtml::label(yii::t('default', 'Stage'), 'modality_fk', array('class' => 'control-label t-field-select__label--required')); ?>
+                                    <?php echo CHtml::label(yii::t('default', 'Stage'), 'modality_fk', ['class' => 'control-label t-field-select__label--required']); ?>
                                     <?php
-                                    echo $form->dropDownList($coursePlan, 'modality_fk', CHtml::listData($stages, 'id', 'name'), array(
-                                        'key' => 'id',
-                                        'class' => 'select-search-on t-field-select__input',
-                                        'prompt' => 'Selecione a etapa...',
-                                    ));
-                                    ?>
+                                                                        echo $form->dropDownList($coursePlan, 'modality_fk', CHtml::listData($stages, 'id', 'name'), [
+                                                                            'key' => 'id',
+                                                                            'class' => 'select-search-on t-field-select__input',
+                                                                            'prompt' => 'Selecione a etapa...',
+                                                                        ]);
+?>
                                     <img class="js-course-plan-loading-disciplines"  style="margin: 10px 20px;" height="30px" width="30px" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/loadingTag.gif" alt="TAG Loading">
                                 </div>
                             </div>
@@ -110,14 +112,14 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                         <div class="row">
                             <div class="column flex is-two-fifths">
                                 <div id="disciplinesContainer" class="t-field-select">
-                                    <?php echo CHtml::label(yii::t('default', 'Discipline'), 'discipline_fk', array('class' => 'control-label t-field-select__label--required')); ?>
-                                    <?php echo $form->dropDownList($coursePlan, 'discipline_fk', array(), array(
+                                    <?php echo CHtml::label(yii::t('default', 'Discipline'), 'discipline_fk', ['class' => 'control-label t-field-select__label--required']); ?>
+                                    <?php echo $form->dropDownList($coursePlan, 'discipline_fk', [], [
                                         'key' => 'id',
                                         'class' => 'select-search-on t-field-select__input',
                                         'initVal' => $coursePlan->discipline_fk,
                                         'prompt' => 'Selecione o componente curricular/eixo...',
-                                    ));
-                                    ?>
+                                    ]);
+?>
                                     <img class="js-course-plan-loading-abilities"  style="margin: 10px 20px;" height="30px" width="30px" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/loadingTag.gif" alt="TAG Loading">
                                 </div>
                             </div>
@@ -126,11 +128,11 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                         <div class="row">
                             <div class="column flex is-two-fifths">
                             <div class="t-field-text">
-                                <?php echo CHtml::label(yii::t('default', 'Start Date'), 'start_date', array('class' => 'control-label t-field-select__label--required')); ?>
+                                <?php echo CHtml::label(yii::t('default', 'Start Date'), 'start_date', ['class' => 'control-label t-field-select__label--required']); ?>
                                 <?php
                                 $coursePlan->start_date = $this->dataConverter($coursePlan->start_date, 1);
-                                echo $form->textField($coursePlan, 'start_date', array('size' => 400, 'maxlength' => 500,
-                                'class' => 't-field-text__input js-date date js-start-date', 'id' => 'courseplan_start_date', 'readonly' => $readonly)); ?>
+echo $form->textField($coursePlan, 'start_date', ['size' => 400, 'maxlength' => 500,
+    'class' => 't-field-text__input js-date date js-start-date', 'id' => 'courseplan_start_date', 'readonly' => $readonly]); ?>
                             </div>
                             </div>
                         </div>
@@ -138,10 +140,10 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                         <div class="row">
                             <div class="column flex is-two-fifths">
                             <div class="t-field-text">
-                                <?php echo CHtml::label(yii::t('default', 'Situation'), 'situation', array('class' => 'control-label t-field-select__label--required')); ?>
+                                <?php echo CHtml::label(yii::t('default', 'Situation'), 'situation', ['class' => 'control-label t-field-select__label--required']); ?>
                                 <?php
-                                echo $form->textField($coursePlan, 'situation', array('size' => 400, 'maxlength' => 500, 'readonly' => true,
-                                'class' => 't-field-text__input')); ?>
+echo $form->textField($coursePlan, 'situation', ['size' => 400, 'maxlength' => 500, 'readonly' => true,
+    'class' => 't-field-text__input']); ?>
                             </div>
                             </div>
                         </div>
@@ -174,12 +176,12 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
 
                     <div class="control-group column clearleft">
                         <div>
-                            <?php echo CHtml::label(yii::t('default', 'Observation'), 'observation', array('class' => 't-field-tarea__label--required')); ?>
+                            <?php echo CHtml::label(yii::t('default', 'Observation'), 'observation', ['class' => 't-field-tarea__label--required']); ?>
                         </div>
-                        <?= $form->textArea($coursePlan, 'observation', array('rows' => 6, 'cols' => 60,
+                        <?= $form->textArea($coursePlan, 'observation', ['rows' => 6, 'cols' => 60,
                             'class' => 't-field-tarea__input validate-description', 'id' => 'courseplan_start_date',
-                            'placeholder' => "Digite a observação do Plano", 'style' => "height: 120px; width: 700px;",
-                            'readonly' => 'readonly')) ?>
+                            'placeholder' => 'Digite a observação do Plano', 'style' => 'height: 120px; width: 700px;',
+                            'readonly' => 'readonly']) ?>
                     </div>
 
                     <div class="js-all-types no-show">
@@ -197,9 +199,9 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                     </div>
                     <div class="js-all-competences no-show">
                         <?php foreach ($competences as $stage => $competence) : ?>
-                            <optgroup label="<?= $competence["stageName"]?>">
-                                <?php foreach ($competence["data"] as $competenceData): ?>
-                                    <option value="<?= $competenceData["id"] ?>"><?= $competenceData["code"] . "|" . $competenceData["description"] . "|" . $competence["stageName"] ?></option>
+                            <optgroup label="<?= $competence['stageName']?>">
+                                <?php foreach ($competence['data'] as $competenceData): ?>
+                                    <option value="<?= $competenceData['id'] ?>"><?= $competenceData['code'] . '|' . $competenceData['description'] . '|' . $competence['stageName'] ?></option>
                                 <?php endforeach; ?>
                             </optgroup>
                         <?php endforeach; ?>
@@ -225,7 +227,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                 <div class="alert js-alert-ability-structure">Para adicionar habilidades, é necessário selecionar a etapa na aba criar plano, e informar o componente curricular/eixo.</div>
                     <div id="minorEducationContainer" class="column clearfix">
                         <div class="t-field-select">
-                            <?php echo CHtml::label(yii::t('default', 'Discipline'), 'discipline_fk', array('class' => 'control-label t-field-select__label--required')); ?>
+                            <?php echo CHtml::label(yii::t('default', 'Discipline'), 'discipline_fk', ['class' => 'control-label t-field-select__label--required']); ?>
                             <select class="select-search-on t-field-select__input select2-container" id="minorEducationDisciplines" name="minorEducationDisciplines">
                                 <option value="">Selecione o componente curricular/eixo</option>
                             </select>
@@ -277,14 +279,14 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
         <form>
             <input type="hidden" class="course-class-index row">
             <div class="modal-body">
-                <?php echo CHtml::label(yii::t('default', 'Add Resource') , array('class' => 'control-label t-field-text__label--required')); ?>
+                <?php echo CHtml::label(yii::t('default', 'Add Resource'), ['class' => 'control-label t-field-text__label--required']); ?>
                 <div class="row">
                     <?php
                         $newResource = new CourseClassResources();
-                        echo $form->textField($newResource, 'name', array('size' => 400, 'maxlength' => 500,
-                                                                        'class' => 't-field-text__input new-resource',
-                                                                        'placeholder' => 'Digite o Nome do Recurso'));
-                    ?>
+echo $form->textField($newResource, 'name', ['size' => 400, 'maxlength' => 500,
+    'class' => 't-field-text__input new-resource',
+    'placeholder' => 'Digite o Nome do Recurso']);
+?>
                     <button class="t-button-secondary confirm-new-resource" style="margin: 0px">Adicionar</button>
                 </div>
                 <div id="new-resources-table" class="t-accordeon-primary"></div>

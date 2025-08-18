@@ -2,18 +2,18 @@
 /* @var $this CourseClassAbilitiesController */
 /* @var $model CourseClassAbilities */
 
-$this->breadcrumbs=array(
-	'Course Class Abilities'=>array('index'),
-	'Create',
-);
+$this->breadcrumbs = [
+    'Course Class Abilities' => ['index'],
+    'Create',
+];
 
-$this->menu=array(
-	array('label'=>'List CourseClassAbilities', 'url'=>array('index')),
-	array('label'=>'Manage CourseClassAbilities', 'url'=>array('admin')),
-);
+$this->menu = [
+    ['label' => 'List CourseClassAbilities', 'url' => ['index']],
+    ['label' => 'Manage CourseClassAbilities', 'url' => ['admin']],
+];
 $this->pageTitle = 'TAG - Habilidades';
 $title = 'Habilidades';
 ?>
 
 
-<?php $this->renderPartial('_form', array('model'=>$model, 'title'=>$title)); ?>
+<?php $this->renderPartial('_form', ['model' => $model, 'title' => $title]); ?>

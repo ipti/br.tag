@@ -1,18 +1,17 @@
 <?php
+
 use GuzzleHttp\Exception\ClientException;
 
 class ClassroomSEDDataSource extends SedDataSource
 {
-
     /**
      * ===========================
      * GET REQUEST METHODS
-     * ===========================
+     * ===========================.
      */
 
     /**
-     * Summary of getConsultClass
-     * @param InConsultaTurmaClasse $inConsultClass
+     * Summary of getConsultClass.
      * @return OutConsultaTurmaClasse|OutErro
      * @throws Exception
      */
@@ -21,6 +20,7 @@ class ClassroomSEDDataSource extends SedDataSource
         try {
             $url = 'ncaapi/api/TurmaClasse/ConsultaTurmaClasse';
             $response = $this->getApiResponse('GET', $url, $inConsultClass);
+
             return OutConsultaTurmaClasse::fromJson($response);
         } catch (ClientException $e) {
             return new OutErro($e);
@@ -29,20 +29,14 @@ class ClassroomSEDDataSource extends SedDataSource
         }
     }
 
-
-
-
-
-
     /**
      * ===========================
      * POST REQUEST METHODS
-     * ===========================
+     * ===========================.
      */
 
     /**
-     * Summary of incluirTurmaClassePOST
-     * @param InIncluirTurmaClasse $inIncluirTurmaClasse
+     * Summary of incluirTurmaClassePOST.
      * @return OutHandleApiResult|OutErro
      * @throws Exception
      */
@@ -51,6 +45,7 @@ class ClassroomSEDDataSource extends SedDataSource
         try {
             $url = 'ncaapi/api/TurmaClasse/IncluirTurmaClasse';
             $response = $this->getApiResponse('POST', $url, $inIncluirTurmaClasse);
+
             return OutHandleApiResult::fromJson($response);
         } catch (ClientException $e) {
             return new OutErro($e);
@@ -60,8 +55,7 @@ class ClassroomSEDDataSource extends SedDataSource
     }
 
     /**
-     * Summary of manutencaoTurmaClassePOST
-     * @param InManutencaoTurmaClasse $inManutencaoTurmaClasse
+     * Summary of manutencaoTurmaClassePOST.
      * @return OutHandleApiResult|OutErro
      * @throws Exception
      */
@@ -70,6 +64,7 @@ class ClassroomSEDDataSource extends SedDataSource
         try {
             $url = 'ncaapi/api/TurmaClasse/ManutencaoTurmaClasse';
             $response = $this->getApiResponse('POST', $url, $inManutencaoTurmaClasse);
+
             return OutHandleApiResult::fromJson($response);
         } catch (ClientException $e) {
             return new OutErro($e);
@@ -79,8 +74,7 @@ class ClassroomSEDDataSource extends SedDataSource
     }
 
     /**
-     * Summary of excluirTurmaClassePOST
-     * @param InExcluirTurmaClasse $inExcluirTurmaClasse
+     * Summary of excluirTurmaClassePOST.
      * @return OutHandleApiResult|OutErro
      * @throws Exception
      */
@@ -89,6 +83,7 @@ class ClassroomSEDDataSource extends SedDataSource
         try {
             $url = 'ncaapi/api/TurmaClasse/ExcluirTurmaClasse';
             $response = $this->getApiResponse('POST', $url, $inExcluirTurmaClasse);
+
             return OutHandleApiResult::fromJson($response);
         } catch (ClientException $e) {
             return new OutErro($e);
@@ -97,15 +92,16 @@ class ClassroomSEDDataSource extends SedDataSource
         }
     }
 
-        /**
+    /**
      * @param mixed $httpMethod
      * @param mixed $url
      * @param mixed $data
      * @return mixed
      */
-    private function getApiResponse($HTTPMethod, $url, $data) {
+    private function getApiResponse($HTTPMethod, $url, $data)
+    {
         $response = $this->client->request($HTTPMethod, $url, [
-            'body' => json_encode($data, JSON_UNESCAPED_UNICODE)
+            'body' => json_encode($data, JSON_UNESCAPED_UNICODE),
         ]);
 
         return json_decode($response->getBody()->getContents(), true);

@@ -18,15 +18,15 @@ $turns = ['M' => 'Manhã', 'T' => 'Tarde', 'N' => 'Noite'];
     <div id="head">
         <?php
         $this->renderPartial('head');
-        $data = StudentEnrollment::getFileInformation($enrollment->id);
-        $birth_uf = $enrollment->studentFk->edcensoUfFk->acronym;
-        ?>
+$data = StudentEnrollment::getFileInformation($enrollment->id);
+$birth_uf = $enrollment->studentFk->edcensoUfFk->acronym;
+?>
     </div>
     <br>
     <div style="width: 100%; margin: 0 auto; text-align:center;margin-top: -15px;">
         <div style=" height:100%;  border: 1px solid black; background-color: lightgray; margin-bottom: 5px;">
             <?php //echo $namereport
-            ?>
+    ?>
             <?php echo 'FICHA INDIVIDUAL DO ALUNO - ' ?>
             <span class="stage"><?php echo $data['stage'] ?></span>
         </div>
@@ -38,46 +38,43 @@ $turns = ['M' => 'Manhã', 'T' => 'Tarde', 'N' => 'Noite'];
             </tr>
             <tr>
                 <?php
-                if ($_REQUEST['type'] == '0') {
-                    echo '<th rowspan="4" style="border-right: 1px solid black; vertical-align: bottom;"><div style="transform: translate(5px, 0px) rotate(270deg);width: 15px;line-height: 53px;margin: 0px 10px 0px 0px;">REQUERIMENTO</div></th>';
-                    echo '<td colspan="3" style="border-bottom: 1px solid black;">'
-                        . 'SITUAÇÃO DA MATRÍCULA: ☐ MPP ☐ MPC ☐ MPR'
-                        . '</td>';
-                } else if ($_REQUEST['type'] == '1' or $_REQUEST['type'] == '2') {
-                    echo '<th rowspan="4" style="border-right: 1px solid black; vertical-align: bottom;"><div style="transform: translate(5px, 0px) rotate(270deg);width: 15px;line-height: 53px;margin: 0px 10px 0px 0px;">REQUERIMENTO</div></th>';
-                    echo '<td colspan="3" style="border-bottom: 1px solid black;">'
-                        . 'SITUAÇÃO DA MATRÍCULA: ☐ MI ☐ MC ☐ MR ☐ MT'
-                        . '</td>';
-                } else if ($_REQUEST['type'] == '3') {
-                    echo '<th rowspan="4" style="border-right: 1px solid black; vertical-align: bottom;"><div style="transform: translate(5px, 0px) rotate(270deg);width: 15px;line-height: 53px;margin: 0px 10px 0px 0px;">REQUERIMENTO</div></th>';
-                    echo '<td colspan="3" style="border-bottom: 1px solid black;">'
-                        . 'SITUAÇÃO DA MATRÍCULA: ☐ MI ☐ MC ☐ MR ☐ MT'
-                        . '</td>';
-                }
-                ?>
+        if ($_REQUEST['type'] == '0') {
+            echo '<th rowspan="4" style="border-right: 1px solid black; vertical-align: bottom;"><div style="transform: translate(5px, 0px) rotate(270deg);width: 15px;line-height: 53px;margin: 0px 10px 0px 0px;">REQUERIMENTO</div></th>';
+            echo '<td colspan="3" style="border-bottom: 1px solid black;">'
+                . 'SITUAÇÃO DA MATRÍCULA: ☐ MPP ☐ MPC ☐ MPR'
+                . '</td>';
+        } elseif ($_REQUEST['type'] == '1' or $_REQUEST['type'] == '2') {
+            echo '<th rowspan="4" style="border-right: 1px solid black; vertical-align: bottom;"><div style="transform: translate(5px, 0px) rotate(270deg);width: 15px;line-height: 53px;margin: 0px 10px 0px 0px;">REQUERIMENTO</div></th>';
+            echo '<td colspan="3" style="border-bottom: 1px solid black;">'
+                . 'SITUAÇÃO DA MATRÍCULA: ☐ MI ☐ MC ☐ MR ☐ MT'
+                . '</td>';
+        } elseif ($_REQUEST['type'] == '3') {
+            echo '<th rowspan="4" style="border-right: 1px solid black; vertical-align: bottom;"><div style="transform: translate(5px, 0px) rotate(270deg);width: 15px;line-height: 53px;margin: 0px 10px 0px 0px;">REQUERIMENTO</div></th>';
+            echo '<td colspan="3" style="border-bottom: 1px solid black;">'
+                . 'SITUAÇÃO DA MATRÍCULA: ☐ MI ☐ MC ☐ MR ☐ MT'
+                . '</td>';
+        }
+?>
             </tr>
             <tr>
                 <?php
-                if ($_REQUEST['type'] == '2') {
-                    echo '<td colspan="3">O(A) ALUNO(A) REQUER SUA MATRÍCULA ';
-                ?>
-                    NO <?= strtoupper($data["stage_name"]) ?>
+if ($_REQUEST['type'] == '2') {
+    echo '<td colspan="3">O(A) ALUNO(A) REQUER SUA MATRÍCULA '; ?>
+                    NO <?= strtoupper($data['stage_name']) ?>
                 <?php
-                    echo ', DE ACORDO COM SITUAÇÃO APRESENTADA ABAIXO, A QUAL PEDE DEFERIMENTO.</td>';
-                } else {
-                    echo '<td colspan="3">O INDICADO ABAIXO, IDENTIFICADO, REPRESENTADO QUANDO MENOR, REQUER SUA MATRÍCULA ';
-                ?>
+    echo ', DE ACORDO COM SITUAÇÃO APRESENTADA ABAIXO, A QUAL PEDE DEFERIMENTO.</td>';
+} else {
+    echo '<td colspan="3">O INDICADO ABAIXO, IDENTIFICADO, REPRESENTADO QUANDO MENOR, REQUER SUA MATRÍCULA '; ?>
                     <?php
-                    if ($_REQUEST['type'] == '0') {
-                        echo '<span class="class"></span>';
-                    } else {
-                        echo 'NA(S)/NO(S) ' . strtoupper($data["stage_name"]);
-                    }
-                    ?>
+    if ($_REQUEST['type'] == '0') {
+        echo '<span class="class"></span>';
+    } else {
+        echo 'NA(S)/NO(S) ' . strtoupper($data['stage_name']);
+    } ?>
                 <?php
-                    echo ' DESTA UNIDADE DE ENSINO, NESTE ANO LETIVO, NESTES TERMOS, PEDE DEFERIMENTO.</td>';
-                }
-                ?>
+    echo ' DESTA UNIDADE DE ENSINO, NESTE ANO LETIVO, NESTES TERMOS, PEDE DEFERIMENTO.</td>';
+}
+?>
             </tr>
             <tr>
                 <td>DATA: _______/_______/_________</td>
@@ -265,12 +262,12 @@ $turns = ['M' => 'Manhã', 'T' => 'Tarde', 'N' => 'Noite'];
                     <div class="span12"><b>17 - Matrícula do aluno: </b></div>
                     <br>
                     <div class="span3"><b>Ano letivo: </b><span><?= $enrollment->classroomFk->school_year ?></span></div>
-                    <div class="span4"><b>Etapa: </b><span><?= TagUtils::isMultiStage($data["stage_id"]) ? $data["enrollment_stage_name"] : $data["stage_name"] ?></span></div>
+                    <div class="span4"><b>Etapa: </b><span><?= TagUtils::isMultiStage($data['stage_id']) ? $data['enrollment_stage_name'] : $data['stage_name'] ?></span></div>
                     <div class="span5"><b>Turma: </b><span><?= $enrollment->classroomFk->name ?></span></div>
                     <div class="span9"><b>Situação do aluno: </b><span>
                             <?php
-                            echo $enrollment->getCurrentStatus();
-                            ?>
+            echo $enrollment->getCurrentStatus();
+            ?>
                         </span></div>
                     <div class="span3"><b>Turno: </b><span> <?php echo $turns[$enrollment->classroomFk->turn]; ?></span></div>
                 </td>
@@ -291,13 +288,13 @@ $turns = ['M' => 'Manhã', 'T' => 'Tarde', 'N' => 'Noite'];
             <td>
                 <?php
                     $enrollment_date = null;
-                    if (!empty($data['enrollment_date'])) {
-                        $date = DateTime::createFromFormat('Y-m-d', trim($data['enrollment_date']));
-                        if ($date) {
-                            $enrollment_date = $date->format('d/m/Y');
-                        }
-                    }
-                ?>
+if (!empty($data['enrollment_date'])) {
+    $date = DateTime::createFromFormat('Y-m-d', trim($data['enrollment_date']));
+    if ($date) {
+        $enrollment_date = $date->format('d/m/Y');
+    }
+}
+?>
                 <div class="span9"><b>19 - Data de matrícula: <span style="font-size:12px;" class="enrollment_date"><?= $enrollment_date ?></span></b>
                 </div>
             </td>
@@ -308,18 +305,18 @@ $turns = ['M' => 'Manhã', 'T' => 'Tarde', 'N' => 'Noite'];
                     <br>
                     <div style="margin-right: -20px;">
                         <?php
-                        if ($_REQUEST['type'] == '0') { ?>
+        if ($_REQUEST['type'] == '0') { ?>
                             <span class="current_stage_situation"><?= $data['current_stage_situation'] ?></span>
                         <?php
-                        } else {
-                            $firstRegistration = "Primeira matrícula no curso (nível e/ou modalidade de ensino)";
-                            $promoted = "Promovido na série anterior do mesmo curso (nível e/ou modalidade de ensino)";
-                            $repeatStudent = "Repetente";
-                        ?>
+        } else {
+            $firstRegistration = 'Primeira matrícula no curso (nível e/ou modalidade de ensino)';
+            $promoted = 'Promovido na série anterior do mesmo curso (nível e/ou modalidade de ensino)';
+            $repeatStudent = 'Repetente'; ?>
                             <div class="padding-5"><b><?= ($data['current_stage_situation'] == $firstRegistration) ? '☑ ' : '☐ ' ?></b> <?php echo $firstRegistration ?></div>
                             <div class="padding-5"><b><?= ($data['current_stage_situation'] == $promoted) ? '☑ ' : '☐ ' ?></b> <?php echo $promoted ?></div>
                             <div class="padding-5"><b><?= ($data['current_stage_situation'] == $repeatStudent) ? '☑ ' : '☐ ' ?></b> <?php echo $repeatStudent ?></div>
-                        <?php } ?>
+                        <?php
+        } ?>
 
                     </div>
                 </div>
@@ -387,46 +384,46 @@ $turns = ['M' => 'Manhã', 'T' => 'Tarde', 'N' => 'Noite'];
                 <td>
                     <div class="span10"><b>25 - Restrição alimentar ou alergia a: </b>
                         <?php
-                        $result = '';
+        $result = '';
 
-                        if ($data['celiac'] == '1') {
-                            $result .= 'Doença celíaca';
-                        }
+if ($data['celiac'] == '1') {
+    $result .= 'Doença celíaca';
+}
 
-                        if ($data['diabetes'] == '1') {
-                            $result .= ($result ? ', ' : '') . 'Diabetes';
-                        }
+if ($data['diabetes'] == '1') {
+    $result .= ($result ? ', ' : '') . 'Diabetes';
+}
 
-                        if ($data['hypertension'] == '1') {
-                            $result .= ($result ? ', ' : '') . 'Hipertensão';
-                        }
+if ($data['hypertension'] == '1') {
+    $result .= ($result ? ', ' : '') . 'Hipertensão';
+}
 
-                        if ($data['iron_deficiency_anemia'] == '1') {
-                            $result .= ($result ? ', ' : '') . 'Anemia ferropriva';
-                        }
+if ($data['iron_deficiency_anemia'] == '1') {
+    $result .= ($result ? ', ' : '') . 'Anemia ferropriva';
+}
 
-                        if ($data['sickle_cell_anemia'] == '1') {
-                            $result .= ($result ? ', ' : '') . 'Anemia falciforme';
-                        }
+if ($data['sickle_cell_anemia'] == '1') {
+    $result .= ($result ? ', ' : '') . 'Anemia falciforme';
+}
 
-                        if ($data['lactose_intolerance'] == '1') {
-                            $result .= ($result ? ', ' : '') . 'Intolerância à lactose';
-                        }
+if ($data['lactose_intolerance'] == '1') {
+    $result .= ($result ? ', ' : '') . 'Intolerância à lactose';
+}
 
-                        if ($data['malnutrition'] == '1') {
-                            $result .= ($result ? ', ' : '') . 'Desnutrição';
-                        }
+if ($data['malnutrition'] == '1') {
+    $result .= ($result ? ', ' : '') . 'Desnutrição';
+}
 
-                        if ($data['obesity'] == '1') {
-                            $result .= ($result ? ', ' : '') . 'Obesidade';
-                        }
+if ($data['obesity'] == '1') {
+    $result .= ($result ? ', ' : '') . 'Obesidade';
+}
 
-                        if (!empty($data['others'])) {
-                            $result .= ($result ? ', ' : '') . $data['others'];
-                        }
+if (!empty($data['others'])) {
+    $result .= ($result ? ', ' : '') . $data['others'];
+}
 
-                        echo $result;
-                        ?>
+echo $result;
+?>
                     </div>
                 </td>
             </tr>

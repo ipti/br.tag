@@ -2,14 +2,14 @@
 /* @var $this GradeConceptController */
 /* @var $dataProvider CActiveDataProvider */
 
-$this->breadcrumbs=array(
-	'Grade Concepts',
-);
+$this->breadcrumbs = [
+    'Grade Concepts',
+];
 
-$this->menu=array(
-	array('label'=>'Create GradeConcept', 'url'=>array('create')),
-	array('label'=>'Manage GradeConcept', 'url'=>array('admin')),
-);
+$this->menu = [
+    ['label' => 'Create GradeConcept', 'url' => ['create']],
+    ['label' => 'Manage GradeConcept', 'url' => ['admin']],
+];
 ?>
 
 <div id="mainPage" class="main">
@@ -39,31 +39,31 @@ $this->menu=array(
     <div class="tag-inner">
         <div class="widget clearmargin">
             <div class="widget-body">
-                <?php $this->widget('zii.widgets.grid.CGridView', array(
+                <?php $this->widget('zii.widgets.grid.CGridView', [
                     'dataProvider' => $dataProvider,
                     'enablePagination' => false,
                     'enableSorting' => false,
                     'ajaxUpdate' => false,
                     'itemsCssClass' => 'js-tag-table tag-table-primary tag-table table table-condensed table-striped table-hover table-primary table-vertical-center checkboxs',
-                    'columns'=>array(
+                    'columns' => [
                         'id',
                         'name',
                         'acronym',
                         'value',
-                        array(
+                        [
                             'header' => 'Ações',
                             'class' => 'CButtonColumn',
                             'template' => '{update}',
-                            'buttons' => array(
-                                'update' => array(
-                                    'imageUrl' => Yii::app()->theme->baseUrl.'/img/editar.svg',
-                                )
-                            ),
-                            'updateButtonOptions' => array('style' => 'margin-right: 20px;', 'class'=>""),
-                            'htmlOptions' => array('width' => '100px', 'style' => 'text-align: center'),
-                        ),
-                    ),
-                )); ?>
+                            'buttons' => [
+                                'update' => [
+                                    'imageUrl' => Yii::app()->theme->baseUrl . '/img/editar.svg',
+                                ]
+                            ],
+                            'updateButtonOptions' => ['style' => 'margin-right: 20px;', 'class' => ''],
+                            'htmlOptions' => ['width' => '100px', 'style' => 'text-align: center'],
+                        ],
+                    ],
+                ]); ?>
             </div>
         </div>
     </div>

@@ -4,9 +4,9 @@
 $baseUrl = Yii::app()->baseUrl;
 
 $this->pageTitle = 'TAG - ' . Yii::t('default', 'Quiz');
-$this->breadcrumbs = array(
+$this->breadcrumbs = [
     Yii::t('default', 'Quiz'),
-);
+];
 ?>
 
 <style>

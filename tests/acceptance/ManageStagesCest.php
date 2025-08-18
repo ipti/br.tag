@@ -1,16 +1,16 @@
 <?php
 
 require_once 'vendor/autoload.php';
-require_once __DIR__."/../robots/LoginRobots.php";
-require_once __DIR__.'/../robots/ManageStagesRobots.php';
-require_once __DIR__.'/../builders/ManageStagesBuilder.php';
+require_once __DIR__ . '/../robots/LoginRobots.php';
+require_once __DIR__ . '/../robots/ManageStagesRobots.php';
+require_once __DIR__ . '/../builders/ManageStagesBuilder.php';
 
 class ManageStagesCest
 {
     public function _before(AcceptanceTester $teste)
     {
-        $user = "";
-        $secret = "";
+        $user = '';
+        $secret = '';
 
         $robots = new LoginRobots($teste);
         $robots->pageLogin();
@@ -28,9 +28,9 @@ class ManageStagesCest
         $builder = new ManageStagesBuilder();
         $targetUrl = '?r=stages/default/index';
 
-        $stage= $builder->buildCompleted();
+        $stage = $builder->buildCompleted();
 
-        //stages
+        // stages
         $robots->name($stage['name']);
         $robots->stage($stage['stage']);
         $robots->alias($stage['alias']);
@@ -40,6 +40,7 @@ class ManageStagesCest
         $teste->see('O Cadastro foi criado com sucesso!');
         $teste->canSeeInCurrentUrl($targetUrl);
     }
+
     public function addStageFilledIn(AcceptanceTester $teste)
     {
         $robots = new StagesRobots($teste);
@@ -47,9 +48,9 @@ class ManageStagesCest
         $builder = new ManageStagesBuilder();
         $targetUrl = '?r=stages/default/index';
 
-        $stage= $builder->buildCompleted();
+        $stage = $builder->buildCompleted();
 
-        //stages
+        // stages
         $robots->name($stage['name']);
         $robots->stage($stage['stage']);
 
@@ -58,6 +59,7 @@ class ManageStagesCest
         $teste->see('O Cadastro foi criado com sucesso!');
         $teste->canSeeInCurrentUrl($targetUrl);
     }
+
     public function updateStage(AcceptanceTester $teste)
     {
         $robots = new StagesRobots($teste);
@@ -67,7 +69,7 @@ class ManageStagesCest
 
         $stage = $builder->buildCompleted();
 
-        //stages
+        // stages
         $robots->name($stage['name']);
         $robots->stage($stage['stage']);
         $robots->alias($stage['alias']);
@@ -85,10 +87,11 @@ class ManageStagesCest
 
         $robots->btnCriar();
 
-        $robots->checkUpdate($newStage['name'],$newStage['stage'],$newStage['alias']);
+        $robots->checkUpdate($newStage['name'], $newStage['stage'], $newStage['alias']);
 
         $teste->canSeeInCurrentUrl($targetUrl);
     }
+
     public function deleteStage(AcceptanceTester $teste)
     {
         $robots = new StagesRobots($teste);
@@ -98,7 +101,7 @@ class ManageStagesCest
 
         $stage = $builder->buildCompleted();
 
-        //stages
+        // stages
         $robots->name($stage['name']);
         $robots->stage($stage['stage']);
         $robots->alias($stage['alias']);
@@ -113,5 +116,4 @@ class ManageStagesCest
         $teste->see('Aluno excluído com sucesso!');
         $teste->canSeeInCurrentUrl($targetUrl);
     }
-
 }

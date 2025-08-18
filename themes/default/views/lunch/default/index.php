@@ -11,7 +11,7 @@ $this->pageTitle = 'TAG - ' . Yii::t('lunchModule.index', 'Lunch');
 <div class="main">
     <div class="row-fluid">
         <div class="span12" style="margin-left: 20px;">
-            <h1><?php echo Yii::t('lunchModule.index','Lunch'); ?></h1>
+            <h1><?php echo Yii::t('lunchModule.index', 'Lunch'); ?></h1>
         </div>
     </div>
 
@@ -26,7 +26,7 @@ $this->pageTitle = 'TAG - ' . Yii::t('lunchModule.index', 'Lunch');
                                     <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/lunchIcon/lunch.svg" alt="lunch"/>
                                 </div>
                                 <div class="pull-left">
-                                    <span class="title"><?= Yii::t('lunchModule.index','Menu')?></span><br>
+                                    <span class="title"><?= Yii::t('lunchModule.index', 'Menu')?></span><br>
                                     <span class="subtitle">Gerenciar Cardápios</span>
                                 </div>
                             </button>
@@ -37,7 +37,7 @@ $this->pageTitle = 'TAG - ' . Yii::t('lunchModule.index', 'Lunch');
                                     <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/lunchIcon/stock.svg" alt="stock"/>
                                 </div>
                                 <div class="pull-left">
-                                    <span class="title"><?= yii::t('lunchModule.index','Stock')?></span><br>
+                                    <span class="title"><?= yii::t('lunchModule.index', 'Stock')?></span><br>
                                     <span class="subtitle">Gerenciar Estoque de Alimentos</span>
                                 </div>
                             </button>

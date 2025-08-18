@@ -12,14 +12,14 @@
     <!-- Controles de paginação -->
     <div style="text-align: center; margin-top: 20px;">
         <div class="pagination">
-            <?php if($currentPage > 1): ?>
-                <a href="<?php echo $this->createUrl('site/viewFileLogs', array('page' => $currentPage - 1)); ?>" style="padding: 10px 15px; border: 1px solid #ccc; background-color: #f1f1f1; text-decoration: none; margin-right: 5px;">&laquo; Anterior</a>
+            <?php if ($currentPage > 1): ?>
+                <a href="<?php echo $this->createUrl('site/viewFileLogs', ['page' => $currentPage - 1]); ?>" style="padding: 10px 15px; border: 1px solid #ccc; background-color: #f1f1f1; text-decoration: none; margin-right: 5px;">&laquo; Anterior</a>
             <?php endif; ?>
 
             Página <?php echo $currentPage; ?> de <?php echo $totalPages; ?>
 
-            <?php if($currentPage < $totalPages): ?>
-                <a href="<?php echo $this->createUrl('site/viewFileLogs', array('page' => $currentPage + 1)); ?>" style="padding: 10px 15px; border: 1px solid #ccc; background-color: #f1f1f1; text-decoration: none; margin-left: 5px;">Próxima &raquo;</a>
+            <?php if ($currentPage < $totalPages): ?>
+                <a href="<?php echo $this->createUrl('site/viewFileLogs', ['page' => $currentPage + 1]); ?>" style="padding: 10px 15px; border: 1px solid #ccc; background-color: #f1f1f1; text-decoration: none; margin-left: 5px;">Próxima &raquo;</a>
             <?php endif; ?>
         </div>
     </div>

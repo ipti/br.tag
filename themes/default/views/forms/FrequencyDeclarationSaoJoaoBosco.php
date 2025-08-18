@@ -59,7 +59,7 @@
     <div class="body-content">Declaramos para os devidos fins que o aluno <?php echo $student->studentFk->name ?>, filho de <?php echo $student->studentFk->filiation_1 ?> e de <?php echo $student->studentFk->filiation_2?> está matriculado e frequentando normalmente as aulas do curso <?php echo $student->classroomFk->name; ?> no ano letivo de <?php echo $school_year; ?> neste estabelecimento de ensino, nesta capital.</div>
 </div>
 <div class="footer">
-    <div class = "date">Aracaju-SE, <?php echo $today_date["mday"] ?> de <?php echo Yii::t('default', $today_date["month"]) ?> de <?php echo $today_date["year"]?></div>
+    <div class = "date">Aracaju-SE, <?php echo $today_date['mday'] ?> de <?php echo Yii::t('default', $today_date['month']) ?> de <?php echo $today_date['year']?></div>
 
     <div class="informer">
         <div>OBS.: A presente declaração não tem validade para matrícula.</div>

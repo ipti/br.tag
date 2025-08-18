@@ -3,16 +3,16 @@
 /** @var $title String */
 /** @var $form CActiveForm */
 
-$this->setPageTitle('TAG - ' .  Yii::t('default', 'Reaproveitamento das Turmas'));
+$this->setPageTitle('TAG - ' . Yii::t('default', 'Reaproveitamento das Turmas'));
 
-$form = $this->beginWidget('CActiveForm', array(
+$form = $this->beginWidget('CActiveForm', [
     'id' => 'school-configuration-form',
     'enableAjaxValidation' => false
-        ));
+]);
 
-$this->breadcrumbs = array(
+$this->breadcrumbs = [
     Yii::t('default', 'Reaproveitamento das Turmas'),
-);
+];
 
 $lastYear = (Yii::app()->user->year - 1);
 $school = Yii::app()->user->school;
@@ -27,7 +27,7 @@ $cs = Yii::app()->getClientScript();
                 <?php echo $title; ?>
             </h1>
             <div class="tag-buttons-container buttons">
-                <?php echo CHtml::htmlButton('' . Yii::t('default', 'Copy'), array('class' => 't-button-primary  last ', 'type' => 'submit')); ?>
+                <?php echo CHtml::htmlButton('' . Yii::t('default', 'Copy'), ['class' => 't-button-primary  last ', 'type' => 'submit']); ?>
             </div>
         </div>
     </div>
@@ -55,12 +55,12 @@ $cs = Yii::app()->getClientScript();
                         <div class=" span12">
                             <div class="control-group">
                                 <?php
-                                echo chtml::dropDownList('Classrooms', "", CHtml::listData(Classroom::model()->findAllByAttributes(array('school_year' => $lastYear, 'school_inep_fk'=>$school),array('order'=>'name ASC')), 'id', 'name'), array(
+                                echo chtml::dropDownList('Classrooms', '', CHtml::listData(Classroom::model()->findAllByAttributes(['school_year' => $lastYear, 'school_inep_fk' => $school], ['order' => 'name ASC']), 'id', 'name'), [
                                     'class' => 'select-search-on',
                                     'multiple' => 'multiple',
                                     'placeholder' => Yii::t('default', 'Select Classroom'),
-                                ));
-                                ?> 
+                                ]);
+?> 
                             </div>
                         </div>
                     </div>

@@ -6,7 +6,6 @@
     $listYears = [];
     $actualYear = date('Y');
 
-
     for ($i = 0; $i < 5; $i++) {
         $year = $actualYear - $i;
         $listYears[$year] = $year;
@@ -16,7 +15,7 @@
 
 
 
-    <?php echo CHtml::beginForm('', 'post', ["enctype" => "multipart/form-data"]); ?>
+    <?php echo CHtml::beginForm('', 'post', ['enctype' => 'multipart/form-data']); ?>
 <div class="row main">
 	<div class="column">
 		<h1>Importar arquivo de Identificação</h1>
@@ -70,7 +69,7 @@
             <div class="row">
                 <div class="col-md-4">
                     <div class="t-field-text">
-                        <?= CHtml::activeLabel($importModel, 'file', array('class' => 't-field-text__label')); ?>
+                        <?= CHtml::activeLabel($importModel, 'file', ['class' => 't-field-text__label']); ?>
                         <div class="controls">
                             <?= CHtml::activeFileField($importModel, 'file'); ?>
                         </div>
@@ -79,7 +78,7 @@
                 <div class="row hidden">
                     <div class="col-md-4">
                         <div class="t-field-text">
-                            <?= CHtml::activeLabel($importModel, 'probable', array('class' => 't-field-text__label')); ?>
+                            <?= CHtml::activeLabel($importModel, 'probable', ['class' => 't-field-text__label']); ?>
                             <div class="controls">
                                 <?= CHtml::activeCheckBox($importModel, 'probable'); ?>
                             </div>

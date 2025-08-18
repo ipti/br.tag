@@ -136,72 +136,84 @@ class InManutencaoTurmaClasse implements JsonSerializable
     public function setInAnoLetivo(?string $inAnoLetivo): self
     {
         $this->inAnoLetivo = $inAnoLetivo;
+
         return $this;
     }
 
     public function setInNumClasse(?string $inNumClasse): self
     {
         $this->inNumClasse = $inNumClasse;
+
         return $this;
     }
 
     public function setInCodTipoClasse(?string $inCodTipoClasse): self
     {
         $this->inCodTipoClasse = $inCodTipoClasse;
+
         return $this;
     }
 
     public function setInCodTurno(?string $inCodTurno): self
     {
         $this->inCodTurno = $inCodTurno;
+
         return $this;
     }
 
     public function setInTurma(?string $inTurma): self
     {
         $this->inTurma = $inTurma;
+
         return $this;
     }
 
     public function setInNrCapacidadeFisicaMaxima(?string $inNrCapacidadeFisicaMaxima): self
     {
         $this->inNrCapacidadeFisicaMaxima = $inNrCapacidadeFisicaMaxima;
+
         return $this;
     }
 
     public function setInDataInicioAula(?string $inDataInicioAula): self
     {
         $this->inDataInicioAula = $inDataInicioAula;
+
         return $this;
     }
 
     public function setInDataFimAula(?string $inDataFimAula): self
     {
         $this->inDataFimAula = $inDataFimAula;
+
         return $this;
     }
 
     public function setInHorarioInicioAula(?string $inHorarioInicioAula): self
     {
         $this->inHorarioInicioAula = $inHorarioInicioAula;
+
         return $this;
     }
 
     public function setInHorarioFimAula(?string $inHorarioFimAula): self
     {
         $this->inHorarioFimAula = $inHorarioFimAula;
+
         return $this;
     }
 
     public function setInCodDuracao(?string $inCodDuracao): self
     {
         $this->inCodDuracao = $inCodDuracao;
+
         return $this;
     }
 
     public function setInCodHabilitacao(?string $inCodHabilitacao): self
     {
         $this->inCodHabilitacao = $inCodHabilitacao;
+
         return $this;
     }
 
@@ -211,18 +223,21 @@ class InManutencaoTurmaClasse implements JsonSerializable
     public function setInCodigoAtividadeComplementar(?array $inCodigoAtividadeComplementar): self
     {
         $this->inCodigoAtividadeComplementar = $inCodigoAtividadeComplementar;
+
         return $this;
     }
 
     public function setInDiasDaSemana(?InDiasDaSemana $inDiasDaSemana): self
     {
         $this->inDiasDaSemana = $inDiasDaSemana;
+
         return $this;
     }
 
     public function setInNumeroSala(?string $inNumeroSala): self
     {
         $this->inNumeroSala = $inNumeroSala;
+
         return $this;
     }
 
@@ -247,7 +262,8 @@ class InManutencaoTurmaClasse implements JsonSerializable
         );
     }
 
-    public function jsonSerialize() {
+    public function jsonSerialize()
+    {
         return get_object_vars($this);
     }
 }

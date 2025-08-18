@@ -9,7 +9,7 @@ $baseUrl = Yii::app()->baseUrl;
 $themeUrl = Yii::app()->theme->baseUrl;
 $cs = Yii::app()->getClientScript();
 $cs->registerCssFile($baseUrl . 'css/admin.css');
-$cs->registerScriptFile($baseUrl . '/js/admin/auditory.js?v='.TAG_VERSION, CClientScript::POS_END);
+$cs->registerScriptFile($baseUrl . '/js/admin/auditory.js?v=' . TAG_VERSION, CClientScript::POS_END);
 
 $this->setPageTitle('TAG - Auditoria');
 ?>
@@ -18,11 +18,11 @@ $this->setPageTitle('TAG - Auditoria');
 
 <div class="main">
     <?php
-    $form = $this->beginWidget('CActiveForm', array(
+    $form = $this->beginWidget('CActiveForm', [
         'id' => 'classes-form',
         'enableAjaxValidation' => false,
-    ));
-    ?>
+    ]);
+?>
     <div class="row-fluid">
         <div class="span12">
             <h1>Auditoria</h1>
@@ -42,13 +42,13 @@ $this->setPageTitle('TAG - Auditoria');
                 <label class="control-label required">Escola</label>
                 <div>
                     <?php
-                    echo $form->dropDownList(new SchoolIdentification(), 'inep_id', CHtml::listData($schools, 'inep_id', 'name'), array(
-                        'key' => "inep_id",
-                        'id' => "log-school",
-                        'class' => 'select-search-on control-input schools',
-                        'prompt' => 'Selecione...',
-                    ));
-                    ?>
+                echo $form->dropDownList(new SchoolIdentification(), 'inep_id', CHtml::listData($schools, 'inep_id', 'name'), [
+                    'key' => 'inep_id',
+                    'id' => 'log-school',
+                    'class' => 'select-search-on control-input schools',
+                    'prompt' => 'Selecione...',
+                ]);
+?>
                 </div>
             </div>
         </div>
@@ -70,13 +70,13 @@ $this->setPageTitle('TAG - Auditoria');
                 <label class="control-label required">Usuário</label>
                 <div>
                     <?php
-                    echo $form->dropDownList(new Users(), 'id', CHtml::listData($users, 'id', 'name'), array(
-                        'key' => "id",
-                        'id' => "log-user",
-                        'class' => 'select-search-on control-input users',
-                        'prompt' => 'Selecione...',
-                    ));
-                    ?>
+echo $form->dropDownList(new Users(), 'id', CHtml::listData($users, 'id', 'name'), [
+    'key' => 'id',
+    'id' => 'log-user',
+    'class' => 'select-search-on control-input users',
+    'prompt' => 'Selecione...',
+]);
+?>
                 </div>
             </div>
         </div>
