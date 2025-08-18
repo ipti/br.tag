@@ -64,6 +64,135 @@ class DefaultController extends Controller
         $this->render('index');
     }
 
+    //Editar,Confirmar e Concluir
+    public function actionExportEditConfirmConclusion(): void
+    {
+        $query = <<<EOD
+                 SELECT
+                    se.id AS CO_MATRICULA_REDE, -- A
+                    '' AS ID_SGP_MATRICULA, -- B
+                    '' AS EDITAR_CONFIRMAR_CONCLUSAO, -- C
+                    '' AS STATUS_MATRICULA, -- C
+                    si.name AS ESTUDANTE_NOME, -- D
+                    si.name AS ESTUDANTE_NOME_SOCIAL, -- E
+                    sdaa.cpf AS ESTUDANTE_CPF, -- F
+                    sdaa.nis as ESTUDANTE_NU_NIS, -- G
+                    esvm.edcenso_associated_stage_id AS ESTUDANTE_ETAPA_DE_ENSINO, -- H
+                    '' AS ESTUDANTE_ANO_PERIODO, -- I
+                    si2.inep_id AS CO_ENTIDADE, -- J
+                    si2.name AS NO_ENTIDADE, -- K
+                    DATE_FORMAT(se.enrollment_date , '%d/%m/%Y') AS DATA_INICIO_MATRICULA, -- L
+                    DATE_FORMAT(c2.start_date, '%d/%m/%Y') AS DATA_INICIO_PERIODO_LETIVO, -- M
+                    DATE_FORMAT(c2.end_date , '%d/%m/%Y') AS DATA_FIM_MATRICULA, -- N
+                    '' AS DATA_CONCLUSAO_ENSINO_MEDIO, -- O
+                    '' AS MATRICULA_SITUACAO_FINAL, -- P
+                    '' AS JUSTIFICATIVA_EDICAO -- Q
+                FROM
+                    student_identification si
+                    JOIN student_documents_and_address sdaa USING (id)
+                    JOIN student_enrollment se ON se.student_fk = si.id
+                    JOIN classroom c ON c.id = se.classroom_fk
+                    JOIN school_identification si2 ON c.school_inep_fk = si2.inep_id
+                    JOIN edcenso_stage_vs_modality esvm ON esvm.id = c.edcenso_stage_vs_modality_fk
+                    JOIN calendar c2 ON c.calendar_fk = c2.id
+                WHERE
+                    c.school_year = :year;
+        EOD;
+        try {
+            $command = Yii::app()->db->createCommand($query);
+            $command->bindParam(':year', Yii::app()->user->year, PDO::PARAM_INT);
+            $reader = $command->query();
+
+            // Nome do arquivo
+            //$filename = 'alterar_dados_pessoais_estudantes_' . date('Y-m-d_H-i-s') . '.xlsx';
+            $filename = 'editar_confirmação_e_conclusao_' . date('Y-m-d_H-i-s') . '.xlsx';
+
+            // Criar writer
+            // Criar exportador simples
+            $exporter = new SimpleExcelExporter($filename);
+
+            // Ler primeira linha para extrair cabeçalhos
+            $firstRow = $reader->read();
+            if ($firstRow !== false) {
+                $exporter->setHeaders(array_keys($firstRow));
+                $exporter->addRow(array_values($firstRow));
+            }
+
+            // Linhas restantes
+            while (($row = $reader->read()) !== false) {
+                $exporter->addRow(array_values($row));
+            }
+
+            // Exportar
+            $exporter->export();
+            Yii::app()->end();
+        } catch (Exception $e) {
+            echo 'Erro: ' . $e->getMessage();
+        }
+    }
+    // Movimentação e Conclusão
+    public function actionExportMovementAndConclusion(): void
+    {
+        $query = <<<EOD
+            SELECT
+                '' AS ID_SGP_MATRICULA, -- A
+                se.id AS CO_MATRICULA_REDE, -- B
+                sdaa.cpf AS ESTUDANTE_CPF, -- C
+                sdaa.nis as ESTUDANTE_NU_NIS, -- D
+                si.name AS ESTUDANTE_NOME, -- E
+                si.name AS ESTUDANTE_NOME_SOCIAL, -- F
+                si2.inep_id AS CO_ENTIDADE, -- G
+                si2.name AS NO_ENTIDADE, -- H
+                DATE_FORMAT(se.enrollment_date , '%d/%m/%Y') as NU_ANO_MATRICULA, -- I
+                esvm.edcenso_associated_stage_id AS ESTUDANTE_ETAPA_DE_ENSINO, -- K
+                '' AS ESTUDANTE_ANO_PERIODO, -- L
+                '' AS MATRICULA_SITUACAO_FINAL, -- M
+                DATE_FORMAT(c2.end_date, '%d/%m/%Y') AS DATA_FIM_OU_APROVACAO, -- N
+                '' AS DATA_CONCLUSAO_ENSINO_MEDIO -- O
+            FROM
+                student_identification si
+                JOIN student_documents_and_address sdaa USING (id)
+                JOIN student_enrollment se ON se.student_fk = si.id
+                JOIN classroom c ON c.id = se.classroom_fk
+                JOIN school_identification si2 ON c.school_inep_fk = si2.inep_id
+                JOIN edcenso_stage_vs_modality esvm ON esvm.id = c.edcenso_stage_vs_modality_fk
+                JOIN calendar c2 ON c.calendar_fk = c2.id
+            WHERE
+                c.school_year = :year;
+        EOD;
+        try {
+            $command = Yii::app()->db->createCommand($query);
+            $command->bindParam(':year', Yii::app()->user->year, PDO::PARAM_INT);
+            $reader = $command->query();
+
+            // Nome do arquivo
+            //$filename = 'alterar_dados_pessoais_estudantes_' . date('Y-m-d_H-i-s') . '.xlsx';
+            $filename = 'movimentacao_e_conclusao_' . date('Y-m-d_H-i-s') . '.xlsx';
+
+            // Criar writer
+            // Criar exportador simples
+            $exporter = new SimpleExcelExporter($filename);
+
+            // Ler primeira linha para extrair cabeçalhos
+            $firstRow = $reader->read();
+            if ($firstRow !== false) {
+                $exporter->setHeaders(array_keys($firstRow));
+                $exporter->addRow(array_values($firstRow));
+            }
+
+            // Linhas restantes
+            while (($row = $reader->read()) !== false) {
+                $exporter->addRow(array_values($row));
+            }
+
+            // Exportar
+            $exporter->export();
+            Yii::app()->end();
+        } catch (Exception $e) {
+            echo 'Erro: ' . $e->getMessage();
+        }
+    }
+
     // AlterarDadosPessoais
     public function actionExportPersonalData(): void
     {
