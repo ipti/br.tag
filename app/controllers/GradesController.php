@@ -676,7 +676,6 @@ class GradesController extends Controller
                 $contentsPerDiscipline = $formRepository->contentsPerDisciplineCalculate($classroom, $disciplineId, $enrollment->id);
                 $totalFaults = $enrollment->countFaultsDiscipline($disciplineId);
                 $frequency = round((($contentsPerDiscipline - $totalFaults) / ($contentsPerDiscipline ?: 1)) * 100);
-                $f = $enrollment->studentEnrolmentFrequencyPerDiscipline($disciplineId)
                 (new CalculateFinalMediaUsecase($gradeResult, $gradeRules, $countUnities, $gradesStudent))->exec();
                 if ($gradeRules->rule_type === 'N') {
                     (new ChageStudentStatusByGradeUsecase($gradeResult, $gradeRules, $countUnities, $stage, $frequency))->exec();
