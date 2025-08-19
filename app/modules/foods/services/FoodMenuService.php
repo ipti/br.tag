@@ -1,22 +1,19 @@
 <?php
-
 class FoodMenuService
 {
     public function getFoodMenu($modelFoodMenu, $publicTarget, $modelMenuMeals)
     {
-        $weekDays = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
+        $weekDays = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"];
         // Criando objeto de cardápio que será utilizado para armazenar informações sobre o cardápio
         $foodMenu = new FoodMenuObject($modelFoodMenu, $publicTarget);
         $foodMenu->setDateFormated($modelFoodMenu);
         // Atribuindo refeições associadas ao cardápio de acordo com o dia
         foreach ($weekDays as $day) {
-            $publicTarget = FoodMenuVsFoodPublicTarget::model()->findByAttributes(['food_menu_fk' => $modelFoodMenu->id]);
+            $publicTarget = FoodMenuVsFoodPublicTarget::model()->findByAttributes(array("food_menu_fk" => $modelFoodMenu->id));
             $foodMenu->setDayMeals($day, $modelMenuMeals, $publicTarget->food_public_target_fk);
         }
-
         return $foodMenu;
     }
-
     public function getMealType($id)
     {
         $sql = "SELECT fmt.id as food_meal_type, fmt.description,
@@ -34,10 +31,9 @@ class FoodMenuService
 
         return Yii::app()->db->createCommand($sql)->bindParam(':id', $id)->queryAll();
     }
-
     public function getFoodIngredientsList()
     {
-        $result = [];
+        $result = array();
 
         $foods = $this->getFoodFromTheMenu();
 
@@ -45,76 +41,68 @@ class FoodMenuService
         $studentsTurn = $this->getStudentsTurn($students);
         $totalStudents = 0;
         foreach ($students as $element) {
-            $totalStudents += $element['total_students'];
+            $totalStudents +=  $element['total_students'];
         }
 
-        $result['totalStudents'] = $totalStudents;
+        $result["totalStudents"] = $totalStudents;
         if ($students != null && $foods != null) {
-            $result['processFood'] = $this->processFood($foods, $studentsTurn);
+            $result["processFood"] = $this->processFood($foods, $studentsTurn);
         }
-
         return $result;
     }
-
-    public function processFood($foods, $studentsTurn)
-    {
-        $result = [];
+    public function processFood($foods, $studentsTurn) {
+        $result = array();
         foreach ($foods as $food) {
             // verifica se tem alunos nesse turno
-            $turn = $food['turn'];
+            $turn = $food["turn"];
 
-            $idFood = $food['id'];
+            $idFood = $food["id"];
             if (!array_key_exists($idFood, $result)) {
                 $measure = '';
 
-                switch ($food['measure']) {
+                switch ($food["measure"]) {
                     case 'g':
-                        $measure = 'Kg';
+                        $measure = "Kg";
                         break;
                     case 'ml':
-                        $measure = ($food['measurementUnit'] == 'g') ? 'kg' : 'L';
+                        $measure = ($food["measurementUnit"] == "g") ? "kg" : "L";
                         break;
                     default:
-                        $measure = $food['measure'];
+                        $measure = $food["measure"];
                         break;
                 }
-                $result[$idFood] = [
+                $result[$idFood] = array(
                     'id' => $idFood,
-                    'name' => str_replace(',', '', $food['description']),
+                    'name' => str_replace(',', '', $food["description"]),
                     'total' => 0, // Inicializa o total como 0
                     'measure' => $measure,
-                ];
+                );
             }
 
             // Atualiza o total
-            $value = $food['total'];
+            $value = $food["total"];
 
-            if ($food['measure'] == 'g' || $food['measure'] == 'ml') {
-                $value = $food['total'] / 1000;
+            if($food["measure"] == 'g' || $food["measure"]  == 'ml'){
+                $value = $food["total"]/1000;
             }
             $result[$idFood]['total'] +=
-                ($value * $studentsTurn[$turn]) + ($value * $studentsTurn['Integral']);
+                ($value * $studentsTurn[$turn]) + ($value * $studentsTurn["Integral"]);
         }
-
         return $result;
     }
-
-    private function getStudentsTurn($students)
-    {
+    private function getStudentsTurn($students){
         $studentsTurn = ['Manhã' => '0', 'Tarde' => '0', 'Noite' => '0', 'Integral' => '0'];
 
         foreach ($students as $element) {
             $turn = $element['turn'];
             $totalStudents = $element['total_students'];
 
+
             $studentsTurn[$turn] = $totalStudents;
         }
-
-        return $studentsTurn;
+        return  $studentsTurn;
     }
-
-    private function getStudents()
-    {
+    private function getStudents(){
         $sql = "SELECT
         COUNT(*) as total_students,
         CASE
@@ -138,9 +126,7 @@ class FoodMenuService
             ->bindParam(':user_year', Yii::app()->user->year)
             ->bindParam(':user_school', Yii::app()->user->school)->queryAll();
     }
-
-    private function getFoodFromTheMenu()
-    {
+    private function getFoodFromTheMenu(){
         date_default_timezone_set('America/Bahia');
         $date = date('Y-m-d', time());
 
@@ -168,12 +154,11 @@ class FoodMenuService
         WHERE fm.start_date <= :date AND fm.final_date >= :date
         GROUP BY turn, fi.food_id_fk ;";
 
-        return Yii::app()->db->createCommand($sql)->bindParam(':date', $date)->queryAll();
+         return Yii::app()->db->createCommand($sql)->bindParam(':date', $date)->queryAll();
     }
-
     public function getNutritionalValue($id)
     {
-        $nutritionalValue = [];
+        $nutritionalValue = array();
         $sql = '
             select f.id, f.description, fi.amount, fi.amount_for_unit, fi.measurement_for_unit,  fme.value, fme.measure,
             f.energy_kcal, f.protein_g, f.carbohydrate_g, f.lipidius_g from food as f
@@ -185,30 +170,33 @@ class FoodMenuService
             where fm.id = :id
         ';
         $nutritionalValue = Yii::app()->db->createCommand($sql)->bindParam(':id', $id)->queryAll();
-        $includeSatruday = FoodMenu::model()->findByPk($id, ['select' => 'include_saturday'])->include_saturday;
+        $includeSatruday = FoodMenu::model()->findByPk($id, array('select' => 'include_saturday'))->include_saturday;
         $kcal = 0;
         $calTotal = 0;
         $ptnTotal = 0;
         $lpdTotal = 0;
         $daysOFWeek = $includeSatruday == 1 ? 6 : 5;
         foreach ($nutritionalValue as $item) {
-            $isUnit = $item['measure'] == 'u';
-            $value = $isUnit ? $item['amount_for_unit'] : $item['value'];
-            $portion = $value * $item['amount'];
 
-            $measure = $isUnit ? $item['measurement_for_unit'] : $item['measure'];
-            if ($measure == 'g' || $measure == 'ml') {
-                $kcal += (is_numeric($item['energy_kcal']) ? $item['energy_kcal'] : 0) * $portion / 100;
-                $calTotal += (is_numeric($item['carbohydrate_g']) ? $item['carbohydrate_g'] : 0) * $portion / 100;
-                $ptnTotal += (is_numeric($item['protein_g']) ? $item['protein_g'] : 0) * $portion / 100;
-                $lpdTotal += (is_numeric($item['lipidius_g']) ? $item['lipidius_g'] : 0) * $portion / 100;
-            } elseif ($measure == 'Kg' || $measure == 'L') {
+            $isUnit = $item["measure"] == "u";
+            $value = $isUnit  ? $item["amount_for_unit"] : $item["value"];
+            $portion =  $value * $item["amount"];
+
+            $measure =  $isUnit ? $item["measurement_for_unit"] : $item["measure"];
+            if ($measure == "g" || $measure == 'ml') {
+                $kcal += (is_numeric($item["energy_kcal"]) ? $item["energy_kcal"] : 0) * $portion / 100;
+                $calTotal += (is_numeric($item["carbohydrate_g"]) ? $item["carbohydrate_g"] : 0) * $portion / 100;
+                $ptnTotal += (is_numeric($item["protein_g"]) ? $item["protein_g"] : 0) * $portion / 100;
+                $lpdTotal += (is_numeric($item["lipidius_g"]) ? $item["lipidius_g"] : 0) * $portion / 100;
+            } elseif ($measure == "Kg" || $measure == "L") {
                 $kgTog = $portion * 1000;
-                $kcal += (is_numeric($item['energy_kcal']) ? $item['energy_kcal'] : 0) * $kgTog / 100;
-                $calTotal += (is_numeric($item['carbohydrate_g']) ? $item['carbohydrate_g'] : 0) * $kgTog / 100;
-                $ptnTotal += (is_numeric($item['protein_g']) ? $item['protein_g'] : 0) * $kgTog / 100;
-                $lpdTotal += (is_numeric($item['lipidius_g']) ? $item['lipidius_g'] : 0) * $kgTog / 100;
+                $kcal += (is_numeric($item["energy_kcal"]) ? $item["energy_kcal"] : 0) * $kgTog / 100;
+                $calTotal += (is_numeric($item["carbohydrate_g"]) ? $item["carbohydrate_g"] : 0) * $kgTog / 100;
+                $ptnTotal += (is_numeric($item["protein_g"]) ? $item["protein_g"] : 0) * $kgTog / 100;
+                $lpdTotal += (is_numeric($item["lipidius_g"]) ? $item["lipidius_g"] : 0) * $kgTog / 100;
             }
+
+
         }
 
         $kcalAverage = $kcal / $daysOFWeek;
@@ -225,20 +213,19 @@ class FoodMenuService
             $calpct = $ptnpct = $lpdpct = 0;
         }
 
-        $result['kcalAverage'] = round($kcalAverage);
+        $result["kcalAverage"] = round($kcalAverage);
 
-        $result['calAverage'] = round($calAverage);
-        $result['calpct'] = round($calpct);
+        $result["calAverage"] = round($calAverage);
+        $result["calpct"] = round($calpct);
 
-        $result['ptnAvarage'] = round($ptnAvarage);
-        $result['ptnpct'] = round($ptnpct);
+        $result["ptnAvarage"] = round($ptnAvarage);
+        $result["ptnpct"] = round($ptnpct);
 
-        $result['lpdAvarage'] = round($lpdAvarage);
-        $result['lpdpct'] = round($lpdpct);
+        $result["lpdAvarage"] = round($lpdAvarage);
+        $result["lpdpct"] = round($lpdpct);
 
         return $result;
     }
-
     public function getMelsOfWeek()
     {
         // Get the current date
@@ -247,34 +234,32 @@ class FoodMenuService
 
         // Create a filter to select foodMenus
         $criteria = new CDbCriteria();
-        $criteria->addCondition('start_date <= :date AND final_date >= :date');
-        $criteria->params = [':date' => $date];
+        $criteria->addCondition("start_date <= :date AND final_date >= :date");
+        $criteria->params = array(':date' => $date);
 
         // Select in database filtered foodMenus and assign it to models
         $modelFoodMenus = FoodMenu::model()->findAll($criteria);
         $foodMenu = new FoodMenuObject();
 
-        $weekDays = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
+        $weekDays = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"];
         foreach ($weekDays as $day) {
             foreach ($modelFoodMenus as $modelFoodMenu) {
-                $modelMeals = FoodMenuMeal::model()->findAllByAttributes(['food_menuId' => $modelFoodMenu->id]);
-                $publicTargetFoodMenu = FoodMenuVsFoodPublicTarget::model()->findByAttributes(['food_menu_fk' => $modelFoodMenu->id]);
+                $modelMeals = FoodMenuMeal::model()->findAllByAttributes(array("food_menuId" => $modelFoodMenu->id));
+                $publicTargetFoodMenu = FoodMenuVsFoodPublicTarget::model()->findByAttributes(array("food_menu_fk" => $modelFoodMenu->id));
                 $publicTarget = FoodPublicTarget::model()->findByPk($publicTargetFoodMenu->food_public_target_fk);
                 $stages = [];
-                $stagesFoodMenu = FoodMenuVsEdcensoStageVsModality::model()->findAllByAttributes(['food_menu_fk' => $modelFoodMenu->id]);
-                foreach ($stagesFoodMenu as $stage) {
-                    $stages[] = $stage['edcenso_stage_vs_modality_fk'];
+                $stagesFoodMenu = FoodMenuVsEdcensoStageVsModality::model()->findAllByAttributes(array("food_menu_fk" => $modelFoodMenu->id));
+                foreach($stagesFoodMenu as $stage) {
+                    $stages[] = $stage["edcenso_stage_vs_modality_fk"];
                 }
                 $foodMenu->setDayMeals($day, $modelMeals, $publicTarget, $stages);
             }
         }
-
         return $foodMenu;
     }
-
     public function createFoodMenuRelations($modelFoodMenu, $request, $transaction)
     {
-        $weekDays = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
+        $weekDays = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"];
         foreach ($weekDays as $day) {
             // Verifica se existe alguma refeição para o dia
             if ($request[$day] !== null) {
@@ -284,20 +269,19 @@ class FoodMenuService
             }
         }
     }
-
     /**
-     * Método que salva no banco as alterações referentes às refeições.
+     * Método que salva no banco as alterações referentes às refeições
      */
     private function createMeals($modelFoodMenu, $meals, $day, $transaction)
     {
         foreach ($meals as $meal) {
-            $foodMenuMeal = new FoodMenuMeal();
-            $foodMealType = FoodMealType::model()->findByPk($meal['food_meal_type']);
+            $foodMenuMeal = new FoodMenuMeal;
+            $foodMealType = FoodMealType::model()->findByPk($meal["food_meal_type"]);
             $foodMenuMeal->food_menuId = $modelFoodMenu->id;
             $foodMenuMeal->$day = 1;
             $foodMenuMeal->turn = $meal['turn'];
             $foodMenuMeal->sequence = $meal['sequence'];
-            $foodMenuMeal->meal_time = $meal['time'];
+            $foodMenuMeal->meal_time = $meal["time"];
             $foodMenuMeal->food_meal_type_fk = $foodMealType->id;
 
             // Verifica se a refeição foi salva com sucesso
@@ -314,18 +298,18 @@ class FoodMenuService
     }
 
     /**
-     * Método que salva no banco as alterações referentes aos pratos.
+     * Método que salva no banco as alterações referentes aos pratos
      */
     private function createComponents($foodMenuMeal, $meal, $transaction)
     {
-        foreach ($meal['meals_component'] as $component) {
-            $foodMenuMealComponent = new FoodMenuMealComponent();
+        foreach ($meal["meals_component"] as $component) {
+            $foodMenuMealComponent = new FoodMenuMealComponent;
             $foodMenuMealComponent->food_menu_mealId = $foodMenuMeal->id;
-            $foodMenuMealComponent->description = $component['description'];
+            $foodMenuMealComponent->description = $component["description"];
             // Verifica se o prato foi salvo com sucesso
             $saveComponentResult = $foodMenuMealComponent->save();
             if ($saveComponentResult === false) {
-                $message = 'Ocorreu um erro ao salvar um prato! Verifique as informações e tente novamente';
+                $message = "Ocorreu um erro ao salvar um prato! Verifique as informações e tente novamente";
                 $transaction->rollback();
                 throw new CHttpException(500, $message);
             }
@@ -334,24 +318,25 @@ class FoodMenuService
     }
 
     /**
-     * Método que salva no banco as alterações relacionadas aos ingredientes de um prato.
+     * Método que salva no banco as alterações relacionadas aos ingredientes de um prato
      */
     private function createIngredients($modelComponent, $component, $transaction)
     {
         // $component["food_ingredients"] se trata da lista de ingredientes que um prato possui
-        foreach ($component['food_ingredients'] as $ingredient) {
-            $foodIngredient = new FoodIngredient();
-            $foodSearch = Food::model()->findByPk($ingredient['food_id_fk']);
+        foreach ($component["food_ingredients"] as $ingredient) {
+            $foodIngredient = new FoodIngredient;
+            $foodSearch = Food::model()->findByPk($ingredient["food_id_fk"]);
             $foodIngredient->food_id_fk = $foodSearch->id;
-            $foodIngredient->amount = $ingredient['amount'];
+            $foodIngredient->amount = $ingredient["amount"];
             $foodIngredient->food_menu_meal_componentId = $modelComponent->id;
-            $foodMeasurement = FoodMeasurement::model()->findByPk($ingredient['food_measure_unit_id']);
+            $foodMeasurement = FoodMeasurement::model()->findByPk($ingredient["food_measure_unit_id"]);
             $foodIngredient->food_measurement_fk = $foodMeasurement->id;
-            $foodIngredient->measurement_for_unit = $ingredient['measurement_for_unit'] != '' ? $ingredient['measurement_for_unit'] : null;
-            $foodIngredient->amount_for_unit = $ingredient['amount_for_unit'] != '' ? $ingredient['amount_for_unit'] : null;
+            $foodIngredient->measurement_for_unit = $ingredient["measurement_for_unit"] != ""? $ingredient["measurement_for_unit"] : null;
+            $foodIngredient->amount_for_unit = $ingredient["amount_for_unit"] != ""? $ingredient["amount_for_unit"] : null;
             $foodIngredient->validate();
             CVarDumper::dump($foodIngredient->getErrors());
             $saveIngredientResult = $foodIngredient->save();
+
 
             if ($saveIngredientResult === false) {
                 // Caso de erro: Falha quando ocorre um erro ao tentar salvar um ingrediente de um prato
@@ -363,7 +348,7 @@ class FoodMenuService
     }
 }
 /**
- * Classes that represents a foodMenu which will be manipulated and send as response to client request.
+ * Classes that represents a foodMenu which will be manipulated and send as response to client request
  */
 class FoodMenuObject
 {
@@ -397,17 +382,17 @@ class FoodMenuObject
 
     public function setDateFormated($model)
     {
-        $startDate = DateTime::createFromFormat('Y-m-d', $model->start_date);
-        $finalDate = DateTime::createFromFormat('Y-m-d', $model->final_date);
-        $this->startDate = $startDate->format('d/m/Y');
-        $this->finalDate = $finalDate->format('d/m/Y');
+        $startDate = DateTime::createFromFormat("Y-m-d", $model->start_date);
+        $finalDate = DateTime::createFromFormat("Y-m-d", $model->final_date);
+        $this->startDate = $startDate->format("d/m/Y");
+        $this->finalDate = $finalDate->format("d/m/Y");
     }
 
     public function setDayMeals($day, $modelMeals, $publicTarget, $stages = null)
     {
         foreach ($modelMeals as $modelMeal) {
             if ($modelMeal->$day) {
-                $modelComponents = FoodMenuMealComponent::model()->findAllByAttributes(['food_menu_mealId' => $modelMeal->id]);
+                $modelComponents = FoodMenuMealComponent::model()->findAllByAttributes(array('food_menu_mealId' => $modelMeal->id));
                 $modelMealType = FoodMealType::model()->findByPk($modelMeal->food_meal_type_fk);
                 $meal = new MealObject($modelMeal, $publicTarget, $modelMealType->description, $stages);
                 $meal->setComponentMeal($modelComponents);
@@ -417,7 +402,7 @@ class FoodMenuObject
     }
 }
 /**
- * Classe that represents a meal from a foodMenu to be loaded in JSON response.
+ * Classe that represents a meal from a foodMenu to be loaded in JSON response
  */
 class MealObject
 {
@@ -447,7 +432,7 @@ class MealObject
     public function setComponentMeal($modelComponents)
     {
         foreach ($modelComponents as $modelComponent) {
-            $modelIngredients = FoodIngredient::model()->findAllByAttributes(['food_menu_meal_componentId' => $modelComponent->id]);
+            $modelIngredients = FoodIngredient::model()->findAllByAttributes(array('food_menu_meal_componentId' => $modelComponent->id));
             $component = new MealComponentObject($modelComponent);
             $component->setComponentIngredients($modelIngredients);
             array_push($this->mealsComponent, (array) $component);
@@ -455,7 +440,7 @@ class MealObject
     }
 }
 /**
- * Classe that represents a Component from a meal to be loaded in JSON response.
+ * Classe that represents a Component from a meal to be loaded in JSON response
  */
 class MealComponentObject
 {
@@ -477,7 +462,7 @@ class MealComponentObject
     }
 }
 /**
- * Classe that represents an ingredient from a component to be loaded in JSON response.
+ * Classe that represents an ingredient from a component to be loaded in JSON response
  */
 class IngredientObject
 {
@@ -500,7 +485,7 @@ class IngredientObject
         $this->foodName = $foodModel->description;
         $this->amount = $model->amount;
         $this->foodMeasureUnitId = $model->food_measurement_fk;
-        $this->lip = is_numeric($foodModel->lipidius_g) ? round($foodModel->lipidius_g, 2) : $foodModel->lipidius_g;
+        $this->lip =  is_numeric($foodModel->lipidius_g) ? round($foodModel->lipidius_g, 2) : $foodModel->lipidius_g;
         $this->pt = is_numeric($foodModel->protein_g) ? round($foodModel->protein_g, 2) : $foodModel->protein_g;
         $this->cho = is_numeric($foodModel->carbohydrate_g) ?
              round($foodModel->carbohydrate_g, 2) : $foodModel->carbohydrate_g;
@@ -509,5 +494,6 @@ class IngredientObject
         $this->measurementUnit = $foodModel->measurementUnit;
         $this->measurementForUnit = $model->measurement_for_unit;
         $this->amountForUnit = $model->amount_for_unit;
+
     }
 }

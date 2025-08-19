@@ -14,11 +14,11 @@ $cs->registerScriptFile($baseUrl . '/js/classes/class-contents/validateFunctions
 
 $this->setPageTitle('TAG - ' . Yii::t('default', 'Classes Contents'));
 
-$form = $this->beginWidget('CActiveForm', [
+$form = $this->beginWidget('CActiveForm', array(
     'id' => 'classes-form',
     'enableAjaxValidation' => false,
-    'action' => CHtml::normalizeUrl(['classes/saveClassContents']),
-]);
+    'action' => CHtml::normalizeUrl(array('classes/saveClassContents')),
+));
 
 $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
 
@@ -39,11 +39,11 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
            summary="Tabela relacionada a informações da escola">
         <tr>
             <th scope="school">Escola:</th>
-            <td colspan="7"><?php echo $school->inep_id . ' - ' . $school->name ?></td>
+            <td colspan="7"><?php echo $school->inep_id . " - " . $school->name ?></td>
         <tr>
         <tr>
             <th scope="uf">Estado:</th>
-            <td colspan="1"><?php echo $school->edcensoUfFk->name . ' - ' . $school->edcensoUfFk->acronym ?></td>
+            <td colspan="1"><?php echo $school->edcensoUfFk->name . " - " . $school->edcensoUfFk->acronym ?></td>
             <th scope="city">Municipio:</th>
             <td colspan="1"><?php echo $school->edcensoCityFk->name ?></td>
             <th scope="address">Endereço:</th>
@@ -51,25 +51,25 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
         <tr>
         <tr>
             <th scope="location">Localização:</th>
-            <td colspan="1"><?php echo $school->location == 1 ? 'URBANA' : 'RURAL' ?></td>
+            <td colspan="1"><?php echo $school->location == 1 ? "URBANA" : "RURAL" ?></td>
             <th scope="Administrative Dependence">Dependência Administrativa:</th>
             <td colspan="3"><?php
                 $ad = $school->administrative_dependence;
-switch ($ad) {
-    case 1:
-        echo 'FEDERAL';
-        break;
-    case 2:
-        echo 'ESTADUAL';
-        break;
-    case 3:
-        echo 'MUNICIPAL';
-        break;
-    default:
-        echo 'PRIVADA';
-        break;
-}
-?></td>
+                switch ($ad) {
+                    case 1:
+                        echo "FEDERAL";
+                        break;
+                    case 2:
+                        echo "ESTADUAL";
+                        break;
+                    case 3:
+                        echo "MUNICIPAL";
+                        break;
+                    default:
+                        echo "PRIVADA";
+                        break;
+                }
+                ?></td>
         <tr>
     </table>
     <table class="table table-bordered table-striped visible-print" summary="Tabela de filtros">
@@ -103,19 +103,19 @@ switch ($ad) {
             <div class="mobile-row">
                 <div class="column clearleft">
                     <div class="t-field-select">
-                        <?php echo CHtml::label(yii::t('default', 'Classroom'), 'classroom', ['class' => 'control-label t-field-select__label--required', 'style' => 'width: 53px;']); ?>
+                        <?php echo CHtml::label(yii::t('default', 'Classroom'), 'classroom', array('class' => 'control-label t-field-select__label--required', 'style' => 'width: 53px;')); ?>
                         <select class="select-search-on t-field-select__input " id="classroom" name="classroom">
                             <option value="">Selecione a turma</option>
                             <?php foreach ($classrooms as $classroom) : ?>
                                 <option value="<?= $classroom->id ?>"
-                                        fundamentalmaior="<?= !TagUtils::isStageMinorEducation($classroom->edcenso_stage_vs_modality_fk) ? '1' : '0' ?>"><?= $classroom->name ?></option>
+                                        fundamentalmaior="<?= !TagUtils::isStageMinorEducation($classroom->edcenso_stage_vs_modality_fk) ? "1" : "0" ?>"><?= $classroom->name ?></option>
                             <?php endforeach; ?>
                         </select>
                     </div>
                 </div>
                 <div class="column month-container">
                     <div class="t-field-select">
-                        <?php echo CHtml::label(yii::t('default', 'Month') . '/Ano', 'month', ['class' => 'control-label t-field-select__label--required', 'style' => 'width: 80px;']); ?>
+                        <?php echo CHtml::label(yii::t('default', 'Month') . "/Ano", 'month', array('class' => 'control-label t-field-select__label--required', 'style' => 'width: 80px;')); ?>
                         <select class="select-search-on t-field-select__input" id="month"
                                 style="min-width: 185px;"></select>
                     </div>
@@ -124,13 +124,13 @@ switch ($ad) {
             <div class="mobile-row helper printSelect selectComponente">
                 <div class="column clearleft on-tablet disciplines-container" style="display: none;">
                     <div class="t-field-select">
-                        <?php echo CHtml::label(yii::t('default', 'Discipline'), 'disciplines', ['class' => 'control-label t-field-select__label--required']); ?>
+                        <?php echo CHtml::label(yii::t('default', 'Discipline'), 'disciplines', array('class' => 'control-label t-field-select__label--required')); ?>
                         <?php
-        echo CHtml::dropDownList('disciplines', '', [], [
-            'key' => 'id',
-            'class' => 'select-search-on t-field-select__input '
-        ]);
-?>
+                        echo CHtml::dropDownList('disciplines', '', array(), array(
+                            'key' => 'id',
+                            'class' => 'select-search-on t-field-select__input '
+                        ));
+                        ?>
                     </div>
                 </div>
             </div>

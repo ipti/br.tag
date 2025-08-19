@@ -3,29 +3,29 @@
 /* @var $report mixed */
 $baseUrl = Yii::app()->baseUrl;
 $cs = Yii::app()->getClientScript();
-$cs->registerScriptFile($baseUrl . '/js/reports/QuartelyClassCouncil/_initialization.js?v=' . TAG_VERSION, CClientScript::POS_END);
+$cs->registerScriptFile($baseUrl . '/js/reports/QuartelyClassCouncil/_initialization.js?v='.TAG_VERSION, CClientScript::POS_END);
 
 $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
-$tableWhiteFieldsComplete = '<td></td><td></td><td></td><td></td><td></td>
+$tableWhiteFieldsComplete = "<td></td><td></td><td></td><td></td><td></td>
                             <td></td><td></td><td></td><td></td><td></td>
                             <td></td><td></td><td></td><td></td><td></td>
                             <td></td><td></td><td></td><td></td><td></td>
-                            <td></td><td></td><td></td><td></td><td></td>'
+                            <td></td><td></td><td></td><td></td><td></td>"
 ?>
 
 <div class="pageA4H page" style="height: auto;">
     <div class="cabecalho" style="margin: 30px 0;">
         <?php $this->renderPartial('buzios/headers/headBuziosII'); ?>
     </div>
-    <h3><?php echo 'Acompanhamento Avaliativo dos Alunos em ' . $discipline->name . ' ' .
-        Yii::app()->user->year . '<br> Ciclo de Alfabetização - ' . $anosTitulo . '.<br>' ?>
+    <h3><?php echo "Acompanhamento Avaliativo dos Alunos em ".$discipline->name." ".
+        Yii::app()->user->year."<br> Ciclo de Alfabetização - ".$anosTitulo.".<br>" ?>
         <?php if ($anosVerify == 1) {?>
-                <span style="color: black">(<?php echo $anosPosition == 1 ? '&nbspX&nbsp' : '&nbsp&nbsp&nbsp&nbsp'?>)&nbsp1º</span>
-                <span style="color: black">(<?php echo $anosPosition == 2 ? '&nbspX&nbsp' : '&nbsp&nbsp&nbsp&nbsp'?>)&nbsp2º</span>
-                <span style="color: black">(<?php echo $anosPosition == 3 ? '&nbspX&nbsp' : '&nbsp&nbsp&nbsp&nbsp'?>)&nbsp3º</span>
-            <?php } else {?>
-                <span style="color: black">(<?php echo $anosPosition == 4 ? '&nbspX&nbsp' : '&nbsp&nbsp&nbsp&nbsp'?>)&nbsp4º</span>
-                <span style="color: black">(<?php echo $anosPosition == 5 ? '&nbspX&nbsp' : '&nbsp&nbsp&nbsp&nbsp'?>)&nbsp5º</span>
+                <span style="color: black">(<?php echo $anosPosition == 1 ? "&nbspX&nbsp" : "&nbsp&nbsp&nbsp&nbsp"?>)&nbsp1º</span>
+                <span style="color: black">(<?php echo $anosPosition == 2 ? "&nbspX&nbsp" : "&nbsp&nbsp&nbsp&nbsp"?>)&nbsp2º</span>
+                <span style="color: black">(<?php echo $anosPosition == 3 ? "&nbspX&nbsp" : "&nbsp&nbsp&nbsp&nbsp"?>)&nbsp3º</span>
+            <?php }else {?>
+                <span style="color: black">(<?php echo $anosPosition == 4 ? "&nbspX&nbsp" : "&nbsp&nbsp&nbsp&nbsp"?>)&nbsp4º</span>
+                <span style="color: black">(<?php echo $anosPosition == 5 ? "&nbspX&nbsp" : "&nbsp&nbsp&nbsp&nbsp"?>)&nbsp5º</span>
             <?php }?>
     </h3>
     <div class="row-fluid hidden-print">
@@ -36,10 +36,10 @@ $tableWhiteFieldsComplete = '<td></td><td></td><td></td><td></td><td></td>
         </div>
     </div>
     <div class="title-container">
-        <p><?php echo 'Professor(a): ' . $instructor[0]['instructor_name']?></p>
-        <span><?php echo 'Turma: ' . $classroom->name?></span>
-        <span><?php echo 'Total de alunos: ' . count($students)?></span>
-        <span><?php echo 'Trimestre: ' . $quarterly?></span>
+        <p><?php echo "Professor(a): ".$instructor[0]['instructor_name']?></p>
+        <span><?php echo "Turma: ".$classroom->name?></span>
+        <span><?php echo "Total de alunos: ".count($students)?></span>
+        <span><?php echo "Trimestre: ".$quarterly?></span>
     </div>
     <div class="students-list-container">
         <table aria-labelledby="Students List">
@@ -58,7 +58,7 @@ $tableWhiteFieldsComplete = '<td></td><td></td><td></td><td></td><td></td>
                     <th scope="col" rowspan="2">* Observações individuais significativas para auxiliar no preenchimento do quadro descritivo:</th>
                 </tr>
                 <tr>
-                    <?php for ($i = 0; $i < 8; $i++) {
+                    <?php for ($i=0; $i < 8; $i++) {
                         echo "<th scope='col'>S</th>
                         <th scope='col'>P</th>
                         <th scope='col'>N</th>";
@@ -67,18 +67,18 @@ $tableWhiteFieldsComplete = '<td></td><td></td><td></td><td></td><td></td>
             </thead>
             <tbody>
                 <?php
-                                        $count = 1;
-foreach ($students as $student) { ?>
+                $count = 1;
+                foreach ($students as $student) { ?>
                     <tr>
-                        <td><?= $count < 10 ? '0' . $count : $count?></td>
+                        <td><?= $count < 10 ? "0".$count : $count?></td>
                         <td><?= $student['student_name']?></td>
                         <?= $tableWhiteFieldsComplete?>
                     </tr>
                 <?php
-$count++;
-}?>
+                $count++;
+                }?>
                 <td></td>
-                <td style="font-weight: bold;font-size: 14px;"><?php echo 'TOTAL: ' . count($students)?></td>
+                <td style="font-weight: bold;font-size: 14px;"><?php echo "TOTAL: ".count($students)?></td>
                 <?= $tableWhiteFieldsComplete?>
             </tbody>
         </table>

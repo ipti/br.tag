@@ -3,14 +3,23 @@
 /* @var $report mixed */
 $baseUrl = Yii::app()->baseUrl;
 $cs = Yii::app()->getClientScript();
-$cs->registerScriptFile($baseUrl . '/js/reports/StudentsFileReport/_initialization.js?v=' . TAG_VERSION, CClientScript::POS_END);
+$cs->registerScriptFile($baseUrl . '/js/reports/StudentsFileReport/_initialization.js?v='.TAG_VERSION, CClientScript::POS_END);
 
 $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
 
+
 foreach ($enrollments as $enrollment) {
-    $this->renderPartial('StudentFileForm', ['enrollment' => $enrollment, 'school' => $school]); ?>
+    $this->renderPartial('StudentFileForm', array('enrollment' => $enrollment, 'school' => $school));
+?>
 <div style="page-break-after: always;"></div>
 <?php
 }
+
+
+
+
+
+
+
 
 ?>

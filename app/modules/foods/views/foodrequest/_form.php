@@ -9,10 +9,10 @@ $cs = Yii::app()->getClientScript();
 $cs->registerScriptFile('app\modules\foods\resources\request\_initialization.js', CClientScript::POS_END);
 $cs->registerScriptFile('app\modules\foods\resources\request\functions.js', CClientScript::POS_END);
 
-$form = $this->beginWidget('CActiveForm', [
-    'id' => 'food-request-form',
-    'enableAjaxValidation' => false,
-]);
+$form=$this->beginWidget('CActiveForm', array(
+	'id'=>'food-request-form',
+	'enableAjaxValidation'=>false,
+));
 ?>
 
 <div class="form">
@@ -36,7 +36,7 @@ $form = $this->beginWidget('CActiveForm', [
 
     <div class="row">
         <div class="column clearleft t-margin-none--bottom t-field-text is-two-fifths">
-            <?php echo CHtml::label('Edital', 'notice', ['class' => 't-field-select__label--required']); ?>
+            <?php echo CHtml::label('Edital', 'notice', array('class' => 't-field-select__label--required')); ?>
             <select class="select-search-on t-field-select__input select2-container" id="foodNotice" name="foodNotice">
                 <option value="selecione">Selecione</option>
             </select>
@@ -45,29 +45,25 @@ $form = $this->beginWidget('CActiveForm', [
 
     <div class="row">
         <div class="column t-field-select t-multiselect clearfix is-two-fifths">
-            <?php echo CHtml::label('Selecione as escolas', 'school_fk', ['class' => 't-field-select__label--required']); ?>
-            <?php echo $form->dropDownList(
-    $requestSchoolModel,
-    'school_fk',
-    Chtml::listData(Yii::app()->user->usersSchools, 'inep_id', 'name'),
-    [
-        'id' => 'requestSchools',
-        'multiple' => true,
-        'class' => 'js-select-schools t-field-select__input multiselect'
-    ]
-); ?>
+            <?php echo CHtml::label('Selecione as escolas', 'school_fk', array('class' => 't-field-select__label--required')); ?>
+            <?php echo $form->dropDownList($requestSchoolModel,'school_fk',
+                Chtml::listData(Yii::app()->user->usersSchools, 'inep_id', 'name'),
+                array(
+                    'id' => "requestSchools",
+                    'multiple' => true,
+                    'class' => 'js-select-schools t-field-select__input multiselect'
+                )
+            ); ?>
         </div>
         <div class="column t-field-select t-multiselect clearleft--on-mobile clearfix is-two-fifths">
-            <?php echo CHtml::label('Selecione os agricultores', 'farmer_fk', ['class' => 't-field-select__label--required']); ?>
-            <?php echo $form->dropDownList(
-                $requestFarmerModel,
-                'farmer_fk',
+            <?php echo CHtml::label('Selecione os agricultores', 'farmer_fk', array('class' => 't-field-select__label--required')); ?>
+            <?php echo $form->dropDownList($requestFarmerModel,'farmer_fk',
                 Chtml::listData(FarmerRegister::model()->findAll('status="Ativo"'), 'id', 'name'),
-                [
-                    'id' => 'requestFarmers',
+                array(
+                    'id' => "requestFarmers",
                     'multiple' => true,
                     'class' => 'js-select-farmer t-field-select__input multiselect'
-                ]
+                )
             ); ?>
         </div>
     </div>
@@ -84,18 +80,18 @@ $form = $this->beginWidget('CActiveForm', [
 
     <div class="row">
         <div class="column is-one-third t-margin-none--bottom t-field-select clearfix">
-            <?php echo CHtml::label('Selecione o Alimento', 'food_fk', ['class' => 't-field-select__label--required']); ?>
+            <?php echo CHtml::label('Selecione o Alimento', 'food_fk', array('class' => 't-field-select__label--required')); ?>
             <select class="select-search-on t-field-select__input select2-container clear-margin--all" id="foodSelect">
                 <option value="alimento">Selecione o Alimento</option>
             </select>
         </div>
         <div class="column is-one-tenth t-margin-none--bottom clearleft--on-mobile t-field-text clearfix">
-            <?php echo $form->label($requestItemModel, 'amount', ['class' => 't-field-text__label--required']); ?>
-            <?php echo $form->textField($requestItemModel, 'amount', ['id' => 'amount', 'class' => 't-field-text__input clear-margin--all js-amount', 'placeholder' => 'Valor']); ?>
-            <?php echo $form->error($requestItemModel, 'amount'); ?>
+            <?php echo $form->label($requestItemModel,'amount', array('class' => 't-field-text__label--required')); ?>
+            <?php echo $form->textField($requestItemModel,'amount', array('id' => 'amount','class' => 't-field-text__input clear-margin--all js-amount', 'placeholder' => 'Valor')); ?>
+            <?php echo $form->error($requestItemModel,'amount'); ?>
         </div>
         <div class="column is-one-tenth t-margin-none--bottom t-field-select clearfix">
-            <?php echo $form->label($requestItemModel, 'measurementUnit', ['class' => 't-field-text__label--required']); ?>
+            <?php echo $form->label($requestItemModel,'measurementUnit', array('class' => 't-field-text__label--required')); ?>
             <select class="select-search-on t-field-select__input select2-container clear-margin--all" id="measurementUnit" name="measurementUnit">
                 <option value="selecione">Selecione</option>
             </select>

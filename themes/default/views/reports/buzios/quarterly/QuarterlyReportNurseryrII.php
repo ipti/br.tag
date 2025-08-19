@@ -3,19 +3,19 @@
 /* @var $report mixed */
 $baseUrl = Yii::app()->baseUrl;
 $cs = Yii::app()->getClientScript();
-$cs->registerScriptFile($baseUrl . '/js/reports/QuarterlyReport/_initialization.js?v=' . TAG_VERSION, CClientScript::POS_END);
+$cs->registerScriptFile($baseUrl . '/js/reports/QuarterlyReport/_initialization.js?v='.TAG_VERSION, CClientScript::POS_END);
 
 $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
 
-$turno = $classroom->turn;
+$turno =  $classroom->turn;
 if ($turno == 'M') {
-    $turno = 'Matutino';
-} elseif ($turno == 'T') {
-    $turno = 'Vespertino';
-} elseif ($turno == 'N') {
-    $turno = 'Noturno';
-} elseif ($turno == '' || $turno == null) {
-    $turno = '______________________';
+   $turno = "Matutino";
+} else if ($turno == 'T') {
+   $turno = "Vespertino";
+} else if ($turno == 'N') {
+   $turno = "Noturno";
+} else if ($turno == '' || $turno == null) {
+   $turno = "______________________";
 }
 
 ?>
@@ -37,13 +37,13 @@ if ($turno == 'M') {
          <p>Unidade Escolar: <?php echo $school->name ?></p>
          <?php
          for ($i = 1; $i <= 2; $i++) {
-             if ($regentTeachers[$i - 1]) {
-                 echo '<p>Professor(a) Regente ' . $i . ': ' . $regentTeachers[$i - 1]['instructor_name'] . '</p>';
-             } else {
-                 echo '<p>Professor(a) Regente ' . $i . ': _________________________________________________________________________________________________________________________________</p>';
-             }
+            if ($regentTeachers[$i - 1]) {
+               echo "<p>Professor(a) Regente " . $i . ": " . $regentTeachers[$i - 1]['instructor_name'] . "</p>";
+            } else {
+               echo "<p>Professor(a) Regente " . $i . ": _________________________________________________________________________________________________________________________________</p>";
+            }
          }
-?>
+         ?>
          <p>
             <span class="pull-left">Etapa: <?php echo $classroom_etapa ? $classroom_etapa->name : '______________________' ?></span>
          <div class="pull-right" style="margin-right: 40px;">

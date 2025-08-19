@@ -11,7 +11,7 @@
     $baseUrl = Yii::app()->baseUrl;
     $cs = Yii::app()->getClientScript();
     $cs->registerCssFile($baseUrl . '/css/reports/electronic-diary.css');
-    $cs->registerScriptFile($baseUrl . '/js/reports/ElectronicDiary/index.js?v=' . TAG_VERSION, CClientScript::POS_END);
+    $cs->registerScriptFile($baseUrl . '/js/reports/ElectronicDiary/index.js?v='.TAG_VERSION, CClientScript::POS_END);
 
     $this->setPageTitle('TAG - Diário Eletrônico');
 
@@ -29,7 +29,7 @@
         <div class="filter-bar margin-bottom-none hidden-print" style="display:flex; width:100%; flex-wrap: wrap;">
             <input type="hidden" class="school-year" value="<?= $schoolyear ?>">
             <div class="report-filter">
-                <?php echo CHtml::label('Relatório *', 'report-label', ['class' => 'control-label required electronic-diary-label']); ?>
+                <?php echo CHtml::label("Relatório *", 'report-label', array('class' => 'control-label required electronic-diary-label')); ?>
                 <select class="select-search-on electronic-diary-input" id="report">
                     <option value="">Selecione...</option>
                     <option value="frequency">Frequência</option>
@@ -39,7 +39,7 @@
 
             <div class="dependent-filters">
                 <div class="classroom-container">
-                    <?php echo CHtml::label(yii::t('default', 'Classroom') . ' *', 'classroom', ['class' => 'control-label required electronic-diary-label']); ?>
+                    <?php echo CHtml::label(yii::t('default', 'Classroom') . " *", 'classroom', array('class' => 'control-label required electronic-diary-label')); ?>
                     <select class="select-search-on electronic-diary-input" id="classroom">
                         <option value="">Selecione...</option>
                         <?php foreach ($classrooms as $classroom): ?>
@@ -51,38 +51,38 @@
                 </div>
             </div>
             <div class="students-container" style="display:none;">
-                    <?php echo CHtml::label('Aluno *', 'student', ['class' => 'control-label required electronic-diary-label']); ?>
+                    <?php echo CHtml::label("Aluno *", 'student', array('class' => 'control-label required electronic-diary-label')); ?>
                     <?php
-                    echo CHtml::dropDownList('student', '', [], [
+                    echo CHtml::dropDownList('student', '', array(), array(
                         'key' => 'id',
                         'class' => 'select-search-on',
-                    ]);
-    ?>
+                    ));
+                    ?>
             </div>
             <div class="stages-container" style="display:none;">
-                    <?php echo CHtml::label('Etapa *', 'stage', ['class' => 'control-label required electronic-diary-label']); ?>
+                    <?php echo CHtml::label("Etapa *", 'stage', array('class' => 'control-label required electronic-diary-label')); ?>
                     <?php
-        echo CHtml::dropDownList('stage', '', [], [
-            'key' => 'id',
-            'class' => 'select-search-on',
-        ]);
-    ?>
+                        echo CHtml::dropDownList('stage', '', array(), array(
+                            'key' => 'id',
+                            'class' => 'select-search-on',
+                        ));
+                    ?>
             </div>
             <div class="electronic-diary date-container" style="display:none;">
-                    <?php echo CHtml::label('Período *', 'interval', ['class' => 'control-label required electronic-diary-label']); ?>
+                    <?php echo CHtml::label("Período *", 'interval', array('class' => 'control-label required electronic-diary-label')); ?>
                     <div style="height: 100%; padding:5px 0 0 0; display: flex">
                     <input size="10" maxlength="10" type="text" placeholder="dd/mm/aaaa" class="initial-date">
                     <input size="10" maxlength="10" type="text" placeholder="dd/mm/aaaa" class="final-date">
                     </div>
             </div>
             <div class="disciplines-container" style="display:none;">
-                    <?php echo CHtml::label(yii::t('default', 'Discipline') . ' *', 'discipline', ['class' => 'control-label required electronic-diary-label']); ?>
+                    <?php echo CHtml::label(yii::t('default', 'Discipline') . " *", 'discipline', array('class' => 'control-label required electronic-diary-label')); ?>
                     <?php
-    echo CHtml::dropDownList('discipline', '', [], [
-        'key' => 'id',
-        'class' => 'select-search-on',
-    ]);
-    ?>
+                    echo CHtml::dropDownList('discipline', '', array(), array(
+                        'key' => 'id',
+                        'class' => 'select-search-on',
+                    ));
+                    ?>
                 </div>
              <div>
                     <a id="loadreport"

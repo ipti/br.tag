@@ -8,11 +8,11 @@ class SagresModule extends CWebModule
         // you may place code here to customize the module or the application
 
         // import the module-level models and components
-        $this->setImport([
+        $this->setImport(array(
             'sagres.models.*',
             'sagres.components.*',
             'sagres.soap.src.sagresEdu.*',
-        ]);
+        ));
     }
 
     public function beforeControllerAction($controller, $action)
@@ -23,8 +23,7 @@ class SagresModule extends CWebModule
             // this method is called before any module controller action is performed
             // you may place customized code here
             return true;
-        } else {
+        } else
             return false;
-        }
     }
 }

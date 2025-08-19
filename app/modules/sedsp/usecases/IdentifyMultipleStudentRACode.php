@@ -6,17 +6,16 @@
  */
 class IdentifyMultipleStudentRACode
 {
-    private $studentTAGDataSource;
-    private $studentSEDDataSource;
+    private  $studentTAGDataSource;
+    private  $studentSEDDataSource;
 
-    public function __construct($studentTAGDataSource = null, $studentSEDDataSource = null)
-    {
+    public function __construct($studentTAGDataSource = null, $studentSEDDataSource = null) {
         $this->studentTAGDataSource = $studentTAGDataSource ?? new StudentTAGDataSource();
         $this->studentSEDDataSource = $studentSEDDataSource ?? new StudentSEDDataSource();
     }
 
     /**
-     * Summary of exec.
+     * Summary of exec
      * @param int $school_id School Id from TAG
      * @return DadosAluno
      */

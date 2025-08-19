@@ -14,16 +14,17 @@ $cs->registerScriptFile($baseUrl, CClientScript::POS_END);
 
     <?php
     $themeUrl = Yii::app()->theme->baseUrl;
-$cs = Yii::app()->getClientScript();
+    $cs = Yii::app()->getClientScript();
+    
 
-$form = $this->beginWidget(
-    'CActiveForm',
-    [
-        'id' => 'provision-acounts-form',
-        'enableAjaxValidation' => false,
-    ]
-);
-?>
+    $form = $this->beginWidget(
+        'CActiveForm',
+        array(
+            'id' => 'provision-acounts-form',
+            'enableAjaxValidation' => false,
+        )
+    );
+    ?>
     <div class="row-fluid hidden-print">
         <div class="span12">
             <h1>
@@ -54,29 +55,29 @@ $form = $this->beginWidget(
                                 <div class="separator">
                                     <div class="control-group">
                                         <div class="controls">
-                                            <?php echo $form->labelEx($model, 'cod_unidade_gestora', ['class' => 'control-label']); ?>
+                                            <?php echo $form->labelEx($model, 'cod_unidade_gestora', array('class' => 'control-label')); ?>
                                         </div>
                                         <div class="controls">
-                                            <?php echo $form->textField($model, 'cod_unidade_gestora', ['size' => 30, 'maxlength' => 30, 'placeholder' => 'Digite o Código da Unidade Gestora', 'style' => 'width: 50%']); ?>
+                                            <?php echo $form->textField($model, 'cod_unidade_gestora', array('size' => 30, 'maxlength' => 30, 'placeholder' => 'Digite o Código da Unidade Gestora', 'style'=> 'width: 50%')); ?>
                                             <?php echo $form->error($model, 'cod_unidade_gestora'); ?>
                                         </div>
                                     </div>
                                     <div class="control-group">
                                         <div class="controls">
-                                            <?php echo $form->labelEx($model, 'name_unidade_gestora', ['class' => 'control-label']); ?>
+                                            <?php echo $form->labelEx($model, 'name_unidade_gestora', array('class' => 'control-label')); ?>
                                         </div>
                                         <div class="controls">
-                                            <?php echo $form->textField($model, 'name_unidade_gestora', ['size' => 150, 'maxlength' => 150, 'placeholder' => 'Digite o Nome da Unidade Gestora', 'style' => 'width: 50%']); ?>
+                                            <?php echo $form->textField($model, 'name_unidade_gestora', array('size' => 150, 'maxlength' => 150, 'placeholder' => 'Digite o Nome da Unidade Gestora', 'style'=> 'width: 50%')); ?>
                                             <?php echo $form->error($model, 'name_unidade_gestora'); ?>
                                         </div>
                                     </div>
 
                                     <div class="control-group">
                                         <div class="controls">
-                                            <?php echo $form->labelEx($model, 'cpf_responsavel', ['class' => 'control-label']); ?>
+                                            <?php echo $form->labelEx($model, 'cpf_responsavel', array('class' => 'control-label')); ?>
                                         </div>
                                         <div class="controls">
-                                            <?php echo $form->textField($model, 'cpf_responsavel', ['size' => 14, 'maxlength' => 14, 'id' => 'input_responsible_cpf', 'style' => 'width: 50%']); ?>
+                                            <?php echo $form->textField($model, 'cpf_responsavel', array('size' => 14, 'maxlength' => 14, 'id' => 'input_responsible_cpf','style'=> 'width: 50%')); ?>
                                             <?php echo $form->error($model, 'cpf_responsavel'); ?>
                                         </div>
                                     </div>
@@ -84,10 +85,10 @@ $form = $this->beginWidget(
 
                                     <div class="control-group">
                                         <div class="controls">
-                                            <?php echo $form->labelEx($model, 'cpf_gestor', ['class' => 'control-label']); ?>
+                                            <?php echo $form->labelEx($model, 'cpf_gestor', array('class' => 'control-label')); ?>
                                         </div>
                                         <div class="controls">
-                                            <?php echo $form->textField($model, 'cpf_gestor', ['size' => 14, 'maxlength' => 14, 'id' => 'input_manager_cpf', 'style' => 'width: 50%']); ?>
+                                            <?php echo $form->textField($model, 'cpf_gestor', array('size' => 14, 'maxlength' => 14,'id' => 'input_manager_cpf', 'style'=> 'width: 50%')); ?>
                                             <?php echo $form->error($model, 'cpf_gestor'); ?>
                                         </div>
                                     </div>

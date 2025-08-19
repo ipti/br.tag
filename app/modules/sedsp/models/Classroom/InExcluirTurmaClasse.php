@@ -17,7 +17,6 @@ class InExcluirTurmaClasse implements JsonSerializable
     public function setInNrClasse(?string $inNrClasse): self
     {
         $this->inNrClasse = $inNrClasse;
-
         return $this;
     }
 
@@ -28,8 +27,7 @@ class InExcluirTurmaClasse implements JsonSerializable
         );
     }
 
-    public function jsonSerialize()
-    {
+    public function jsonSerialize() {
         return get_object_vars($this);
     }
 }

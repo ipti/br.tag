@@ -2,20 +2,20 @@
 /* @var $this FarmerRegisterController */
 /* @var $model FarmerRegister */
 
-$this->breadcrumbs = [
-    'Farmer Registers' => ['index'],
-    $model->name => ['view', 'id' => $model->id],
-    'Update',
-];
+$this->breadcrumbs=array(
+	'Farmer Registers'=>array('index'),
+	$model->name=>array('view','id'=>$model->id),
+	'Update',
+);
 
-$this->menu = [
-    ['label' => 'List FarmerRegister', 'url' => ['index']],
-    ['label' => 'Create FarmerRegister', 'url' => ['create']],
-    ['label' => 'View FarmerRegister', 'url' => ['view', 'id' => $model->id]],
-    ['label' => 'Manage FarmerRegister', 'url' => ['admin']],
-];
+$this->menu=array(
+	array('label'=>'List FarmerRegister', 'url'=>array('index')),
+	array('label'=>'Create FarmerRegister', 'url'=>array('create')),
+	array('label'=>'View FarmerRegister', 'url'=>array('view', 'id'=>$model->id)),
+	array('label'=>'Manage FarmerRegister', 'url'=>array('admin')),
+);
 ?>
 
 <div id="mainPage" class="main">
-    <?php $this->renderPartial('_form', ['model' => $model, 'modelFarmerFoods' => $modelFarmerFoods]); ?>
+    <?php $this->renderPartial('_form', array('model'=>$model, 'modelFarmerFoods'=>$modelFarmerFoods)); ?>
 </div>

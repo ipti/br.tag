@@ -8,29 +8,32 @@ use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Validation;
 
 /**
- * Class representing DiretorTType.
+ * Class representing DiretorTType
  *
+ * 
  * XSD Type: diretor_t
  */
 class DiretorTType
 {
-    #[Serializer\SerializedName('edu:cpfDiretor')]
+
+    #[Serializer\SerializedName("edu:cpfDiretor")]
     #[Serializer\XmlElement(cdata: false)]
     private $cpfDiretor = null;
 
-    #[Serializer\SerializedName('edu:nrAto')]
+    #[Serializer\SerializedName("edu:nrAto")]
     #[Serializer\XmlElement(cdata: false)]
     private $nrAto = null;
 
+   
     public function getCpfDiretor(): ?string
     {
         return $this->cpfDiretor;
     }
 
+  
     public function setCpfDiretor(string $cpfDiretor): self
     {
         $this->cpfDiretor = $cpfDiretor;
-
         return $this;
     }
 
@@ -39,10 +42,8 @@ class DiretorTType
         return $this->nrAto;
     }
 
-    public function setNrAto(string $nrAto): self
-    {
+    public function setNrAto(string $nrAto): self    {
         $this->nrAto = $nrAto;
-
         return $this;
     }
 
@@ -57,3 +58,4 @@ class DiretorTType
         return $violations;
     }
 }
+

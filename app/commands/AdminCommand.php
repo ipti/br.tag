@@ -1,5 +1,4 @@
 <?php
-
 class AdminCommand extends CConsoleCommand
 {
     // Define attributes and methods!
@@ -71,12 +70,6 @@ class AdminCommand extends CConsoleCommand
                 echo 'fim importação\n';
             }
 
-        foreach ($dbs as $db) {
-            $dbname = $db['TABLE_SCHEMA'];
-
-            if (!in_array($dbname, $excludedSchemasExport)) {
-                $this->exportDatabase($dbname);
-            }
         }
 
     }

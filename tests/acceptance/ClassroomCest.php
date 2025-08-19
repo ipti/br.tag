@@ -1,17 +1,17 @@
 <?php
 
 require_once 'vendor/autoload.php';
-require_once __DIR__ . '/../robots/LoginRobots.php';
-require_once __DIR__ . '/../robots/ClassroomRobots.php';
-require_once __DIR__ . '/../builders/ClassroomBuilder.php';
-require_once __DIR__ . '/../acceptance/MatrixCest.php';
+require_once __DIR__ . "/../robots/LoginRobots.php";
+require_once __DIR__ . "/../robots/ClassroomRobots.php";
+require_once __DIR__ . "/../builders/ClassroomBuilder.php";
+require_once __DIR__ . "/../acceptance/MatrixCest.php";
 
 class ClassroomCest
 {
     public function _before(AcceptanceTester $tester)
     {
-        $user = '';
-        $secret = '';
+        $user = "";
+        $secret = "";
 
         $robots = new LoginRobots($tester);
         $robots->pageLogin();

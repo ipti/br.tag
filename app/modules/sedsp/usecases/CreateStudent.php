@@ -11,14 +11,13 @@ Yii::import('application.modules.sedsp.models.*');
 class CreateStudent
 {
     /**
-     * Summary of exec.
+     * Summary of exec
      * @param int $ra RA Number
      * @return StudentIdentification
      */
     public function exec($ra)
     {
         $ucstudent = new GetStudentFromSED();
-
         return $ucstudent->exec($ra);
     }
 }

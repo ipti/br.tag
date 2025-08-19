@@ -7,76 +7,77 @@ class DefaultController extends Controller
      * using two-column layout. See 'protected/views/layouts/column2.php'.
      */
 
+
     /**
      * @return array action filters
      */
     public function filters()
     {
-        return [
+        return array(
             'accessControl', // perform access control for CRUD operations
             'postOnly + delete', // we only allow deletion via POST request
-        ];
+        );
     }
 
     public function accessRules()
     {
-        return [
-            [
+        return array(
+            array(
                 'allow',  // allow all users to perform 'index' and 'view' actions
-                'actions' => ['index', 'view'],
-                'users' => ['*'],
-            ],
-            [
+                'actions' => array('index', 'view'),
+                'users' => array('*'),
+            ),
+            array(
                 'allow', // allow authenticated user to perform 'create' and 'update' actions
-                'actions' => ['create', 'update'],
-                'users' => ['@'],
-            ],
-            [
+                'actions' => array('create', 'update'),
+                'users' => array('@'),
+            ),
+            array(
                 'allow', // allow admin user to perform 'admin' and 'delete' actions
-                'actions' => ['admin', 'delete'],
-                'users' => ['admin'],
-            ],
-            [
+                'actions' => array('admin', 'delete'),
+                'users' => array('admin'),
+            ),
+            array(
                 'deny',  // deny all users
-                'users' => ['*'],
-            ],
-        ];
+                'users' => array('*'),
+            ),
+        );
     }
 
     public function actionView($id)
     {
-        $this->render('view', [
+        $this->render('view', array(
             'model' => $this->loadModel($id),
-        ]);
+        ));
     }
 
     public function actionCreate()
     {
-        $model = new EdcensoStageVsModality();
+        $model = new EdcensoStageVsModality;
 
         $stageVsModality = Yii::app()->request->getPost('EdcensoStageVsModality');
 
         if (isset($stageVsModality)) {
             $model->attributes = $stageVsModality;
-            $model->unified_frequency = $stageVsModality['unified_frequency'];
+            $model->unified_frequency = $stageVsModality["unified_frequency"];
             $model->is_edcenso_stage = 0;
             if ($model->save()) {
                 $msg = 'O Cadastro foi criado com sucesso!';
 
                 Yii::app()->user->setFlash('success', Yii::t('default', $msg));
-                $this->redirect(['index']);
+                $this->redirect(array('index'));
             }
         }
 
-        $this->render('create', [
+        $this->render('create', array(
             'model' => $model,
-        ]);
+        ));
     }
 
     /**
      * Updates a particular model.
      * If update is successful, the browser will be redirected to the 'view' page.
-     * @param int $id the ID of the model to be updated
+     * @param integer $id the ID of the model to be updated
      */
     public function actionUpdate($id)
     {
@@ -86,24 +87,24 @@ class DefaultController extends Controller
 
         if (isset($stageVsModality)) {
             $model->attributes = $stageVsModality;
-            $model->unified_frequency = $stageVsModality['unified_frequency'];
+            $model->unified_frequency = $stageVsModality["unified_frequency"];
             if ($model->save()) {
                 $msg = 'Etapa atualizada com sucesso!';
 
                 Yii::app()->user->setFlash('success', Yii::t('default', $msg));
-                $this->redirect(['index']);
+                $this->redirect(array('index'));
             }
         }
 
-        $this->render('update', [
+        $this->render('update', array(
             'model' => $model,
-        ]);
+        ));
     }
 
     /**
      * Deletes a particular model.
      * If deletion is successful, the browser will be redirected to the 'admin' page.
-     * @param int $id the ID of the model to be deleted
+     * @param integer $id the ID of the model to be deleted
      */
     public function actionDelete($id)
     {
@@ -115,7 +116,7 @@ class DefaultController extends Controller
         // if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
         if (!isset($ajax)) {
             Yii::app()->user->setFlash('success', Yii::t('default', 'Etapa excluída com sucesso!'));
-            $this->redirect(isset($returnUrl) ? $returnUrl : ['admin']);
+            $this->redirect(isset($returnUrl) ? $returnUrl : array('admin'));
         }
     }
 
@@ -124,10 +125,10 @@ class DefaultController extends Controller
      */
     public function actionIndex()
     {
-        $dataProvider = new CActiveDataProvider('EdcensoStageVsModality', ['pagination' => false]);
-        $this->render('index', [
+        $dataProvider = new CActiveDataProvider('EdcensoStageVsModality', array('pagination' => false));
+        $this->render('index', array(
             'dataProvider' => $dataProvider,
-        ]);
+        ));
     }
 
     /**
@@ -142,15 +143,15 @@ class DefaultController extends Controller
         if (isset($stageVsModality)) {
             $model->attributes = $stageVsModality;
         }
-        $this->render('admin', [
+        $this->render('admin', array(
             'model' => $model,
-        ]);
+        ));
     }
 
     /**
      * Returns the data model based on the primary key given in the GET variable.
      * If the data model is not found, an HTTP exception will be raised.
-     * @param int $id the ID of the model to be loaded
+     * @param integer $id the ID of the model to be loaded
      * @return EdcensoStageVsModality the loaded model
      * @throws CHttpException
      */
@@ -160,7 +161,6 @@ class DefaultController extends Controller
         if ($model === null) {
             throw new CHttpException(404, 'The requested page does not exist.');
         }
-
         return $model;
     }
 

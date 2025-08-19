@@ -2,19 +2,19 @@
 /* @var $this CourseClassAbilitiesController */
 /* @var $model CourseClassAbilities */
 
-$this->breadcrumbs = [
-    'Course Class Abilities' => ['index'],
-    $model->id => ['view', 'id' => $model->id],
-    'Update',
-];
+$this->breadcrumbs=array(
+	'Course Class Abilities'=>array('index'),
+	$model->id=>array('view','id'=>$model->id),
+	'Update',
+);
 
-$this->menu = [
-    ['label' => 'List CourseClassAbilities', 'url' => ['index']],
-    ['label' => 'Create CourseClassAbilities', 'url' => ['create']],
-    ['label' => 'View CourseClassAbilities', 'url' => ['view', 'id' => $model->id]],
-    ['label' => 'Manage CourseClassAbilities', 'url' => ['admin']],
-];
+$this->menu=array(
+	array('label'=>'List CourseClassAbilities', 'url'=>array('index')),
+	array('label'=>'Create CourseClassAbilities', 'url'=>array('create')),
+	array('label'=>'View CourseClassAbilities', 'url'=>array('view', 'id'=>$model->id)),
+	array('label'=>'Manage CourseClassAbilities', 'url'=>array('admin')),
+);
 $title = 'Habilidades';
 ?>
 
-<?php $this->renderPartial('_form', ['model' => $model, 'title' => $title]); ?>
+<?php $this->renderPartial('_form', array('model'=>$model, 'title'=>$title)); ?>

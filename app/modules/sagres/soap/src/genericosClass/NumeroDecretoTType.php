@@ -3,8 +3,9 @@
 namespace Genericos;
 
 /**
- * Class representing NumeroDecretoTType.
+ * Class representing NumeroDecretoTType
  *
+ * 
  * XSD Type: numeroDecreto_t
  */
 class NumeroDecretoTType
@@ -20,7 +21,7 @@ class NumeroDecretoTType
     private $ano = null;
 
     /**
-     * Gets as numero.
+     * Gets as numero
      *
      * @return string
      */
@@ -30,7 +31,7 @@ class NumeroDecretoTType
     }
 
     /**
-     * Sets a new numero.
+     * Sets a new numero
      *
      * @param string $numero
      * @return self
@@ -38,12 +39,11 @@ class NumeroDecretoTType
     public function setNumero($numero)
     {
         $this->numero = $numero;
-
         return $this;
     }
 
     /**
-     * Gets as ano.
+     * Gets as ano
      *
      * @return string
      */
@@ -53,7 +53,7 @@ class NumeroDecretoTType
     }
 
     /**
-     * Sets a new ano.
+     * Sets a new ano
      *
      * @param string $ano
      * @return self
@@ -61,7 +61,7 @@ class NumeroDecretoTType
     public function setAno($ano)
     {
         $this->ano = $ano;
-
         return $this;
     }
 }
+

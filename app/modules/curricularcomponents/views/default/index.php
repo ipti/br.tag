@@ -2,6 +2,7 @@
 /** @var DefaultController $this EdcensoDisciplineController */
 /** @var EdcensoDiscipline $model EdcensoDiscipline */
 
+
 $this->setPageTitle('TAG - ' . Yii::t('default', 'Disciplines'));
 $title = Yii::t('default', 'Disciplines');
 
@@ -41,34 +42,34 @@ $title = Yii::t('default', 'Disciplines');
         <?php endif ?>
         <div class="widget clearmargin">
             <div class="widget-body">
-                <?php $this->widget('zii.widgets.grid.CGridView', [
-                    'id' => 'edcenso-discipline-grid',
+                <?php $this->widget('zii.widgets.grid.CGridView', array(
+                    'id'=>'edcenso-discipline-grid',
                     'dataProvider' => $dataProvider,
                     'enablePagination' => false,
                     'enableSorting' => false,
                     'ajaxUpdate' => false,
                     'itemsCssClass' => 'js-tag-table tag-table-primary tag-table table table-condensed table-striped table-hover table-primary table-vertical-center checkboxs',
-                    'columns' => [
+                    'columns'=>array(
                         'id',
                         'name',
-                        [
+                        array(
                             'header' => 'Ações',
-                            'class' => 'CButtonColumn',
+                            'class' => 'CButtonColumn', 
                             'template' => '{update}{delete}',
-                            'buttons' => [
-                                'update' => [
-                                    'imageUrl' => Yii::app()->theme->baseUrl . '/img/editar.svg',
-                                ],
-                                'delete' => [
-                                    'imageUrl' => Yii::app()->theme->baseUrl . '/img/deletar.svg',
-                                ]
-                            ],
-                            'updateButtonOptions' => ['style' => 'margin-right: 20px;'],
-                            'deleteButtonOptions' => ['style' => 'cursor: pointer;'],
-                            'htmlOptions' => ['width' => '100px', 'style' => 'text-align: center'],
-                        ],
-                    ],
-                ]); ?>
+                            'buttons' => array(
+                                'update' => array(
+                                    'imageUrl' => Yii::app()->theme->baseUrl.'/img/editar.svg',
+                                ),
+                                'delete' => array(
+                                    'imageUrl' => Yii::app()->theme->baseUrl.'/img/deletar.svg',
+                                )
+                            ),
+                            'updateButtonOptions' => array('style' => 'margin-right: 20px;'),
+                            'deleteButtonOptions' => array('style' => 'cursor: pointer;'),
+                            'htmlOptions' => array('width' => '100px', 'style' => 'text-align: center'),
+                        ),
+                    ),
+                )); ?>
             </div>
         </div>
     </div>

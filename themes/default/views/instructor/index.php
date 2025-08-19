@@ -2,9 +2,9 @@
     <?php
     $this->setPageTitle('TAG - ' . Yii::t('default', 'Instructor Identifications'));
     $contextDesc = Yii::t('default', 'Available actions that may be taken on InstructorIdentification.');
-    $this->menu = [
-        ['label' => Yii::t('default', 'Create a new InstructorIdentification'), 'url' => ['create'], 'description' => Yii::t('default', 'This action create a new InstructorIdentification')],
-    ];
+    $this->menu = array(
+        array('label' => Yii::t('default', 'Create a new InstructorIdentification'), 'url' => array('create'), 'description' => Yii::t('default', 'This action create a new InstructorIdentification')),
+    );
     $themeUrl = Yii::app()->theme->baseUrl;
     $cs = Yii::app()->getClientScript();
 
@@ -51,53 +51,53 @@
         <div class="widget clearmargin">
             <div class="widget-body">
                 <?php
-                $this->widget('zii.widgets.grid.CGridView', [
+                $this->widget('zii.widgets.grid.CGridView', array(
                     'dataProvider' => $dataProvider,
                     'enablePagination' => false,
                     'enableSorting' => false,
                     'ajaxUpdate' => false,
                     'itemsCssClass' => 'js-tag-table tag-table-primary table table-condensed table-striped table-hover table-primary table-vertical-center checkboxs',
-                    'columns' => [
-                        [
+                    'columns' => array(
+                        array(
                             'name' => 'id',
                             'type' => 'raw',
                             'value' => '$data->id',
-                        ],
-                        [
+                        ),
+                        array(
                             'name' => 'name',
                             'type' => 'raw',
                             'value' => 'CHtml::link($data->name,Yii::app()->createUrl("instructor/update",array("id"=>$data->id)))',
-                            'htmlOptions' => ['width' => '400px', 'class' => 'link-update-grid-view'],
-                        ],
-                        [
+                            'htmlOptions' => array('width' => '400px', 'class' => 'link-update-grid-view'),
+                        ),
+                        array(
                             'name' => 'documents',
                             'header' => 'CPF',
                             'value' => '$data->documents->cpf',
-                            'htmlOptions' => ['width' => '400px']
-                        ],
-                        [
+                            'htmlOptions' => array('width'=> '400px')
+                        ),
+                        array(
                             'name' => 'birthday_date',
                             'filter' => false
-                        ],
-                        [
+                        ),
+                        array(
                             'header' => 'Ações',
                             'class' => 'CButtonColumn',
                             'template' => '{update}{delete}',
-                            'buttons' => [
-                                'update' => [
-                                    'imageUrl' => Yii::app()->theme->baseUrl . '/img/editar.svg',
-                                ],
-                                'delete' => [
-                                    'imageUrl' => Yii::app()->theme->baseUrl . '/img/deletar.svg',
-                                ]
-                            ],
-                            'updateButtonOptions' => ['style' => 'margin-right: 20px;'],
-                            'deleteButtonOptions' => ['style' => 'cursor: pointer;'],
-                            'htmlOptions' => ['width' => '100px', 'style' => 'text-align: center'],
-                        ],
-                    ],
-                ]);
-    ?>
+                            'buttons' => array(
+                                'update' => array(
+                                    'imageUrl' => Yii::app()->theme->baseUrl.'/img/editar.svg',
+                                ),
+                                'delete' => array(
+                                    'imageUrl' => Yii::app()->theme->baseUrl.'/img/deletar.svg',
+                                )
+                            ),
+                            'updateButtonOptions' => array('style' => 'margin-right: 20px;'),
+                            'deleteButtonOptions' => array('style' => 'cursor: pointer;'),
+                            'htmlOptions' => array('width' => '100px', 'style' => 'text-align: center'),
+                        ),
+                    ),
+                ));
+                ?>
             </div>
         </div>
     </div>

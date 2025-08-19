@@ -13,10 +13,10 @@ class FarmerRegisterController extends Controller
      */
     public function filters()
     {
-        return [
+        return array(
             'accessControl', // perform access control for CRUD operations
             'postOnly + delete', // we only allow deletion via POST request
-        ];
+        );
     }
 
     /**
@@ -26,10 +26,10 @@ class FarmerRegisterController extends Controller
      */
     public function accessRules()
     {
-        return [
-            [
+        return array(
+            array(
                 'allow',  // allow all users to perform 'index' and 'view' actions
-                'actions' => [
+                'actions' => array(
                     'index',
                     'view',
                     'activateFarmers',
@@ -41,33 +41,34 @@ class FarmerRegisterController extends Controller
                     'getFarmerFoods',
                     'getFoodNotice',
                     'getFoodNoticeItems',
-                    'getFarmerDeliveries',
-                ],
-                'users' => ['*'],
-            ],
-            [
+                    'getFarmerDeliveries'
+                ),
+                'users' => array('*'),
+            ),
+            array(
                 'allow', // allow authenticated user to perform 'create' and 'update' actions
-                'actions' => ['create', 'update'],
-                'users' => ['@'],
-            ],
-            [
+                'actions' => array('create', 'update'),
+                'users' => array('@'),
+            ),
+            array(
                 'allow', // allow admin user to perform 'admin' and 'delete' actions
-                'actions' => ['admin', 'delete'],
-                'users' => ['admin'],
-            ],
-            [
+                'actions' => array('admin', 'delete'),
+                'users' => array('admin'),
+            ),
+            array(
                 'deny',  // deny all users
-                'users' => ['*'],
-            ],
-        ];
+                'users' => array('*'),
+            ),
+        );
     }
 
     public function actionView($id)
     {
-        $this->render('view', [
+        $this->render('view', array(
             'model' => $this->loadModel($id),
-        ]);
+        ));
     }
+
 
     public function actionCreateFarmerRegister()
     {
@@ -80,10 +81,10 @@ class FarmerRegisterController extends Controller
         if ($this->verifyFarmerCpf($cpf)) {
             $criteria = new CDbCriteria();
             $criteria->condition = 't.cpf = :cpf';
-            $criteria->params = [':cpf' => $cpf];
+            $criteria->params = array(':cpf' => $cpf);
             $existingFarmer = FarmerRegister::model()->findAll($criteria);
 
-            $existingFarmer->status = 'Ativo';
+            $existingFarmer->status = "Ativo";
             $existingFarmer->save();
             Yii::app()->user->setFlash('success', Yii::t('default', 'Agricultor reativado com sucesso!'));
         } else {
@@ -96,7 +97,7 @@ class FarmerRegisterController extends Controller
 
             if ($farmerRegister->save()) {
                 foreach ($foodsRelation as $foodData) {
-                    $farmerFoods = new FarmerFoods();
+                    $farmerFoods =  new FarmerFoods;
 
                     $farmerFoods->food_fk = $foodData['id'];
                     $farmerFoods->farmer_fk = $farmerRegister->id;
@@ -118,9 +119,9 @@ class FarmerRegisterController extends Controller
                     $farmerRegister->save();
                 } else {
                     $updateFarmerRegister = new UpdateFarmerRegister();
-                    $updateFarmerRegister->exec($existingFarmer['id'], $name, $cpf, $phone, $groupType, $foodsRelation);
+                    $updateFarmerRegister->exec($existingFarmer["id"], $name, $cpf, $phone, $groupType, $foodsRelation);
 
-                    $farmerRegister->reference_id = $existingFarmer['id'];
+                    $farmerRegister->reference_id = $existingFarmer["id"];
                     $farmerRegister->save();
                 }
             }
@@ -145,10 +146,10 @@ class FarmerRegisterController extends Controller
             $existingFarmer->group_type = $groupType;
 
             if ($existingFarmer->save()) {
-                FarmerFoods::model()->deleteAll('farmer_fk = :id', [':id' => $farmerId]);
+                FarmerFoods::model()->deleteAll('farmer_fk = :id', array(':id' => $farmerId));
 
                 foreach ($foodsRelation as $foodData) {
-                    $farmerFoods = new FarmerFoods();
+                    $farmerFoods =  new FarmerFoods;
 
                     $farmerFoods->food_fk = $foodData['id'];
                     $farmerFoods->farmer_fk = $existingFarmer->id;
@@ -169,7 +170,7 @@ class FarmerRegisterController extends Controller
     {
         $criteria = new CDbCriteria();
         $criteria->condition = 't.cpf = :cpf';
-        $criteria->params = [':cpf' => $cpf];
+        $criteria->params = array(':cpf' => $cpf);
         $farmerRegister = FarmerRegister::model()->findAll($criteria);
 
         return !empty($farmerRegister);
@@ -179,7 +180,7 @@ class FarmerRegisterController extends Controller
     {
         $criteria = new CDbCriteria();
         $criteria->condition = 't.cpf = :cpf';
-        $criteria->params = [':cpf' => $cpf];
+        $criteria->params = array(':cpf' => $cpf);
         $farmerRegister = FarmerRegister::model()->find($criteria);
 
         return $farmerRegister->status;
@@ -189,9 +190,9 @@ class FarmerRegisterController extends Controller
     {
         $cpf = Yii::app()->request->getPost('farmerCpf');
 
-        if ($this->verifyFarmerCpf($cpf) && $this->verifyFarmerStatus($cpf) == 'Ativo') {
+        if ($this->verifyFarmerCpf($cpf) && $this->verifyFarmerStatus($cpf) == "Ativo") {
             echo json_encode(['error' => 'Existente ativo']);
-        } elseif ($this->verifyFarmerCpf($cpf) && $this->verifyFarmerStatus($cpf) == 'Inativo') {
+        } elseif ($this->verifyFarmerCpf($cpf) && $this->verifyFarmerStatus($cpf) == "Inativo") {
             echo json_encode(['error' => 'Existente inativo']);
         } else {
             $getFarmerRegister = new GetFarmerRegister();
@@ -206,20 +207,20 @@ class FarmerRegisterController extends Controller
         $id = Yii::app()->request->getPost('id');
 
         $criteria = new CDbCriteria();
-        $criteria->with = ['foodFk', 'foodNoticeFk'];
+        $criteria->with = array('foodFk', 'foodNoticeFk');
         $criteria->condition = 't.farmer_fk = ' . $id;
         $farmerFoodsData = FarmerFoods::model()->findAll($criteria);
 
         $values = [];
         foreach ($farmerFoodsData as $foods) {
-            $values[] = [
+            $values[] = array(
                 'id' => $foods->food_fk,
                 'foodDescription' => preg_replace('/,|\b(cru[ao]?)\b/', '', $foods->foodFk->description),
                 'amount' => $foods->amount,
                 'measurementUnit' => $foods->measurementUnit,
                 'notice' => $foods->foodNoticeFk ? $foods->foodNoticeFk->name : null,
                 'noticeId' => $foods->foodNotice_fk,
-            ];
+            );
         }
 
         echo json_encode($values);
@@ -237,7 +238,7 @@ class FarmerRegisterController extends Controller
         foreach ($foodsDescription as $food) {
             $values[$food->id] = (object) [
                 'description' => $food->description,
-                'measurementUnit' => $food->measurementUnit,
+                'measurementUnit' => $food->measurementUnit
             ];
         }
 
@@ -249,106 +250,101 @@ class FarmerRegisterController extends Controller
         $criteria = new CDbCriteria();
         $criteria->select = 'id, name';
         $criteria->condition = 't.status = :status';
-        $criteria->params = [':status' => 'Ativo'];
+        $criteria->params = array(':status' => "Ativo");
 
-        $foodNotices = FoodNotice::model()->findAll($criteria);
+        $foodNotices =  FoodNotice::model()->findAll($criteria);
 
         $values = [];
         foreach ($foodNotices as $notice) {
             $values[$notice->id] = (object) [
-                'name' => $notice->name,
+                'name' => $notice->name
             ];
         }
 
         echo json_encode($values);
     }
-
-    public function actionGetFoodNoticeItems()
-    {
+    public function actionGetFoodNoticeItems() {
         $notice = Yii::app()->request->getPost('notice');
 
         $criteria = new CDbCriteria();
         $criteria->condition = 't.foodNotice_fk = :notice';
-        $criteria->params = [':notice' => $notice];
-        $criteria->with = ['food'];
+        $criteria->params = array(':notice' => $notice);
+        $criteria->with = array('food');
 
-        $foodNoticeItems = FoodNoticeItem::model()->findAll($criteria);
+        $foodNoticeItems =  FoodNoticeItem::model()->findAll($criteria);
 
         $values = [];
         foreach ($foodNoticeItems as $item) {
-            $values[] = [
+            $values[] = array(
                 'id' => $item->id,
                 'foodId' => $item->food_id,
                 'foodName' => $item->name,
                 'yearAmount' => $item->year_amount,
                 'measurementUnit' => $item->measurement,
-            ];
+            );
         }
 
         echo json_encode($values);
     }
-
-    public function actionGetFarmerDeliveries()
-    {
+    public function actionGetFarmerDeliveries() {
         $farmer = Yii::app()->request->getPost('farmer');
 
         $criteria = new CDbCriteria();
         $criteria->condition = 't.farmer_fk = :farmer';
-        $criteria->params = [':farmer' => $farmer];
-        $criteria->with = ['foodFk'];
+        $criteria->params = array(':farmer' => $farmer);
+        $criteria->with = array('foodFk');
 
-        $farmerDeliveredFoods = FoodRequestItemReceived::model()->findAll($criteria);
+        $farmerDeliveredFoods =  FoodRequestItemReceived::model()->findAll($criteria);
         $farmerAcceptedFoods = FoodRequestItemAccepted::model()->findAll($criteria);
 
-        $deliveredFoods = [];
+        $deliveredFoods = array();
         foreach ($farmerDeliveredFoods as $delivered) {
-            $deliveredFoods[] = [
+            $deliveredFoods[] = array(
                 'id' => $delivered->id,
                 'foodId' => $delivered->food_fk,
                 'foodName' => $delivered->foodFk->description,
                 'amount' => $delivered->amount,
                 'measurementUnit' => $delivered->measurementUnit,
                 'date' => date('d/m/Y', strtotime($delivered->date)),
-                'request' => $delivered->food_request_fk,
-            ];
+                'request' => $delivered->food_request_fk
+            );
         }
 
-        $acceptedFoods = [];
+        $acceptedFoods = array();
         foreach ($farmerAcceptedFoods as $accepted) {
-            $acceptedFoods[] = [
+            $acceptedFoods[] = array(
                 'id' => $accepted->id,
                 'foodId' => $accepted->food_fk,
                 'foodName' => $accepted->foodFk->description,
                 'amount' => $accepted->amount,
                 'measurementUnit' => $accepted->measurementUnit,
                 'date' => date('d/m/Y', strtotime($accepted->date)),
-                'request' => $accepted->food_request_fk,
-            ];
+                'request' => $accepted->food_request_fk
+            );
         }
 
-        $farmerDeliveries = [
-            'deliveredFoods' => $deliveredFoods,
-            'acceptedFoods' => $acceptedFoods,
-        ];
+        $farmerDeliveries = array(
+            "deliveredFoods" => $deliveredFoods,
+            "acceptedFoods" => $acceptedFoods,
+        );
 
         echo json_encode($farmerDeliveries);
     }
-
     public function actionCreate()
     {
-        $model = new FarmerRegister();
-        $modelFarmerFoods = new FarmerFoods();
+        $model = new FarmerRegister;
+        $modelFarmerFoods = new FarmerFoods;
 
         if (isset($_POST['FarmerRegister'])) {
             $model->attributes = $_POST['FarmerRegister'];
             if ($model->save()) {
-                $this->redirect(['index']);
+                $this->redirect(array('index'));
             }
         }
 
-        $this->render('create', [
+        $this->render('create', array(
             'model' => $model, 'modelFarmerFoods' => $modelFarmerFoods,
-        ]);
+        ));
     }
 
     public function actionUpdate($id)
@@ -357,23 +353,24 @@ class FarmerRegisterController extends Controller
 
         $modelFarmerFoods = $this->loadFarmerFoodsModel($id);
 
+
         if (isset($_POST['FarmerRegister'])) {
             $model->attributes = $_POST['FarmerRegister'];
             if ($model->save()) {
-                $this->redirect(['index']);
+                $this->redirect(array('index'));
             }
         }
 
-        $this->render('update', [
+        $this->render('update', array(
             'model' => $model, 'modelFarmerFoods' => $modelFarmerFoods,
-        ]);
+        ));
     }
 
     public function actionDelete($id)
     {
         $criteria = new CDbCriteria();
         $criteria->condition = 'id=:id';
-        $criteria->params = [':id' => $id];
+        $criteria->params = array(':id' => $id);
 
         $farmerRegister = FarmerRegister::model()->find($criteria);
 
@@ -383,47 +380,47 @@ class FarmerRegisterController extends Controller
             Yii::app()->user->setFlash('success', Yii::t('default', 'Agricultor inativado com sucesso!'));
         }
 
-        $this->redirect(['index']);
+        $this->redirect(array('index'));
     }
 
     public function actionIndex()
     {
         $showAll = Yii::app()->request->getParam('showAll');
-        $criteria = new CDbCriteria();
-        if (!$showAll) {
-            $criteria->compare('status', 'Ativo');
+        $criteria=new CDbCriteria;
+        if(!$showAll){
+            $criteria->compare('status', "Ativo");
         }
 
         $dataProvider = new CActiveDataProvider('FarmerRegister');
         $dataProvider->setCriteria($criteria);
-        $this->render('index', [
-            'dataProvider' => $dataProvider,
-        ]);
+        $this->render('index', array(
+            'dataProvider' => $dataProvider
+        ));
     }
 
     public function actionActivateFarmers()
     {
         $farmers = FarmerRegister::model()->findAll();
-        $this->render('activateFarmers', [
-            'farmers' => $farmers,
-        ]);
+        $this->render('activateFarmers', array(
+            'farmers' => $farmers
+        ));
     }
-
     public function actionToggleFarmerStatus()
     {
         $id = Yii::app()->request->getPost('id');
         $status = Yii::app()->request->getPost('status');
         $farmer = FarmerRegister::model()->findByPk($id);
 
-        $farmer->status = $status == 'Ativo' ? 'Inativo' : 'Ativo';
+        $farmer->status = $status == "Ativo" ? "Inativo" : "Ativo";
 
         if ($farmer->save()) {
-            $message = $status === 'Ativo' ? 'Agricutor inativado com sucesso!' : 'Agricutor ativado com sucesso!';
+            $message = $status === "Ativo" ? 'Agricutor inativado com sucesso!' : 'Agricutor ativado com sucesso!';
             Yii::app()->user->setFlash('success', Yii::t('default', $message));
         } else {
             Yii::app()->user->setFlash('error', Yii::t('default', 'Ocorreu um erro. Tente novamente!'));
         }
     }
+
 
     public function actionAdmin()
     {
@@ -433,9 +430,9 @@ class FarmerRegisterController extends Controller
             $model->attributes = $_GET['FarmerRegister'];
         }
 
-        $this->render('admin', [
+        $this->render('admin', array(
             'model' => $model,
-        ]);
+        ));
     }
 
     public function loadModel($id)
@@ -444,22 +441,20 @@ class FarmerRegisterController extends Controller
         if ($model === null) {
             throw new CHttpException(404, 'The requested page does not exist.');
         }
-
         return $model;
     }
 
     public function loadFarmerFoodsModel($id)
     {
         $modelFarmerFoods = FarmerFoods::model()->find(
-            [
+            array(
                 'condition' => 'farmer_fk = :id',
-                'params' => [':id' => $id],
-            ]
+                'params' => array(':id' => $id),
+            )
         );
         if ($modelFarmerFoods === null) {
-            $modelFarmerFoods = new FarmerFoods();
+            $modelFarmerFoods = new FarmerFoods;
         }
-
         return $modelFarmerFoods;
     }
 

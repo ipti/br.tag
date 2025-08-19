@@ -4,8 +4,8 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-return [
-    // Ajuda School
+return array(
+    //Ajuda School
     'Date of start of the school year' => 'Data de inicio do ano letivo',
     'End date of the school year' => 'Data do final do ano letivo',
     'Full name of school' => 'Nome completo da escola',
@@ -25,22 +25,22 @@ return [
     'CEP' => 'Apenas números deverão ser informados. Os 8 dígitos devem ser informados. Não pode ter todos os algarismos iguais.',
     'Phone' => 'Não pode ter todos os algarismos iguais. Deve ter 8 ou 9 números. Se houver 9 números, o primeiro algarismo deve ser o dígito 9.',
     'Valid Cep' => 'Digite um CEP cadastrado nos correios.',
-
-    // Ajuda matrícula
+    
+    //Ajuda matrícula
     'Edcenso Stage Vs Modality Fk Help' => 'Etapa do aluno em turma multietapa / multi / correção de fluxo / EJA presencial e semipresencial - anos iniciais e anos finais / Educação profissional mista - concomitante e subsequente',
-
-    // Ajuda turma
+    
+    //Ajuda turma
     'Classroom Name' => 'Aceita somente os seguintes caracteres: A a Z, 0 a 9, espaço, ª,º,-. Deve ter no mínimo 4 posições.',
     'School year' => 'Deve possuir um ano válido, inferior ou igual ao ano atual.',
     'Time' => 'Deve possuir um horário válido. O horário inicial não pode ser maior ou igual ao horário final.',
     'Week days' => 'Pelo menos um dos campos deve ser selecionado.',
 
-    // Ajuda profesor
+    //Ajuda profesor
     'Email' => 'exemplo@email.com.br',
     'Instructor Full Civil Name' => 'Informe o nome civil completo do professor ',
     'Instructor Full Social Name' => 'Informe o nome social completo do professor',
-
-    // Ajuda Aluno
+    
+    //Ajuda Aluno
     'Student Full Civil Name' => 'Informe o nome civil completo do aluno.',
     'Student Full Social Name' => 'Informe o nome social completo do aluno.',
     'NIS' => 'Número de Identificação Social para famílias que participam de programas sociais do governo como o Bolsa Família.',
@@ -50,14 +50,17 @@ return [
     'Only Numbers' => 'Apenas números são aceitos.',
     'Max length' => 'Tamanho máximo: ',
     'Min length' => 'Tamanho mínimo: ',
-    'Only characters A-Z, 0-9, ., /, -, ª, º, space and ,.' => 'Aceita somente caracteres de A a Z, 0 a 9, ., /, -, ª, º, espaço e ,.',
-
+    'Only characters A-Z, 0-9, ., /, -, ª, º, space and ,.'=> 'Aceita somente caracteres de A a Z, 0 a 9, ., /, -, ª, º, espaço e ,.',
+    
+    //
     'Confirm' => 'O valor tem que ser igual ao da senha.',
     'Full Name' => 'Nome completo',
-
-    // Subtítulos
+    
+    //Subtítulos
     'ClassBoard Subtitle' => 'Elabore o horário semanal da turma',
     'Estimated classes' => 'Quantidade de aulas previstas',
+       
+    'CPF Numbers' => "Apenas números são aceitos e o CPF deve ser válido.",
+);
 
-    'CPF Numbers' => 'Apenas números são aceitos e o CPF deve ser válido.',
-];
+?>

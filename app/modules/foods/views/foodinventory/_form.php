@@ -7,13 +7,13 @@
 $baseUrl = Yii::app()->baseUrl;
 $themeUrl = Yii::app()->theme->baseUrl;
 $cs = Yii::app()->getClientScript();
-$cs->registerScriptFile('app\modules\foods\resources\inventory\_initialization.js?v=' . TAG_VERSION, CClientScript::POS_END);
-$cs->registerScriptFile('app\modules\foods\resources\inventory\functions.js?v=' . TAG_VERSION, CClientScript::POS_END);
+$cs->registerScriptFile('app\modules\foods\resources\inventory\_initialization.js?v='.TAG_VERSION, CClientScript::POS_END);
+$cs->registerScriptFile('app\modules\foods\resources\inventory\functions.js?v='.TAG_VERSION, CClientScript::POS_END);
 
-$form = $this->beginWidget('CActiveForm', [
-    'id' => 'food-inventory-form',
-    'enableAjaxValidation' => false,
-]);
+$form=$this->beginWidget('CActiveForm', array(
+	'id'=>'food-inventory-form',
+	'enableAjaxValidation'=>false,
+));
 
 $isNutritionist = Yii::app()->getAuthManager()->checkAccess('nutritionist', Yii::app()->user->loginInfos->id);
 ?>
@@ -36,8 +36,8 @@ $isNutritionist = Yii::app()->getAuthManager()->checkAccess('nutritionist', Yii:
 
     <div class="row t-buttons-container">
         <?php
-            if (!$isNutritionist):
-                ?>
+            if(!$isNutritionist):
+        ?>
         <a class="t-button-primary" id="js-entry-stock-button" type="button">Lançamento de Estoque</a>
         <?php endif; ?>
         <a class="t-button-secondary hide"><span class="t-icon-printer"></span>Relatório de Estoque</a>
@@ -113,26 +113,26 @@ $isNutritionist = Yii::app()->getAuthManager()->checkAccess('nutritionist', Yii:
                     </div>
                     <div class="tablet-row bottom-margin">
                         <div class="column is-two-fifths t-field-select t-margin-none--bottom clearfix">
-                            <?php echo CHtml::label('Selecione o Alimento', 'food_fk', ['class' => 't-field-select__label--required']); ?>
+                            <?php echo CHtml::label('Selecione o Alimento', 'food_fk', array('class' => 't-field-select__label--required')); ?>
                             <select class="select-search-on t-field-select__input select2-container" id="food" name="food">
                                 <option value="alimento">Selecione o Alimento</option>
                             </select>
                         </div>
                         <div class="column is-one-tenth clearleft--on-mobile t-field-text t-margin-none--bottom clearfix">
-                            <?php echo $form->label($model, 'amount', ['class' => 't-field-text__label--required']); ?>
-                            <?php echo $form->textField($model, 'amount', ['class' => 't-field-text__input t-margin-none js-amount', 'placeholder' => 'Valor']); ?>
-                            <?php echo $form->error($model, 'amount'); ?>
+                            <?php echo $form->label($model,'amount', array('class' => 't-field-text__label--required')); ?>
+                            <?php echo $form->textField($model,'amount', array('class' => 't-field-text__input t-margin-none js-amount', 'placeholder' => 'Valor')); ?>
+                            <?php echo $form->error($model,'amount'); ?>
                         </div>
                         <div class="column is-one-fifth clearleft--on-mobile t-field-text t-margin-none--bottom clearfix">
-                            <?php echo CHtml::label('Unidade', 'measurementUnit', ['class' => 't-field-select__label--required']); ?>
+                            <?php echo CHtml::label('Unidade', 'measurementUnit', array('class' => 't-field-select__label--required')); ?>
                             <select class="select-search-on t-field-select__input select2-container" id="measurementUnit" name="measurementUnit">
                                 <option value="selecione">Selecione</option>
                             </select>
                         </div>
                         <div class="column is-one-tenth clearleft--on-mobile t-field-text t-margin-none--bottom clearfix">
-                            <?php echo $form->label($model, 'expiration_date', ['class' => 't-field-text__label']); ?>
-                            <?php echo $form->textField($model, 'expiration_date', ['class' => 't-field-text__input js-date t-margin-none--top js-expiration-date', 'placeholder' => 'Selecione']); ?>
-                            <?php echo $form->error($model, 'expiration_date'); ?>
+                            <?php echo $form->label($model,'expiration_date',  array('class' => 't-field-text__label')); ?>
+                            <?php echo $form->textField($model,'expiration_date', array('class'=>'t-field-text__input js-date t-margin-none--top js-expiration-date', 'placeholder' => 'Selecione')); ?>
+                            <?php echo $form->error($model,'expiration_date'); ?>
                         </div>
                         <div class="column is-one-fifth clearleft--on-mobile t-buttons-container t-padding-none--bottom t-margin-none--bottom clearfix">
                             <button class="t-button-secondary mobile-margin-top clear-margin--all full--width align-self--end" id="add-food" type="button">Adicionar</button>
@@ -170,7 +170,7 @@ $isNutritionist = Yii::app()->getAuthManager()->checkAccess('nutritionist', Yii:
                 <div class="t-modal__body">
                     <div class="row">
                         <div class="column t-field-select t-margin-none--bottom clearfix">
-                            <?php echo CHtml::label('Status', ['class' => 't-field-select__label']); ?>
+                            <?php echo CHtml::label('Status', array('class' => 't-field-select__label')); ?>
                             <select id="js-status-select" class="select-search-on t-field-select__input select2-container">
                                 <option value="Disponivel">Disponível</option>
                                 <option value="Acabando">Acabando</option>

@@ -1,4 +1,4 @@
-<?php
+<?php 
 $this->pageTitle = 'TAG - ' . Yii::t('default', 'Changelog');
 ?>
 

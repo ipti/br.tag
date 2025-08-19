@@ -1,3 +1,3 @@
 <?php
 
-echo 'status do aluno';
+echo "status do aluno";

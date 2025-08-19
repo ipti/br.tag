@@ -11,28 +11,20 @@
       </table>
       <table>
         <tr>
-          <?php for ($i = 1; $i <= 4; $i++): ?>
+          <? for($i=1; $i<=4; $i++): ?>
             <td class="width-3 <?= $i == 1 ? 'no-border-left' : '' ?> <?= $i == 4 ? 'no-border-right' : '' ?>" colspan="2">
-              <?php if ($i == 1) {
-                  echo 'Infantil I';
-              } ?>
-              <?php if ($i == 2) {
-                  echo 'Infantil II';
-              } ?>
-              <?php if ($i == 3) {
-                  echo 'Infantil III';
-              } ?>
-              <?php if ($i == 4) {
-                  echo 'Total';
-              } ?>
+              <? if ($i == 1)  echo 'Infantil I'; ?>
+              <? if ($i == 2)  echo 'Infantil II'; ?>
+              <? if ($i == 3)  echo 'Infantil III'; ?>
+              <? if ($i == 4)  echo 'Total'; ?>
             </td>
-          <?php endfor; ?>
+          <? endfor; ?>
         </tr>
         <tr>
-          <?php for ($i = 1; $i <= 4; $i++): ?>
+          <? for($i=1; $i<=4; $i++): ?>
             <td class="width-1 <?= $i == 1 ? 'no-border-left' : '' ?> <?= $i == 4 ? 'no-border-right' : '' ?> no-border-bottom">M</td>
             <td class="width-1 <?= $i == 1 ? 'no-border-left' : '' ?> <?= $i == 4 ? 'no-border-right' : '' ?> no-border-bottom">F</td>
-          <?php endfor; ?>
+          <? endfor; ?>
         </tr>
       </table>
     </td>
@@ -47,14 +39,14 @@
     <td class="no-padding">
       <table>
         <tr>
-          <?php for ($j = 1; $j <= 4; $j++): ?>
+          <? for($j=1; $j<=4; $j++): ?>
             <td class="width-1 <?= $j == 1 ? 'no-border-left' : '' ?> <?= $j == 4 ? 'no-border-right' : '' ?> no-border-bottom no-border-top">
               <div class="contentEditable no-border" contenteditable="true"></div>
             </td>
             <td class="width-1 <?= $j == 1 ? 'no-border-left' : '' ?> <?= $j == 4 ? 'no-border-right' : '' ?> no-border-bottom no-border-top">
               <div class="contentEditable no-border" contenteditable="true"></div>
             </td>
-          <?php endfor; ?>
+          <? endfor; ?>
         </tr>
       </table>
     </td>
@@ -69,14 +61,14 @@
     <td class="no-padding">
       <table>
         <tr>
-          <?php for ($j = 1; $j <= 4; $j++): ?>
+          <? for($j=1; $j<=4; $j++): ?>
             <td class="width-1 <?= $j == 1 ? 'no-border-left' : '' ?> <?= $j == 4 ? 'no-border-right' : '' ?> no-border-bottom no-border-top">
               <div class="contentEditable no-border" contenteditable="true"></div>
             </td>
             <td class="width-1 <?= $j == 1 ? 'no-border-left' : '' ?> <?= $j == 4 ? 'no-border-right' : '' ?> no-border-bottom no-border-top">
               <div class="contentEditable no-border" contenteditable="true"></div>
             </td>
-          <?php endfor; ?>
+          <? endfor; ?>
         </tr>
       </table>
     </td>
@@ -99,29 +91,29 @@
     </td>
     <td class="no-padding">
       <table>
-        <?php for ($i = 1; $i <= 3; $i++): ?>
+        <? for($i=1; $i<=3; $i++): ?>
           <tr>
-            <?php for ($j = 1; $j <= 4; $j++): ?>
+            <? for($j=1; $j<=4; $j++): ?>
               <td class="width-1 <?= $i == 3 ? 'no-border-bottom' : '' ?> <?= $j == 1 ? 'no-border-left' : '' ?> <?= $j == 4 ? 'no-border-right' : '' ?> no-border-top">
                 <div class="contentEditable no-border" contenteditable="true"></div>
               </td>
               <td class="width-1 <?= $i == 3 ? 'no-border-bottom' : '' ?> <?= $j == 1 ? 'no-border-left' : '' ?> <?= $j == 4 ? 'no-border-right' : '' ?> no-border-top">
                 <div class="contentEditable no-border" contenteditable="true"></div>
               </td>
-            <?php endfor; ?>
+            <? endfor; ?>
           </tr>
-        <?php endfor; ?>
+        <? endfor; ?>
       </table>
     </td>
     <td class="no-padding">
       <table>
-        <?php for ($i = 1; $i <= 3; $i++): ?>
+        <? for($i=1; $i<=3; $i++): ?>
           <tr>
             <td class="no-border-left no-border-right no-border-top <?= $i == 3 ? 'no-border-bottom' : '' ?>">
               <div class="contentEditable no-border" contenteditable="true"></div>
             </td>
           </tr>
-        <?php endfor; ?>
+        <? endfor; ?>
       </table>
     </td>
   </tr>
@@ -134,14 +126,14 @@
     <td class="no-padding">
       <table>
         <tr>
-          <?php for ($j = 1; $j <= 4; $j++): ?>
+          <? for($j=1; $j<=4; $j++): ?>
             <td class="width-1 <?= $j == 1 ? 'no-border-left' : '' ?> <?= $j == 4 ? 'no-border-right' : '' ?> no-border-bottom no-border-top">
               <div class="contentEditable no-border" contenteditable="true"></div>
             </td>
             <td class="width-1 <?= $j == 1 ? 'no-border-left' : '' ?> <?= $j == 4 ? 'no-border-right' : '' ?> no-border-bottom no-border-top">
               <div class="contentEditable no-border" contenteditable="true"></div>
             </td>
-          <?php endfor; ?>
+          <? endfor; ?>
         </tr>
       </table>
     </td>
@@ -163,29 +155,29 @@
     </td>
     <td class="no-padding">
       <table>
-        <?php for ($i = 1; $i <= 2; $i++): ?>
+        <? for($i=1; $i<=2; $i++): ?>
           <tr>
-            <?php for ($j = 1; $j <= 4; $j++): ?>
+            <? for($j=1; $j<=4; $j++): ?>
               <td class="width-1 <?= $i == 2 ? 'no-border-bottom' : '' ?> <?= $j == 1 ? 'no-border-left' : '' ?> <?= $j == 4 ? 'no-border-right' : '' ?> no-border-top">
                 <div class="contentEditable no-border" contenteditable="true"></div>
               </td>
               <td class="width-1 <?= $i == 2 ? 'no-border-bottom' : '' ?> <?= $j == 1 ? 'no-border-left' : '' ?> <?= $j == 4 ? 'no-border-right' : '' ?> no-border-top">
                 <div class="contentEditable no-border" contenteditable="true"></div>
               </td>
-            <?php endfor; ?>
+            <? endfor; ?>
           </tr>
-        <?php endfor; ?>
+        <? endfor; ?>
       </table>
     </td>
     <td class="no-padding">
       <table>
-        <?php for ($i = 1; $i <= 2; $i++): ?>
+        <? for($i=1; $i<=2; $i++): ?>
           <tr>
             <td class="no-border-left no-border-right no-border-top <?= $i == 2 ? 'no-border-bottom' : '' ?>">
               <div class="contentEditable no-border" contenteditable="true"></div>
             </td>
           </tr>
-        <?php endfor; ?>
+        <? endfor; ?>
       </table>
     </td>
   </tr>
@@ -198,11 +190,11 @@
     <td class="no-padding">
       <table>
         <tr>
-          <?php for ($j = 1; $j <= 4; $j++): ?>
+          <? for($j=1; $j<=4; $j++): ?>
             <td class="width-2 <?= $j == 1 ? 'no-border-left' : '' ?> <?= $j == 4 ? 'no-border-right' : '' ?> no-border-bottom no-border-top">
               <div class="contentEditable no-border" contenteditable="true"></div>
             </td>
-          <?php endfor; ?>
+          <? endfor; ?>
         </tr>
       </table>
     </td>

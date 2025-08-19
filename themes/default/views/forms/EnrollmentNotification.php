@@ -3,7 +3,7 @@
 /* @var $report mixed */
 $baseUrl = Yii::app()->baseUrl;
 $cs = Yii::app()->getClientScript();
-$cs->registerScriptFile($baseUrl . '/js/reports/EnrollmentNotification/_initialization.js?v=' . TAG_VERSION, CClientScript::POS_END);
+$cs->registerScriptFile($baseUrl . '/js/reports/EnrollmentNotification/_initialization.js?v='.TAG_VERSION, CClientScript::POS_END);
 
 $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
 $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
@@ -16,7 +16,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
             /*<![CDATA[*/
             jQuery(function ($) {
                 jQuery.ajax({'type': 'GET',
-                    'data': {'enrollment_id':<?php echo $enrollment_id; ?>},
+                    'data': {'enrollment_id':<?php echo $enrollment_id;?>},
                     'url': '<?php echo Yii::app()->createUrl('forms/getEnrollmentNotificationInformation') ?>',
                     'success': function (data) {
                         gerarRelatorio(data);
@@ -34,12 +34,12 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                 <div style="font-size:14px;">
                 Comunicamos que
                 <?php
-                    if ($gender == '1') {
-                        echo 'o aluno';
+                    if ($gender == '1'){
+                        echo "o aluno";
                     } else {
-                        echo 'a aluna';
+                        echo "a aluna";
                     }
-?>
+                ?>
 
                 <span class="name" style="font-weight: bold"></span>
                 matriculou-se no(a)
@@ -48,19 +48,19 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                 <span class="enrollment_date"></span>,
                 no turno
                 <?php
-    if ($shift == 'M') {
-        echo 'matutino, ';
-    } elseif ($shift == 'T') {
-        echo 'vespertino, ';
-    } else {
-        echo '[não informado], ';
-    }
-?>
+                    if ($shift == 'M'){
+                        echo "matutino, ";
+                    } else if ($shift == 'T'){
+                        echo "vespertino, ";
+                    } else {
+                        echo "[não informado], ";
+                    }
+                ?>
                      com o professor(a) ___________________________________________________________________.
                 </div>
                 <br><br>
                 <span class="pull-right">
-                    <?=$school->edcensoCityFk->name?>(<?=$school->edcensoUfFk->acronym?>), <?php echo date('d') . ' de ' . yii::t('default', date('F')) . ' de ' . date('Y') . '.' ?>
+                    <?=$school->edcensoCityFk->name?>(<?=$school->edcensoUfFk->acronym?>), <?php echo date('d') . " de " . yii::t('default', date('F')) . " de " . date('Y') . "." ?>
                 </span>
 
             <br><br>

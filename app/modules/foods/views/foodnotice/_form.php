@@ -11,10 +11,10 @@ $cs->registerScriptFile($baseScriptUrl . '\notice\_initialization.js', CClientSc
 
 $form = $this->beginWidget(
     'CActiveForm',
-    [
+    array(
         'id' => 'food-notice-form',
         'enableAjaxValidation' => false,
-    ]
+    )
 );
 ?>
 

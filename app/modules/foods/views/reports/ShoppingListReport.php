@@ -3,7 +3,7 @@ $baseUrl = Yii::app()->baseUrl;
 $cs = Yii::app()->getClientScript();
 $cs->registerCssFile($baseUrl . '/sass/css/main.css');
 
-$turns = ['Manhã', 'Tarde', 'Noite', 'Integral'];
+$turns = ["Manhã", "Tarde", "Noite", "Integral"];
 ?>
 <style>
      table {
@@ -83,18 +83,18 @@ $turns = ['Manhã', 'Tarde', 'Noite', 'Integral'];
 
                     <?php
                         foreach ($foodIngredientsList as $foodItem):
-                            if ($foodItem['total'] != 0):
-                                ?>
+                            if($foodItem["total"] != 0):
+                    ?>
 
 
                         <tr>
-                            <td><?= $foodItem['name']?></td>
-                            <td><?= $foodItem['total'] . $foodItem['measure'] ?></td>
+                            <td><?= $foodItem["name"]?></td>
+                            <td><?= $foodItem["total"] . $foodItem["measure"] ?></td>
                         </tr>
                     <?php
                             endif;
                         endforeach;
-?>
+                    ?>
                     <tr>
                     <td class="font-bold subtitle">Total de Estudantes</td>
                     <td><?= $totalStudents ?></td>

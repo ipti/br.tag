@@ -2,13 +2,13 @@
 <div id="body-students-file-form" class="pageA4V">
   <?php
     $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
-  $schoolStrcture = SchoolStructure::model()->find('school_inep_id_fk = :schoolId', [':schoolId' => Yii::app()->user->school]);
-  $initial_date = strtotime($school->initial_date);
-  $final_date = strtotime($school->final_date);
-  $datediff = $final_date - $initial_date;
+    $schoolStrcture = SchoolStructure::model()->find('school_inep_id_fk = :schoolId', [':schoolId' => Yii::app()->user->school]);
+    $initial_date = strtotime($school->initial_date);
+    $final_date =   strtotime($school->final_date);
+    $datediff = $final_date - $initial_date;
 
-  $totalDays = abs(round($datediff / (60 * 60 * 24)));
-  $this->renderPartial('head');
+    $totalDays = abs(round($datediff / (60 * 60 * 24)));
+    $this->renderPartial('head');
   ?>
   <div class='container-report <?= $type == 1 ? 'mt-40' : 'mt-30' ?> text-center'>
     <h3><?= $title ?></h3>
@@ -43,21 +43,21 @@
     </table>
   </div>
 
-  <?php switch ($type) {
+  <?php switch($type){
       case 1:
-          $this->renderPartial('_regular_education', []);
-          break;
+        $this->renderPartial('_regular_education', array());
+      break;
       case 2:
-          $this->renderPartial('_education_eja', []);
-          break;
-  }
+        $this->renderPartial('_education_eja', array());
+      break;
+     }
   ?>
 
 
   <div id="boxDate"  class="row-grid no-border mb-30 mt-40">
     <div class="col no-border">
       <span class="pull-right">
-        <?= $school->edcensoCityFk->name?>(<?=$school->edcensoUfFk->acronym?>), <?php echo date('d') . ' de ' . yii::t('default', date('F')) . ' de ' . date('Y') . '.' ?>
+        <?= $school->edcensoCityFk->name?>(<?=$school->edcensoUfFk->acronym?>), <?php echo date('d') . " de " . yii::t('default', date('F')) . " de " . date('Y') . "." ?>
       </span>
     </div>
   </div>

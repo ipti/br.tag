@@ -1,5 +1,4 @@
 <?php
-
 require_once 'vendor/autoload.php';
 require_once __DIR__ . '/../robots/LoginRobots.php';
 require_once __DIR__ . '/../robots/MatrixRobots.php';
@@ -8,8 +7,8 @@ class MatrixCest
 {
     public function _before(AcceptanceTester $tester)
     {
-        $user = '';
-        $secret = '';
+        $user = "";
+        $secret = "";
 
         $robots = new LoginRobots($tester);
         $robots->pageLogin();

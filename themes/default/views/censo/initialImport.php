@@ -1,16 +1,17 @@
 <div id="mainPage" class="main">
     <?php
         $this->setPageTitle('TAG - ' . Yii::t('default', 'Import'));
-    $title = Yii::t('default', 'Import');
+        $title = Yii::t('default', 'Import');
 
-    $listYears = [];
-    $actualYear = date('Y');
+        $listYears = [];
+        $actualYear = date('Y');
 
-    for ($i = 0; $i < 5; $i++) {
-        $year = $actualYear - $i;
-        $listYears[$year] = $year;
-    }
 
+        for ($i=0; $i < 5; $i++) {
+            $year = $actualYear - $i; 
+            $listYears[$year] = $year;
+        }
+    
     ?>
 
 <div class="row-fluid hidden-print">
@@ -19,7 +20,7 @@
     </div>
 </div>
 
-<?php echo CHtml::beginForm('', 'post', ['enctype' => 'multipart/form-data']); ?>
+<?php echo CHtml::beginForm('', 'post', ["enctype" => "multipart/form-data"]); ?>
 
     <div class="innerLR">
 
@@ -37,7 +38,7 @@
             <div class="widget-body form-horizontal">
                 <div class="tab-content">
                     <div class="tab-pane active" id="import-indentify">
-                        <?php if (Yii::app()->user->hasFlash('success')): ?>
+                        <?php if(Yii::app()->user->hasFlash('success')): ?>
                             <div class="row-fluid">
                                 <div class="span12">
                                     <div class="alert alert-primary">
@@ -48,7 +49,7 @@
                             </div>
                         <?php endif; ?> 
 
-                        <?php if ($importModel->hasErrors()): ?>
+                        <?php if($importModel->hasErrors()): ?>
                             <div class="row-fluid">
                                 <div class="span12">
                                     <?= CHtml::errorSummary($importModel); ?>
@@ -58,7 +59,7 @@
                         <div class="row-fluid">
                             <div class="span4">
                                 <div class="control-group">
-                                    <?= CHtml::activeLabel($importModel, 'year', ['class' => 'control-label']); ?>
+                                    <?= CHtml::activeLabel($importModel, 'year', array('class' => 'control-label')); ?>
                                     <div class="controls">
                                         <?= CHtml::activeDropDownList($importModel, 'year', $listYears); ?>
                                         <?= CHtml::error($importModel, 'year'); ?>
@@ -67,7 +68,7 @@
                             </div>
                             <div class="span4">
                                 <div class="control-group">
-                                    <?= CHtml::activeLabel($importModel, 'file', ['class' => 'control-label']); ?>
+                                    <?= CHtml::activeLabel($importModel, 'file', array('class' => 'control-label')); ?>
                                     <div class="controls">
                                         <?= CHtml::activeFileField($importModel, 'file'); ?>
                                     </div>
@@ -77,7 +78,7 @@
                         <div class="row-fluid">
                             <div class="span12">
                                 <div class="control-group">
-                                    <?= CHtml::activeLabel($importModel, 'importWithError', ['class' => 'control-label']); ?>
+                                    <?= CHtml::activeLabel($importModel, 'importWithError', array('class' => 'control-label')); ?>
                                     <div class="controls">
                                         <?= CHtml::activeCheckBox($importModel, 'importWithError'); ?>
                                     </div>
@@ -87,7 +88,7 @@
                         <div class="row-fluid">
                             <div class="span12">
                                 <div class="control-group">
-                                    <?= CHtml::submitButton('Importar', ['class' => 'btn btn-primary']); ?>
+                                    <?= CHtml::submitButton('Importar', ['class'=> 'btn btn-primary']); ?>
                                 </div>
                             </div>
                         </div>

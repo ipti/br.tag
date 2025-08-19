@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @property CDbCriteria $criteria;
  */
@@ -12,7 +11,7 @@ class GetGradeUnitiesByDisciplineUsecase
         $this->criteria = new CDbCriteria();
         $this->criteria->alias = 'gu';
 
-        if (isset($stage) && $stage !== '') {
+        if (isset($stage) && $stage !== "") {
             $this->criteria->join = 'JOIN grade_rules gr ON gr.id = gu.grade_rules_fk';
             $this->criteria->join .= ' JOIN grade_rules_vs_edcenso_stage_vs_modality grvesvm ON gr.id = grvesvm.grade_rules_fk';
             $this->criteria->join .= ' JOIN classroom_vs_grade_rules cvgr ON cvgr.grade_rules_fk = gr.id';
@@ -32,7 +31,7 @@ class GetGradeUnitiesByDisciplineUsecase
             [
                 GradeUnity::TYPE_UNITY,
                 GradeUnity::TYPE_UNITY_BY_CONCEPT,
-                GradeUnity::TYPE_UNITY_WITH_RECOVERY,
+                GradeUnity::TYPE_UNITY_WITH_RECOVERY
             ]
         );
 
@@ -57,4 +56,7 @@ class GetGradeUnitiesByDisciplineUsecase
 
         return GradeUnity::model()->count($countCriteria);
     }
+
+
+
 }

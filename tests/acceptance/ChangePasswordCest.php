@@ -1,13 +1,14 @@
 <?php
 
-require_once __DIR__ . '/../robots/LoginRobots.php';
+require_once __DIR__."/../robots/LoginRobots.php";
 
 class ChangePasswordCest
 {
+
     public function _before(AcceptanceTester $tester)
     {
-        $user = '';
-        $secret = '';
+        $user = "";
+        $secret = "";
 
         $robots = new LoginRobots($tester);
         $robots->pageLogin();
@@ -22,12 +23,12 @@ class ChangePasswordCest
     {
         $teste->amOnPage('?r=admin/editPassword&id=1');
 
-        $newSecret = 'novaSenha@2023';
+        $newSecret = "novaSenha@2023";
 
-        $teste->fillField('#Users_password', $newSecret);
-        $teste->fillField('#Confirm', $newSecret);
+        $teste->fillField("#Users_password", $newSecret);
+        $teste->fillField("#Confirm", $newSecret);
 
-        $teste->click('#save button');
+        $teste->click("#save button");
         sleep(5);
         $teste->canSeeInCurrentUrl('admin/index');
     }

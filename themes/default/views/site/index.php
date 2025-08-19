@@ -12,13 +12,13 @@ $cs->registerScriptFile($baseUrl . '/js/site/index.js?v=' . TAG_VERSION, CClient
 /* @var $this SiteController */
 
 $cs->registerScript(
-    'vars',
-    "var loadMoreLogs = '" . $this->createUrl('site/loadMoreLogs') . "'; " .
-    "var loadMoreWarns = '" . $this->createUrl('site/loadMoreWarns') . "'; " .
-    "var loadLineChartData = '" . $this->createUrl('site/loadLineChartData') . "'; " .
-    "var loadCylinderChartData = '" . $this->createUrl('site/loadCylinderChartData') . "'; " .
-    "var loadPieChartData = '" . $this->createUrl('site/loadPieChartData') . "'; " .
-    "var loadWarns = '" . $this->createUrl('site/loadWarnsHtml') . "';",
+    "vars",
+    "var loadMoreLogs = '" . $this->createUrl("site/loadMoreLogs") . "'; " .
+    "var loadMoreWarns = '" . $this->createUrl("site/loadMoreWarns") . "'; " .
+    "var loadLineChartData = '" . $this->createUrl("site/loadLineChartData") . "'; " .
+    "var loadCylinderChartData = '" . $this->createUrl("site/loadCylinderChartData") . "'; " .
+    "var loadPieChartData = '" . $this->createUrl("site/loadPieChartData") . "'; " .
+    "var loadWarns = '" . $this->createUrl("site/loadWarnsHtml") . "';",
     CClientScript::POS_HEAD
 );
 
@@ -29,7 +29,7 @@ $this->breadcrumbs = [
 
 $year = Yii::app()->user->year;
 
-$logCount = count(Log::model()->findAll('school_fk = :school', [':school' => Yii::app()->user->school]));
+$logCount = count(Log::model()->findAll("school_fk = :school", [':school' => Yii::app()->user->school]));
 ?>
 
 <div class="main">
@@ -104,7 +104,7 @@ $logCount = count(Log::model()->findAll('school_fk = :school', [':school' => Yii
             <!--            <div class="widget widget-scroll widget-gray margin-bottom-none"-->
             <!--                 data-toggle="collapse-widget" data-scroll-height="223px"-->
             <!--                 data-collapse-closed="false" total="-->
-            <?php //= $logCount
+            <? //= $logCount
             ?>
             <!--">-->
             <!--                <div class="widget-head"><h5 class="heading glyphicons parents"><i></i>Alunos Matriculados</h5>-->
@@ -118,7 +118,7 @@ $logCount = count(Log::model()->findAll('school_fk = :school', [':school' => Yii
             <!--            <div class="widget widget-scroll widget-gray margin-bottom-none"-->
             <!--                 data-toggle="collapse-widget" data-scroll-height="223px"-->
             <!--                 data-collapse-closed="false" total="-->
-            <?php //= $logCount
+            <? //= $logCount
             ?>
             <!--">-->
             <!--                <div class="widget-head"><h5 class="heading glyphicons database_plus"><i></i>Base de Dados</h5>-->
@@ -134,7 +134,7 @@ $logCount = count(Log::model()->findAll('school_fk = :school', [':school' => Yii
             <!--            <div class="widget widget-scroll widget-gray margin-bottom-none"-->
             <!--                 data-toggle="collapse-widget" data-scroll-height="223px"-->
             <!--                 data-collapse-closed="false" total="-->
-            <?php //= $logCount
+            <? //= $logCount
             ?>
             <!--">-->
             <!--                <div class="widget-head"><h5 class="heading glyphicons calendar"><i></i>Cadastros anuais</h5>-->

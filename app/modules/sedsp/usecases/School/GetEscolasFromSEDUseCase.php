@@ -20,7 +20,6 @@ class GetEscolasFromSEDUseCase
     public function fetchSchoolData(InEscola $inEscola)
     {
         $dataSource = new SchoolSEDDataSource();
-
         return $dataSource->getSchool($inEscola);
     }
 
@@ -33,15 +32,18 @@ class GetEscolasFromSEDUseCase
     }
 
     /**
-     * Summary of createAndSaveNewSchool.
+     * Summary of createAndSaveNewSchool
      * @param mixed $schoolAttributes
      * @throws \SedspException
      * @return bool
      */
     public function saveSchool($school)
     {
-        if (!$school->SchoolIdentification->validate()) {
-            throw new SedspException(CJSON::encode(['data' => $school->SchoolIdentification->attributes, 'errors' => $school->SchoolIdentification->getErrors()]));
+        if(!$school->SchoolIdentification->validate()){
+            throw new SedspException(CJSON::encode([
+                'data'=> $school->SchoolIdentification->attributes,
+                'errors' => $school->SchoolIdentification->getErrors()
+            ]));
         }
 
         $status = $school->SchoolIdentification->save();
@@ -49,27 +51,28 @@ class GetEscolasFromSEDUseCase
             foreach ($school->SchoolUnities as $unity) {
                 if ($status) {
                     if (!$unity->validate()) {
-                        throw new SedspException(CJSON::encode(['data' => $unity->attributes, 'errors' => $unity->getErrors()]));
+                        throw new SedspException(CJSON::encode([
+                            'data' => $unity->attributes,
+                            'errors' => $unity->getErrors()
+                        ]));
                     }
                     $status = $unity->save();
                 }
             }
         }
-
         return $status;
     }
 
     private function extractStateCode($schoolId)
     {
         // remove os 2 dígitos iniciais do código da escola, referente ao código do estado
-
+                
         return strval(intval(substr($schoolId, 2)));
     }
 
     public function getSchoolClasses(InRelacaoClasses $inRelacaoClasses)
     {
         $classes = new GetRelacaoClassesFromSEDUseCase();
-
         return $classes->exec($inRelacaoClasses);
     }
 }

@@ -1,10 +1,9 @@
 <?php
-
 require_once 'vendor/autoload.php';
 require_once __DIR__ . '/../providers/CustomProvider.php';
 
 $yiit = __DIR__ . '\..\..\app\vendor\yiisoft\yii\framework\yiit.php';
-require_once $yiit;
+require_once($yiit);
 
 $config = __DIR__ . '/../../app/config/test.php';
 
@@ -21,7 +20,7 @@ class MatrixBuilder
     private $fakerCustom = null;
 
     /**
-     * Summary of matrix.
+     * Summary of matrix
      * @var $matrix
      */
     public function __construct()
@@ -34,11 +33,11 @@ class MatrixBuilder
     public function builderAddMatrix()
     {
         $this->matrix['stages'] = $this->faker->randomElement(
-            [
-                1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20,
-            ]
+            array(
+                1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20
+            )
         );
-        $this->matrix['disciplines'] = $this->faker->randomElement([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
+        $this->matrix['disciplines'] = $this->faker->randomElement(array(1, 2, 3, 4, 5, 6, 7, 8, 9, 10));
         $this->matrix['workload'] = $this->faker->randomDigit();
         $this->matrix['credits'] = $this->faker->randomDigit();
 

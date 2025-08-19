@@ -3,18 +3,18 @@
 /* @var $report mixed */
 $baseUrl = Yii::app()->baseUrl;
 $cs = Yii::app()->getClientScript();
-$cs->registerScriptFile($baseUrl . '/js/reports/TeacherTraining/_initialization.js?v=' . TAG_VERSION, CClientScript::POS_END);
+$cs->registerScriptFile($baseUrl . '/js/reports/TeacherTraining/_initialization.js?v='.TAG_VERSION, CClientScript::POS_END);
 
 $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
-$turno = $classroom[0]['turno'];
+$turno =  $classroom[0]['turno'];
 if ($turno == 'M') {
-    $turno = 'Matutino';
-} elseif ($turno == 'T') {
-    $turno = 'Vesperitino';
-} elseif ($turno == 'N') {
-    $turno = 'Noturno';
-} elseif ($turno == '' || $turno == null) {
-    $turno = '___________';
+    $turno = "Matutino";
+}else if ($turno == 'T') {
+    $turno = "Vesperitino";
+}else if ($turno == 'N') {
+    $turno = "Noturno";
+}else if ($turno == '' || $turno == null) {
+    $turno = "___________";
 }
 ?>
 
@@ -53,65 +53,68 @@ if ($turno == 'M') {
             <tr>
                 <?php
                 foreach ($disciplines as $d) {
-                    echo "<th scope='col' class='vertical-head'>" . $d . '</th>';
+                    echo "<th scope='col' class='vertical-head'>".$d."</th>";
                 }?>
             </tr>
         </thead>
         <tbody>
             <?php
             $count_std = 1;
-$array_students = [];
-foreach ($classroom as $c) {
-    if (!in_array($c['name'], $array_students)) {
-        ?>
+            $array_students = [];
+            foreach ($classroom as $c) {
+                if(!in_array($c['name'] ,$array_students)) {
+            ?>
                 <tr>
-                    <td style="text-align: center;"><?= $count_std < 10 ? '0' . $count_std : $count_std ?></td>
+                    <td style="text-align: center;"><?= $count_std < 10 ? "0" . $count_std : $count_std ?></td>
                     <td><?= $c['name'] ?></td>
                     <?php
-        for ($i = 0; $i < count($disciplines); $i++) {
-            echo '<td></td>';
-        } ?>
+                    for ($i=0; $i < count($disciplines); $i++) {
+                        echo "<td></td>";
+                    }
+                    ?>
                     <td></td>
                     <td></td>
                     <td style="text-align: center;">
                     <?php
-            $create_date = TagUtils::convertDateFormat($c['create_date']);
-        $date_cancellation = TagUtils::convertDateFormat($c['date_cancellation']);
-        if ($c['status'] == 1) {
-            echo '';
-        } elseif ($c['status'] == 2) {
-            if ($c['date_cancellation'] != null) {
-                echo 'Trans. ' . $date_cancellation;
-            } else {
-                echo 'Trans. ____/____/______';
-            }
-        } elseif ($c['status'] == 3) {
-            if ($c['date_cancellation'] != null) {
-                echo 'Cancel. ' . $date_cancellation;
-            } else {
-                echo 'Cancel. ____/____/______';
-            }
-        } elseif ($c['status'] == 4) {
-            if ($c['date_cancellation'] != null) {
-                echo 'Evad. ' . $date_cancellation;
-            } else {
-                echo 'Evad. ____/____/______';
-            }
-        } else {
-            echo '';
-        } ?>
+                        $create_date =  TagUtils::convertDateFormat($c['create_date']);
+                        $date_cancellation = TagUtils::convertDateFormat($c['date_cancellation']);
+                        if ($c['status'] == 1) {
+                            echo '';
+                        } else if ($c['status'] == 2) {
+                            if ($c['date_cancellation'] != null) {
+                                echo 'Trans. ' . $date_cancellation;
+                            }else {
+                                echo 'Trans. ____/____/______';
+                            }
+                        } else if ($c['status'] == 3) {
+                            if ($c['date_cancellation'] != null) {
+                                echo 'Cancel. ' . $date_cancellation;
+                            }else {
+                                echo 'Cancel. ____/____/______';
+                            }
+                        } else if ($c['status'] == 4) {
+                            if ($c['date_cancellation'] != null) {
+                                echo 'Evad. ' . $date_cancellation;
+                            }else {
+                                echo 'Evad. ____/____/______';
+                            }
+                        }else {
+                            echo '';
+                        }
+                    ?>
                     </td>
                     <td style="text-align: center;">
                         <?php
-                echo $c['observation']; ?>
+                            echo $c['observation'];
+                        ?>
                     </td>
                     </tr>
                 <?php
-        $count_std++;
-    }
-    array_push($array_students, $c['name']);
-}
-?>
+                    $count_std++;
+                    }
+                    array_push($array_students, $c['name']);
+                }
+                ?>
         </tbody>
     </table>
     <p style="margin-top: 10px;">Legenda: PCD - Pessoa com Defeciência. </p>
@@ -185,24 +188,24 @@ foreach ($classroom as $c) {
             </thead>
             <tbody>
             <?php
-$validate_array = [];
-foreach ($classroom as $c) {
-    $json = json_encode([
-        'prof_name' => $c['prof_name'],
-        'discipline' => $c['discipline']
-    ]);
-    if (!in_array($json, $validate_array)) {
-        ?>
+                $validate_array = array();
+                foreach ($classroom as $c) {
+                    $json = json_encode(array(
+                        "prof_name" => $c['prof_name'],
+                        "discipline" => $c['discipline']
+                    ));
+                    if(!in_array($json, $validate_array)) {
+            ?>
                         <tr>
                             <td><?= $c['discipline'] ?></td>
                             <td><?= $c['prof_name'] ?></td>
                             <td></td>
                         </tr>
             <?php
-    }
-    array_push($validate_array, $json);
-}
-?>
+                    }
+                    array_push($validate_array, $json);
+                }
+            ?>
             </tbody>
         </table>
         <div class="container-box signatures-container">

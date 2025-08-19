@@ -5,8 +5,10 @@
  */
 class CreateClassroomUsecase
 {
+
     /**
-     * Summary of __construct.
+     * Summary of __construct
+     * @param ClassroomSEDDataSource $classroomSEDDatasource
      */
     public function __construct(ClassroomSEDDataSource $classroomSEDDatasource = null)
     {
@@ -14,7 +16,7 @@ class CreateClassroomUsecase
     }
 
     /**
-     * Summary of exec.
+     * Summary of exec
      * @param int $RA RA Number
      * @return Classroom
      */
@@ -30,5 +32,6 @@ class CreateClassroomUsecase
         }
 
         throw new SedspException(CJSON::encode($classroomModel->getErrors()), 1);
+
     }
 }

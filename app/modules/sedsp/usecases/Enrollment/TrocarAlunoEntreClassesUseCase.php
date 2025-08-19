@@ -1,11 +1,10 @@
 <?php
 
-class TrocarAlunoEntreClassesUseCase
+class TrocarAlunoEntreClassesUseCase 
 {
-    public function exec(InTrocarAlunoEntreClasses $inTrocarAlunoEntreClasses)
+    public function exec(InTrocarAlunoEntreClasses $inTrocarAlunoEntreClasses) 
     {
-        $enrollmentSEDDataSource = new EnrollmentSEDDataSource();
-
+        $enrollmentSEDDataSource = new EnrollmentSEDDataSource;
         return $enrollmentSEDDataSource->addTrocarAlunoEntreClasses($inTrocarAlunoEntreClasses);
     }
 }

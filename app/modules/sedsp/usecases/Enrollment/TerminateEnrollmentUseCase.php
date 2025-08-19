@@ -1,11 +1,10 @@
 <?php
 
-class TerminateEnrollmentUseCase
+class TerminateEnrollmentUseCase 
 {
     public function exec(InBaixarMatricula $inBaixarMatricula)
     {
-        $enrollmentSEDDataSource = new EnrollmentSEDDataSource();
-
+        $enrollmentSEDDataSource = new EnrollmentSEDDataSource;
         return $enrollmentSEDDataSource->addBaixarMatricula($inBaixarMatricula);
     }
 }

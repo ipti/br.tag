@@ -2,15 +2,15 @@
 /* @var $this FoodInventoryController */
 /* @var $model FoodInventory */
 
-$this->breadcrumbs = [
-    'Food Inventories' => ['index'],
+$this->breadcrumbs=array(
+    'Food Inventories'=>array('index'),
     'Manage',
-];
+);
 
-$this->menu = [
-    ['label' => 'List FoodInventory', 'url' => ['index']],
-    ['label' => 'Create FoodInventory', 'url' => ['create']],
-];
+$this->menu=array(
+    array('label'=>'List FoodInventory', 'url'=>array('index')),
+    array('label'=>'Create FoodInventory', 'url'=>array('create')),
+);
 
 Yii::app()->clientScript->registerScript('search', "
 $('.search-button').click(function(){
@@ -33,25 +33,25 @@ $('.search-form form').submit(function(){
     or <b>=</b>) at the beginning of each of your search values to specify how the comparison should be done.
 </p>
 
-<?php echo CHtml::link('Advanced Search', '#', ['class' => 'search-button']); ?>
+<?php echo CHtml::link('Advanced Search','#',array('class'=>'search-button')); ?>
 <div class="search-form" style="display:none">
-    <?php $this->renderPartial('_search', [
-        'model' => $model,
-    ]); ?>
+    <?php $this->renderPartial('_search',array(
+        'model'=>$model,
+    )); ?>
 </div><!-- search-form -->
 
-<?php $this->widget('zii.widgets.grid.CGridView', [
-    'id' => 'food-inventory-grid',
-    'dataProvider' => $model->search(),
-    'filter' => $model,
-    'columns' => [
+<?php $this->widget('zii.widgets.grid.CGridView', array(
+    'id'=>'food-inventory-grid',
+    'dataProvider'=>$model->search(),
+    'filter'=>$model,
+    'columns'=>array(
         'id',
         'school_fk',
         'food_fk',
         'amount',
         'measurementUnit',
-        [
-            'class' => 'CButtonColumn',
-        ],
-    ],
-]); ?>
+        array(
+            'class'=>'CButtonColumn',
+        ),
+    ),
+)); ?>

@@ -5,24 +5,22 @@
 
 $baseScriptUrl = Yii::app()->controller->module->baseScriptUrl;
 $cs = Yii::app()->getClientScript();
-$cs->registerScriptFile($baseScriptUrl . '/menuComponents.js?v=' . TAG_VERSION, CClientScript::POS_END);
-$cs->registerScriptFile($baseScriptUrl . '/_initialization.js?v=' . TAG_VERSION, CClientScript::POS_END);
-$cs->registerScriptFile($baseScriptUrl . '/functions.js?v=' . TAG_VERSION, CClientScript::POS_END);
+$cs->registerScriptFile($baseScriptUrl . '/menuComponents.js?v='.TAG_VERSION, CClientScript::POS_END);
+$cs->registerScriptFile($baseScriptUrl . '/_initialization.js?v='.TAG_VERSION, CClientScript::POS_END);
+$cs->registerScriptFile($baseScriptUrl . '/functions.js?v='.TAG_VERSION, CClientScript::POS_END);
 ?>
 
 <div class="form">
 
-	<?php $form = $this->beginWidget(
-    'CActiveForm',
-    [
-        'id' => 'food-menu-form',
-        // Please note: When you enable ajax validation, make sure the corresponding
-        // controller action is handling ajax validation correctly.
-        // There is a call to performAjaxValidation() commented in generated controller code.
-        // See class documentation of CActiveForm for details on this.
-        'enableAjaxValidation' => false,
-    ]
-); ?>
+	<?php $form = $this->beginWidget('CActiveForm', array(
+		'id' => 'food-menu-form',
+		// Please note: When you enable ajax validation, make sure the corresponding
+		// controller action is handling ajax validation correctly.
+		// There is a call to performAjaxValidation() commented in generated controller code.
+		// See class documentation of CActiveForm for details on this.
+		'enableAjaxValidation' => false,
+	)
+	); ?>
 
 	<div class="main form-content">
         <div class="row js-form-active">
@@ -52,10 +50,10 @@ $cs->registerScriptFile($baseScriptUrl . '/functions.js?v=' . TAG_VERSION, CClie
 				Informações do Cardápio
 			</h3>
 		</div>
-		<?php if (!$model->isNewRecord): ?>
+		<?php if(!$model->isNewRecord): ?>
 			<div class="row t-margin-medium--bottom">
                 <div class="column clearleft--on-mobile t-buttons-container">
-                        <a class="t-button-secondary" target="_blank" rel="noopener" href="<?php echo Yii::app()->createUrl('foods/reports/FoodMenuReport', ['id' => $model->id]) ?>">
+                        <a class="t-button-secondary" target="_blank" rel="noopener" href="<?php echo Yii::app()->createUrl('foods/reports/FoodMenuReport', array('id'=>$model->id)) ?>">
                             <span class="t-icon-printer"></span>imprimir cardápio
                         </a>
                 </div>
@@ -110,19 +108,19 @@ $cs->registerScriptFile($baseScriptUrl . '/functions.js?v=' . TAG_VERSION, CClie
         <div class="t-margin-none--top column">
                 <label for="stages" class="t-field-select__label--required">Etapas de ensino</label>
                 <?php
-	                    echo CHtml::dropDownList(
-	    'Etapas',
-	    $stages,
-	    CHtml::listData(EdcensoStageVsModality::model()->findAll(), 'id', 'name'),
-	    [
-	        'class' => 't-field-select__input js-stage-select select-search-on select2-container t-multiselect multiselect',
-	        'multiple' => 'multiple',
-	        'prompt' => 'Selecione o estágio...',
-	        'style' => 'width: 100%;',
-	        'required' => 'required'
-	    ]
-	);
-?>
+                    echo CHtml::dropDownList(
+                        'Etapas',
+                        $stages,
+                        CHtml::listData(EdcensoStageVsModality::model()->findAll(), 'id', 'name'),
+                        array(
+                            'class' => 't-field-select__input js-stage-select select-search-on select2-container t-multiselect multiselect',
+                            'multiple' => 'multiple',
+                            'prompt' => 'Selecione o estágio...',
+                            'style' => 'width: 100%;',
+                            "required"=>"required"
+                        )
+                    );
+                ?>
             </div>
             <div class="column">
                 <div class="t-field-checkbox t-margin-none--top">

@@ -4,11 +4,11 @@
  * This is the model class for table "food_request_item_accepted".
  *
  * The followings are the available columns in table 'food_request_item_accepted':
- * @property int $id
- * @property int $food_fk
- * @property int $farmer_fk
- * @property int $food_request_fk
- * @property float $amount
+ * @property integer $id
+ * @property integer $food_fk
+ * @property integer $farmer_fk
+ * @property integer $food_request_fk
+ * @property double $amount
  * @property string $measurementUnit
  * @property string $created_at
  * @property string $updated_at
@@ -21,14 +21,13 @@
  */
 class FoodRequestItemAccepted extends CActiveRecord
 {
-    /**
-     * @return string the associated database table name
-     */
-    public function tableName()
-    {
-        return 'food_request_item_accepted';
-    }
-
+	/**
+	 * @return string the associated database table name
+	 */
+	public function tableName()
+	{
+		return 'food_request_item_accepted';
+	}
     public function behaviors()
     {
         return [
@@ -38,101 +37,101 @@ class FoodRequestItemAccepted extends CActiveRecord
                 'updateAttribute' => 'updated_at',
                 'setUpdateOnCreate' => true,
                 'timestampExpression' => new CDbExpression('CONVERT_TZ(NOW(), "+00:00", "-03:00")'),
-            ],
+            ]
         ];
     }
 
-    /**
-     * @return array validation rules for model attributes
-     */
-    public function rules()
-    {
-        // NOTE: you should only define rules for those attributes that
-        // will receive user inputs.
-        return [
-            ['food_fk, farmer_fk, food_request_fk', 'numerical', 'integerOnly' => true],
-            ['amount', 'numerical'],
-            ['measurementUnit', 'length', 'max' => 7],
-            ['created_at, updated_at, date', 'safe'],
-            // The following rule is used by search().
-            // @todo Please remove those attributes that should not be searched.
-            ['id, food_fk, farmer_fk, food_request_fk, amount, measurementUnit, created_at, updated_at, date', 'safe', 'on' => 'search'],
-        ];
-    }
+	/**
+	 * @return array validation rules for model attributes.
+	 */
+	public function rules()
+	{
+		// NOTE: you should only define rules for those attributes that
+		// will receive user inputs.
+		return array(
+			array('food_fk, farmer_fk, food_request_fk', 'numerical', 'integerOnly'=>true),
+			array('amount', 'numerical'),
+			array('measurementUnit', 'length', 'max'=>7),
+			array('created_at, updated_at, date', 'safe'),
+			// The following rule is used by search().
+			// @todo Please remove those attributes that should not be searched.
+			array('id, food_fk, farmer_fk, food_request_fk, amount, measurementUnit, created_at, updated_at, date', 'safe', 'on'=>'search'),
+		);
+	}
 
-    /**
-     * @return array relational rules
-     */
-    public function relations()
-    {
-        // NOTE: you may need to adjust the relation name and the related
-        // class name for the relations automatically generated below.
-        return [
-            'farmerFk' => [self::BELONGS_TO, 'FarmerRegister', 'farmer_fk'],
-            'foodFk' => [self::BELONGS_TO, 'Food', 'food_fk'],
-            'foodRequestFk' => [self::BELONGS_TO, 'FoodRequest', 'food_request_fk'],
-        ];
-    }
+	/**
+	 * @return array relational rules.
+	 */
+	public function relations()
+	{
+		// NOTE: you may need to adjust the relation name and the related
+		// class name for the relations automatically generated below.
+		return array(
+			'farmerFk' => array(self::BELONGS_TO, 'FarmerRegister', 'farmer_fk'),
+			'foodFk' => array(self::BELONGS_TO, 'Food', 'food_fk'),
+			'foodRequestFk' => array(self::BELONGS_TO, 'FoodRequest', 'food_request_fk'),
+		);
+	}
 
-    /**
-     * @return array customized attribute labels (name=>label)
-     */
-    public function attributeLabels()
-    {
-        return [
-            'id' => 'ID',
-            'food_fk' => 'Food Fk',
-            'farmer_fk' => 'Farmer Fk',
-            'food_request_fk' => 'Food Request Fk',
-            'amount' => 'Amount',
-            'measurementUnit' => 'Measurement Unit',
-            'created_at' => 'Created At',
-            'updated_at' => 'Updated At',
-            'date' => 'Date',
-        ];
-    }
+	/**
+	 * @return array customized attribute labels (name=>label)
+	 */
+	public function attributeLabels()
+	{
+		return array(
+			'id' => 'ID',
+			'food_fk' => 'Food Fk',
+			'farmer_fk' => 'Farmer Fk',
+			'food_request_fk' => 'Food Request Fk',
+			'amount' => 'Amount',
+			'measurementUnit' => 'Measurement Unit',
+			'created_at' => 'Created At',
+			'updated_at' => 'Updated At',
+			'date' => 'Date',
+		);
+	}
 
-    /**
-     * Retrieves a list of models based on the current search/filter conditions.
-     *
-     * Typical usecase:
-     * - Initialize the model fields with values from filter form.
-     * - Execute this method to get CActiveDataProvider instance which will filter
-     * models according to data in model fields.
-     * - Pass data provider to CGridView, CListView or any similar widget.
-     *
-     * @return CActiveDataProvider the data provider that can return the models
-     * based on the search/filter conditions
-     */
-    public function search()
-    {
-        // @todo Please modify the following code to remove attributes that should not be searched.
+	/**
+	 * Retrieves a list of models based on the current search/filter conditions.
+	 *
+	 * Typical usecase:
+	 * - Initialize the model fields with values from filter form.
+	 * - Execute this method to get CActiveDataProvider instance which will filter
+	 * models according to data in model fields.
+	 * - Pass data provider to CGridView, CListView or any similar widget.
+	 *
+	 * @return CActiveDataProvider the data provider that can return the models
+	 * based on the search/filter conditions.
+	 */
+	public function search()
+	{
+		// @todo Please modify the following code to remove attributes that should not be searched.
 
-        $criteria = new CDbCriteria();
+		$criteria=new CDbCriteria;
 
-        $criteria->compare('id', $this->id);
-        $criteria->compare('food_fk', $this->food_fk);
-        $criteria->compare('farmer_fk', $this->farmer_fk);
-        $criteria->compare('food_request_fk', $this->food_request_fk);
-        $criteria->compare('amount', $this->amount);
-        $criteria->compare('measurementUnit', $this->measurementUnit, true);
-        $criteria->compare('created_at', $this->created_at, true);
-        $criteria->compare('updated_at', $this->updated_at, true);
-        $criteria->compare('date', $this->date, true);
+		$criteria->compare('id',$this->id);
+		$criteria->compare('food_fk',$this->food_fk);
+		$criteria->compare('farmer_fk',$this->farmer_fk);
+		$criteria->compare('food_request_fk',$this->food_request_fk);
+		$criteria->compare('amount',$this->amount);
+		$criteria->compare('measurementUnit',$this->measurementUnit,true);
+		$criteria->compare('created_at',$this->created_at,true);
+		$criteria->compare('updated_at',$this->updated_at,true);
+		$criteria->compare('date',$this->date,true);
 
-        return new CActiveDataProvider($this, [
-            'criteria' => $criteria,
-        ]);
-    }
+		return new CActiveDataProvider($this, array(
+			'criteria'=>$criteria,
+		));
+	}
 
-    /**
-     * Returns the static model of the specified AR class.
-     * Please note that you should have this exact method in all your CActiveRecord descendants!
-     * @param string $className active record class name
-     * @return FoodRequestItemAccepted the static model class
-     */
-    public static function model($className = __CLASS__)
-    {
-        return parent::model($className);
-    }
+	/**
+	 * Returns the static model of the specified AR class.
+	 * Please note that you should have this exact method in all your CActiveRecord descendants!
+	 * @param string $className active record class name.
+	 * @return FoodRequestItemAccepted the static model class
+	 */
+	public static function model($className=__CLASS__)
+	{
+		return parent::model($className);
+	}
 }

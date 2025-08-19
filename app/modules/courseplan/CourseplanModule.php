@@ -5,32 +5,32 @@ class CourseplanModule extends CWebModule
     public $defaultController = 'courseplan';
     public $baseScriptUrl;
     public $baseUrl;
-
-    public function init()
-    {
-        // this method is called when the module is being created
-        // you may place code here to customize the module or the application
-        $this->baseUrl = Yii::app()->createUrl('courseplan');
+	public function init()
+	{
+		// this method is called when the module is being created
+		// you may place code here to customize the module or the application
+        $this->baseUrl = Yii::app()->createUrl("courseplan");
 
         $this->baseScriptUrl = Yii::app()->getAssetManager()
             ->publish(Yii::getPathOfAlias('application.modules.courseplan.resources'));
-        // import the module-level models and components
-        $this->setImport([
-            'courseplan.models.*',
-            'courseplan.components.*',
+		// import the module-level models and components
+		$this->setImport(array(
+			'courseplan.models.*',
+			'courseplan.components.*',
             'courseplan.controllers.*',
-        ]);
-    }
+		));
+	}
 
-    public function beforeControllerAction($controller, $action)
-    {
+	public function beforeControllerAction($controller, $action)
+	{
         $controller->layout = 'webroot.themes.default.views.layouts.fullmenu';
-        if (parent::beforeControllerAction($controller, $action)) {
-            // this method is called before any module controller action is performed
-            // you may place customized code here
-            return true;
-        } else {
-            return false;
-        }
-    }
+        if(parent::beforeControllerAction($controller, $action))
+		{
+			// this method is called before any module controller action is performed
+			// you may place customized code here
+			return true;
+		}
+		else
+			return false;
+	}
 }

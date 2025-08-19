@@ -1,9 +1,9 @@
 <?php
 /* @var $this DefaultController */
 
-$this->breadcrumbs = [
-    $this->module->id,
-];
+$this->breadcrumbs=array(
+	$this->module->id,
+);
 ?>
 <div class="main">
 	<div class="row">
@@ -22,17 +22,14 @@ $this->breadcrumbs = [
 			</div>
 			<div class="t-field-select__input">
 			
-			<?= CHtml::dropDownList(
-    'shift',
-    '',
-    [
-        '0' => 'Manhã',
-        '1' => 'Tarde',
-        '2' => 'Noite'
-    ],
-    ['multiple' => 'multiple',
-        'class' => 'select-search-on t-multiselect multiselect']
-); ?>
+			<?= CHtml::dropDownList('shift', '',
+			 [
+				'0' => 'Manhã',
+				'1' => 'Tarde',
+				'2' => 'Noite'
+			 ], 
+			 array('multiple' => 'multiple',
+			 'class' => 'select-search-on t-multiselect multiselect')); ?>
 			</div>
 		</div>
 	</div>

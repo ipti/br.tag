@@ -31,34 +31,34 @@ $cs->registerCssFile($baseUrl . '/css/sagres.css');
 			<select id="mes" name="mes">
 				<option value="0">Selecione um mês</option>
 				<?php
-                    $anoAtual = date('Y');
-$mesAtual = date('n');
+					$anoAtual = date('Y');
+					$mesAtual = date('n');
 
-$meses = [
-    1 => 'Janeiro',
-    2 => 'Fevereiro',
-    3 => 'Março',
-    4 => 'Abril',
-    5 => 'Maio',
-    6 => 'Junho',
-    7 => 'Julho',
-    8 => 'Agosto',
-    9 => 'Setembro',
-    10 => 'Outubro',
-    11 => 'Novembro',
-    12 => 'Dezembro'
-];
+					$meses = [
+						1 => 'Janeiro',
+						2 => 'Fevereiro',
+						3 => 'Março',
+						4 => 'Abril',
+						5 => 'Maio',
+						6 => 'Junho',
+						7 => 'Julho',
+						8 => 'Agosto',
+						9 => 'Setembro',
+						10 => 'Outubro',
+						11 => 'Novembro',
+						12 => 'Dezembro'
+					];
 
-if ($anoAtual == Yii::app()->user->year) {
-    for ($mes = 1; $mes <= $mesAtual; $mes++) {
-        echo "<option value='$mes'>$meses[$mes]</option>";
-    }
-} else {
-    for ($mes = 1; $mes <= 12; $mes++) {
-        echo "<option value='$mes'>$meses[$mes]</option>";
-    }
-}
-?>
+					if ($anoAtual == Yii::app()->user->year) {
+						for ($mes = 1; $mes <= $mesAtual; $mes++) {
+							echo "<option value='$mes'>$meses[$mes]</option>";
+						}
+					} else {
+						for ($mes = 1; $mes <= 12; $mes++) {
+							echo "<option value='$mes'>$meses[$mes]</option>";
+						}
+					}
+				?>
 			</select>
 		</div>
 		<div class="column" style=" display: flex;flex-direction: column; display: flex;align-items: left">
@@ -134,10 +134,10 @@ if ($anoAtual == Yii::app()->user->year) {
 					<span class="subtitle">Lista de inconsistências SAGRES</span>
 				</div>
 				<?php
-if ($numInconsistencys != 0) {
-    echo '<span class="pull-right circle">' . $numInconsistencys . '</span>';
-}
-?>
+				if ($numInconsistencys != 0) {
+					echo '<span class="pull-right circle">' . $numInconsistencys . '</span>';
+				}
+				?>
 			</button>
 		</a>
 	</div>

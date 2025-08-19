@@ -4,20 +4,20 @@
 
 $this->setPageTitle('TAG - ' . Yii::t('default', 'Estoque'));
 
-$this->breadcrumbs = [
-    'Food Inventories' => ['index'],
-    $model->id => ['view', 'id' => $model->id],
-    'Update',
-];
+$this->breadcrumbs=array(
+	'Food Inventories'=>array('index'),
+	$model->id=>array('view','id'=>$model->id),
+	'Update',
+);
 
-$this->menu = [
-    ['label' => 'List FoodInventory', 'url' => ['index']],
-    ['label' => 'Create FoodInventory', 'url' => ['create']],
-    ['label' => 'View FoodInventory', 'url' => ['view', 'id' => $model->id]],
-    ['label' => 'Manage FoodInventory', 'url' => ['admin']],
-];
+$this->menu=array(
+	array('label'=>'List FoodInventory', 'url'=>array('index')),
+	array('label'=>'Create FoodInventory', 'url'=>array('create')),
+	array('label'=>'View FoodInventory', 'url'=>array('view', 'id'=>$model->id)),
+	array('label'=>'Manage FoodInventory', 'url'=>array('admin')),
+);
 ?>
 
 <h1>Update FoodInventory <?php echo $model->id; ?></h1>
 
-<?php $this->renderPartial('_form', ['model' => $model]); ?>
+<?php $this->renderPartial('_form', array('model'=>$model)); ?>

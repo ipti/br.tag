@@ -1,14 +1,14 @@
 <?php
 /* @var $this DefaultController */
 
-$this->breadcrumbs = [
-    $this->module->id,
-];
+$this->breadcrumbs=array(
+	$this->module->id,
+);
 
-$this->menu = [
-    ['label' => 'Create CoursePlan', 'url' => ['index']],
-    ['label' => 'List ClassPlan', 'url' => ['admin']],
-];
+$this->menu=array(
+	array('label'=>'Create CoursePlan', 'url'=>array('index')),
+	array('label'=>'List ClassPlan', 'url'=>array('admin')),
+);
 
 ?>
 
@@ -16,20 +16,21 @@ $this->menu = [
 /* @var $this CoursePlanController */
 /* @var $dataProvider CActiveDataProvider */
 
+
 $this->setPageTitle('TAG - ' . Yii::t('default', 'Course Plan'));
 
-$this->menu = [
-    ['label' => 'List Courseplan', 'url' => ['index']],
-    ['label' => '']
-];
+$this->menu = array(
+    array('label' => 'List Courseplan', 'url' => array('index')),
+    array('label' => '')
+);
 
 $baseScriptUrl = Yii::app()->controller->module->baseScriptUrl;
 $cs = Yii::app()->getClientScript();
 $cs = Yii::app()->getClientScript();
-$cs->registerScriptFile($baseScriptUrl . '/_initialization.js?v=' . TAG_VERSION, CClientScript::POS_END);
-$cs->registerScriptFile($baseScriptUrl . '/functions.js?v=' . TAG_VERSION, CClientScript::POS_END);
-$cs->registerScriptFile($baseScriptUrl . '/validations.js?v=' . TAG_VERSION, CClientScript::POS_END);
-$cs->registerScriptFile($baseScriptUrl . '/pagination.js?v=' . TAG_VERSION, CClientScript::POS_END);
+$cs->registerScriptFile($baseScriptUrl . '/_initialization.js?v='.TAG_VERSION, CClientScript::POS_END);
+$cs->registerScriptFile($baseScriptUrl . '/functions.js?v='.TAG_VERSION, CClientScript::POS_END);
+$cs->registerScriptFile($baseScriptUrl . '/validations.js?v='.TAG_VERSION, CClientScript::POS_END);
+$cs->registerScriptFile($baseScriptUrl . '/pagination.js?v='.TAG_VERSION, CClientScript::POS_END);
 
 ?>
 
@@ -48,37 +49,34 @@ $cs->registerScriptFile($baseScriptUrl . '/pagination.js?v=' . TAG_VERSION, CCli
         <div class="row">
             <div class="column clearleft">
                 <div class="t-field-select instructor-container">
-                    <?php echo CHtml::label(yii::t('default', 'Instructor'), 'instructor', ['class' => 't-field-select__label--required']); ?>
+                    <?php echo CHtml::label(yii::t('default', 'Instructor'), 'instructor', array('class' => 't-field-select__label--required'));?>
                     <select class="select-search-on t-field-select__input" id="instructor" style="min-width: 185px;">
                         <option value="">Selecione o Professor</option>
                         <?php
-                            $instructors = array_map('unserialize', array_unique(array_map('serialize', $instructors)));
-foreach ($instructors as $instructor) :
-    ?>
+                            $instructors = array_map("unserialize", array_unique(array_map("serialize", $instructors)));
+                            foreach ($instructors as $instructor) :
+                        ?>
                             <option value="<?=$instructor['id']?>"><?=$instructor['name']?></option>
                         <?php endforeach; ?>
                     </select>
                 </div>
                 <div class="t-field-select row">
                     <div class="t-field-select">
-                        <?php echo CHtml::label(yii::t('default', 'Stage'), 'stage', ['class' => 't-field-select__label--required']); ?>
+                        <?php echo CHtml::label(yii::t('default', 'Stage'), 'stage', array('class' => 't-field-select__label--required'));?>
                         <select class="select-search-on t-field-select__input" id="stage" style="min-width: 185px;">
                             <option value="">Selecione a etapa</option>
                             <?php
-            $stages = array_map('unserialize', array_unique(array_map('serialize', $stages)));
-foreach ($stages as $stage) :
-    ?>
+                                $stages = array_map("unserialize", array_unique(array_map("serialize", $stages)));
+                                foreach ($stages as $stage) :
+                            ?>
                                 <option value="<?=$stage['id']?>"><?=$stage['name']?></option>
                             <?php endforeach; ?>
                         </select>
                     </div>
                     <!-- diciplina -->
                     <div class="t-field-select discipline-container hide">
-                        <?php echo CHtml::label(
-        yii::t('default', 'Discipline'),
-        'month',
-        ['class' => 't-field-select__label--required']
-    ); ?>
+                        <?php echo CHtml::label(yii::t('default', 'Discipline'),
+                            'month', array('class' => 't-field-select__label--required')); ?>
                         <select class="select-search-on t-field-select__input" id="discipline"
                                 style="min-width: 185px;">
                         </select>
@@ -91,7 +89,7 @@ foreach ($stages as $stage) :
     <div class="tag-inner">
         <div class="columnone" style="padding-right: 1em">
             <div class="widget clearmargin">
-                <div class="alert courseplan-alert <?= Yii::app()->user->hasFlash('success') ? 'alert-success' : 'no-show' ?>"><?php echo Yii::app()->user->getFlash('success') ?></div>
+                <div class="alert courseplan-alert <?= Yii::app()->user->hasFlash('success') ? "alert-success" : "no-show" ?>"><?php echo Yii::app()->user->getFlash('success') ?></div>
                     <div class="pending_courseplan_table_div"></div>
             </div>
         </div>

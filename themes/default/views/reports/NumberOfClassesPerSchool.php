@@ -3,7 +3,7 @@
 /* @var $report mixed */
 $baseUrl = Yii::app()->baseUrl;
 $cs = Yii::app()->getClientScript();
-$cs->registerScriptFile($baseUrl . '/js/reports/BFReport/_initialization.js?v=' . TAG_VERSION, CClientScript::POS_END);
+$cs->registerScriptFile($baseUrl . '/js/reports/BFReport/_initialization.js?v='.TAG_VERSION, CClientScript::POS_END);
 
 $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
 ?>
@@ -20,11 +20,11 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
     </div>
     <?php foreach ($report as $r) {?>
         <div class="header-container">
-            <h6><?= 'ESCOLA: ' . $r['school']->name?></h6>
-            <h6><?= 'ID INEP: ' . $r['school']->inep_id?></h6>
-            <h6><?= 'GESTOR: ' . $r['school']->manager_name?></h6>
-            <h6><?= 'ENDEREÇO: ' . $r['school']->address . ', ' . $r['school']->address_number . ', '
-            . $r['school']->address_neighborhood . ', ' . $r['school']->edcensoCityFk->name . '/' . $r['school']->edcensoUfFk->acronym?></h6>
+            <h6><?= "ESCOLA: ".$r["school"]->name?></h6>
+            <h6><?= "ID INEP: ".$r["school"]->inep_id?></h6>
+            <h6><?= "GESTOR: ".$r["school"]->manager_name?></h6>
+            <h6><?= "ENDEREÇO: ".$r["school"]->address.", ".$r["school"]->address_number.", "
+            .$r["school"]->address_neighborhood.", ".$r["school"]->edcensoCityFk->name."/".$r["school"]->edcensoUfFk->acronym?></h6>
         </div>
         <table class="table table-bordered table-striped" aria-labelledby="classes list">
             <thead>
@@ -36,17 +36,13 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
             <tbody>
                 <?php
                 $ordem = 1;
-        foreach ($r['classrooms'] as $classroom) {
-            $ordemStr = $ordem < 10 ? '0' . $ordem : $ordem;
-            if ($classroom->turn == 'M') {
-                $turn = 'Matutino';
-            } elseif ($classroom->turn == 'T') {
-                $turn = 'Vespertino';
-            } elseif ($classroom->turn == 'N') {
-                $turn = 'Noturno';
-            } else {
-                $turn = 'Não informado';
-            } ?>
+                foreach($r["classrooms"] as $classroom) {
+                    $ordemStr = $ordem < 10 ? "0".$ordem : $ordem;
+                    if($classroom->turn == "M") $turn = "Matutino";
+                    else if ($classroom->turn == "T") $turn = "Vespertino";
+                    else if ($classroom->turn == "N") $turn = "Noturno";
+                    else $turn = "Não informado";
+                    ?>
                     <tr>
                         <td><?= $ordemStr ?></td>
                         <td><?= $classroom->name ?></td>
@@ -54,14 +50,14 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
                         <td><?= $turn ?></td>
                     </tr>
                 <?php
-            $ordem++;
-        }
-        ?>
+                    $ordem++;
+                }
+                ?>
                 <tr>
                     <td></td>
                     <td></td>
                     <td></td>
-                    <td><b><?= 'TOTAL: ' . count($r['classrooms'])?></b></td>
+                    <td><b><?= "TOTAL: ".count($r["classrooms"])?></b></td>
                 </tr>
             </tbody>
         </table>

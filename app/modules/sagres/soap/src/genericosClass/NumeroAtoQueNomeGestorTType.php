@@ -3,8 +3,9 @@
 namespace Genericos;
 
 /**
- * Class representing NumeroAtoQueNomeGestorTType.
+ * Class representing NumeroAtoQueNomeGestorTType
  *
+ * 
  * XSD Type: numeroAtoQueNomeGestor_t
  */
 class NumeroAtoQueNomeGestorTType
@@ -20,7 +21,7 @@ class NumeroAtoQueNomeGestorTType
     private $ano = null;
 
     /**
-     * Gets as numero.
+     * Gets as numero
      *
      * @return string
      */
@@ -30,7 +31,7 @@ class NumeroAtoQueNomeGestorTType
     }
 
     /**
-     * Sets a new numero.
+     * Sets a new numero
      *
      * @param string $numero
      * @return self
@@ -38,12 +39,11 @@ class NumeroAtoQueNomeGestorTType
     public function setNumero($numero)
     {
         $this->numero = $numero;
-
         return $this;
     }
 
     /**
-     * Gets as ano.
+     * Gets as ano
      *
      * @return string
      */
@@ -53,7 +53,7 @@ class NumeroAtoQueNomeGestorTType
     }
 
     /**
-     * Sets a new ano.
+     * Sets a new ano
      *
      * @param string $ano
      * @return self
@@ -61,7 +61,7 @@ class NumeroAtoQueNomeGestorTType
     public function setAno($ano)
     {
         $this->ano = $ano;
-
         return $this;
     }
 }
+

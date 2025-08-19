@@ -27,6 +27,7 @@ class Calendar extends TagModel
         return 'calendar';
     }
 
+
     /**
      * @return array validation rules for model attributes.
      */
@@ -34,14 +35,14 @@ class Calendar extends TagModel
     {
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
-        return [
-            ['title, start_date, end_date, school_year', 'required'],
-            ['school_year', 'numerical', 'integerOnly' => true],
-            ['title', 'length', 'max' => 50],
+        return array(
+            array('title, start_date, end_date, school_year', 'required'),
+            array('school_year', 'numerical', 'integerOnly'=>true),
+            array('title', 'length', 'max'=>50),
             // The following rule is used by search().
             // @todo Please remove those attributes that should not be searched.
-            ['id, title, start_date, end_date, school_year', 'safe', 'on' => 'search'],
-        ];
+            array('id, title, start_date, end_date, school_year', 'safe', 'on'=>'search'),
+        );
     }
 
     /**
@@ -51,12 +52,12 @@ class Calendar extends TagModel
     {
         // NOTE: you may need to adjust the relation name and the related
         // class name for the relations automatically generated below.
-        return [
-            'calendarEvents' => [self::HAS_MANY, 'CalendarEvent', 'calendar_fk'],
-            'calendarStages' => [self::HAS_MANY, 'CalendarStages', 'calendar_fk'],
-            'classrooms' => [self::HAS_MANY, 'Classroom', 'calendar_fk'],
-            'gradeUnityPeriods' => [self::HAS_MANY, 'GradeUnityPeriods', 'calendar_fk'],
-        ];
+        return array(
+            'calendarEvents' => array(self::HAS_MANY, 'CalendarEvent', 'calendar_fk'),
+            'calendarStages' => array(self::HAS_MANY, 'CalendarStages', 'calendar_fk'),
+            'classrooms' => array(self::HAS_MANY, 'Classroom', 'calendar_fk'),
+            'gradeUnityPeriods' => array(self::HAS_MANY, 'GradeUnityPeriods', 'calendar_fk'),
+        );
     }
 
     /**
@@ -64,13 +65,13 @@ class Calendar extends TagModel
      */
     public function attributeLabels()
     {
-        return [
+        return array(
             'id' => yii::t('calendarModule.labels', 'ID'),
             'title' => yii::t('calendarModule.labels', 'Title'),
             'start_date' => yii::t('calendarModule.labels', 'Start Date'),
             'end_date' => yii::t('calendarModule.labels', 'End Date'),
-            'school_year' => yii::t('calendarModule.labels', 'School Year'),
-        ];
+            'school_year'=> yii::t('calendarModule.labels', 'School Year'),
+        );
     }
 
     /**
@@ -89,17 +90,17 @@ class Calendar extends TagModel
     {
         // @todo Please modify the following code to remove attributes that should not be searched.
 
-        $criteria = new CDbCriteria();
+        $criteria=new CDbCriteria;
 
-        $criteria->compare('id', $this->id);
-        $criteria->compare('title', $this->title, true);
-        $criteria->compare('start_date', $this->start_date, true);
-        $criteria->compare('end_date', $this->end_date, true);
-        $criteria->compare('school_year', $this->school_year);
+        $criteria->compare('id',$this->id);
+        $criteria->compare('title',$this->title,true);
+        $criteria->compare('start_date',$this->start_date,true);
+        $criteria->compare('end_date',$this->end_date,true);
+        $criteria->compare('school_year',$this->school_year);
 
-        return new CActiveDataProvider($this, [
-            'criteria' => $criteria,
-        ]);
+        return new CActiveDataProvider($this, array(
+            'criteria'=>$criteria,
+        ));
     }
 
     public function getCopyableEvents()
@@ -121,7 +122,7 @@ class Calendar extends TagModel
      * @param string $className active record class name.
      * @return Calendar the static model class
      */
-    public static function model($className = __CLASS__)
+    public static function model($className=__CLASS__)
     {
         return parent::model($className);
     }

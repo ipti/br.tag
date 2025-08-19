@@ -3,8 +3,9 @@
 namespace Genericos;
 
 /**
- * Class representing NaContratoTType.
+ * Class representing NaContratoTType
  *
+ * 
  * XSD Type: naContrato_t
  */
 class NaContratoTType
@@ -25,7 +26,7 @@ class NaContratoTType
     private $anoContrato = null;
 
     /**
-     * Gets as tipoContrato.
+     * Gets as tipoContrato
      *
      * @return string
      */
@@ -35,7 +36,7 @@ class NaContratoTType
     }
 
     /**
-     * Sets a new tipoContrato.
+     * Sets a new tipoContrato
      *
      * @param string $tipoContrato
      * @return self
@@ -43,12 +44,11 @@ class NaContratoTType
     public function setTipoContrato($tipoContrato)
     {
         $this->tipoContrato = $tipoContrato;
-
         return $this;
     }
 
     /**
-     * Gets as nrContrato.
+     * Gets as nrContrato
      *
      * @return int
      */
@@ -58,7 +58,7 @@ class NaContratoTType
     }
 
     /**
-     * Sets a new nrContrato.
+     * Sets a new nrContrato
      *
      * @param int $nrContrato
      * @return self
@@ -66,12 +66,11 @@ class NaContratoTType
     public function setNrContrato($nrContrato)
     {
         $this->nrContrato = $nrContrato;
-
         return $this;
     }
 
     /**
-     * Gets as anoContrato.
+     * Gets as anoContrato
      *
      * @return string
      */
@@ -81,7 +80,7 @@ class NaContratoTType
     }
 
     /**
-     * Sets a new anoContrato.
+     * Sets a new anoContrato
      *
      * @param string $anoContrato
      * @return self
@@ -89,7 +88,7 @@ class NaContratoTType
     public function setAnoContrato($anoContrato)
     {
         $this->anoContrato = $anoContrato;
-
         return $this;
     }
 }
+

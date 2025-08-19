@@ -1,7 +1,7 @@
 <?php
-$this->breadcrumbs = [
-    'Food Notice',
-];
+$this->breadcrumbs=array(
+	'Food Notice',
+);
 
 $baseUrl = Yii::app()->baseUrl;
 $themeUrl = Yii::app()->theme->baseUrl;
@@ -10,7 +10,7 @@ $cs = Yii::app()->getClientScript();
 $cs->registerScriptFile($baseScriptUrl . '/notice/activateNotice.js', CClientScript::POS_END);
 
 $this->setPageTitle('TAG - Editais');
-$title = 'Editais';
+$title = "Editais";
 ?>
 
 <div id="mainPage" class="main">
@@ -53,11 +53,11 @@ $title = 'Editais';
                             <td class="link-update-grid-view" tabindex="0">
                                 <p style="cursor: pointer;"><?=$notice->name?></p>
                             </td>
-                            <td><?=DateTime::createFromFormat('Y-m-d', $notice->date)->format('d/m/Y')?></td>
+                            <td><?=DateTime::createFromFormat("Y-m-d",$notice->date)->format("d/m/Y")?></td>
                             <td><?=$notice->status?></td>
                             <td style="text-align:center;">
                                 <a id="js-change-notice-status" data-noticeId="<?= $notice->id?>" data-noticeStatus="<?= $notice->status?>" style="cursor: pointer;">
-                                    <img src="/themes/default/img/<?php echo $notice->status == 'Inativo' ? 'disable' : 'active'?>User.svg" alt="Link">
+                                    <img src="/themes/default/img/<?php echo $notice->status == "Inativo" ? "disable" : "active"?>User.svg" alt="Link">
                                 </a>
                             </td>
                         </tr>

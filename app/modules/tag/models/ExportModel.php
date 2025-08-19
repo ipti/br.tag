@@ -1,17 +1,17 @@
 <?php
 
 /**
- * Summary of ExportModel.
+ * Summary of ExportModel
  */
 class ExportModel
 {
     /**
-     * Summary of getInstructorsIdentification.
+     * Summary of getInstructorsIdentification
      * @return array<array>
      */
     public function getInstructorsIdentification()
     {
-        $query = 'SELECT * FROM instructor_identification';
+        $query = "SELECT * FROM instructor_identification";
         $instructors = Yii::app()->db->createCommand($query)->queryAll();
 
         $instructorModel = new InstructorIdentification();
@@ -30,8 +30,8 @@ class ExportModel
         $instructorsData = [];
         $instructorDocumentsData = [];
         $instructorVarData = [];
-        foreach ($instructors as $instructor) {
-            $instructorDocumentsData['instructor_documents_and_address'][] = $this->getInstructorDocumentsAndAddress($instructor['id']);
+        foreach ($instructors as $instructor) { 
+            $instructorDocumentsData['instructor_documents_and_address'][] = $this->getInstructorDocumentsAndAddress($instructor['id']);  
             $instructorVarData['instructor_variable_data'][] = $this->getInstructorVariableData($instructor['id']);
             $instructorsData['instructor_identification'][] = $instructor;
         }
@@ -44,76 +44,75 @@ class ExportModel
     }
 
     /**
-     * Summary of getInstructorDocumentsAndAddress.
+     * Summary of getInstructorDocumentsAndAddress
      * @return array<array>
      */
     public function getInstructorDocumentsAndAddress($instructor)
     {
-        $query = 'SELECT * FROM instructor_documents_and_address WHERE id = ' . $instructor;
-
+        $query = "SELECT * FROM instructor_documents_and_address WHERE id = " . $instructor;
         return Yii::app()->db->createCommand($query)->queryRow();
     }
 
+
     /**
-     * Summary of getInstructorVariableData.
+     * Summary of getInstructorVariableData
      * @return array<array>
      */
     public function getInstructorVariableData($id)
     {
-        $query = 'SELECT * FROM instructor_variable_data WHERE id = ' . $id;
-
+        $query = "SELECT * FROM instructor_variable_data WHERE id = " . $id;
         return Yii::app()->db->createCommand($query)->queryRow();
     }
 
     /**
-     * Summary of getInstructorsTeachingData.
+     * Summary of getInstructorsTeachingData
      * @return array<array>
      */
     public function getInstructorsTeachingData()
     {
-        $query = 'SELECT * FROM instructor_teaching_data';
+        $query = "SELECT * FROM instructor_teaching_data";
         $teachingData = Yii::app()->db->createCommand($query)->queryAll();
-
+    
         $teachingDataModel = new InstructorTeachingData();
         $teachingDataModel->setDb2Connection(false);
         $teachingDataModel->refreshMetaData();
-
+    
         $teachingDataData = [];
         foreach ($teachingData as $data) {
             $teachingDataData['instructor_teaching_data'][] = $data;
         }
-
+    
         return $teachingDataData;
     }
 
     /**
-     * Summary of getTeachingMatrixes.
+     * Summary of getTeachingMatrixes
      * @return array<array>
      */
     public function getTeachingMatrixes()
     {
-        $query = 'SELECT * FROM teaching_matrixes';
+        $query = "SELECT * FROM teaching_matrixes";
         $matrixes = Yii::app()->db->createCommand($query)->queryAll();
-
+    
         $matrixModel = new TeachingMatrixes();
         $matrixModel->setDb2Connection(false);
         $matrixModel->refreshMetaData();
-
+    
         $matrixesData = [];
         foreach ($matrixes as $matrix) {
             $matrixesData['teaching_matrixes'][] = $matrix;
         }
-
+    
         return $matrixesData;
     }
 
     /**
-     * Summary of getSchoolIdentification.
+     * Summary of getSchoolIdentification
      * @return array<array>
      */
-    public function getSchoolIdentification()
+    public function getSchoolIdentification() 
     {
-        $query = 'SELECT * FROM school_identification';
+        $query = "SELECT * FROM school_identification";
         $schools = Yii::app()->db->createCommand($query)->queryAll();
 
         $schoolIdentificationModel = new SchoolIdentification();
@@ -128,14 +127,15 @@ class ExportModel
 
         return $schoolsData;
     }
+    
 
     /**
-     * Summary of getSchoolStructure.
+     * Summary of getSchoolStructure
      * @return array<array>
      */
     public function getSchoolStructure()
     {
-        $query = 'SELECT * FROM school_structure';
+        $query = "SELECT * FROM school_structure";
         $schoolStructures = Yii::app()->db->createCommand($query)->queryAll();
 
         $schoolStructureModel = new SchoolStructure();
@@ -144,20 +144,20 @@ class ExportModel
 
         $schoolStructuresData = [];
         foreach ($schoolStructures as $schoolStructure) {
-            $schoolStructure['hash'] = hexdec(hash('crc32', $schoolStructure['school_inep_id_fk']));
-            $schoolStructuresData['school_structure'][] = $schoolStructure;
+           $schoolStructure['hash'] = hexdec(hash('crc32', $schoolStructure['school_inep_id_fk']));
+           $schoolStructuresData['school_structure'][] = $schoolStructure;
         }
 
         return $schoolStructuresData;
     }
 
     /**
-     * Summary of getClassrooms.
+     * Summary of getClassrooms
      * @return array<array>
      */
-    public function getClassrooms()
+    public function getClassrooms() 
     {
-        $query = 'SELECT * FROM classroom';
+        $query = "SELECT * FROM classroom";
         $classrooms = Yii::app()->db->createCommand($query)->queryAll();
 
         $classroomsModel = new Classroom();
@@ -174,12 +174,12 @@ class ExportModel
     }
 
     /**
-     * Summary of getStudentIdentification.
+     * Summary of getStudentIdentification
      * @return array<array>
      */
-    public function getStudentIdentification()
+    public function getStudentIdentification() 
     {
-        $query = 'SELECT * FROM student_identification';
+        $query = "SELECT * FROM student_identification";
         $students = Yii::app()->db->createCommand($query)->queryAll();
 
         $studentIdentificationModel = new StudentIdentification();
@@ -188,7 +188,7 @@ class ExportModel
 
         $studentsData = [];
         foreach ($students as $student) {
-            $student['hash'] = hexdec(hash('crc32', $student['name'] . $student['birthday']));
+            $student['hash'] = hexdec(hash('crc32', $student['name'].$student['birthday']));
             $studentsData['student_identification'][] = $student;
         }
 
@@ -196,33 +196,33 @@ class ExportModel
     }
 
     /**
-     * Summary of getStudentDocumentsAndAddress.
+     * Summary of getStudentDocumentsAndAddress
      * @return array<array>
      */
     public function getStudentDocumentsAndAddress()
     {
-        $query = 'SELECT * FROM student_documents_and_address';
+        $query = "SELECT * FROM student_documents_and_address";
         $documentsAndAddress = Yii::app()->db->createCommand($query)->queryAll();
-
+    
         $studentModel = new StudentDocumentsAndAddress();
         $studentModel->setDb2Connection(false);
         $studentModel->refreshMetaData();
-
+    
         $studentDocumentsAndAddressData = [];
         foreach ($documentsAndAddress as $document) {
             $studentDocumentsAndAddressData['student_documents_and_address'][] = $document;
         }
-
+    
         return $studentDocumentsAndAddressData;
     }
 
     /**
-     * Summary of getStudentEnrollment.
+     * Summary of getStudentEnrollment
      * @return array
      */
-    public function getStudentEnrollment()
+    public function getStudentEnrollment()  
     {
-        $query = 'SELECT * FROM student_enrollment';
+        $query = "SELECT * FROM student_enrollment";
         $studentEnrollments = Yii::app()->db->createCommand($query)->queryAll();
 
         $studentEnrollmentsData = [];

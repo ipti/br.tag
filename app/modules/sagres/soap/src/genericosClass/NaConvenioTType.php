@@ -3,8 +3,9 @@
 namespace Genericos;
 
 /**
- * Class representing NaConvenioTType.
+ * Class representing NaConvenioTType
  *
+ * 
  * XSD Type: naConvenio_t
  */
 class NaConvenioTType
@@ -25,7 +26,7 @@ class NaConvenioTType
     private $anoConvenio = null;
 
     /**
-     * Gets as tipoConvenio.
+     * Gets as tipoConvenio
      *
      * @return string
      */
@@ -35,7 +36,7 @@ class NaConvenioTType
     }
 
     /**
-     * Sets a new tipoConvenio.
+     * Sets a new tipoConvenio
      *
      * @param string $tipoConvenio
      * @return self
@@ -43,12 +44,11 @@ class NaConvenioTType
     public function setTipoConvenio($tipoConvenio)
     {
         $this->tipoConvenio = $tipoConvenio;
-
         return $this;
     }
 
     /**
-     * Gets as nrConvenio.
+     * Gets as nrConvenio
      *
      * @return int
      */
@@ -58,7 +58,7 @@ class NaConvenioTType
     }
 
     /**
-     * Sets a new nrConvenio.
+     * Sets a new nrConvenio
      *
      * @param int $nrConvenio
      * @return self
@@ -66,12 +66,11 @@ class NaConvenioTType
     public function setNrConvenio($nrConvenio)
     {
         $this->nrConvenio = $nrConvenio;
-
         return $this;
     }
 
     /**
-     * Gets as anoConvenio.
+     * Gets as anoConvenio
      *
      * @return string
      */
@@ -81,7 +80,7 @@ class NaConvenioTType
     }
 
     /**
-     * Sets a new anoConvenio.
+     * Sets a new anoConvenio
      *
      * @param string $anoConvenio
      * @return self
@@ -89,7 +88,7 @@ class NaConvenioTType
     public function setAnoConvenio($anoConvenio)
     {
         $this->anoConvenio = $anoConvenio;
-
         return $this;
     }
 }
+

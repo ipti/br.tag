@@ -4,16 +4,15 @@
     $this->setPageTitle('TAG - ' . Yii::t('default', 'Censo'));
     $title = Yii::t('default', 'Create a new User');
     $contextDesc = Yii::t('default', 'Available actions that may be taken on User.');
-    $this->menu = [
-        [
+    $this->menu = array(
+        array(
             'label' => Yii::t('default', 'List User'),
-            'url' => ['index'],
+            'url' => array('index'),
             'description' => Yii::t('default', 'This action list all User, you can search, delete and update')
-        ],
-    ];
+        ),
+    );
     $themeUrl = Yii::app()->theme->baseUrl;
     $cs = Yii::app()->getClientScript();
-    $cs->registerScriptFile($baseUrl . '/js/censo/functions.js?v=' . TAG_VERSION, CClientScript::POS_END);
 
     ?>
     <style type="text/css">
@@ -111,40 +110,31 @@
             <div class="alert alert-success">
                 <?php echo Yii::app()->user->getFlash('success') ?>
             </div>
-        <?php } elseif (Yii::app()->user->hasFlash('error')) { ?>
-            <div class="alert alert-error">
+        <?php } else if (Yii::app()->user->hasFlash('error')) { ?>
+                <div class="alert alert-error">
                 <?php echo Yii::app()->user->getFlash('success') ?>
-            </div>
+                </div>
         <?php } ?>
         <div class="row  t-buttons-container">
-            <a href="<?= CHtml::normalizeUrl(['censo/export', 'withoutCertificates' => 0]) ?>" class="t-button-primary js-export-link" style="margin:0;">
+            <a href="<?= CHtml::normalizeUrl(array('censo/export')) ?>" class="t-button-primary" style="margin:0;">
                 <?= Yii::t('default', 'Exportar arquivo de migração') ?>
             </a>
-            <!-- <button class="t-button-primary js-export-censo" style="margin:0;">
-                <?= Yii::t('default', 'Exportar arquivo de migração') ?>
-            </button> -->
             <?php if (Yii::app()->getAuthManager()->checkAccess('admin', Yii::app()->user->loginInfos->id)): ?>
-                <a href="<?= CHtml::normalizeUrl(['censo/exportidentification']) ?>" class="t-button-secondary"
+                <a href="<?= CHtml::normalizeUrl(array('censo/exportidentification')) ?>" class="t-button-secondary"
                     style="margin:0;">
                     <?= Yii::t('default', 'Exportar arquivo de identificação') ?>
                 </a>
-                <a href="<?= CHtml::normalizeUrl(['censo/inepImport']) ?>" class="t-button-secondary"
+                 <a href="<?= CHtml::normalizeUrl(array('censo/inepImport')) ?>" class="t-button-secondary"
                     style="margin:0;">
                     <?= Yii::t('default', 'Importar INEP ID') ?>
                 </a>
             <?php endif; ?>
         </div>
-        <div class="t-field-checkbox">
-            <label class="t-field-checkbox__label">
-                <input type="checkbox" class="t-field-checkbox__input js-withoutCertificates" name="withoutCertificates">
-                Exportar sem certidões de nascimento
-            </label>
-        </div>
         <!-- Widget Heading END -->
         <?php
         $dataValidation = [];
-    $timeExpiration = 60 * 60 * 12;
-    ?>
+        $timeExpiration = 60 * 60 * 12;
+        ?>
         <div class="widget-body">
             <div class="tab-content">
 
@@ -165,10 +155,10 @@
                 </div>
             </div>
             <script type="text/javascript">
-                $(function() {
+                $(function () {
                     $.ajax({
                         url: '<?= $this->createUrl('censo/validate') ?>',
-                        success: function(data) {
+                        success: function (data) {
                             $('#filterUsersTab').html(data);
                             $(".itens-censo li").parents('div').css("display", "block");
                             if ($(".list-timeline").find(".ellipsis").length) {
@@ -184,6 +174,7 @@
                     });
 
                 });
+
             </script>
         </div>
 

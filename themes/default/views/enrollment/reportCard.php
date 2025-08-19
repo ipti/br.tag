@@ -8,8 +8,8 @@
 $baseUrl = Yii::app()->baseUrl;
 $themeUrl = Yii::app()->theme->baseUrl;
 $cs = Yii::app()->getClientScript();
-$cs->registerScriptFile($baseUrl . '/js/enrollment/reportCard/_initialization.js?v=' . TAG_VERSION, CClientScript::POS_END);
-$cs->registerScriptFile($baseUrl . '/js/enrollment/reportCard/functions.js?v=' . TAG_VERSION, CClientScript::POS_END);
+$cs->registerScriptFile($baseUrl . '/js/enrollment/reportCard/_initialization.js?v='.TAG_VERSION, CClientScript::POS_END);
+$cs->registerScriptFile($baseUrl . '/js/enrollment/reportCard/functions.js?v='.TAG_VERSION, CClientScript::POS_END);
 
 $script = "var getGradesUrl = '" . Yii::app()->createUrl('grades/getGrades') . "';";
 
@@ -21,12 +21,12 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Report Card'));
 
 <div class="main">
     <?php
-        $form = $this->beginWidget('CActiveForm', [
+        $form = $this->beginWidget('CActiveForm', array(
             'id' => 'classes-form',
             'enableAjaxValidation' => false,
-            'action' => CHtml::normalizeUrl(['grades/saveGrades']),
-        ]);
-?>
+            'action' => CHtml::normalizeUrl(array('grades/saveGrades')),
+        ));
+    ?>
     <div class="row">
         <div class="column clearleft">
             <h1>
@@ -51,36 +51,28 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Report Card'));
     <div class="row">
         <div class="column is-one-fifth clearleft ">
             <div class="t-field-select">
-                <?php echo CHtml::label(yii::t('default', 'Classroom'), 'classroom', ['class' => 't-field-select__label--required']); ?>
+                <?php echo CHtml::label(yii::t('default', 'Classroom'), 'classroom', array('class' => 't-field-select__label--required')); ?>
                 <?php
-            echo CHtml::dropDownList(
-    'classroom',
-    '',
-    $classrooms,
-    [
-        'key' => 'id',
-        'class' => 'select-search-on t-field-select__input select2-container',
-        'prompt' => 'Selecione...',
-    ]
-);
-?>
+                echo CHtml::dropDownList('classroom', '', $classrooms, array(
+                    'key' => 'id',
+                    'class' => 'select-search-on t-field-select__input select2-container',
+                    'prompt' => 'Selecione...',
+                )
+                );
+                ?>
             </div>
         </div>
         <div class="column is-one-fifth">
             <div class="t-field-select">
-                <?php echo CHtml::label(yii::t('default', 'Discipline'), 'discipline', ['class' => 't-field-select__label--required']); ?>
+                <?php echo CHtml::label(yii::t('default', 'Discipline'), 'discipline', array('class' => 't-field-select__label--required')); ?>
                 <?php
-echo CHtml::dropDownList(
-    'discipline',
-    '',
-    [],
-    [
-        'key' => 'id',
-        'class' => 'select-search-on t-field-select__input select2-container',
-        'prompt' => 'Selecione...',
-    ]
-);
-?>
+                echo CHtml::dropDownList('discipline', '', array(), array(
+                    'key' => 'id',
+                    'class' => 'select-search-on t-field-select__input select2-container',
+                    'prompt' => 'Selecione...',
+                )
+                );
+                ?>
             </div>
         </div>
         <div class="column is-one-tenth">

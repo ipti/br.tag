@@ -1,6 +1,6 @@
 <?php
 
-require_once __DIR__ . '/../extensions/Validator/StudentDocumentsAndAddressValidation.php';
+require_once __DIR__ ."/../extensions/Validator/StudentDocumentsAndAddressValidation.php";
 /**
  * This is the model class for table "student_documents_and_address".
  *
@@ -9,50 +9,50 @@ require_once __DIR__ . '/../extensions/Validator/StudentDocumentsAndAddressValid
  * @property string $school_inep_id_fk
  * @property string $gov_id
  * @property string $student_fk
- * @property int $id
+ * @property integer $id
  * @property string $rg_number
- * @property int $rg_number_edcenso_organ_id_emitter_fk
- * @property int $rg_number_edcenso_uf_fk
+ * @property integer $rg_number_edcenso_organ_id_emitter_fk
+ * @property integer $rg_number_edcenso_uf_fk
  * @property string $rg_number_expediction_date
- * @property int $civil_certification
- * @property int $civil_certification_type
- * @property int $civil_certification_type_old
- * @property int $civil_certification_type_new
+ * @property integer $civil_certification
+ * @property integer $civil_certification_type
+ * @property integer $civil_certification_type_old
+ * @property integer $civil_certification_type_new
  * @property string $civil_certification_term_number
  * @property string $civil_certification_sheet
  * @property string $civil_certification_book
  * @property string $civil_certification_date
- * @property int $notary_office_uf_fk
- * @property int $notary_office_city_fk
- * @property int $edcenso_notary_office_fk
+ * @property integer $notary_office_uf_fk
+ * @property integer $notary_office_city_fk
+ * @property integer $edcenso_notary_office_fk
  * @property string $civil_register_enrollment_number
  * @property string $cpf
  * @property string $foreign_document_or_passport
  * @property string $nis
- * @property int $residence_zone
+ * @property integer $residence_zone
  * @property string $cep
  * @property string $address
  * @property string $number
  * @property string $complement
  * @property string $neighborhood
- * @property int $edcenso_uf_fk
- * @property int $edcenso_city_fk
- * @property int $received_cc
- * @property int $received_address
- * @property int $received_photo
- * @property int $received_nis
- * @property int $received_history
- * @property int $received_responsable_rg
- * @property int $received_responsable_cpf
- * @property int $received_student_cpf
- * @property int $received_student_rg
- * @property int $received_sus_card
+ * @property integer $edcenso_uf_fk
+ * @property integer $edcenso_city_fk
+ * @property integer $received_cc
+ * @property integer $received_address
+ * @property integer $received_photo
+ * @property integer $received_nis
+ * @property integer $received_history
+ * @property integer $received_responsable_rg
+ * @property integer $received_responsable_cpf
+ * @property integer $received_student_cpf
+ * @property integer $received_student_rg
+ * @property integer $received_sus_card
  * @property string $cns
  * @property string $fkid
- * @property int $justice_restriction
- * @property int $diff_location
- * @property int $consent_form
- * @property int $justification
+ * @property integer $justice_restriction
+ * @property integer $diff_location
+ * @property integer $consent_form
+ * @property integer $justification
  * @property string $DNE_city_code
  * @property int $cpf_reason
  *
@@ -69,7 +69,7 @@ class StudentDocumentsAndAddress extends AltActiveRecord
 {
     /**
      * Returns the static model of the specified AR class.
-     * @param string $className active record class name
+     * @param string $className active record class name.
      * @return StudentDocumentsAndAddress the static model class
      */
     public static function model($className = __CLASS__)
@@ -85,41 +85,44 @@ class StudentDocumentsAndAddress extends AltActiveRecord
         return 'student_documents_and_address';
     }
 
+
+
     /**
-     * @return array validation rules for model attributes
+     * @return array validation rules for model attributes.
      */
     public function rules()
     {
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
-        return [
-            ['school_inep_id_fk, residence_zone', 'required'],
-            ['rg_number_edcenso_organ_id_emitter_fk, rg_number_edcenso_uf_fk, civil_certification, civil_certification_type, notary_office_uf_fk, notary_office_city_fk, edcenso_notary_office_fk, residence_zone, edcenso_uf_fk, edcenso_city_fk, received_cc, received_address, received_photo, received_nis, received_history, received_responsable_rg, received_responsable_cpf, received_student_cpf, received_student_rg, received_sus_card, justice_restriction, diff_location, consent_form, cpf_reason', 'numerical', 'integerOnly' => true],
-            ['register_type', 'length', 'max' => 2],
-            ['school_inep_id_fk, civil_certification_term_number, civil_certification_book, cep', 'length', 'max' => 8],
-            ['student_fk', 'length', 'max' => 12],
-            ['rg_number, foreign_document_or_passport, complement, cns', 'length', 'max' => 20],
-            ['rg_number_expediction_date, civil_certification_date, number', 'length', 'max' => 10],
-            ['civil_certification_sheet', 'length', 'max' => 4],
-            ['civil_register_enrollment_number', 'length', 'max' => 32],
-            ['cpf, nis', 'length', 'max' => 11],
-            ['address', 'required', 'message' => 'O campo de endereço é obrigatório.', 'on' => 'SEDSP'],
-            ['address', 'length', 'max' => 100, 'tooLong' => 'O endereço deve ter no máximo 100 caracteres.'],
-            ['neighborhood', 'length', 'max' => 50],
-            ['hash', 'length', 'max' => 40],
+        return array(
+            array('school_inep_id_fk, residence_zone', 'required'),
+            array('rg_number_edcenso_organ_id_emitter_fk, rg_number_edcenso_uf_fk, civil_certification, civil_certification_type, notary_office_uf_fk, notary_office_city_fk, edcenso_notary_office_fk, residence_zone, edcenso_uf_fk, edcenso_city_fk, received_cc, received_address, received_photo, received_nis, received_history, received_responsable_rg, received_responsable_cpf, received_student_cpf, received_student_rg, received_sus_card, justice_restriction, diff_location, consent_form, cpf_reason', 'numerical', 'integerOnly'=>true),
+            array('register_type', 'length', 'max'=>2),
+            array('school_inep_id_fk, civil_certification_term_number, civil_certification_book, cep', 'length', 'max'=>8),
+            array('student_fk', 'length', 'max'=>12),
+            array('rg_number, foreign_document_or_passport, complement, cns', 'length', 'max'=>20),
+            array('rg_number_expediction_date, civil_certification_date, number', 'length', 'max'=>10),
+            array('civil_certification_sheet', 'length', 'max'=>4),
+            array('civil_register_enrollment_number', 'length', 'max'=>32),
+            array('cpf, nis', 'length', 'max'=>11),
+            array('address', 'required', 'message' => 'O campo de endereço é obrigatório.', 'on' => 'SEDSP'),
+            array('address', 'length', 'max' => 100, 'tooLong' => 'O endereço deve ter no máximo 100 caracteres.'),
+            array('neighborhood', 'length', 'max'=>50),
+            array('hash', 'length', 'max'=>40),
             // The following rule is used by search().
             // @todo Please remove those attributes that should not be searched.
-            ['register_type, school_inep_id_fk, student_fk, id, rg_number, rg_number_edcenso_organ_id_emitter_fk, rg_number_edcenso_uf_fk, rg_number_expediction_date, civil_certification, civil_certification_type, civil_certification_term_number, civil_certification_sheet, civil_certification_book, civil_certification_date, notary_office_uf_fk, notary_office_city_fk, edcenso_notary_office_fk, civil_register_enrollment_number, cpf, foreign_document_or_passport, nis, residence_zone, cep, address, number, complement, neighborhood, edcenso_uf_fk, edcenso_city_fk, received_cc, received_address, received_photo, received_nis, received_history, received_responsable_rg, received_responsable_cpf, received_student_cpf, received_student_rg, received_sus_card, cns, fkid, justice_restriction, diff_location, cpf_reason', 'safe', 'on' => 'search'],
-            ['cpf', 'validateCPF', 'except' => 'censoimport'],
-            ['civil_register_enrollment_number', 'validateCivilRegister', 'except' => 'censoimport'],
-        ];
+            array('register_type, school_inep_id_fk, student_fk, id, rg_number, rg_number_edcenso_organ_id_emitter_fk, rg_number_edcenso_uf_fk, rg_number_expediction_date, civil_certification, civil_certification_type, civil_certification_term_number, civil_certification_sheet, civil_certification_book, civil_certification_date, notary_office_uf_fk, notary_office_city_fk, edcenso_notary_office_fk, civil_register_enrollment_number, cpf, foreign_document_or_passport, nis, residence_zone, cep, address, number, complement, neighborhood, edcenso_uf_fk, edcenso_city_fk, received_cc, received_address, received_photo, received_nis, received_history, received_responsable_rg, received_responsable_cpf, received_student_cpf, received_student_rg, received_sus_card, cns, fkid, justice_restriction, diff_location, cpf_reason', 'safe', 'on'=>'search'),
+            array('cpf', 'validateCPF', 'except' => "censoimport"),
+            array('civil_register_enrollment_number', 'validateCivilRegister', 'except' => "censoimport"),
+
+        );
     }
 
     public function validateCPF($cpfStudent)
     {
         $cpfStu = $this->$cpfStudent;
 
-        if ($cpfStu === '') {
+        if($cpfStu === "") {
             return true;
         }
 
@@ -127,13 +130,11 @@ class StudentDocumentsAndAddress extends AltActiveRecord
 
         if (strlen($cpf) !== 11) {
             $this->addError($cpfStudent, 'O CPF deve conter exatamente 11 números.');
-
             return;
         }
 
         if (preg_match('/(\d)\1{10}/', $cpf)) {
             $this->addError($cpfStudent, 'O CPF não pode ter todos os dígitos iguais.');
-
             return;
         }
 
@@ -144,11 +145,9 @@ class StudentDocumentsAndAddress extends AltActiveRecord
             $d = ((10 * $d) % 11) % 10;
             if ($cpf[$c] != $d) {
                 $this->addError($cpfStudent, 'O CPF é inválido.');
-
                 return;
             }
         }
-
         return true;
     }
 
@@ -156,7 +155,7 @@ class StudentDocumentsAndAddress extends AltActiveRecord
     {
         $civilRegister = $this->$civilRegisterNumber;
 
-        $modelIdentification = new StudentIdentification();
+        $modelIdentification = new StudentIdentification;
         $documentsValidation = new StudentDocumentsAndAddressValidation();
 
         $validatorRegister = $documentsValidation->isCivilRegisterNumberValid(
@@ -176,22 +175,23 @@ class StudentDocumentsAndAddress extends AltActiveRecord
         }
     }
 
+
     /**
-     * @return array relational rules
+     * @return array relational rules.
      */
     public function relations()
     {
         // NOTE: you may need to adjust the relation name and the related
         // class name for the relations automatically generated below.
-        return [
-            'schoolInepIdFk' => [self::BELONGS_TO, 'SchoolIdentification', 'school_inep_id_fk'],
-            'rgNumberEdcensoOrganIdEmitterFk' => [self::BELONGS_TO, 'EdcensoOrganIdEmitter', 'rg_number_edcenso_organ_id_emitter_fk'],
-            'rgNumberEdcensoUfFk' => [self::BELONGS_TO, 'EdcensoUf', 'rg_number_edcenso_uf_fk'],
-            'edcensoUfFk' => [self::BELONGS_TO, 'EdcensoUf', 'edcenso_uf_fk'],
-            'edcensoCityFk' => [self::BELONGS_TO, 'EdcensoCity', 'edcenso_city_fk'],
-            'notaryOfficeUfFk' => [self::BELONGS_TO, 'EdcensoUf', 'notary_office_uf_fk'],
-            'notaryOfficeCityFk' => [self::BELONGS_TO, 'EdcensoCity', 'notary_office_city_fk'],
-        ];
+        return array(
+            'schoolInepIdFk' => array(self::BELONGS_TO, 'SchoolIdentification', 'school_inep_id_fk'),
+            'rgNumberEdcensoOrganIdEmitterFk' => array(self::BELONGS_TO, 'EdcensoOrganIdEmitter', 'rg_number_edcenso_organ_id_emitter_fk'),
+            'rgNumberEdcensoUfFk' => array(self::BELONGS_TO, 'EdcensoUf', 'rg_number_edcenso_uf_fk'),
+            'edcensoUfFk' => array(self::BELONGS_TO, 'EdcensoUf', 'edcenso_uf_fk'),
+            'edcensoCityFk' => array(self::BELONGS_TO, 'EdcensoCity', 'edcenso_city_fk'),
+            'notaryOfficeUfFk' => array(self::BELONGS_TO, 'EdcensoUf', 'notary_office_uf_fk'),
+            'notaryOfficeCityFk' => array(self::BELONGS_TO, 'EdcensoCity', 'notary_office_city_fk'),
+        );
     }
 
     /**
@@ -199,7 +199,7 @@ class StudentDocumentsAndAddress extends AltActiveRecord
      */
     public function attributeLabels()
     {
-        return [
+        return array(
             'register_type' => Yii::t('default', 'Register Type'),
             'school_inep_id_fk' => Yii::t('default', 'School Inep Id Fk'),
             'student_fk' => Yii::t('default', 'Student Fk'),
@@ -243,20 +243,20 @@ class StudentDocumentsAndAddress extends AltActiveRecord
             'justice_restriction' => Yii::t('default', 'Justice Restriction'),
             'diff_location' => Yii::t('default', 'Diff Location'),
             'consent_form' => Yii::t('default', 'Consent Form'),
-            'cpf_reason' => Yii::t('default', 'Justification for absence of CPF'),
-        ];
+            'cpf_reason' => Yii::t('default',"Justification for absence of CPF")
+        );
     }
 
     /**
      * Retrieves a list of models based on the current search/filter conditions.
-     * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions
+     * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
      */
     public function search()
     {
         // Warning: Please modify the following code to remove attributes that
         // should not be searched.
 
-        $criteria = new CDbCriteria();
+        $criteria = new CDbCriteria;
 
         $criteria->compare('register_type', $this->register_type, true);
         $criteria->compare('school_inep_id_fk', $this->school_inep_id_fk, true);
@@ -290,13 +290,14 @@ class StudentDocumentsAndAddress extends AltActiveRecord
         $criteria->compare('edcenso_uf_fk', $this->edcenso_uf_fk);
         $criteria->compare('edcenso_city_fk', $this->edcenso_city_fk);
 
-        return new CActiveDataProvider($this, [
+        return new CActiveDataProvider($this, array(
             'criteria' => $criteria,
-        ]);
+        ));
     }
 
     protected function beforeSave()
     {
+
         return parent::beforeSave();
     }
 }

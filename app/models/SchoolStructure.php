@@ -6,130 +6,129 @@
  * The followings are the available columns in table 'school_structure':
  * @property string $register_type
  * @property string $school_inep_id_fk
- * @property int $operation_location_building
- * @property int $operation_location_temple
- * @property int $operation_location_businness_room
- * @property int $operation_location_instructor_house
- * @property int $operation_location_other_school_room
- * @property int $operation_location_barracks
- * @property int $operation_location_socioeducative_unity
- * @property int $operation_location_prison_unity
- * @property int $operation_location_other
- * @property int $building_occupation_situation
- * @property int $shared_building_with_school
+ * @property integer $operation_location_building
+ * @property integer $operation_location_temple
+ * @property integer $operation_location_businness_room
+ * @property integer $operation_location_instructor_house
+ * @property integer $operation_location_other_school_room
+ * @property integer $operation_location_barracks
+ * @property integer $operation_location_socioeducative_unity
+ * @property integer $operation_location_prison_unity
+ * @property integer $operation_location_other
+ * @property integer $building_occupation_situation
+ * @property integer $shared_building_with_school
  * @property string $shared_school_inep_id_1
  * @property string $shared_school_inep_id_2
  * @property string $shared_school_inep_id_3
  * @property string $shared_school_inep_id_4
  * @property string $shared_school_inep_id_5
  * @property string $shared_school_inep_id_6
- * @property int $consumed_water_type
- * @property int $water_supply_public
- * @property int $water_supply_artesian_well
- * @property int $water_supply_well
- * @property int $water_supply_river
- * @property int $water_supply_car
- * @property int $water_supply_inexistent
- * @property int $energy_supply_public
- * @property int $energy_supply_generator
- * @property int $energy_supply_generator_alternative
- * @property int $energy_supply_other
- * @property int $energy_supply_inexistent
- * @property int $sewage_public
- * @property int $sewage_fossa
- * @property int $sewage_inexistent
- * @property int $garbage_destination_collect
- * @property int $garbage_destination_burn
- * @property int $garbage_destination_throw_away
- * @property int $garbage_destination_recycle
- * @property int $garbage_destination_bury
- * @property int $garbage_destination_other
- * @property int $dependencies_principal_room
- * @property int $dependencies_instructors_room
- * @property int $dependencies_secretary_room
- * @property int $dependencies_info_lab
- * @property int $dependencies_science_lab
- * @property int $dependencies_aee_room
- * @property int $dependencies_indoor_sports_court
- * @property int $dependencies_outdoor_sports_court
- * @property int $dependencies_kitchen
- * @property int $dependencies_library
- * @property int $dependencies_reading_room
- * @property int $dependencies_playground
- * @property int $dependencies_nursery
- * @property int $dependencies_outside_bathroom
- * @property int $dependencies_inside_bathroom
- * @property int $dependencies_child_bathroom
- * @property int $dependencies_prysical_disability_bathroom
- * @property int $dependencies_physical_disability_support
- * @property int $dependencies_bathroom_with_shower
- * @property int $dependencies_bathroom_workes
- * @property int $dependencies_refectory
- * @property int $dependencies_storeroom
- * @property int $dependencies_warehouse
- * @property int $dependencies_auditorium
- * @property int $dependencies_covered_patio
- * @property int $dependencies_uncovered_patio
- * @property int $dependencies_student_accomodation
- * @property int $dependencies_instructor_accomodation
- * @property int $dependencies_green_area
- * @property int $dependencies_laundry
- * @property int $dependencies_professional_specific_lab
- * @property int $dependencies_vocational_education_workshop
- * @property int $dependencies_recording_and_editing_studio
- * @property int $dependencies_garden_planting_agricultural
- * @property int $dependencies_none
- * @property int $classroom_count
- * @property int $used_classroom_count
- * @property int $equipments_tv
- * @property int $equipments_vcr
- * @property int $equipments_dvd
- * @property int $equipments_satellite_dish
- * @property int $equipments_copier
- * @property int $equipments_overhead_projector
- * @property int $equipments_printer
- * @property int $equipments_stereo_system
- * @property int $equipments_data_show
- * @property int $equipments_fax
- * @property int $equipments_camera
- * @property int $equipments_computer
- * @property int $equipments_multifunctional_printer
- * @property int $equipments_inexistent
- * @property int $equipments_qtd_desktop
- * @property int $equipments_material_professional_education
- * @property int $instruments_inexistent
- * @property int $administrative_computers_count
- * @property int $student_computers_count
- * @property int $internet_access
- * @property int $bandwidth
- * @property int $employees_count
- * @property int $feeding
- * @property int $aee
- * @property int $complementary_activities
- * @property int $modalities_regular
- * @property int $modalities_especial
- * @property int $modalities_eja
- * @property int $modalities_professional
- * @property int $basic_education_cycle_organized
- * @property int $different_location
- * @property int $sociocultural_didactic_material_none
- * @property int $sociocultural_didactic_material_quilombola
- * @property int $sociocultural_didactic_material_native
- * @property int $native_education
- * @property int $native_education_language_native
- * @property int $native_education_language_portuguese
- * @property int $edcenso_native_languages_fk
- * @property int $brazil_literate
- * @property int $open_weekend
- * @property int $pedagogical_formation_by_alternance
+ * @property integer $consumed_water_type
+ * @property integer $water_supply_public
+ * @property integer $water_supply_artesian_well
+ * @property integer $water_supply_well
+ * @property integer $water_supply_river
+ * @property integer $water_supply_car
+ * @property integer $water_supply_inexistent
+ * @property integer $energy_supply_public
+ * @property integer $energy_supply_generator
+ * @property integer $energy_supply_generator_alternative
+ * @property integer $energy_supply_other
+ * @property integer $energy_supply_inexistent
+ * @property integer $sewage_public
+ * @property integer $sewage_fossa
+ * @property integer $sewage_inexistent
+ * @property integer $garbage_destination_collect
+ * @property integer $garbage_destination_burn
+ * @property integer $garbage_destination_throw_away
+ * @property integer $garbage_destination_recycle
+ * @property integer $garbage_destination_bury
+ * @property integer $garbage_destination_other
+ * @property integer $dependencies_principal_room
+ * @property integer $dependencies_instructors_room
+ * @property integer $dependencies_secretary_room
+ * @property integer $dependencies_info_lab
+ * @property integer $dependencies_science_lab
+ * @property integer $dependencies_aee_room
+ * @property integer $dependencies_indoor_sports_court
+ * @property integer $dependencies_outdoor_sports_court
+ * @property integer $dependencies_kitchen
+ * @property integer $dependencies_library
+ * @property integer $dependencies_reading_room
+ * @property integer $dependencies_playground
+ * @property integer $dependencies_nursery
+ * @property integer $dependencies_outside_bathroom
+ * @property integer $dependencies_inside_bathroom
+ * @property integer $dependencies_child_bathroom
+ * @property integer $dependencies_prysical_disability_bathroom
+ * @property integer $dependencies_physical_disability_support
+ * @property integer $dependencies_bathroom_with_shower
+ * @property integer $dependencies_bathroom_workes
+ * @property integer $dependencies_refectory
+ * @property integer $dependencies_storeroom
+ * @property integer $dependencies_warehouse
+ * @property integer $dependencies_auditorium
+ * @property integer $dependencies_covered_patio
+ * @property integer $dependencies_uncovered_patio
+ * @property integer $dependencies_student_accomodation
+ * @property integer $dependencies_instructor_accomodation
+ * @property integer $dependencies_green_area
+ * @property integer $dependencies_laundry
+ * @property integer $dependencies_professional_specific_lab
+ * @property integer $dependencies_vocational_education_workshop
+ * @property integer $dependencies_recording_and_editing_studio
+ * @property integer $dependencies_garden_planting_agricultural
+ * @property integer $dependencies_none
+ * @property integer $classroom_count
+ * @property integer $used_classroom_count
+ * @property integer $equipments_tv
+ * @property integer $equipments_vcr
+ * @property integer $equipments_dvd
+ * @property integer $equipments_satellite_dish
+ * @property integer $equipments_copier
+ * @property integer $equipments_overhead_projector
+ * @property integer $equipments_printer
+ * @property integer $equipments_stereo_system
+ * @property integer $equipments_data_show
+ * @property integer $equipments_fax
+ * @property integer $equipments_camera
+ * @property integer $equipments_computer
+ * @property integer $equipments_multifunctional_printer
+ * @property integer $equipments_inexistent
+ * @property integer $equipments_qtd_desktop
+ * @property integer $equipments_material_professional_education
+ * @property integer $instruments_inexistent
+ * @property integer $administrative_computers_count
+ * @property integer $student_computers_count
+ * @property integer $internet_access
+ * @property integer $bandwidth
+ * @property integer $employees_count
+ * @property integer $feeding
+ * @property integer $aee
+ * @property integer $complementary_activities
+ * @property integer $modalities_regular
+ * @property integer $modalities_especial
+ * @property integer $modalities_eja
+ * @property integer $modalities_professional
+ * @property integer $basic_education_cycle_organized
+ * @property integer $different_location
+ * @property integer $sociocultural_didactic_material_none
+ * @property integer $sociocultural_didactic_material_quilombola
+ * @property integer $sociocultural_didactic_material_native
+ * @property integer $native_education
+ * @property integer $native_education_language_native
+ * @property integer $native_education_language_portuguese
+ * @property integer $edcenso_native_languages_fk
+ * @property integer $brazil_literate
+ * @property integer $open_weekend
+ * @property integer $pedagogical_formation_by_alternance
  */
 class SchoolStructure extends AltActiveRecord
 {
     public $stages;
-
     /**
      * Returns the static model of the specified AR class.
-     * @param string $className active record class name
+     * @param string $className active record class name.
      * @return SchoolStructure the static model class
      */
     public static function model($className = __CLASS__)
@@ -145,19 +144,20 @@ class SchoolStructure extends AltActiveRecord
         return 'school_structure';
     }
 
+
     /**
-     * @return array validation rules for model attributes
+     * @return array validation rules for model attributes.
      */
     public function rules()
     {
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
-        return [
-            [
+        return array(
+            array(
                 'school_inep_id_fk',
-                'required',
-            ],
-            [
+                'required'
+            ),
+            array(
                 'operation_location_building,
                 operation_location_temple,
                 operation_location_businness_room,
@@ -369,10 +369,10 @@ class SchoolStructure extends AltActiveRecord
                 provide_potable_water,
                 dependencies_student_repose_room',
                 'numerical',
-                'integerOnly' => true,
-            ],
-            ['register_type', 'length', 'max' => 2],
-            [
+                'integerOnly' => true
+            ),
+            array('register_type', 'length', 'max' => 2),
+            array(
                 'school_inep_id_fk,
             shared_school_inep_id_1,
             shared_school_inep_id_2,
@@ -381,22 +381,22 @@ class SchoolStructure extends AltActiveRecord
             shared_school_inep_id_5,
             shared_school_inep_id_6',
                 'length',
-                'max' => 8,
-            ],
+                'max' => 8
+            ),
             // The following rule is used by search().
             // @todo Please remove those attributes that should not be searched.
-            ['register_type, school_inep_id_fk, operation_location_building, operation_location_temple, operation_location_businness_room, operation_location_instructor_house, operation_location_other_school_room, operation_location_barracks, operation_location_socioeducative_unity, operation_location_prison_unity, operation_location_other, building_occupation_situation, shared_building_with_school, shared_school_inep_id_1, shared_school_inep_id_2, shared_school_inep_id_3, shared_school_inep_id_4, shared_school_inep_id_5, shared_school_inep_id_6, consumed_water_type, water_supply_public, water_supply_artesian_well, water_supply_well, water_supply_river, water_supply_car, water_supply_inexistent, energy_supply_public, energy_supply_generator, energy_supply_other, energy_supply_inexistent, sewage_public, sewage_fossa, sewage_inexistent, garbage_destination_collect, garbage_destination_burn, garbage_destination_throw_away, garbage_destination_recycle, garbage_destination_bury, garbage_destination_other, dependencies_principal_room, dependencies_instructors_room, dependencies_secretary_room, dependencies_info_lab, dependencies_science_lab, dependencies_aee_room, dependencies_indoor_sports_court, dependencies_outdoor_sports_court, dependencies_kitchen, dependencies_library, dependencies_reading_room, dependencies_playground, dependencies_nursery, dependencies_outside_bathroom, dependencies_inside_bathroom, dependencies_child_bathroom, dependencies_prysical_disability_bathroom, dependencies_physical_disability_support, dependencies_bathroom_with_shower, dependencies_refectory, dependencies_storeroom, dependencies_warehouse, dependencies_auditorium, dependencies_covered_patio, dependencies_uncovered_patio, dependencies_student_accomodation, dependencies_instructor_accomodation, dependencies_green_area, dependencies_laundry, dependencies_professional_specific_lab, dependencies_vocational_education_workshop, dependencies_recording_and_editing_studio, dependencies_garden_planting_agricultural, dependencies_none, classroom_count, used_classroom_count, instruments_inexistent, equipments_material_professional_education, equipments_tv, equipments_vcr, equipments_dvd, equipments_satellite_dish, equipments_copier, equipments_overhead_projector, equipments_printer, equipments_stereo_system, equipments_data_show, equipments_fax, equipments_camera, equipments_computer, equipments_multifunctional_printer, equipments_inexistent, administrative_computers_count, student_computers_count, internet_access, bandwidth, employees_count, feeding, aee, complementary_activities, modalities_regular, modalities_especial, modalities_eja, modalities_professional, basic_education_cycle_organized, different_location, sociocultural_didactic_material_none, sociocultural_didactic_material_quilombola, sociocultural_didactic_material_native, native_education, native_education_language_native, native_education_language_portuguese, edcenso_native_languages_fk, brazil_literate, open_weekend, pedagogical_formation_by_alternance', 'safe', 'on' => 'search'],
-        ];
+            array('register_type, school_inep_id_fk, operation_location_building, operation_location_temple, operation_location_businness_room, operation_location_instructor_house, operation_location_other_school_room, operation_location_barracks, operation_location_socioeducative_unity, operation_location_prison_unity, operation_location_other, building_occupation_situation, shared_building_with_school, shared_school_inep_id_1, shared_school_inep_id_2, shared_school_inep_id_3, shared_school_inep_id_4, shared_school_inep_id_5, shared_school_inep_id_6, consumed_water_type, water_supply_public, water_supply_artesian_well, water_supply_well, water_supply_river, water_supply_car, water_supply_inexistent, energy_supply_public, energy_supply_generator, energy_supply_other, energy_supply_inexistent, sewage_public, sewage_fossa, sewage_inexistent, garbage_destination_collect, garbage_destination_burn, garbage_destination_throw_away, garbage_destination_recycle, garbage_destination_bury, garbage_destination_other, dependencies_principal_room, dependencies_instructors_room, dependencies_secretary_room, dependencies_info_lab, dependencies_science_lab, dependencies_aee_room, dependencies_indoor_sports_court, dependencies_outdoor_sports_court, dependencies_kitchen, dependencies_library, dependencies_reading_room, dependencies_playground, dependencies_nursery, dependencies_outside_bathroom, dependencies_inside_bathroom, dependencies_child_bathroom, dependencies_prysical_disability_bathroom, dependencies_physical_disability_support, dependencies_bathroom_with_shower, dependencies_refectory, dependencies_storeroom, dependencies_warehouse, dependencies_auditorium, dependencies_covered_patio, dependencies_uncovered_patio, dependencies_student_accomodation, dependencies_instructor_accomodation, dependencies_green_area, dependencies_laundry, dependencies_professional_specific_lab, dependencies_vocational_education_workshop, dependencies_recording_and_editing_studio, dependencies_garden_planting_agricultural, dependencies_none, classroom_count, used_classroom_count, instruments_inexistent, equipments_material_professional_education, equipments_tv, equipments_vcr, equipments_dvd, equipments_satellite_dish, equipments_copier, equipments_overhead_projector, equipments_printer, equipments_stereo_system, equipments_data_show, equipments_fax, equipments_camera, equipments_computer, equipments_multifunctional_printer, equipments_inexistent, administrative_computers_count, student_computers_count, internet_access, bandwidth, employees_count, feeding, aee, complementary_activities, modalities_regular, modalities_especial, modalities_eja, modalities_professional, basic_education_cycle_organized, different_location, sociocultural_didactic_material_none, sociocultural_didactic_material_quilombola, sociocultural_didactic_material_native, native_education, native_education_language_native, native_education_language_portuguese, edcenso_native_languages_fk, brazil_literate, open_weekend, pedagogical_formation_by_alternance', 'safe', 'on' => 'search'),
+        );
     }
 
     /**
-     * @return array relational rules
+     * @return array relational rules.
      */
     public function relations()
     {
         // NOTE: you may need to adjust the relation name and the related
         // class name for the relations automatically generated below.
-        return [];
+        return array();
     }
 
     /**
@@ -404,7 +404,7 @@ class SchoolStructure extends AltActiveRecord
      */
     public function attributeLabels()
     {
-        return [
+        return array(
             'register_type' => Yii::t('default', 'Register Type'),
             'school_inep_id_fk' => Yii::t('default', 'School Inep Id Fk'),
             'operation_location_building' => Yii::t('default', 'Operation Location Building'),
@@ -501,7 +501,7 @@ class SchoolStructure extends AltActiveRecord
             'internet_access' => Yii::t('default', 'Have Internet Access'),
             'bandwidth' => Yii::t('default', 'Bandwidth'),
             'employees_count' => Yii::t('default', 'Employees Count'),
-            'feeding' => Yii::t('default', 'Feeding') . ' *',
+            'feeding' => Yii::t('default', 'Feeding') . " *",
             'aee' => Yii::t('default', 'Aee'),
             'complementary_activities' => Yii::t('default', 'Complementary Activities'),
             'modalities_regular' => Yii::t('default', 'Modalities Regular'),
@@ -526,7 +526,7 @@ class SchoolStructure extends AltActiveRecord
             'energy_supply_generator_alternative' => Yii::t('default', 'Generator Alternative'),
             'sewage_fossa_common' => Yii::t('default', 'Fossa Common'),
             'garbage_destination_public' => Yii::t('default', 'Destination Public'),
-            'supply_food' => Yii::t('default', 'Food') . ' *',
+            'supply_food' => Yii::t('default', 'Food') . " *",
             'treatment_garbage_parting_garbage' => Yii::t('default', 'Garbage Parting'),
             'treatment_garbage_resuse' => Yii::t('default', 'Garbage Resuse'),
             'traetment_garbage_inexistent' => Yii::t('default', 'Garbage Inexistent'),
@@ -542,7 +542,7 @@ class SchoolStructure extends AltActiveRecord
             'dependencies_indoor_roomspublic' => Yii::t('default', 'Indoor Rooms Public'),
             'dependencies_climate_roomspublic' => Yii::t('default', 'Climate Rooms Public'),
             'dependencies_acessibility_roomspublic' => Yii::t('default', 'Acessibility Rooms Public'),
-            'dependencies_reading_corners' => Yii::t('default', 'Reading Room Count'),
+            'dependencies_reading_corners' => Yii::t('default', "Reading Room Count"),
             'acessability_handrails_guardrails' => Yii::t('default', 'Handrails Guardrails'),
             'acessability_elevator' => Yii::t('default', 'Elevator'),
             'acessability_tactile_floor' => Yii::t('default', 'Tactile Floor'),
@@ -624,20 +624,20 @@ class SchoolStructure extends AltActiveRecord
             'board_organ_inexistent' => Yii::t('default', 'Organ Inexistent'),
             'provide_potable_water' => Yii::t('default', 'Provide Potable Water'),
             'dependencies_student_repose_room' => Yii::t('default', 'Student Repose Room'),
-            'stages' => Yii::t('default', 'School Stages'),
-        ];
+            'stages' => Yii::t('default', 'School Stages')
+        );
     }
 
     /**
      * Retrieves a list of models based on the current search/filter conditions.
-     * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions
+     * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
      */
     public function search()
     {
         // Warning: Please modify the following code to remove attributes that
         // should not be searched.
 
-        $criteria = new CDbCriteria();
+        $criteria = new CDbCriteria;
 
         $criteria->compare('register_type', $this->register_type, true);
         $criteria->compare('school_inep_id_fk', $this->school_inep_id_fk, true);
@@ -776,8 +776,8 @@ class SchoolStructure extends AltActiveRecord
         $criteria->compare('open_weekend', $this->open_weekend);
         $criteria->compare('pedagogical_formation_by_alternance', $this->pedagogical_formation_by_alternance);
 
-        return new CActiveDataProvider($this, [
+        return new CActiveDataProvider($this, array(
             'criteria' => $criteria,
-        ]);
+        ));
     }
 }

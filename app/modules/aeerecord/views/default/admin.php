@@ -3,21 +3,21 @@
 /* @var $dataProvider CActiveDataProvider */
 
 $this->setPageTitle('TAG - ' . Yii::t('default', 'Ficha AEE'));
-$this->breadcrumbs = [
-    'Student Aee Records',
-];
+$this->breadcrumbs=array(
+	'Student Aee Records',
+);
 
 $baseUrl = Yii::app()->baseUrl;
 $themeUrl = Yii::app()->theme->baseUrl;
 $baseScriptUrl = Yii::app()->controller->module->baseScriptUrl;
 $cs = Yii::app()->getClientScript();
-$cs->registerScriptFile($baseScriptUrl . '/_initialization.js?v=' . TAG_VERSION, CClientScript::POS_END);
-$cs->registerScriptFile($baseScriptUrl . '/functions.js?v=' . TAG_VERSION, CClientScript::POS_END);
+$cs->registerScriptFile($baseScriptUrl . '/_initialization.js?v='.TAG_VERSION, CClientScript::POS_END);
+$cs->registerScriptFile($baseScriptUrl . '/functions.js?v='.TAG_VERSION, CClientScript::POS_END);
 
-$this->menu = [
-    ['label' => 'Create StudentAeeRecord', 'url' => ['create']],
-    ['label' => 'Manage StudentAeeRecord', 'url' => ['admin']],
-];
+$this->menu=array(
+	array('label'=>'Create StudentAeeRecord', 'url'=>array('create')),
+	array('label'=>'Manage StudentAeeRecord', 'url'=>array('admin')),
+);
 
 $hasAdminAccess = Yii::app()->getAuthManager()->checkAccess('admin', Yii::app()->user->loginInfos->id);
 ?>
@@ -42,47 +42,47 @@ $hasAdminAccess = Yii::app()->getAuthManager()->checkAccess('admin', Yii::app()-
     <div class="tag-inner">
         <div class="widget clearmargin">
             <div class="widget-body">
-                <?php $this->widget('zii.widgets.grid.CGridView', [
-                    'id' => 'farmer-register-grid',
+                <?php $this->widget('zii.widgets.grid.CGridView', array(
+                    'id'=>'farmer-register-grid',
                     'dataProvider' => $dataProvider,
                     'enablePagination' => false,
                     'enableSorting' => false,
                     'ajaxUpdate' => false,
                     'itemsCssClass' => 'js-tag-table tag-table-primary tag-table table table-condensed table-striped table-hover table-primary table-vertical-center checkboxs',
-                    'columns' => [
+                    'columns'=>array(
                         'id',
-                        [
+                        array(
                             'name' => 'studentName',
                             'header' => 'Aluno',
                             'value' => '$data->studentFk->name',
-                        ],
-                        [
+                        ),
+                        array(
                             'name' => 'classroomName',
                             'header' => 'Turma',
                             'value' => '$data->classroomFk->name',
-                        ],
-                        [
+                        ),
+                        array(
                             'name' => 'date',
                             'header' => 'Data',
                             'value' => 'date("d/m/Y", strtotime($data->date))',
-                        ],
-                        [
+                        ),
+                        array(
                             'header' => 'Ações',
                             'class' => 'CButtonColumn',
                             'template' => '{report}',
-                            'buttons' => [
-                                'report' => [
-                                    'imageUrl' => Yii::app()->theme->baseUrl . '/img/search-icon.svg',
+                            'buttons' => array(
+                                'report' => array(
+                                    'imageUrl' => Yii::app()->theme->baseUrl.'/img/search-icon.svg',
                                     'url' => 'Yii::app()->createUrl("aeerecord/reports/aeeRecordReport", array("id"=>$data->id))',
-                                    'options' => [
+                                    'options' => array(
                                         'target' => '_blank',
-                                    ],
-                                ],
-                            ],
-                            'htmlOptions' => ['width' => '100px', 'style' => 'text-align: center'],
-                        ],
-                    ],
-                ]); ?>
+                                    ),
+                                ),
+                            ),
+                            'htmlOptions' => array('width' => '100px', 'style' => 'text-align: center'),
+                        ),
+                    ),
+                )); ?>
             </div>
         </div>
     </div>

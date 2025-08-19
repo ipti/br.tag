@@ -16,7 +16,7 @@ class ImportModel
     public function saveSchoolStructureDB($schoolStructures)
     {
         foreach ($schoolStructures as $schoolStructure) {
-            $schoolStructureModel = new SchoolStructure();
+            $schoolStructureModel =  new SchoolStructure();
             $schoolStructureModel->setDb2Connection(true);
             $schoolStructureModel->refreshMetaData();
             $schoolStructureModel->attributes = $schoolStructure;
@@ -24,20 +24,18 @@ class ImportModel
         }
     }
 
-    public function saveClassroomsDB($jsonClassrooms)
-    {
-        foreach ($jsonClassrooms as $classroom) {
+    public function saveClassroomsDB($jsonClassrooms) {
+        foreach ($jsonClassrooms as  $classroom) {
             $classroomModel = new Classroom();
             $classroomModel->setDb2Connection(true);
             $classroomModel->refreshMetaData();
             $classroomModel->attributes = $classroom;
-            $classroomModel->id = $classroom['id'];
+            $classroomModel->id =  $classroom['id'];
             $classroomModel->save();
         }
     }
 
-    public function saveStudentDocumentsAndAddressDB($jsonDocumentsAddress)
-    {
+    public function saveStudentDocumentsAndAddressDB($jsonDocumentsAddress) {
         foreach ($jsonDocumentsAddress as $documentsaddress) {
             $studentDocumentsAndAddress = new StudentDocumentsAndAddress();
             $studentDocumentsAndAddress->setDb2Connection(true);
@@ -81,7 +79,7 @@ class ImportModel
             $instructorTeachingData->attributes = $instructorsTeachingData;
             $instructorTeachingData->id = $instructorsTeachingData['id'];
             $instructorTeachingData->save();
-        }
+         }
     }
 
     public function saveInstructorDataDB($instructorIdentificationDatas, $instructorDocumentsAndAddressDatas, $instructorVariableDatas)
@@ -101,7 +99,7 @@ class ImportModel
 
             // Salvar os dados da tabela instructor_variable_data no banco de dados
             foreach ($instructorVariableDatas as $instructorVariableData) {
-                if ($instructorIdentificationData['id'] == $instructorVariableData['id']) {
+                if($instructorIdentificationData['id'] == $instructorVariableData['id']) {
                     $instructorVariableDataModel = new InstructorVariableData();
                     $instructorVariableDataModel->setDb2Connection(true);
                     $instructorVariableDataModel->refreshMetaData();
@@ -130,7 +128,8 @@ class ImportModel
                 $instructorDocumentsAndAddressModel = $instructorDocumentsAndAddressModels[$id];
                 $instructorIdentificationModel->hash = $instructorDocumentsAndAddressModel->hash;
 
-                if (isset($instructorDocumentsAndAddressModel->cpf)) {
+                if(isset($instructorDocumentsAndAddressModel->cpf))
+                {
                     // Criando usuário e atualizando o instructorIdentification
                     $instructorUserUseCase = new ImportInstructorUserUseCase(
                         $instructorIdentificationModel,
@@ -146,6 +145,7 @@ class ImportModel
             }
         }
     }
+
 
     public function saveTeachingMatrixes($teachingMatrixes)
     {

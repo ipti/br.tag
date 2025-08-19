@@ -11,9 +11,9 @@ Yii::import('application.modules.sedsp.models.*');
 class CreateRA
 {
     /**
-     * Summary of exec.
+     * Summary of exec
      * @param int $tag_student_id StudentIdentificantion Id from TAG
-     * @param bool $force Force search from TAG
+     * @param boolean $force Force search from TAG
      * @return DadosAluno
      */
     public function exec($id)
@@ -21,13 +21,13 @@ class CreateRA
         $ucnewstudent = new AddStudentToSED();
         $RA = $ucnewstudent->exec($id);
 
-        if (!isset($RA->outErro)) {
+        if(!isset($RA->outErro)){
             $ucadd = new AddRACodeToTAG();
             $student = $ucadd->exec($id, $RA->outAluno->outNumRA);
-
             return $student->gov_id;
-        } else {
+        }else{
             return $RA->outErro;
         }
     }
+
 }

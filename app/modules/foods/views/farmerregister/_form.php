@@ -8,13 +8,13 @@ $baseUrl = Yii::app()->baseUrl;
 $themeUrl = Yii::app()->theme->baseUrl;
 $baseScriptUrl = Yii::app()->controller->module->baseScriptUrl;
 $cs = Yii::app()->getClientScript();
-$cs->registerScriptFile($baseScriptUrl . '/farmer/_initialization.js?v=' . TAG_VERSION, CClientScript::POS_END);
-$cs->registerScriptFile($baseScriptUrl . '/farmer/functions.js?v=' . TAG_VERSION, CClientScript::POS_END);
+$cs->registerScriptFile($baseScriptUrl . '/farmer/_initialization.js?v='.TAG_VERSION, CClientScript::POS_END);
+$cs->registerScriptFile($baseScriptUrl . '/farmer/functions.js?v='.TAG_VERSION, CClientScript::POS_END);
 
-$form = $this->beginWidget('CActiveForm', [
-    'id' => 'farmer-register-form',
-    'enableAjaxValidation' => false,
-]);
+$form=$this->beginWidget('CActiveForm', array(
+	'id'=>'farmer-register-form',
+	'enableAjaxValidation'=>false,
+));
 ?>
 
 <div class="form">
@@ -63,7 +63,7 @@ $form = $this->beginWidget('CActiveForm', [
                 </a>
 
             </li>
-            <?php if (!$model->isNewRecord) { ?>
+            <?php if(!$model->isNewRecord) { ?>
             <li id="tab-farmer-deliveries" class="t-tabs__item">
                 <img src="<?= Yii::app()->theme->baseUrl; ?>/img/seta-tabs.svg" alt="seta">
                 <a class="t-tabs__link" href="#farmer-deliveries" data-toggle="tab">
@@ -82,16 +82,16 @@ $form = $this->beginWidget('CActiveForm', [
             <div class="row">
                 <div class="column clearleft is-two-fifths">
                     <div class="t-field-text">
-                        <?php echo $form->label($model, 'cpf', ['class' => 't-field-text__label--required']); ?>
-                        <?php echo $form->textField($model, 'cpf', ['id' => 'farmerCpf', 'size' => 60, 'maxlength' => 100, 'class' => 't-field-text__input']); ?>
-                        <?php echo $form->error($model, 'cpf'); ?>
+                        <?php echo $form->label($model,'cpf', array('class' => 't-field-text__label--required')); ?>
+                        <?php echo $form->textField($model,'cpf', array('id' => 'farmerCpf','size'=>60,'maxlength'=>100, 'class' => 't-field-text__input')); ?>
+                        <?php echo $form->error($model,'cpf'); ?>
                     </div>
                 </div>
                 <div class="column clearleft is-two-fifths">
                     <div class="t-field-text">
-                        <?php echo $form->label($model, 'name', ['class' => 't-field-text__label--required']); ?>
-                        <?php echo $form->textField($model, 'name', ['id' => 'farmerName', 'disabled' => 'disabled', 'size' => 60, 'maxlength' => 100, 'class' => 't-field-text__input']); ?>
-                        <?php echo $form->error($model, 'name'); ?>
+                        <?php echo $form->label($model,'name', array('class' => 't-field-text__label--required')); ?>
+                        <?php echo $form->textField($model,'name', array('id' => 'farmerName', 'disabled' => 'disabled','size'=>60,'maxlength'=>100, 'class' => 't-field-text__input')); ?>
+                        <?php echo $form->error($model,'name'); ?>
                     </div>
                 </div>
             </div>
@@ -99,22 +99,22 @@ $form = $this->beginWidget('CActiveForm', [
             <div class="row">
                 <div class="column clearleft is-two-fifths">
                     <div class="t-field-text">
-                        <?php echo $form->label($model, 'phone', ['class' => 't-field-text__label--required']); ?>
-                        <?php echo $form->textField($model, 'phone', ['id' => 'farmerPhone', 'disabled' => 'disabled', 'size' => 60, 'maxlength' => 100, 'class' => 't-field-text__input']); ?>
-                        <?php echo $form->error($model, 'phone'); ?>
+                        <?php echo $form->label($model,'phone', array('class' => 't-field-text__label--required')); ?>
+                        <?php echo $form->textField($model,'phone', array('id' => 'farmerPhone', 'disabled' => 'disabled','size'=>60,'maxlength'=>100, 'class' => 't-field-text__input')); ?>
+                        <?php echo $form->error($model,'phone'); ?>
                     </div>
                 </div>
                 <div class="column clearleft is-two-fifths">
                     <div class="t-field-select">
-                        <?php echo $form->label($model, 'group_type', ['class' => 't-field-select__label--required']); ?>
+                        <?php echo $form->label($model,'group_type', array('class' => 't-field-select__label--required')); ?>
                         <?php
-                        echo $form->DropDownList($model, 'group_type', [
-                            'agricultor' => 'Selecione o Grupo',
-                            'Fornecedor Individual' => 'Fornecedor Individual',
-                            'Grupo Formal' => 'Grupo Formal',
-                            'Grupo Informal' => 'Grupo Informal',
-                        ], ['id' => 'farmerGroupType', 'disabled' => 'disabled', 'class' => 'select-search-off t-field-select__input select2-container']);
-?>
+                        echo $form->DropDownList($model, 'group_type', array(
+                            "agricultor" => "Selecione o Grupo",
+                            "Fornecedor Individual" => "Fornecedor Individual",
+                            "Grupo Formal" => "Grupo Formal",
+                            "Grupo Informal" => "Grupo Informal",
+                        ), array('id'=>'farmerGroupType', 'disabled' => 'disabled','class' => 'select-search-off t-field-select__input select2-container'));
+                        ?>
                     </div>
                 </div>
             </div>
@@ -131,24 +131,24 @@ $form = $this->beginWidget('CActiveForm', [
 
             <div class="row">
                 <div class="column clearleft t-margin-none--bottom t-field-text is-one-tenth">
-                    <?php echo CHtml::label('Edital', 'notice', ['class' => 't-field-select__label--required']); ?>
+                    <?php echo CHtml::label('Edital', 'notice', array('class' => 't-field-select__label--required')); ?>
                     <select class="select-search-on t-field-select__input select2-container" id="foodNotice" name="foodNotice">
                         <option value="selecione">Selecione</option>
                     </select>
                 </div>
                 <div class="column clearleft t-margin-none--bottom t-field-select is-one-third">
-                    <?php echo CHtml::label('Selecione o Alimento', 'food_fk', ['class' => 't-field-select__label--required']); ?>
+                    <?php echo CHtml::label('Selecione o Alimento', 'food_fk', array('class' => 't-field-select__label--required')); ?>
                     <select class="select-search-on t-field-select__input select2-container" id="foodSelect">
                         <option value="alimento">Selecione o Alimento</option>
                     </select>
                 </div>
                 <div class="column clearleft t-margin-none--bottom t-field-text is-one-tenth">
-                    <?php echo $form->label($modelFarmerFoods, 'amount', ['class' => 't-field-text__label--required']); ?>
-                    <?php echo $form->textField($modelFarmerFoods, 'amount', ['id' => 'amount', 'size' => 60, 'maxlength' => 100, 'class' => 't-field-text__input', 'placeholder' => 'Informe']); ?>
-                    <?php echo $form->error($modelFarmerFoods, 'amount'); ?>
+                    <?php echo $form->label($modelFarmerFoods,'amount', array('class' => 't-field-text__label--required')); ?>
+                    <?php echo $form->textField($modelFarmerFoods,'amount', array('id' => 'amount','size'=>60,'maxlength'=>100, 'class' => 't-field-text__input', 'placeholder' => 'Informe')); ?>
+                    <?php echo $form->error($modelFarmerFoods,'amount'); ?>
                 </div>
                 <div class="column clearleft t-margin-none--bottom t-field-text is-one-tenth">
-                    <?php echo CHtml::label('Unidade', 'measurementUnit', ['class' => 't-field-select__label--required']); ?>
+                    <?php echo CHtml::label('Unidade', 'measurementUnit', array('class' => 't-field-select__label--required')); ?>
                     <select class="select-search-on t-field-select__input select2-container" id="measurementUnit" name="measurementUnit">
                         <option value="selecione">Selecione</option>
                     </select>

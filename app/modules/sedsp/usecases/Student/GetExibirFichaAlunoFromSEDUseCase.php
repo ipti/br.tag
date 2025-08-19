@@ -3,7 +3,8 @@
 class GetExibirFichaAlunoFromSEDUseCase
 {
     /**
-     * Summary of exec.
+     * Summary of exec
+     * @param InAluno $inAluno
      * @return StudentIdentification|bool
      */
     public function exec(InAluno $inAluno)
@@ -11,7 +12,7 @@ class GetExibirFichaAlunoFromSEDUseCase
         $studentDatasource = new StudentSEDDataSource();
         $response = $studentDatasource->exibirFichaAluno($inAluno);
 
-        $mapper = (object) StudentMapper::parseToTAGExibirFichaAluno($response);
+        $mapper = (object)StudentMapper::parseToTAGExibirFichaAluno($response);
         $studentIdentification = $mapper->StudentIdentification;
 
         try {
@@ -19,19 +20,22 @@ class GetExibirFichaAlunoFromSEDUseCase
             $this->createAndSaveStudentDocumentsAndAddress($mapper->StudentDocumentsAndAddress, $studentIdentification);
 
             return $studentIdentification;
+
         } catch (Exception $e) {
             $log = new LogError();
             $log->salvarDadosEmArquivo($e->getMessage());
         }
 
-        throw new SedspException('Não foi possivel cadastrar aluno', 1);
+        throw new SedspException("Não foi possivel cadastrar aluno", 1);
+
     }
+
 
     public function createAndSaveStudentDocumentsAndAddress($studentDocumentsAndAddress, $studentIdentification)
     {
         $documentos = StudentDocumentsAndAddress::model()->find('id = :studentFk', [':studentFk' => $studentIdentification->id]);
 
-        if ($documentos === null) {
+        if($documentos === null) {
             if ($studentDocumentsAndAddress->validate() && $studentDocumentsAndAddress->save()) {
                 return $studentDocumentsAndAddress;
             } else {

@@ -1,18 +1,18 @@
 <?php
 /** @var DefaultController $this DefaultController */
 $this->setPageTitle('TAG - ' . Yii::t('default', 'Diário de Classe'));
-$this->breadcrumbs = [
+$this->breadcrumbs = array(
     $this->module->id,
-];
+);
 $baseScriptUrl = Yii::app()->controller->module->baseScriptUrl;
 $cs = Yii::app()->getClientScript();
-$cs->registerScriptFile($baseScriptUrl . '/classDiary/functions.js?v=' . TAG_VERSION, CClientScript::POS_END);
+$cs->registerScriptFile($baseScriptUrl . '/classDiary/functions.js?v='.TAG_VERSION, CClientScript::POS_END);
 
 ?>
 <div class="main">
     <div class="row">
         <div class="column">
-            <h1><?php echo $classroom_name . ' - ' . $date?></h1>
+            <h1><?php echo $classroom_name .' - '. $date?></h1>
             <h2><?php echo $discipline_name ?? null ?></h2>
         </div>
     </div>
@@ -24,14 +24,10 @@ $cs->registerScriptFile($baseScriptUrl . '/classDiary/functions.js?v=' . TAG_VER
             <h2>Conteúdo ministrado em sala de aula</h2>
             <div class="row">
                 <div class="column is-two-fifths t-multiselect clearfix js-hide-is-not-valid  t-margin-none--top t-margin-none--bottom">
-                    <?php echo CHtml::dropDownList(
-    'coursePlan',
-    '',
-    [],
-    ['multiple' => 'multiple',
-        'class' => 'select-search-on t-margin-none--top t-multiselect multiselect',
-        'id' => 'coursePlan', 'style' => 'width: 100%;']
-); ?>
+                    <?php echo CHtml::dropDownList('coursePlan', '',  [],
+                    array('multiple' => 'multiple',
+                    'class' => 'select-search-on t-margin-none--top t-multiselect multiselect',
+                    'id' => 'coursePlan', 'style' => 'width: 100%;')); ?>
                 </div>
             </div>
             <div class="row">
@@ -45,15 +41,11 @@ $cs->registerScriptFile($baseScriptUrl . '/classDiary/functions.js?v=' . TAG_VER
                 <div class="row">
                     <div class="column is-two-fifths clearfix t-field-select">
                         <label for="" class="t-field-select__label--required">Plano de aula</label>
-                        <?php echo CHtml::dropDownList(
-                        'coursePlans',
-                        '',
-                        $coursePlans,
-                        [
+                        <?php echo CHtml::dropDownList('coursePlans', '',  $coursePlans,
+                            array(
                             'class' => 'select-search-on t-margin-none--top js-course-plan-id t-field-select__input',
-                            'prompt' => 'Selecione um plano',
-                            'id' => 'coursePlan', 'style' => 'width: 100%;']
-                    ); ?>
+                            "prompt" => 'Selecione um plano',
+                            'id' => 'coursePlan', 'style' => 'width: 100%;')); ?>
                     </div>
                 </div>
                 <div class="row t-field-text">
@@ -71,15 +63,11 @@ $cs->registerScriptFile($baseScriptUrl . '/classDiary/functions.js?v=' . TAG_VER
                 <div class="row">
                     <div class="column is-two-fifths clearfix t-field-select">
                         <label for="" class="t-field-select__label--required">Habilidade(s)</label>
-                        <?php echo CHtml::dropDownList(
-                            'abilities',
-                            '',
-                            $abilities,
-                            [
-                                'class' => 'select-search-on t-margin-none--top t-field-select__input js-add-abilities',
-                                'prompt' => 'Selecione um plano',
-                                'id' => 'coursePlan', 'style' => 'width: 100%;']
-                        ); ?>
+                        <?php echo CHtml::dropDownList('abilities', '',  $abilities,
+                            array(
+                            'class' => 'select-search-on t-margin-none--top t-field-select__input js-add-abilities',
+                            "prompt" => 'Selecione um plano',
+                            'id' => 'coursePlan', 'style' => 'width: 100%;')); ?>
                     </div>
                 </div>
                 <div class="row">

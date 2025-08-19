@@ -3,7 +3,7 @@
 /* @var $report mixed */
 $baseUrl = Yii::app()->baseUrl;
 $cs = Yii::app()->getClientScript();
-$cs->registerScriptFile($baseUrl . '/js/reports/ConclusionCertification/_initialization.js?v=' . TAG_VERSION, CClientScript::POS_END);
+$cs->registerScriptFile($baseUrl . '/js/reports/ConclusionCertification/_initialization.js?v='.TAG_VERSION, CClientScript::POS_END);
 
 $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
 $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
@@ -19,7 +19,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
             /*<![CDATA[*/
             jQuery(function ($) {
                     jQuery.ajax({'type': 'GET',
-                        'data': {'enrollment_id':<?php echo $enrollment_id; ?>},
+                        'data': {'enrollment_id':<?php echo $enrollment_id;?>},
                         'url': '<?php echo Yii::app()->createUrl('forms/getEnrollmentDeclarationInformation') ?>',
                         'success': function (data) {
                             gerarRelatorio(data);
@@ -44,22 +44,22 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                 Certificamos que
                 <span class="name" style="font-weight: bold"></span>,
                 <?php
-                if ($gender == '1') {
-                    echo 'filho de ';
+                if ($gender == '1'){
+                    echo "filho de ";
                 } else {
-                    echo 'filha de ';
+                    echo "filha de ";
                 }
-?>
+                ?>
                 <span style="font-weight:bold" class="filiation_1"></span>
                 e
                 <span style="font-weight:bold" class="filiation_2"></span>,
                 <?php
-if ($gender == '1') {
-    echo 'nascido em ';
-} else {
-    echo 'nascida em ';
-}
-?>
+                if ($gender == '1'){
+                    echo "nascido em ";
+                } else {
+                    echo "nascida em ";
+                }
+                ?>
                 <span style="font-weight:bold" class="birthday"></span>
                 na cidade de
                 <span style="font-weight:bold" class="city"></span>,
@@ -70,7 +70,7 @@ if ($gender == '1') {
                 <?= $status ?> a etapa <span style="font-weight: bold;text-decoration:underline"><?= $alias ?></span> do(a) <span style="text-decoration:underline"><?= $modality ?></span> no ano de <span style="font-weight: bold;text-decoration:underline"><?= date('Y') ?></span>.
                 <br/><br/><br/><br/>
                 <span class="pull-right">
-                    <?=$school->edcensoCityFk->name?>(<?=$school->edcensoUfFk->acronym?>), <?php echo date('d') . ' de ' . yii::t('default', date('F')) . ' de ' . date('Y') . '.' ?>
+                    <?=$school->edcensoCityFk->name?>(<?=$school->edcensoUfFk->acronym?>), <?php echo date('d') . " de " . yii::t('default', date('F')) . " de " . date('Y') . "." ?>
                 </span>
                 <br/><br/><br/><br/>
                 <p style="margin: 0 auto; text-align: center; width:600px">

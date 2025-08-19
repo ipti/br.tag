@@ -10,19 +10,18 @@ Yii::import('application.modules.sedsp.models.*');
  */
 class IdentifyStudentRACode
 {
-    private $studentTAGDataSource;
-    private $studentSEDDataSource;
+    private  $studentTAGDataSource;
+    private  $studentSEDDataSource;
 
-    public function __construct($studentTAGDataSource = null, $studentSEDDataSource = null)
-    {
+    public function __construct($studentTAGDataSource = null, $studentSEDDataSource = null) {
         $this->studentTAGDataSource = $studentTAGDataSource ?? new StudentTAGDataSource();
         $this->studentSEDDataSource = $studentSEDDataSource ?? new StudentSEDDataSource();
     }
 
     /**
-     * Summary of exec.
+     * Summary of exec
      * @param int $tag_student_id StudentIdentificantion Id from TAG
-     * @param bool $force Force search from TAG
+     * @param boolean $force Force search from TAG
      * @return DadosAluno|OutErro
      */
     public function exec($tag_student_id, $force = false)
@@ -32,8 +31,8 @@ class IdentifyStudentRACode
         $nome = $student_tag->name;
         $data_nascimento = $student_tag->birthday;
         $nome_mae = $student_tag->filiation_1;
-        $aluno_sed = $this->studentSEDDataSource->getStudentRA($nome, $data_nascimento, $nome_mae, $force);
-
+        $aluno_sed = $this->studentSEDDataSource->getStudentRA($nome,$data_nascimento, $nome_mae, $force);
+  
         return $aluno_sed;
     }
 }

@@ -8,8 +8,8 @@
 $baseUrl = Yii::app()->baseUrl;
 $themeUrl = Yii::app()->theme->baseUrl;
 $cs = Yii::app()->getClientScript();
-$cs->registerScriptFile($baseUrl . '/js/enrollment/grades/_initialization.js?v=' . TAG_VERSION, CClientScript::POS_END);
-$cs->registerScriptFile($baseUrl . '/js/enrollment/grades/functions.js?v=' . TAG_VERSION, CClientScript::POS_END);
+$cs->registerScriptFile($baseUrl . '/js/enrollment/grades/_initialization.js?v='.TAG_VERSION, CClientScript::POS_END);
+$cs->registerScriptFile($baseUrl . '/js/enrollment/grades/functions.js?v='.TAG_VERSION, CClientScript::POS_END);
 
 $script = "var getGradesUrl = '" . Yii::app()->createUrl('enrollment/getGrades') . "';";
 
@@ -21,12 +21,12 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Grades'));
 
 <div class="main">
     <?php
-        $form = $this->beginWidget('CActiveForm', [
+        $form = $this->beginWidget('CActiveForm', array(
             'id' => 'classes-form',
             'enableAjaxValidation' => false,
-            'action' => CHtml::normalizeUrl(['enrollment/saveGrades']),
-        ]);
-?>
+            'action' => CHtml::normalizeUrl(array('enrollment/saveGrades')),
+        ));
+    ?>
     <div class="row-fluid hidden-print">
         <div class="span12">
             <h1><?php echo Yii::t('default', 'Grades'); ?></h1>
@@ -47,24 +47,24 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Grades'));
     <div class="js-grades-alert alert"></div>
     <div class="filter-bar margin-bottom-none">
         <div>
-            <?php echo CHtml::label(yii::t('default', 'Classroom') . ' *', 'classroom', ['class' => 'small-label control-label required', 'style' => 'width: 53px;']); ?>
+            <?php echo CHtml::label(yii::t('default', 'Classroom') . " *", 'classroom', array('class' => 'small-label control-label required', 'style' => 'width: 53px;')); ?>
             <?php
-        echo CHtml::dropDownList('classroom', '', $classrooms, [
-            'key' => 'id',
-            'class' => 'select-search-on control-input classroom-input',
-            'prompt' => 'Selecione...',
-        ]);
-?>
+            echo CHtml::dropDownList('classroom', '', $classrooms, array(
+                'key' => 'id',
+                'class' => 'select-search-on control-input classroom-input',
+                'prompt' => 'Selecione...',
+                ));
+            ?>
         </div>
         <div>
-            <?php echo CHtml::label(yii::t('default', 'Discipline') . ' *', 'discipline', ['class' => 'control-label required', 'style' => 'width: 100%;']); ?>
+            <?php echo CHtml::label(yii::t('default', 'Discipline') . " *", 'discipline', array('class' => 'control-label required', 'style' => 'width: 100%;')); ?>
             <?php
-echo CHtml::dropDownList('discipline', '', [], [
-    'key' => 'id',
-    'class' => 'select-search-on control-input discipline-input',
-    'prompt' => 'Selecione...',
-]);
-?>
+            echo CHtml::dropDownList('discipline', '', array(), array(
+                'key' => 'id',
+                'class' => 'select-search-on control-input discipline-input',
+                'prompt' => 'Selecione...',
+            ));
+            ?>
         </div>
         <img class="js-grades-loading"  style="display:none;margin: 10px 20px;overflow-y: auto;" height="30px" width="30px" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/loadingTag.gif" alt="TAG Loading">
     </div>

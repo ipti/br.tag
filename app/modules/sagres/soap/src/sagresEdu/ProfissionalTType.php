@@ -5,31 +5,31 @@ namespace SagresEdu;
 use JMS\Serializer\Annotation as Serializer;
 
 /**
- * Class representing ProfissionalTType.
+ * Class representing ProfissionalTType
+ *
  *
  * XSD Type: profissional_t
  */
 class ProfissionalTType
 {
-    #[Serializer\SerializedName('edu:cpfProfissional')]
+    #[Serializer\SerializedName("edu:cpfProfissional")]
     #[Serializer\XmlElement(cdata: false)]
     private ?string $cpfProfissional = null;
 
-    #[Serializer\SerializedName('edu:especialidade')]
+    #[Serializer\SerializedName("edu:especialidade")]
     #[Serializer\XmlElement(cdata: false)]
     private ?string $especialidade = null;
 
-    #[Serializer\SerializedName('edu:idEscola')]
+    #[Serializer\SerializedName("edu:idEscola")]
     #[Serializer\XmlElement(cdata: false)]
     private ?int $idEscola = null;
 
-    #[Serializer\SerializedName('edu:fundeb')]
+    #[Serializer\SerializedName("edu:fundeb")]
     #[Serializer\XmlElement(cdata: false)]
     private ?bool $fundeb = null;
 
-    #[Serializer\XmlList(inline: true, entry: 'edu:atendimento')]
+    #[Serializer\XmlList(inline: true, entry: "edu:atendimento")]
     private array $atendimento = [];
-
     public function getCpfProfissional(): ?string
     {
         return $this->cpfProfissional;
@@ -38,7 +38,6 @@ class ProfissionalTType
     public function setCpfProfissional(string $cpfProfissional): self
     {
         $this->cpfProfissional = $cpfProfissional;
-
         return $this;
     }
 
@@ -50,7 +49,6 @@ class ProfissionalTType
     public function setEspecialidade(string $especialidade): self
     {
         $this->especialidade = $especialidade;
-
         return $this;
     }
 
@@ -62,7 +60,6 @@ class ProfissionalTType
     public function setIdEscola(int $idEscola): self
     {
         $this->idEscola = $idEscola;
-
         return $this;
     }
 
@@ -74,14 +71,12 @@ class ProfissionalTType
     public function setFundeb(bool $fundeb): self
     {
         $this->fundeb = $fundeb;
-
         return $this;
     }
 
     public function addToAtendimento(AtendimentoTType $atendimento): self
     {
         $this->atendimento[] = $atendimento;
-
         return $this;
     }
 
@@ -103,7 +98,7 @@ class ProfissionalTType
     public function setAtendimento(?array $atendimento): self
     {
         $this->atendimento = $atendimento;
-
         return $this;
     }
 }
+

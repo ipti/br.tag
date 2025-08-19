@@ -26,7 +26,7 @@
             <th class="no-padding"><div class="rotate contentEditable no-border" contenteditable="true">  </div></th>
             <th class="no-padding"><div class="rotate">CH/ANUAL</div></th>
         </tr>
-        <?php for ($j = 1; $j <= 9; $j++): ?>
+        <? for($j=1; $j<=9; $j++): ?>
         <tr class="font-size-10">
             <td class="no-padding">
             <table>
@@ -36,11 +36,11 @@
                 </tr>
             </table>
             </td>
-            <?php for ($i = 1; $i <= 14; $i++): ?>
+            <? for($i=1; $i<=14; $i++): ?>
             <td>
                 <div class="contentEditable no-border" contenteditable="true">  </div>
             </td>
-            <?php endfor; ?>
+            <? endfor; ?>
             <td><div class="contentEditable no-border" contenteditable="true">  </div></td>
         </tr>
         
@@ -53,11 +53,11 @@
                 </tr>
             </table>
             </td>
-            <?php for ($i = 1; $i <= 14; $i++): ?>
+            <? for($i=1; $i<=14; $i++): ?>
             <td>
                 <div class="contentEditable no-border <?= $i >= 11 ? 'width-20' : '' ?>" contenteditable="true">  </div>
             </td>
-            <?php endfor; ?>
+            <? endfor; ?>
             <td><div class="contentEditable no-border" contenteditable="true">  </div></td>
         </tr>
         <tr class="font-size-10">
@@ -75,6 +75,6 @@
             <div class="contentEditable" contenteditable="true">  </div>
             </td>
         </tr>
-        <?php endfor ?>
+        <? endfor ?>
     </table>
 </div>

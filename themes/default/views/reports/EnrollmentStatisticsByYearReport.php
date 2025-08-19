@@ -7,7 +7,7 @@
 Yii::app()->clientScript->registerCoreScript('jquery');
 $baseUrl = Yii::app()->baseUrl;
 $cs = Yii::app()->getClientScript();
-$cs->registerScriptFile($baseUrl . '/js/reports/EnrollmentStatisticsByYearReport/functions.js?v=' . TAG_VERSION, CClientScript::POS_END);
+$cs->registerScriptFile($baseUrl . '/js/reports/EnrollmentStatisticsByYearReport/functions.js?v='.TAG_VERSION, CClientScript::POS_END);
 $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
 ?>
 
@@ -53,10 +53,10 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
             <thead>
                 <tr>
                     <th scope="col" colspan="2">ANO LETIVO DE <?= Yii::app()->user->year ?></th>
-                    <?php foreach ($stageNumberGroups as $stageNumberGroupName => $stageNumberGroup): ?>
+                    <?php foreach($stageNumberGroups as $stageNumberGroupName => $stageNumberGroup): ?>
                             <th scope="col"
-                                colspan="<?=$stageNumberGroup['colspan']?>">
-                                    <?=$stageNumberGroup['colname']?>
+                                colspan="<?=$stageNumberGroup["colspan"]?>">
+                                    <?=$stageNumberGroup["colname"]?>
                             </th>
                     <?php endforeach; ?>
                     <th scope="col"></th>
@@ -64,11 +64,11 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
                 <tr>
                     <th scope="col">Unidade Escolar</th>
                     <th scope="col">Total de Estudantes</th>
-                    <?php foreach ($schoolStages as $schoolNameIndex => $schoolNameValue): ?>
-                        <?php foreach ($schoolNameValue as $stageNumberIndex => $stageNumberValue): ?>
-                            <?php foreach ($stageNumberValue as $stageName => $enrollmentsCount): ?>
+                    <?php foreach($schoolStages as $schoolNameIndex => $schoolNameValue): ?>
+                        <?php foreach($schoolNameValue as $stageNumberIndex => $stageNumberValue): ?>
+                            <?php foreach($stageNumberValue as $stageName => $enrollmentsCount): ?>
                                 <?php $key = array_search($stageName, array_column($stages, 'name')) ?>
-                                <th scope="col"><?= $stages[$key]['alias'] ?></th>
+                                <th scope="col"><?= $stages[$key]["alias"] ?></th>
                             <?php endforeach; ?>
                         <?php  endforeach; ?>
                     <?php break; endforeach; ?>
@@ -79,15 +79,15 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
             </tr>
             </thead>
             <tbody>
-                <?php foreach ($schoolStages as $schoolNameIndex => $schoolNameValue): ?>
+                <?php foreach($schoolStages as $schoolNameIndex => $schoolNameValue): ?>
                     <tr>
                         <td><?= $schoolNameIndex ?></td>
                         <td class="school-total">0</td>
                         <?php $stageGroupIndex = 0; ?>
-                        <?php foreach ($schoolNameValue as $stageNumberIndex => $stageNumberValue): ?>
-                            <?php foreach ($stageNumberValue as $stageName => $enrollmentsCount): ?>
+                        <?php foreach($schoolNameValue as $stageNumberIndex => $stageNumberValue): ?>
+                            <?php foreach($stageNumberValue as $stageName => $enrollmentsCount): ?>
                                 <td class="stage-enrollment stage-<?= $stageGroupIndex ?>">
-                                    <?= ($enrollmentsCount == 0 ? '' : $enrollmentsCount) ?>
+                                    <?= ($enrollmentsCount == 0 ? "" : $enrollmentsCount) ?>
                                 </td>
                             <?php endforeach; ?>
                             <?php $stageGroupIndex++; ?>
@@ -99,9 +99,9 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
             <tfoot>
                 <tr class="col-total">
                     <td colspan="2">Total de Alunos na Rede</td>
-                    <?php foreach ($schoolStages as $schoolNameIndex => $schoolNameValue): ?>
-                        <?php foreach ($schoolNameValue as $stageNumberIndex => $stageNumberValue): ?>
-                            <?php foreach ($stageNumberValue as $stageName => $enrollmentsCount): ?>
+                    <?php foreach($schoolStages as $schoolNameIndex => $schoolNameValue): ?>
+                        <?php foreach($schoolNameValue as $stageNumberIndex => $stageNumberValue): ?>
+                            <?php foreach($stageNumberValue as $stageName => $enrollmentsCount): ?>
                                 <td class="stage-total">0</td>
                             <?php endforeach; ?>
                         <?php  endforeach; ?>
@@ -111,8 +111,8 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
 
                 <tr class="group-stage-total">
                     <td colspan="2"></td>
-                    <?php foreach ($stageNumberGroups as $stageNumberGroupName => $stageNumberGroup): ?>
-                        <td class="group-total" colspan="<?=$stageNumberGroup['colspan']?>">0</td>
+                    <?php foreach($stageNumberGroups as $stageNumberGroupName => $stageNumberGroup): ?>
+                        <td class="group-total" colspan="<?=$stageNumberGroup["colspan"]?>">0</td>
                     <?php endforeach; ?>
                     <td></td>
                 </tr>

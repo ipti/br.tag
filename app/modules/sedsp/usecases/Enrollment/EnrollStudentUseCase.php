@@ -1,11 +1,10 @@
 <?php
 
-class EnrollStudentUseCase
+class EnrollStudentUseCase 
 {
     public function exec(InscreverAluno $inscreverAluno)
     {
-        $enrollmentSEDDataSource = new EnrollmentSEDDataSource();
-
+        $enrollmentSEDDataSource = new EnrollmentSEDDataSource;
         return $enrollmentSEDDataSource->addInscreverAluno($inscreverAluno);
     }
 }

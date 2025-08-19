@@ -18,15 +18,15 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
     <ul id="info" style="margin: 30px 0;">
         <?php
         if (isset($school->logo_file_name)) {
-            echo '<img style="" id="logo" src="data:' .
-            $school->logo_file_type . ';base64,' .
-            base64_encode($school->logo_file_content) . '">';
+            echo '<img style="" id="logo" src="data:'.
+            $school->logo_file_type . ';base64,'.
+            base64_encode($school->logo_file_content).'">';
         }
-?>
+        ?>
         <h4>PREFEITURA MUNICIPAL DE <?php echo $school->edcensoCityFk->name ?></h4>
         <h4>Secretaria Municipal de Educação</h4>
         <h4>Coordenação da Unidade Educacional</h4>
-        <h4><?php echo 'UNIDADE ESCOLAR: ' . $school->name?></h4>
+        <h4><?php echo "UNIDADE ESCOLAR: ".$school->name?></h4>
     </ul>
     <span class="clear"></span>
 </div>

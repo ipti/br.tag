@@ -20,13 +20,13 @@ $this->setPageTitle('TAG - Estrutura de Unidades e Avaliações');
 <div class="main">
     <?php
     $form = $this->beginWidget(
-    'CActiveForm',
-    [
-        'id' => 'classes-form',
-        'enableAjaxValidation' => false,
-    ]
-);
-?>
+        'CActiveForm',
+        array(
+            'id' => 'classes-form',
+            'enableAjaxValidation' => false,
+        )
+    );
+    ?>
 
 <div class="row">
     <div class="column">
@@ -59,22 +59,22 @@ $this->setPageTitle('TAG - Estrutura de Unidades e Avaliações');
             <div class="row margin-bottom-none">
                 <div class="t-field-select column is-three-fifths clearfix">
 
-                    <?php echo CHtml::label(yii::t('default', 'Etapas'), 'modality_fk', ['class' => 't-field-select__label--required', 'style' => 'width: 54px;']); ?>
+                    <?php echo CHtml::label(yii::t('default', 'Etapas'), 'modality_fk', array('class' => 't-field-select__label--required', 'style' => 'width: 54px;')); ?>
                         <?php
-                    echo $form->dropDownList(
-    $gradeUnity,
-    'edcenso_stage_vs_modality_fk',
-    CHtml::listData($stages, 'id', 'name'),
-    [
-        'key' => 'id',
-        'class' => ' t-field-select__input js-stage-select select-search-on select2-container t-multiselect multiselect',
-        'multiple' => 'multiple',
-        'prompt' => 'Selecione o estágio...',
-        'style' => 'width: 100%;'
+                        echo $form->dropDownList(
+                            $gradeUnity,
+                            'edcenso_stage_vs_modality_fk',
+                            CHtml::listData($stages, 'id', 'name'),
+                            array(
+                                'key' => 'id',
+                                'class' => ' t-field-select__input js-stage-select select-search-on select2-container t-multiselect multiselect',
+                                'multiple' => 'multiple',
+                                'prompt' => 'Selecione o estágio...',
+                                'style' => 'width: 100%;'
 
-    ]
-);
-?>
+                            )
+                        );
+                        ?>
 
                 </div>
             </div>
@@ -95,14 +95,14 @@ $this->setPageTitle('TAG - Estrutura de Unidades e Avaliações');
                 <label class="t-field-select__label--required">Calculo da média final</span></label>
                 <select class="calculation-final-media select-search-on t-field-select__input">
                     <?php foreach ($formulas as $formula):
-                        ?>
+                    ?>
 
                         <option value="<?= $formula->id ?>">
                             <?= $formula->name ?>
                         </option>
                     <?php
-                    endforeach;
-?>
+                          endforeach;
+                    ?>
                 </select>
             </div>
             <div class="numeric-fields t-field-text">
@@ -111,13 +111,13 @@ $this->setPageTitle('TAG - Estrutura de Unidades e Avaliações');
             </div>
             <div class="numeric-fields t-field-checkbox">
                 <?php echo CHtml::checkbox(
-    'has_final_recovery',
-    false,
-    [
-        'class' => 't-field-checkbox__input js-has-final-recovery'
-    ]
-) ?>
-                <?php echo CHtml::label('Incluir recuperação final?', 'has_final_recovery', ['class' => 't-field-checkbox__label', 'id' => 'active-label']); ?>
+                    'has_final_recovery',
+                    false,
+                    array(
+                        'class' => 't-field-checkbox__input js-has-final-recovery'
+                    )
+                ) ?>
+                <?php echo CHtml::label("Incluir recuperação final?", 'has_final_recovery', array('class' => 't-field-checkbox__label', 'id' => 'active-label')); ?>
             </div>
         </div>
         <div class="js-alert-save-recovery-first no-show alert"></div>
@@ -182,8 +182,8 @@ $this->setPageTitle('TAG - Estrutura de Unidades e Avaliações');
                             <?= $formula->name ?>
                         </option>
                     <?php
-                    endforeach;
-?>
+                          endforeach;
+                    ?>
                 </select>
             </div>
             <div class="row weights-final-recovery hide">

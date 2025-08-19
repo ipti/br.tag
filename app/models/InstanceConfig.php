@@ -4,7 +4,7 @@
  * This is the model class for table "instance_config".
  *
  * The followings are the available columns in table 'instance_config':
- * @property int $id
+ * @property integer $id
  * @property string $parameter_key
  * @property string $parameter_name
  * @property string $value
@@ -20,31 +20,31 @@ class InstanceConfig extends TagModel
     }
 
     /**
-     * @return array validation rules for model attributes
+     * @return array validation rules for model attributes.
      */
     public function rules()
     {
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
-        return [
-            ['parameter_key, parameter_name', 'required'],
-            ['parameter_key', 'length', 'max' => 40],
-            ['parameter_name', 'length', 'max' => 150],
-            ['value', 'length', 'max' => 250],
+        return array(
+            array('parameter_key, parameter_name', 'required'),
+            array('parameter_key', 'length', 'max' => 40),
+            array('parameter_name', 'length', 'max' => 150),
+            array('value', 'length', 'max' => 250),
             // The following rule is used by search().
-            ['id, parameter_key, parameter_name, value', 'safe', 'on' => 'search'],
-        ];
+            array('id, parameter_key, parameter_name, value', 'safe', 'on' => 'search'),
+        );
     }
 
     /**
-     * @return array relational rules
+     * @return array relational rules.
      */
     public function relations()
     {
         // NOTE: you may need to adjust the relation name and the related
         // class name for the relations automatically generated below.
-        return [
-        ];
+        return array(
+        );
     }
 
     /**
@@ -52,12 +52,12 @@ class InstanceConfig extends TagModel
      */
     public function attributeLabels()
     {
-        return [
+        return array(
             'id' => 'ID',
             'parameter_key' => 'Parameter Key',
             'parameter_name' => 'Parameter Name',
             'value' => 'Value',
-        ];
+        );
     }
 
     /**
@@ -70,26 +70,27 @@ class InstanceConfig extends TagModel
      * - Pass data provider to CGridView, CListView or any similar widget.
      *
      * @return CActiveDataProvider the data provider that can return the models
-     * based on the search/filter conditions
+     * based on the search/filter conditions.
      */
     public function search()
     {
-        $criteria = new CDbCriteria();
+
+        $criteria = new CDbCriteria;
 
         $criteria->compare('id', $this->id);
         $criteria->compare('parameter_key', $this->parameter_key, true);
         $criteria->compare('parameter_name', $this->parameter_name, true);
         $criteria->compare('value', $this->value, true);
 
-        return new CActiveDataProvider($this, [
+        return new CActiveDataProvider($this, array(
             'criteria' => $criteria,
-        ]);
+        ));
     }
 
     /**
      * Returns the static model of the specified AR class.
      * Please note that you should have this exact method in all your CActiveRecord descendants!
-     * @param string $className active record class name
+     * @param string $className active record class name.
      * @return InstanceConfig the static model class
      */
     public static function model($className = __CLASS__)

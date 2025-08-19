@@ -11,7 +11,7 @@ $themeUrl = Yii::app()->theme->baseUrl;
 
 $cs = Yii::app()->getClientScript();
 $cs->registerCssFile($baseScriptUrl . '/common/css/layout.css?v=1.1');
-$cs->registerScriptFile($baseScriptUrl . '/common/js/index.js?v=' . TAG_VERSION, CClientScript::POS_END);
+$cs->registerScriptFile($baseScriptUrl . '/common/js/index.js?v='.TAG_VERSION, CClientScript::POS_END);
 
 $this->setPageTitle('TAG - ' . Yii::t('calendarModule.index', 'Calendar'));
 ?>
@@ -23,7 +23,7 @@ $this->setPageTitle('TAG - ' . Yii::t('calendarModule.index', 'Calendar'));
             <?php if (Yii::app()->getAuthManager()->checkAccess('admin', Yii::app()->user->loginInfos->id)) { ?>
                 <div class="t-buttons-container">
                     <a class="t-button-primary new-calendar-button">
-                        <?= yii::t('calendarModule.index', 'New Calendar') ?>
+                        <?= yii::t('calendarModule.index', "New Calendar") ?>
                     </a>
                 </div>
             <?php } ?>
@@ -34,6 +34,6 @@ $this->setPageTitle('TAG - ' . Yii::t('calendarModule.index', 'Calendar'));
         $this->widget('calendar.components.calendarWidget', [
             'calendar' => $calendar
         ]);
-?>
+        ?>
     </div>
 </div>

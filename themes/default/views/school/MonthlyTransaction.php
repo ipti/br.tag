@@ -2,13 +2,13 @@
 <div id="body-students-file-form" class="pageA4V">
   <?php
     $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
-  $schoolStrcture = SchoolStructure::model()->find('school_inep_id_fk = :school_fk', [':school_fk' => Yii::app()->user->school]);
-  $initial_date = strtotime($school->initial_date);
-  $final_date = strtotime($school->final_date);
-  $datediff = $final_date - $initial_date;
+    $schoolStrcture = SchoolStructure::model()->find('school_inep_id_fk = :school_fk', [":school_fk" => Yii::app()->user->school]);
+    $initial_date = strtotime($school->initial_date);
+    $final_date =   strtotime($school->final_date);
+    $datediff = $final_date - $initial_date;
 
-  $totalDays = abs(round($datediff / (60 * 60 * 24)));
-  $this->renderPartial('head');
+    $totalDays = abs(round($datediff / (60 * 60 * 24)));
+    $this->renderPartial('head');
   ?>
 
   <div class='container-report mt-30 text-center'>
@@ -64,18 +64,18 @@
   </div>
 
   <div class='container-report mt-20'>
-    <?php switch ($type) {
+    <?php switch($type){
         case 1:
-            $this->renderPartial('_initial_year', []);
-            break;
+          $this->renderPartial('_initial_year', array());
+        break;
         case 2:
-            $this->renderPartial('_end_year', []);
-            break;
+          $this->renderPartial('_end_year', array());
+        break;
         case 3:
-            $this->renderPartial('_child_education', []);
-            break;
-    }
-  ?>
+          $this->renderPartial('_child_education', array());
+        break;
+      }
+    ?>
   </div>
 
   <div id="box2" class='container-report mt-20'>
@@ -89,7 +89,7 @@
         <th>TURMA</th>
         <th>C.H</th>
       </tr>
-      <?php for ($i = 1; $i <= 20; $i++): ?>
+      <? for($i=1; $i <= 20; $i++): ?>
         <tr>
           <td class="font-bold text-center"><?= $i ?></td>
           <td><div class="contentEditable no-border" contenteditable="true"></div></td>
@@ -99,7 +99,7 @@
           <td><div class="contentEditable no-border" contenteditable="true"></div></td>
           <td><div class="contentEditable no-border" contenteditable="true"></div></td>
         </tr>
-      <?php endfor; ?>
+      <? endfor; ?>
     </table>
   </div>
 
@@ -117,7 +117,7 @@
         <th>VÍNCULO</th>
         <th>C.H</th>
       </tr>
-      <?php for ($i = 1; $i <= 15; $i++): ?>
+      <? for($i=1; $i <= 15; $i++): ?>
         <tr>
           <td class="font-bold text-center"><?= $i ?></td>
           <td><div class="contentEditable no-border" contenteditable="true"></div></td>
@@ -127,7 +127,7 @@
           <td><div class="contentEditable no-border" contenteditable="true"></div></td>
           <td><div class="contentEditable no-border" contenteditable="true"></div></td>
         </tr>
-      <?php endfor; ?>
+      <? endfor; ?>
     </table>
   </div>
 
@@ -151,7 +151,7 @@
           </table>
         </th>
       </tr>
-      <?php for ($i = 1; $i <= 5; $i++): ?>
+      <? for($i=1; $i <= 5; $i++): ?>
         <tr>
           <td class="font-bold text-center"><?= $i ?></td>
           <td><div class="contentEditable no-border" contenteditable="true"></div></td>
@@ -160,13 +160,13 @@
           <td width="100"><div class="contentEditable no-border" contenteditable="true"></div></td>
           <td width="100"><div class="contentEditable no-border" contenteditable="true"></div></td>
         </tr>
-      <?php endfor; ?>
+      <? endfor; ?>
     </table>
   </div>
   <div id="boxDate"  class="row-grid no-border">
     <div class="col no-border">
       <span class="pull-right">
-        <?= $school->edcensoCityFk->name?>(<?=$school->edcensoUfFk->acronym?>), <?php echo date('d') . ' de ' . yii::t('default', date('F')) . ' de ' . date('Y') . '.' ?>
+        <?= $school->edcensoCityFk->name?>(<?=$school->edcensoUfFk->acronym?>), <?php echo date('d') . " de " . yii::t('default', date('F')) . " de " . date('Y') . "." ?>
       </span>
     </div>
   </div>

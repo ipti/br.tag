@@ -7,35 +7,35 @@
  * @property string $register_type
  * @property string $school_inep_id_fk
  * @property string $inep_id
- * @property int $id
+ * @property integer $id
  * @property string $name
  * @property string $civil_name
  * @property string $email
  * @property string $nis
  * @property string $birthday_date
- * @property int $sex
- * @property int $color_race
- * @property bool $filiation
+ * @property integer $sex
+ * @property integer $color_race
+ * @property boolean $filiation
  * @property string $filiation_1
  * @property string $filiation_2
- * @property int $nationality
- * @property int $edcenso_nation_fk
- * @property int $edcenso_uf_fk
- * @property int $edcenso_city_fk
- * @property bool $deficiency
- * @property bool $deficiency_type_blindness
- * @property bool $deficiency_type_low_vision
- * @property bool $deficiency_type_monocular_vision
- * @property bool $deficiency_type_deafness
- * @property bool $deficiency_type_disability_hearing
- * @property bool $deficiency_type_deafblindness
- * @property bool $deficiency_type_phisical_disability
- * @property bool $deficiency_type_intelectual_disability
- * @property bool $deficiency_type_multiple_disabilities
- * @property bool $deficiency_type_autism
- * @property bool $deficiency_type_gifted
- * @property int $hash
- * @property int $users_fk
+ * @property integer $nationality
+ * @property integer $edcenso_nation_fk
+ * @property integer $edcenso_uf_fk
+ * @property integer $edcenso_city_fk
+ * @property boolean $deficiency
+ * @property boolean $deficiency_type_blindness
+ * @property boolean $deficiency_type_low_vision
+ * @property boolean $deficiency_type_monocular_vision
+ * @property boolean $deficiency_type_deafness
+ * @property boolean $deficiency_type_disability_hearing
+ * @property boolean $deficiency_type_deafblindness
+ * @property boolean $deficiency_type_phisical_disability
+ * @property boolean $deficiency_type_intelectual_disability
+ * @property boolean $deficiency_type_multiple_disabilities
+ * @property boolean $deficiency_type_autism
+ * @property boolean $deficiency_type_gifted
+ * @property integer $hash
+ * @property integer $users_fk
  * @property string $id_indigenous_people
  *
  * The followings are the available model relations:
@@ -54,11 +54,10 @@
  */
 class InstructorIdentification extends AltActiveRecord
 {
-    public const SCENARIO_IMPORT = 'SCENARIO_IMPORT';
-
+    public const SCENARIO_IMPORT = "SCENARIO_IMPORT";
     /**
      * Returns the static model of the specified AR class.
-     * @param string $className active record class name
+     * @param string $className active record class name.
      * @return InstructorIdentification the static model class
      */
     public static function model($className = __CLASS__)
@@ -74,45 +73,46 @@ class InstructorIdentification extends AltActiveRecord
         return 'instructor_identification';
     }
 
+
     /**
-     * @return array validation rules for model attributes
+     * @return array validation rules for model attributes.
      */
     public function rules()
     {
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
-        return [
-            ['school_inep_id_fk, name, birthday_date, sex, color_race, nationality, edcenso_nation_fk, deficiency, filiation', 'required'],
-            ['sex, color_race, filiation, nationality, edcenso_nation_fk, edcenso_uf_fk, edcenso_city_fk, deficiency, deficiency_type_blindness, deficiency_type_low_vision, deficiency_type_monocular_vision, deficiency_type_deafness, deficiency_type_disability_hearing, deficiency_type_deafblindness, deficiency_type_phisical_disability, deficiency_type_intelectual_disability, deficiency_type_multiple_disabilities, deficiency_type_autism, deficiency_type_gifted, users_fk', 'numerical', 'integerOnly' => true],
-            ['register_type', 'length', 'max' => 2],
-            ['school_inep_id_fk', 'length', 'max' => 8],
-            ['inep_id', 'length', 'max' => 12],
-            ['name, civil_name, email, filiation_1, filiation_2', 'length', 'max' => 100],
-            ['nis', 'length', 'max' => 11],
-            ['birthday_date', 'length', 'max' => 10],
-            ['hash', 'length', 'max' => 40],
+        return array(
+            array('school_inep_id_fk, name, birthday_date, sex, color_race, nationality, edcenso_nation_fk, deficiency, filiation', 'required'),
+            array('sex, color_race, filiation, nationality, edcenso_nation_fk, edcenso_uf_fk, edcenso_city_fk, deficiency, deficiency_type_blindness, deficiency_type_low_vision, deficiency_type_monocular_vision, deficiency_type_deafness, deficiency_type_disability_hearing, deficiency_type_deafblindness, deficiency_type_phisical_disability, deficiency_type_intelectual_disability, deficiency_type_multiple_disabilities, deficiency_type_autism, deficiency_type_gifted, users_fk', 'numerical', 'integerOnly'=>true),
+            array('register_type', 'length', 'max'=>2),
+            array('school_inep_id_fk', 'length', 'max'=>8),
+            array('inep_id', 'length', 'max'=>12),
+            array('name, civil_name, email, filiation_1, filiation_2', 'length', 'max'=>100),
+            array('nis', 'length', 'max'=>11),
+            array('birthday_date', 'length', 'max'=>10),
+            array('hash', 'length', 'max'=>40),
             // The following rule is used by search().
             // @todo Please remove those attributes that should not be searched.
-            ['register_type, id_indigenous_people,school_inep_id_fk, inep_id, id, name, civil_name, email, nis, birthday_date, sex, color_race, filiation, filiation_1, filiation_2, nationality, edcenso_nation_fk, edcenso_uf_fk, edcenso_city_fk, deficiency, deficiency_type_blindness, deficiency_type_low_vision, deficiency_type_monocular_vision, deficiency_type_deafness, deficiency_type_disability_hearing, deficiency_type_deafblindness, deficiency_type_phisical_disability, deficiency_type_intelectual_disability, deficiency_type_multiple_disabilities, hash, users_fk', 'safe', 'on' => 'search'],
-        ];
+            array('register_type, id_indigenous_people,school_inep_id_fk, inep_id, id, name, civil_name, email, nis, birthday_date, sex, color_race, filiation, filiation_1, filiation_2, nationality, edcenso_nation_fk, edcenso_uf_fk, edcenso_city_fk, deficiency, deficiency_type_blindness, deficiency_type_low_vision, deficiency_type_monocular_vision, deficiency_type_deafness, deficiency_type_disability_hearing, deficiency_type_deafblindness, deficiency_type_phisical_disability, deficiency_type_intelectual_disability, deficiency_type_multiple_disabilities, hash, users_fk', 'safe', 'on'=>'search'),
+        );
     }
 
     /**
-     * @return array relational rules
+     * @return array relational rules.
      */
     public function relations()
     {
         // NOTE: you may need to adjust the relation name and the related
         // class name for the relations automatically generated below.
-        return [
-            'edcensoNationFk' => [self::BELONGS_TO, 'EdcensoNation', 'edcenso_nation_fk'],
-            'edcensoUfFk' => [self::BELONGS_TO, 'EdcensoUf', 'edcenso_uf_fk'],
-            'edcensoCityFk' => [self::BELONGS_TO, 'EdcensoCity', 'edcenso_city_fk'],
-            'usersFk' => [self::BELONGS_TO, 'Users', 'users_fk'],
-            'documents' => [self::HAS_ONE, 'InstructorDocumentsAndAddress', 'id'],
-            'instructorVariableData' => [self::HAS_ONE, 'InstructorVariableData', 'id'],
-            'instructorTeachingDatas' => [self::HAS_MANY, 'InstructorTeachingData', 'instructor_fk'],
-        ];
+        return array(
+            'edcensoNationFk' => array(self::BELONGS_TO, 'EdcensoNation', 'edcenso_nation_fk'),
+            'edcensoUfFk' => array(self::BELONGS_TO, 'EdcensoUf', 'edcenso_uf_fk'),
+            'edcensoCityFk' => array(self::BELONGS_TO, 'EdcensoCity', 'edcenso_city_fk'),
+            'usersFk' => array(self::BELONGS_TO, 'Users', 'users_fk'),
+            'documents' => array(self::HAS_ONE, 'InstructorDocumentsAndAddress', 'id'),
+            'instructorVariableData' => array(self::HAS_ONE, 'InstructorVariableData', 'id'),
+            'instructorTeachingDatas' => array(self::HAS_MANY, 'InstructorTeachingData', 'instructor_fk'),
+        );
     }
 
     /**
@@ -120,7 +120,7 @@ class InstructorIdentification extends AltActiveRecord
      */
     public function attributeLabels()
     {
-        return [
+        return array(
             'register_type' => Yii::t('default', 'Register Type'),
             'school_inep_id_fk' => Yii::t('default', 'School Inep Id Fk'),
             'inep_id' => Yii::t('default', 'Inep'),
@@ -153,13 +153,13 @@ class InstructorIdentification extends AltActiveRecord
             'deficiency_type_autism' => Yii::t('default', 'Deficiency Type Autism'),
             'deficiency_type_gifted' => Yii::t('default', 'Deficiency Type Gifted'),
             'users_fk' => 'Users Fk',
-            'id_indigenous_people' => Yii::t('default', 'Id Indigenous People'),
-        ];
+            'id_indigenous_people' => Yii::t('default', 'Id Indigenous People')
+        );
     }
 
     /**
      * Retrieves a list of models based on the current search/filter conditions.
-     * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions
+     * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
      */
     public function search()
     {
@@ -167,7 +167,7 @@ class InstructorIdentification extends AltActiveRecord
         // should not be searched.
 
         $criteria = new CDbCriteria();
-        // $criteria->with = array('documents');
+        //$criteria->with = array('documents');
 
         $criteria->compare('register_type', $this->register_type, true);
 
@@ -180,29 +180,30 @@ class InstructorIdentification extends AltActiveRecord
         $criteria->compare('id', $this->id);
         $criteria->compare('name', $this->name, true);
 
-        return new CActiveDataProvider($this, [
-            'criteria' => $criteria,
-            'sort' => [
-                'defaultOrder' => [
-                    'name' => CSort::SORT_ASC,
-                ],
-            ],
-            'pagination' => false,
-        ]);
+        return new CActiveDataProvider($this, array(
+                    'criteria' => $criteria,
+                    'sort' => array(
+                        'defaultOrder' => array(
+                            'name' => CSort::SORT_ASC
+                        ),
+                    ),
+                    'pagination' => false
+                ));
     }
 
     public function getDisciplines()
     {
+
         $disciplines = EdcensoDiscipline::model()
-        ->with([
-            'curricularMatrixes.teachingMatrixes.teachingDataFk' => [
+        ->with(array(
+                'curricularMatrixes.teachingMatrixes.teachingDataFk' => array(
                 'condition' => 'teachingDataFk.instructor_fk=:instructor_fk',
-                'params' => [':instructor_fk' => $this->id],
-            ],
-        ])
-        ->findAll([
+                'params' => array(':instructor_fk' => $this->id),
+            )
+        ))
+        ->findAll(array(
             'select' => 'DISTINCT ed.*',
-        ]);
+        ));
 
         return $disciplines;
     }
@@ -211,19 +212,21 @@ class InstructorIdentification extends AltActiveRecord
     {
         $instructorId = $this->id;
 
-        $sql = 'SELECT c.id as cid, ii.name as instructor_name, c.name as classroom_name, c.school_year as syear, si.name as school_name
+        $sql = "SELECT c.id as cid, ii.name as instructor_name, c.name as classroom_name, c.school_year as syear, si.name as school_name
         from instructor_teaching_data itd
         join instructor_identification ii on itd.instructor_fk = ii.id
         join classroom c on c.id = itd.classroom_id_fk
         join school_identification si on si.inep_id = c.school_inep_fk
         WHERE ii.id = :intructorId
-        ORDER BY ii.name;';
+        ORDER BY ii.name;";
 
         $command = Yii::app()->db->createCommand($sql);
         $command->bindValue(':intructorId', $instructorId, PDO::PARAM_INT);
+
 
         $classrooms = $command->queryAll();
 
         return $classrooms;
     }
+
 }

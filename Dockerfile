@@ -28,9 +28,7 @@ RUN vendor/scssphp/scssphp/bin/pscss --no-source-map --style=compressed sass/scs
 # Ajustar permissões para o usuário www-data
 RUN chown -R www-data:www-data /app/app/runtime \
     && mkdir -p /app/assets && chown -R www-data:www-data /app/assets \
-    && chown -R www-data:www-data /app/app/export \
-    && chown -R www-data:www-data /app/app/import
-
+    && chown -R www-data:www-data /app/app/export
 
 RUN chmod +x /usr/local/bin/docker-run.sh \
     && chown www-data:www-data /usr/local/bin/docker-run.sh

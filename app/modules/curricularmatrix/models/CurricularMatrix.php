@@ -4,12 +4,12 @@
  * This is the model class for table "curricular_matrix".
  *
  * The followings are the available columns in table 'curricular_matrix':
- * @property int $id
- * @property int $stage_fk
- * @property int $discipline_fk
- * @property float $workload
- * @property int $credits
- * @property int $school_year
+ * @property integer $id
+ * @property integer $stage_fk
+ * @property integer $discipline_fk
+ * @property double $workload
+ * @property integer $credits
+ * @property integer $school_year
  *
  * The followings are the available model relations:
  * @property EdcensoDiscipline $disciplineFk
@@ -26,8 +26,9 @@ class CurricularMatrix extends AltActiveRecord
         return 'curricular_matrix';
     }
 
+
     /**
-     * @return array validation rules for model attributes
+     * @return array validation rules for model attributes.
      */
     public function rules()
     {
@@ -42,7 +43,7 @@ class CurricularMatrix extends AltActiveRecord
     }
 
     /**
-     * @return array relational rules
+     * @return array relational rules.
      */
     public function relations()
     {
@@ -51,7 +52,7 @@ class CurricularMatrix extends AltActiveRecord
         return [
             'disciplineFk' => [self::BELONGS_TO, 'EdcensoDiscipline', 'discipline_fk'],
             'stageFk' => [self::BELONGS_TO, 'EdcensoStageVsModality', 'stage_fk'],
-            'teachingMatrixes' => [self::HAS_MANY, 'TeachingMatrixes', 'curricular_matrix_fk'],
+            'teachingMatrixes' => array(self::HAS_MANY, 'TeachingMatrixes', 'curricular_matrix_fk'),
         ];
     }
 
@@ -80,16 +81,17 @@ class CurricularMatrix extends AltActiveRecord
      * - Pass data provider to CGridView, CListView or any similar widget.
      *
      * @return CActiveDataProvider the data provider that can return the models
-     * based on the search/filter conditions
+     * based on the search/filter conditions.
      */
     public function search()
     {
-        $criteria = new CDbCriteria();
-        $criteria->with = ['stageFk', 'disciplineFk'];
+
+        $criteria = new CDbCriteria;
+        $criteria->with = array('stageFk', 'disciplineFk');
         $criteria->together = true;
         //			$criteria->compare('id', $this->id);
-        //			$criteria->compare('stage_fk', $this->stage_fk);
-        //			$criteria->compare('discipline_fk', $this->discipline_fk);
+//			$criteria->compare('stage_fk', $this->stage_fk);
+//			$criteria->compare('discipline_fk', $this->discipline_fk);
         $criteria->compare('workload', $this->workload, true);
         $criteria->compare('credits', $this->credits, true);
 
@@ -99,18 +101,19 @@ class CurricularMatrix extends AltActiveRecord
 
         return new CActiveDataProvider($this, [
             'criteria' => $criteria,
-            'pagination' => false,
+            'pagination' => false
         ]);
     }
 
     /**
      * Returns the static model of the specified AR class.
      * Please note that you should have this exact method in all your CActiveRecord descendants!
-     * @param string $className active record class name
+     * @param string $className active record class name.
      * @return CurricularMatrix the static model class
      */
     public static function model($className = __CLASS__)
     {
         return parent::model($className);
     }
+
 }

@@ -38,6 +38,6 @@ Yii::app()->clientScript->registerScript('menucenso', "
         x.classList.toggle('change');
     }
 ", CClientScript::POS_END);
-                ?>
+?>
 
 

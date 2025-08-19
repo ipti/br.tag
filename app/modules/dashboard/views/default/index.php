@@ -1,13 +1,13 @@
 <?php
 /* @var $this DefaultController */
 
-$this->breadcrumbs = [
-    $this->module->id,
-];
+$this->breadcrumbs = array(
+	$this->module->id,
+);
 
 $baseScriptUrl = Yii::app()->controller->module->baseScriptUrl;
 $cs = Yii::app()->getClientScript();
-$cs->registerScriptFile($baseScriptUrl . '\powerbi.js?v=' . TAG_VERSION, CClientScript::POS_END);
+$cs->registerScriptFile($baseScriptUrl . '\powerbi.js?v='.TAG_VERSION, CClientScript::POS_END);
 ?>
 <style>
 	#reportContainer {

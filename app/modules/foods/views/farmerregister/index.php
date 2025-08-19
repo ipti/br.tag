@@ -2,17 +2,17 @@
 /* @var $this FarmerRegisterController */
 /* @var $dataProvider CActiveDataProvider */
 
-$this->breadcrumbs = [
-    'Farmer Registers',
-];
+$this->breadcrumbs=array(
+	'Farmer Registers',
+);
 
-$this->menu = [
-    ['label' => 'Create FarmerRegister', 'url' => ['create']],
-    ['label' => 'Manage FarmerRegister', 'url' => ['admin']],
-];
+$this->menu=array(
+	array('label'=>'Create FarmerRegister', 'url'=>array('create')),
+	array('label'=>'Manage FarmerRegister', 'url'=>array('admin')),
+);
 
 $this->setPageTitle('TAG - Agricultores');
-$title = 'Agricultores';
+$title = "Agricultores";
 ?>
 
 
@@ -44,36 +44,36 @@ $title = 'Agricultores';
     <div class="tag-inner">
         <div class="widget clearmargin">
             <div class="widget-body">
-                <?php $this->widget('zii.widgets.grid.CGridView', [
-                    'id' => 'farmer-register-grid',
+                <?php $this->widget('zii.widgets.grid.CGridView', array(
+                    'id'=>'farmer-register-grid',
                     'dataProvider' => $dataProvider,
                     'enablePagination' => false,
                     'enableSorting' => false,
                     'itemsCssClass' => 'js-tag-table tag-table-primary tag-table table table-condensed table-striped table-hover table-primary table-vertical-center checkboxs',
-                    'columns' => [
+                    'columns'=>array(
                         'id',
                         'name',
                         'cpf',
                         'status',
-                        [
+                        array(
                             'header' => 'Ações',
                             'class' => 'CButtonColumn',
                             'template' => '{update}{delete}',
-                            'buttons' => [
-                                'update' => [
-                                    'imageUrl' => Yii::app()->theme->baseUrl . '/img/editar.svg',
-                                ],
-                                'delete' => [
-                                    'imageUrl' => Yii::app()->theme->baseUrl . '/img/deletar.svg',
-                                ]
-                            ],
+                            'buttons' => array(
+                                'update' => array(
+                                    'imageUrl' => Yii::app()->theme->baseUrl.'/img/editar.svg',
+                                ),
+                                'delete' => array(
+                                    'imageUrl' => Yii::app()->theme->baseUrl.'/img/deletar.svg',
+                                )
+                            ),
                             'afterDelete' => 'window.location.href = "?r=foods/farmerregister/index";',
-                            'updateButtonOptions' => ['style' => 'margin-right: 20px;', 'class' => 'stageUpdate'],
-                            'deleteButtonOptions' => ['style' => 'cursor: pointer;', 'class' => 'stageDelete'],
-                            'htmlOptions' => ['width' => '100px', 'style' => 'text-align: center'],
-                        ],
-                    ],
-                ]); ?>
+                            'updateButtonOptions' => array('style' => 'margin-right: 20px;', 'class'=>"stageUpdate"),
+                            'deleteButtonOptions' => array('style' => 'cursor: pointer;', 'class'=>"stageDelete"),
+                            'htmlOptions' => array('width' => '100px', 'style' => 'text-align: center'),
+                        ),
+                    ),
+                )); ?>
             </div>
         </div>
     </div>

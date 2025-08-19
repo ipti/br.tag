@@ -1,12 +1,12 @@
 <?php
 /** @var DefaultController $this DefaultController */
 $this->setPageTitle('TAG - ' . Yii::t('default', 'Diário de Classe'));
-$this->breadcrumbs = [
+$this->breadcrumbs = array(
     $this->module->id,
-];
+);
 $baseScriptUrl = Yii::app()->controller->module->baseScriptUrl;
 $cs = Yii::app()->getClientScript();
-$cs->registerScriptFile($baseScriptUrl . '/classDays/_initialization.js?v=' . TAG_VERSION, CClientScript::POS_END);
+$cs->registerScriptFile($baseScriptUrl . '/classDays/_initialization.js?v='.TAG_VERSION, CClientScript::POS_END);
 ?>
 <div class="main">
 <h1><?php echo $classroom_name ?></h1>

@@ -7,6 +7,7 @@ $baseScriptUrl = Yii::app()->controller->module->baseScriptUrl;
 
 $year = Yii::app()->user->year;
 
+
 ?>
 <!DOCTYPE html>
 <!--[if lt IE 7]><html class="ie lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
@@ -38,7 +39,7 @@ $year = Yii::app()->user->year;
 
 <div class="container fluid menu-left">
     <div class="navbar main hidden-print">
-        <a href="<?='/'?>" class="appbrand pull-left">
+        <a href="<?="/"?>" class="appbrand pull-left">
             <img src="/themes/default/img/tag_logo.png"/>
 <!--            <span><span>Ano atual: --><?//=$year?><!--</span></span>-->
         </a>
@@ -47,7 +48,7 @@ $year = Yii::app()->user->year;
     <div id="wrapper">
         <div id="content">
             <div class="header-block">
-                <h2><?= yii::t('resultsmanagementModule.layout', 'Results Management') ?>
+                <h2><?= yii::t('resultsmanagementModule.layout', "Results Management") ?>
                     <div class="separator bottom"></div>
                     <div class="border-header header-description">
                         <?= $this->headerDescription ?>
@@ -64,9 +65,7 @@ $year = Yii::app()->user->year;
                     </div>
 
                     <div id="sidewid" class="col-md-4">
-                        <?php if (!Yii::app()->user->hardfoot) {
-                            $this->widget('resultsmanagement.components.sideInfoWidget');
-                        }?>
+                        <?php if(!Yii::app()->user->hardfoot){$this->widget('resultsmanagement.components.sideInfoWidget');}?>
                     </div>
                 </div>
             </div>

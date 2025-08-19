@@ -1,9 +1,9 @@
 <div id="mainPage" class="main">
     <?php
     $this->setPageTitle('TAG - ' . Yii::t('default', 'Quiz'));
-    $this->menu = [
-        ['label' => Yii::t('default', 'Create Quiz'), 'url' => ['quizCreate'], 'description' => Yii::t('default', 'This action create a new Quiz')],
-    ];
+    $this->menu = array(
+        array('label' => Yii::t('default', 'Create Quiz'), 'url' => array('quizCreate'), 'description' => Yii::t('default', 'This action create a new Quiz')),
+    );
     ?>
 
     <div class="row-fluid">
@@ -27,24 +27,24 @@
             <div class="widget clearmargin">
                 <div class="widget-body">
                     <?php
-                    $this->widget('zii.widgets.grid.CGridView', [
+                    $this->widget('zii.widgets.grid.CGridView', array(
                         // 'dataProvider' => $filter->search(),
                         'dataProvider' => $dataProvider,
                         // 'filter' => $filter,
                         'itemsCssClass' => 'js-tag-table tag-table-primary table table-condensed table-striped table-hover table-primary table-vertical-center checkboxs',
                         'enablePagination' => false,
-                        'columns' => [
-                            [
+                        'columns' => array(
+                            array(
                                 'name' => 'id',
-                                'htmlOptions' => ['width' => '150px']
-                            ],
-                            [
+                                'htmlOptions' => array('width' => '150px')
+                            ),
+                            array(
                                 'name' => 'name',
                                 'type' => 'raw',
                                 'value' => 'CHtml::link($data->name,Yii::app()->createUrl("quiz/default/updateQuiz", array("id"=>$data->id)))',
-                            ]]
-                    ]);
-    ?>
+                            ))
+                    ));
+                    ?>
                 </div>   
             </div>
         </div>

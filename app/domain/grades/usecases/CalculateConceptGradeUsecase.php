@@ -16,18 +16,20 @@ class CalculateConceptGradeUsecase
 
     public function exec()
     {
-        $classroom = Classroom::model()->with('activeStudentEnrollments.studentFk')->findByPk($this->classroomId);
+        $classroom = Classroom::model()->with("activeStudentEnrollments.studentFk")->findByPk($this->classroomId);
         $TotalEnrollments = $classroom->activeStudentEnrollments;
         $studentEnrollments = [];
-        if (TagUtils::isMultiStage($classroom->edcenso_stage_vs_modality_fk)) {
+        if(TagUtils::isMultiStage($classroom->edcenso_stage_vs_modality_fk)) {
+
             foreach ($TotalEnrollments as $enrollment) {
-                if ($enrollment->edcenso_stage_vs_modality_fk == $this->stage) {
+                if($enrollment->edcenso_stage_vs_modality_fk == $this->stage){
                     array_push($studentEnrollments, $enrollment);
                 }
             }
         } else {
             $studentEnrollments = $classroom->activeStudentEnrollments;
             $this->stage = $classroom->edcenso_stage_vs_modality_fk;
+
         }
         // $unitiesByDiscipline = $this->getGradeUnitiesByClassroomStage($this->classroomId);
 
@@ -36,18 +38,21 @@ class CalculateConceptGradeUsecase
         }
     }
 
+
     private function getGradeUnitiesByClassroomStage($classroom)
     {
+
         $criteria = new CDbCriteria();
-        $criteria->alias = 'gu';
-        $criteria->join = 'join edcenso_stage_vs_modality esvm on gu.edcenso_stage_vs_modality_fk = esvm.id';
-        $criteria->join .= ' join classroom c on c.edcenso_stage_vs_modality_fk = esvm.id';
-        $criteria->condition = 'c.id = :classroom';
-        $criteria->order = 'gu.type desc';
-        $criteria->params = [':classroom' => $classroom];
+        $criteria->alias = "gu";
+        $criteria->join = "join edcenso_stage_vs_modality esvm on gu.edcenso_stage_vs_modality_fk = esvm.id";
+        $criteria->join .= " join classroom c on c.edcenso_stage_vs_modality_fk = esvm.id";
+        $criteria->condition = "c.id = :classroom";
+        $criteria->order = "gu.type desc";
+        $criteria->params = array(":classroom" => $classroom);
 
         return GradeUnity::model()->findAll($criteria);
     }
+
 
     /**
      * @param int $studentEnrollmentId
@@ -58,10 +63,10 @@ class CalculateConceptGradeUsecase
     private function getGradesResultForStudent($studentEnrollmentId, $disciplineId)
     {
         $gradeResult = GradeResults::model()->find(
-            'enrollment_fk = :enrollment_fk and discipline_fk = :discipline_fk',
+            "enrollment_fk = :enrollment_fk and discipline_fk = :discipline_fk",
             [
-                'enrollment_fk' => $studentEnrollmentId,
-                'discipline_fk' => $disciplineId,
+                "enrollment_fk" => $studentEnrollmentId,
+                "discipline_fk" => $disciplineId
             ]
         );
 
@@ -78,16 +83,18 @@ class CalculateConceptGradeUsecase
 
     private function calculateConceptGrades($studentEnrollment, $disciplineId)
     {
+
         $gradeResult = $this->getGradesResultForStudent($studentEnrollment->id, $disciplineId);
-        // notas por conceito
+        //notas por conceito
         $hasAllGrades = true;
         $conceptGradeValues = 0;
         $grades = $this->getStudentGrades(
             $studentEnrollment->id,
             $disciplineId,
         );
-        foreach ($grades as $gradeKey => $grade) {
-            $gradeResult['grade_concept_' . ($gradeKey + 1)] = $grade->gradeConceptFk->acronym;
+        foreach ($grades as  $gradeKey => $grade) {
+
+            $gradeResult["grade_concept_" . ($gradeKey + 1)] = $grade->gradeConceptFk->acronym;
             $conceptGradeValues += $grade->gradeConceptFk->value;
         }
 
@@ -98,7 +105,7 @@ class CalculateConceptGradeUsecase
             $hasAllGrades = false;
         }
 
-        $gradeResult->final_media = $conceptGradeValues / $numUnities;
+        $gradeResult->final_media = $conceptGradeValues/$numUnities;
         $gradeResult->situation = StudentEnrollment::STATUS_ACTIVE;
 
         if ($hasAllGrades) {
@@ -106,11 +113,14 @@ class CalculateConceptGradeUsecase
         }
 
         if ($gradeResult->save()) {
-            TLog::info('GradesResult para nota por conceito salvo com sucesso.', [
-                'GradesResult' => $gradeResult->id,
-            ]);
+            TLog::info("GradesResult para nota por conceito salvo com sucesso.", array(
+                "GradesResult" => $gradeResult->id
+            ));
         }
     }
+
+
+
 
     /**
      * @param int $enrollmentId
@@ -121,6 +131,7 @@ class CalculateConceptGradeUsecase
      */
     private function getStudentGrades($enrollmentId, $discipline)
     {
+
         $gradesIds = array_column(Yii::app()->db->createCommand(
             "SELECT
                 g.id
@@ -128,28 +139,28 @@ class CalculateConceptGradeUsecase
                 join grade_unity_modality gum on g.grade_unity_modality_fk = gum.id
                 join grade_unity gu on gu.id= gum.grade_unity_fk
                 WHERE g.enrollment_fk = :enrollment_id and g.discipline_fk = :discipline_id and gum.type = '" . GradeUnityModality::TYPE_COMMON . "' and gu.type = 'UC'"
-        )->bindParam(':enrollment_id', $enrollmentId)
-            ->bindParam(':discipline_id', $discipline)->queryAll(), 'id');
+        )->bindParam(":enrollment_id", $enrollmentId)
+            ->bindParam(":discipline_id", $discipline)->queryAll(), "id");
 
         if ($gradesIds == null) {
             return [];
         }
 
-        return Grade::model()->findAll(
-            [
+        return  Grade::model()->findAll(
+            array(
                 'condition' => 'id IN (' . implode(',', $gradesIds) . ')',
-            ]
+            )
         );
     }
 
     private function hasAllGrades($numUnities, $gradeResult)
     {
         for ($i = 1; $i <= $numUnities; $i++) {
-            if (!isset($gradeResult['grade_concept_' . $i]) || $gradeResult['grade_concept_' . $i] === '') {
+            if (!isset($gradeResult["grade_concept_" . $i]) || $gradeResult["grade_concept_" . $i] === "") {
                 return false;
             }
         }
-
         return true;
     }
+
 }

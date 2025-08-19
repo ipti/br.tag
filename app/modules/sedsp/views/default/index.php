@@ -3,9 +3,9 @@
 
 $this->setPageTitle('TAG - ' . Yii::t('default', 'SEDSP'));
 
-$this->breadcrumbs = [
+$this->breadcrumbs = array(
     $this->module->id,
-];
+);
 $baseScriptUrl = Yii::app()->controller->module->baseScriptUrl;
 $themeUrl = Yii::app()->theme->baseUrl;
 $cs = Yii::app()->getClientScript();
@@ -113,7 +113,7 @@ $cs->registerScriptFile($baseScriptUrl . '/common/js/functions.js?v=1.1', CClien
             <div class="modal-body">
                 <div class="row-fluid">
                     <div class=" span12">
-                    <?php echo CHtml::label(yii::t('default', 'RA do Aluno'), 'year', ['class' => 'control-label']); ?>
+                    <?php echo CHtml::label(yii::t('default', 'RA do Aluno'), 'year', array('class' => 'control-label')); ?>
                     <input name="numRA" id="numRA" type="text" placeholder="Digite o RA" style="width: 97.5%;" oninput="validateRA();" minlength="12" maxlength="12" required>
                     <span id="ra-char-count"><?php echo 12; ?> caracteres restantes</span>
                     <div id="ra-warning" style="display: none; color:#D21C1C">O RA deve ter exatamente 12 dígitos.</div>
@@ -153,9 +153,9 @@ $cs->registerScriptFile($baseScriptUrl . '/common/js/functions.js?v=1.1', CClien
             <div class="modal-body">
                 <div class="row-fluid">
                     <div class=" span12">
-                        <?php echo CHtml::label(yii::t('default', 'Nome da Escola'), 'school_id', ['class' => 'control-label']); ?>
+                        <?php echo CHtml::label(yii::t('default', 'Nome da Escola'), 'school_id', array('class' => 'control-label')); ?>
                         <input type="text" name="schoolName" id="schoolName" style="width: 97.7%;" placeholder="Digite o Nome da Escola">
-                        <?php echo CHtml::label(yii::t('default', 'Nome do Município'), 'school_id', ['class' => 'control-label']); ?>
+                        <?php echo CHtml::label(yii::t('default', 'Nome do Município'), 'school_id', array('class' => 'control-label')); ?>
                         <input type="text" name="schoolMun" id="schoolMun" style="width: 97.7%;" placeholder="Digite o Nome do Município">
                     </div>
                 </div>
@@ -177,11 +177,11 @@ $cs->registerScriptFile($baseScriptUrl . '/common/js/functions.js?v=1.1', CClien
     <form class="form-vertical" id="submit-full-school" action="<?php echo Yii::app()->createUrl('sedsp/default/ImportFullSchool') ?>" method="post">
         <input type="hidden" name="nameSchool" 
             value="<?php echo SchoolIdentification::model()->findBySql(
-    'select name from school_identification where inep_id = ' . Yii::app()->user->school
-)->name; ?>"
+                "select name from school_identification where inep_id = " . Yii::app()->user->school
+            )->name; ?>"
         >
         <div class="modal-body">
-        <?php echo SchoolIdentification::model()->findBySql('select name from school_identification where inep_id = ' . Yii::app()->user->school)->name?>
+        <?php echo SchoolIdentification::model()->findBySql("select name from school_identification where inep_id = " . Yii::app()->user->school)->name?>
             <div id="loading-container-school" style="display: none;">
                 <div id="loading">
                     <div class="loading-content" style="margin-top: 30px; margin-bottom: 30px;">
@@ -229,33 +229,34 @@ $cs->registerScriptFile($baseScriptUrl . '/common/js/functions.js?v=1.1', CClien
                         </thead>
                         <tbody>
                             <?php
-                                        $inep_id = Yii::app()->user->school;
-$classes = Classroom::model()->findAllByAttributes(
-    ['school_inep_fk' => $inep_id],
-    'gov_id IS NOT NULL'
-);
+                            $inep_id = Yii::app()->user->school;
+                            $classes = Classroom::model()->findAllByAttributes(
+                                array('school_inep_fk' => $inep_id),
+                                'gov_id IS NOT NULL'
+                            );
+                            
+                            $selectedClasses = [];
 
-$selectedClasses = [];
-
-foreach ($classes as $class) {
-    $csvClassPath = "app/modules/sedsp/numberOfStudentsCSV/{$class['gov_id']}.csv";
-    $ClassExistsInPath = false;
-    if (file_exists($csvClassPath)) {
-        $csvLine = file_get_contents($csvClassPath);
-        $parts = explode(';', $csvLine);
-        $numStudentTag = (int) $parts[1];
-        $numStudentSed = (int) $parts[2];
-        $ClassExistsInPath = true;
-    } ?>
+                            foreach ($classes as $class) {
+                                $csvClassPath = "app/modules/sedsp/numberOfStudentsCSV/{$class['gov_id']}.csv";
+                                $ClassExistsInPath = false;
+                                if(file_exists($csvClassPath)){
+                                    $csvLine = file_get_contents($csvClassPath);
+                                    $parts = explode(';', $csvLine);
+                                    $numStudentTag = (int) $parts[1];
+                                    $numStudentSed = (int) $parts[2];
+                                    $ClassExistsInPath = true;
+                                }
+                            ?>
                             <tr>
                                 <td><?php echo $class->gov_id ?></td>
                                 <td><?php echo $class->name ?></td>
                                 <td>
                                     <?php echo CHtml::checkBox(
-        'checkboxListNumClasses[]',
-        in_array($class->gov_id, $selectedClasses),
-        ['value' => $class->gov_id]
-    ) ?>
+                                        'checkboxListNumClasses[]',
+                                        in_array($class->gov_id, $selectedClasses),
+                                        array('value' => $class->gov_id)
+                                    ) ?>
                                 </td>
                                 <td>
                                     <?php if ($ClassExistsInPath) { ?>
@@ -269,8 +270,7 @@ foreach ($classes as $class) {
                                     <?php } ?>
                                 </td>
                             </tr>
-                            <?php
-} ?>
+                            <?php } ?>
                         </tbody>
                     </table>
                 </div>

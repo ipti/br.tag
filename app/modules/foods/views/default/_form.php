@@ -5,21 +5,21 @@
 
 $baseScriptUrl = Yii::app()->controller->module->baseScriptUrl;
 $cs = Yii::app()->getClientScript();
-$cs->registerScriptFile($baseScriptUrl . '/menuComponents.js?v=' . TAG_VERSION, CClientScript::POS_END);
-$cs->registerScriptFile($baseScriptUrl . '/_initialization.js?v=' . TAG_VERSION, CClientScript::POS_END);
+$cs->registerScriptFile($baseScriptUrl . '/menuComponents.js?v='.TAG_VERSION, CClientScript::POS_END);
+$cs->registerScriptFile($baseScriptUrl . '/_initialization.js?v='.TAG_VERSION, CClientScript::POS_END);
 $cs->registerScriptFile($baseScriptUrl . '/functions.js', CClientScript::POS_END);
 ?>
 
 <div class="form">
 
-	<?php $form = $this->beginWidget('CActiveForm', [
-	    'id' => 'food-menu-form',
-	    // Please note: When you enable ajax validation, make sure the corresponding
-	    // controller action is handling ajax validation correctly.
-	    // There is a call to performAjaxValidation() commented in generated controller code.
-	    // See class documentation of CActiveForm for details on this.
-	    'enableAjaxValidation' => false,
-	]); ?>
+	<?php $form = $this->beginWidget('CActiveForm', array(
+		'id' => 'food-menu-form',
+		// Please note: When you enable ajax validation, make sure the corresponding
+		// controller action is handling ajax validation correctly.
+		// There is a call to performAjaxValidation() commented in generated controller code.
+		// See class documentation of CActiveForm for details on this.
+		'enableAjaxValidation' => false,
+	)); ?>
 	<div class="t-tabs row">
 		<div class="column">
 			<ul class="tab-instructor t-tabs__list ">

@@ -1,6 +1,6 @@
 <?php
 
-Yii::import('application.domain.admin.usecases.*');
+Yii::import("application.domain.admin.usecases.*");
 
 class AdminController extends Controller
 {
@@ -36,7 +36,7 @@ class AdminController extends Controller
                     'gradesStructure',
                     'indexGradesStructure',
                     'instanceConfig',
-                    'editInstanceConfigs',
+                    'editInstanceConfigs'
                 ],
                 'users' => ['@'],
             ],
@@ -58,23 +58,25 @@ class AdminController extends Controller
 
     public function actionExportCountUsers()
     {
-        $host = getenv('HOST_DB_TAG');
+        $HOST = getenv("HOST_DB_TAG");
+        $USER = getenv("USER_DB_TAG");
+        $PWD = getenv("PWD_DB_TAG");
 
         $connection = Yii::app()->db;
         $connection->setActive(false);
-        $connection->connectionString = "mysql:host=$host;";
+        $connection->connectionString = "mysql:host=$HOST;";
         $connection->setActive(true);
 
         // Obter lista de bancos de dados
         $databases = [];
-        $command = $connection->createCommand('SHOW DATABASES');
+        $command = $connection->createCommand("SHOW DATABASES");
         $dbList = $command->queryColumn();
 
         // Remover bancos de sistema
-        $ignoredDbs = ['information_schema', 'mysql', 'performance_schema', 'sys'];
+        $ignoredDbs = ["information_schema", "mysql", "performance_schema", "sys"];
         $databases = array_diff($dbList, $ignoredDbs);
 
-        $sqlQuery = "
+        $sql_query = "
 SELECT
     (SELECT COUNT(*) FROM instructor_identification) AS professores,
     (SELECT COUNT(*) FROM student_identification) AS alunos,
@@ -87,52 +89,54 @@ SELECT
         foreach ($databases as $dbname) {
             try {
                 $connection->setActive(false);
-                $connection->connectionString = "mysql:host=$host;dbname=$dbname";
+                $connection->connectionString = "mysql:host=$HOST;dbname=$dbname";
                 $connection->setActive(true);
 
-                $command = $connection->createCommand($sqlQuery);
+                $command = $connection->createCommand($sql_query);
                 $result = $command->queryRow();
 
                 $results[] = [
-                    'database' => $dbname,
-                    'professores' => $result['professores'] ?? 0,
-                    'alunos' => $result['alunos'] ?? 0,
-                    'secretarios' => $result['secretarios'] ?? 0,
-                    'coordenadores' => $result['coordenadores'] ?? 0,
+                    "database" => $dbname,
+                    "professores" => $result["professores"] ?? 0,
+                    "alunos" => $result["alunos"] ?? 0,
+                    "secretarios" => $result["secretarios"] ?? 0,
+                    "coordenadores" => $result["coordenadores"] ?? 0
                 ];
             } catch (Exception $e) {
                 // $results[] = ["database" => $dbname, "professores" => 'Erro', "alunos" => 'Erro', "gestores" => 'Erro', "secretarios" => $e->getMessage()];
             }
+
         }
 
         // Exibir os resultados em formato de tabela
         echo "<table border='1'><tr><th>Database</th><th>Professores</th><th>Alunos</th><th>Secreátios Escolares</th><th>Coordenadores Pedagógicos</th></tr>";
         foreach ($results as $result) {
-            echo '<tr><td>' . $result['database'] . '</td><td>' . $result['professores'] . '</td><td>' . $result['alunos'] . '</td><td>' . $result['secretarios'] . '</td><td>' . $result['coordenadores'] . '</td></tr>';
+            echo "<tr><td>" . $result["database"] . "</td><td>" . $result["professores"] . "</td><td>" . $result["alunos"] . "</td><td>" . $result["secretarios"] . "</td><td>" . $result["coordenadores"] . "</td></tr>";
         }
-        echo '</table>';
+        echo "</table>";
 
         // Gerar CSV
-        $csvFile = 'resultados.csv';
-        $fp = fopen($csvFile, 'w');
+        $csv_file = 'resultados.csv';
+        $fp = fopen($csv_file, 'w');
         fputcsv($fp, ['Database', 'Professores', 'Alunos', 'Secretários Escolares', 'Coordenadores Pedagógicos']);
 
         foreach ($results as $result) {
-            fputcsv($fp, [$result['database'], $result['professores'], $result['alunos'], $result['secretarios'], $result['coordenadores']]);
+            fputcsv($fp, [$result["database"], $result["professores"], $result["alunos"], $result["secretarios"], $result["coordenadores"]]);
         }
 
         fclose($fp);
 
-        echo "<p><a href='$csvFile' download>Baixar CSV</a></p>";
+        echo "<p><a href='$csv_file' download>Baixar CSV</a></p>";
+
     }
 
     public function actionExportMaster()
     {
-        $databaseName = Yii::app()->db->createCommand('SELECT DATABASE()')->queryScalar();
+        $databaseName = Yii::app()->db->createCommand("SELECT DATABASE()")->queryScalar();
         $pathFileJson = "./app/export/InfoTagJSON/$databaseName.json";
 
-        $adapter = new Adapter();
-        $exportModel = new ExportModel();
+        $adapter = new Adapter;
+        $exportModel = new ExportModel;
         $loadedData = [];
 
         $loadedData = array_merge($loadedData, $exportModel->getSchoolIdentification());
@@ -147,7 +151,8 @@ SELECT
         $loadedData = array_merge($loadedData, $exportModel->getStudentDocumentsAndAddress());
         $loadedData = array_merge($loadedData, $exportModel->getStudentEnrollment());
 
-        $host = getenv('HOST_DB_TAG');
+
+        $host = getenv("HOST_DB_TAG");
         Yii::app()->db->setActive(false);
         Yii::app()->db->connectionString = "mysql:host=$host;dbname=$databaseName";
         Yii::app()->db->setActive(true);
@@ -156,16 +161,16 @@ SELECT
         file_put_contents($pathFileJson, $dataEncoded);
 
         // Envia o arquivo JSON como download
-        header('Content-Disposition: attachment; filename="' . basename($pathFileJson) . '"');
-        header('Content-Type: application/force-download');
-        header('Content-Length: ' . filesize($pathFileJson));
-        header('Connection: close');
+        header("Content-Disposition: attachment; filename=\"" . basename($pathFileJson) . "\"");
+        header("Content-Type: application/force-download");
+        header("Content-Length: " . filesize($pathFileJson));
+        header("Connection: close");
         readfile($pathFileJson);
     }
 
     public function actionExportStudents()
     {
-        $pathFile = './app/export/InfoTagCSV/students_' . Yii::app()->user->year . '.csv';
+        $pathFile = "./app/export/InfoTagCSV/students_" . Yii::app()->user->year . ".csv";
 
         $sql = "select
             if (si.inep_id is null, '', si.inep_id) inep_aluno,
@@ -202,25 +207,25 @@ SELECT
         $result = Yii::app()->db->createCommand($sql)->queryAll();
 
         foreach ($result as &$r) {
-            switch ($r['cor_raca']) {
-                case '0':
+            switch ($r["cor_raca"]) {
+                case "0":
                 default:
-                    $r['cor_raca'] = 'Não declarada';
+                    $r["cor_raca"] = "Não declarada";
                     break;
-                case '1':
-                    $r['cor_raca'] = 'Branca';
+                case "1":
+                    $r["cor_raca"] = "Branca";
                     break;
-                case '2':
-                    $r['cor_raca'] = 'Preta';
+                case "2":
+                    $r["cor_raca"] = "Preta";
                     break;
-                case '3':
-                    $r['cor_raca'] = 'Parda';
+                case "3":
+                    $r["cor_raca"] = "Parda";
                     break;
-                case '4':
-                    $r['cor_raca'] = 'Amarela';
+                case "4":
+                    $r["cor_raca"] = "Amarela";
                     break;
-                case '5':
-                    $r['cor_raca'] = 'Indígena';
+                case "5":
+                    $r["cor_raca"] = "Indígena";
                     break;
             }
         }
@@ -230,7 +235,7 @@ SELECT
 
     public function actionExportGrades()
     {
-        $pathFile = './app/export/InfoTagCSV/grades_' . Yii::app()->user->year . '.csv';
+        $pathFile = "./app/export/InfoTagCSV/grades_" . Yii::app()->user->year . ".csv";
 
         $sql = "select
             if (si.inep_id is null, '', si.inep_id) inep_aluno,
@@ -267,43 +272,44 @@ SELECT
 
     public function actionExportFaults()
     {
-        $pathFile = './app/export/InfoTagCSV/faults_' . Yii::app()->user->year . '.csv';
+        $pathFile = "./app/export/InfoTagCSV/faults_" . Yii::app()->user->year . ".csv";
 
         $result = [];
 
-        $classrooms = Classroom::model()->findAllByAttributes(['school_year' => Yii::app()->user->year]);
+        $classrooms = Classroom::model()->findAllByAttributes(["school_year" => Yii::app()->user->year]);
         foreach ($classrooms as $classroom) {
             if ($classroom->calendar_fk != null) {
-                $dates = Yii::app()->db->createCommand('select start_date, end_date from calendar join classroom on calendar.id = classroom.calendar_fk where classroom.id = ' . $classroom->id)->queryRow();
-                $start = (new DateTime($dates['start_date']))->modify('first day of this month');
-                $end = (new DateTime($dates['end_date']))->modify('first day of next month');
+
+                $dates = Yii::app()->db->createCommand("select start_date, end_date from calendar join classroom on calendar.id = classroom.calendar_fk where classroom.id = " . $classroom->id)->queryRow();
+                $start = (new DateTime($dates["start_date"]))->modify('first day of this month');
+                $end = (new DateTime($dates["end_date"]))->modify('first day of next month');
                 $interval = DateInterval::createFromDateString('1 month');
                 $period = new DatePeriod($start, $interval, $end);
                 $months = [];
                 foreach ($period as $dt) {
-                    array_push($months, $dt->format('m/Y'));
+                    array_push($months, $dt->format("m/Y"));
                 }
 
                 foreach ($classroom->studentEnrollments as $studentEnrollment) {
                     $usedDaysForMinorEducation = [];
                     foreach ($months as $month) {
                         $studentIdentification = $studentEnrollment->studentFk;
-                        $row['inep_aluno'] = $studentIdentification->inep_id;
-                        $row['nome_aluno'] = $studentIdentification->name;
-                        $row['turma'] = $classroom->name;
-                        $row['mes'] = $month;
-                        $row['total_faltas'] = 0;
-                        $classFaults = ClassFaults::model()->findAllBySql('select cf.* from class_faults cf join schedule s on s.id = cf.schedule_fk where s.classroom_fk = :classroom_fk and cf.student_fk = :student_fk', ['classroom_fk' => $classroom->id, 'student_fk' => $studentIdentification->id]);
+                        $row["inep_aluno"] = $studentIdentification->inep_id;
+                        $row["nome_aluno"] = $studentIdentification->name;
+                        $row["turma"] = $classroom->name;
+                        $row["mes"] = $month;
+                        $row["total_faltas"] = 0;
+                        $classFaults = ClassFaults::model()->findAllBySql("select cf.* from class_faults cf join schedule s on s.id = cf.schedule_fk where s.classroom_fk = :classroom_fk and cf.student_fk = :student_fk", ["classroom_fk" => $classroom->id, "student_fk" => $studentIdentification->id]);
                         foreach ($classFaults as $classFault) {
                             $schedule = $classFault->scheduleFk;
-                            if ($month == str_pad($schedule->month, 2, '0', STR_PAD_LEFT) . '/' . $schedule->year) {
+                            if ($month == str_pad($schedule->month, 2, "0", STR_PAD_LEFT) . "/" . $schedule->year) {
                                 if (TagUtils::isStageMinorEducation($classroom->edcenso_stage_vs_modality_fk)) {
                                     if (!in_array($schedule->day . $schedule->month . $schedule->year, $usedDaysForMinorEducation)) {
-                                        $row['total_faltas']++;
+                                        $row["total_faltas"]++;
                                         array_push($usedDaysForMinorEducation, $schedule->day . $schedule->month . $schedule->year);
                                     }
                                 } else {
-                                    $row['total_faltas']++;
+                                    $row["total_faltas"]++;
                                 }
                             }
                         }
@@ -332,23 +338,23 @@ SELECT
                 // Escrever os dados no arquivo CSV
                 foreach ($result as $row) {
                     $row = array_map('strval', $row); // Converter todos os valores para string
-                    fputcsv($output, $row, ';');
+                    fputcsv($output, $row, ";");
                 }
                 // Fechar o arquivo
                 fclose($output);
             }
 
             // Set PHP headers for CSV output.
-            header('Content-Disposition: attachment; filename="' . basename($path) . '"');
-            header('Content-Type: application/force-download');
-            header('Content-Length: ' . filesize($path));
-            header('Connection: close');
+            header("Content-Disposition: attachment; filename=\"" . basename($path) . "\"");
+            header("Content-Type: application/force-download");
+            header("Content-Length: " . filesize($path));
+            header("Connection: close");
             readfile($path);
 
-            $this->redirect(['exports']);
+            $this->redirect(array('exports'));
         } catch (Exception $e) {
             Yii::app()->user->setFlash('error', Yii::t('default', 'Error na exportação: ' . $e->getMessage()));
-            $this->redirect(['exports']);
+            $this->redirect(array('exports'));
         }
         Yii::app()->user->setFlash('error', Yii::t('default', 'Error na importação: ' . $e->getMessage()));
     }
@@ -371,13 +377,13 @@ SELECT
     public function actionImportMaster()
     {
         ini_set('memory_limit', '2048M');
-        $adapter = new Adapter();
-        $databaseName = Yii::app()->db->createCommand('SELECT DATABASE()')->queryScalar();
+        $adapter = new Adapter;
+        $databaseName = Yii::app()->db->createCommand("SELECT DATABASE()")->queryScalar();
         $pathFileJson = "./app/export/InfoTagJSON/$databaseName.json";
 
         if (!file_exists($pathFileJson)) {
             Yii::app()->user->setFlash('error', 'O arquivo não existe na pasta de importação.');
-            $this->redirect(['index']);
+            $this->redirect(array('index'));
         }
 
         try {
@@ -406,11 +412,11 @@ SELECT
             $transaction->commit();
 
             Yii::app()->user->setFlash('success', Yii::t('default', 'Importação realizada com sucesso!'));
-            $this->redirect(['index']);
+            $this->redirect(array('index'));
         } catch (Exception $e) {
             $transaction->rollback();
             Yii::app()->user->setFlash('error', Yii::t('default', 'Error na importação: ' . $e->getMessage()));
-            $this->redirect(['index']);
+            $this->redirect(array('index'));
         }
     }
 
@@ -420,19 +426,19 @@ SELECT
 
         $modelValidate = Users::model()->findByAttributes(
             [
-                'name' => $_POST['Users']['name'],
-                'username' => $_POST['Users']['name'],
+                "name" => $_POST["Users"]["name"],
+                "username" => $_POST["Users"]["name"]
             ]
         );
         if (isset($_POST['Users'])) {
-            if (!isset($_POST['schools']) && $_POST['Role'] != 'admin' && $_POST['Role'] != 'nutritionist' && $_POST['Role'] != 'reader' && ($_POST['Role'] != 'guardian')) {
+            if (!isset($_POST['schools']) && ($_POST['Role']) != 'admin' && ($_POST['Role']) != 'nutritionist' && ($_POST['Role']) != 'reader' && ($_POST['Role'] != 'guardian')) {
                 Yii::app()->user->setFlash('error', Yii::t('default', 'É necessário atribuir uma escola para o novo usuário criado!'));
                 $this->redirect(['index']);
             }
             if (!isset($modelValidate)) {
                 $model->attributes = $_POST['Users'];
                 if ($model->validate()) {
-                    $passwordHasher = new PasswordHasher();
+                    $passwordHasher = new PasswordHasher;
                     $password = $passwordHasher->bcriptHash($_POST['Users']['password']);
 
                     $model->password = $password;
@@ -448,9 +454,10 @@ SELECT
                         if ($save) {
                             $auth = Yii::app()->authManager;
                             $auth->assign($_POST['Role'], $model->id);
+
                         }
-                        if (isset($_POST['instructor']) && $_POST['instructor'] != '') {
-                            $instructors = InstructorIdentification::model()->find('id = :id', ['id' => $_POST['instructor']]);
+                        if (isset($_POST['instructor']) && $_POST['instructor'] != "") {
+                            $instructors = InstructorIdentification::model()->find("id = :id", ["id" => $_POST['instructor']]);
                             $instructors->users_fk = $model->id;
                             $instructors->save();
                         }
@@ -469,86 +476,83 @@ SELECT
         );
         $instructorsResult = array_reduce($instructors, function ($carry, $item) {
             $carry[$item['id']] = $item['name'];
-
             return $carry;
         }, []);
         $this->render('createUser', ['model' => $model, 'instructors' => $instructorsResult]);
     }
-
     public function actionIndexGradesStructure()
     {
         $dataProvider = GradeRules::model()->search();
         $dataProvider->pagination = false;
 
         $this->render('indexGradesStructure', [
-            'dataProvider' => $dataProvider,
+            'dataProvider' => $dataProvider
         ]);
     }
-
     public function actionGradesStructure()
     {
-        $stages = Yii::app()->db->createCommand('
+        $stages = Yii::app()->db->createCommand("
             select
                 distinct esvm.id,
                 esvm.name
             from edcenso_stage_vs_modality esvm
-                join curricular_matrix cm on cm.stage_fk = esvm.id order by esvm.name')
+                join curricular_matrix cm on cm.stage_fk = esvm.id order by esvm.name")
             ->queryAll();
 
         $formulas = GradeCalculation::model()->findAll();
         $gradeUnity = new GradeUnity();
         $this->render('gradesStructure', [
-            'gradeUnity' => $gradeUnity,
-            'stages' => $stages,
-            'formulas' => $formulas,
+            "gradeUnity" => $gradeUnity,
+            "stages" => $stages,
+            "formulas" => $formulas
         ]);
     }
 
     public function actionGetUnities()
     {
-        $gradeRulesId = Yii::app()->request->getPost('grade_rules_id');
+        $grade_rules_id = Yii::app()->request->getPost("grade_rules_id");
 
         $result = [];
-        $result['unities'] = [];
+        $result["unities"] = [];
 
         $criteria = new CDbCriteria();
-        $criteria->alias = 'gu';
-        $criteria->condition = 'grade_rules_fk = :grade_rules_fk';
-        $criteria->addInCondition('gu.type', [GradeUnity::TYPE_UNITY, GradeUnity::TYPE_UNITY_BY_CONCEPT, GradeUnity::TYPE_UNITY_WITH_RECOVERY]);
-        $criteria->params = array_merge([':grade_rules_fk' => $gradeRulesId], $criteria->params);
-        $criteria->order = 'gu.id';
+        $criteria->alias = "gu";
+        $criteria->condition = "grade_rules_fk = :grade_rules_fk";
+        $criteria->addInCondition("gu.type", [GradeUnity::TYPE_UNITY, GradeUnity::TYPE_UNITY_BY_CONCEPT, GradeUnity::TYPE_UNITY_WITH_RECOVERY]);
+        $criteria->params = array_merge([":grade_rules_fk" => $grade_rules_id], $criteria->params);
+        $criteria->order = "gu.id";
 
         $gradeUnities = GradeUnity::model()
-            ->with('gradeUnityModalities')
+            ->with("gradeUnityModalities")
             ->findAll($criteria);
 
         foreach ($gradeUnities as $gradeUnity) {
             $arr = $gradeUnity->attributes;
-            $arr['modalities'] = [];
+            $arr["modalities"] = [];
             foreach ($gradeUnity->gradeUnityModalities as $gradeUnityModality) {
-                array_push($arr['modalities'], $gradeUnityModality->attributes);
+                array_push($arr["modalities"], $gradeUnityModality->attributes);
             }
-            array_push($result['unities'], $arr);
+            array_push($result["unities"], $arr);
         }
 
-        $criteria->condition = 'grade_rules_fk = :grade_rules_fk and gu.type = :type';
-        $criteria->params = [':grade_rules_fk' => $gradeRulesId, ':type' => GradeUnity::TYPE_FINAL_RECOVERY];
+        $criteria->condition = "grade_rules_fk = :grade_rules_fk and gu.type = :type";
+        $criteria->params = [":grade_rules_fk" => $grade_rules_id, ":type" => GradeUnity::TYPE_FINAL_RECOVERY];
 
         $finalRecovery = GradeUnity::model()
-            ->with('gradeUnityModalities')
+            ->with("gradeUnityModalities")
             ->find($criteria);
-        $result['final_recovery'] = $finalRecovery->attributes;
-        $result['final_recovery']['modalities'] = [];
+        $result["final_recovery"] = $finalRecovery->attributes;
+        $result["final_recovery"]["modalities"] = [];
         foreach ($finalRecovery->gradeUnityModalities as $gradeUnityModality) {
-            array_push($result['final_recovery']['modalities'], $gradeUnityModality->attributes);
+            array_push($result["final_recovery"]["modalities"], $gradeUnityModality->attributes);
         }
 
         $gradeRules = GradeRules::model()
             ->findByPk(
-                $gradeRulesId
+                $grade_rules_id
             );
 
-        $stageIds = Yii::app()->db->createCommand('
+        $stageIds = Yii::app()->db->createCommand("
             SELECT DISTINCT esvm.id
             FROM
                 edcenso_stage_vs_modality esvm
@@ -560,78 +564,78 @@ SELECT
                 grvesvm.grade_rules_fk = :grade_rule
             ORDER BY
                 esvm.name
-        ')
-            ->bindParam(':grade_rule', $gradeRulesId)
+        ")
+            ->bindParam(':grade_rule', $grade_rules_id)
             ->queryColumn();
-        $result['edcenso_stage_vs_modality_fk'] = $stageIds;
-        $result['approvalMedia'] = $gradeRules->approvation_media;
-        $result['finalRecoverMedia'] = $gradeRules->final_recover_media;
-        $result['mediaCalculation'] = $gradeRules->grade_calculation_fk;
-        $result['ruleType'] = $gradeRules->rule_type;
-        $result['ruleName'] = $gradeRules->name;
-        $result['hasFinalRecovery'] = (bool) $gradeRules->has_final_recovery;
+        $result["edcenso_stage_vs_modality_fk"] = $stageIds;
+        $result["approvalMedia"] = $gradeRules->approvation_media;
+        $result["finalRecoverMedia"] = $gradeRules->final_recover_media;
+        $result["mediaCalculation"] = $gradeRules->grade_calculation_fk;
+        $result["ruleType"] = $gradeRules->rule_type;
+        $result["ruleName"] = $gradeRules->name;
+        $result["hasFinalRecovery"] = (bool) $gradeRules->has_final_recovery;
 
-        $result['partialRecoveries'] = [];
+        $result["partialRecoveries"] = [];
 
-        $gPartialRecoveries = GradePartialRecovery::model()->findAllByAttributes(['grade_rules_fk' => $gradeRules->id]);
+        $gPartialRecoveries = GradePartialRecovery::model()->findAllByAttributes(array('grade_rules_fk' => $gradeRules->id));
         foreach ($gPartialRecoveries as $partialRecovery) {
-            $resultPartialRecovery = [];
-            $resultPartialRecovery['id'] = $partialRecovery->id;
-            $resultPartialRecovery['name'] = $partialRecovery->name;
-            $resultPartialRecovery['order'] = $partialRecovery->order_partial_recovery;
-            $resultPartialRecovery['grade_calculation_fk'] = $partialRecovery->grade_calculation_fk;
-            $resultPartialRecovery['weights'] = [];
-            if ($partialRecovery->gradeCalculationFk->name == 'Peso') {
-                $gradeRecoveryWeights = GradePartialRecoveryWeights::model()->findAllByAttributes(['partial_recovery_fk' => $partialRecovery->id]);
+            $resultPartialRecovery = array();
+            $resultPartialRecovery["id"] = $partialRecovery->id;
+            $resultPartialRecovery["name"] = $partialRecovery->name;
+            $resultPartialRecovery["order"] = $partialRecovery->order_partial_recovery;
+            $resultPartialRecovery["grade_calculation_fk"] = $partialRecovery->grade_calculation_fk;
+            $resultPartialRecovery["weights"] = [];
+            if ($partialRecovery->gradeCalculationFk->name == "Peso") {
+                $gradeRecoveryWeights = GradePartialRecoveryWeights::model()->findAllByAttributes(["partial_recovery_fk" => $partialRecovery->id]);
                 foreach ($gradeRecoveryWeights as $weight) {
                     array_push(
-                        $resultPartialRecovery['weights'],
+                        $resultPartialRecovery["weights"],
                         [
-                            'id' => $weight['id'],
-                            'unity_fk' => $weight['unity_fk'],
-                            'weight' => $weight['weight'],
-                            'name' => $weight['unity_fk'] !== null ? $weight->unityFk->name : 'recuperação',
+                            "id" => $weight["id"],
+                            "unity_fk" => $weight["unity_fk"],
+                            "weight" => $weight["weight"],
+                            "name" => $weight["unity_fk"] !== null ? $weight->unityFk->name : 'recuperação'
                         ]
                     );
                 }
             }
 
-            $unities = GradeUnity::model()->findAllByAttributes(['parcial_recovery_fk' => $partialRecovery->id]);
-            $resultPartialRecovery['unities'] = $unities;
+            $unities = GradeUnity::model()->findAllByAttributes(array('parcial_recovery_fk' => $partialRecovery->id));
+            $resultPartialRecovery["unities"] = $unities;
 
-            array_push($result['partialRecoveries'], $resultPartialRecovery);
+            array_push($result["partialRecoveries"], $resultPartialRecovery);
         }
 
-        $result['partialRecoveries'] = [];
+        $result["partialRecoveries"] = [];
 
-        $gPartialRecoveries = GradePartialRecovery::model()->findAllByAttributes(['grade_rules_fk' => $gradeRules->id]);
+        $gPartialRecoveries = GradePartialRecovery::model()->findAllByAttributes(array('grade_rules_fk' => $gradeRules->id));
         foreach ($gPartialRecoveries as $partialRecovery) {
-            $resultPartialRecovery = [];
-            $resultPartialRecovery['id'] = $partialRecovery->id;
-            $resultPartialRecovery['name'] = $partialRecovery->name;
-            $resultPartialRecovery['order'] = $partialRecovery->order_partial_recovery;
-            $resultPartialRecovery['grade_calculation_fk'] = $partialRecovery->grade_calculation_fk;
-            $resultPartialRecovery['semester'] = $partialRecovery->semester;
-            $resultPartialRecovery['weights'] = [];
-            if ($partialRecovery->gradeCalculationFk->name == 'Peso') {
-                $gradeRecoveryWeights = GradePartialRecoveryWeights::model()->findAllByAttributes(['partial_recovery_fk' => $partialRecovery->id]);
+            $resultPartialRecovery = array();
+            $resultPartialRecovery["id"] = $partialRecovery->id;
+            $resultPartialRecovery["name"] = $partialRecovery->name;
+            $resultPartialRecovery["order"] = $partialRecovery->order_partial_recovery;
+            $resultPartialRecovery["grade_calculation_fk"] = $partialRecovery->grade_calculation_fk;
+            $resultPartialRecovery["semester"] = $partialRecovery->semester;
+            $resultPartialRecovery["weights"] = [];
+            if ($partialRecovery->gradeCalculationFk->name == "Peso") {
+                $gradeRecoveryWeights = GradePartialRecoveryWeights::model()->findAllByAttributes(["partial_recovery_fk" => $partialRecovery->id]);
                 foreach ($gradeRecoveryWeights as $weight) {
                     array_push(
-                        $resultPartialRecovery['weights'],
+                        $resultPartialRecovery["weights"],
                         [
-                            'id' => $weight['id'],
-                            'unity_fk' => $weight['unity_fk'],
-                            'weight' => $weight['weight'],
-                            'name' => $weight['unity_fk'] !== null ? $weight->unityFk->name : 'recuperação',
+                            "id" => $weight["id"],
+                            "unity_fk" => $weight["unity_fk"],
+                            "weight" => $weight["weight"],
+                            "name" => $weight["unity_fk"] !== null ? $weight->unityFk->name : 'recuperação'
                         ]
                     );
                 }
             }
 
-            $unities = GradeUnity::model()->findAllByAttributes(['parcial_recovery_fk' => $partialRecovery->id]);
-            $resultPartialRecovery['unities'] = $unities;
+            $unities = GradeUnity::model()->findAllByAttributes(array('parcial_recovery_fk' => $partialRecovery->id));
+            $resultPartialRecovery["unities"] = $unities;
 
-            array_push($result['partialRecoveries'], $resultPartialRecovery);
+            array_push($result["partialRecoveries"], $resultPartialRecovery);
         }
 
         echo CJSON::encode($result);
@@ -641,21 +645,21 @@ SELECT
     {
         set_time_limit(0);
         ignore_user_abort();
-        $gradeRulesId = Yii::app()->request->getPost('grade_rules_id');
-        $gradeRulesName = Yii::app()->request->getPost('grade_rules_name');
-        $reply = Yii::app()->request->getPost('reply');
-        $stages = Yii::app()->request->getPost('stage');
-        $unities = Yii::app()->request->getPost('unities');
-        $approvalMedia = Yii::app()->request->getPost('approvalMedia');
-        $finalRecoverMedia = Yii::app()->request->getPost('finalRecoverMedia');
-        $calculationFinalMedia = Yii::app()->request->getPost('finalMediaCalculation');
-        $finalRecovery = Yii::app()->request->getPost('finalRecovery');
-        $finalRecoveryWeight = Yii::app()->request->getPost('finalRecoveryWeight');
-        $finalMediaWeight = Yii::app()->request->getPost('finalMediaWeight');
-        $ruleType = Yii::app()->request->getPost('ruleType');
-        $hasFinalRecovery = Yii::app()->request->getPost('hasFinalRecovery') === 'true';
-        $hasPartialRecovery = Yii::app()->request->getPost('hasPartialRecovery') === 'true';
-        $partialRecoveries = Yii::app()->request->getPost('partialRecoveries');
+        $gradeRulesId = Yii::app()->request->getPost("grade_rules_id");
+        $gradeRulesName = Yii::app()->request->getPost("grade_rules_name");
+        $reply = Yii::app()->request->getPost("reply");
+        $stages = Yii::app()->request->getPost("stage");
+        $unities = Yii::app()->request->getPost("unities");
+        $approvalMedia = Yii::app()->request->getPost("approvalMedia");
+        $finalRecoverMedia = Yii::app()->request->getPost("finalRecoverMedia");
+        $calculationFinalMedia = Yii::app()->request->getPost("finalMediaCalculation");
+        $finalRecovery = Yii::app()->request->getPost("finalRecovery");
+        $finalRecoveryWeight = Yii::app()->request->getPost("finalRecoveryWeight");
+        $finalMediaWeight = Yii::app()->request->getPost("finalMediaWeight");
+        $ruleType = Yii::app()->request->getPost("ruleType");
+        $hasFinalRecovery = Yii::app()->request->getPost("hasFinalRecovery") === "true";
+        $hasPartialRecovery = Yii::app()->request->getPost("hasPartialRecovery") === "true";
+        $partialRecoveries = Yii::app()->request->getPost("partialRecoveries");
 
         try {
             $usecase = new UpdateGradeStructUsecase(
@@ -675,23 +679,24 @@ SELECT
             $gradeRules = $usecase->exec();
 
             if ($hasFinalRecovery === true) {
-                $recoveryUnity = GradeUnity::model()->find('id = :id', [':id' => $finalRecovery['id']]);
+
+                $recoveryUnity = GradeUnity::model()->find('id = :id', array(':id' => $finalRecovery["id"]));
 
                 if ($recoveryUnity === null) {
                     $recoveryUnity = new GradeUnity();
                 }
 
-                $recoveryUnity->name = $finalRecovery['name'];
-                $recoveryUnity->type = 'RF';
-                $recoveryUnity->grade_calculation_fk = $finalRecovery['grade_calculation_fk'];
+                $recoveryUnity->name = $finalRecovery["name"];
+                $recoveryUnity->type = "RF";
+                $recoveryUnity->grade_calculation_fk = $finalRecovery["grade_calculation_fk"];
                 $recoveryUnity->grade_rules_fk = $gradeRulesId;
-                $recoveryUnity->final_recovery_avarage_formula = $finalRecovery['final_recovery_avarage_formula'];
+                $recoveryUnity->final_recovery_avarage_formula = $finalRecovery["final_recovery_avarage_formula"];
 
-                $gradeCalculation = GradeCalculation::model()->findByPk($finalRecovery['grade_calculation_fk']);
+                $gradeCalculation = GradeCalculation::model()->findByPk($finalRecovery["grade_calculation_fk"]);
 
-                if ($gradeCalculation->name === 'Peso') {
-                    $recoveryUnity->weight_final_media = $finalRecovery['WeightfinalMedia'];
-                    $recoveryUnity->weight_final_recovery = $finalRecovery['WeightfinalRecovery'];
+                if ($gradeCalculation->name === "Peso") {
+                    $recoveryUnity->weight_final_media = $finalRecovery["WeightfinalMedia"];
+                    $recoveryUnity->weight_final_recovery = $finalRecovery["WeightfinalRecovery"];
                 }
 
                 if (!$recoveryUnity->validate()) {
@@ -701,12 +706,13 @@ SELECT
 
                 $recoveryUnity->save();
 
-                $modalityModel = GradeUnityModality::model()->findByAttributes(['grade_unity_fk' => $recoveryUnity->id]);
+
+                $modalityModel = GradeUnityModality::model()->findByAttributes(["grade_unity_fk" => $recoveryUnity->id]);
                 if ($modalityModel == null) {
                     $modalityModel = new GradeUnityModality();
                 }
-                $modalityModel->name = 'Avaliação/Prova';
-                $modalityModel->type = 'R';
+                $modalityModel->name = "Avaliação/Prova";
+                $modalityModel->type = "R";
                 $modalityModel->weight = null;
                 $modalityModel->grade_unity_fk = $recoveryUnity->id;
 
@@ -715,21 +721,25 @@ SELECT
                 }
 
                 $modalityModel->save();
-            } elseif ($hasFinalRecovery === false && $finalRecovery['operation'] === 'delete' && $gradeRules->rule_type === 'N') {
-                $recoveryUnity = GradeUnity::model()->find('id = :id', [':id' => $finalRecovery['id']]);
+
+            } elseif ($hasFinalRecovery === false && $finalRecovery["operation"] === "delete" && $gradeRules->rule_type === "N") {
+                $recoveryUnity = GradeUnity::model()->find('id = :id', array(':id' => $finalRecovery["id"]));
                 $recoveryUnity?->delete();
-                echo json_encode(['valid' => true, 'gradeRules' => $gradeRules->id]);
+                echo json_encode(["valid" => true, "gradeRules" => $gradeRules->id]);
                 Yii::app()->end();
             }
 
-            echo json_encode(['valid' => true, 'gradeRules' => $gradeRules->id]);
-        } catch (Throwable $th) {
+
+            echo json_encode(["valid" => true, "gradeRules" => $gradeRules->id]);
+        } catch (\Throwable $th) {
             Yii::log($th->getMessage(), CLogger::LEVEL_ERROR);
             Yii::log($th->getTraceAsString(), CLogger::LEVEL_ERROR);
 
             throw $th;
         }
+
     }
+
 
     public function actionActiveDisableUser()
     {
@@ -743,7 +753,9 @@ SELECT
 
     public function actionPHPConfig()
     {
+
         echo phpinfo();
+
     }
 
     public function actionDisableUser($id)
@@ -780,12 +792,13 @@ SELECT
     {
         // Query para buscar os registros relacionados ao ID no banco
         $user = Users::model()->findByPk($id);
-        $userSchool = UsersSchool::model()->findAllByAttributes(['user_fk' => $id]);
-        $authAssign = AuthAssignment::model()->findByAttributes(['userid' => $id]);
-        $instructorId = InstructorIdentification::model()->findByAttributes(['users_fk' => $id]);
+        $userSchool = UsersSchool::model()->findAllByAttributes(array('user_fk' => $id));
+        $authAssign = AuthAssignment::model()->findByAttributes(array('userid' => $id));
+        $instructorId = InstructorIdentification::model()->findByAttributes(array('users_fk' => $id));
         $delete = false;
 
         if ($user !== null) {
+
             // Atualizando a coluna que referência ao usuário na tabela de identificação de professor
             // A função save abstrai o processo de identificar se está ocorrendo um UPDATE ou INSERT
             if ($instructorId !== null) {
@@ -802,20 +815,23 @@ SELECT
             if ($userSchool !== null) {
                 foreach ($userSchool as $register) {
                     $register->delete('users_school', 'user_fk=' . $id);
+
                 }
             }
 
             // Excluindo o registro na tabela de usuário
             $user->delete('users', 'id=' . $id);
             $delete = true;
+
         }
 
         // Redirecionando para a tela de gerenciar usuários
         if ($delete) {
             Yii::app()->user->setFlash('success', Yii::t('default', 'Usuário excluído com sucesso!'));
-            $this->redirect(['admin/manageUsers']);
+            $this->redirect(array('admin/manageUsers'));
         } else {
             Yii::app()->user->setFlash('error', Yii::t('default', 'Erro! Não foi possível excluir o usuário, tente novamente!'));
+
         }
     }
 
@@ -824,9 +840,9 @@ SELECT
         $model = Users::model()->findByPk($id);
 
         if (isset($_POST['Users'], $_POST['Confirm'])) {
-            $passwordHasher = new PasswordHasher();
-            $password = $_POST['Users']['password'];
-            $confirm = $_POST['Confirm'];
+            $passwordHasher = new PasswordHasher;
+            $password = ($_POST['Users']['password']);
+            $confirm = ($_POST['Confirm']);
             if ($password == $confirm) {
                 $model->password = $passwordHasher->bcriptHash($password);
                 if ($model->save()) {
@@ -845,8 +861,8 @@ SELECT
 
     public function mres($value)
     {
-        $search = ['\\', "\x00", "\n", "\r", "'", '"', "\x1a"];
-        $replace = ['\\\\', '\\0', '\\n', '\\r', "\'", '\"', '\\Z'];
+        $search = array("\\", "\x00", "\n", "\r", "'", '"', "\x1a");
+        $replace = array("\\\\", "\\0", "\\n", "\\r", "\'", '\"', "\\Z");
 
         return str_replace($search, $replace, $value);
     }
@@ -864,18 +880,18 @@ SELECT
         $criteria->condition = "username != 'admin'";
         $dataProvider = new CActiveDataProvider(
             'Users',
-            [
+            array(
                 'criteria' => $criteria,
-                'pagination' => false,
-            ]
+                'pagination' => false
+            )
         );
 
         $this->render(
             'manageUsers',
-            [
+            array(
                 'dataProvider' => $dataProvider,
                 'filter' => $filter,
-            ]
+            )
         );
     }
 
@@ -883,7 +899,7 @@ SELECT
     {
         $model = Users::model()->findByPk($id);
         $actualRole = $model->getRole();
-        $userSchools = UsersSchool::model()->findAllByAttributes(['user_fk' => $id]);
+        $userSchools = UsersSchool::model()->findAllByAttributes(array('user_fk' => $id));
         // Atribuindo valores da superglobal _POST à variáveis locais a fim de evitar o uso de globais
         $users = Yii::app()->request->getPost('Users');
         $schools = Yii::app()->request->getPost('schools');
@@ -891,12 +907,12 @@ SELECT
         $role = Yii::app()->request->getPost('Role');
 
         if (isset($users)) {
-            $model->name = $users['name'];
-            $model->username = $users['username'];
-            $model->active = $users['active'];
+            $model->name = $users["name"];
+            $model->username = $users["username"];
+            $model->active = $users["active"];
             if ($model->validate()) {
-                if ($users['password'] !== '') {
-                    $passwordHasher = new PasswordHasher();
+                if ($users["password"] !== "") {
+                    $passwordHasher = new PasswordHasher;
                     $model->password = $passwordHasher->bcriptHash($users['password']);
                 }
                 if ($model->save()) {
@@ -905,7 +921,7 @@ SELECT
                         $userSchool->delete();
                     }
                     foreach ($schools as $school) {
-                        $userSchool = new UsersSchool();
+                        $userSchool = new UsersSchool;
                         $userSchool->user_fk = $model->id;
                         $userSchool->school_fk = $school;
                         $save = $save && $userSchool->validate() && $userSchool->save();
@@ -915,8 +931,8 @@ SELECT
                         $auth->revoke($actualRole, $model->id);
                         $auth->assign($role, $model->id);
                     }
-                    if (isset($instructor) && $instructor != '') {
-                        $instructors = InstructorIdentification::model()->find('id = :id', ['id' => $instructor]);
+                    if (isset($instructor) && $instructor != "") {
+                        $instructors = InstructorIdentification::model()->find("id = :id", ["id" => $instructor]);
 
                         $instructors->users_fk = $model->id;
                         $instructors->save();
@@ -937,11 +953,10 @@ SELECT
         $instructors = InstructorIdentification::model()->findAllByAttributes(['users_fk' => null], ['select' => 'id, name']);
         $instructorsResult = array_reduce($instructors, function ($carry, $item) {
             $carry[$item['id']] = $item['name'];
-
             return $carry;
         }, []);
 
-        $selectedInstructor = InstructorIdentification::model()->find('users_fk = :user_fk', ['user_fk' => $model->id]);
+        $selectedInstructor = InstructorIdentification::model()->find("users_fk = :user_fk", ["user_fk" => $model->id]);
 
         if (isset($selectedInstructor)) {
             $instructorsResult[$selectedInstructor->id] = $selectedInstructor->name;
@@ -954,7 +969,7 @@ SELECT
                 'actual_role' => $actualRole,
                 'userSchools' => $result,
                 'instructors' => $instructorsResult,
-                'selectedInstructor' => $selectedInstructor,
+                'selectedInstructor' => $selectedInstructor
             ]
         );
     }
@@ -973,7 +988,7 @@ SELECT
             'História',
             'Língua Inglesa',
             'Língua Portuguesa',
-            'Matemática',
+            'Matemática'
         ];
 
         foreach ($disciplines as $discipline) {
@@ -990,32 +1005,32 @@ SELECT
     {
         $configs = InstanceConfig::model()->findAll();
         $this->render('instanceConfig', [
-            'configs' => $configs,
+            "configs" => $configs
         ]);
     }
 
     public function actionEditInstanceConfigs()
     {
         $changed = false;
-        foreach ($_POST['configs'] as $config) {
-            $instanceConfig = InstanceConfig::model()->findByPk($config['id']);
-            if ($instanceConfig->value != $config['value']) {
-                $instanceConfig->value = $config['value'];
+        foreach ($_POST["configs"] as $config) {
+            $instanceConfig = InstanceConfig::model()->findByPk($config["id"]);
+            if ($instanceConfig->value != $config["value"]) {
+                $instanceConfig->value = $config["value"];
                 $instanceConfig->save();
                 $changed = true;
             }
         }
-        echo json_encode(['valid' => $changed, 'text' => 'Configurações alteradas com sucesso.</br>']);
+        echo json_encode(["valid" => $changed, "text" => "Configurações alteradas com sucesso.</br>"]);
     }
 
     public function actionAuditory()
     {
-        $schools = Yii::app()->db->createCommand('select inep_id, `name` from school_identification order by `name`')->queryAll();
-        $users = Yii::app()->db->createCommand('select id, `name` from users order by `name`')->queryAll();
+        $schools = Yii::app()->db->createCommand("select inep_id, `name` from school_identification order by `name`")->queryAll();
+        $users = Yii::app()->db->createCommand("select id, `name` from users order by `name`")->queryAll();
         $this->render('auditory', [
-            'schools' => $schools,
-            'users' => $users,
-            'schoolyear' => Yii::app()->user->year,
+            "schools" => $schools,
+            "users" => $users,
+            'schoolyear' => Yii::app()->user->year
         ]);
     }
 
@@ -1023,63 +1038,63 @@ SELECT
     {
         $criteria = new CDbCriteria();
 
-        $arr = explode('/', $_POST['initialDate']);
-        $initialDate = $arr[2] . '-' . $arr[1] . '-' . $arr[0] . ' 00:00:00';
-        $arr = explode('/', $_POST['finalDate']);
-        $finalDate = $arr[2] . '-' . $arr[1] . '-' . $arr[0] . ' 23:59:59';
+        $arr = explode('/', $_POST["initialDate"]);
+        $initialDate = $arr[2] . "-" . $arr[1] . "-" . $arr[0] . " 00:00:00";
+        $arr = explode('/', $_POST["finalDate"]);
+        $finalDate = $arr[2] . "-" . $arr[1] . "-" . $arr[0] . " 23:59:59";
         $criteria->addBetweenCondition('date', $initialDate, $finalDate);
 
-        if ($_POST['school'] !== '') {
-            $criteria->addColumnCondition(['school_fk' => $_POST['school']]);
+        if ($_POST["school"] !== "") {
+            $criteria->addColumnCondition(['school_fk' => $_POST["school"]]);
         }
 
-        if ($_POST['action'] !== '') {
-            $criteria->addColumnCondition(['crud' => $_POST['action']]);
+        if ($_POST["action"] !== "") {
+            $criteria->addColumnCondition(['crud' => $_POST["action"]]);
         }
 
-        if ($_POST['user'] !== '') {
-            $criteria->addColumnCondition(['user_fk' => $_POST['user']]);
+        if ($_POST["user"] !== "") {
+            $criteria->addColumnCondition(['user_fk' => $_POST["user"]]);
         }
 
         $countCriteria = $criteria;
 
-        foreach ($_POST['order'] as $key => $order) {
-            switch ($_POST['columns'][$order['column']]['data']) {
-                case 'school':
-                    $criteria->join = 'join school_identification on inep_id = school_fk';
-                    $criteria->order .= 'TRIM(school_identification.name)';
+        foreach ($_POST["order"] as $key => $order) {
+            switch ($_POST["columns"][$order["column"]]["data"]) {
+                case "school":
+                    $criteria->join = "join school_identification on inep_id = school_fk";
+                    $criteria->order .= "TRIM(school_identification.name)";
                     break;
-                case 'user':
-                    $criteria->join = 'join users on users.id = user_fk';
-                    $criteria->order .= 'TRIM(users.name)';
+                case "user":
+                    $criteria->join = "join users on users.id = user_fk";
+                    $criteria->order .= "TRIM(users.name)";
                     break;
-                case 'date':
-                    $criteria->order .= $_POST['columns'][$order['column']]['data'];
+                case "date":
+                    $criteria->order .= $_POST["columns"][$order["column"]]["data"];
                     break;
             }
-            $criteria->order .= ' ' . $order['dir'];
-            if ($key < count($_POST['order']) - 1) {
-                $criteria->order .= ', ';
+            $criteria->order .= " " . $order["dir"];
+            if ($key < count($_POST["order"]) - 1) {
+                $criteria->order .= ", ";
             }
         }
 
-        $criteria->limit = $_POST['length'];
-        $criteria->offset = $_POST['start'];
+        $criteria->limit = $_POST["length"];
+        $criteria->offset = $_POST["start"];
 
         $logs = Log::model()->findAll($criteria);
         $logsCount = Log::model()->count($countCriteria);
 
-        $result['recordsTotal'] = $result['recordsFiltered'] = $logsCount;
+        $result["recordsTotal"] = $result["recordsFiltered"] = $logsCount;
 
-        $result['data'] = [];
+        $result["data"] = [];
         foreach ($logs as $log) {
-            $array['school'] = $log->schoolFk->name;
-            $array['user'] = $log->userFk->name;
-            $array['action'] = $log->crud == 'U' ? 'Editar' : ($log->crud == 'C' ? 'Criar' : 'Remover');
-            $date = new DateTime($log->date);
-            $array['date'] = $date->format('d/m/Y H:i:s');
-            $array['event'] = $log->loadIconsAndTexts($log)['text'];
-            array_push($result['data'], $array);
+            $array["school"] = $log->schoolFk->name;
+            $array["user"] = $log->userFk->name;
+            $array["action"] = $log->crud == "U" ? "Editar" : ($log->crud == "C" ? "Criar" : "Remover");
+            $date = new \DateTime($log->date);
+            $array["date"] = $date->format("d/m/Y H:i:s");
+            $array["event"] = $log->loadIconsAndTexts($log)["text"];
+            array_push($result["data"], $array);
         }
         echo json_encode($result);
     }

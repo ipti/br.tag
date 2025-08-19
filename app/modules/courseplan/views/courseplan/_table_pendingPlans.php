@@ -1,41 +1,41 @@
 <div class="widget-body">
-    <?php $this->widget('zii.widgets.grid.CGridView', [
+    <?php $this->widget('zii.widgets.grid.CGridView', array(
         'dataProvider' => $dataProvider,
         'enablePagination' => true,
         'enableSorting' => false,
         'itemsCssClass' => 'js-tag-table tag-table-primary table table-condensed table-striped table-hover table-primary table-vertical-center checkboxs',
-        'columns' => [
-            [
+        'columns' => array(
+            array(
                 'header' => Yii::t('default', 'Name'),
                 'name' => 'name',
                 'type' => 'raw',
                 'value' => 'CHtml::link($data->name,Yii::app()->createUrl("courseplan/courseplan/validatePlan",array("id"=>$data->id)))',
-                'htmlOptions' => ['width' => '25%', 'class' => 'link-update-grid-view']
-            ],
-            [
+                'htmlOptions' => array('width' => '25%', 'class' => 'link-update-grid-view')
+            ),
+            array(
                 'header' => Yii::t('default', 'Autor'),
                 'name' => 'users_fk',
                 'value' => '$data->usersFk->name',
-                'htmlOptions' => ['width' => '25%'],
+                'htmlOptions' => array('width' => '25%'),
                 'filter' => false
-            ],
-            [
+            ),
+            array(
                 'header' => Yii::t('default', 'Situation'),
                 'name' => 'situation',
                 'value' => '$data->situation',
-                'htmlOptions' => ['width' => '25%'],
-            ],
-            [
+                'htmlOptions' => array('width' => '25%'),
+            ),
+            array(
                 'header' => 'Ações',
                 'class' => 'CButtonColumn',
                 'template' => '{validate}',
-                'buttons' => [
-                    'validate' => [
+                'buttons' => array(
+                    'validate' => array(
                         'label' => 'Validar',
                         'url' => 'Yii::app()->createUrl("courseplan/courseplan/validatePlan",array("id"=>$data->id))',
-                        'imageUrl' => Yii::app()->theme->baseUrl . '/img/activeUser.svg'
-                    ],
-                ],
+                        'imageUrl' => Yii::app()->theme->baseUrl.'/img/activeUser.svg'
+                    ),
+                ),
                 'afterDelete' => 'function(link, success, data){
                     data = JSON.parse(data);
                     if (data.valid) {
@@ -45,7 +45,7 @@
                     }
                     $(".courseplan-alert").show();
                 }',
-            ]
-        ]
-    ]); ?>
+            )
+        )
+    )); ?>
 </div>

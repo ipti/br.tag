@@ -3,7 +3,7 @@
 /* @var $report mixed */
 $baseUrl = Yii::app()->baseUrl;
 $cs = Yii::app()->getClientScript();
-$cs->registerScriptFile($baseUrl . '/js/reports/BFReport/_initialization.js?v=' . TAG_VERSION, CClientScript::POS_END);
+$cs->registerScriptFile($baseUrl . '/js/reports/BFReport/_initialization.js?v='.TAG_VERSION, CClientScript::POS_END);
 
 $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
 ?>
@@ -21,13 +21,7 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
     <table class="table table-bordered table-striped" aria-labelledby="cns students">
         <thead>
             <th>ORDEM</th>
-            <?php if ($allSchools) {
-                echo "<th scope='col'>ESCOLA</th>";
-            } elseif ($allClassrooms) {
-                echo "<th scope='col'>TURMA</th>";
-            } else {
-                echo '';
-            }?>
+            <?php if($allSchools) {echo "<th scope='col'>ESCOLA</th>";}else if($allClassrooms) {echo "<th scope='col'>TURMA</th>";}else {echo "";}?>
             <th>NOME</th>
             <th>D.N</th>
             <th>CPF</th>
@@ -38,18 +32,13 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
         </thead>
         <tbody>
             <?php
-                                    $ordem = 1;
-foreach ($report as $r) {
-    $ordemStr = $ordem < 10 ? '0' . $ordem : $ordem; ?>
+            $ordem = 1;
+            foreach($report as $r) {
+            $ordemStr = $ordem < 10 ? "0".$ordem : $ordem;
+            ?>
                 <tr>
                     <td><?= $ordemStr ?></td>
-                    <?php if ($allSchools) {
-                        echo '<td>' . $r['school_name'] . '</td>';
-                    } elseif ($allClassrooms) {
-                        echo '<td>' . $r['classroom_name'] . '</td>';
-                    } else {
-                        echo '';
-                    } ?>
+                    <?php if($allSchools) {echo "<td>".$r['school_name']."</td>";}else if($allClassrooms) {echo "<td>".$r['classroom_name']."</td>";}else {echo "";}?>
                     <td><?= $r['name'] ?></td>
                     <td><?= $r['birthday'] ?></td>
                     <td><?= $r['cpf'] ?></td>
@@ -59,25 +48,19 @@ foreach ($report as $r) {
                     <td><?= $r['responsable_telephone'] ?></td>
                 </tr>
             <?php
-                            $ordem++;
-}
-?>
+            $ordem++;
+            }
+            ?>
             <tr>
                 <td></td>
-                <?php if ($allSchools) {
-                    echo '<td></td>';
-                } elseif ($allClassrooms) {
-                    echo '<td></td>';
-                } else {
-                    echo '';
-                }?>
+                <?php if($allSchools) {echo "<td></td>";}else if($allClassrooms) {echo "<td></td>";}else {echo "";}?>
                 <td></td>
                 <td></td>
                 <td></td>
                 <td></td>
                 <td></td>
                 <td></td>
-                <td><b>TOTAL:<?php echo ' ' . count($report)?></b></td>
+                <td><b>TOTAL:<?php echo " ".count($report)?></b></td>
             </tr>
         </tbody>
     </table>

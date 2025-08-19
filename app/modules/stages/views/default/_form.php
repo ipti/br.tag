@@ -4,12 +4,12 @@
 /* @var $form CActiveForm */
 
 $cs = Yii::app()->getClientScript();
-$cs->registerScriptFile('app\modules\stages\resources\_initialization.js?v=' . TAG_VERSION, CClientScript::POS_END);
+$cs->registerScriptFile('app\modules\stages\resources\_initialization.js?v='.TAG_VERSION, CClientScript::POS_END);
 
-$form = $this->beginWidget('CActiveForm', [
+$form = $this->beginWidget('CActiveForm', array(
     'id' => 'edcenso-stage-vs-modality-form',
     'enableAjaxValidation' => false,
-]);
+));
 
 ?>
 
@@ -30,8 +30,8 @@ $form = $this->beginWidget('CActiveForm', [
     <div class="row">
         <div class="column is-two-fifths clearfix">
             <div class="t-field-text">
-                <?php echo $form->label($model, 'name', ['class' => 't-field-text__label--required']); ?>
-                <?php echo $form->textField($model, 'name', ['id' => 'stageName', 'size' => 60, 'maxlength' => 100, 'class' => 't-field-text__input']); ?>
+                <?php echo $form->label($model, 'name', array('class' => 't-field-text__label--required')); ?>
+                <?php echo $form->textField($model, 'name', array('id' => 'stageName', 'size' => 60, 'maxlength' => 100, 'class' => 't-field-text__input')); ?>
                 <?php echo $form->error($model, 'name'); ?>
             </div>
         </div>
@@ -40,18 +40,16 @@ $form = $this->beginWidget('CActiveForm', [
         <div class="row">
             <div class="column is-two-fifths clearfix">
                 <div class="t-field-select">
-                    <?php echo $form->label($model, 'edcenso_associated_stage_id', ['class' => 't-field-select__label--required']); ?>
-                    <?php echo $form->dropDownList(
-    $model,
-    'edcenso_associated_stage_id',
-    Chtml::listData(EdcensoStageVsModality::model()->findAll('is_edcenso_stage = 1'), 'id', 'name'),
-    [
-        'prompt' => 'Selecione...',
-        'id' => 'edcenso_associated_stage_id',
-        'class' => 't-field-select__input select2-container',
-        'disabled' => $model->is_edcenso_stage == 1
-    ]
-); ?>
+                    <?php echo $form->label($model, 'edcenso_associated_stage_id', array('class' => 't-field-select__label--required')); ?>
+                    <?php echo $form->dropDownList($model, 'edcenso_associated_stage_id',
+                        Chtml::listData(EdcensoStageVsModality::model()->findAll("is_edcenso_stage = 1"), 'id', 'name'),
+                        array(
+                            'prompt' => "Selecione...",
+                            'id' => "edcenso_associated_stage_id",
+                            'class' => 't-field-select__input select2-container',
+                            'disabled' => $model->is_edcenso_stage == 1
+                        )
+                    ); ?>
                     <?php echo $form->error($model, 'edcenso_associated_stage_id'); ?>
                 </div>
             </div>
@@ -60,20 +58,20 @@ $form = $this->beginWidget('CActiveForm', [
     <div class="row">
         <div class="column is-two-fifths clearfix">
             <div class="t-field-select">
-                <?php echo $form->label($model, 'Modalidade', ['class' => 't-field-select__label--required']); ?>
-                <?php echo $form->dropDownList($model, 'stage', [
-                    '0' => 'Selecione a Modalidade',
-                    '1' => 'Infantil',
-                    '2' => 'Fundamental Menor',
-                    '3' => 'Fundamental Maior',
-                    '4' => 'Médio',
-                    '5' => 'Profissional',
-                    '6' => 'EJA',
-                    '7' => 'Outros',
-                ], [
-                    'id' => 'stage',
+                <?php echo $form->label($model, 'Modalidade', array('class' => 't-field-select__label--required')); ?>
+                <?php echo $form->dropDownList($model, 'stage', array(
+                    "0" => "Selecione a Modalidade",
+                    "1" => "Infantil",
+                    "2" => "Fundamental Menor",
+                    "3" => "Fundamental Maior",
+                    "4" => "Médio",
+                    "5" => "Profissional",
+                    "6" => "EJA",
+                    "7" => "Outros",
+                ), array(
+                    'id' => "stage",
                     'class' => 't-field-select__input select2-container'
-                ]); ?>
+                )); ?>
             </div>
         </div>
     </div>
@@ -81,8 +79,8 @@ $form = $this->beginWidget('CActiveForm', [
     <div class="row">
         <div class="column is-two-fifths clearfix">
             <div class="t-field-text">
-                <?php echo $form->label($model, 'alias', ['class' => 't-field-text__label--required']); ?>
-                <?php echo $form->textField($model, 'alias', ['id' => 'stageAlias', 'size' => 15, 'class' => 't-field-text__input']); ?>
+                <?php echo $form->label($model, 'alias', array('class' => 't-field-text__label--required')); ?>
+                <?php echo $form->textField($model, 'alias', array('id' => 'stageAlias', 'size' => 15, 'class' => 't-field-text__input')); ?>
                 <?php echo $form->error($model, 'alias'); ?>
             </div>
         </div>
@@ -91,11 +89,11 @@ $form = $this->beginWidget('CActiveForm', [
         <div class="column clearfix">
         <div class="t-field-checkbox">
             <?php echo $form->checkBox(
-                                        $model,
-                                        'unified_frequency',
-                                        ['value' => 1, 'uncheckValue' => 0]
-                                    ); ?>
-            <?php echo $form->label($model, 'unified_frequency', ['class' => 't-field-text__label']); ?>
+                $model,
+                'unified_frequency',
+                array('value' => 1, 'uncheckValue' => 0)
+                ); ?>
+            <?php echo $form->label($model, 'unified_frequency', array('class' => 't-field-text__label')); ?>
         </div>
         </div>
     </div>

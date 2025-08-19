@@ -3,7 +3,6 @@
 class ClassroomRobots
 {
     public AcceptanceTester $tester;
-
     public function __construct(AcceptanceTester $tester)
     {
         $this->tester = $tester;
@@ -166,7 +165,7 @@ class ClassroomRobots
     public function finalTime($finalTime)
     {
         $this->tester->fillField('#Classroom_final_time', $finalTime);
-        $this->tester->pressKey('#Classroom_final_time', Facebook\WebDriver\WebDriverKeys::TAB);
+        $this->tester->pressKey('#Classroom_final_time', \Facebook\WebDriver\WebDriverKeys::TAB);
     }
 
     /**

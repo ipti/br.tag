@@ -1,5 +1,4 @@
 <?php
-
 class Register99
 {
     public static function export()

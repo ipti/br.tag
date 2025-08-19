@@ -2,16 +2,16 @@
 /* @var $this DefaultController */
 /* @var $model CoursePlan */
 
-$this->breadcrumbs = [
-    'Courseplan' => ['index'],
+$this->breadcrumbs=array(
+	'Courseplan' => array('index'),
     'Update',
-];
+);
 
 $this->setPageTitle('TAG - ' . Yii::t('default', 'Atualizar Plano de Aula'));
-$this->menu = [
-    ['label' => 'Create CoursePlan', 'url' => ['index']],
-    ['label' => 'List ClassPlan', 'url' => ['admin']],
-];
+$this->menu=array(
+	array('label'=>'Create CoursePlan', 'url'=>array('index')),
+	array('label'=>'List ClassPlan', 'url'=>array('admin')),
+);
 
 $title = $model->description
 ?>
@@ -21,4 +21,4 @@ $title = $model->description
 	</div>
 </div>
 
-<?php $this->renderPartial('_form', ['coursePlan' => $coursePlan, 'title' => $title, 'stages' => $stages, 'resources' => $resources, ]); ?>
+<?php $this->renderPartial('_form', array('coursePlan'=>$coursePlan, 'title' => $title,'stages'=>$stages,'resources' => $resources,)); ?>

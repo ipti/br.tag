@@ -3,21 +3,21 @@
 /* @var $form ActiveForm */
 /* @var $title String */
 
-$this->setPageTitle('TAG - ' . Yii::t('default', 'Configurarion'));
+$this->setPageTitle('TAG - ' .  Yii::t('default', 'Configurarion'));
 
 $baseUrl = Yii::app()->baseUrl;
 $baseUrl = Yii::app()->theme->baseUrl;
 $cs = Yii::app()->getClientScript();
 
-$form = $this->beginWidget('CActiveForm', [
+$form = $this->beginWidget('CActiveForm', array(
     'id' => 'school-configuration-form',
     'enableAjaxValidation' => false
-]);
+));
 
-$this->breadcrumbs = [
+$this->breadcrumbs = array(
     Yii::t('default', 'Reaproveitamento das Turmas'),
 
-];
+);
 ?>
 <div id="mainPage" class="main">
     <div class="row-fluid">
