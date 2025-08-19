@@ -346,6 +346,69 @@ class StudentEnrollment extends AltActiveRecord
 
         return $count['qtd'] + 1;
     }
+    public function totalStudentEnrolmentFrequency()
+    {
+        $classroom = $this->classroomFk;
+        $isMinorEducation = TagUtils::isStageMinorEducation($classroom->edcensoStageVsModalityFk->edcenso_associated_stage_id);
+
+        if (!$isMinorEducation) {
+            $totalClasses = $classroom->schedules;
+
+            $criteria = new CDbCriteria();
+            $criteria->alias = 'cf';
+            $criteria->join = 'INNER JOIN student_identification si ON si.id = cf.student_fk
+                       INNER JOIN student_enrollment se ON se.student_fk = si.id';
+            $criteria->condition = 'se.id = :enrollmentId AND cf.justification IS NULL';
+            $criteria->params = [':enrollmentId' => $this->id];
+            $totalFaults = ClassFaults::model()->count($criteria);
+
+        } else {
+
+            $criteria = new CDbCriteria();
+            $criteria->select = 'COUNT(DISTINCT day) as total';
+            $criteria->condition = 'classroom_fk = :classroomId';
+            $criteria->params = [':classroomId' => $classroom->id];
+            $result = Schedule::model()->find($criteria);
+
+            $totalClasses = $result->total;
+
+            $criteria = new CDbCriteria();
+            $criteria->alias = 'cf';
+            $criteria->join = '
+                INNER JOIN student_identification si ON si.id = cf.student_fk
+                INNER JOIN student_enrollment se ON se.student_fk = si.id
+                INNER JOIN schedule s ON s.id = cf.schedule_fk
+            ';
+            $criteria->select = 'COUNT(DISTINCT s.day) as total';
+            $criteria->condition = 'se.id = :enrollmentId AND cf.justification IS NULL';
+            $criteria->params = [':enrollmentId' => $this->id];
+
+            $totalFaultsResult = ClassFaults::model()->find($criteria);
+            $totalFaults = $totalFaultsResult->total;
+        }
+
+        return round((($totalClasses - $totalFaults) / ($totalClasses ?: 1)) * 100);
+    }
+
+    public function studentEnrolmentFrequencyPerDiscipline($disciplineId)
+    {
+        $classroom = $this->classroomFk;
+        $totalClasses = Schedule::model()->countByAttributes([
+            "classroom_fk" => $classroom->id,
+            "discipline_fk" => $disciplineId
+        ]);
+
+        $criteria = new CDbCriteria();
+        $criteria->alias = 'cf';
+        $criteria->join = 'INNER JOIN student_identification si ON si.id = cf.student_fk
+                   INNER JOIN student_enrollment se ON se.student_fk = si.id
+                   INNER JOIN schedule s ON s.id = cf.schedule_fk';
+        $criteria->condition = 'se.id = :enrollmentId and s.classroom = :classroomId AND s.discipline = :disciplineId AND cf.justification IS NULL';
+        $criteria->params = [':enrollmentId' => $this->id, ":classroomId" => $classroom->id, ":disciplineId" => $disciplineId];
+        $totalFaults = ClassFaults::model()->count($criteria);
+
+        return round((($totalClasses - $totalFaults) / ($totalClasses ?: 1)) * 100);
+    }
 
     /**
      * Get all faults by discipline.
@@ -375,7 +438,7 @@ class StudentEnrollment extends AltActiveRecord
 
         $command = Yii::app()->db->createCommand()
             ->from('class_faults cf')
-                ->join('schedule s', 'cf.schedule_fk = s.id')
+            ->join('schedule s', 'cf.schedule_fk = s.id')
             ->where('student_fk = :studentId and s.classroom_fk = :classroomId')
             ->select('count(DISTINCT CONCAT(s.`year`, s.`month`, s.`day`))')
             ->bindValues([
