@@ -1,7 +1,7 @@
 {
     "minimum-stability": "dev",
     "require": {
-        "php": ">=5.1.0",
+        "php": ">=8.0",
         "yiisoft/yii": "1.1.29",
         "guzzlehttp/guzzle": "^6.0",
         "symfony/validator": "^4.0",
@@ -12,8 +12,12 @@
         "ramsey/uuid": "^4.2",
         "websupport/yii-sentry": "0.x-dev",
         "scssphp/scssphp": "^1.13.0"
+
     },
     "require-dev": {
+        "open-telemetry/api": "^1.0",
+        "open-telemetry/sdk": "^1.0",
+        "open-telemetry/exporter-otlp": "^1.0",
         "goetas-webservices/xsd2php": "^0.4",
         "phpmd/phpmd": "^2.13",
         "squizlabs/php_codesniffer": "^3.7",
@@ -23,7 +27,6 @@
         "codeception/module-asserts": "^1.0.0",
         "codeception/module-webdriver": "^1.4",
         "phpunit/php-code-coverage": "^7.0",
-        "rector/rector": "dev-main",
         "goetas-webservices/xsd2php-runtime": "0.2.16",
         "phpunit/phpunit": "^8.5",
         "phpunit/phpunit-selenium": "^8.0"
@@ -36,7 +39,8 @@
     },
     "config": {
         "allow-plugins": {
-            "php-http/discovery": true
+            "php-http/discovery": true,
+            "tbachert/spi": true
         }
     }
 }

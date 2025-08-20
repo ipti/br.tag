@@ -2454,7 +2454,7 @@ $form = $this->beginWidget(
                           <?php
                           $forms = unserialize(FORMS);
                           foreach ($forms as $item) {
-                            $link = Yii::app()->createUrl('forms/' . $item['action'], array('type' => $type, 'enrollment_id' => $me->id));
+                            $link = Yii::app()->createUrl('forms/' . $item['action'], array('enrollment_id' => $me->id));
                             ?>
                             <a class="<?= $item['name'] == "Ficha de Matrícula" ? 't-button-primary' : 't-button-secondary' ?> mobile-margin"
                               rel="noopener" target="_blank" href="<?= $link ?>">

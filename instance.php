@@ -1,4 +1,5 @@
 <?php
+
 $_FORMS[0] = array('name' => 'Ficha de Matrícula', 'action' => 'StudentFileForm');
 $_FORMS[1] = array('name' => 'Declaração de Matrícula', 'action' => 'EnrollmentDeclarationReport');
 //$_FORMS[2] = array('name'=>'Ficha de Notas','action'=>'EnrollmentGradesReport');
@@ -17,7 +18,7 @@ $domain = array_shift($host_array);
 $newdb = $domain . '.tag.ong.br';
 
 if ($domain == "localhost") {
-    $newdb = 'nossasenhoradagloria.tag.ong.br';
+    $newdb = 'catete';
 }
 
 $_GLOBALGROUP = 0;
@@ -30,6 +31,7 @@ $USER = getenv("USER_DB_TAG");
 $PWD = getenv("PWD_DB_TAG");
 
 define("DBCONFIG", serialize(array(
+    'class' => 'application.components.TracedDbConnection',
     'connectionString' => "mysql:host=$HOST;dbname=$newdb",
     'emulatePrepare' => true,
     'enableProfiling' => YII_DEBUG,
@@ -37,6 +39,7 @@ define("DBCONFIG", serialize(array(
     'username' => $USER,
     'password' => $PWD,
     'charset' => 'utf8',
+    // 'setTracer' => function($tracer) { $this->setTracer($tracer); },
 )));
 
 define('INSTANCE', strtoupper($domain));

@@ -6,11 +6,13 @@ $USER = "root";
 $SECRET = "root";
 
 define ("DBCONFIG", serialize (array(
+    'class' => 'TracedDbConnection',
     'connectionString' => "mysql:host=$HOST;dbname=demo.tag.ong.br",
     'emulatePrepare' => true,
     'username' => $USER,
     'password' => $SECRET,
     'charset' => 'utf8',
+    'setTracer' => function($tracer) { $this->setTracer($tracer); },
 )));
 
 

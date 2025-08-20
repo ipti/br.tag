@@ -12,6 +12,9 @@ services:
     networks:
       - tag-v3-network
     environment:
+      OTEL_EXPORTER_OTLP_ENDPOINT: http://otel-collector:4318
+      OTEL_SERVICE_NAME: yii-app
+      OTEL_RESOURCE_ATTRIBUTES: env=local
       HOST_DB_TAG: 'mysql'
       USER_DB_TAG: 'root'
       PWD_DB_TAG: 'root'
@@ -70,24 +73,32 @@ services:
     networks:
       - tag-v3-network
 
-  sass:
-    image: michalklempa/dart-sass
+  otel-collector:
+    image: otel/opentelemetry-collector
+    command:
+      - "--config=/etc/otel-collector-config.yaml"
     volumes:
-      - ./sass/scss:/sass
-      - ./sass/css:/css
-    entrypoint: ["/opt/dart-sass/sass", "--watch", "--no-source-map" ,"--style=compressed", "/sass:/css"]
-
-  bytebase:
-    image: bytebase/bytebase
+      - ./otel-collector-config.yaml:/etc/otel-collector-config.yaml
     ports:
-      - 8080:8080
+      - "4317:4317" # gRPC
+      - "4318:4318" # HTTP
+    networks:
+      - tag-v3-network
+      - telemetry
+
+  jaeger:
+    image: jaegertracing/all-in-one
+    container_name: jaeger
     environment:
-      - DATABASE_URL=mysql://root:root@mysql:3306
-    volumes:
-      - ./docker/bytebase-data:/data
+      - COLLECTOR_OTLP_ENABLED=true
+    ports:
+      - "16686:16686"  # UI
+    networks:
+      - telemetry
 
 networks:
   tag-v3-network:
+  telemetry:
 
 volumes:
   db-volume:

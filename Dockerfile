@@ -1,39 +1,46 @@
+# Base image com PHP 8.3-FPM e Yii
 FROM ipti/yii2:8.3-fpm
 
-# Definir o diretório principal
+# Set workdir
 WORKDIR /app
 
-# Copiar arquivos para o contêiner no diretório raiz da aplicação
-COPY . /app
+# Copiar apenas composer.json e composer.lock primeiro (aproveita cache)
 
-# Executar composer update e instalar dependências no diretório secundário (/app/app)
+# Instalar Composer dentro da imagem
 USER root
 
 COPY --from=composer:latest /usr/bin/composer /usr/local/bin/composer
 
-# Criar diretórios e ajustar arquivos de configuração
+COPY composer.json composer.lock /app/
+
+# Instalar dependências do PHP via Composer (inclui OTEL)
+RUN composer install --no-plugins --ignore-platform-reqs
+
+# Agora copiar todo o restante do código da aplicação
+COPY . /app
+
+# Ajustar arquivos de configuração e memória PHP/Nginx
 RUN sed -i "s|/app/web|/app|g" /etc/nginx/conf.d/default.conf \
     && sed -i "s|memory_limit=128M|memory_limit=512M|g" /usr/local/etc/php/conf.d/base.ini \
     && sed -i "s|fastcgi_pass 127.0.0.1:9000;|fastcgi_pass 127.0.0.1:9000;fastcgi_read_timeout 2400;proxy_read_timeout 2400;|g" /etc/nginx/conf.d/default.conf
 
-# Voltar para o diretório principal (/app) e executar comandos adicionais
-WORKDIR /app
-RUN composer update \
-    && composer update --no-plugins \
-    && composer install
-
-# Conctruir arquivos css do sass
+# Construir CSS do SASS
 RUN vendor/scssphp/scssphp/bin/pscss --no-source-map --style=compressed sass/scss:sass/css
 
-# Ajustar permissões para o usuário www-data
+# Ajustar permissões para www-data
 RUN chown -R www-data:www-data /app/app/runtime \
     && mkdir -p /app/assets && chown -R www-data:www-data /app/assets \
     && chown -R www-data:www-data /app/app/export \
     && chown -R www-data:www-data /app/app/import
 
-
+# Garantir scripts executáveis
 RUN chmod +x /usr/local/bin/docker-run.sh \
     && chown www-data:www-data /usr/local/bin/docker-run.sh
 
-# Mudar para o usuário não-root
+# Trocar para usuário não-root
 USER www-data
+
+
+# Expor porta se necessário
+EXPOSE 8080
+

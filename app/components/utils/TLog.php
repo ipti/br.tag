@@ -1,38 +1,50 @@
 <?php
 
-class TLog extends CApplicationComponent {
+use OpenTelemetry\API\Trace\SpanInterface;
+use OpenTelemetry\API\Trace\TracerInterface;
+use OpenTelemetry\Context\Context;
 
-    // Função auxiliar para gerar a mensagem de log
-    private static function generateLogMessage($message, $data = null) : string {
+class TLog extends CApplicationComponent
+{
+    /** @var \OpenTelemetry\API\Trace\TracerInterface|null */
+    public static $tracer = null;
+
+    private static function generateLogMessage($message, $data = null): string
+    {
         $module = Yii::app()->controller->module ? Yii::app()->controller->module->id . '/' : '';
-
-        $route =   $module . Yii::app()->controller->id . "/" . Yii::app()->controller->action->id;
+        $route = $module . Yii::app()->controller->id . '/' . Yii::app()->controller->action->id;
         $builderMessage = "[$route]: $message";
 
         if (isset($data)) {
-            // Garante que dados sejam codificados como JSON
             $builderMessage .= ' | ' . CJSON::encode($data);
         }
 
         return $builderMessage;
     }
 
-    // Método para log de nível info
-    public static function info($message, $data = null) {
+    private static function addEventToSpan($level, $message, $data = null)
+    {
+        TracerManager::addEventToSpan("log.$level", $message, $data ?? []);
+    }
+
+    public static function info($message, $data = null)
+    {
         $builderMessage = self::generateLogMessage($message, $data);
         Yii::log($builderMessage, CLogger::LEVEL_INFO, 'application');
+        self::addEventToSpan('info', $message, $data);
     }
 
-    // Método para log de nível warning
-    public static function warning($message, $data = null) {
+    public static function warning($message, $data = null)
+    {
         $builderMessage = self::generateLogMessage($message, $data);
         Yii::log($builderMessage, CLogger::LEVEL_WARNING, 'application');
+        self::addEventToSpan('warning', $message, $data);
     }
 
-    // Método para log de nível error
-    public static function error($message, $data = null) {
+    public static function error($message, $data = null)
+    {
         $builderMessage = self::generateLogMessage($message, $data);
         Yii::log($builderMessage, CLogger::LEVEL_ERROR, 'application');
+        self::addEventToSpan('error', $message, $data);
     }
 }
-

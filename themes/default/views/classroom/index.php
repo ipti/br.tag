@@ -6,7 +6,7 @@
     $this->menu = array(
         array('label' => Yii::t('default', 'Create a new Classroom'), 'url' => array('create'), 'description' => Yii::t('default', 'This action create a new Classroom')),
     );
-
+    $baseUrl = Yii::app()->theme->baseUrl;
     $cs = Yii::app()->getClientScript();
     $cs->registerScriptFile($baseUrl . '/js/classroom/index/functions.js?v='.TAG_VERSION, CClientScript::POS_END);
 

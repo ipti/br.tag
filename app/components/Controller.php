@@ -6,9 +6,7 @@ use Sentry\Tracing\TransactionContext;
  * All controller classes for this application should extend from this base class.
  */
 
-
- use Sentry\SentrySdk;
-
+use Sentry\SentrySdk;
 use Sentry\State\Hub;
 use Sentry\Event;
 
@@ -22,23 +20,20 @@ class Controller extends CController
     /**
      * @var array context menu items. This property will be assigned to {@link CMenu::items}.
      */
-    public $menu = array();
+    public $menu = [];
     /**
      * @var array the breadcrumbs of the current page. The value of this property will
      * be assigned to {@link CBreadcrumbs::links}. Please refer to {@link CBreadcrumbs::links}
      * for more details on how to specify this property.
      */
-    public $breadcrumbs = array();
-
+    public $breadcrumbs = [];
 
     public function init()
     {
         parent::init();
 
-
         if (!Yii::app()->user->isGuest) {
-
-            $authTimeout = Yii::app()->user->getState("authTimeout", SESSION_MAX_LIFETIME);
+            $authTimeout = Yii::app()->user->getState('authTimeout', SESSION_MAX_LIFETIME);
             Yii::app()->user->authTimeout = $authTimeout;
 
             Yii::app()->sentry->setUserContext([
@@ -58,8 +53,9 @@ class Controller extends CController
 
     public function beforeAction($action)
     {
+        $module = Yii::app()->controller->module ? Yii::app()->controller->module->id . '/' : '';
         $transaction = SentrySdk::getCurrentHub()->startTransaction(new TransactionContext(
-            Yii::app()->controller->id . '/' . $action->id,
+            $module . '/' . Yii::app()->controller->id . '/' . $action->id,
         ));
 
         SentrySdk::getCurrentHub()->setSpan($transaction);
@@ -76,6 +72,18 @@ class Controller extends CController
                 }
             }
 
+            Yii::app()->requestTracer->startRequestSpan(
+                $module . '/' . Yii::app()->controller->id . '/' . $action->id,
+                [
+                    'user.id' => Yii::app()->user->isGuest ? null : Yii::app()->user->loginInfos->id,
+                    'user.username' => Yii::app()->user->isGuest ? null : Yii::app()->user->loginInfos->username,
+                    'user.roles' => Yii::app()->user->isGuest ? [] : Yii::app()->authManager->getRoles(Yii::app()->user->loginInfos->id),
+                    'http.method' => $_SERVER['REQUEST_METHOD'] ?? 'CLI',
+                    'http.url' => $_SERVER['REQUEST_URI'] ?? '',
+                    'client.ip' => $_SERVER['REMOTE_ADDR'] ?? '',
+                ]
+            );
+
             // Atualiza a última atividade
             Yii::app()->user->setState('last_activity', time());
             return true;
@@ -89,10 +97,8 @@ class Controller extends CController
         if ($transaction) {
             $transaction->finish();
         }
-        // SentrySdk::getCurrentHub()->flush();
+        Yii::app()->requestTracer->endRequestSpan();
 
         return parent::afterAction($action);
     }
-
-
 }

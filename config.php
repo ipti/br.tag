@@ -11,6 +11,10 @@ define("BOARD_MSG", '<div class="alert alert-success">Novas atualizações no TA
 if (YII_DEBUG) {
     defined('YII_TRACE_LEVEL') or define('YII_TRACE_LEVEL', 3);
     error_reporting(E_ALL & ~E_WARNING & ~E_NOTICE & ~E_DEPRECATED);
+    ini_set('display_errors', '1');
+    error_reporting(1);
+    define("YII_ENBLE_ERROR_HANDLER", true);
+    define("YII_ENBLE_EXCEPTION_HANDLER", true);
 } else {
     ini_set('display_errors', '0');
     error_reporting(0);
