@@ -385,7 +385,7 @@ class StudentEnrollment extends AltActiveRecord
         $criteria->join = 'INNER JOIN student_identification si ON si.id = cf.student_fk
                    INNER JOIN student_enrollment se ON se.student_fk = si.id
                    INNER JOIN schedule s ON s.id = cf.schedule_fk';
-        $criteria->condition = 'se.id = :enrollmentId and s.classroom = :classroomId AND s.discipline = :disciplineId AND cf.justification IS NULL';
+        $criteria->condition = 'se.id = :enrollmentId and s.classroom_fk = :classroomId AND s.discipline_fk = :disciplineId AND cf.justification IS NULL';
         $criteria->params = [':enrollmentId' => $this->id, ":classroomId" => $classroom->id, ":disciplineId" => $disciplineId];
         $totalFaults = ClassFaults::model()->count($criteria);
 

@@ -715,10 +715,8 @@ class GradesController extends Controller
                         $countUnities = $gradeUnities->execCount();
 
                         $gradeResult = (new GetStudentGradesResultUsecase($enrollment->id, $discipline["discipline_fk"]))->exec();
-                        $formRepository = new FormsRepository();
-                        $contentsPerDiscipline = $formRepository->contentsPerDisciplineCalculate($classroom, $discipline["discipline_fk"], $enrollment->id);
-                        $totalFaults = $enrollment->countFaultsDiscipline($discipline["discipline_fk"]);
-                        $frequency = round((($contentsPerDiscipline - $totalFaults) / ($contentsPerDiscipline ?: 1)) * 100);
+
+                        $frequency = $enrollment->studentEnrolmentFrequencyPerDiscipline($discipline["discipline_fk"]);
 
                         (new CalculateFinalMediaUsecase($gradeResult, $gradeRules, $countUnities, $gradesStudent))->exec();
                         if ($gradeRules->rule_type === "N") {
@@ -800,10 +798,9 @@ class GradesController extends Controller
                 TLog::info("Unidades por disciplina", ["GradeUnities" => CHtml::listData($gradesStudent, 'id', 'id')]);
 
                 $gradeResult = (new GetStudentGradesResultUsecase($enrollment->id, $disciplineId))->exec();
-                $formRepository = new FormsRepository();
-                $contentsPerDiscipline = $formRepository->contentsPerDisciplineCalculate($classroom, $disciplineId, $enrollment->id);
-                $totalFaults = $enrollment->countFaultsDiscipline($disciplineId);
-                $frequency = round((($contentsPerDiscipline - $totalFaults) / ($contentsPerDiscipline ?: 1)) * 100);
+
+                $frequency = $enrollment->studentEnrolmentFrequencyPerDiscipline($disciplineId);
+
                 (new CalculateFinalMediaUsecase($gradeResult, $gradeRules, $countUnities, $gradesStudent))->exec();
                 if ($gradeRules->rule_type === "N") {
                     (new ChageStudentStatusByGradeUsecase($gradeResult, $gradeRules, $countUnities, $stage, $frequency))->exec();
