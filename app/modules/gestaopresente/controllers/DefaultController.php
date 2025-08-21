@@ -81,7 +81,7 @@ class DefaultController extends Controller
                     '' AS ESTUDANTE_ANO_PERIODO, -- I
                     si2.inep_id AS CO_ENTIDADE, -- J
                     si2.name AS NO_ENTIDADE, -- K
-                    DATE_FORMAT(se.enrollment_date , '%d/%m/%Y') AS DATA_INICIO_MATRICULA, -- L
+                    DATE_FORMAT(IFNULL(se.enrollment_date, c2.start_date), "%d/%m/%Y") as DATA_INICIO_MATRICULA, -- I
                     DATE_FORMAT(c2.start_date, '%d/%m/%Y') AS DATA_INICIO_PERIODO_LETIVO, -- M
                     DATE_FORMAT(c2.end_date , '%d/%m/%Y') AS DATA_FIM_MATRICULA, -- N
                     '' AS DATA_CONCLUSAO_ENSINO_MEDIO, -- O
@@ -115,11 +115,19 @@ class DefaultController extends Controller
             $firstRow = $reader->read();
             if ($firstRow !== false) {
                 $exporter->setHeaders(array_keys($firstRow));
+                if ($this->checkEtapaEnsino($firstRow["ESTUDANTE_ETAPA_DE_ENSINO"])) {
+                    $firstRow['ESTUDANTE_ANO_PERIODO'] = $this->parseStudentYearProgress($firstRow);
+                }
+                $firstRow["MATRICULA_SITUACAO_FINAL"] = $this->parseEnrollmentFinalStatus($firstRow);
                 $exporter->addRow(array_values($firstRow));
             }
 
             // Linhas restantes
             while (($row = $reader->read()) !== false) {
+                if ($this->checkEtapaEnsino($row["ESTUDANTE_ETAPA_DE_ENSINO"])) {
+                    $row['ESTUDANTE_ANO_PERIODO'] = $this->parseStudentYearProgress($row);
+                }
+                $row["MATRICULA_SITUACAO_FINAL"] = $this->parseEnrollmentFinalStatus($firstRow);
                 $exporter->addRow(array_values($row));
             }
 
@@ -143,7 +151,7 @@ class DefaultController extends Controller
                 si.name AS ESTUDANTE_NOME_SOCIAL, -- F
                 si2.inep_id AS CO_ENTIDADE, -- G
                 si2.name AS NO_ENTIDADE, -- H
-                DATE_FORMAT(se.enrollment_date , '%d/%m/%Y') as NU_ANO_MATRICULA, -- I
+                DATE_FORMAT(IFNULL(se.enrollment_date, c2.start_date), "%d/%m/%Y") as DATA_INICIO_MATRICULA, -- I
                 esvm.edcenso_associated_stage_id AS ESTUDANTE_ETAPA_DE_ENSINO, -- K
                 '' AS ESTUDANTE_ANO_PERIODO, -- L
                 '' AS MATRICULA_SITUACAO_FINAL, -- M
@@ -177,11 +185,18 @@ class DefaultController extends Controller
             $firstRow = $reader->read();
             if ($firstRow !== false) {
                 $exporter->setHeaders(array_keys($firstRow));
+                if ($this->checkEtapaEnsino($firstRow["ESTUDANTE_ETAPA_DE_ENSINO"])) {
+                    $firstRow['ESTUDANTE_ANO_PERIODO'] = $this->parseStudentYearProgress($firstRow);
+                }
+                $firstRow["MATRICULA_SITUACAO_FINAL"] = $this->parseEnrollmentFinalStatus($firstRow);
                 $exporter->addRow(array_values($firstRow));
             }
-
             // Linhas restantes
             while (($row = $reader->read()) !== false) {
+                if ($this->checkEtapaEnsino($row["ESTUDANTE_ETAPA_DE_ENSINO"])) {
+                    $row['ESTUDANTE_ANO_PERIODO'] = $this->parseStudentYearProgress($row);
+                }
+                $row["MATRICULA_SITUACAO_FINAL"] = $this->parseEnrollmentFinalStatus($row);
                 $exporter->addRow(array_values($row));
             }
 
@@ -468,8 +483,9 @@ class DefaultController extends Controller
         }
     }
 
-    private function parsePersonalData($row){
-         if (TagUtils::isStageEJA($row['ESTUDANTE_ETAPA_DE_ENSINO'])) {
+    private function parsePersonalData($row)
+    {
+        if (TagUtils::isStageEJA($row['ESTUDANTE_ETAPA_DE_ENSINO'])) {
             // @TODO: ADICIONAR CALCULO PARA DETERMINAR VALOR
             $row['ESTUDANTE_ANO_PERIODO'] = 2;
         }
@@ -552,4 +568,75 @@ class DefaultController extends Controller
         $statusList = new CList($acceptedEnrollemnts, true);
         return $statusList->contains($status) ? 'ATIVO' : 'INATIVO';
     }
+
+    private function parseStudentYearProgress($row)
+    {
+        $classId = $this->getClassId($row["CO_MATRICULA_REDE"]);
+        return $this->mapStudentYearProgress($classId);
+    }
+
+    private function mapStudentYearProgress($classId): int
+    {
+        $classrom = Classroom::model()->findByPk($classId);
+        $studentSchoolDaysPercent = $classrom->getSchoolDaysPerCent();
+        $studentSchoolDaysCheckSecondThird = $studentSchoolDaysPercent <= 66 ? 2 : 3;
+        return $studentSchoolDaysPercent <= 33 ? 1 : $studentSchoolDaysCheckSecondThird;
+        ;
+    }
+    private function getClassId($studentID)
+    {
+        $sql = "
+            SELECT c.id AS classID
+            FROM student_enrollment se
+            JOIN classroom c ON c.id = se.classroom_fk
+            WHERE c.school_year = 2025
+            AND se.id = :studentID
+        ";
+
+        $command = Yii::app()->db->createCommand($sql);
+        $command->bindParam(':studentID', $studentID, PDO::PARAM_INT);
+        $row = (object) $command->queryRow();
+        return $row->classID;
+    }
+
+    private function checkEtapaEnsino(int $etapa): bool
+    {
+        $etapas = [
+            29,
+            34,
+            43,
+            44,
+            45,
+            46,
+            47,
+            48,
+            51,
+            58,
+            60,
+            61,
+            62,
+            63,
+            65,
+            67,
+            69,
+            70,
+            71,
+            72,
+            73,
+            74
+        ];
+        return in_array($etapa, $etapas, true);
+    }
+
+    private function parseEnrollmentFinalStatus($row){
+        $studentId = $row['CO_MATRICULA_REDE'];
+        $sql = "Select se.status as status from student_enrollment se where se.id = :studentId";
+        $command = Yii::app()->db->createCommand($sql);
+        $command->bindParam(':studentId', $studentId, PDO::PARAM_INT);
+        $student = (object) $command->queryRow();
+        $studentStatus = $student->status;
+        return $this->mapEnrollmentStatus($studentStatus)->value;
+
+    }
+
 }

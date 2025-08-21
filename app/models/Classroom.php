@@ -201,7 +201,6 @@ class Classroom extends AltActiveRecord
             'schoolInepFk' => array(self::BELONGS_TO, 'SchoolIdentification', 'school_inep_fk'),
             'edcensoStageVsModalityFk' => array(self::BELONGS_TO, 'EdcensoStageVsModality', 'edcenso_stage_vs_modality_fk'),
             'classroomHasCoursePlans' => array(self::HAS_MANY, 'ClassroomHasCoursePlan', 'classroom_fk'),
-            'calendarFk' => array(self::BELONGS_TO, 'Calendar', 'calendar_fk'),
             'sedspSchoolUnityFk' => array(self::BELONGS_TO, 'SedspSchoolUnities', 'sedsp_school_unity_fk'),
             'instructorTeachingDatas' => array(self::HAS_MANY, 'InstructorTeachingData', 'classroom_id_fk'),
             'edcensoProfessionalEducationCourseFk' => array(
@@ -616,6 +615,86 @@ class Classroom extends AltActiveRecord
     public static function model($className = __CLASS__)
     {
         return parent::model($className);
+    }
+
+    public function  getSchoolDaysPerCent(){
+
+        $schoolDaysUntilToday = $this->getSchoolDaysUntilToday();
+        $schoolDaysTotal = $this->getTotalSchoolDays();
+        if($schoolDaysTotal && $schoolDaysUntilToday){
+            return round(($schoolDaysUntilToday * 100) / $schoolDaysTotal);
+        }
+        return 0;
+
+    }
+    public function getSchoolDaysUntilToday(){
+        $query = "
+                select
+                    sum(q.avaliable) as avaliable_days,
+                    sum(q.unavailable)as unavaliable_days,
+                    sum(q.avaliable) + sum(q.unavailable) as total
+                from
+                (
+                    select
+                        s.`year`,
+                        s.`month`,
+                        case
+                            when s.unavailable = 0 then 1
+                            else 0
+                        end as avaliable,
+                        case
+                            when s.unavailable = 1 then 1
+                            else 0
+                        end as unavailable
+                    from
+                        schedule s
+                    where
+                        s.classroom_fk = :classId
+                        and STR_TO_DATE(CONCAT( s.`day` , '/', s.`month`, '/', s.`year`), '%d/%m/%Y') <= now()
+                    group by
+                        s.`year`,
+                        s.`month`,
+                        s.`day`
+                    )
+                     as q";
+        $command = Yii::app()->db->createCommand($query);
+        $command->bindValue(':classId', $this->id, PDO::PARAM_INT);
+        $row = (object) $command->queryRow();
+
+        return $row->avaliable_days ?? $row->available_days;
+    }
+    public function getTotalSchoolDays(){
+        $query = "
+                    select
+                        sum(q.avaliable) as avaliable_days,
+                        sum(q.unavailable)as unavaliable_days,
+                        sum(q.avaliable) + sum(q.unavailable) as total
+                    from
+                        (
+                        select
+                            s.`year`,
+                            s.`month`,
+                            case
+                                when s.unavailable = 0 then 1
+                                else 0
+                            end as avaliable,
+                            case
+                                when s.unavailable = 1 then 1
+                                else 0
+                            end as unavailable
+                        from
+                            schedule s
+                        where
+                            s.classroom_fk = :classroomId
+                        group by
+                            s.`year`,
+                            s.`month`,
+                            s.`day`) as q";
+        $command = Yii::app()->db->createCommand($query);
+        $command->bindValue(':classroomId', $this->id, PDO::PARAM_INT);
+        $row = (object) $command->queryRow();
+
+        return $row->avaliable_days??$row->available_days ;
     }
 
 }
