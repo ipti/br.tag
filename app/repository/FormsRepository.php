@@ -12,7 +12,7 @@ class FormsRepository
         $this->currentYear = Yii::app()->user->year;
     }
 
-    public function contentsPerDisciplineCalculate($classroom, $disciplineId, $enrollmentId)
+    /*   public function contentsPerDisciplineCalculate($classroom, $disciplineId, $enrollmentId)
     {
         // calculando o total de aulas ministradas naquela turma na disciplina específica
         $totalContents = 0;
@@ -44,6 +44,16 @@ class FormsRepository
         }
 
         return $totalContents;
+    } */
+
+
+    public function totalClassesPerDiscipline($classroomId, $disciplineId)
+    {
+        $criteriaTotalClasses = new CDbCriteria();
+        $criteriaTotalClasses->alias = 's';
+        $criteriaTotalClasses->condition = 's.unavailable = 0 AND s.classroom_fk = :classroom AND s.discipline_fk = :discipline';
+        $criteriaTotalClasses->params = [':classroom' => $classroomId, ':discipline' => $disciplineId];
+        return Schedule::model()->count($criteriaTotalClasses);
     }
 
     private function faultsPerDisciplineCalculate($schedulesPerUnityPeriods, $disciplineId, $classFaults, $enrollmentId)
@@ -244,7 +254,7 @@ class FormsRepository
             $mediaExists = false;
 
             // cálculo de aulas dadas
-            $totalContentsPerDiscipline = $this->contentsPerDisciplineCalculate($enrollment->classroomFk, $discipline, $enrollment->id);
+            $totalContentsPerDiscipline = $this->totalClassesPerDiscipline($enrollment->classroomFk->id, $discipline);
 
 
             $totalFaultsPerDicipline = $enrollment->countFaultsDiscipline($discipline);

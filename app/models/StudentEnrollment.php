@@ -358,7 +358,7 @@ class StudentEnrollment extends AltActiveRecord
             $criteriaTotalClasses->condition = 'AND s.month >= :initialMonth AND s.month <= :finalMonth AND s.unavailable = 0 AND s.classroom_fk = :classroom';
             $criteriaTotalClasses->params = [':initialMonth' => $initialMonth, ':finalMonth' => $finalMonth, ':classroom' => $classroom->id];
 
-            $criteriaTotalFaults->condition = 'se.id = :enrollment AND cf.justification IS NULL AND AND s.month >= :initialMonth AND s.month <= :finalMonth AND s.unavailable = 0';
+            $criteriaTotalFaults->condition = 'se.id = :enrollment AND cf.justification IS NULL AND s.month >= :initialMonth AND s.month <= :finalMonth AND s.unavailable = 0';
             $criteriaTotalFaults->params = [':enrollment' => $this->id, ':initialMonth' => $initialMonth, ':finalMonth' => $finalMonth];
         } else {
 
@@ -424,10 +424,11 @@ class StudentEnrollment extends AltActiveRecord
     public function studentEnrolmentFrequencyPerDiscipline($disciplineId)
     {
         $classroom = $this->classroomFk;
-        $totalClasses = Schedule::model()->countByAttributes([
-            "classroom_fk" => $classroom->id,
-            "discipline_fk" => $disciplineId
-        ]);
+        $criteriaTotalClasses = new CDbCriteria();
+        $criteriaTotalClasses->alias = 's';
+        $criteriaTotalClasses->condition = 's.unavailable = 0 AND s.classroom_fk = :classroom AND s.discipline_fk = :discipline';
+        $criteriaTotalClasses->params = [':classroom' => $classroom->id, ':discipline'=> $disciplineId];
+        $totalClasses = Schedule::model()->count($criteriaTotalClasses);
 
         $criteria = new CDbCriteria();
         $criteria->alias = 'cf';
@@ -507,9 +508,9 @@ class StudentEnrollment extends AltActiveRecord
                         JOIN schedule s1 ON cf.schedule_fk = s1.id
                         WHERE s1.classroom_fk = :classroomId
                         AND cf.student_fk = :studentId
-                        AND s1.discipline_fk = :disciplineId) sf
-                        AND cf.justification IS NULL',
-                    't.classroom_fk = sf.classroom_fk
+                        AND cf.justification IS NULL
+                        AND s1.discipline_fk = :disciplineId) sf',
+                    ' t.classroom_fk = sf.classroom_fk
                         AND sf.`month` = t.month
                         AND sf.`day` = t.`day`
                         AND sf.discipline_fk = t.discipline_fk'
