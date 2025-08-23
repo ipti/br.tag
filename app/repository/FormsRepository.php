@@ -249,6 +249,15 @@ class FormsRepository
 
             $totalFaultsPerDicipline = $enrollment->countFaultsDiscipline($discipline);
 
+            $frequency = '';
+            $isMinorEducation = TagUtils::isStageMinorEducation($enrollment->classroomFk->edcenso_stage_vs_modality_fk);
+
+            if (!$isMinorEducation) {
+                $frequency = $enrollment->studentEnrolmentFrequencyPerDiscipline($discipline);
+            } else {
+                $frequency = $enrollment->totalStudentEnrolmentFrequency();
+            }
+
             foreach ($gradesResult as $gradeResult) {
                 // se existe notas para essa disciplina
                 if ($gradeResult->disciplineFk->id == $discipline) {
@@ -259,7 +268,7 @@ class FormsRepository
                         "partial_recoveries" => $partialRecovery,
                         "total_number_of_classes" => $totalContentsPerDiscipline,
                         "total_faults" => $totalFaultsPerDicipline,
-                        "frequency_percentage" => round((($totalContentsPerDiscipline - $totalFaultsPerDicipline) / ($totalContentsPerDiscipline ?: 1)) * 100)
+                        "frequency_percentage" => $frequency
                     ]);
                     $mediaExists = true;
                     break; // quebro o laço para diminuir a complexidade do algoritmo para O(log n)2
@@ -274,7 +283,7 @@ class FormsRepository
                     "partial_recoveries" => $partialRecovery,
                     "total_number_of_classes" => $totalContentsPerDiscipline,
                     "total_faults" => $totalFaultsPerDicipline,
-                    "frequency_percentage" => round((($totalContentsPerDiscipline - $totalFaultsPerDicipline) / ($totalContentsPerDiscipline ?: 1)) * 100)
+                    "frequency_percentage" => $frequency
                 ]);
             }
         }
@@ -619,7 +628,6 @@ class FormsRepository
         return Yii::app()->db->createCommand($sql)
             ->bindParam(':enrollment_id', $enrollmentId)
             ->queryRow();
-
     }
 
     /**
@@ -729,7 +737,6 @@ class FormsRepository
         return Yii::app()->db->createCommand($sql)
             ->bindParam(':enrollment_id', $enrollmentId)
             ->queryRow();
-
     }
 
     /**
@@ -818,11 +825,11 @@ class FormsRepository
                 foreach ($result as $r) {
                     if ($r['discipline_id'] == $d['discipline_id'] && $r['student_id'] == $s['student_fk']) {
                         $finalMedia = $r['final_media'];
-                        if($isMinorStage) {
+                        if ($isMinorStage) {
                             $finalMedia = $this->checkConceptGradeRange($finalMedia, $concepts);
                         }
                         $r['situation'] = mb_strtoupper($r['situation']);
-                       if($s->getCurrentStatus() == 'DEIXOU DE FREQUENTAR') {
+                        if ($s->getCurrentStatus() == 'DEIXOU DE FREQUENTAR') {
                             $finalSituation = 'DEIXOU DE FREQUENTAR';
                         } elseif ($r['situation'] == 'REPROVADO') {
                             $finalSituation = 'REPROVADO';
@@ -832,7 +839,6 @@ class FormsRepository
                             $finalSituation = 'APROVADO';
                         } elseif ($r['situation'] == 'TRANSFERIDO' && $finalSituation != 'REPROVADO' && $finalSituation != 'RECUPERAÇÃO' && $finalSituation != 'APROVADO') {
                             $finalSituation = 'TRANSFERIDO';
-
                         }
                         break;
                     }
@@ -850,7 +856,6 @@ class FormsRepository
                     )
                 );
             }
-
         }
 
         $response = array(
@@ -866,7 +871,8 @@ class FormsRepository
         return $response;
     }
 
-    public function checkConceptGradeRange($finalMedia, $concepts) {
+    public function checkConceptGradeRange($finalMedia, $concepts)
+    {
         $matchedConcept = null;
 
         foreach ($concepts as $concept) {
@@ -876,7 +882,7 @@ class FormsRepository
             }
         }
 
-        if( $matchedConcept != null ) {
+        if ($matchedConcept != null) {
             return $matchedConcept;
         }
         return $finalMedia;
@@ -952,8 +958,6 @@ class FormsRepository
         return Yii::app()->db->createCommand($sql)
             ->bindParam(':enrollment_id', $enrollmentId)
             ->queryRow();
-
-
     }
 
     /**
@@ -1102,7 +1106,6 @@ class FormsRepository
             case 'N':
                 $turn = 'Noturno';
                 break;
-
         }
 
         $response = array('student' => $data, 'turn' => $turn);

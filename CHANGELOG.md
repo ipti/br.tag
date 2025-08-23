@@ -1,3 +1,6 @@
+## [Versão 3.2.4]
+- Inclusão de faltas justificadas no cálculo da frequência
+
 ## [Versão 3.2.3]
 - Permitir exportação do censo com ou sem certidões de nascimento
 

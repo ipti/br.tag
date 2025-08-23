@@ -334,87 +334,91 @@ class StudentEnrollment extends AltActiveRecord
         $isMinorEducation = TagUtils::isStageMinorEducation($classroom->edcensoStageVsModalityFk->edcenso_associated_stage_id);
 
 
-        //Frequência fundamental Maior
         if (!$isMinorEducation) {
-
-            $criteriaTotalClasses = new CDbCriteria();
-            $criteriaTotalClasses->alias = 's';
-
-            $criteriaTotalFaults = new CDbCriteria();
-            $criteriaTotalFaults->alias = 'cf';
-            $criteriaTotalFaults->join = "INNER JOIN schedule s ON s.id = cf.schedule_fk";
-
-            //frequencia em um periodo
-            if ($initialMonth != null && $finalMonth != null) {
-                $criteriaTotalClasses->condition = 'AND s.month >= :initialMonth AND s.month <= :finalMonth AND s.unavailable = 0 AND s.classroom_fk = :classroom';
-                $criteriaTotalClasses->params = [':initialMonth' => $initialMonth, ':finalMonth' => $finalMonth, ':classroom' => $classroom->id];
-
-                $criteriaTotalFaults->condition = 'se.id = :enrollment AND cf.justification IS NULL AND AND s.month >= :initialMonth AND s.month <= :finalMonth AND s.unavailable = 0';
-                $criteriaTotalFaults->params = [':enrollment' => $this->id, ':initialMonth' => $initialMonth, ':finalMonth' => $finalMonth];
-
-            } else {
-
-                $criteriaTotalClasses->condition = 's.unavailable = 0 AND s.classroom_fk = :classroom';
-                $criteriaTotalClasses->params = [':classroom' => $classroom->id];
-
-                $criteriaTotalFaults->condition = 'se.id = :enrollment AND cf.justification IS NULL';
-                $criteriaTotalFaults->params = [':enrollment' => $this->id];
-
-            }
-
-            $totalClasses = ClassFaults::model()->count($criteriaTotalClasses);
-
-            $criteriaTotalFaults->join .= ' INNER JOIN student_identification si ON si.id = cf.student_fk
-                       INNER JOIN student_enrollment se ON se.student_fk = si.id';
-            $totalFaults = ClassFaults::model()->count($criteriaTotalFaults);
-
+            //Frequência fundamental Maior
+            return $this->frequencyMiddleSchool($initialMonth, $finalMonth, $classroom);
+        } else {
             //Frequência fundamental Menor
+
+            return $this->frequencyMinorEducation($initialMonth, $finalMonth, $classroom);
+        }
+    }
+
+    private function frequencyMiddleSchool($initialMonth = null, $finalMonth = null, $classroom)
+    {
+        $criteriaTotalClasses = new CDbCriteria();
+        $criteriaTotalClasses->alias = 's';
+
+        $criteriaTotalFaults = new CDbCriteria();
+        $criteriaTotalFaults->alias = 'cf';
+        $criteriaTotalFaults->join = "INNER JOIN schedule s ON s.id = cf.schedule_fk";
+
+        //frequencia em um periodo
+        if ($initialMonth != null && $finalMonth != null) {
+            $criteriaTotalClasses->condition = 'AND s.month >= :initialMonth AND s.month <= :finalMonth AND s.unavailable = 0 AND s.classroom_fk = :classroom';
+            $criteriaTotalClasses->params = [':initialMonth' => $initialMonth, ':finalMonth' => $finalMonth, ':classroom' => $classroom->id];
+
+            $criteriaTotalFaults->condition = 'se.id = :enrollment AND cf.justification IS NULL AND AND s.month >= :initialMonth AND s.month <= :finalMonth AND s.unavailable = 0';
+            $criteriaTotalFaults->params = [':enrollment' => $this->id, ':initialMonth' => $initialMonth, ':finalMonth' => $finalMonth];
         } else {
 
-            $criteriaTotalClasses = new CDbCriteria();
-            $criteriaTotalClasses->alias = 's';
-            $criteriaTotalClasses->select = 's.day';
-            $criteriaTotalClasses->group = 's.day';
+            $criteriaTotalClasses->condition = 's.unavailable = 0 AND s.classroom_fk = :classroom';
+            $criteriaTotalClasses->params = [':classroom' => $classroom->id];
 
-            $criteriaTotalFaults = new CDbCriteria();
-            $criteriaTotalFaults->alias = 'cf';
-            $criteriaTotalFaults->select = 's.day';
-            $criteriaTotalFaults->group = 's.day';
+            $criteriaTotalFaults->condition = 'se.id = :enrollment AND cf.justification IS NULL';
+            $criteriaTotalFaults->params = [':enrollment' => $this->id];
+        }
 
-            $criteriaTotalFaults->join = '
+        $totalClasses = ClassFaults::model()->count($criteriaTotalClasses);
+
+        $criteriaTotalFaults->join .= ' INNER JOIN student_identification si ON si.id = cf.student_fk
+                       INNER JOIN student_enrollment se ON se.student_fk = si.id';
+        $totalFaults = ClassFaults::model()->count($criteriaTotalFaults);
+
+        return round((($totalClasses - $totalFaults) / ($totalClasses ?: 1)) * 100);
+    }
+    private function frequencyMinorEducation($initialMonth = null, $finalMonth = null, $classroom)
+    {
+
+        $criteriaTotalClasses = new CDbCriteria();
+        $criteriaTotalClasses->alias = 's';
+        $criteriaTotalClasses->select = 's.day, s.month, s.year';
+        $criteriaTotalClasses->group = 's.year, s.month, s.day';
+
+        $criteriaTotalFaults = new CDbCriteria();
+        $criteriaTotalFaults->alias = 'cf';
+        $criteriaTotalFaults->select = 's.day, s.month, s.year';
+        $criteriaTotalFaults->group = 's.day, s.month, s.year';
+
+        $criteriaTotalFaults->join = '
                 INNER JOIN student_enrollment se ON se.student_fk = cf.student_fk
                 INNER JOIN schedule s ON s.id = cf.schedule_fk
             ';
 
 
-            //frequencia em um periodo
-            if
-            ($initialMonth != null && $finalMonth != null) {
+        //frequencia em um periodo
+        if ($initialMonth != null && $finalMonth != null) {
 
-                $criteriaTotalClasses->condition = 'classroom_fk = :classroomId AND  s.unavailable = 0 AND s.month >= :initialMonth AND s.month <= :finalMonth';
-                $criteriaTotalClasses->params = [':classroomId' => $classroom->id, ':initialMonth' => $initialMonth, ':finalMonth' => $finalMonth];
+            $criteriaTotalClasses->condition = 'classroom_fk = :classroomId AND  s.unavailable = 0 AND s.month >= :initialMonth AND s.month <= :finalMonth';
+            $criteriaTotalClasses->params = [':classroomId' => $classroom->id, ':initialMonth' => $initialMonth, ':finalMonth' => $finalMonth];
 
-                $criteriaTotalFaults->condition = 'se.id = :enrollmentId AND s.classroom_fk = :classroomId  AND cf.justification IS NULL AND s.unavailable = 0 AND s.month >= :initialMonth AND s.month <= :finalMonth';
-                $criteriaTotalFaults->params = [':enrollmentId' => $this->id, ':classroomId' => $classroom->id, ':initialMonth' => $initialMonth, ':finalMonth' => $finalMonth];
+            $criteriaTotalFaults->condition = 'se.id = :enrollmentId AND s.classroom_fk = :classroomId  AND cf.justification IS NULL AND s.unavailable = 0 AND s.month >= :initialMonth AND s.month <= :finalMonth';
+            $criteriaTotalFaults->params = [':enrollmentId' => $this->id, ':classroomId' => $classroom->id, ':initialMonth' => $initialMonth, ':finalMonth' => $finalMonth];
+        } else {
 
-            } else {
+            $criteriaTotalClasses->condition = 'classroom_fk = :classroomId AND s.unavailable = 0';
+            $criteriaTotalClasses->params = [':classroomId' => $classroom->id];
 
-                $criteriaTotalClasses->condition = 'classroom_fk = :classroomId AND s.unavailable = 0';
-                $criteriaTotalClasses->params = [':classroomId' => $classroom->id];
-
-                $criteriaTotalFaults->condition = 'se.id = :enrollmentId AND s.classroom_fk = :classroomId AND cf.justification IS NULL AND s.unavailable = 0';
-                $criteriaTotalFaults->params = [':enrollmentId' => $this->id, ':classroomId' => $classroom->id];
-            }
-
-
-            $totalClasses = Schedule::model()->count($criteriaTotalClasses);
-
-            $totalFaults = ClassFaults::model()->count($criteriaTotalFaults);
-
+            $criteriaTotalFaults->condition = 'se.id = :enrollmentId AND s.classroom_fk = :classroomId AND cf.justification IS NULL AND s.unavailable = 0';
+            $criteriaTotalFaults->params = [':enrollmentId' => $this->id, ':classroomId' => $classroom->id];
         }
 
-        return round((($totalClasses - $totalFaults) / ($totalClasses ?: 1)) * 100);
 
+        $totalClasses = Schedule::model()->count($criteriaTotalClasses);
+
+        $totalFaults = ClassFaults::model()->count($criteriaTotalFaults);
+
+        return round((($totalClasses - $totalFaults) / ($totalClasses ?: 1)) * 100);
     }
 
     public function studentEnrolmentFrequencyPerDiscipline($disciplineId)
@@ -435,7 +439,6 @@ class StudentEnrollment extends AltActiveRecord
         $totalFaults = ClassFaults::model()->count($criteria);
 
         return round((($totalClasses - $totalFaults) / ($totalClasses ?: 1)) * 100);
-
     }
 
     public function alreadyExists()
@@ -487,12 +490,12 @@ class StudentEnrollment extends AltActiveRecord
         $command = Yii::app()->db->createCommand()
             ->from('class_faults cf')
             ->join('schedule s', 'cf.schedule_fk = s.id')
-            ->where('student_fk = :studentId and s.classroom_fk = :classroomId')
+            ->where('student_fk = :studentId and s.classroom_fk = :classroomId and cf.justification IS NULL')
             ->select('count(DISTINCT CONCAT(s.`year`, s.`month`, s.`day`))')
             ->bindValues([
-                    ':classroomId' => $classroomId,
-                    ':studentId' => $studentId
-                ]);
+                ':classroomId' => $classroomId,
+                ':studentId' => $studentId
+            ]);
 
         if (!$isMinorEducation) {
             $command = Yii::app()->db->createCommand()
@@ -504,22 +507,21 @@ class StudentEnrollment extends AltActiveRecord
                         JOIN schedule s1 ON cf.schedule_fk = s1.id
                         WHERE s1.classroom_fk = :classroomId
                         AND cf.student_fk = :studentId
-                        AND s1.discipline_fk = :disciplineId) sf',
+                        AND s1.discipline_fk = :disciplineId) sf
+                        AND cf.justification IS NULL',
                     't.classroom_fk = sf.classroom_fk
                         AND sf.`month` = t.month
                         AND sf.`day` = t.`day`
                         AND sf.discipline_fk = t.discipline_fk'
                 )
                 ->bindValues([
-                        ':classroomId' => $classroomId,
-                        ':studentId' => $studentId,
-                        ':disciplineId' => $disciplineId,
-                    ]);
+                    ':classroomId' => $classroomId,
+                    ':studentId' => $studentId,
+                    ':disciplineId' => $disciplineId,
+                ]);
         }
 
         return $command->queryScalar() ?? 0;
-
-
     }
 
 
@@ -678,9 +680,7 @@ class StudentEnrollment extends AltActiveRecord
                     $absences[2] = count($this->getFaultsByExam(2));
                     $absences[3] = count($this->getFaultsByExam(3));
                     $absences[4] = count($this->getFaultsByExam(4));
-
                 }
-
             }
         }
 
@@ -740,7 +740,6 @@ class StudentEnrollment extends AltActiveRecord
                 $fill($evaluations, $recovery, $frequency, $absences, $average, $workDaysByDiscipline, 'diversified');
                 $disciplineFilter['diversified'][] = null;
             }
-
         }
 
         $result = [
