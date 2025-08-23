@@ -21,8 +21,8 @@ class ReportsRepository
             'condition' => 'school_inep_fk = :school_id and school_year = :year',
             'order' => 'name',
             'params' =>  array(
-                ':school_id'=> $this->currentSchool,
-                ':year'=>  $this->currentYear,
+                ':school_id' => $this->currentSchool,
+                ':year' =>  $this->currentYear,
             ),
         ));
 
@@ -31,8 +31,8 @@ class ReportsRepository
                 'condition' => 'school_inep_id_fk = :school_id and send_year = :year',
                 'order' => 'name',
                 'params' =>  array(
-                    ':school_id'=> $this->currentSchool,
-                    ':year'=>  $this->currentYear,
+                    ':school_id' => $this->currentSchool,
+                    ':year' =>  $this->currentYear,
                 ),
             )
         );
@@ -42,8 +42,6 @@ class ReportsRepository
         $stages = EdcensoStageVsModality::model()->findAll();
 
         return array('classrooms' => $classrooms, 'students' => $students, 'schools' => $schools, 'stages' => $stages);
-
-
     }
 
     /**
@@ -71,8 +69,6 @@ class ReportsRepository
             ->queryAll();
 
         return array("report" => $result);
-
-
     }
 
     /**
@@ -100,8 +96,6 @@ class ReportsRepository
         $title = "RELATÓRIO DE ALUNOS DE TODAS AS ESCOLAS (CPF, RG E NIS)<br>" . $school->name;
 
         return array("report" => $result, "allSchools" => $allSchools, "title" => $title);
-
-
     }
 
     /**
@@ -129,8 +123,6 @@ class ReportsRepository
         $title = "RELATÓRIO DE ALUNOS POR ESCOLA (CPF, RG E NIS)<br>" . $school->name;
 
         return array("report" => $result, "allClassrooms" => $allClassrooms, "title" => $title);
-
-
     }
 
     /**
@@ -158,8 +150,6 @@ class ReportsRepository
 
 
         return array("report" => $result, "title" => $title);
-
-
     }
 
     /**
@@ -207,8 +197,6 @@ class ReportsRepository
         $title = "QUANTITATIVO DE ALUNOS MATRICULADOS POR PERÍODO <br>DE TODAS AS ESCOLAS";
 
         return array("report" => $result, "allSchools" => $allSchools, "title" => $title);
-
-
     }
 
     /**
@@ -259,8 +247,6 @@ class ReportsRepository
         $title = "QUANTITATIVO DE ALUNOS MATRICULADOS POR PERÍODO<br>" . $school->name;
 
         return array("report" => $result, "allClassrooms" => $allClassrooms, "title" => $title);
-
-
     }
 
     /**
@@ -305,8 +291,6 @@ class ReportsRepository
         $title = "QUANTITATIVO DE ALUNOS MATRICULADOS POR PERÍODO<br>" . $classroom->name;
 
         return array("report" => $result, "title" => $title);
-
-
     }
 
     /**
@@ -335,8 +319,6 @@ class ReportsRepository
             ->queryAll();
 
         return array("report" => $result, "allSchools" => $allSchools, "title" => $title);
-
-
     }
 
     /**
@@ -363,8 +345,6 @@ class ReportsRepository
             ->queryAll();
 
         return array("report" => $result, "allSchools" => $allSchools, "title" => $title);
-
-
     }
 
     /**
@@ -395,8 +375,6 @@ class ReportsRepository
             ->queryAll();
 
         return array("report" => $result, "allSchools" => $allSchools, "title" => $title);
-
-
     }
 
     /**
@@ -415,18 +393,18 @@ class ReportsRepository
         $result = [];
 
         foreach ($schools as $school) {
-            array_push($result, array(
-                "school" => $school,
-                "classrooms" => array_filter($classrooms, function ($classroom) use ($school) {
-                    return $classroom->school_inep_fk == $school->inep_id;
-                })
-            )
+            array_push(
+                $result,
+                array(
+                    "school" => $school,
+                    "classrooms" => array_filter($classrooms, function ($classroom) use ($school) {
+                        return $classroom->school_inep_fk == $school->inep_id;
+                    })
+                )
             );
         }
 
         return array("report" => $result, "title" => $title);
-
-
     }
 
     /**
@@ -523,8 +501,6 @@ class ReportsRepository
         }
 
         return array("report" => $result);
-
-
     }
 
     /**
@@ -572,8 +548,6 @@ class ReportsRepository
         $header = $result[0]['school_name'];
 
         return array("report" => $result, "title" => $title, "header" => $header);
-
-
     }
 
     /**
@@ -595,8 +569,6 @@ class ReportsRepository
         $header = '';
 
         return array("report" => $result, "title" => $title, "header" => $header);
-
-
     }
 
     /**
@@ -628,8 +600,6 @@ class ReportsRepository
         }
 
         return array("report" => $result);
-
-
     }
 
     /**
@@ -693,8 +663,6 @@ class ReportsRepository
         $header = $result[0]['classroom_name'];
 
         return array("report" => $result, "title" => $title, "header" => $header);
-
-
     }
 
     /**
@@ -722,8 +690,6 @@ class ReportsRepository
         $title = "RELATÓRIO CNS ESCOLAS";
 
         return array("report" => $result, "title" => $title, "allSchools" => $allSchools, "countTotal" => $countTotal);
-
-
     }
 
     /**
@@ -752,8 +718,6 @@ class ReportsRepository
         $header = $result[0]['school_name'];
 
         return array("report" => $result, "title" => $title, "header" => $header, "countTotal" => $countTotal);
-
-
     }
 
     /**
@@ -884,8 +848,6 @@ class ReportsRepository
         }
 
         return array("response" => $result, "view" => $view);
-
-
     }
 
     /**
@@ -991,8 +953,6 @@ class ReportsRepository
         }
 
         return array("error" => $error, "message" => $message, "response" => $result);
-
-
     }
 
     /**
@@ -1088,8 +1048,6 @@ class ReportsRepository
         }
 
         return array("error" => $error, "message" => $message, "response" => $result);
-
-
     }
 
     /**
@@ -1187,8 +1145,6 @@ class ReportsRepository
         }
 
         return array("error" => $error, "message" => $message, "view" => $view, "response" => $result);
-
-
     }
 
     /**
@@ -1250,8 +1206,6 @@ class ReportsRepository
             ->queryAll();
 
         return array('students' => $students, 'classroom' => $classroom);
-
-
     }
 
     /**
@@ -1324,8 +1278,6 @@ class ReportsRepository
             ->queryAll();
 
         return array('school' => $school, 'students' => $students, 'classrooms' => $classrooms);
-
-
     }
 
     /**
@@ -1354,8 +1306,6 @@ class ReportsRepository
             'school' => $school,
             'students' => $students
         );
-
-
     }
 
     /**
@@ -1376,8 +1326,6 @@ class ReportsRepository
         $classroom = Classroom::model()->findByPk($classroomId);
 
         return array('report' => $result, 'classroom' => $classroom);
-
-
     }
 
     /**
@@ -1401,9 +1349,7 @@ class ReportsRepository
             ->bindParam(':school_year', $this->currentYear)
             ->queryAll();
 
-        return array('report' => $result, );
-
-
+        return array('report' => $result,);
     }
 
     /**
@@ -1425,8 +1371,6 @@ class ReportsRepository
         $classroom = Classroom::model()->findByPk($classroomId);
 
         return array('report' => $result, 'classroom' => $classroom);
-
-
     }
 
     /**
@@ -1485,8 +1429,6 @@ class ReportsRepository
         $classroom = Classroom::model()->findByPk($classroomId);
 
         return array('report' => $result, 'classroom' => $classroom);
-
-
     }
 
     /**
@@ -1526,8 +1468,6 @@ class ReportsRepository
             ->queryAll();
 
         return array('school' => $school, 'classroom' => $classrooms, 'students' => $students);
-
-
     }
 
     /**
@@ -1569,8 +1509,6 @@ class ReportsRepository
             ->queryAll();
 
         return array('school' => $school, 'classroom' => $classrooms, 'students' => $students);
-
-
     }
 
     /**
@@ -1612,8 +1550,6 @@ class ReportsRepository
             ->queryAll();
 
         return array("school" => $school, "classroom" => $classrooms, 'instructor' => $instructor);
-
-
     }
 
     /**
@@ -1667,8 +1603,6 @@ class ReportsRepository
         unset($classroom);
 
         return array('school' => $school, 'classroom' => $classrooms);
-
-
     }
 
     /**
@@ -1707,8 +1641,6 @@ class ReportsRepository
             ->queryAll();
 
         return array('school' => $school, 'classroom' => $classroom, 'students' => $students);
-
-
     }
 
     /**
@@ -1741,8 +1673,6 @@ class ReportsRepository
             ->queryAll();
 
         return array('school' => $school, 'students' => $students);
-
-
     }
 
     /**
@@ -1777,16 +1707,14 @@ class ReportsRepository
                     WHERE c.id = :id AND (i.role = 8 OR i.role = 2)
                     ORDER BY id.name";
             $classroom["professors"] =  Yii::app()
-                                        ->db
-                                        ->createCommand($sql)
-                                        ->bindParam(":id", $classroom["id"])
-                                        ->queryAll();
+                ->db
+                ->createCommand($sql)
+                ->bindParam(":id", $classroom["id"])
+                ->queryAll();
         }
         unset($classroom);
 
         return array('school' => $school, 'classrooms' => $classrooms);
-
-
     }
 
     /**
@@ -1807,12 +1735,12 @@ class ReportsRepository
             ORDER BY c.id";
 
         $classroom = Yii::app()->db->createCommand($sqlClassrooms)
-                    ->bindParam(":school_year", $this->currentYear)
-                    ->bindParam(":school_id", $this->currentSchool)
-                    ->queryAll();
+            ->bindParam(":school_year", $this->currentYear)
+            ->bindParam(":school_id", $this->currentSchool)
+            ->queryAll();
 
         $sqlDiscipline =
-                "SELECT
+            "SELECT
                     GROUP_CONCAT(ed.name) `Disciplina`
                 FROM classroom c
                 LEFT JOIN instructor_teaching_data itd ON itd.classroom_id_fk = c.id
@@ -1824,13 +1752,11 @@ class ReportsRepository
                 ORDER BY c.id";
 
         $disciplina = Yii::app()->db->createCommand($sqlDiscipline)
-                        ->bindParam(":school_year", $this->currentYear)
-                        ->bindParam(":school_id", $school->inep_id)
-                        ->queryAll();
+            ->bindParam(":school_year", $this->currentYear)
+            ->bindParam(":school_id", $school->inep_id)
+            ->queryAll();
 
         return array('school' => $school, 'classroom' => $classroom, 'disciplina' => $disciplina);
-
-
     }
 
     /**
@@ -1863,8 +1789,6 @@ class ReportsRepository
             ->queryAll();
 
         return array('school' => $school, 'classroom' => $classrooms, 'instructor' => $instrutors);
-
-
     }
 
     /**
@@ -1901,8 +1825,6 @@ class ReportsRepository
             ->queryAll();
 
         return array('school' => $school, 'role' => $role, 'classroom' => $classrooms);
-
-
     }
 
     /**
@@ -1936,8 +1858,6 @@ class ReportsRepository
             ->queryAll();
 
         return array("classroom" => $classrooms);
-
-
     }
 
     /**
@@ -1986,8 +1906,6 @@ class ReportsRepository
             'matricula1' => $enrollment1,
             'matricula2' => $enrollment2
         );
-
-
     }
 
     /**
@@ -2006,8 +1924,6 @@ class ReportsRepository
             ->queryAll();
 
         return array('report' => $result);
-
-
     }
 
     /**
@@ -2046,8 +1962,6 @@ class ReportsRepository
         $result = Yii::app()->db->createCommand($sql)->queryAll();
 
         return array('report' => $result);
-
-
     }
 
     /**
@@ -2066,8 +1980,6 @@ class ReportsRepository
             ->queryAll();
 
         return array('report' => $result);
-
-
     }
 
     /**
@@ -2163,7 +2075,7 @@ class ReportsRepository
             on (c.id = cf.classroom_fk AND se.student_fk = cf.student_fk AND cf.month = t.month) ';
         $command->where(
             'c.school_year = :year and (svm.id < 14 or svm.id > 16) '
-            . $conditions,
+                . $conditions,
             $arrFields
         );
         $command->group = "c.id, t.month, si.id, cf.faults";
@@ -2183,8 +2095,6 @@ class ReportsRepository
         }
 
         return array('reports' => $groupByClassroom);
-
-
     }
 
     /**
@@ -2207,8 +2117,6 @@ class ReportsRepository
             ->queryAll();
 
         return array('report' => $result);
-
-
     }
 
     /**
@@ -2222,22 +2130,24 @@ class ReportsRepository
             $criteria->join = ""
                 . " join instructor_teaching_data on instructor_teaching_data.classroom_id_fk = c.id "
                 . " join instructor_identification on"
-                ." instructor_teaching_data.instructor_fk = instructor_identification.id ";
+                . " instructor_teaching_data.instructor_fk = instructor_identification.id ";
             // Adicionando condição de busca
             $criteria->condition =  "c.school_year = :school_year"
-                                    ."and c.school_inep_fk = :school_inep_fk"
-                                    ." and instructor_identification.users_fk = :users_fk";
+                . "and c.school_inep_fk = :school_inep_fk"
+                . " and instructor_identification.users_fk = :users_fk";
             $criteria->order = "name";
-            $criteria->params = array(' :school_year' => $this->currentYear,
-                                        ':school_inep_fk' => $this->currentSchool,
-                                        ':users_fk' => Yii::app()->user->loginInfos->id);
+            $criteria->params = array(
+                ' :school_year' => $this->currentYear,
+                ':school_inep_fk' => $this->currentSchool,
+                ':users_fk' => Yii::app()->user->loginInfos->id
+            );
 
             $classrooms = Classroom::model()->findAll($criteria);
         } else {
             $classrooms = Classroom::model()->findAll('school_year = :school_year and school_inep_fk = :school_inep_fk order by name', ['school_year' => $this->currentYear, 'school_inep_fk' => $this->currentSchool]);
         }
 
-        $response = array('classrooms' => $classrooms,'schoolyear' => $this->currentYear);
+        $response = array('classrooms' => $classrooms, 'schoolyear' => $this->currentYear);
 
         return $response;
     }
@@ -2268,8 +2178,6 @@ class ReportsRepository
             ->queryAll();
 
         return array('report' => $result);
-
-
     }
 
     /**
@@ -2294,8 +2202,6 @@ class ReportsRepository
         $result = Yii::app()->db->createCommand($sql)->queryAll();
 
         return array('report' => $result);
-
-
     }
 
     /**
@@ -2445,9 +2351,10 @@ class ReportsRepository
         return $result;
     }
 
-    public function getEjaClassroomNameForReport($studentEnrollment, $year) {
+    public function getEjaClassroomNameForReport($studentEnrollment, $year)
+    {
         $classroomDetails = $this->getClassroomDetails($studentEnrollment->classroom_fk, $year);
-        if($classroomDetails){
+        if ($classroomDetails) {
             $classroomName = $this->getStudentEnrollmentDetails($studentEnrollment);
         } else {
             $classroomName = null;
@@ -2456,7 +2363,8 @@ class ReportsRepository
         return $classroomName;
     }
 
-    private function getClassroomDetails($classroomFk, $year) {
+    private function getClassroomDetails($classroomFk, $year)
+    {
         $query = "SELECT * FROM classroom c
                   JOIN edcenso_stage_vs_modality esvm ON esvm.id = c.edcenso_stage_vs_modality_fk
                   WHERE c.id = :id and c.school_year = :year and (esvm.stage = 6 OR esvm.name LIKE '%multi%' OR esvm.name LIKE '%Multi%')";
@@ -2469,7 +2377,8 @@ class ReportsRepository
         return $classroomDetails;
     }
 
-    private function getStudentEnrollmentDetails($studentEnrollment) {
+    private function getStudentEnrollmentDetails($studentEnrollment)
+    {
         $query = "SELECT esm.name
                   FROM student_enrollment se
                   JOIN edcenso_stage_vs_modality esm ON esm.id = se.edcenso_stage_vs_modality_fk
@@ -2483,16 +2392,18 @@ class ReportsRepository
         return $enrollmentDetails;
     }
 
-    private function getUnities($classroomId, $stage) {
+    private function getUnities($classroomId, $stage)
+    {
         $criteria = new CDbCriteria();
-            $criteria->alias = 'gu';
-            $criteria->join = 'join grade_rules gr on gr.id = gu.grade_rules_fk';
-            $criteria->join .= ' join grade_rules_vs_edcenso_stage_vs_modality grvesvm on gr.id = grvesvm.grade_rules_fk';
-            $criteria->join .= ' join classroom_vs_grade_rules cvgr on cvgr.grade_rules_fk = gr.id';
-            $criteria->condition = 'grvesvm.edcenso_stage_vs_modality_fk = :stage and cvgr.classroom_fk = :classroom';
-            $criteria->params = array(':classroom' => $classroomId, ":stage"=>$stage);
+        $criteria->alias = 'gu';
+        $criteria->distinct = true;
+        $criteria->join = 'join grade_rules gr on gr.id = gu.grade_rules_fk';
+        $criteria->join .= ' join grade_rules_vs_edcenso_stage_vs_modality grvesvm on gr.id = grvesvm.grade_rules_fk';
+        $criteria->join .= ' join classroom_vs_grade_rules cvgr on cvgr.grade_rules_fk = gr.id';
+        $criteria->condition = 'grvesvm.edcenso_stage_vs_modality_fk = :stage and cvgr.classroom_fk = :classroom';
+        $criteria->params = array(':classroom' => $classroomId, ":stage" => $stage);
 
-            return GradeUnity::model()->findAll($criteria);
+        return GradeUnity::model()->findAll($criteria);
     }
 
     /**
@@ -2504,12 +2415,10 @@ class ReportsRepository
             ->with('edcensoStageVsModalityFk.gradeUnities')
             ->find("t.id = :classroom", [":classroom" => $classroomId]);
 
-        $gradeUnitiesByClassroom = $classroom->edcensoStageVsModalityFk->gradeUnities;
-
-         if($isMulti) {
+        $gradeUnitiesByClassroom = $this->getUnities($classroomId, $classroom->edcensoStageVsModalityFk->id);
+        if ($isMulti) {
             $gradeUnitiesByClassroom = $this->getUnities($classroomId, $stage);
-
-         }
+        }
         if ($gradeUnitiesByClassroom !== null) {
             $result["isUnityConcept"] = $gradeUnitiesByClassroom[0]->type == "UC";
             $result["unityNames"] = [];

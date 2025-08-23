@@ -386,6 +386,10 @@ class StudentController extends Controller implements AuthenticateSEDTokenInterf
             && isset($_POST[$this->STUDENT_RESTRICTIONS]) && isset($_POST[$this->STUDENT_DISORDER])
         ) {
             $modelStudentIdentification->attributes = $_POST[$this->STUDENT_IDENTIFICATION];
+
+            $id_indigenous_people = $_POST[$this->STUDENT_IDENTIFICATION]['id_indigenous_people'];
+            $modelStudentIdentification->id_indigenous_people = $id_indigenous_people === "" ? null : $id_indigenous_people;
+
             $modelStudentDocumentsAndAddress->attributes = $_POST[$this->STUDENT_DOCUMENTS_AND_ADDRESS];
             $modelStudentRestrictions->attributes = $_POST[$this->STUDENT_RESTRICTIONS];
             $modelStudentDisorder->attributes = $_POST[$this->STUDENT_DISORDER];
@@ -541,6 +545,10 @@ class StudentController extends Controller implements AuthenticateSEDTokenInterf
             && isset($_POST[$this->STUDENT_RESTRICTIONS]) && isset($_POST[$this->STUDENT_DISORDER])
         ) {
             $modelStudentIdentification->attributes = $_POST[$this->STUDENT_IDENTIFICATION];
+
+            $id_indigenous_people = $_POST[$this->STUDENT_IDENTIFICATION]['id_indigenous_people'];
+            $modelStudentIdentification->id_indigenous_people = $id_indigenous_people === "" ? null : $id_indigenous_people;
+
             $modelStudentDocumentsAndAddress->attributes = $_POST[$this->STUDENT_DOCUMENTS_AND_ADDRESS];
             $modelStudentRestrictions->attributes = $_POST[$this->STUDENT_RESTRICTIONS];
             $modelStudentDisorder->attributes = $_POST[$this->STUDENT_DISORDER];

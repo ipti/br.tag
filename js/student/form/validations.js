@@ -721,8 +721,8 @@ $(deficiency).change(function () {
             "change",
             [true]
         );
-        $(".resources-container").show();
-    } else {
+         $(".resources-container").show();
+    } else if (!$(this).is(":checked") && !$('.js-disorders-impact-learning').is(":checked")){
         $(allDeficiency).attr("disabled", "disabled").removeAttr("checked");
         $("#StudentIdentification_deficiencies")
             .parent(".js-visibility-deficiencies")
@@ -730,7 +730,7 @@ $(deficiency).change(function () {
         $("#StudentIdentification_resource_aid_lector")
             .closest(".js-visibility-dresource")
             .hide();
-        $(".resources-container").hide();
+         $(".resources-container").hide();
         $(".resources-container input[type=checkbox]").prop("checked", false);
     }
 });

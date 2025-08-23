@@ -22,6 +22,8 @@
  * @property StudentDocumentsAndAddress[] $studentDocumentsAndAddresses
  * @property StudentDocumentsAndAddress[] $studentDocumentsAndAddresses1
  * @property StudentIdentification[] $studentIdentifications
+ *
+ *
  */
 class EdcensoCity extends TagModel
 {
@@ -120,4 +122,17 @@ class EdcensoCity extends TagModel
 			'criteria'=>$criteria,
 		));
 	}
+
+    public function validateContainsCep($cep){
+        if(!isset($cep)){
+            return false;
+        }
+
+        $clearedCEP = preg_replace("/[^0-9]/", "", $cep );
+
+        if($clearedCEP >= $this->cep_initial && $clearedCEP <= $this->cep_final){
+            return true;
+        }
+         return false;
+    }
 }
