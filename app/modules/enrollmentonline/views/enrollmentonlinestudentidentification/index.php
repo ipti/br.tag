@@ -41,7 +41,7 @@ $this->breadcrumbs = array(
                         array(
                             'name' => 'name',
                             'type' => 'raw',
-                            'value' => '"Jonh Doe Santos da Silva"',
+                            'value' => '$data->name',
                             'htmlOptions' => array('width' => '300px', 'class' => 'link-update-grid-view'),
                         )
                     );
@@ -49,7 +49,7 @@ $this->breadcrumbs = array(
                         $columns,
                         array(
                             'header' => 'Cpf',
-                            'value' => '"06856356298"',
+                            'value' => '$data->cpf',
                             'htmlOptions' => array('width' => '200px'),
                             'filter' => false
                         )
@@ -58,7 +58,7 @@ $this->breadcrumbs = array(
                         $columns,
                         array(
                             'header' => 'Responsável',
-                            'value' => '"José Bezerra"',
+                            'value' => '$data->responsable_name',
                             'htmlOptions' => array('width' => '200px'),
                             'filter' => false
                         )
@@ -72,44 +72,6 @@ $this->breadcrumbs = array(
                             'htmlOptions' => array('width' => '300px', 'class' => 'link-update-grid-view'),
                         )
                     );
-                    array_push(
-                        $columns,
-                        array(
-                            'name' => 'Status',
-                            'type' => 'raw',
-                            'value' => '"Aguardando"',
-                            'htmlOptions' => array('width' => '150px', 'class' => 'link-update-grid-view'),
-                        )
-                    );
-                    array_push(
-                        $columns,
-                        array(
-                            'name' => 'enrollmentStatus',
-                            'header' => 'Mat. Status',
-                            'value' => '"Criada"',
-                            'htmlOptions' => array('width' => '150px', 'class' => 'link-update-grid-view'),
-                        )
-                    );
-                    array_push(
-                        $columns,
-                        array(
-                            'name' => 'edcensoStageVsModalityFk',
-                            'header' => 'Rematricula',
-                            'value' => '"Não"',
-                            'htmlOptions' => array('width' => '100px'),
-                        )
-                    );
-                    array_push(
-                        $columns,
-                        array(
-                            'header' => 'Prioriedade',
-                            'value' => '"Sim"',
-                            'htmlOptions' => array('width' => '100px'),
-                            'filter' => false
-                        )
-                    );
-
-
                     array_push(
                         $columns,
                         array(
@@ -143,7 +105,8 @@ $this->breadcrumbs = array(
                         'enableSorting' => false,
                         'itemsCssClass' => 'js-tag-table tag-table-primary table table-condensed
                         table-striped table-hover table-primary table-vertical-center checkboxs',
-                        // 'afterAjaxUpdate' => 'function(id, data){initDatatable()}', // TODO: essa linha está causando erro quando SEDSP desabiitado
+                        // Remova qualquer inicialização automática do DataTables se não estiver usando DataTables
+                        'afterAjaxUpdate' => 'function(id, data){initDatatable()}', // TODO: essa linha está causando erro quando SEDSP desabiitado
                         'columns' => $columns,
                     ));
                     ?>

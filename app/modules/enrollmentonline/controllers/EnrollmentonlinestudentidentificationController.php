@@ -189,19 +189,20 @@ class EnrollmentOnlineStudentIdentificationController extends Controller
     public function actionIndex()
     {
         $schoolInepId = Yii::app()->user->school;
-        $dataProvider = new CActiveDataProvider('EnrollmentOnlineStudentIdentification', array(
-            'criteria' => array(
+        $dataProvider = new CActiveDataProvider('EnrollmentOnlineStudentIdentification', [
+            'criteria' => [
                 'alias' => 'eosi',
-                'with' => array(
-                    'enrollmentOnlineEnrollmentSolicitations' => array(
+                'with' => [
+                    'enrollmentOnlineEnrollmentSolicitations' => [
                         'alias' => 'eoes',
+                        'together' => true,
                         'joinType' => 'INNER JOIN',
-                    ),
-                ),
+                    ],
+                ],
                 'condition' => 'eoes.school_inep_id_fk = :schoolInepId',
-                'params' => array(':schoolInepId' => $schoolInepId),
-            ),
-        ));
+                'params' => [':schoolInepId' => $schoolInepId],
+            ],
+        ]);
 
 
 

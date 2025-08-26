@@ -212,6 +212,7 @@ function initDatatable() {
             //Definido placeholder para cada módulo
             if(action.includes("school")) $('.dataTables_filter input[type="search"]').attr('placeholder', '  Pesquisar escola')
             else if(action.includes("activeDisableUser")) $('.dataTables_filter input[type="search"]').attr('placeholder', '  Pesquisar usuário')
+            else if(action.includes("enrollmentonline")) $('.dataTables_filter input[type="search"]').attr('placeholder', '  Pesquisar pre-matrícula')
             else if(action.includes("classroom")) $('.dataTables_filter input[type="search"]').attr('placeholder', '  Pesquisar turma')
             else if(action.includes("instructor")) $('.dataTables_filter input[type="search"]').attr('placeholder', '  Pesquisar professor')
             else if(action.includes("manageUsers")) $('.dataTables_filter input[type="search"]').attr('placeholder', '  Pesquisar usuário')
@@ -233,6 +234,7 @@ function initDatatable() {
             //adiciona o ícone de pesquisa e loading
             $('.dataTables_filter label').prepend(
                 '<img src="../../../themes/default/img/search-icon.svg">'
+                //'<i class="icon-search"></i>'
             );
 
             $('#student-identification-table_filter').css("display", "flex").prepend(

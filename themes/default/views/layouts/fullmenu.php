@@ -277,6 +277,13 @@ $cs->registerCssFile(Yii::app()->baseUrl . "/sass/css/main.css?v=" . TAG_VERSION
                                     </a>
                                 </li>
                                 <li
+                                    class="t-menu-item <?= strpos($_SERVER['REQUEST_URI'], "?r=enrollmentonline") || $_SERVER['REQUEST_URI'] == "/" ? 'active' : '' ?> hide-responsive">
+                                    <a href="<?php echo yii::app()->createUrl('enrollmentonline/Enrollmentonlinestudentidentification/index') ?>" class="t-menu-item__link">
+                                        <span class="t-icon-backpack t-menu-item__icon"></span>
+                                        <span class="t-menu-item__text">Matrícula Online</span>
+                                    </a>
+                                </li>
+                                <li
                                     class="t-menu-item <?= strpos($_SERVER['REQUEST_URI'], "?r=calendar") ? 'active' : '' ?> hide-responsive">
                                     <a class="t-menu-item__link" href="<?php echo yii::app()->createUrl('calendar') ?> ">
                                         <span class="t-icon-calendar t-menu-item__icon"></span>
