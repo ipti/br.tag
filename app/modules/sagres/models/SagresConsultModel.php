@@ -20,7 +20,6 @@ use GoetasWebservices\Xsd\XsdToPhpRuntime\Jms\Handler\XmlSchemaDateHandler;
 use TagUtils;
 use ValidationSagresModel;
 use Classroom;
-use PeriodOptions;
 
 use Yii;
 use ZipArchive;
@@ -71,10 +70,7 @@ class SagresConsultModel
 
             $resetQuery = "ALTER TABLE inconsistency_sagres AUTO_INCREMENT = 1";
             $connection->createCommand($resetQuery)->execute();
-
-            //    $transaction->commit();
         } catch (Exception $e) {
-            //    $transaction->rollback();
             throw $e;
         }
     }
@@ -632,10 +628,11 @@ class SagresConsultModel
     public function getClasses($inepId, $referenceYear, $month, $finalClass, $withoutCpf)
     {
         $classList = [];
-        $schoolName = $this->getSchoolName($inepId);
         $turmas = $this->getTurmasInClasses($inepId, $referenceYear);
 
+
         if (empty($turmas)) {
+            $schoolName = $this->getNameSchool($inepId);
             $inconsistencyModel = new ValidationSagresModel();
             $inconsistencyModel->enrollment = '<strong>ESCOLA<strong>';
             $inconsistencyModel->school = $schoolName;
@@ -645,6 +642,8 @@ class SagresConsultModel
             $inconsistencyModel->idSchool = $inepId;
             $inconsistencyModel->insert();
         }
+
+        $schoolName = $turmas[0]["schoolName"];
 
         foreach ($turmas as $turma) {
 
@@ -668,9 +667,8 @@ class SagresConsultModel
                 $inconsistencyModel->insert();
             }
 
-            $serie = $this->getSeries2025($classId, $inepId, $referenceYear, $month, $finalClass, $withoutCpf);
-
-            $multiserie = $this->isMulti($classId);
+            $multiserie = TagUtils::isMultiStage($turma["easId"]);
+            $serie = $this->getSeries($classId, $inepId, $referenceYear, $schoolName, $finalClass, $withoutCpf,$multiserie);
 
             $classType
                 ->setPeriodo($turma["period"]) //0 - Anual
@@ -702,7 +700,6 @@ class SagresConsultModel
 
         return $classList;
     }
-
     private function hasAtLeastOneRegistration($seriePreenchida, $serie)
     {
         if ($seriePreenchida) {
@@ -722,10 +719,13 @@ class SagresConsultModel
                     c.turn AS classroomTurn,
                     COALESCE(esvm.edcenso_associated_stage_id, c.edcenso_stage_vs_modality_fk) as stage,
                     c.period,
-                    c.ignore_on_sagres
+                    c.ignore_on_sagres,
+                    si.name AS schoolName,
+                    esvm.edcenso_associated_stage_id as easId
                 FROM
                     classroom c
                     join edcenso_stage_vs_modality esvm on c.edcenso_stage_vs_modality_fk = esvm.id
+                    join school_identification si on si.inep_id  = c.school_inep_fk
                 WHERE
                     c.school_inep_fk = :schoolInepFk
                     AND c.school_year = :referenceYear";
@@ -837,23 +837,15 @@ class SagresConsultModel
      * Summary of SerieTType
      * @return SerieTType[]
      */
-    public function getSeries2025($classId, $inepId, $referenceYear, $month, $finalClass, $withoutCpf)
+    public function getSeries($classId, $inepId, $referenceYear, $schoolName, $finalClass, $withoutCpf,$multiStage)
     {
         $seriesList = [];
-
-        $school = (object) \SchoolIdentification::model()->findByAttributes(array('inep_id' => $inepId));
-
-        $classroom = (object) \Classroom::model()->with('edcensoStageVsModalityFk')->findByPk($classId);
-
-        $easId = $classroom->edcensoStageVsModalityFk->edcenso_associated_stage_id;
-
-        $multiStage = TagUtils::isMultiStage($easId);
 
         $query = $this->getSeriesQuery($multiStage);
         $series = Yii::app()->db->createCommand($query)->bindValue(":id", $classId)->queryAll();
 
-        $seriesList = $this->seriesAssembly($series, $school->name, $classId, $referenceYear, $finalClass, $inepId, $withoutCpf, $multiStage);
-        $this->seriesNumberValidation($series, 3, $school->name, $classId);
+        $seriesList = $this->seriesAssembly($series, $schoolName, $classId, $referenceYear, $finalClass, $inepId, $withoutCpf, $multiStage);
+        $this->seriesNumberValidation($series, 3, $schoolName, $classId);
 
         return $seriesList;
     }
@@ -914,7 +906,6 @@ class SagresConsultModel
         return $seriesList;
 
     }
-
     private function isIssetSerieId($idSerie, $schoolName, $classId, $multiStage)
     {
         if (!isset($idSerie) && $multiStage) {
@@ -964,7 +955,6 @@ class SagresConsultModel
                 c.id = :id; ";
         }
     }
-
     private function getSerieID($serie, $edcensoCode, $edcensoCodes): string|null
     {
         if ((int) $serie->complementaryActivity === 1 && (int) $serie->schooling === 0) {
@@ -987,7 +977,6 @@ class SagresConsultModel
         }
         return $response;
     }
-
     private function getSerieValidation($serieType, $schoolName, $classId, $edcensoCode, $edcensoCodes): void
     {
 
@@ -1027,14 +1016,6 @@ class SagresConsultModel
             $inconsistencyModel->idClass = $idClass;
             $inconsistencyModel->insert();
         }
-    }
-
-    private function isMulti($classId): bool
-    {
-        $classroom = (object) \Classroom::model()->with('edcensoStageVsModalityFk')->findByPk($classId);
-
-        $easId = $classroom->edcensoStageVsModalityFk->edcenso_associated_stage_id;
-        return \TagUtils::isMultiStage($easId);
     }
 
     /**
@@ -1594,9 +1575,11 @@ class SagresConsultModel
                     p.cpf_professional  AS cpfProfissional,
                     p.speciality  AS especialidade,
                     p.inep_id_fk AS idEscola,
+                    si.name AS schoolName,
                     fundeb
                 FROM professional p
                     JOIN attendance a ON p.id_professional  = a.professional_fk  and MONTH(a.date) <= :currentMonth
+                    JOIN school_identification si on p.inep_id_fk = si.inep_id
                 WHERE
                     YEAR(a.date) = :reference_year";
 
@@ -1625,14 +1608,10 @@ class SagresConsultModel
                 );
             $professionalList[] = $professionalType;
 
-            $sql = "SELECT name FROM school_identification WHERE inep_id = :inepId";
-            $params = array(':inepId' => $professional['idEscola']);
-            $schoolRes = Yii::app()->db->createCommand($sql)->bindValues($params)->queryRow();
-
             if (!$this->validaCPF($professionalType->getCpfProfissional())) {
                 $inconsistencyModel = new ValidationSagresModel();
                 $inconsistencyModel->enrollment = 'PROFISSIONAL';
-                $inconsistencyModel->school = $schoolRes['name'];
+                $inconsistencyModel->school = $professional['schoolName'];
                 $inconsistencyModel->description = 'CPF inválido: ' . $professional['cpfProfissional'];
                 $inconsistencyModel->action = 'Informar um CPF válido';
                 $inconsistencyModel->identifier = '2';
@@ -1644,7 +1623,7 @@ class SagresConsultModel
             if (strlen($professionalType->getEspecialidade()) > $strMaxLength) {
                 $inconsistencyModel = new ValidationSagresModel();
                 $inconsistencyModel->enrollment = 'PROFISSIONAL';
-                $inconsistencyModel->school = $schoolRes['name'];
+                $inconsistencyModel->school = $professional['schoolName'];
                 $inconsistencyModel->description = 'Especialidade com mais de 50 caracteres';
                 $inconsistencyModel->action = 'Informar uma descrição para a especialidade com até 50 caracteres';
                 $inconsistencyModel->identifier = '2';
@@ -1716,8 +1695,6 @@ class SagresConsultModel
     {
         $enrollmentList = [];
         $strlen = 5;
-        $school = (object) \SchoolIdentification::model()->findByAttributes(array('inep_id' => $inepId));
-        $schoolName = $school->name;
 
         $enrollments = $this->getEnrollmentsInDB($classId, $referenceYear);
 
@@ -1725,10 +1702,11 @@ class SagresConsultModel
             return null;
         }
 
+        $this->checkSingleStudentWithoutCpf($enrollments,  $classId, $referenceYear,  $inepId);
+
         foreach ($enrollments as $enrollment) {
-
             $convertedBirthdate = $this->convertBirthdate($enrollment['birthdate']);
-
+            $schoolName = $enrollment["schoolName"];
             if ($convertedBirthdate === false) {
                 $inconsistencyModel = new ValidationSagresModel();
                 $inconsistencyModel->enrollment = STUDENT_STRONG;
@@ -1743,12 +1721,9 @@ class SagresConsultModel
                 continue;
             }
 
-            $cpf = $this->getStudentCpf($enrollment);
-
-            $this->checkSingleStudentWithoutCpf($enrollments, $cpf, $classId, $referenceYear, $school, $inepId);
-
             if ($withoutCpf) {
                 $studentType = new AlunoTType();
+                $cpf = $enrollment['studentCpf'];
                 if (!empty($cpf)) {
                     $birthdate = DateTime::createFromFormat(DATE_FORMAT, $convertedBirthdate);
                     $studentType
@@ -1772,9 +1747,9 @@ class SagresConsultModel
                         $this->checkAge($age, $educationLevel, $arrayStudentInfo);
                     }
 
-                    $this->studentValidation($studentType, $school->name, $cpf, $classId, $enrollment, $strlen);
+                    $this->studentValidation($studentType, $schoolName, $cpf, $classId, $enrollment, $strlen);
 
-                    $this->isNullStudentType($studentType, $school, $enrollment, $classId);
+                    $this->isNullStudentType($studentType, $schoolName, $enrollment, $classId);
 
                 } else {
                     $birthdate = DateTime::createFromFormat(DATE_FORMAT, $convertedBirthdate);
@@ -1800,13 +1775,13 @@ class SagresConsultModel
                         $this->checkAge($age, $educationLevel, $arrayStudentInfo);
                     }
 
-                    $this->isNullStudentType($studentType, $school, $enrollment, $classId);
+                    $this->isNullStudentType($studentType, $schoolName, $enrollment, $classId);
 
                 }
             } else {
                 $studentType = new AlunoTType();
                 $convertedBirthdate = $this->convertBirthdate($enrollment['birthdate']);
-
+                $cpf = $enrollment['studentCpf'];
                 if (!empty($cpf)) {
                     $studentType
                         ->setNome($enrollment['name'])
@@ -1827,7 +1802,7 @@ class SagresConsultModel
                     $this->studentValidationWhioutCpf($studentType, $schoolName, $enrollment['cpf_reason'], $classId, $enrollment, $strlen);
                 }
 
-                $this->isNullStudentType($studentType, $school, $enrollment, $classId);
+                $this->isNullStudentType($studentType, $schoolName, $enrollment, $classId);
 
             }
 
@@ -1839,7 +1814,7 @@ class SagresConsultModel
                 ->setAluno($studentType)
                 ->setEnrollmentStage($enrollment['enrollment_stage']);
 
-            $this->matriculaValidation($enrollment, $enrollmentType, $studentType, $school->name, $classId, $finalClass);
+            $this->matriculaValidation($enrollment, $enrollmentType, $studentType, $schoolName, $classId, $finalClass);
 
             $enrollmentList[] = $enrollmentType;
 
@@ -1848,19 +1823,12 @@ class SagresConsultModel
         return $enrollmentList;
     }
 
-    private function getStudentCpf($enrollment)
-    {
-        $query1 = "SELECT cpf from student_documents_and_address WHERE id = :idStudent";
-        $command = Yii::app()->db->createCommand($query1);
-        $command->bindValues([':idStudent' => $enrollment['id']]);
-        return $command->queryScalar();
-    }
-    private function isNullStudentType($studentType, $school, $enrollment, $classId)
+    private function isNullStudentType($studentType, $schoolName, $enrollment, $classId)
     {
         if (is_null($studentType)) {
             $inconsistencyModel = new ValidationSagresModel();
             $inconsistencyModel->enrollment = STUDENT_STRONG;
-            $inconsistencyModel->school = $school->name;
+            $inconsistencyModel->school = $schoolName;
             $inconsistencyModel->description = INCONSISTENCY_STUDENT_NOT_FOUND_FOR_CLASS_REGISTRATION;
             $inconsistencyModel->action = INCONSISTENCY_ACTION_STUDENT_NOT_FOUND_FOR_CLASS_REGISTRATION;
             $inconsistencyModel->identifier = '9';
@@ -1879,6 +1847,8 @@ class SagresConsultModel
         $query = "SELECT
                         c.edcenso_stage_vs_modality_fk,
                         c.modality,
+                        si2.name as schoolName,
+                        sdaa.cpf as studentCpf,
                         se.id as numero,
                         se.student_fk,
                         se.create_date AS data_matricula,
@@ -1916,6 +1886,7 @@ class SagresConsultModel
                   FROM
                         student_enrollment se
                         join classroom c on se.classroom_fk = c.id
+                        JOIN school_identification si2 on si2.inep_id  = c.school_inep_fk
                         join student_identification si on si.id = se.student_fk
                         join student_documents_and_address sdaa on si.id = sdaa.id
                         left join class_faults cf on cf.student_fk = si.id
@@ -1926,7 +1897,6 @@ class SagresConsultModel
                         c.school_year = :referenceYear
                   GROUP BY se.id
                   order by si.name asc;
-
                 ";
 
         $command = Yii::app()->db->createCommand($query);
@@ -2220,20 +2190,23 @@ class SagresConsultModel
 
     }
 
-    private function checkSingleStudentWithoutCpf(array $enrollments, $cpf, $classId, $referenceYear, $school, $inepId)
+    private function checkSingleStudentWithoutCpf(array $enrollments, $classId, $referenceYear,  $inepId)
     {
-        if (count($enrollments) === 1 && empty($cpf)) {
-            $className = $this->getClassName($classId, $referenceYear);
-
-            $inconsistencyModel = new ValidationSagresModel();
-            $inconsistencyModel->enrollment = TURMA_STRONG;
-            $inconsistencyModel->school = $school->name;
-            $inconsistencyModel->description = 'A turma: <strong>' . $className . '</strong> possui apenas um estudante sem CPF. Como o sistema não aceita matrículas sem CPF, esta turma é considerada sem alunos matriculados.';
-            $inconsistencyModel->action = 'Adicione o CPF do aluno ou delete a turma.';
-            $inconsistencyModel->identifier = '10';
-            $inconsistencyModel->idClass = $classId;
-            $inconsistencyModel->idSchool = $inepId;
-            $inconsistencyModel->insert();
+        if (count($enrollments) === 1 ) {
+            $schoolName = $enrollments[0]->schoolName;
+            $cpf = $enrollments[0]["studentCpf"];
+            if(empty($cpf)){
+                $className = $this->getClassName($classId, $referenceYear);
+                $inconsistencyModel = new ValidationSagresModel();
+                $inconsistencyModel->enrollment = TURMA_STRONG;
+                $inconsistencyModel->school = $schoolName;
+                $inconsistencyModel->description = 'A turma: <strong>' . $className . '</strong> possui apenas um estudante sem CPF. Como o sistema não aceita matrículas sem CPF, esta turma é considerada sem alunos matriculados.';
+                $inconsistencyModel->action = 'Adicione o CPF do aluno ou delete a turma.';
+                $inconsistencyModel->identifier = '10';
+                $inconsistencyModel->idClass = $classId;
+                $inconsistencyModel->idSchool = $inepId;
+                $inconsistencyModel->insert();
+            }
         }
     }
 
