@@ -85,10 +85,12 @@
  * @property integer $ignore_on_sagres
  * @property integer $period
  * @property integer $is_special_education
+ * @property integer $status
  *
  * The followings are the available model relations:
  * @property ClassBoard[] $classBoards
  * @property Calendar $calendarFk
+ * @property ClassroomStatus $statusFK
  * @property SchoolIdentification $schoolInepFk
  * @property EdcensoProfessionalEducationCourse $edcensoProfessionalEducationCourseFk
  * @property EdcensoStageVsModality $edcensoStageVsModalityFk
@@ -172,7 +174,7 @@ class Classroom extends AltActiveRecord
         // will receive user inputs.
         return array(
             array('name, edcenso_stage_vs_modality_fk, modality, school_inep_fk, initial_hour, initial_minute, final_hour, final_minute, week_days_sunday, week_days_monday, week_days_tuesday, week_days_wednesday, week_days_thursday, week_days_friday, week_days_saturday, school_year, pedagogical_mediation_type', 'required'),
-            array('is_special_education, pedagogical_mediation_type, week_days_sunday, week_days_monday, week_days_tuesday, week_days_wednesday, week_days_thursday, week_days_friday, week_days_saturday, assistance_type, mais_educacao_participator, complementary_activity_type_1, complementary_activity_type_2, complementary_activity_type_3, complementary_activity_type_4, complementary_activity_type_5, complementary_activity_type_6, modality, edcenso_professional_education_course_fk, school_year, calendar_fk, schooling, diff_location, course, complementary_activity, aee, aee_braille, aee_optical_nonoptical, aee_cognitive_functions, aee_mobility_techniques, aee_libras, aee_caa, aee_curriculum_enrichment, aee_soroban, aee_accessible_teaching, aee_portuguese, aee_autonomous_life, sedsp_school_unity_fk, sedsp_sync, sedsp_max_physical_capacity, ignore_on_sagres, period', 'numerical', 'integerOnly' => true),
+            array('status, is_special_education, pedagogical_mediation_type, week_days_sunday, week_days_monday, week_days_tuesday, week_days_wednesday, week_days_thursday, week_days_friday, week_days_saturday, assistance_type, mais_educacao_participator, complementary_activity_type_1, complementary_activity_type_2, complementary_activity_type_3, complementary_activity_type_4, complementary_activity_type_5, complementary_activity_type_6, modality, edcenso_professional_education_course_fk, school_year, calendar_fk, schooling, diff_location, course, complementary_activity, aee, aee_braille, aee_optical_nonoptical, aee_cognitive_functions, aee_mobility_techniques, aee_libras, aee_caa, aee_curriculum_enrichment, aee_soroban, aee_accessible_teaching, aee_portuguese, aee_autonomous_life, sedsp_school_unity_fk, sedsp_sync, sedsp_max_physical_capacity, ignore_on_sagres, period', 'numerical', 'integerOnly' => true),
             array('register_type, initial_hour, initial_minute, final_hour, final_minute, sedsp_acronym', 'length', 'max' => 2),
             array('sedsp_classnumber', 'length', 'max' => 3),
             array('edcenso_stage_vs_modality_fk', 'length', 'max' => 6),
@@ -198,6 +200,7 @@ class Classroom extends AltActiveRecord
             'classBoards' => array(self::HAS_MANY, 'ClassBoard', 'classroom_fk'),
             'schedules' => array(self::HAS_MANY, 'Schedule', 'classroom_fk'),
             'calendarFk' => array(self::BELONGS_TO, 'Calendar', 'calendar_fk'),
+            'statusFk' => array(self::BELONGS_TO, 'ClassroomStatus', 'status'),
             'schoolInepFk' => array(self::BELONGS_TO, 'SchoolIdentification', 'school_inep_fk'),
             'edcensoStageVsModalityFk' => array(self::BELONGS_TO, 'EdcensoStageVsModality', 'edcenso_stage_vs_modality_fk'),
             'classroomHasCoursePlans' => array(self::HAS_MANY, 'ClassroomHasCoursePlan', 'classroom_fk'),
@@ -326,6 +329,7 @@ class Classroom extends AltActiveRecord
             'ignore_on_sagres' => "Ignore On Sagres",
             'period' => "Período",
             'is_special_education' => "Is Special Education",
+            'status' => 'Status',
         );
     }
 
