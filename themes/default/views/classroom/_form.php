@@ -231,8 +231,8 @@ $form = $this->beginWidget(
 
                             <div class="t-field-select">
                                 <?= $form->label($modelClassroom, 'status', ['class' => 't-field-select__label--required']) ?>
-                                <?= $form->DropDownList($modelClassroom, 'status',  CHtml::listData(ClassroomStatus::model()->findAll(), 'id', 'name'), ['class' => 'select-search-off t-field-select__input', 'prompt' => 'Selecione a unidade escolar']) ?>
-                                <?= $form->error($modelClassroom, 'status'); ?>
+                                <?= $form->DropDownList($modelClassroom, 'classroom_status',  CHtml::listData(ClassroomStatus::model()->findAll(), 'id', 'name'), ['class' => 'select-search-off t-field-select__input', 'prompt' => 'Selecione a unidade escolar']) ?>
+                                <?= $form->error($modelClassroom, 'classroom_status'); ?>
                             </div>
 
                             <div class="t-field-checkbox-group">
