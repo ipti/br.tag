@@ -890,6 +890,7 @@ return array(
     'nutritionist' => 'Nutricionista',
     'guardian' => 'Pai/Mãe ou responsável',
     'reader' => 'Somente Leitura',
+    'superuser' => 'Super Usuário',
     'admin' => 'Administrador',
     'Edit Password' => 'Alterar Senha',
 

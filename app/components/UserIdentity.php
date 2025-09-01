@@ -61,6 +61,7 @@ class UserIdentity extends CUserIdentity
                 || Yii::app()->getAuthManager()->checkAccess('nutritionist', $record->id)
                 || Yii::app()->getAuthManager()->checkAccess('reader', $record->id)
                 || Yii::app()->getAuthManager()->checkAccess('guardian', $record->id)
+                || Yii::app()->getAuthManager()->checkAccess('superuser', $record->id)
             ) {
                 $userSchools = [];
                 $this->setState('hardfoot', false);

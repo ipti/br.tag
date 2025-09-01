@@ -15,7 +15,7 @@ class AdminController extends Controller
                 'users' => ['*'],
             ],
             [
-                'allow', // allow authenticated user to perform 'create' and 'update' actions
+                'allow', // allow authenticated user to perform other actions
                 'actions' => [
                     'import',
                     'export',
@@ -105,7 +105,6 @@ SELECT
             } catch (Exception $e) {
                 // $results[] = ["database" => $dbname, "professores" => 'Erro', "alunos" => 'Erro', "gestores" => 'Erro', "secretarios" => $e->getMessage()];
             }
-
         }
 
         // Exibir os resultados em formato de tabela
@@ -127,7 +126,6 @@ SELECT
         fclose($fp);
 
         echo "<p><a href='$csv_file' download>Baixar CSV</a></p>";
-
     }
 
     public function actionExportMaster()
@@ -431,7 +429,7 @@ SELECT
             ]
         );
         if (isset($_POST['Users'])) {
-            if (!isset($_POST['schools']) && ($_POST['Role']) != 'admin' && ($_POST['Role']) != 'nutritionist' && ($_POST['Role']) != 'reader' && ($_POST['Role'] != 'guardian')) {
+            if (!isset($_POST['schools']) && ($_POST['Role']) != 'admin' && ($_POST['Role'] != 'superuser') && ($_POST['Role']) != 'nutritionist' && ($_POST['Role']) != 'reader' && ($_POST['Role'] != 'guardian')) {
                 Yii::app()->user->setFlash('error', Yii::t('default', 'É necessário atribuir uma escola para o novo usuário criado!'));
                 $this->redirect(['index']);
             }
@@ -454,7 +452,6 @@ SELECT
                         if ($save) {
                             $auth = Yii::app()->authManager;
                             $auth->assign($_POST['Role'], $model->id);
-
                         }
                         if (isset($_POST['instructor']) && $_POST['instructor'] != "") {
                             $instructors = InstructorIdentification::model()->find("id = :id", ["id" => $_POST['instructor']]);
@@ -721,7 +718,6 @@ SELECT
                 }
 
                 $modalityModel->save();
-
             } elseif ($hasFinalRecovery === false && $finalRecovery["operation"] === "delete" && $gradeRules->rule_type === "N") {
                 $recoveryUnity = GradeUnity::model()->find('id = :id', array(':id' => $finalRecovery["id"]));
                 $recoveryUnity?->delete();
@@ -737,7 +733,6 @@ SELECT
 
             throw $th;
         }
-
     }
 
 
@@ -755,7 +750,6 @@ SELECT
     {
 
         echo phpinfo();
-
     }
 
     public function actionDisableUser($id)
@@ -815,14 +809,12 @@ SELECT
             if ($userSchool !== null) {
                 foreach ($userSchool as $register) {
                     $register->delete('users_school', 'user_fk=' . $id);
-
                 }
             }
 
             // Excluindo o registro na tabela de usuário
             $user->delete('users', 'id=' . $id);
             $delete = true;
-
         }
 
         // Redirecionando para a tela de gerenciar usuários
@@ -831,7 +823,6 @@ SELECT
             $this->redirect(array('admin/manageUsers'));
         } else {
             Yii::app()->user->setFlash('error', Yii::t('default', 'Erro! Não foi possível excluir o usuário, tente novamente!'));
-
         }
     }
 
@@ -1003,14 +994,44 @@ SELECT
 
     public function actionInstanceConfig()
     {
-        $configs = InstanceConfig::model()->findAll();
+
+        $configs = InstanceConfig::model()->findAllByAttributes(["superuseraccess" => 0]);
         $this->render('instanceConfig', [
+            "configs" => $configs
+        ]);
+    }
+    public function actionManageModules()
+    {
+        if (!Yii::app()->getAuthManager()->checkAccess('superuser', Yii::app()->user->loginInfos->id)) {
+            $this->redirect(array('/'));
+            Yii::app()->end();
+        }
+
+        $configs = InstanceConfig::model()->findAllByAttributes(["superuseraccess" => 1]);
+        $this->render('manageModules', [
             "configs" => $configs
         ]);
     }
 
     public function actionEditInstanceConfigs()
     {
+        $changed = false;
+        foreach ($_POST["configs"] as $config) {
+            $instanceConfig = InstanceConfig::model()->findByPk($config["id"]);
+            if ($instanceConfig->value != $config["value"]) {
+                $instanceConfig->value = $config["value"];
+                $instanceConfig->save();
+                $changed = true;
+            }
+        }
+        echo json_encode(["valid" => $changed, "text" => "Configurações alteradas com sucesso.</br>"]);
+    }
+    public function actionEditManageModules()
+    {
+        if (!Yii::app()->getAuthManager()->checkAccess('superuser', Yii::app()->user->loginInfos->id)) {
+            $this->redirect(array('/'));
+            Yii::app()->end();
+        }
         $changed = false;
         foreach ($_POST["configs"] as $config) {
             $instanceConfig = InstanceConfig::model()->findByPk($config["id"]);
