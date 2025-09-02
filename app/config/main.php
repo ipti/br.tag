@@ -85,6 +85,7 @@ return array(
         'application.modules.sedsp.datasources.sed.*',
         'application.modules.sagres.soap.src.sagresEdu.*',
         'application.components.utils.TagUtils',
+        'application.components.utils.TMenu',
         'application.components.utils.TLog',
         'ext.bncc-import.BNCCImport'
     ),

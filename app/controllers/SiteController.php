@@ -118,6 +118,7 @@ class SiteController extends Controller
             $model->attributes = $_POST['LoginForm'];
             // validate user input and redirect to the previous page if valid
             if ($model->validate() && $model->login()) {
+                Yii::app()->features->loadAllFeaturesToCache();
                 $this->layout = 'fullmenu';
                 if(isset(Yii::app()->user->loginInfos) && Yii::app()->getAuthManager()->checkAccess('guardian', Yii::app()->user->loginInfos->id)){
                     $this->redirect(['enrollmentonline/Enrollmentonlinestudentidentification/StudentStatus']);

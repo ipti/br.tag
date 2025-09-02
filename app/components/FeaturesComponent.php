@@ -1,87 +1,121 @@
-<?php
+<?php 
 
-/**
- * Componente para controle de feature flag do sistema.
- * Todas as Features precisam obrigatoriamente iniciar sua chave com "FEAT_" + NOME_DA_FEATURE
- *
- */
 class FeaturesComponent extends CApplicationComponent
 {
+    const STATE_KEY = '_features_cache';
+
+    /**
+     * Inicializa o componente
+     * Carrega todas as features no cache da sessão
+     */
+    public function init()
+    {
+        parent::init();
+
+        // Verifica se já existe cache na sessão
+        $cache = Yii::app()->user->getState(self::STATE_KEY);
+        if ($cache === null) {
+            $this->loadAllFeaturesToCache();
+        }
+    }
 
     /**
      * Checa se feature está ativa no sistema
      *
-     * @var string $featureKey
-     *
+     * @param string $featureKey
      * @return bool
      */
     public function isEnable($featureKey)
     {
-        $feature = InstanceConfig::model()->findByAttributes(["parameter_key" => $featureKey]);
-
-        if($feature->value){
-            return (bool) $feature->value;
-        }
-
-        return false;
+        $cache = Yii::app()->user->getState(self::STATE_KEY, []);
+        return isset($cache[$featureKey]) ? (bool)$cache[$featureKey] : false;
     }
 
     /**
-     * Desativa uma feature para instancia
+     * Ativa uma feature
      *
-     * @var string $featureKey
-     *
-     * @return void
-     */
-    public function disable($featureKey)
-    {
-        $feature = InstanceConfig::model()->findByAttributes(["parameter_key" => $featureKey]);
-        if ($feature === false) {
-            throw new Exception("Feature não encontrada na base de dados", 1);
-        }
-
-        $feature->value = false;
-        $result = $feature->save();
-
-        if ($result === false) {
-            throw new Exception("Não foi possível desativar feature, verifique se ela existe na base de dados", 1);
-        }
-    }
-
-    /**
-     * Ativa uma feature para instancia
-     *
-     * @var string $featureKey
-     *
-     * @return void
+     * @param string $featureKey
+     * @throws Exception
      */
     public function enable($featureKey)
     {
-        $feature = InstanceConfig::model()->findByAttributes(["parameter_key" => $featureKey]);
-
-        if ($feature === false) {
-            throw new Exception("Feature não encontrada na base de dados", 1);
-        }
-
+        $feature = $this->getFeatureOrFail($featureKey);
         $feature->value = true;
-        $result = $feature->save();
 
-        if ($result === false) {
-            throw new Exception("Não foi possível ativar feature, verifique se ela existe na base de dados", 1);
+        if (!$feature->save()) {
+            throw new Exception("Não foi possível ativar feature '$featureKey'");
         }
+
+        $this->updateSessionCache($featureKey, true);
     }
 
     /**
-     * Lista todas a features da instancia
+     * Desativa uma feature
      *
-     * @var string $featureKey
+     * @param string $featureKey
+     * @throws Exception
+     */
+    public function disable($featureKey)
+    {
+        $feature = $this->getFeatureOrFail($featureKey);
+        $feature->value = false;
+
+        if (!$feature->save()) {
+            throw new Exception("Não foi possível desativar feature '$featureKey'");
+        }
+
+        $this->updateSessionCache($featureKey, false);
+    }
+
+    /**
+     * Atualiza cache na sessão via setState
+     */
+    private function updateSessionCache($featureKey, $value)
+    {
+        $cache = Yii::app()->user->getState(self::STATE_KEY, []);
+        $cache[$featureKey] = $value;
+        Yii::app()->user->setState(self::STATE_KEY, $cache);
+    }
+
+    /**
+     * Lista todas as features da instância
      *
-     * @return []
+     * @return array
      */
     public function listAll()
     {
-        $features = InstanceConfig::model()->findAll("parameter_key LIKE '%FEAT_%'");
-        return $features;
+        $cache = Yii::app()->user->getState(self::STATE_KEY, []);
+        return $cache;
     }
 
+    /**
+     * Carrega todas as features do banco para o cache da sessão
+     */
+    public function loadAllFeaturesToCache()
+    {
+        $features = InstanceConfig::model()->findAll("parameter_key LIKE 'FEAT_%'");
+        $cache = [];
+
+        foreach ($features as $f) {
+            $cache[$f->parameter_key] = (bool)$f->value;
+        }
+
+        Yii::app()->user->setState(self::STATE_KEY, $cache);
+    }
+
+    /**
+     * Busca feature no banco ou lança exceção
+     *
+     * @param string $featureKey
+     * @return InstanceConfig
+     * @throws Exception
+     */
+    private function getFeatureOrFail($featureKey)
+    {
+        $feature = InstanceConfig::model()->findByAttributes(["parameter_key" => $featureKey]);
+        if (!$feature) {
+            throw new Exception("Feature '$featureKey' não encontrada na base de dados");
+        }
+        return $feature;
+    }
 }

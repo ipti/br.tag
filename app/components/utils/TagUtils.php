@@ -9,6 +9,16 @@ class TagUtils extends CApplicationComponent
         return (bool) Yii::app()->getAuthManager()->checkAccess('instructor', Yii::app()->user->loginInfos->id);
     }
 
+    public static function checkAccess(string|array $roles, $record = null): bool
+    {
+        $record = $record ?? Yii::app()->user->loginInfos;
+        if (gettype($roles) == 'array') {
+            return array_reduce($roles, fn($result, $role) => $result || Yii::app()->getAuthManager()->checkAccess($role, $record->id), false);
+        }
+
+        return Yii::app()->getAuthManager()->checkAccess($roles, $record->id);
+    }
+
     public static function isManager()
     {
         $criteria = new CDbCriteria();
@@ -103,7 +113,8 @@ class TagUtils extends CApplicationComponent
         return $date;
     }
 
-    public static function isSubstituteInstructor($classroom){
+    public static function isSubstituteInstructor($classroom)
+    {
 
         $instructor = InstructorIdentification::model()->findByAttributes(array("users_fk" => Yii::app()->user->loginInfos->id));
         $teachingData = InstructorTeachingData::model()->findByAttributes(
@@ -140,7 +151,7 @@ class TagUtils extends CApplicationComponent
         $roles = Yii::app()->authManager->getRoles(Yii::app()->user->id);
         $role = !empty($roles) ? key($roles) : 'default_role';  // Valor padrão
 
-        return $prefix . "_" .$role . "_" . $year . "_" . $schoolId;
+        return $prefix . "_" . $role . "_" . $year . "_" . $schoolId;
     }
 
     /**
@@ -160,5 +171,3 @@ class TagUtils extends CApplicationComponent
         return implode("\n", $result);
     }
 }
-
-?>
