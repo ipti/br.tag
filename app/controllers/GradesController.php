@@ -128,7 +128,6 @@ class GradesController extends Controller
                 'data-classroom-stage' => '0',
             ), CHtml::encode($stage->name), true);
         }
-
     }
 
     public function actionGetDisciplines()
@@ -189,7 +188,6 @@ class GradesController extends Controller
             $criteria->condition = 'cgr.classroom_fk = :classroomId';
             $criteria->params = array(':classroomId' => $classroomId);
             $unities = GradeUnity::model()->findAll($criteria);
-
         }
         $result = [];
 
@@ -575,8 +573,6 @@ class GradesController extends Controller
             $stage,
             $isConcept
         );
-
-
     }
 
     private function saveGrades(
@@ -611,7 +607,6 @@ class GradesController extends Controller
                             "GradeObject" => $gradeObject->id
                         ));
                     }
-
                 }
                 foreach ($student["partialRecoveriesGrades"] as $gradePartialRecovery) {
                     $gradeObject = Grade::model()->findByPk($gradePartialRecovery["id"]);
@@ -666,7 +661,6 @@ class GradesController extends Controller
         $usecase = new GetStudentGradesByDisciplineUsecase($classroomId, $disciplineId, $unityId, $stageId, $isClassroomStage);
         $result = $usecase->exec();
         echo CJSON::encode($result);
-
     }
 
     public function actionClassClosure($classroomId)
@@ -715,33 +709,31 @@ class GradesController extends Controller
                         $countUnities = $gradeUnities->execCount();
 
                         $gradeResult = (new GetStudentGradesResultUsecase($enrollment->id, $discipline["discipline_fk"]))->exec();
-                        $formRepository = new FormsRepository();
-                        $contentsPerDiscipline = $formRepository->contentsPerDisciplineCalculate($classroom, $discipline["discipline_fk"], $enrollment->id);
-                        $totalFaults = $enrollment->countFaultsDiscipline($discipline["discipline_fk"]);
-                        $frequency = round((($contentsPerDiscipline - $totalFaults) / ($contentsPerDiscipline ?: 1)) * 100);
+
+                        $isMinorEducation = TagUtils::isStageMinorEducation($classroom->edcensoStageVsModalityFk->edcenso_associated_stage_id);
+                        if (!$isMinorEducation) {
+                            $frequency = $enrollment->studentEnrolmentFrequencyPerDiscipline($disciplineId);
+                        } else {
+                            $frequency = $enrollment->totalStudentEnrolmentFrequency();
+                        }
 
                         (new CalculateFinalMediaUsecase($gradeResult, $gradeRules, $countUnities, $gradesStudent))->exec();
                         if ($gradeRules->rule_type === "N") {
                             (new ChageStudentStatusByGradeUsecase($gradeResult, $gradeRules, $countUnities, $stage, $frequency))->exec();
                         }
                     }
-
-
                 }
 
                 $classroom->is_closed = 1;
                 $classroom->save();
-
             }
-
-
         }
 
         echo CJSON::encode(["success" => true]);
-
     }
 
-    public function actionClassClosureList(){
+    public function actionClassClosureList()
+    {
         $schoolfk = Yii::app()->user->school;
         $year = Yii::app()->user->year;
         $classrooms = Classroom::model()->findAllByAttributes(["school_inep_fk" => $schoolfk, "school_year" => $year, "aee" => 0, "is_closed" => 0]);
@@ -751,7 +743,8 @@ class GradesController extends Controller
         echo CJSON::encode($classrooms);
     }
 
-    public function actionBatchClassClose(){
+    public function actionBatchClassClose()
+    {
         $this->render("batchclose");
     }
 
@@ -800,22 +793,25 @@ class GradesController extends Controller
                 TLog::info("Unidades por disciplina", ["GradeUnities" => CHtml::listData($gradesStudent, 'id', 'id')]);
 
                 $gradeResult = (new GetStudentGradesResultUsecase($enrollment->id, $disciplineId))->exec();
-                $formRepository = new FormsRepository();
-                $contentsPerDiscipline = $formRepository->contentsPerDisciplineCalculate($classroom, $disciplineId, $enrollment->id);
-                $totalFaults = $enrollment->countFaultsDiscipline($disciplineId);
-                $frequency = round((($contentsPerDiscipline - $totalFaults) / ($contentsPerDiscipline ?: 1)) * 100);
+
+
+                $isMinorEducation = TagUtils::isStageMinorEducation($classroom->edcensoStageVsModalityFk->edcenso_associated_stage_id);
+                if (!$isMinorEducation) {
+                    $frequency = $enrollment->studentEnrolmentFrequencyPerDiscipline($disciplineId);
+                } else {
+                    $frequency = $enrollment->totalStudentEnrolmentFrequency();
+                }
+
                 (new CalculateFinalMediaUsecase($gradeResult, $gradeRules, $countUnities, $gradesStudent))->exec();
                 if ($gradeRules->rule_type === "N") {
                     (new ChageStudentStatusByGradeUsecase($gradeResult, $gradeRules, $countUnities, $stage, $frequency))->exec();
                 }
-
             }
             $transaction->commit();
         } catch (Exception $e) {
             $transaction->rollback();
             TLog::error("Erro ao atualizar status da matrícula", ["Exception" => $e]);
         }
-
     }
 
 
