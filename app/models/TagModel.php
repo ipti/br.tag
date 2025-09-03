@@ -1,5 +1,4 @@
 <?php
-Yii::import('zii.behaviors.CTimestampBehavior');
 class TagModel extends CActiveRecord
 {
     public function behaviors()

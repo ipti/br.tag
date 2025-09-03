@@ -9,7 +9,7 @@ final class CantSaveGradeUnityException extends Exception
         parent::__construct("Não foi possivel salvar a unidade: " . $unity->name . " para etapa de código: " . $unity->edcensoStageVsModalityFk->name . "\n" . $messages, $code, $previous);
     }
 
-    public function __toString(): string
+    public function __toString()
     {
         return __CLASS__ . ": [{$this->code}]: {$this->message}\n";
     }

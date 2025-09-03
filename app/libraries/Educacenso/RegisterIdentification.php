@@ -1,11 +1,5 @@
 <?php
 
-enum RegisterIdentificationType
-{
-    case STUDENT;
-    case INSTRUCTOR;
-}
-
 class RegisterIdentification
 {
     private const EDCENSO_COD_NA_UNIDADE = 1;
@@ -43,31 +37,19 @@ class RegisterIdentification
         return $students;
     }
 
-    private static function getInstructors($instructorsTeachingDatas, $instructors)
-    {
-        foreach ($instructorsTeachingDatas as $iteaching => $teachingData) {
-            if (!isset($instructors[$teachingData->instructor_fk])) {
-                $instructors[$teachingData->instructor_fk]['identification'] = $teachingData->instructorFk->attributes;
-                $instructors[$teachingData->instructor_fk]['documents'] = $teachingData->instructorFk->documents->attributes;
-            }
-        }
-
-        return $instructors;
-    }
-
-    private static function exportPerson($person, $type)
+    private static function exportStudentIdentification($student)
     {
         $register = [];
 
-        $identification = $person['identification'];
-        $documents = $person['documents'];
+        $identification = $student['identification'];
+        $documents = $student['documents'];
 
 
-        $register[self::EDCENSO_COD_NA_UNIDADE] = $type === RegisterIdentificationType::INSTRUCTOR ? 'II' . $identification['id'] : $identification['id'];
+        $register[self::EDCENSO_COD_NA_UNIDADE] = $identification['id'];
         $register[self::EDCENSO_CPF] = $documents['cpf'];
         $register[self::EDCENSO_CERT_NASCIMENTO] = self::validarMatriculaRegistroCivil($documents['civil_register_enrollment_number']) ? $documents['civil_register_enrollment_number'] : null;
         $register[self::EDCENSO_NOME] = self::fixName($identification['name']);
-        $register[self::EDCENSO_DATA_NASCIMENTO] = $type === RegisterIdentificationType::INSTRUCTOR ? $identification['birthday_date'] : $identification['birthday'];
+        $register[self::EDCENSO_DATA_NASCIMENTO] = $identification['birthday'];
         $register[self::EDCENSO_FILIATION_1] = self::fixName($identification['filiation_1']);
         $register[self::EDCENSO_FILIATION_2] = self::fixName($identification['filiation_2']);
         $register[self::EDCENSO_MUN_NASCIMENTO] = $identification['edcenso_city_fk'];
@@ -85,25 +67,17 @@ class RegisterIdentification
         $registers = [];
 
         $classrooms = Classroom::model()->findAllByAttributes(['school_year' => Yii::app()->user->year]);
-
         $students = [];
-        $instructors = [];
+
         foreach ($classrooms as $iclass => $attributes) {
             $students = self::getStudents($attributes, $students);
-            $instructors = self::getInstructors($attributes->instructorTeachingDatas, $instructors);
-        }
-
-        foreach ($instructors as $instructor) {
-            $register = self::exportPerson($instructor, RegisterIdentificationType::INSTRUCTOR);
-            array_push($registers, implode('|', $register));
         }
 
         foreach ($students as $student) {
-            $register = self::exportPerson($student, RegisterIdentificationType::STUDENT);
+            $register = [];
+            $register = self::exportStudentIdentification($student);
             array_push($registers, implode('|', $register));
         }
-
-        sort($registers, SORT_STRING);
 
         return $registers;
     }
@@ -162,7 +136,7 @@ class RegisterIdentification
         $student = StudentIdentification::model()->findByPk($register[self::EDCENSO_COD_NA_UNIDADE]);
 
         if ($student === null) {
-            $errors[] = "Linha {$lineNumber}: aluno com código {" . $register[self::EDCENSO_COD_NA_UNIDADE] . "} não encontrado. Conteúdo: {$rawLine}";
+            $errors[] = "Linha {$lineNumber}: aluno com código {". $register[self::EDCENSO_COD_NA_UNIDADE]. "} não encontrado. Conteúdo: {$rawLine}";
             return false;
         }
 
@@ -177,13 +151,9 @@ class RegisterIdentification
         return true;
     }
 
-    public static function validarMatriculaRegistroCivil($matricula): bool
+    public static function validarMatriculaRegistroCivil(string $matricula): bool
     {
         // Remove caracteres não numéricos
-        if ($matricula == null) {
-            return false;
-        }
-
         $matricula = preg_replace('/\D/', '', $matricula);
 
         // Verifica se tem exatamente 32 dígitos

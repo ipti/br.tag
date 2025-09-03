@@ -130,7 +130,6 @@ $isModel = isset($modelInstructorIdentification->id);
                                         array(
                                             'size' => 60,
                                             'maxlength' => 100,
-                                            'class'=>'js-trim-name',
                                             'placeholder' => 'Digite o Nome de Apresentação'
                                         )
                                     );
@@ -164,7 +163,6 @@ $isModel = isset($modelInstructorIdentification->id);
                                         array(
                                             'size' => 60,
                                             'maxlength' => 100,
-                                            'class'=>'js-trim-name',
                                             'placeholder' => 'Digite o Nome Civil'
                                         )
                                     );

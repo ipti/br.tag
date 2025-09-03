@@ -7,7 +7,7 @@ use Sentry\Tracing\TransactionContext;
  */
 
 
- use Sentry\SentrySdk;
+use Sentry\SentrySdk;
 
 use Sentry\State\Hub;
 use Sentry\Event;
@@ -89,7 +89,6 @@ class Controller extends CController
         if ($transaction) {
             $transaction->finish();
         }
-        // SentrySdk::getCurrentHub()->flush();
 
         return parent::afterAction($action);
     }
