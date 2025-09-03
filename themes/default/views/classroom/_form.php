@@ -229,9 +229,15 @@ $form = $this->beginWidget(
                                 <?= $form->error($modelClassroom, 'period'); ?>
                             </div>
 
+                            <div class="t-field-select">
+                                <?= $form->label($modelClassroom, 'status', ['class' => 't-field-select__label--required']) ?>
+                                <?= $form->DropDownList($modelClassroom, 'classroom_status',  CHtml::listData(ClassroomStatus::model()->findAll(), 'id', 'name'), ['class' => 'select-search-off t-field-select__input', 'prompt' => 'Selecione a unidade escolar']) ?>
+                                <?= $form->error($modelClassroom, 'classroom_status'); ?>
+                            </div>
+
                             <div class="t-field-checkbox-group">
                                 <label class="t-field-checkbox__label">
-                                    <?= Yii::t("default", "Period") ?>
+                                    <?= Yii::t("default", "Configuração do Sagres") ?>
                                 </label>
                                 <div class="t-field-checkbox">
                                     <?= $form->checkBox($modelClassroom, 'ignore_on_sagres', array('value' => 1, 'uncheckValue' => 0)); ?>
@@ -764,6 +770,12 @@ $form = $this->beginWidget(
                         <container>
                             <row>
                                 <div class="reports">
+                                    <div class="reports_cards" style="display: none;">
+                                        <a class="t-button-primary" rel="noopener"
+                                            href="<?= @Yii::app()->createUrl('grades/ClassClosure', array('classroomId' => $modelClassroom->id)); ?>">
+                                            <?= Yii::t('default', 'Fechar Turma') ?>
+                                        </a>
+                                    </div>
                                     <?php if (TagUtils::isInstance("BUZIOS")): ?>
                                         <div class="reports_cards">
                                             <a class="t-button-secondary" rel="noopener" target="_blank"

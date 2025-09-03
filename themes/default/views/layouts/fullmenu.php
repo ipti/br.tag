@@ -516,6 +516,7 @@ $cs->registerCssFile(Yii::app()->baseUrl . "/sass/css/main.css?v=" . TAG_VERSION
                                 <li id="menu-integrations" class="t-menu-group <?=
                                     strpos($_SERVER['REQUEST_URI'], "?r=censo/index") ||
                                     strpos($_SERVER['REQUEST_URI'], "?r=sagres") ||
+                                    strpos($_SERVER['REQUEST_URI'], "?r=gestaopresente") ||
                                     strpos($_SERVER['REQUEST_URI'], "?r=sedsp")
                                     ? 'active' : '' ?>"><i
                                         class="submenu-icon fa fa-chevron-right"></i><i
@@ -528,10 +529,9 @@ $cs->registerCssFile(Yii::app()->baseUrl . "/sass/css/main.css?v=" . TAG_VERSION
                                     <ul class="collapse <?=
                                         strpos($_SERVER['REQUEST_URI'], "?r=censo/index") ||
                                         strpos($_SERVER['REQUEST_URI'], "?r=sagres") ||
+                                        strpos($_SERVER['REQUEST_URI'], "?r=gestaopresente") ||
                                         strpos($_SERVER['REQUEST_URI'], "?r=sedsp") ? 'in' : '' ?>"
                                         id="submenu-integrations">
-
-
                                         <li
                                             class="t-menu-item <?= strpos($_SERVER['REQUEST_URI'], "?r=censo/index") ? 'active' : '' ?>">
                                             <a class="t-menu-item__link"
@@ -558,6 +558,14 @@ $cs->registerCssFile(Yii::app()->baseUrl . "/sass/css/main.css?v=" . TAG_VERSION
                                                 </a>
                                             </li>
                                         <?php } ?>
+                                         <li
+                                            class="t-menu-item <?= strpos($_SERVER['REQUEST_URI'], '?r=gestaopresente') ? 'active' : '' ?>">
+                                            <a class="t-menu-item__link"
+                                                href="<?php echo yii::app()->createUrl('gestaopresente') ?> ">
+                                                <span class="t-icon-educacenso t-menu-item__icon"></span>
+                                                <span class="t-menu-item__text">Gestão Presente</span>
+                                            </a>
+                                        </li>
                                     </ul>
                                 </li>
                             <?php endif ?>

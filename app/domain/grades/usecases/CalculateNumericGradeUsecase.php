@@ -7,6 +7,10 @@
  */
 class CalculateNumericGradeUsecase
 {
+    private $classroomId;
+    private $stage;
+    private $discipline;
+
     public function __construct($classroom, $discipline, $stage)
     {
         $this->classroomId = $classroom;
@@ -18,11 +22,11 @@ class CalculateNumericGradeUsecase
     {
         $classroom = Classroom::model()->with("activeStudentEnrollments.studentFk")->findByPk($this->classroomId);
         $totalEnrollments = $classroom->activeStudentEnrollments;
-        if($classroom->edcenso_stage_vs_modality_fk !== $this->stage){
+        if ($classroom->edcenso_stage_vs_modality_fk !== $this->stage) {
             $totalEnrollments = $classroom->activeStudentEnrollments;
             $studentEnrollments = [];
             foreach ($totalEnrollments as $enrollment) {
-                if($enrollment->edcenso_stage_vs_modality_fk == $this->stage){
+                if ($enrollment->edcenso_stage_vs_modality_fk == $this->stage) {
                     array_push($studentEnrollments, $enrollment);
                 }
             }
@@ -85,11 +89,11 @@ class CalculateNumericGradeUsecase
 
         }
 
-        if($unitiesSem1 != 0) {
+        if ($unitiesSem1 != 0) {
             $gradeResult["sem_avarage_1"] = is_nan(($semAvarage1 / $unitiesSem1) ?? NAN) ? null : round(($semAvarage1 / $unitiesSem1), 1);
         }
 
-        if($unitiesSem2 != 0) {
+        if ($unitiesSem2 != 0) {
             $gradeResult["sem_avarage_2"] = is_nan(($semAvarage2 / $unitiesSem2) ?? NAN) ? null : round(($semAvarage2 / $unitiesSem2), 1);
         }
         $gradeResult = $this->calculatePartialRecovery($gradeResult, $studentEnrollment, $discipline, $gradesRecoveries);
@@ -183,14 +187,14 @@ class CalculateNumericGradeUsecase
     private function getGradeUnitiesByClassroomStage()
     {
 
-        if(isset($this->stage) && $this->stage !== "") {
+        if (isset($this->stage) && $this->stage !== "") {
             $criteria = new CDbCriteria();
             $criteria->alias = 'gu';
             $criteria->join = 'join grade_rules gr on gr.id = gu.grade_rules_fk';
             $criteria->join .= ' join grade_rules_vs_edcenso_stage_vs_modality grvesvm on gr.id = grvesvm.grade_rules_fk';
             $criteria->join .= ' join classroom_vs_grade_rules cvgr on cvgr.grade_rules_fk = gr.id';
             $criteria->condition = 'grvesvm.edcenso_stage_vs_modality_fk = :stage and cvgr.classroom_fk = :classroom';
-            $criteria->params = array(':classroom' => $this->classroomId, ":stage"=>$this->stage);
+            $criteria->params = array(':classroom' => $this->classroomId, ":stage" => $this->stage);
 
             return GradeUnity::model()->count($criteria);
         } else {
@@ -316,7 +320,9 @@ class CalculateNumericGradeUsecase
     {
         $result = 0;
 
-        if(empty($grades)){ return 0; }
+        if (empty($grades)) {
+            return 0;
+        }
 
         switch ($calculation) {
             default:
@@ -353,7 +359,7 @@ class CalculateNumericGradeUsecase
                     $acc[0] += $grade * $weights[$key]->weight;
                     $acc[1] += $weights[$key]->weight;
                 }
-                if($acc[1] == 0){
+                if ($acc[1] == 0) {
                     return 0;
                 }
 

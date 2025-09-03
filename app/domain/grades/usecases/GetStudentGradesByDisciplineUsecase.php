@@ -22,6 +22,11 @@ class GetStudentGradesByDisciplineUsecase
         $this->stageId = $stageId;
         $this->isClassroomStage = $isClassroomStage;
     }
+    /**
+     * Summary of exec
+     * @throws \NoActiveStudentsException
+     * @return array<StructClassromGradeResult
+     */
     public function exec()
     {
         /** @var Classroom $classroom */

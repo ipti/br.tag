@@ -835,6 +835,13 @@ $form = $this->beginWidget(
                 <?php echo $form->error($modelStudentIdentification, 'responsable_cpf'); ?>
               </div>
             </div>
+            <div class="column clearleft--on-mobile is-two-fifths">
+              <div class="t-field-text js-hide-not-required">
+                <?php echo $form->label($modelStudentIdentification, 'responsable_nis', array('class' => 't-field-text__label')); ?>
+                <?php echo $form->textField($modelStudentIdentification, 'responsable_nis', array('size' => 60, 'maxlength' => 14, 'class' => 't-field-text__input')); ?>
+                <?php echo $form->error($modelStudentIdentification, 'responsable_nis'); ?>
+              </div>
+            </div>
           </div>
           <div class="row">
             <div class="js-disabled-finputs">
