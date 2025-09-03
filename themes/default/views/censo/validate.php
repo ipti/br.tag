@@ -124,7 +124,7 @@
                 <?= Yii::t('default', 'Exportar arquivo de migração') ?>
             </button> -->
             <?php if (Yii::app()->getAuthManager()->checkAccess('admin', Yii::app()->user->loginInfos->id)): ?>
-                <a href="<?= CHtml::normalizeUrl(array('censo/exportidentification')) ?>" class="t-button-secondary"
+                <a href="<?= CHtml::normalizeUrl(array('censo/exportidentification', 'withoutCertificates' => 0)) ?>" class="t-button-secondary js-export-link"
                     style="margin:0;">
                     <?= Yii::t('default', 'Exportar arquivo de identificação') ?>
                 </a>

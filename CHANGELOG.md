@@ -1,3 +1,6 @@
+## [Versão 3.2.4]
+- Permitir exportação do arquivo de identificação do censo com ou sem certidões de nascimento
+
 ## [Versão 3.2.3]
 - Permitir exportação do censo com ou sem certidões de nascimento
 
