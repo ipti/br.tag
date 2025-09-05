@@ -48,7 +48,7 @@ class UpdateGradeRulesUsecase
         $gradeRules->approvation_media = $this->approvalMedia;
         $gradeRules->name = $this->gradeRulesName;
         $gradeRules->final_recover_media = $this->finalRecoverMedia;
-        $gradeRules->grade_calculation_fk = (int) $this->calcFinalMedia;
+        $gradeRules->grade_calculation_fk = (int) $this->calcFinalMedia == NULL ? 1 :  $this->calcFinalMedia;
         $gradeRules->has_final_recovery = (int) $this->hasFinalRecovery;
         $gradeRules->has_partial_recovery = (int) $this->hasPartialRecovery;
         $gradeRules->rule_type = $this->ruleType;
