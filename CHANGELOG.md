@@ -1,3 +1,6 @@
+## [Versão 3.2.4]
+- Corrigida a ordem dos campos de recuperação e modalidades na tela de notas
+
 ## [Versão 3.2.3]
 - Permitir exportação do censo com ou sem certidões de nascimento
 
