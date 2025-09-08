@@ -775,7 +775,7 @@ SELECT
 
             if ($hasFinalRecovery === true) {
 
-                $recoveryUnity = GradeUnity::model()->find('id = :id', array(':id' => $finalRecovery["id"]));
+                $recoveryUnity = GradeUnity::model()->findByPk($finalRecovery["id"]);
 
                 if ($recoveryUnity === null) {
                     $recoveryUnity = new GradeUnity();

@@ -71,7 +71,7 @@ $this->pageTitle = 'TAG - ' . Yii::t('defgault', 'Estrutura de Unidades');
                                 'delete' => array(
                                     'imageUrl' => Yii::app()->theme->baseUrl.'/img/deletar.svg',
                                     'url' => 'Yii::app()->createUrl("admin/gradesStructureDelete&id=$data->id")',
-                                    'visible' => '!empty($data->created_at) && (date("Y", strtotime($data->created_at)) >= 2025)',
+                                  //  'visible' => '!empty($data->created_at) && (date("Y", strtotime($data->created_at)) >= 2025)',
                                 )
                             ),
                             'updateButtonOptions' => array('style' => 'margin-right: 20px;'),
