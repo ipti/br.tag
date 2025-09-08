@@ -36,7 +36,8 @@ class AdminController extends Controller
                     'gradesStructure',
                     'indexGradesStructure',
                     'instanceConfig',
-                    'editInstanceConfigs'
+                    'editInstanceConfigs',
+                    'gradesStructureDelete'
                 ],
                 'users' => ['@'],
             ],
@@ -105,7 +106,6 @@ SELECT
             } catch (Exception $e) {
                 // $results[] = ["database" => $dbname, "professores" => 'Erro', "alunos" => 'Erro', "gestores" => 'Erro', "secretarios" => $e->getMessage()];
             }
-
         }
 
         // Exibir os resultados em formato de tabela
@@ -127,7 +127,6 @@ SELECT
         fclose($fp);
 
         echo "<p><a href='$csv_file' download>Baixar CSV</a></p>";
-
     }
 
     public function actionExportMaster()
@@ -454,7 +453,6 @@ SELECT
                         if ($save) {
                             $auth = Yii::app()->authManager;
                             $auth->assign($_POST['Role'], $model->id);
-
                         }
                         if (isset($_POST['instructor']) && $_POST['instructor'] != "") {
                             $instructors = InstructorIdentification::model()->find("id = :id", ["id" => $_POST['instructor']]);
@@ -489,6 +487,97 @@ SELECT
             'dataProvider' => $dataProvider
         ]);
     }
+
+    public function actionGradesStructureDelete($id)
+    {
+        $gradeRules = GradeRules::model()->findByPK($id);
+
+        $criteria = new CDbCriteria();
+        $criteria->alias = "g";
+        $criteria->join = 'join grade_unity_modality gum on gum.id = g.grade_unity_modality_fk ';
+        $criteria->join .= 'join grade_unity gu on gu.id = gum.grade_unity_fk ';
+        $criteria->join .= 'join grade_rules gr on gr.id = gu.grade_rules_fk';
+        $criteria->condition = 'gr.id = :grade_rules_id and g.grade IS NOT NULL and g.grade != 0';
+        $criteria->params = [":grade_rules_id" => $gradeRules->id];
+
+        $hasUnityGrades = Grade::model()->count($criteria) > 0;
+
+        $criteria = new CDbCriteria();
+        $criteria->alias = "g";
+        $criteria->join = 'join grade_partial_recovery gpr on gpr.id = g.grade_partial_recovery_fk ';
+        $criteria->join .= 'join grade_rules gr on gr.id = gpr.grade_rules_fk';
+        $criteria->condition = 'gr.id = :grade_rules_id and g.grade IS NOT NULL and g.grade != 0';
+        $criteria->params = [":grade_rules_id" => $gradeRules->id];
+
+        $hasRecoveryGrades = Grade::model()->count($criteria) > 0;
+
+        if ($hasUnityGrades == true || $hasRecoveryGrades == true) {
+            Yii::app()->user->setFlash('error', Yii::t('default', 'Não foi possível apagar a estrutura, pois já existem notas cadastradas para ela.'));
+            $this->redirect(['indexGradesStructure']);
+        }
+
+        $classroomsVsGradeRulesCount = ClassroomVsGradeRules::model()->countByAttributes(['grade_rules_fk' => $gradeRules->id]) > 0;
+
+        if ($classroomsVsGradeRulesCount == true) {
+            Yii::app()->user->setFlash('error', Yii::t('default', 'Não foi possível apagar a estrutura, pois ela já está vinculada a alguma turma.'));
+            $this->redirect(['indexGradesStructure']);
+        }
+
+        if (!empty($gradeRules->created_at) && (date("Y", strtotime($gradeRules->created_at)) < 2025)) {
+            Yii::app()->user->setFlash('error', Yii::t('default', 'Não foi possível apagar a estrutura.'));
+            $this->redirect(['indexGradesStructure']);
+        }
+
+        $transaction = Yii::app()->db->beginTransaction();
+        try {
+            GradeRulesVsEdcensoStageVsModality::model()->deleteAllByAttributes(['grade_rules_fk' => $id]);
+            $this->deletePartialRecoveries($id);
+            $this->deleteUnities($id);
+
+            $gradeRules->delete();
+
+            $transaction->commit();
+            Yii::app()->user->setFlash('notice', Yii::t('default', 'Estrutura apagada com sucesso!'));
+        } catch (Exception $e) {
+
+            $transaction->rollback();
+            Yii::app()->user->setFlash('error', Yii::t('default', 'Erro ao apagar estrutura.'));
+        }
+        $this->redirect(['indexGradesStructure']);
+    }
+
+    private function deletePartialRecoveries($gradeRuleId)
+    {
+        $gradePartialRecoveries = GradePartialRecovery::model()->findAllByAttributes([
+            "grade_rules_fk" => $gradeRuleId
+        ]);
+
+        foreach ($gradePartialRecoveries as $partialRecovery) {
+            Grade::model()->deleteAllByAttributes([
+                "grade_partial_recovery_fk" => $partialRecovery->id
+            ]);
+            $partialRecovery->delete();
+        }
+    }
+    private function deleteUnities($gradeRuleId)
+    {
+        $unities = GradeUnity::model()->findAllByAttributes([
+            "grade_rules_fk" => $gradeRuleId
+        ]);
+
+        foreach ($unities as $unity) {
+            $modalities = GradeUnityModality::model()->findAllByAttributes([
+                "grade_unity_fk" => $unity->id
+            ]);
+            foreach ($modalities as $modality) {
+                Grade::model()->deleteAllByAttributes([
+                    "grade_unity_modality_fk" => $modality->id
+                ]);
+                $modality->delete();
+            }
+            $unity->delete();
+        }
+    }
     public function actionGradesStructure()
     {
         $stages = Yii::app()->db->createCommand("
@@ -506,6 +595,29 @@ SELECT
             "stages" => $stages,
             "formulas" => $formulas
         ]);
+    }
+
+    private function unityHasGrade($unity)
+    {
+        $criteria = new CDbCriteria();
+        $criteria->alias = "g";
+        $criteria->join = 'join grade_unity_modality gum on gum.id = g.grade_unity_modality_fk ';
+        $criteria->join .= 'join grade_unity gu on gu.id = gum.grade_unity_fk ';
+        $criteria->condition = 'gu.id = :unity_id and g.grade IS NOT NULL and g.grade != 0';
+        $criteria->params = [":unity_id" => $unity->id];
+
+        return Grade::model()->count($criteria) > 0;
+    }
+
+    private function recoveryHasGrade($recovery)
+    {
+        $criteria = new CDbCriteria();
+        $criteria->alias = "g";
+        $criteria->join = 'join grade_partial_recovery gpr on gpr.id = g.grade_partial_recovery_fk';
+        $criteria->condition = 'gpr.id = :recovery_id and g.grade IS NOT NULL';
+        $criteria->params = [":recovery_id" => $recovery->id];
+
+        return Grade::model()->count($criteria) > 0;
     }
 
     public function actionGetUnities()
@@ -528,11 +640,24 @@ SELECT
 
         foreach ($gradeUnities as $gradeUnity) {
             $arr = $gradeUnity->attributes;
+            $arr["hasGrades"] = $this->unityHasGrade($gradeUnity);
             $arr["modalities"] = [];
+
+            $normal = [];
+            $recovery = [];
+
             foreach ($gradeUnity->gradeUnityModalities as $gradeUnityModality) {
-                array_push($arr["modalities"], $gradeUnityModality->attributes);
+                $modality = $gradeUnityModality->attributes;
+
+                if ($modality["type"] === "R") {
+                    $recovery[] = $modality;
+                } else {
+                    $normal[] = $modality;
+                }
             }
-            array_push($result["unities"], $arr);
+            $arr["modalities"] = array_merge($normal, $recovery);
+
+            $result["unities"][] = $arr;
         }
 
         $criteria->condition = "grade_rules_fk = :grade_rules_fk and gu.type = :type";
@@ -581,37 +706,7 @@ SELECT
         foreach ($gPartialRecoveries as $partialRecovery) {
             $resultPartialRecovery = array();
             $resultPartialRecovery["id"] = $partialRecovery->id;
-            $resultPartialRecovery["name"] = $partialRecovery->name;
-            $resultPartialRecovery["order"] = $partialRecovery->order_partial_recovery;
-            $resultPartialRecovery["grade_calculation_fk"] = $partialRecovery->grade_calculation_fk;
-            $resultPartialRecovery["weights"] = [];
-            if ($partialRecovery->gradeCalculationFk->name == "Peso") {
-                $gradeRecoveryWeights = GradePartialRecoveryWeights::model()->findAllByAttributes(["partial_recovery_fk" => $partialRecovery->id]);
-                foreach ($gradeRecoveryWeights as $weight) {
-                    array_push(
-                        $resultPartialRecovery["weights"],
-                        [
-                            "id" => $weight["id"],
-                            "unity_fk" => $weight["unity_fk"],
-                            "weight" => $weight["weight"],
-                            "name" => $weight["unity_fk"] !== null ? $weight->unityFk->name : 'recuperação'
-                        ]
-                    );
-                }
-            }
-
-            $unities = GradeUnity::model()->findAllByAttributes(array('parcial_recovery_fk' => $partialRecovery->id));
-            $resultPartialRecovery["unities"] = $unities;
-
-            array_push($result["partialRecoveries"], $resultPartialRecovery);
-        }
-
-        $result["partialRecoveries"] = [];
-
-        $gPartialRecoveries = GradePartialRecovery::model()->findAllByAttributes(array('grade_rules_fk' => $gradeRules->id));
-        foreach ($gPartialRecoveries as $partialRecovery) {
-            $resultPartialRecovery = array();
-            $resultPartialRecovery["id"] = $partialRecovery->id;
+            $resultPartialRecovery["hasGrades"] = $this->recoveryHasGrade($partialRecovery);
             $resultPartialRecovery["name"] = $partialRecovery->name;
             $resultPartialRecovery["order"] = $partialRecovery->order_partial_recovery;
             $resultPartialRecovery["grade_calculation_fk"] = $partialRecovery->grade_calculation_fk;
@@ -721,7 +816,6 @@ SELECT
                 }
 
                 $modalityModel->save();
-
             } elseif ($hasFinalRecovery === false && $finalRecovery["operation"] === "delete" && $gradeRules->rule_type === "N") {
                 $recoveryUnity = GradeUnity::model()->find('id = :id', array(':id' => $finalRecovery["id"]));
                 $recoveryUnity?->delete();
@@ -737,7 +831,6 @@ SELECT
 
             throw $th;
         }
-
     }
 
 
@@ -755,7 +848,6 @@ SELECT
     {
 
         echo phpinfo();
-
     }
 
     public function actionDisableUser($id)
@@ -815,14 +907,12 @@ SELECT
             if ($userSchool !== null) {
                 foreach ($userSchool as $register) {
                     $register->delete('users_school', 'user_fk=' . $id);
-
                 }
             }
 
             // Excluindo o registro na tabela de usuário
             $user->delete('users', 'id=' . $id);
             $delete = true;
-
         }
 
         // Redirecionando para a tela de gerenciar usuários
@@ -831,7 +921,6 @@ SELECT
             $this->redirect(array('admin/manageUsers'));
         } else {
             Yii::app()->user->setFlash('error', Yii::t('default', 'Erro! Não foi possível excluir o usuário, tente novamente!'));
-
         }
     }
 

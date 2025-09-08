@@ -48,12 +48,12 @@ $(document).on("click", ".js-new-unity", function (e) {
         const unities = $(".unity").length;
         const isUnityConcept = $(".js-rule-type").select2("val") === "C";
         const unityHtml = template`
-            <div class='unity column is-three-fifths'>
+            <div class='unity column is-three-fifths' hasGrades='0'>
                 <div class='row unity-heading ui-accordion-header'>
                     <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collaps-${unities}">
                         <h2 class="unity-title accordion-heading">Unidade: </h2>
                     </a>
-                    <span class="remove-button js-remove-unity t-button-icon-danger t-icon-trash  js-change-cursor" style="display:none;"></span>
+                    <span class="remove-button js-remove-unity t-button-icon-danger t-icon-trash  js-change-cursor" style='margin-top:0px'></span>
                 </div>
                 <div id="collaps-${unities}"class=" collapse ${unities == 0 ? "in" : ""} js-unity-body">
                     <input type='hidden' class="unity-id">
@@ -127,14 +127,14 @@ $(document).on("change", ".js-type-select", function (e) {
         unity
             .find(".modality")
             .last()
-            .children("label")
-            .html("Recuperação: " + '<span class="red">*</span>');
+            .find("label")
+            .html("Recuperação: ")
+            .css("width", "206px");
         unity
             .find(".modality")
             .last()
             .find(".modality-name")
-            .attr("modalitytype", "R")
-            .css("width", "calc(100% - 140px)");
+            .attr("modalitytype", "R");
         unity
             .find(".modality")
             .last()
@@ -274,6 +274,13 @@ $(document).on("keyup", ".weight", function (e) {
     this.value = val;
 });
 
+function orderModalities (unity) {
+    recoveryUnity = unity.find(".modality").has('input[modalitytype="R"]').last();
+    if(recoveryUnity) {
+        recoveryUnity.appendTo(unity.find(".modality").parent());
+    }
+}
+
 $(document).on("click", ".js-new-modality", function (e) {
     e.preventDefault();
     const unityElement = $(this).closest(".unity");
@@ -302,6 +309,7 @@ $(document).on("click", ".js-new-modality", function (e) {
         </div>`;
 
     $(modalityHtml).appendTo(unityElement.find(".js-modality-container"));
+    orderModalities(unityElement);
 });
 
 $(document).on("click", ".js-remove-unity", function (e) {
@@ -315,16 +323,22 @@ $(document).on("click", ".js-remove-unity", function (e) {
             $(".js-new-partial-recovery").removeClass("disabled");
         }
     } else {
-        const response = confirm(
-            "Ao remover um unidade, você está pagando TODAS as notas vinculadas a ela, em todas as disciplinas. Tem certeza que deseja seguir?"
-        );
-        if (response) {
-            $(this)
-                .children(".modality")
-                .find(".modality-operation")
-                .val("remove");
-            unity.find(".unity-operation").val("remove");
-            unity.hide();
+        if (unity.attr('hasGrades') == 1) {
+           alert(
+                "Não foi possível concluir a operação, pois já existem notas registradas para esta unidade em alguma turma."
+            );
+        } else  {
+             const response = confirm(
+                "Tem certeza de que deseja remover a unidade e as modalidades vinculadas? Esta ação não poderá ser desfeita."
+            );
+            if (response) {
+                $(this)
+                    .children(".modality")
+                    .find(".modality-operation")
+                    .val("remove");
+                unity.find(".unity-operation").val("remove");
+                unity.hide();
+            }
         }
     }
 });
@@ -850,7 +864,6 @@ function loadStructure() {
                 $(
                     ".js-grades-structure-container, .js-grades-rules-container"
                 ).show();
-                console.log(Object.keys(data.unities).length)
                 if (Object.keys(data.unities).length) {
                     let newUnityButton = $(".js-new-unity");
                     $.each(data.unities, function (e) {
@@ -859,6 +872,7 @@ function loadStructure() {
                         }
                         newUnityButton.trigger("click");
                         const unity = $(".unity").last();
+                        unity.attr("hasGrades", this.hasGrades == true ? 1 : 0);
                         unity.find(".unity-name").val(this.name);
                         unity.find(".unity-title").html(this.name);
                         unity.find(".unity-id").val(this.id);
@@ -883,6 +897,9 @@ function loadStructure() {
                             modality.find(".modality-name").val(this.name);
                             modality.find(".modality-name").attr("modalitytype", this.type);
                             if(this.type == 'R') {
+                                modality.find("label")
+                                .html("Recuperação: ")
+                                .css("width", "206px");
                                 modality.find('.remove-button').remove()
                             }
                             modality.find(".modality-operation").val("update");
@@ -902,6 +919,7 @@ function loadStructure() {
                         });
                         let newAccordion = addAccordion(element.id, element.name)
                         $('#accordion-partial-recovery').append(newAccordion)
+                        $('.partial-recovery-container').last().attr("hasGrades", this.hasGrades == true ? 1 : 0);
                         let calculationSelect = $("select.js-formula-select").last();
                         calculationSelect.select2();
                         calculationSelect.select2("val", element.grade_calculation_fk);
@@ -973,12 +991,12 @@ function addAccordion(id, name) {
     const collapse = partialRecovery == 0 ? "in" : "";
     const unityOptions = getUnityOptions();
     return template`
-    <div class="partial-recovery-container">
+    <div class="partial-recovery-container" hasGrades='0'>
         <div class='row partial-recovery ui-accordion-header' data-index="${partialRecovery}">
             <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion-partial" href="#partial-recovery-collapse-${partialRecovery}">
                 <h2 class="partial-recovery-title accordion-heading">${titleAccordion}</h2>
             </a>
-            <span class="remove-button t-button-icon-danger t-icon-trash js-remove-partial-recovery" style="display:none;font-size: 20px;margin-top:0;"></span>
+            <span class="remove-button t-button-icon-danger t-icon-trash js-remove-partial-recovery" style="font-size: 20px;margin-top:0;"></span>
         </div>
         <div id="partial-recovery-collapse-${partialRecovery}" class="collapse ${collapse}  partial-recovery-accordion-body">
             <input type='hidden' class="partial-recovery-id" value="${id}">
@@ -1053,15 +1071,21 @@ $(document).on("click", ".js-remove-partial-recovery", function (e) {
         if(isNew) {
             partialRecovery.remove();
         } else {
-            const response = confirm(
-                "Ao remover uma recuperação, você está pagando TODAS as notas vinculadas a ela, em todas as disciplinas. Tem certeza que deseja seguir?"
-            );
-            if(response) {
-                partialRecovery.hide();
-                $(partialRecovery).find('.partial-recovery-operation').val("delete");
-            }
-        }
 
+             if (partialRecovery.attr('hasGrades') == 1) {
+                alert(
+                        "Não foi possível concluir a operação, pois já existem notas registradas para esta recuperação em alguma turma."
+                    );
+                } else  {
+                    const response = confirm(
+                        "Deseja realmente remover esta recuperação parcial? Esta ação não poderá ser desfeita."
+                    );
+                    if (response) {
+                        partialRecovery.hide();
+                        $(partialRecovery).find('.partial-recovery-operation').val("delete");;
+                    }
+                }
+        }
 
         let recoveriesNotSaved = $("input[type='hidden'].partial-recovery-id").filter(function () {
             return !this.hasAttribute('value') || this.value === '';
@@ -1082,31 +1106,6 @@ $(document).on("click", ".js-remove-partial-recovery", function (e) {
     }
 
  }
-$(document).on("click", ".js-remove-unity", function (e) {
-    const unity = $(this).closest(".unity");
-    const isNew = unity.find(".unity-id").val() === "";
-
-    if (isNew) {
-        unity.remove();
-        if ($("input[type='hidden'].unity-id:not([value])").length == 0) {
-            $('.js-alert-save-unities-first').hide();
-            $(".js-new-partial-recovery").removeClass("disabled");
-        }
-    } else {
-        const response = confirm(
-            "Ao remover um unidade, você está pagando TODAS as notas vinculadas a ela, em todas as disciplinas. Tem certeza que deseja seguir?"
-        );
-        if (response) {
-            $(this)
-                .children(".modality")
-                .find(".modality-operation")
-                .val("remove");
-            unity.find(".unity-operation").val("remove");
-            unity.hide();
-        }
-    }
-});
-
 $(document).on("keyup", ".partial-recovery-name", function (e) {
     const partialRecovery = $(this).closest(".partial-recovery-container");
     partialRecovery.find(".partial-recovery-title").html($(this).val());
