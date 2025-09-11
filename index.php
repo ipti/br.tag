@@ -1,7 +1,8 @@
 <?php
 // change the following paths if necessary
 //$yii_app=dirname(__FILE__).'/app/vendor/autoload.php';
-$yii=dirname(__FILE__).'/vendor/autoload.php';
+$autoload =dirname(__FILE__).'/vendor/autoload.php';
+$yii = dirname(__FILE__) . '/vendor/yiisoft/yii/framework/yii.php';
 
 $instance=dirname(__FILE__).'/instance.php';
 $configtag=dirname(__FILE__).'/config.php';
