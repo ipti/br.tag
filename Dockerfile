@@ -31,6 +31,7 @@ RUN chown -R www-data:www-data /app/app/runtime \
     && chown -R www-data:www-data /app/app/export \
     && chown -R www-data:www-data /app/app/import
 
+
 RUN chmod +x /usr/local/bin/docker-run.sh \
     && chown www-data:www-data /usr/local/bin/docker-run.sh
 
