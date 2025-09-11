@@ -167,7 +167,7 @@ $form = $this->beginWidget(
                   array(
                     'size' => 60,
                     'maxlength' => 100,
-                    'class' => 't-field-text__input',
+                    'class' => 't-field-text__input js-trim-name',
                     'placeholder' => 'Digite o Nome de Apresentação'
                   )
                 ); ?>
@@ -196,7 +196,7 @@ $form = $this->beginWidget(
                   array(
                     'size' => 60,
                     'maxlength' => 100,
-                    'class' => 't-field-text__input',
+                    'class' => 't-field-text__input js-trim-name',
                     'placeholder' => 'Digite o Nome Civil'
                   )
                 ); ?>
