@@ -727,7 +727,7 @@ class SagresConsultModel
                     classroom c
                     join edcenso_stage_vs_modality esvm on c.edcenso_stage_vs_modality_fk = esvm.id
                 WHERE
-                    c.school_inep_fk = :schoolInepFk
+                    c.school_inep_fk = :schoolInepFk and c.classroom_status = 1
                     AND c.school_year = :referenceYear";
 
         $params = [
