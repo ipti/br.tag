@@ -12,6 +12,8 @@
      * @property integer $is_edcenso_stage
      * @property integer $unified_frequency
      * @property integer $aggregated_stage
+     * @property integer $organization_form_sgp
+     * @property integer $organization_total_quantity_sgp
      *
      * The followings are the available model relations:
      * @property SchoolStages[] $schoolStages
@@ -126,7 +128,7 @@
             // will receive user inputs.
             return [
                 ['name, stage, is_edcenso_stage', 'required'],
-                ['stage, edcenso_associated_stage_id, is_edcenso_stage, aggregated_stage', 'numerical', 'integerOnly' => TRUE],
+                ['stage, edcenso_associated_stage_id, is_edcenso_stage, aggregated_stage, organization_form_sgp, organization_total_quantity_sgp', 'numerical', 'integerOnly' => TRUE],
                 ['name', 'length', 'max' => 100], // The following rule is used by search().
                 ['alias', 'length', 'max'=>20],
                 // Please remove those attributes that should not be searched.
@@ -158,7 +160,9 @@
                 'edcenso_associated_stage_id' => 'Etapa Associada ao Educacenso',
                 'is_edcenso_stage' => 'É uma Etapa do Educacenso',
                 'alias' => 'Abreviação',
-                'unified_frequency' => 'Unificar Frequência'
+                'unified_frequency' => 'Unificar Frequência',
+                'organization_form_sgp' => 'Forma de Organização (SGP)',
+                'organization_total_quantity_sgp' => 'Quantidade total de forma de organização (SGP)'
             ];
         }
 
