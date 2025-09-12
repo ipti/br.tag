@@ -1,6 +1,8 @@
 ## [Versão 3.2.4]
+- Permitir exportação do arquivo de identificação do censo com ou sem certidões de nascimento
 - Inclusão de faltas justificadas no cálculo da frequência
 - Corrigida a ordem dos campos de recuperação e modalidades na tela de notas
+
 
 ## [Versão 3.2.3]
 - Permitir exportação do censo com ou sem certidões de nascimento
