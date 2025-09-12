@@ -1,4 +1,5 @@
 ## [Versão 3.2.4]
+- Inclusão de faltas justificadas no cálculo da frequência
 - Corrigida a ordem dos campos de recuperação e modalidades na tela de notas
 
 ## [Versão 3.2.3]
