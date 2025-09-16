@@ -90,13 +90,13 @@ class SagresConsultModel
         }
 
         try {
+            $schools = $this->getSchools($referenceYear, $month, $finalClass, $withoutCpf);
             $education
                 ->setPrestacaoContas($this->getManagementUnit($managementUnitId, $referenceYear, $month))
-                ->setEscola($this->getSchools($referenceYear, $month, $finalClass, $withoutCpf))
+                ->setEscola($schools)
                 ->setProfissional($this->getProfessionals($referenceYear, $month));
 
             $this->enrolledSimultaneouslyInRegularClasses($referenceYear);
-            //$this->getStudentAEE($referenceYear);
 
         } catch (Exception $e) {
             throw new ErrorException($e->getMessage());
@@ -242,9 +242,11 @@ class SagresConsultModel
     {
         $schoolList = [];
 
-        $query = "SELECT inep_id, name FROM school_identification where situation = 1"; // 1: Ecolas Ativas
-        $schools = Yii::app()->db->createCommand($query)->queryAll();
-
+       $schools = Yii::app()->db->createCommand()
+            ->select('inep_id, name')
+            ->from('school_identification')
+            ->where('situation = :situation', [':situation' => 1])
+            ->queryAll();
         foreach ($schools as $school) {
             $schoolType = new EscolaTType();
 
