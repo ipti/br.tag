@@ -601,7 +601,7 @@ class StudentGradesResult
             'enrollmentId' => $this->enrollmentId ?? null,
             'enrollmentStatus' => $this->enrollmentStatus ?? null,
             'finalMedia' => $this->finalMedia ?? null,
-            'semAvarage' => $this->semAvarage ?? null,
+            'semAvarage' => $this->semAvarage ?? 0,
             'situation' => $this->situation ?? null,
             'unities' => is_array($this->unities) ? array_map(function (GradeUnityResult $unity) {
                 return $unity->toArray();
