@@ -210,7 +210,7 @@ return array(
             'jsDsn' => getenv("SENTRY_DSN"),
             'options' => [
                 'traces_sampler' => function (\Sentry\Tracing\SamplingContext $context): float {
-                    Yii::log('Sentry traces_sampler called' . $context, CLogger::LEVEL_INFO, 'application');
+                    Yii::log('Sentry traces_sampler called' . $context->getTransactionContext()->getName(), CLogger::LEVEL_INFO, 'application');
                     return 0.25;
                 },
                 'traces_sample_rate' => 0.25,
