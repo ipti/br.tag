@@ -40,6 +40,7 @@ require_once $turma_t;
 require_once $yii;
 require_once $configtag;
 require_once $instance;
+require_once $autoload;
 
 require_once dirname(__FILE__).'/app/components/FeaturesComponent.php';
 
