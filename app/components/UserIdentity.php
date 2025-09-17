@@ -62,7 +62,7 @@ class UserIdentity extends CUserIdentity
                 //@done s2 - mostrar apenas escolas ativas
                 $userSchools = SchoolIdentification::model()->findAllByAttributes(array('situation' => '1'), array('select'=>'inep_id, name', 'order' => 'name'));
                 $school =  isset($userSchools[0]) ? $userSchools[0]->inep_id : '';
-            } else {    
+            } else {
                 $this->setState('hardfoot', true);
                 $userSchools = $record->usersSchools;
                 $school = isset($record->usersSchools[0]->school_fk) ? $record->usersSchools[0]->school_fk : null;

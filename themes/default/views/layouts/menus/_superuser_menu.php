@@ -296,7 +296,7 @@
                             </a>
                         </li>
                     <?php } ?>
-                    <?php if (Yii::app()->features->isEnable("FEAT_SEDSP")) { ?>
+                    <?php if (Yii::app()->features->isEnable(TFeature::FEAT_INTEGRATIONS_SEDSP)) { ?>
                         <li
                             class="t-menu-item <?= strpos($_SERVER['REQUEST_URI'], "?r=sedsp") ? 'active' : '' ?>">
                             <a class="t-menu-item__link" href="<?php echo Yii::app()->createUrl('sedsp') ?>">

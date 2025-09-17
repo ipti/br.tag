@@ -22,7 +22,7 @@ if (TagUtils::checkAccess(['admin', 'nutritionist', 'reader'])) {
         array('empty' => 'Selecione a escola', 'class' => 'select-school', 'id2' => 'school', 'options' => array(Yii::app()->user->school => array('selected' => true)))
     );
 } else {
-    if (TagUtils::checkAccess('guardian')) {
+    if (TagUtils::checkAccess(TRole::GUARDIAN)) {
         $select_school = CHtml::activeDropDownList(
             UsersSchool::model(),
             'school_fk',
