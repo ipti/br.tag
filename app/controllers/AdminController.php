@@ -15,7 +15,7 @@ class AdminController extends Controller
                 'users' => ['*'],
             ],
             [
-                'allow', // allow authenticated user to perform 'create' and 'update' actions
+                'allow', // allow authenticated user to perform other actions
                 'actions' => [
                     'import',
                     'export',
@@ -430,7 +430,7 @@ SELECT
             ]
         );
         if (isset($_POST['Users'])) {
-            if (!isset($_POST['schools']) && ($_POST['Role']) != 'admin' && ($_POST['Role']) != 'nutritionist' && ($_POST['Role']) != 'reader' && ($_POST['Role'] != 'guardian')) {
+            if (!isset($_POST['schools']) && ($_POST['Role']) != 'admin' && ($_POST['Role'] != 'superuser') && ($_POST['Role']) != 'nutritionist' && ($_POST['Role']) != 'reader' && ($_POST['Role'] != 'guardian')) {
                 Yii::app()->user->setFlash('error', Yii::t('default', 'É necessário atribuir uma escola para o novo usuário criado!'));
                 $this->redirect(['index']);
             }
@@ -1092,14 +1092,44 @@ SELECT
 
     public function actionInstanceConfig()
     {
-        $configs = InstanceConfig::model()->findAll();
+
+        $configs = InstanceConfig::model()->findAllByAttributes(["superuseraccess" => 0]);
         $this->render('instanceConfig', [
+            "configs" => $configs
+        ]);
+    }
+    public function actionManageModules()
+    {
+        if (!Yii::app()->getAuthManager()->checkAccess('superuser', Yii::app()->user->loginInfos->id)) {
+            $this->redirect(array('/'));
+            Yii::app()->end();
+        }
+
+        $configs = InstanceConfig::model()->findAllByAttributes(["superuseraccess" => 1]);
+        $this->render('manageModules', [
             "configs" => $configs
         ]);
     }
 
     public function actionEditInstanceConfigs()
     {
+        $changed = false;
+        foreach ($_POST["configs"] as $config) {
+            $instanceConfig = InstanceConfig::model()->findByPk($config["id"]);
+            if ($instanceConfig->value != $config["value"]) {
+                $instanceConfig->value = $config["value"];
+                $instanceConfig->save();
+                $changed = true;
+            }
+        }
+        echo json_encode(["valid" => $changed, "text" => "Configurações alteradas com sucesso.</br>"]);
+    }
+    public function actionEditManageModules()
+    {
+        if (!Yii::app()->getAuthManager()->checkAccess('superuser', Yii::app()->user->loginInfos->id)) {
+            $this->redirect(array('/'));
+            Yii::app()->end();
+        }
         $changed = false;
         foreach ($_POST["configs"] as $config) {
             $instanceConfig = InstanceConfig::model()->findByPk($config["id"]);
