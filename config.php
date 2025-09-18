@@ -9,7 +9,7 @@ defined('YII_DEBUG') or define('YII_DEBUG', $debug ?? false);
 defined('SESSION_MAX_LIFETIME') or define('SESSION_MAX_LIFETIME', 3600);
 
 // Metadados do app
-define('TAG_VERSION', '3.2.3');
+define('TAG_VERSION', '3.2.4');
 
 // Versão do Yii (já disponível via Yii::getVersion(); manter ok)
 define('YII_VERSION', Yii::getVersion());
