@@ -56,9 +56,9 @@ class Educacenso
         $this->registers['99'] = Register99::export();
     }
 
-    private function registerIdentification()
+    private function registerIdentification($withoutCertificates)
     {
-        return  RegisterIdentification::export();
+        return  RegisterIdentification::export($withoutCertificates);
     }
 
     public function exportar($year, $withoutCertificates)
@@ -83,10 +83,10 @@ class Educacenso
         return implode("\n", $lines);
     }
 
-    public function exportarIdentification()
+    public function exportarIdentification($withoutCertificates)
     {
 
-        $registerForIdentification = $this->registerIdentification();
+        $registerForIdentification = $this->registerIdentification($withoutCertificates);
 
 
         $lines = [];
