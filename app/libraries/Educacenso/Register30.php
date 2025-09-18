@@ -80,6 +80,9 @@ class Register30
         foreach ($instructorsTeachingDatas as $iteaching => $teachingData) {
             if (!isset($instructors[$teachingData->instructor_fk])) {
                 $teachingData->instructorFk->documents->school_inep_id_fk = $school->inep_id;
+                if(!isset($teachingData->instructorFk->instructorVariableData)){
+                    continue;
+                }
                 $teachingData->instructorFk->instructorVariableData->school_inep_id_fk = $school->inep_id;
                 $teachingData->instructorFk->school_inep_id_fk = $school->inep_id;
 
@@ -113,7 +116,7 @@ class Register30
     {
         if (count($classroom->instructorTeachingDatas) >= 1) {
             foreach ($classroom->studentEnrollments as $ienrollment => $enrollment) {
-                if ($enrollment->status == 1 || $enrollment->status == null) {
+                if ($enrollment->isActive()) {
                     if (!isset($students[$enrollment->student_fk])) {
                         $enrollment->studentFk->school_inep_id_fk = $school->inep_id;
                         $enrollment->studentFk->documentsFk->school_inep_id_fk = $school->inep_id;
@@ -251,7 +254,7 @@ class Register30
         return $register;
     }
 
-    private static function exportStudentDocuments($student, $register, $school, $aliases)
+    private static function exportStudentDocuments($student, $register, $school, $aliases,  $withoutCertificates)
     {
         $student['register_type'] = '30';
 
@@ -261,7 +264,7 @@ class Register30
         }
 
 
-        if ($student['civil_certification'] != 2) {
+        if ($student['civil_certification'] != 2 || $withoutCertificates == true) {
             $student['civil_register_enrollment_number'] = '';
         }
 
@@ -533,7 +536,7 @@ class Register30
         return $highEducationCourses[$found_key]['cine_id'];
     }
 
-    public static function export($year)
+    public static function export($year,  $withoutCertificates)
     {
         $registers = [];
 
@@ -557,7 +560,7 @@ class Register30
             $register = [];
 
             $register = self::exportStudentIdentification($student['identification'], $register, $school, $aliasesStudent);
-            $register = self::exportStudentDocuments($student['documents'], $register, $school, $aliasesStudent);
+            $register = self::exportStudentDocuments($student['documents'], $register, $school, $aliasesStudent,  $withoutCertificates);
             $register = self::exportStudentDisorders($student['disorders'], $register, $aliasesStudent);
 
             ksort($register);

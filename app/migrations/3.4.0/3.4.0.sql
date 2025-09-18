@@ -1,3 +1,4 @@
+
 Insert into auth_item (name, type, description, bizrule, data) values ('superuser', 2, NULL, NULL, NULL);
 
 ALTER TABLE instance_config
@@ -20,4 +21,8 @@ INSERT INTO instance_config (parameter_key, parameter_name, value, superuseracce
     ('ADMIN_MODULE', 'módulo de administração', 1, 1),
     ('DASHBOARD_MODULE', 'módulo de gestão de resultados', 1, 1);
 
+
+
+ALTER TABLE classroom
+ADD COLUMN is_closed TINYINT NOT NULL DEFAULT 0;
 

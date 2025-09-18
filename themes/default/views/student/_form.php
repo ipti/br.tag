@@ -167,7 +167,7 @@ $form = $this->beginWidget(
                   array(
                     'size' => 60,
                     'maxlength' => 100,
-                    'class' => 't-field-text__input',
+                    'class' => 't-field-text__input js-trim-name',
                     'placeholder' => 'Digite o Nome de Apresentação'
                   )
                 ); ?>
@@ -196,7 +196,7 @@ $form = $this->beginWidget(
                   array(
                     'size' => 60,
                     'maxlength' => 100,
-                    'class' => 't-field-text__input',
+                    'class' => 't-field-text__input js-trim-name',
                     'placeholder' => 'Digite o Nome Civil'
                   )
                 ); ?>
@@ -833,6 +833,13 @@ $form = $this->beginWidget(
                 <?php echo $form->label($modelStudentIdentification, 'responsable_cpf', array('class' => 't-field-text__label')); ?>
                 <?php echo $form->textField($modelStudentIdentification, 'responsable_cpf', array('size' => 60, 'maxlength' => 14, 'class' => 't-field-text__input')); ?>
                 <?php echo $form->error($modelStudentIdentification, 'responsable_cpf'); ?>
+              </div>
+            </div>
+            <div class="column clearleft--on-mobile is-two-fifths">
+              <div class="t-field-text js-hide-not-required">
+                <?php echo $form->label($modelStudentIdentification, 'responsable_nis', array('class' => 't-field-text__label')); ?>
+                <?php echo $form->textField($modelStudentIdentification, 'responsable_nis', array('size' => 60, 'maxlength' => 14, 'class' => 't-field-text__input')); ?>
+                <?php echo $form->error($modelStudentIdentification, 'responsable_nis'); ?>
               </div>
             </div>
           </div>

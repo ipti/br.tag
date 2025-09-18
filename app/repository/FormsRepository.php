@@ -12,7 +12,7 @@ class FormsRepository
         $this->currentYear = Yii::app()->user->year;
     }
 
-    public function contentsPerDisciplineCalculate($classroom, $disciplineId, $enrollmentId)
+    /*   public function contentsPerDisciplineCalculate($classroom, $disciplineId, $enrollmentId)
     {
         // calculando o total de aulas ministradas naquela turma na disciplina específica
         $totalContents = 0;
@@ -44,6 +44,16 @@ class FormsRepository
         }
 
         return $totalContents;
+    } */
+
+
+    public function totalClassesPerDiscipline($classroomId, $disciplineId)
+    {
+        $criteriaTotalClasses = new CDbCriteria();
+        $criteriaTotalClasses->alias = 's';
+        $criteriaTotalClasses->condition = 's.unavailable = 0 AND s.classroom_fk = :classroom AND s.discipline_fk = :discipline';
+        $criteriaTotalClasses->params = [':classroom' => $classroomId, ':discipline' => $disciplineId];
+        return Schedule::model()->count($criteriaTotalClasses);
     }
 
     private function faultsPerDisciplineCalculate($schedulesPerUnityPeriods, $disciplineId, $classFaults, $enrollmentId)
@@ -208,10 +218,7 @@ class FormsRepository
         $enrollment = StudentEnrollment::model()->with(['classFaults', "classroomFk"])->findByPk($enrollmentId);
         $gradesResult = GradeResults::model()->findAllByAttributes(["enrollment_fk" => $enrollmentId]); // medias do aluno na turma
         $classFaults = ClassFaults::model()->findAllByAttributes(["student_fk" => $enrollment->studentFk->id]); // faltas do aluno na turma
-        $unities = GradeUnity::model()->findAllByAttributes(
-            ["edcenso_stage_vs_modality_fk" => $enrollment->classroomFk->edcenso_stage_vs_modality_fk],
-            ["order" => "FIELD(type, 'RF') ASC"]
-        ); // unidades da turma
+        $unities = $this->getUnities($enrollment->classroomFk->id, $enrollment->classroomFk->edcenso_stage_vs_modality_fk); // unidades da turma
         $curricularMatrix = CurricularMatrix::model()->with("disciplineFk")->findAllByAttributes(["stage_fk" => $enrollment->classroomFk->edcenso_stage_vs_modality_fk, "school_year" => $enrollment->classroomFk->school_year]); // matriz da turma
         $partialRecovery = $this->getPartialRecovery($enrollment->classroomFk->edcenso_stage_vs_modality_fk);
         $isMinorEducation = TagUtils::isStageMinorEducation($enrollment->classroomFk->edcensoStageVsModalityFk->edcenso_associated_stage_id);
@@ -247,10 +254,19 @@ class FormsRepository
             $mediaExists = false;
 
             // cálculo de aulas dadas
-            $totalContentsPerDiscipline = $this->contentsPerDisciplineCalculate($enrollment->classroomFk, $discipline, $enrollment->id);
+            $totalContentsPerDiscipline = $this->totalClassesPerDiscipline($enrollment->classroomFk->id, $discipline);
 
 
             $totalFaultsPerDicipline = $enrollment->countFaultsDiscipline($discipline);
+
+            $frequency = '';
+            $isMinorEducation = TagUtils::isStageMinorEducation($enrollment->classroomFk->edcenso_stage_vs_modality_fk);
+
+            if (!$isMinorEducation) {
+                $frequency = $enrollment->studentEnrolmentFrequencyPerDiscipline($discipline);
+            } else {
+                $frequency = $enrollment->totalStudentEnrolmentFrequency();
+            }
 
             foreach ($gradesResult as $gradeResult) {
                 // se existe notas para essa disciplina
@@ -262,7 +278,7 @@ class FormsRepository
                         "partial_recoveries" => $partialRecovery,
                         "total_number_of_classes" => $totalContentsPerDiscipline,
                         "total_faults" => $totalFaultsPerDicipline,
-                        "frequency_percentage" => round((($totalContentsPerDiscipline - $totalFaultsPerDicipline) / ($totalContentsPerDiscipline ?: 1)) * 100)
+                        "frequency_percentage" => $frequency
                     ]);
                     $mediaExists = true;
                     break; // quebro o laço para diminuir a complexidade do algoritmo para O(log n)2
@@ -277,7 +293,7 @@ class FormsRepository
                     "partial_recoveries" => $partialRecovery,
                     "total_number_of_classes" => $totalContentsPerDiscipline,
                     "total_faults" => $totalFaultsPerDicipline,
-                    "frequency_percentage" => round((($totalContentsPerDiscipline - $totalFaultsPerDicipline) / ($totalContentsPerDiscipline ?: 1)) * 100)
+                    "frequency_percentage" => $frequency
                 ]);
             }
         }
@@ -309,6 +325,19 @@ class FormsRepository
         return $response;
     }
 
+    private function getUnities($classroomId, $stage)
+    {
+        $criteria = new CDbCriteria();
+        $criteria->alias = 'gu';
+        $criteria->distinct = true;
+        $criteria->join = 'join grade_rules gr on gr.id = gu.grade_rules_fk';
+        $criteria->join .= ' join grade_rules_vs_edcenso_stage_vs_modality grvesvm on gr.id = grvesvm.grade_rules_fk';
+        $criteria->join .= ' join classroom_vs_grade_rules cvgr on cvgr.grade_rules_fk = gr.id';
+        $criteria->condition = 'grvesvm.edcenso_stage_vs_modality_fk = :stage and cvgr.classroom_fk = :classroom';
+        $criteria->params = array(':classroom' => $classroomId, ":stage" => $stage);
+
+        return GradeUnity::model()->findAll($criteria);
+    }
 
     private function calculateFrequency($diasLetivos, $totalFaltas): int
     {
@@ -609,7 +638,6 @@ class FormsRepository
         return Yii::app()->db->createCommand($sql)
             ->bindParam(':enrollment_id', $enrollmentId)
             ->queryRow();
-
     }
 
     /**
@@ -719,7 +747,6 @@ class FormsRepository
         return Yii::app()->db->createCommand($sql)
             ->bindParam(':enrollment_id', $enrollmentId)
             ->queryRow();
-
     }
 
     /**
@@ -808,11 +835,11 @@ class FormsRepository
                 foreach ($result as $r) {
                     if ($r['discipline_id'] == $d['discipline_id'] && $r['student_id'] == $s['student_fk']) {
                         $finalMedia = $r['final_media'];
-                        if($isMinorStage) {
+                        if ($isMinorStage) {
                             $finalMedia = $this->checkConceptGradeRange($finalMedia, $concepts);
                         }
                         $r['situation'] = mb_strtoupper($r['situation']);
-                       if($s->getCurrentStatus() == 'DEIXOU DE FREQUENTAR') {
+                        if ($s->getCurrentStatus() == 'DEIXOU DE FREQUENTAR') {
                             $finalSituation = 'DEIXOU DE FREQUENTAR';
                         } elseif ($r['situation'] == 'REPROVADO') {
                             $finalSituation = 'REPROVADO';
@@ -822,7 +849,6 @@ class FormsRepository
                             $finalSituation = 'APROVADO';
                         } elseif ($r['situation'] == 'TRANSFERIDO' && $finalSituation != 'REPROVADO' && $finalSituation != 'RECUPERAÇÃO' && $finalSituation != 'APROVADO') {
                             $finalSituation = 'TRANSFERIDO';
-
                         }
                         break;
                     }
@@ -840,7 +866,6 @@ class FormsRepository
                     )
                 );
             }
-
         }
 
         $response = array(
@@ -856,7 +881,8 @@ class FormsRepository
         return $response;
     }
 
-    public function checkConceptGradeRange($finalMedia, $concepts) {
+    public function checkConceptGradeRange($finalMedia, $concepts)
+    {
         $matchedConcept = null;
 
         foreach ($concepts as $concept) {
@@ -866,7 +892,7 @@ class FormsRepository
             }
         }
 
-        if( $matchedConcept != null ) {
+        if ($matchedConcept != null) {
             return $matchedConcept;
         }
         return $finalMedia;
@@ -942,8 +968,6 @@ class FormsRepository
         return Yii::app()->db->createCommand($sql)
             ->bindParam(':enrollment_id', $enrollmentId)
             ->queryRow();
-
-
     }
 
     /**
@@ -1092,7 +1116,6 @@ class FormsRepository
             case 'N':
                 $turn = 'Noturno';
                 break;
-
         }
 
         $response = array('student' => $data, 'turn' => $turn);

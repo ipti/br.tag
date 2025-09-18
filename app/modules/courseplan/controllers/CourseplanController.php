@@ -290,11 +290,15 @@ class CourseplanController extends Controller
             }
             $startTimestamp = $this->dataConverter($request["start_date"], 0);
 
-            $request["start_date"] = $startTimestamp;
+            $request["start_date"] = $startTimestamp !== null ? $startTimestamp : date_format(new DateTime(), 'Y-m-d')  ;
             $coursePlan->attributes = $request;
             $coursePlan->situation = 'PENDENTE';
             if ($coursePlan->save()) {
                 TLog::info("Plano de aula salvo com sucesso", ['CoursePlanId' => $coursePlan->id]);
+            }else{
+                TLog::error("Plano de aula salvo com sucesso", ['CoursePlanId' => $coursePlan->id]);
+                Yii::app()->user->setFlash('error', Yii::t('default', 'Erro ao salvar plano de aula!'));
+                $this->redirect(array('index'));
             }
             $errors = $coursePlan->getErrors();
             $courseClassIds = [];
@@ -429,7 +433,11 @@ class CourseplanController extends Controller
 
         // Verifica se houve erros no parsing da data
         $errors = DateTime::getLastErrors();
-        if ($dataObj !== false && $errors['warning_count'] === 0 && $errors['error_count'] === 0) {
+        if($errors !== false){
+            return false;
+        }
+
+        if ($dataObj !== false) {
             return $case === 0
                 ? date_format($dataObj, 'Y-m-d')
                 : date_format($dataObj, 'd/m/Y');

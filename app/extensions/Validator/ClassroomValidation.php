@@ -150,7 +150,7 @@ class ClassroomValidation extends Register
     {
         $number_of_ones = 0;
         for ($i = 0; $i < sizeof($array); $i++) {
-            if ((strlen($array[$i]) == 1 && $array[$i] == '1') || strlen($array[$i]) == 5) {
+            if ((strlen($array[$i] ?? '') == 1 && $array[$i] == '1') || strlen($array[$i] ?? '') == 5) {
                 $number_of_ones++;
             }
         }
