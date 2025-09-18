@@ -1,6 +1,5 @@
 <?php
 
-
 final class CantSaveGradeUnityModalityException extends Exception
 {
     public function __construct($modalityModel, $code = 0, Throwable $previous = null) {

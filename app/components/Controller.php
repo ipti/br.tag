@@ -94,7 +94,6 @@ class Controller extends CController
         if ($transaction) {
             $transaction->finish();
         }
-        // SentrySdk::getCurrentHub()->flush();
 
         return parent::afterAction($action);
     }

@@ -11,15 +11,15 @@ class Register
     {
     }
 
-    function isEmpty($value)
+    public function isEmpty($value)
     {
-        if ($value === null || trim($value) === '' || !isset($value)) {
+        if (trim((string) ($value ?? '')) === '') {
             return array('status' => true, 'erro' => '');
         }
         return array('status' => false, 'erro' => 'O valor nao eh vazio');
     }
 
-    function isNull($x)
+    public function isNull($x)
     {
         if ($x == null) {
             return array("status" => true, "erro" => "");
@@ -28,8 +28,7 @@ class Register
 
     }
 
-
-    function ifNull($value)
+    public function ifNull($value)
     {
         if ($value == null)
             $value = "nulo";
@@ -37,7 +36,7 @@ class Register
     }
 
     //campo 1002
-    function isEqual($x, $y, $msg)
+    public function isEqual($x, $y, $msg)
     {
 
         $result = $this->isNUll($x);
@@ -52,7 +51,7 @@ class Register
     }
 
     //campo 1003 à 1011, 1033 à 1038
-    function atLeastOne($items)
+    public function atLeastOne($items)
     {
         $number_of_ones = 0;
         for ($i = 0; $i < sizeof($items); $i++) {
@@ -65,7 +64,7 @@ class Register
         return array("status" => true, "erro" => "");
     }
 
-    function atLeastOneNotEmpty($items)
+    public function atLeastOneNotEmpty($items)
     {
         $number_of_not_empty = 0;
         for ($i = 0; $i < sizeof($items); $i++) {
@@ -78,7 +77,7 @@ class Register
         return array("status" => true, "erro" => "");
     }
 
-    function moreThanTwo($items)
+    public function moreThanTwo($items)
     {
 
         $number_of_ones = 0;
@@ -95,7 +94,7 @@ class Register
 
 
     //campo 1001, 3001, 4001, 6001
-    function isRegister($number, $value)
+    public function isRegister($number, $value)
     {
         $result = $this->isEqual($value, $number, "O tipo de registro não deveria ser $value e sim $number");
         if (!$result["status"]) {
@@ -106,7 +105,7 @@ class Register
     }
 
     //campo 1002, 3002, 4002, 6002
-    function isAllowedInepId($inep_id, $allowed_inep_ids)
+    public function isAllowedInepId($inep_id, $allowed_inep_ids)
     {
         if (!in_array($inep_id, $allowed_inep_ids)) {
             return array("status" => false, "erro" => "ID INEP $inep_id não está entre os permitidos");
@@ -116,7 +115,7 @@ class Register
     }
 
     //campo 3003, 6003
-    function isNumericOfSize($allowed_length, $value)
+    public function isNumericOfSize($allowed_length, $value)
     {
         if (is_numeric($value)) {
             $len = strlen($value);
@@ -132,7 +131,7 @@ class Register
     }
 
     //1070, 1088
-    function isGreaterThan($value, $target)
+    public function isGreaterThan($value, $target)
     {
 
         if ($value <= $target) {
@@ -143,7 +142,7 @@ class Register
     }
 
     //3004, 6004
-    function isNotGreaterThan($value, $target)
+    public function isNotGreaterThan($value, $target)
     {
 
         $result = $this->isGreaterThan(strlen($value), $target);
@@ -154,7 +153,7 @@ class Register
         return array("status" => true, "erro" => "");
     }
 
-    function onlyAlphabet($value)
+    public function onlyAlphabet($value)
     {
 
         $regex = "/^[a-zA-Z ]+$/";
@@ -167,7 +166,7 @@ class Register
     }
 
     //3005, 6005
-    function isNameValid($value, $target, $cpf = null)
+    public function isNameValid($value, $target, $cpf = null)
     {
 
         $result = $this->isGreaterThan(strlen($value), $target);
@@ -176,10 +175,7 @@ class Register
         }
 
         if ($value !== "" && $value !== null) {
-            // $result = $this->onlyAlphabet($value);
-            // if (!$result['status']) {
-            //     return array("status" => false, "erro" => $result['erro']);
-            // }
+
             $result = $this->checkNameRules($value);
             if (!$result['status']) {
                 return array("status" => false, "erro" => $result['erro']);
@@ -190,7 +186,7 @@ class Register
     }
 
 
-    function validateEmailFormat($email)
+    public function validateEmailFormat($email)
     {
 
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
@@ -201,17 +197,15 @@ class Register
 
     }
 
-    function validateDateformart($date)
+    public function validateDateformart($date)
     {
 
         if ($date == '' || $date == null) {
             return array("status" => false, "erro" => "Campo obrigatório.");
         }
 
-        //separa data em dia, mês e ano
         $mdy = explode('/', $date);
 
-        // verifica se a data é valida. Mês-dia-ano
         if (!checkdate($mdy[1], $mdy[0], $mdy[2])) {
             return array("status" => false, "erro" => "'$date' está inválida");
         }
@@ -220,13 +214,13 @@ class Register
 
     }
 
-    function getAge($birthyear, $currentyear)
+    public function getAge($birthyear, $currentyear)
     {
         $age = $currentyear - $birthyear;
         return $age;
     }
 
-    function isOlderThan($target_age, $birthyear, $currentyear)
+    public function isOlderThan($target_age, $birthyear, $currentyear)
     {
 
         $age = $this->getAge($birthyear, $currentyear);
@@ -239,7 +233,7 @@ class Register
 
     }
 
-    function isYoungerThan($target_age, $birthyear, $currentyear)
+    public function isYoungerThan($target_age, $birthyear, $currentyear)
     {
 
         $age = $this->getAge($birthyear, $currentyear);
@@ -253,7 +247,7 @@ class Register
     }
 
     //campo 1020, 3009, 6007
-    function oneOfTheValues($value)
+    public function oneOfTheValues($value)
     {
         if ($value == 1 || $value == 2) {
             return array("status" => true, "erro" => "");
@@ -265,7 +259,7 @@ class Register
 
 
     //10101, 10105, 10106, 3010, 6008
-    function isAllowed($value, $allowed_values)
+    public function isAllowed($value, $allowed_values)
     {
         if (!in_array($value, $allowed_values)) {
             $value = $this->ifNull($value);
@@ -275,7 +269,7 @@ class Register
         return array("status" => true, "erro" => "");
     }
 
-    function isCPFValid($cpfStr)
+    public function isCPFValid($cpfStr)
     {
         if ($cpfStr !== "") {
             $cpf = "$cpfStr";
@@ -331,7 +325,7 @@ class Register
         return array("status" => true, "erro" => "");
     }
 
-    function checkNameRules($value)
+    public function checkNameRules($value)
     {
         if (!preg_match('/^[A-zÀ-ú \']+$/', $value)) {
             return array("status" => false, "erro" => "'$value' inválido. Nome deve conter apenas letras.");
@@ -349,7 +343,7 @@ class Register
     }
 
     //3011, 3012, 3013, 6009.6010, 6011
-    function validateFiliation($filiation, $filiation_mother, $filiation_father, $cpf = null, $high_limit = null)
+    public function validateFiliation($filiation, $filiation_mother, $filiation_father, $cpf = null, $high_limit = null)
     {
 
         $result = $this->isAllowed($filiation, array("0", "1"));
@@ -380,7 +374,7 @@ class Register
     }
 
     //3014, 3015, 6012, 6013
-    function checkNation($nationality, $nation, $allowedvalues)
+    public function checkNation($nationality, $nation, $allowedvalues)
     {
 
         if (!in_array($nationality, $allowedvalues)) {
@@ -402,7 +396,7 @@ class Register
     }
 
 
-    function ufcity($nationality, $nation, $city)
+    public function ufcity($nationality, $nation, $city)
     {
 
         if ($nationality == 1 && ($nation == "" || !isset($city))) {
@@ -414,7 +408,7 @@ class Register
         return array("status" => true, "erro" => "");
     }
 
-    function exclusiveDeficiency($deficiencyName, $deficiency, $excludingdeficiencies)
+    public function exclusiveDeficiency($deficiencyName, $deficiency, $excludingdeficiencies)
     {
         switch ($deficiencyName) {
             case "Cegueira":
@@ -439,7 +433,7 @@ class Register
 
     }
 
-    function checkDeficiencies($hasdeficiency, $deficiencies, $excludingdeficiencies)
+    public function checkDeficiencies($hasdeficiency, $deficiencies, $excludingdeficiencies)
     {
 
         if ($hasdeficiency == "1") {
@@ -464,7 +458,7 @@ class Register
 
     }
 
-    function checkMultiple($hasdeficiency, $multipleDeficiencies, $deficiencies)
+    public function checkMultiple($hasdeficiency, $multipleDeficiencies, $deficiencies)
     {
 
         if ($hasdeficiency == "1") {
@@ -484,7 +478,7 @@ class Register
 
     }
 
-    function ifDemandsCheckValues($demand, $value, $allowed_values)
+    public function ifDemandsCheckValues($demand, $value, $allowed_values)
     {
 
         if ($demand == '1') {
@@ -502,7 +496,7 @@ class Register
 
     }
 
-    function allowedNumberOfTypes($items, $value, $limit)
+    public function allowedNumberOfTypes($items, $value, $limit)
     {
 
         $number_of_ones = 0;
@@ -518,7 +512,7 @@ class Register
 
 
     //Registro 10 ( 21 à 25, 26 à 29, 30 à 32, 39 à 68 )
-    function checkRangeOfArray($array, $allowed_values)
+    public function checkRangeOfArray($array, $allowed_values)
     {
         foreach ($array as $key => $value) {
             $result = $this->isAllowed($value, $allowed_values);
@@ -529,7 +523,7 @@ class Register
         return array("status" => true, "erro" => "");
     }
 
-    function adaptedArrayCount($items)
+    public function adaptedArrayCount($items)
     {
         $result = array();
 
@@ -547,7 +541,7 @@ class Register
     }
 
     //1098 à 10100
-    function exclusive($items)
+    public function exclusive($items)
     {
 
         $count = $this->adaptedArrayCount($items);
@@ -560,7 +554,7 @@ class Register
 
     }
 
-    function isAreaOfResidenceValid($area_of_residence)
+    public function isAreaOfResidenceValid($area_of_residence)
     {
         if ($area_of_residence != 1 && $area_of_residence != 2) {
             return array("status" => false, "erro" => "O campo é obrigatório.");
