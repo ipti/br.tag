@@ -265,7 +265,7 @@ class EnrollmentController extends Controller implements AuthenticateSEDTokenInt
                         $model->enrollment_date = DateTime::createFromFormat("Y-m-d", $model->enrollment_date);
                         $model->enrollment_date = $model->enrollment_date->format('d/m/Y');
                         $message = "";
-                        if (Yii::app()->features->isEnable("FEAT_SEDSP")) {
+                        if (Yii::app()->features->isEnable(TFeature::FEAT_INTEGRATIONS_SEDSP)) {
                             $this->authenticateSedToken();
 
                             $inNumRA = StudentIdentification::model()->findByPk($model->student_fk);

@@ -52,6 +52,18 @@ class AdminController extends Controller
         $this->render('index');
     }
 
+    public function actionRestoreRBAC(){
+        Yii::import('application.components.auth.RbacSeeder');
+
+        try {
+            RbacSeeder::seed();
+        } catch (\Throwable $e) {
+            echo $e;
+        }
+
+        echo 'Sucesso';
+    }
+
     public function actionExports()
     {
         $this->render('exports');

@@ -123,7 +123,7 @@
                             'htmlOptions' => array('width' => '100px', 'style' => 'text-align: center;'),
                         )
                     );
-                    if (Yii::app()->features->isEnable("FEAT_SEDSP")) {
+                    if (Yii::app()->features->isEnable(TFeature::FEAT_INTEGRATIONS_SEDSP)) {
                         array_push($columns,
                             array(
                                 'header' => 'Sincronizado',

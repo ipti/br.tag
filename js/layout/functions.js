@@ -9,7 +9,9 @@ $(document).ready(function(){
         $("#menu-electronic-diary").toggleClass("active");
     });
 
-    $("#menu-integrations-trigger").click(function(){
+
+
+    $(".toggle-menu-js").click(function(){
         $("#menu-integrations").toggleClass("active");
     });
 

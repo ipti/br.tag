@@ -180,7 +180,7 @@ class StudentController extends Controller implements AuthenticateSEDTokenInterf
         $columns[4] = 'cpf';
         $columns[5] = 'inep_id';
         $columns[6] = 'actions';
-        if (Yii::app()->features->isEnable("FEAT_SEDSP")) {
+        if (Yii::app()->features->isEnable(TFeature::FEAT_INTEGRATIONS_SEDSP)) {
             $columns[6] = 'sedsp_sync';
         }
 
@@ -240,7 +240,7 @@ class StudentController extends Controller implements AuthenticateSEDTokenInterf
                             id='student-delete' href='/?r=student/delete&id=" . $student->id . "'>
                             <img src='" . Yii::app()->theme->baseUrl . '/img/deletar.svg' . "' alt='Excluir'></img>
                             </a>";
-            if (Yii::app()->features->isEnable("FEAT_SEDSP")) {
+            if (Yii::app()->features->isEnable(TFeature::FEAT_INTEGRATIONS_SEDSP)) {
                 $sync = "<a style='cursor: pointer;display: inline-block' title='Sincronizar' id='student-sync' class='" . ($student->sedsp_sync ? "sync" : "unsync") . "' href='/?r=student/syncToSedsp&id=" . $student->id . "'>";
                 $sync .= $student->sedsp_sync
                     ? '<img src="' . Yii::app()->theme->baseUrl . '/img/SyncTrue.png" style="width: 25px;text-align: center">'
@@ -419,7 +419,7 @@ class StudentController extends Controller implements AuthenticateSEDTokenInterf
             date_default_timezone_set("America/Recife");
             $modelStudentIdentification->last_change = date('Y-m-d G:i:s');
 
-            if (Yii::app()->features->isEnable("FEAT_SEDSP")) {
+            if (Yii::app()->features->isEnable(TFeature::FEAT_INTEGRATIONS_SEDSP)) {
                 $modelStudentIdentification->scenario = "formSubmit";
             }
 
@@ -470,7 +470,7 @@ class StudentController extends Controller implements AuthenticateSEDTokenInterf
                                 $flash = "success";
                                 $msg = 'O Cadastro de ' . $modelStudentIdentification->name . ' foi criado com sucesso!';
 
-                                if (Yii::app()->features->isEnable("FEAT_SEDSP")) {
+                                if (Yii::app()->features->isEnable(TFeature::FEAT_INTEGRATIONS_SEDSP)) {
                                     $this->authenticateSedToken();
                                     $syncResult = $modelStudentIdentification->syncStudentWithSED($modelStudentIdentification->id, $modelEnrollment, self::CREATE);
 
@@ -632,7 +632,7 @@ class StudentController extends Controller implements AuthenticateSEDTokenInterf
                             $flash = "success";
                             $msg = 'O Cadastro de ' . $modelStudentIdentification->name . ' foi alterado com sucesso!';
 
-                            if (Yii::app()->features->isEnable("FEAT_SEDSP")) {
+                            if (Yii::app()->features->isEnable(TFeature::FEAT_INTEGRATIONS_SEDSP)) {
 
                                 $this->authenticateSedToken();
                                 $syncResult = (object) $modelStudentIdentification->syncStudentWithSED($id, $modelEnrollment, self::UPDATE);
@@ -820,7 +820,7 @@ class StudentController extends Controller implements AuthenticateSEDTokenInterf
             }
 
             if ($delete) {
-                if (Yii::app()->features->isEnable("FEAT_SEDSP")) {
+                if (Yii::app()->features->isEnable(TFeature::FEAT_INTEGRATIONS_SEDSP)) {
                     $this->excluirMatriculaFromSED($classes, $inNumRA);
                 }
 

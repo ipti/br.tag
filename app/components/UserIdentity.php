@@ -28,17 +28,12 @@ class UserIdentity extends CUserIdentity
         } elseif (!password_verify($this->password, $record->password)) {
             $this->errorCode = self::ERROR_PASSWORD_INVALID;
         } else {
-            if (
-                Yii::app()->getAuthManager()->checkAccess('admin', $record->id)
-                || Yii::app()->getAuthManager()->checkAccess('nutritionist', $record->id)
-                || Yii::app()->getAuthManager()->checkAccess('reader', $record->id)
-                || Yii::app()->getAuthManager()->checkAccess('guardian', $record->id)
-                || Yii::app()->getAuthManager()->checkAccess('superuser', $record->id)
-            ) {
+            if (TagUtils::checkAccess(['admin', 'nutritionist', 'reader', 'guardian', 'superuser'], $record)) {
                 $userSchools = [];
                 $this->setState('hardfoot', false);
-                $userSchools = SchoolIdentification::model()->findAllByAttributes(array('situation' => '1'), array('order' => 'name'));
-                $school = isset($userSchools[0]) ? $userSchools[0]->inep_id : '';
+                //@done s2 - mostrar apenas escolas ativas
+                $userSchools = SchoolIdentification::model()->findAllByAttributes(array('situation' => '1'), array('select'=>'inep_id, name', 'order' => 'name'));
+                $school =  isset($userSchools[0]) ? $userSchools[0]->inep_id : '';
             } else {
                 $this->setState('hardfoot', true);
                 $userSchools = $record->usersSchools;
