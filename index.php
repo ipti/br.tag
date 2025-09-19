@@ -50,4 +50,3 @@ require_once dirname(__FILE__).'/app/components/FeaturesComponent.php';
 
 Yii::createWebApplication($config)->run();
 
-

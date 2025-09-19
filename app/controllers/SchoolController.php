@@ -55,9 +55,9 @@ class SchoolController extends Controller
             [
                 'allow',
                 // allow admin user to perform 'admin' and 'delete' actions
-                'actions' => ['admin', 'manager', 'delete', 'reports', 'ReportsMonthlyTransaction', 'Record'], 
-                'users' => ['@'],   
-            ], 
+                'actions' => ['admin', 'manager', 'delete', 'reports', 'ReportsMonthlyTransaction', 'Record'],
+                'users' => ['@'],
+            ],
             array(
                 'deny',
                 // deny all users
@@ -253,7 +253,7 @@ class SchoolController extends Controller
         $modelSchoolStructure = $this->loadModel($id, $this->SCHOOL_STRUCTURE);
         $modelManagerIdentification = $this->loadModel($id, $this->MANAGER_IDENTIFICATION);
 
-        $disableFieldWhenItsUBATUBA = Yii::app()->features->isEnable("FEAT_SEDSP");
+        $disableFieldWhenItsUBATUBA = Yii::app()->features->isEnable(TFeature::FEAT_INTEGRATIONS_SEDSP);
 
         // Uncomment the following line if AJAX validation is needed
         // $this->performAjaxValidation($modelSchoolIdentification);

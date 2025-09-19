@@ -22,7 +22,7 @@ $cs->registerScriptFile($baseUrl . '/js/enrollment/form/validations.js?v=' . TAG
 $cs->registerScriptFile($baseUrl . '/js/enrollment/form/functions.js?v=' . TAG_VERSION, CClientScript::POS_END);
 
 $cs->registerScript("", '
-    var sedspEnable = ' . Yii::app()->features->isEnable("FEAT_SEDSP") . '
+    var sedspEnable = ' . Yii::app()->features->isEnable(TFeature::FEAT_INTEGRATIONS_SEDSP) . '
     sedspEnable = sedspEnable || false;
 ', CClientScript::POS_HEAD);
 
@@ -43,7 +43,7 @@ $form = $this->beginWidget(
 <div class="mobile-row ">
   <div class="column clearleft">
     <?php
-    if (!$modelStudentIdentification->isNewRecord && Yii::app()->features->isEnable("FEAT_SEDSP")):
+    if (!$modelStudentIdentification->isNewRecord && Yii::app()->features->isEnable(TFeature::FEAT_INTEGRATIONS_SEDSP)):
       $sedspSync = StudentIdentification::model()->findByPk($modelStudentIdentification->id)->sedsp_sync;
       ?>
       <div style="display: flex;align-items: center;margin-right: 10px;margin-top: 13px;">
@@ -643,7 +643,7 @@ $form = $this->beginWidget(
             </div>
 
           </div>
-          <?php if (Yii::app()->features->isEnable("FEAT_SEDSP")): ?>
+          <?php if (Yii::app()->features->isEnable(TFeature::FEAT_INTEGRATIONS_SEDSP)): ?>
             <!--Gov ID-->
             <div class="row">
               <div class="column clearleft is-two-fifths">
@@ -693,7 +693,7 @@ $form = $this->beginWidget(
               <div class="t-field-select" id="filiation-select">
                 <?php echo $form->label($modelStudentIdentification, 'filiation', array('class' => 't-field-select__label--required')); ?>
                 <?php
-                if (Yii::app()->features->isEnable("FEAT_SEDSP")) {
+                if (Yii::app()->features->isEnable(TFeature::FEAT_INTEGRATIONS_SEDSP)) {
                   echo $form->DropDownList(
                     $modelStudentIdentification,
                     'filiation',
@@ -1821,7 +1821,7 @@ $form = $this->beginWidget(
             <div class="column clearleft is-two-fifths">
               <div class="t-buttons-container">
                 <?php
-                if (Yii::app()->features->isEnable("FEAT_SEDSP")) {
+                if (Yii::app()->features->isEnable(TFeature::FEAT_INTEGRATIONS_SEDSP)) {
                   $idStudent = isset($_GET['id']) ? $_GET['id'] : null;
 
                   if ($idStudent !== null) {
@@ -2332,7 +2332,7 @@ $form = $this->beginWidget(
                         </div>
                         <div class="align-items--center">
                           <?php
-                          if (!$modelStudentIdentification->isNewRecord && Yii::app()->features->isEnable("FEAT_SEDSP")) {
+                          if (!$modelStudentIdentification->isNewRecord && Yii::app()->features->isEnable(TFeature::FEAT_INTEGRATIONS_SEDSP)) {
                             $sedspSync = StudentEnrollment::model()->findByPk($me->id)->sedsp_sync;
                             ?>
                             <div style="display: flex;align-items: center;margin-right: 10px;margin-top: 13px;">

@@ -1,2 +1,0 @@
-ALTER TABLE `class_faults`
-ADD `justification` varchar(200) COLLATE 'utf8_unicode_ci' NULL;

@@ -1,0 +1,28 @@
+CREATE TABLE `student_enrollment_history` (
+  `id` int NOT NULL,
+  `student_enrollment_fk` int(11) NOT NULL,
+  `status` int NOT NULL,
+  `date` date NULL,
+  `created_at` datetime NULL,
+  FOREIGN KEY (`student_enrollment_fk`) REFERENCES `student_enrollment` (`id`)
+) ENGINE='InnoDB' COLLATE 'utf8_unicode_ci';
+
+ALTER TABLE `student_enrollment_history`
+CHANGE `date` `transfer_date` date NULL AFTER `status`,
+ADD `class_transfer_date` date NULL AFTER `transfer_date`,
+ADD `school_readmission_date` date NULL AFTER `class_transfer_date`;
+
+ALTER TABLE `student_enrollment_history`
+ADD `enrollment_date` date NULL AFTER `status`;
+
+ALTER TABLE `student_enrollment_history`
+DROP `created_at`;
+
+ALTER TABLE `student_enrollment_history`
+CHANGE `id` `id` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY FIRST;
+
+ALTER TABLE `student_enrollment`
+ADD `current_enrollment` tinyint NULL;
+
+ALTER TABLE `student_enrollment_history`
+ADD `created_at` datetime NULL;

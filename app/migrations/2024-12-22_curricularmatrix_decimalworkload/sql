@@ -1,2 +1,0 @@
-ALTER TABLE `curricular_matrix`
-CHANGE `workload` `workload` float NOT NULL AFTER `discipline_fk`;

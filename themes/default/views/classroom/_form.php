@@ -28,7 +28,7 @@ $form = $this->beginWidget(
 <div class="mobile-row ">
     <div class="column clearleft">
         <?php
-        if (!$modelClassroom->isNewRecord && Yii::app()->features->isEnable("FEAT_SEDSP")) {
+        if (!$modelClassroom->isNewRecord && Yii::app()->features->isEnable(TFeature::FEAT_INTEGRATIONS_SEDSP)) {
             $sedspSync = Classroom::model()->findByPk($modelClassroom->id)->sedsp_sync;
         ?>
             <div style="display: flex;align-items: center;margin-right: 10px;margin-top: 13px;">
@@ -73,7 +73,7 @@ $form = $this->beginWidget(
             <div class="alert classroom-alert alert-error">
                 <?= Yii::app()->user->getFlash('error') ?>
             </div>
-        <?php } elseif (Yii::app()->features->isEnable("FEAT_SEDSP") && $disabledFields) { ?>
+        <?php } elseif (Yii::app()->features->isEnable(TFeature::FEAT_INTEGRATIONS_SEDSP) && $disabledFields) { ?>
             <div class="alert classroom-alert alert-warning">
                 Alguns campos foram desabilitados porque a turma possui alunos matriculados e o SEDSP não autoriza
                 realizar edições em tais campos.
@@ -180,7 +180,7 @@ $form = $this->beginWidget(
                                 ?>
                                 <?= $form->error($modelClassroom, 'modality'); ?>
                             </div>
-                            <?php if (Yii::app()->features->isEnable("FEAT_SEDSP")) { ?>
+                            <?php if (Yii::app()->features->isEnable(TFeature::FEAT_INTEGRATIONS_SEDSP)) { ?>
                                 <!--Gov ID-->
                                 <div class="t-field-text js-hide-not-required">
                                     <?= $form->label($modelClassroom, 'gov_id', array('class' => 't-field-text__label')); ?>
@@ -250,7 +250,7 @@ $form = $this->beginWidget(
 
 
 
-                            <?php if (Yii::app()->features->isEnable("FEAT_SEDSP")): ?>
+                            <?php if (Yii::app()->features->isEnable(TFeature::FEAT_INTEGRATIONS_SEDSP)): ?>
                                 <!-- Unidade Escolar -->
                                 <div class="t-field-select" id="sedsp_school_unity_fk">
                                     <?= $form->label($modelClassroom, 'Unidade Escolar', array('class' => 't-field-select__label--required')); ?>
@@ -833,7 +833,7 @@ $form = $this->beginWidget(
                                             <?= Yii::t('default', 'Ata de Notas') ?>
                                         </a>
                                     </div>
-                                    <?php if (Yii::app()->features->isEnable("FEAT_SEDSP") && count($modelEnrollments) > 0): ?>
+                                    <?php if (Yii::app()->features->isEnable(TFeature::FEAT_INTEGRATIONS_SEDSP) && count($modelEnrollments) > 0): ?>
                                         <div class="reports_cards">
                                             <button class="t-button-primary sync-enrollments">
                                                 <span class="t-icon-export"></span>
@@ -901,7 +901,7 @@ $form = $this->beginWidget(
                         </div>
                         <div id="widget-StudentsList" class="widget" style="margin-top: 8px;">
                             <?php
-                            $columnCount = Yii::app()->features->isEnable("FEAT_SEDSP") ? 6 : 5;
+                            $columnCount = Yii::app()->features->isEnable(TFeature::FEAT_INTEGRATIONS_SEDSP) ? 6 : 5;
                             ?>
                             <style type="text/css" media="print">
                                 a[href]:after {
@@ -926,7 +926,7 @@ $form = $this->beginWidget(
                                         <th>
                                             <?= Yii::t('default', 'Status') ?>
                                         </th>
-                                        <?= Yii::app()->features->isEnable("FEAT_SEDSP") ? "<th>Sincronizado</th>" : "" ?>
+                                        <?= Yii::app()->features->isEnable(TFeature::FEAT_INTEGRATIONS_SEDSP) ? "<th>Sincronizado</th>" : "" ?>
                                         <th>
                                             <?= Yii::t('default', 'Print') ?>
                                         </th>
@@ -958,7 +958,7 @@ $form = $this->beginWidget(
                                                 <td>
                                                     <?= $enrollment["status"] ?>
                                                 </td>
-                                                <?php if (Yii::app()->features->isEnable("FEAT_SEDSP")): ?>
+                                                <?php if (Yii::app()->features->isEnable(TFeature::FEAT_INTEGRATIONS_SEDSP)): ?>
                                                     <td class="sync-column">
                                                         <?php if ($enrollment["synced"]) { ?>
                                                             <img src="<?= Yii::app()->theme->baseUrl; ?>/img/SyncTrue.png"

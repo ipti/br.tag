@@ -157,7 +157,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                 <?php echo $form->error($model, 'status'); ?>
                             </div>
 
-                            <?php if (Yii::app()->features->isEnable("FEAT_SEDSP")): ?>
+                            <?php if (Yii::app()->features->isEnable(TFeature::FEAT_INTEGRATIONS_SEDSP)): ?>
                                 <div class="t-field-select" id="reasonDropdown" style="display: none;">
                                     <label for="reason">Tipo da baixa</label>
                                     <select name="reason" id="reason" class="select-search-off t-field-select__input" style="width:100%">

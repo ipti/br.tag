@@ -1,6 +1,5 @@
 <?php
 
-
 final class CantSaveGradeResultsException extends Exception
 {
     public function __construct($code = 0, Throwable $previous = null)

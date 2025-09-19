@@ -1,6 +1,5 @@
 <?php
 
-
 final class CantSaveGradeUnityException extends Exception
 {
     public function __construct(GradeUnity $unity, $code = 0, Throwable $previous = null)

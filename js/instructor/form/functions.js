@@ -122,8 +122,3 @@ function renderClasroomsCards(){
  }
 
  renderClasroomsCards();
-
-$('.js-trim-name').on('focusout', function () {
-    let name = $(this).val();
-    $(this).val(name.trim());
-});
