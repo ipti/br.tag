@@ -32,21 +32,16 @@ class DefaultController extends Controller
         );
     }
 
-	public function actionManageModules()
-	{
-		// if (!Yii::app()->getAuthManager()->checkAccess('superuser', Yii::app()->user->loginInfos->id)) {
-		// 	$this->redirect(array('/'));
-		// 	Yii::app()->end();
-		// }
-
-		$configs = FeatureFlags::model()->with('featureName')->findAll();
+    public function actionManageModules()
+    {
+        $configs = FeatureFlags::model()->with('featureName')->findAll();
         $configs = array_filter($configs, fn($config) => str_starts_with($config->feature_name, 'TASK'));
-		$this->render('manageModules', [
-			"configs" => $configs
-		]);
-	}
+        $this->render('manageModules', [
+            "configs" => $configs
+        ]);
+    }
 
-	
+
     public function actionEditManageModules()
     {
         $changed = false;

@@ -15,9 +15,7 @@ $cs->registerScriptFile($baseUrl . '/js/admin/manage-modules.js?v=' . TAG_VERSIO
 $cs->registerCssFile($baseUrl . 'sass/css/main.css');
 
 $this->setPageTitle('TAG - Gerenciar Módulos');
-?>
 
-<?php //echo $form->errorSummary($model);
 ?>
 
 <div class="main">
@@ -45,10 +43,10 @@ $this->setPageTitle('TAG - Gerenciar Módulos');
                     <div class="t-cards parameter-row" style="max-width: 300px; height: 240px;">
                         <input type="hidden" class="parameter-id" value="<?= $config->feature_name ?>">
                         <div class="t-cards-content" style="gap: 0px;">
-                            <label class="parameter-name">
+                            <div class="parameter-name">
                                 <h2 class="t-cards-title"><?= $config->featureName->description ?></h2>
                                 <p class="t-cards-text clear-margin--left"><?= $config->featureName->name ?></p>
-                            </label>
+                            </div>
 
                             <div class="t-field-radio">
                                 <input type="radio"
