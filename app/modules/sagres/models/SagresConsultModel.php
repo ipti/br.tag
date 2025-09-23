@@ -101,8 +101,6 @@ class SagresConsultModel
         }
 
         try {
-            $start = microtime(true);
-
             $school =  $this->getSchools();
             $prestacaoContas = $this->getManagementUnit($managementUnitId, $referenceYear, $month);
             $profissional = $this->getProfessionals($referenceYear, $month);
@@ -113,10 +111,6 @@ class SagresConsultModel
                 ->setProfissional($profissional);
 
             $this->enrolledSimultaneouslyInRegularClasses($referenceYear);
-            $end = microtime(true);
-            $duration = $end - $start;
-            $time = gmdate("H:i:s", (int) $duration);
-
         } catch (Exception $e) {
             throw new ErrorException($e->getMessage());
         }
