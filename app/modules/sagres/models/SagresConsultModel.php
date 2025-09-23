@@ -2286,27 +2286,6 @@ class SagresConsultModel
         return false;
     }
 
-    private function returnNumberFaults($studentId, $referenceYear)
-    {
-        $sql = "SELECT
-                    COUNT(*)
-                FROM
-                    class_faults cf
-                    JOIN schedule s ON s.id = cf.schedule_fk
-                    JOIN classroom c on c.id = s.classroom_fk
-                WHERE
-                    cf.student_fk = :studentId AND
-                    c.school_year = :referenceYear;";
-
-        $numberFaults = Yii::app()->db->createCommand($sql)
-            ->bindValues([
-                ':studentId' => $studentId,
-                ':referenceYear' => $referenceYear
-            ])->queryScalar();
-
-        return $numberFaults ?? 0;
-    }
-
     public function generatesSagresEduXML($sagresEduObject)
     {
         $serializerBuilder = SerializerBuilder::create();
