@@ -10,8 +10,10 @@ $(document).on("click", ".save", function () {
         });
     });
 
+    console.log(configs);
+
     $.ajax({
-        url: "?r=admin/editManageModules",
+        url: "?r=systemadmin/default/editManageModules",
         type: "POST",
         data: {
             configs: configs,

@@ -10,6 +10,13 @@ $menuItems = [
         'feature' => TTask::TASK_HOME,
     ],
     [
+        'label' => 'Controle de Módulos',
+        'url' => ['systemadmin/default/managemodules'],
+        'icon' => 't-icon-home',
+        'roles' => [TRole::SUPERUSER],
+        'feature' => TTask::TASK_HOME,
+    ],
+    [
         'label' => 'Matrícula Online',
         'url' => ['enrollmentonline/Enrollmentonlinestudentidentification/StudentStatus'],
         'icon' => 't-icon-backpack',

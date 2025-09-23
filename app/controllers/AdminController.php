@@ -1110,38 +1110,9 @@ SELECT
             "configs" => $configs
         ]);
     }
-    public function actionManageModules()
-    {
-        if (!Yii::app()->getAuthManager()->checkAccess('superuser', Yii::app()->user->loginInfos->id)) {
-            $this->redirect(array('/'));
-            Yii::app()->end();
-        }
-
-        $configs = InstanceConfig::model()->findAllByAttributes(["superuseraccess" => 1]);
-        $this->render('manageModules', [
-            "configs" => $configs
-        ]);
-    }
 
     public function actionEditInstanceConfigs()
     {
-        $changed = false;
-        foreach ($_POST["configs"] as $config) {
-            $instanceConfig = InstanceConfig::model()->findByPk($config["id"]);
-            if ($instanceConfig->value != $config["value"]) {
-                $instanceConfig->value = $config["value"];
-                $instanceConfig->save();
-                $changed = true;
-            }
-        }
-        echo json_encode(["valid" => $changed, "text" => "Configurações alteradas com sucesso.</br>"]);
-    }
-    public function actionEditManageModules()
-    {
-        if (!Yii::app()->getAuthManager()->checkAccess('superuser', Yii::app()->user->loginInfos->id)) {
-            $this->redirect(array('/'));
-            Yii::app()->end();
-        }
         $changed = false;
         foreach ($_POST["configs"] as $config) {
             $instanceConfig = InstanceConfig::model()->findByPk($config["id"]);

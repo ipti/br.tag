@@ -114,7 +114,8 @@ return array(
         'gradeconcept',
         'abilities',
         'enrollmentonline',
-        'gestaopresente'
+        'gestaopresente',
+        'systemadmin',
     ),
     // application components
     'components' => array(

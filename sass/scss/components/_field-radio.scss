@@ -1,0 +1,74 @@
+@import '../_tokens.scss';
+@import '../_functions.scss';
+
+.t-field-radio {
+    display: flex;
+    white-space: normal;
+    line-height: 12px;
+    width: 100%;
+    margin-top: $SizeXXXSmall;
+    margin-bottom: $SizeXSmall;
+
+    &__label {
+        padding-top: 0 !important;
+
+        &--required {
+
+            &::after {
+                content: "*";
+                font-weight: $fontWeightRegular;
+                font-size: $FontSizeTextNormal;
+                color: $colorsAlertCrucialIcon;
+            }
+        }
+    }
+
+    &__input,
+    input[type="radio"] {
+        background: $colorsBaseWhiteNormal;
+        height: 20px;
+        width: 20px;
+        margin: 0 $SizeNormal 0 0;
+    }
+
+    &.helper {
+        margin-top: 31px;
+        margin-bottom: 10px;
+        margin-left: -18px;
+    }
+
+    &--vertical {
+        margin-right: $SizeNormal;
+
+        .t-field-radio__label {
+            text-align: center;
+        }
+
+        .t-field-radio__input {
+            margin: 0;
+        }
+    }
+}
+
+.t-field-radio-group {
+    margin-bottom: $SizeXXSmall;
+    margin-top: $SizeLarge;
+
+    &__label {
+        padding-top: 0 !important;
+
+        &--required {
+            &::after {
+                content: "*";
+                font-weight: $fontWeightRegular;
+                font-size: $FontSizeTextNormal;
+                color: $colorsAlertCrucialIcon;
+            }
+        }
+    }
+
+    .t-field-radio {
+        margin-top: $SizeXXXSmall;
+        margin-bottom: $SizeXSmall;
+    }
+}

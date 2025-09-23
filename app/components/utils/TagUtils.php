@@ -7,6 +7,11 @@ class TagUtils extends CApplicationComponent
         return (bool) Yii::app()->getAuthManager()->checkAccess(TRole::INSTRUCTOR->value, Yii::app()->user->loginInfos->id);
     }
 
+    public static function isSuperuser()
+    {
+        return (bool) Yii::app()->getAuthManager()->checkAccess(TRole::SUPERUSER->value, Yii::app()->user->loginInfos->id);
+    }
+
     public static function checkAccess(TRole|array $roles, $record = null): bool
     {
         $record = $record ?? Yii::app()->user->loginInfos;
