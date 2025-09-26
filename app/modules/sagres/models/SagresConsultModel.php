@@ -921,8 +921,8 @@ class SagresConsultModel
             $inconsistencyModel = new ValidationSagresModel();
             $inconsistencyModel->enrollment = SERIE_STRONG;
             $inconsistencyModel->school = $schoolName;
-            $inconsistencyModel->description = 'Série não esta associada a nenhuma etapa válida ';
-            $inconsistencyModel->action = 'Adicione uma etapa válida';
+            $inconsistencyModel->description = 'Há alunos na turma com etapa de ensino não associada a nenhuma etapa válida';
+            $inconsistencyModel->action = 'Atualize a etapa de ensino de cada aluno para uma etapa válida.';
             $inconsistencyModel->identifier = '13';
             $inconsistencyModel->idClass = $classId;
             $inconsistencyModel->insert();
