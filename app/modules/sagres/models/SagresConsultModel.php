@@ -2234,10 +2234,32 @@ class SagresConsultModel
         return $stage;
     }
 
-    private function calculateAge($birthdate)
+    private function calculateAge($birthdate):int
     {
+
         $today = new DateTime();
-        $age = $today->diff($birthdate);
+        $newBirthdate = DateTime::createFromFormat('d/m/Y',$birthdate);
+
+        if ($newBirthdate === false) {
+            $formats = [
+            'Y-m-d',
+            'd/m/Y',
+            'd-m-Y',
+            'm/d/Y',
+            'd M Y',
+            'd F Y',
+            DateTime::RFC3339,
+            DateTime::ATOM
+            ];
+            foreach ($formats as $format) {
+                $dt = DateTime::createFromFormat($format, $birthdate);
+                if ($dt && $dt->format($format) === $birthdate) {
+                    $newBirthdate = $dt;
+                    break;
+                }
+            }
+        }
+        $age = $today->diff($newBirthdate);
         return (int) $age->y;
     }
 
