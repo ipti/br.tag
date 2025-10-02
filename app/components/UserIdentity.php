@@ -5,8 +5,8 @@ class UserIdentity extends CUserIdentity
 {
 
    public function isMd5($string) {
-        $md5_pattern = '/^[a-fA-F0-9]{32}$/';
-        return preg_match($md5_pattern, $string);
+        $md5Pattern = '/^[a-fA-F0-9]{32}$/';
+        return preg_match($md5Pattern, $string);
     }
 
     public function authenticate()
