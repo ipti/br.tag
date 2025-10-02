@@ -10,16 +10,17 @@ Yii::import('application.modules.sedsp.mappers.*');
  */
 class GetSchoolFromSED
 {
-    private  $schoolSEDDataSource;
+    private $schoolSEDDataSource;
 
     public function __construct($schoolSEDDataSource = null)
     {
         $this->schoolSEDDataSource = $schoolSEDDataSource ?? new SchoolSEDDataSource();
     }
+
     public function exec($schoolName, $schoolMun)
     {
         $response = $this->schoolSEDDataSource->getSchool($schoolName, $schoolMun);
-        $content  = $response->getBody()->getContents();
+        $content = $response->getBody()->getContents();
         return SchoolMapper::parseToTAGSchool($content);
     }
 }

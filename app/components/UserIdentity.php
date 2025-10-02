@@ -1,21 +1,20 @@
 <?php
 
-
 class UserIdentity extends CUserIdentity
 {
-
-   public function isMd5($string) {
+    public function isMd5($string)
+    {
         $md5Pattern = '/^[a-fA-F0-9]{32}$/';
         return preg_match($md5Pattern, $string);
     }
 
     public function authenticate()
     {
-        $record = Users::model()->findByAttributes(array('username' => $this->username));
+        $record = Users::model()->findByAttributes(['username' => $this->username]);
 
         if ($this->isMd5($record->password)) {
             if ($record->password === md5($this->password)) {
-                $passwordHasher = new PasswordHasher;
+                $passwordHasher = new PasswordHasher();
                 $record->password = $passwordHasher->bcriptHash($this->password);
                 $record->save();
             } else {
@@ -32,8 +31,8 @@ class UserIdentity extends CUserIdentity
                 $userSchools = [];
                 $this->setState('hardfoot', false);
                 //@done s2 - mostrar apenas escolas ativas
-                $userSchools = SchoolIdentification::model()->findAllByAttributes(array('situation' => '1'), array('select'=>'inep_id, name', 'order' => 'name'));
-                $school =  isset($userSchools[0]) ? $userSchools[0]->inep_id : '';
+                $userSchools = SchoolIdentification::model()->findAllByAttributes(['situation' => '1'], ['select' => 'inep_id, name', 'order' => 'name']);
+                $school = isset($userSchools[0]) ? $userSchools[0]->inep_id : '';
             } else {
                 $this->setState('hardfoot', true);
                 $userSchools = $record->usersSchools;

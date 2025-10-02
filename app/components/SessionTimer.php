@@ -8,7 +8,4 @@ class SessionTimer
         return Yii::app()->user->authTimeout - $sessionDuration;
         // Caso a sessão ainda não tenha sido iniciada
     }
-
 }
-
-?>

@@ -5,7 +5,6 @@
  */
 class CreateClassroomUsecase
 {
-
     /**
      * Summary of __construct
      * @param ClassroomSEDDataSource $classroomSEDDatasource
@@ -32,6 +31,5 @@ class CreateClassroomUsecase
         }
 
         throw new SedspException(CJSON::encode($classroomModel->getErrors()), 1);
-
     }
 }

@@ -4,7 +4,6 @@ namespace SagresEdu;
 
 use JMS\Serializer\Annotation as Serializer;
 
-
 /**
  * Class representing EducacaoTType
  *
@@ -12,32 +11,29 @@ use JMS\Serializer\Annotation as Serializer;
  * XSD Type: educacao_t
  */
 
-#[Serializer\XmlRoot(name: "edu:educacao")]
-#[Serializer\XmlNamespace(uri: "http://www.tce.se.gov.br/sagres2025/xml/sagresEdu", prefix: "edu")]
+#[Serializer\XmlRoot(name: 'edu:educacao')]
+#[Serializer\XmlNamespace(uri: 'http://www.tce.se.gov.br/sagres2025/xml/sagresEdu', prefix: 'edu')]
 class EducacaoTType
 {
-    #[Serializer\SerializedName("edu:PrestacaoContas")]
+    #[Serializer\SerializedName('edu:PrestacaoContas')]
     private ?CabecalhoTType $prestacaoContas = null;
 
-    #[Serializer\XmlList(inline: true, entry: "edu:escola")]
+    #[Serializer\XmlList(inline: true, entry: 'edu:escola')]
     private array $escola = [];
 
-    #[Serializer\XmlList(inline: true, entry: "edu:profissional")]
+    #[Serializer\XmlList(inline: true, entry: 'edu:profissional')]
     private $profissional = [];
-
 
     public function getPrestacaoContas(): ?CabecalhoTType
     {
         return $this->prestacaoContas;
     }
 
-
     public function setPrestacaoContas(CabecalhoTType $prestacaoContas): self
     {
         $this->prestacaoContas = $prestacaoContas;
         return $this;
     }
-
 
     public function addToEscola(EscolaTType $escola): self
     {
@@ -66,7 +62,6 @@ class EducacaoTType
     {
         unset($this->escola[$index]);
     }
-
 
     public function getEscola(): array
     {

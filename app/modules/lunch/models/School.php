@@ -9,24 +9,27 @@
  * @property Menu[] $menus
  * @property Array itemsAmount
 */
-class School extends TagModel{
-    public static function model($className = __CLASS__) {
+class School extends TagModel
+{
+    public static function model($className = __CLASS__)
+    {
         return parent::model($className);
     }
 
     /**
      * @return string the associated database table name
      */
-    public function tableName() {
+    public function tableName()
+    {
         return 'school_identification';
     }
 
-
-    public function relations() {
+    public function relations()
+    {
         return [
-            'inventories' => array(self::HAS_MANY, 'Inventory', 'school_fk', 'with'=>'item', 'order'=>'item.name asc'),
-            'items' => array(self::MANY_MANY, 'Item', 'lunch_inventory(school_fk, item_fk)', 'order'=>'name asc'),
-            'menus' => array(self::HAS_MANY, 'Menu', 'school_fk', 'order'=>'date desc'),
+            'inventories' => [self::HAS_MANY, 'Inventory', 'school_fk', 'with' => 'item', 'order' => 'item.name asc'],
+            'items' => [self::MANY_MANY, 'Item', 'lunch_inventory(school_fk, item_fk)', 'order' => 'name asc'],
+            'menus' => [self::HAS_MANY, 'Menu', 'school_fk', 'order' => 'date desc'],
         ];
     }
 
@@ -34,22 +37,23 @@ class School extends TagModel{
      *
      * @return Array Array with the itens amounts.
      */
-    public function itemsAmount(){
+    public function itemsAmount()
+    {
         $amount = [];
-        foreach($this->inventories as $inventory){
+        foreach ($this->inventories as $inventory) {
             $index = $inventory->item->id;
             $exist = isset($amount[$inventory->item->id]);
 
-            if($exist){
-                $amount[$index]["amount"] += floatval($inventory->amount);
-            }else{
+            if ($exist) {
+                $amount[$index]['amount'] += floatval($inventory->amount);
+            } else {
                 $amount[$index] = [];
                 $amount[$index]['id'] = $inventory->item->id;
                 $amount[$index]['name'] = $inventory->item->name;
                 $amount[$index]['description'] = $inventory->item->description;
                 $amount[$index]['measure'] = $inventory->item->measure;
                 $amount[$index]['unity'] = $inventory->item->unity->acronym;
-                $amount[$index]["amount"] = floatval($inventory->amount);
+                $amount[$index]['amount'] = floatval($inventory->amount);
             }
         }
 
@@ -62,11 +66,12 @@ class School extends TagModel{
      *
      * @return CDbCommand
      */
-    public function transactions($initialDate = null, $finalDate = null){
-        $whereSchool  = "school = $this->inep_id";
-        $whereInitial = $initialDate != null ? " AND date >= $initialDate" : " ";
-        $whereFinal   = $finalDate   != null ? " AND date <= $finalDate"   : " ";
-        $sql="select school, inventory, date, motivation, item, li.name, li.measure, lu.acronym, amount
+    public function transactions($initialDate = null, $finalDate = null)
+    {
+        $whereSchool = "school = $this->inep_id";
+        $whereInitial = $initialDate != null ? " AND date >= $initialDate" : ' ';
+        $whereFinal = $finalDate != null ? " AND date <= $finalDate" : ' ';
+        $sql = "select school, inventory, date, motivation, item, li.name, li.measure, lu.acronym, amount
                 from (
                     select lr.id, lr.date, null motivation, lr.inventory_fk inventory, li.school_fk school, li.item_fk item, li.amount from lunch_received lr
                         join lunch_inventory li on (lr.inventory_fk = li.id)

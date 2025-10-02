@@ -32,7 +32,7 @@ class ApplyFormulaOnGradesUsecase
     public function exec()
     {
         if (empty($this->grades)) {
-            throw new Exception("Não foram adicionadas notas antes de excutar o caso de uso", 1);
+            throw new Exception('Não foram adicionadas notas antes de excutar o caso de uso', 1);
         }
 
         $result = 0;
@@ -72,5 +72,4 @@ class ApplyFormulaOnGradesUsecase
 
         return round($result, 1);
     }
-
 }

@@ -41,15 +41,17 @@ $form = $this->beginWidget('CActiveForm', [
             <div class="column is-two-fifths clearfix">
                 <div class="t-field-select">
                     <?php echo $form->label($model, 'edcenso_associated_stage_id', ['class' => 't-field-select__label--required']); ?>
-                    <?php echo $form->dropDownList($model, 'edcenso_associated_stage_id',
-                        Chtml::listData(EdcensoStageVsModality::model()->findAll('is_edcenso_stage = 1'), 'id', 'name'),
-                        [
-                            'prompt' => 'Selecione...',
-                            'id' => 'edcenso_associated_stage_id',
-                            'class' => 't-field-select__input select2-container',
-                            'disabled' => $model->is_edcenso_stage == 1
-                        ]
-                    ); ?>
+                    <?php echo $form->dropDownList(
+    $model,
+    'edcenso_associated_stage_id',
+    Chtml::listData(EdcensoStageVsModality::model()->findAll('is_edcenso_stage = 1'), 'id', 'name'),
+    [
+        'prompt' => 'Selecione...',
+        'id' => 'edcenso_associated_stage_id',
+        'class' => 't-field-select__input select2-container',
+        'disabled' => $model->is_edcenso_stage == 1
+    ]
+); ?>
                     <?php echo $form->error($model, 'edcenso_associated_stage_id'); ?>
                 </div>
             </div>
@@ -121,10 +123,10 @@ $form = $this->beginWidget('CActiveForm', [
         <div class="column clearfix">
         <div class="t-field-checkbox">
             <?php echo $form->checkBox(
-                $model,
-                'unified_frequency',
-                ['value' => 1, 'uncheckValue' => 0]
-            ); ?>
+                    $model,
+                    'unified_frequency',
+                    ['value' => 1, 'uncheckValue' => 0]
+                ); ?>
             <?php echo $form->label($model, 'unified_frequency', ['class' => 't-field-text__label']); ?>
         </div>
         </div>

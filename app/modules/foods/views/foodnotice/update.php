@@ -2,20 +2,20 @@
 /* @var $this FoodNoticeController */
 /* @var $model FoodNotice */
 
-$this->breadcrumbs=array(
-	'Food Notices'=>array('index'),
-	$model->id=>array('view','id'=>$model->id),
-	'Update',
-);
+$this->breadcrumbs = [
+    'Food Notices' => ['index'],
+    $model->id => ['view', 'id' => $model->id],
+    'Update',
+];
 
-$this->menu=array(
-	array('label'=>'List FoodNotice', 'url'=>array('index')),
-	array('label'=>'Create FoodNotice', 'url'=>array('create')),
-	array('label'=>'View FoodNotice', 'url'=>array('view', 'id'=>$model->id)),
-	array('label'=>'Manage FoodNotice', 'url'=>array('admin')),
-);
+$this->menu = [
+    ['label' => 'List FoodNotice', 'url' => ['index']],
+    ['label' => 'Create FoodNotice', 'url' => ['create']],
+    ['label' => 'View FoodNotice', 'url' => ['view', 'id' => $model->id]],
+    ['label' => 'Manage FoodNotice', 'url' => ['admin']],
+];
 ?>
 
 <div id="mainPage" class="main">
-    <?php $this->renderPartial('_form', array('model'=>$model,  'title' => $model->name)); ?>
+    <?php $this->renderPartial('_form', ['model' => $model,  'title' => $model->name]); ?>
 </div>

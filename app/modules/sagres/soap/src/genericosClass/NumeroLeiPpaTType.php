@@ -5,7 +5,7 @@ namespace Genericos;
 /**
  * Class representing NumeroLeiPpaTType
  *
- * 
+ *
  * XSD Type: numeroLeiPpa_t
  */
 class NumeroLeiPpaTType
@@ -64,4 +64,3 @@ class NumeroLeiPpaTType
         return $this;
     }
 }
-

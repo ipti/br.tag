@@ -1,6 +1,7 @@
 <?php
 
-enum TRole: string {
+enum TRole: string
+{
     case SUPERUSER = 'superuser';
     case ADMIN = 'admin';
     case MANAGER = 'manager';

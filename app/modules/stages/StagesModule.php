@@ -8,10 +8,10 @@ class StagesModule extends CWebModule
         // you may place code here to customize the module or the application
 
         // import the module-level models and components
-        $this->setImport(array(
+        $this->setImport([
             'stages.models.*',
             'stages.components.*',
-        ));
+        ]);
     }
 
     public function beforeControllerAction($controller, $action)
