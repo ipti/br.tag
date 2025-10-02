@@ -254,7 +254,6 @@ class AdminCommand extends CConsoleCommand
         $istudent->refreshMetaData();
         $iteach->setDb2Connection(false);
         $iteach->refreshMetaData();
-        $studentAll = $istudent->findAll();
         $teachAll = $iteach->findAll();
         try {
             Yii::app()->db2;
