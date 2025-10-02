@@ -264,17 +264,17 @@ class AdminCommand extends CConsoleCommand
         }
         if($conn){
             foreach ($teachAll as $teach) {
-                $hash_teach = hexdec(crc32($teach->name.$teach->birthday_date));
-                if(!isset($loads['instructors'][$hash_teach])){
-                    $loads['instructors'][$hash_teach] = $teach->attributes;
-                    $loads['instructors'][$hash_teach]['hash'] = $hash_teach;
+                $hashTeach = hexdec(crc32($teach->name.$teach->birthday_date));
+                if(!isset($loads['instructors'][$hashTeach])){
+                    $loads['instructors'][$hashTeach] = $teach->attributes;
+                    $loads['instructors'][$hashTeach]['hash'] = $hashTeach;
                 }
-                if(!isset($loads['idocuments'][$hash_teach])){
+                if(!isset($loads['idocuments'][$hashTeach])){
                     $idocs = new InstructorDocumentsAndAddress();
                     $idocs->setDb2Connection(false);
                     $idocs->refreshMetaData();
-                    $loads['idocuments'][$hash_teach] = $idocs->findByPk($teach->id)->attributes;
-                    $loads['idocuments'][$hash_teach]['hash'] = $hash_teach;
+                    $loads['idocuments'][$hashTeach] = $idocs->findByPk($teach->id)->attributes;
+                    $loads['idocuments'][$hashTeach]['hash'] = $hashTeach;
                 }
             }
         }
@@ -290,33 +290,33 @@ class AdminCommand extends CConsoleCommand
             $iclass->setDb2Connection(false);
             $iclass->refreshMetaData();
             $classrooms = $iclass->findAllByAttributes(["school_inep_fk" => $schll['school_inep_id_fk'], "school_year" => $year]);
-            $hash_school = hexdec(crc32($school->inep_id.$school->name));
-            $loads['schools'][$hash_school] = $school->attributes;
-            $loads['schools'][$hash_school]['hash'] = $hash_school;
-            $loads['schools_structure'][$hash_school] = $school->structure->attributes;
-            $loads['schools_structure'][$hash_school]['hash'] = $hash_school;
+            $hashSchool = hexdec(crc32($school->inep_id.$school->name));
+            $loads['schools'][$hashSchool] = $school->attributes;
+            $loads['schools'][$hashSchool]['hash'] = $hashSchool;
+            $loads['schools_structure'][$hashSchool] = $school->structure->attributes;
+            $loads['schools_structure'][$hashSchool]['hash'] = $hashSchool;
             foreach ($classrooms as $iclass => $classroom) {
-                $hash_classroom = hexdec(crc32($school->inep_id.$classroom->id.$classroom->school_year));
-                $loads['classrooms'][$hash_classroom] = $classroom->attributes;
-                $loads['classrooms'][$hash_classroom]['hash'] = $hash_classroom;
+                $hashClassroom = hexdec(crc32($school->inep_id.$classroom->id.$classroom->school_year));
+                $loads['classrooms'][$hashClassroom] = $classroom->attributes;
+                $loads['classrooms'][$hashClassroom]['hash'] = $hashClassroom;
 
                 foreach ($classroom->instructorTeachingDatas  as $teachingData) {
-                    $hash_instructor = hexdec(crc32($teachingData->instructorFk->name.$teachingData->instructorFk->birthday_date));
-                    $hash_teachingdata = hexdec(crc32($hash_classroom.$hash_instructor));
-                    $loads['instructorsteachingdata'][$hash_teachingdata] = $teachingData->attributes;
-                    $loads['instructorsteachingdata'][$hash_teachingdata]['hash_instructor'] = $hash_instructor;
-                    $loads['instructorsteachingdata'][$hash_teachingdata]['hash_classroom'] = $hash_classroom;
-                    $loads['instructorsteachingdata'][$hash_teachingdata]['hash'] = $hash_teachingdata;
+                    $hashInstructor = hexdec(crc32($teachingData->instructorFk->name.$teachingData->instructorFk->birthday_date));
+                    $hashTeachingdata = hexdec(crc32($hashClassroom.$hashInstructor));
+                    $loads['instructorsteachingdata'][$hashTeachingdata] = $teachingData->attributes;
+                    $loads['instructorsteachingdata'][$hashTeachingdata]['hash_instructor'] = $hashInstructor;
+                    $loads['instructorsteachingdata'][$hashTeachingdata]['hash_classroom'] = $hashClassroom;
+                    $loads['instructorsteachingdata'][$hashTeachingdata]['hash'] = $hashTeachingdata;
 
-                    if(!isset($loads['instructors'][$hash_instructor])){
-                        $loads['instructors'][$hash_instructor] = $teachingData->instructorFk->attributes;
-                        $loads['instructors'][$hash_instructor]['hash'] = $hash_instructor;
-                        $loads['idocuments'][$hash_instructor] = $teachingData->instructorFk->documents->attributes;
-                        $loads['idocuments'][$hash_instructor]['hash'] = $hash_instructor;
+                    if(!isset($loads['instructors'][$hashInstructor])){
+                        $loads['instructors'][$hashInstructor] = $teachingData->instructorFk->attributes;
+                        $loads['instructors'][$hashInstructor]['hash'] = $hashInstructor;
+                        $loads['idocuments'][$hashInstructor] = $teachingData->instructorFk->documents->attributes;
+                        $loads['idocuments'][$hashInstructor]['hash'] = $hashInstructor;
                     }
-                    if(!isset($loads['instructorsvariabledata'][$hash_instructor])) {
-                        $loads['instructorsvariabledata'][$hash_instructor] = $teachingData->instructorFk->instructorVariableData->attributes;
-                        $loads['instructorsvariabledata'][$hash_instructor]['hash'] = $hash_instructor;
+                    if(!isset($loads['instructorsvariabledata'][$hashInstructor])) {
+                        $loads['instructorsvariabledata'][$hashInstructor] = $teachingData->instructorFk->instructorVariableData->attributes;
+                        $loads['instructorsvariabledata'][$hashInstructor]['hash'] = $hashInstructor;
                     }
                 }
 
