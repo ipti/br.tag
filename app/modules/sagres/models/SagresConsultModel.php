@@ -1740,8 +1740,8 @@ class SagresConsultModel
                 continue;
             }
 
-            $cpf = $this->getStudentCpf($enrollment);
 
+            $cpf = $enrollment['cpfStudent'];
             $studentType = $this->generateStudentType( $withoutCpf, $convertedBirthdate,$enrollment,$cpf);
 
             $enrollmentType = new MatriculaTType();
@@ -1873,10 +1873,11 @@ class SagresConsultModel
                         se.date_cancellation_enrollment AS data_cancelamento,
                         se.status AS situation,
                         se.edcenso_stage_vs_modality_fk AS enrollment_stage,
-                        si.responsable_cpf AS cpfStudent,
+                        si.responsable_cpf AS cpfResposable,
                         si.birthday AS birthdate,
                         si.name AS name,
                         sdaa.cpf_reason,
+                        sdaa.cpf as cpfStudent,
                         ifnull(si.deficiency, 0) AS deficiency,
                         si.sex AS gender,
                         si.id,
