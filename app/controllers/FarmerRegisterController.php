@@ -114,7 +114,13 @@ class FarmerRegisterController extends Controller
 
         // if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
         if (!isset($_GET['ajax'])) {
-            $this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : ['admin']);
+            $returnUrl = isset($_POST['returnUrl']) ? $_POST['returnUrl'] : null;
+
+            if ($returnUrl && preg_match('#^(\/|index\.php\?r=)#', $returnUrl)) {
+                $this->redirect($returnUrl);
+            } else {
+                $this->redirect(['admin']);
+            }
         }
     }
 
