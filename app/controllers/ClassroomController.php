@@ -1005,10 +1005,13 @@ class ClassroomController extends Controller
                 if (isset($transaction)) {
                     $transaction->rollback();
                 }
-                echo json_encode(['valid' => false, 'message' => $e->getMessage()]);
+                Yii::log("Exception: {$e->getMessage()}", CLogger::LEVEL_ERROR, 'system.controllers.ClassroomController');
+                echo json_encode(['valid' => false, 'message' => "Falha ao excluir a turma"]);
+
             }
         } else {
-            echo json_encode(['valid' => false, 'message' => 'Não foi possível remover a turma no SEDSP. Motivo: ' . $erro]);
+            Yii::log("Exception: {$erro}", CLogger::LEVEL_ERROR, 'system.controllers.ClassroomController');
+            echo json_encode(['valid' => false, 'message' => 'Não foi possível remover a turma no SEDSP.']);
         }
     }
 
