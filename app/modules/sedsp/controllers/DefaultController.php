@@ -377,14 +377,16 @@ class DefaultController extends Controller implements AuthenticateSEDTokenInterf
             $classroomUseCase = new GetConsultaTurmaClasseSEDUseCase();
             $statusSave = $classroomUseCase->exec($inConsultaTurmaClasse);
 
-            $id = $_GET['id'];
-            if ($statusSave) {
+            $id = Yii::app()->request->getQuery('id');
+            if(filter_var($id,FILTER_VALIDATE_INT)){
+                if ($statusSave) {
                 Yii::app()->user->setFlash('success', 'Turma importada com sucesso!');
-                $this->redirect(['/classroom/update', 'id' => $id]);
-            } else {
-                Yii::app()->user->setFlash('error', 'Não foi possível importar a turma.');
+                } else {
+                    Yii::app()->user->setFlash('error', 'Não foi possível importar a turma.');
+                }
                 $this->redirect(['/classroom/update', 'id' => $id]);
             }
+
         } catch (Exception $e) {
             Yii::app()->user->setFlash('error', 'Um erro ocorreu. Tente novamente.');
         }
