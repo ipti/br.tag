@@ -322,28 +322,26 @@ class DefaultController extends Controller implements AuthenticateSEDTokenInterf
 
             $exibirFicha = new UpdateFichaAlunoInTAGUseCase();
             $statusSave = $exibirFicha->exec($inAluno);
-            $id = (int) $_GET['id'];
+            $urlId =  Yii::app()->request->getQuery('id');
+            $id = filter_var($urlId,FILTER_VALIDATE_INT);
+            if($id !==FALSE){
+                if ($statusSave === -1) {
+                    Yii::app()->user->setFlash('error', 'O estudante foi sincronizado com sucesso, no entanto, a matrícula não foi sincronizada.');
+                }
 
-            if ($statusSave === -1) {
-                Yii::app()->user->setFlash('error', 'O estudante foi sincronizado com sucesso, no entanto, a matrícula não foi sincronizada.');
-                $this->redirect([self::REDIRECT_PATH, 'id' => $id]);
-            }
+                if ($statusSave === 401) {
+                    Yii::app()->user->setFlash('error', 'Não foi possível fazer a sincronização da SED para o TAG.');
+                }
 
-            if ($statusSave === 401) {
-                Yii::app()->user->setFlash('error', 'Não foi possível fazer a sincronização da SED para o TAG.');
-                $this->redirect([self::REDIRECT_PATH, 'id' => $id]);
-            }
+                if ($statusSave === 23000) {
+                    Yii::app()->user->setFlash('error', 'Turma não localizada! Por favor, importe ou adicione uma turma.');
+                }
 
-            if ($statusSave === 23000) {
-                Yii::app()->user->setFlash('error', 'Turma não localizada! Por favor, importe ou adicione uma turma.');
-                $this->redirect([self::REDIRECT_PATH, 'id' => $id]);
-            }
-
-            if ($statusSave) {
-                Yii::app()->user->setFlash('success', 'Aluno sincronizado com sucesso.');
-                $this->redirect([self::REDIRECT_PATH, 'id' => $id]);
-            } else {
-                Yii::app()->user->setFlash('error', 'erro ' . $statusSave);
+                if ($statusSave) {
+                    Yii::app()->user->setFlash('success', 'Aluno sincronizado com sucesso.');
+                } else {
+                    Yii::app()->user->setFlash('error', 'erro ' . $statusSave);
+                }
                 $this->redirect([self::REDIRECT_PATH, 'id' => $id]);
             }
         } catch (Exception $e) {
@@ -378,7 +376,7 @@ class DefaultController extends Controller implements AuthenticateSEDTokenInterf
             $statusSave = $classroomUseCase->exec($inConsultaTurmaClasse);
 
             $id = Yii::app()->request->getQuery('id');
-            if(filter_var($id,FILTER_VALIDATE_INT)){
+            if(filter_var($id,FILTER_VALIDATE_INT) !== FALSE){
                 if ($statusSave) {
                 Yii::app()->user->setFlash('success', 'Turma importada com sucesso!');
                 } else {
