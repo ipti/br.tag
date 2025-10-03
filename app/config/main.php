@@ -116,6 +116,7 @@ return array(
         'enrollmentonline',
         'gestaopresente',
         'systemadmin',
+        'studentimc'
     ),
     // application components
     'components' => array(

@@ -14,7 +14,7 @@ $schoolurl = yii::app()->createUrl('school');
 $select_school = '';
 
 
-if (TagUtils::checkAccess(['admin', 'nutritionist', 'reader', 'foodServiceWorker'])) {
+if (TagUtils::checkAccess(['admin', 'nutritionist', 'reader'])) {
     $select_school = CHtml::activeDropDownList(
         SchoolIdentification::model(),
         'inep_id',

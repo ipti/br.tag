@@ -9,5 +9,5 @@ enum TRole: string {
     case INSTRUCTOR = 'instructor';
     case GUARDIAN = 'guardian';
     case NUTRITIONIST = 'nutritionist';
-    case foodServiceWorker = 'foodServiceWorker';
+    case FOOD_SERVICE_WORKER = 'foodServiceWorker';
 }
