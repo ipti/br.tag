@@ -565,7 +565,18 @@ class TimesheetController extends Controller
                 ->bindParam(':year', $year)
                 ->queryAll();
 
-            echo CJSON::encode(['valid' => true, 'changes' => $changes, 'disciplines' => $workloads]);
+            $sanitizedWorkloads = [];
+            foreach ($workloads as $workload) {
+                if (isset($workload['disciplineName'])) {
+                    $workload['disciplineName'] = CHtml::encode($workload['disciplineName']);
+                }
+                if (isset($workload['instructorName'])) {
+                    $workload['instructorName'] = CHtml::encode($workload['instructorName']);
+                }
+                $sanitizedWorkloads[] = $workload;
+            }
+
+            echo CJSON::encode(['valid' => true, 'changes' => $changes, 'disciplines' => $sanitizedWorkloads]);
         } else {
             echo CJSON::encode([
                 'valid' => false,
