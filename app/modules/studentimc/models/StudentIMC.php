@@ -64,13 +64,13 @@ class StudentIMC extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'height' => 'Height',
-			'weight' => 'Weight',
-			'IMC' => 'Imc',
-			'observations' => 'Observations',
-			'student_fk' => 'Student Fk',
-			'created_at' => 'Created At',
-			'updated_at' => 'Updated At',
+			'height' => Yii::t('default', 'Height'),
+			'weight' => Yii::t('default', 'Weight'),
+			'IMC' => Yii::t('default', 'IMC'),
+			'observations' => Yii::t('default', 'Observations'),
+			'student_fk' => Yii::t('default', 'Student'),
+			'created_at' => Yii::t('default', 'Created_At'),
+			'updated_at' => Yii::t('default', 'Updated_At'),
 		);
 	}
 

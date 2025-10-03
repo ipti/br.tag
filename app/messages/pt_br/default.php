@@ -612,7 +612,14 @@ return array(
     //Student Declaration
     'Student Declaration' => 'Declaração do Aluno',
 
-
+    //StudentIMC
+    'Student Imc' => 'IMC do Aluno',
+    'Weight' => 'Peso (kg)',
+    'Height' => 'Altura (m)',
+    'Imc' => 'IMC',
+    'Observations' => 'Observação',
+    'Created_At' => 'Data da Medição',
+    'Updated_At' => 'Data da Atualização',
 
     //InstructorIdentification
     'Nis' => 'Nº de Identificação Social (NIS)',

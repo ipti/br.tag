@@ -17,4 +17,5 @@ CREATE TABLE IF NOT EXISTS student_IMC (
         ON UPDATE NO ACTION
 );
 
-
+insert into auth_item (name, type, description, bizrule, data) values ('TASK_STUDENT_IMC', 1, 'Acesso ao módulo de Acompanhamento de Saúde', NULL, NULL);
+insert into feature_flags (feature_name, active, updated_at) values ('TASK_STUDENT_IMC', 1, NOW());
