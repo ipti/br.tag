@@ -55,7 +55,8 @@ class BNCCImport
             }
         } catch (Exception $e) {
             // Handle the exception, log or display an error message.
-            echo 'Error: ' . $e->getMessage();
+            Yii::log("Exception: {$e->getMessage()}", CLogger::LEVEL_ERROR, 'system.controllers.ClassroomController');
+            echo 'Error: Não foi possível abrir o arquivo CSV.';
         }
 
         return $csvData;
