@@ -13,65 +13,31 @@ $this->menu = array(
     array('label' => 'Create StudentIMC', 'url' => array('create')),
     array('label' => 'Manage StudentIMC', 'url' => array('admin')),
 );
+$baseScriptUrl = Yii::app()->controller->module->baseScriptUrl;
+$cs = Yii::app()->getClientScript();
+$cs->registerScriptFile($baseScriptUrl . '/functions.js', CClientScript::POS_END);
 ?>
 <div class="main">
 
     <h1>Alunos</h1>
-
-    <div class="tag-inner">
-        <div class="widget clearmargin">
-            <div class="widget-body">
-                <?php
-                $this->widget('zii.widgets.grid.CGridView', array(
-                    'dataProvider' => $dataProvider,
-                    'enablePagination' => false,
-                    'enableSorting' => false,
-                    'ajaxUpdate' => false,
-                    'itemsCssClass' => 'js-tag-table tag-table-primary table table-condensed table-striped table-hover table-primary table-vertical-center checkboxs',
-                    'columns' => array(
-                        array(
-                            'name' => 'id',
-                            'type' => 'raw',
-                            'value' => '$data->id',
-                        ),
-                        array(
-                            'name' => 'name',
-                            'type' => 'raw',
-                            'value' => 'CHtml::link($data->name,Yii::app()->createUrl("studentimc/studentimc/create",array("id"=>$data->id)))',
-                            'htmlOptions' => array('width' => '400px', 'class' => 'link-update-grid-view'),
-                        ),
-                        array(
-                            'name' => 'documents',
-                            'header' => 'CPF',
-                            'value' => '$data->documentsFk->cpf',
-                            'htmlOptions' => array('width' => '400px')
-                        ),
-                        array(
-                            'name' => 'birthday_date',
-                            'filter' => false,
-                            'value' => 'Yii::app()->dateFormatter->format("dd/MM/yyyy", $data->birthday)',
-                        ),
-                        array(
-                            'header' => 'Ações',
-                            'class' => 'CButtonColumn',
-                            'template' => '{update}{delete}',
-                            'buttons' => array(
-                                'update' => array(
-                                    'imageUrl' => Yii::app()->theme->baseUrl . '/img/editar.svg',
-                                ),
-                                'delete' => array(
-                                    'imageUrl' => Yii::app()->theme->baseUrl . '/img/deletar.svg',
-                                )
-                            ),
-                            'updateButtonOptions' => array('style' => 'margin-right: 20px;'),
-                            'deleteButtonOptions' => array('style' => 'cursor: pointer;'),
-                            'htmlOptions' => array('width' => '100px', 'style' => 'text-align: center'),
-                        ),
-                    ),
-                ));
-                ?>
+    <hr class="row t-separator" />
+    <div class="row justify-content--space-between">
+        <div class="column clearleft  is-one-third  row wrap">
+            <div class="column clearleft">
+                <div class="t-field-select">
+                    <?php echo CHtml::label(yii::t('default', 'Filtrar por Turma'), 'classroom', array('class' => 't-field-select__label no-wrap')); ?>
+                    <select name="classroom" id="classroom" class="select-search-on t-field-select__input select2-container js-classroom">
+                        <option value="" selected>Selecione...</option>
+                        <?php foreach ($classrooms as $classroom): ?>
+                            <option value="<?= $classroom['id'] ?>"><?= htmlspecialchars($classroom['name']) ?></option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
             </div>
         </div>
     </div>
+    <hr class="row t-separator" />
+    <div class="js-studentTable">
+        <?php $this->renderPartial('_studentTable', array('dataProvider' => $dataProvider)); ?>
+    </div>
 </div>
-

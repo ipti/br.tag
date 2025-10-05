@@ -9,3 +9,21 @@ $('.js-height, .js-weight').on('input', function() {
 $('.js-height, .js-weight').on('input', function() {
     $(this).val($(this).val().replace(/[^0-9.]/g, ''))
 });
+
+
+$('.js-classroom').on('change', function() {
+    var classroom = $(this).val();
+    $.ajax({
+        url: '?r=studentimc/studentimc/renderStudentTable',
+        method: 'GET',
+        data: { classroomId: classroom },
+        success: function(response) {
+
+            $('.js-studentTable').html(response);
+            initDatatable();
+        },
+        error: function() {
+            alert('Erro ao carregar a tabela de alunos.');
+        }
+    });
+});
