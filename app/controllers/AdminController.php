@@ -5,7 +5,7 @@ Yii::import('application.domain.admin.usecases.*');
 class AdminController extends Controller
 {
     public $layout = 'fullmenu';
-
+    private $idEqualsIdNumber = 'id = :id';
     public function accessRules()
     {
         return [
@@ -72,13 +72,11 @@ class AdminController extends Controller
 
     public function actionExportCountUsers()
     {
-        $HOST = getenv('HOST_DB_TAG');
-        $USER = getenv('USER_DB_TAG');
-        $PWD = getenv('PWD_DB_TAG');
+        $hostEnv = getenv('HOST_DB_TAG');
 
         $connection = Yii::app()->db;
         $connection->setActive(false);
-        $connection->connectionString = "mysql:host=$HOST;";
+        $connection->connectionString = "mysql:host=$hostEnv;";
         $connection->setActive(true);
 
         // Obter lista de bancos de dados
@@ -103,7 +101,7 @@ SELECT
         foreach ($databases as $dbname) {
             try {
                 $connection->setActive(false);
-                $connection->connectionString = "mysql:host=$HOST;dbname=$dbname";
+                $connection->connectionString = "mysql:host=$hostEnv;dbname=$dbname";
                 $connection->setActive(true);
 
                 $command = $connection->createCommand($sqlQuery);
@@ -117,6 +115,7 @@ SELECT
                     'coordenadores' => $result['coordenadores'] ?? 0
                 ];
             } catch (Exception $e) {
+                Yii::log("Erro ao conectar ao banco de dados $dbname: " . $e->getMessage(), CLogger::LEVEL_ERROR);
             }
         }
 
@@ -465,7 +464,7 @@ SELECT
                             $auth->assign($_POST['Role'], $model->id);
                         }
                         if (isset($_POST['instructor']) && $_POST['instructor'] != '') {
-                            $instructors = InstructorIdentification::model()->find('id = :id', ['id' => $_POST['instructor']]);
+                            $instructors = InstructorIdentification::model()->find($this->idEqualsIdNumber, ['id' => $_POST['instructor']]);
                             $instructors->users_fk = $model->id;
                             $instructors->save();
                         }
@@ -653,8 +652,6 @@ SELECT
         foreach ($gradeUnities as $gradeUnity) {
             $arr = $gradeUnity->attributes;
             $arr['hasGrades'] = $this->unityHasGrade($gradeUnity);
-            $arr['modalities'] = [];
-
             $normal = [];
             $recovery = [];
 
@@ -761,8 +758,6 @@ SELECT
         $finalRecoverMedia = Yii::app()->request->getPost('finalRecoverMedia');
         $calculationFinalMedia = Yii::app()->request->getPost('finalMediaCalculation');
         $finalRecovery = Yii::app()->request->getPost('finalRecovery');
-        $finalRecoveryWeight = Yii::app()->request->getPost('finalRecoveryWeight');
-        $finalMediaWeight = Yii::app()->request->getPost('finalMediaWeight');
         $ruleType = Yii::app()->request->getPost('ruleType');
         $hasFinalRecovery = Yii::app()->request->getPost('hasFinalRecovery') === 'true';
         $hasPartialRecovery = Yii::app()->request->getPost('hasPartialRecovery') === 'true';
@@ -827,7 +822,7 @@ SELECT
 
                 $modalityModel->save();
             } elseif ($hasFinalRecovery === false && $finalRecovery['operation'] === 'delete' && $gradeRules->rule_type === 'N') {
-                $recoveryUnity = GradeUnity::model()->find('id = :id', [':id' => $finalRecovery['id']]);
+                $recoveryUnity = GradeUnity::model()->find($this->idEqualsIdNumber, [':id' => $finalRecovery['id']]);
                 $recoveryUnity?->delete();
                 echo json_encode(['valid' => true, 'gradeRules' => $gradeRules->id]);
                 Yii::app()->end();
@@ -1027,7 +1022,7 @@ SELECT
                         $auth->assign($role, $model->id);
                     }
                     if (isset($instructor) && $instructor != '') {
-                        $instructors = InstructorIdentification::model()->find('id = :id', ['id' => $instructor]);
+                        $instructors = InstructorIdentification::model()->find($this->idEqualsIdNumber, ['id' => $instructor]);
 
                         $instructors->users_fk = $model->id;
                         $instructors->save();
@@ -1185,7 +1180,8 @@ SELECT
         foreach ($logs as $log) {
             $array['school'] = $log->schoolFk->name;
             $array['user'] = $log->userFk->name;
-            $array['action'] = $log->crud == 'U' ? 'Editar' : ($log->crud == 'C' ? 'Criar' : 'Remover');
+            $actionCreate = ($log->crud == 'C' ? 'Criar' : 'Remover');
+            $array['action'] = $log->crud == 'U' ? 'Editar' : $actionCreate;
             $date = new \DateTime($log->date);
             $array['date'] = $date->format('d/m/Y H:i:s');
             $array['event'] = $log->loadIconsAndTexts($log)['text'];
