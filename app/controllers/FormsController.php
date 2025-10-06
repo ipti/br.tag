@@ -14,7 +14,7 @@ class FormsController extends Controller {
                     'EnrollmentGradesReportBoquim','EnrollmentGradesReportBoquimCiclo',
                     'GetEnrollmentDeclarationInformation','TransferRequirement','GetTransferRequirementInformation',
                     'EnrollmentNotification','GetEnrollmentNotificationInformation','StudentsDeclarationReport',
-                    'GetStudentsFileInformation','AtaSchoolPerformance','StudentFileForm',
+                    'GetStudentsFileInformation','AtaSchoolPerformance','StudentFileForm','StudentIMCReport',
                     'TransferForm','GetTransferFormInformation', 'StudentStatementAttended', 'IndividualRecord'),
                 'users' => array('@'),
             ),
@@ -76,6 +76,14 @@ class FormsController extends Controller {
         $repository = new FormsRepository;
         $query = $repository->getEnrollmentDeclaration($enrollment_id);
         $this->render('EnrollmentDeclarationReport', $query);
+    }
+
+    public function actionStudentIMCReport($classroomId)
+    {
+        $this->layout = "reports";
+        $repository = new FormsRepository;
+        $response = $repository->getStudnetIMC($classroomId);
+        $this->render('StudentIMCReport',  array("response" => $response));
     }
 
     public function actionConclusionCertification($enrollment_id)

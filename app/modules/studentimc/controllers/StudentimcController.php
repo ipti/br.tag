@@ -29,7 +29,7 @@ class StudentIMCController extends Controller
         return array(
             array(
                 'allow',  // allow all users to perform 'index' and 'view' actions
-                'actions' => array('index', 'view', 'studentIndex', 'delete', 'renderStudentTable'),
+                'actions' => array('index', 'view', 'studentIndex', 'delete', 'renderStudentTable', 'studentIMCReport'),
                 'users' => array('*'),
             ),
             array(
@@ -217,6 +217,15 @@ class StudentIMCController extends Controller
         $this->renderPartial('_studentTable', array(
             'dataProvider' => $dataProvider,
         ));
+    }
+
+    public function actionStudentIMCReport($studentId) {
+       $studentICM =  StudentIMC::model()->findAllByAttributes(["student_fk" => $studentId]);
+
+       $this->render('studentIMCReport', array(
+            'studentICM' => $studentICM,
+        ));
+
     }
 
     /**

@@ -526,6 +526,87 @@ class FormsRepository
         $response = array('enrollment' => $enrollment);
         return $response;
     }
+    public function getStudnetIMC($classroomid)
+    {
+        $response = array();
+
+        $classroom = Classroom::model()->findByPK($classroomid);
+
+        $response["classroom"] = $classroom;
+
+        $enrollments = $classroom->activeStudentEnrollments;
+
+        $response["students"] = array();
+
+        foreach ($enrollments as $enrollment) {
+
+            $student = array();
+
+            $student["studentEnrollment"] = $enrollment;
+
+            $criteria = new CDbCriteria();
+            $criteria->condition = 'student_fk = :studentfk';
+            $criteria->params = [':studentfk' => $enrollment->student_fk];
+
+            // Acesse o model via caminho completo do módulo
+            Yii::import('application.modules.studentimc.models.StudentIMC');
+
+            $student["studentIMC"] =  StudentIMC::model()->findAll($criteria);
+
+
+            $studentIdentification = StudentIdentification::model()->findByPK($enrollment->student_fk); //
+            $student["studentIdentification"] = $studentIdentification;
+
+            if (!empty($studentIdentification->birthday)) {
+                $birthDate = DateTime::createFromFormat('d/m/Y', $studentIdentification->birthday)
+                    ?: DateTime::createFromFormat('Y-m-d', $studentIdentification->birthday);
+
+                if ($birthDate) {
+                    $today = new DateTime();
+                    $age = $today->diff($birthDate)->y;
+                    $student["age"] = $age;
+                } else {
+                    $student["age"] = null;
+                }
+            } else {
+                $student["age"] = null;
+            }
+
+
+            $student["variationRate"] = null;
+
+            $highest = StudentIMC::model()->find(array(
+                'condition' => 'student_fk = :student_fk',
+                'params' => array(':student_fk' => $studentIdentification->id),
+                'order' => 'imc DESC',
+                'limit' => 1,
+            ));
+            $lowest = StudentIMC::model()->find(array(
+                'condition' => 'student_fk = :student_fk',
+                'params' => array(':student_fk' => $studentIdentification->id),
+                'order' => 'imc ASC',
+                'limit' => 1,
+            ));
+            if ($lowest != null && $highest != null && $lowest->IMC != 0) {
+
+                $student["variationRate"] = number_format((($highest->IMC - $lowest->IMC) / $lowest->IMC) * 100, 2);
+            }
+
+            $response["students"][] = $student;
+        }
+
+
+
+        $response["school"] = $classroom->schoolInepFk;
+
+
+
+
+
+
+        return $response;
+    }
+
 
     /**
      * Declaração de Matrícula

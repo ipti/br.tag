@@ -20,9 +20,14 @@ $cs->registerScriptFile($baseScriptUrl . '/functions.js', CClientScript::POS_END
 <div class="main">
 
     <h1>Alunos</h1>
+    <div class="row justify-content--end">
+        <div class="js-report-button hide">
+
+        </div>
+    </div>
     <hr class="row t-separator" />
     <div class="row justify-content--space-between">
-        <div class="column clearleft  is-one-third  row wrap">
+        <div class="column clearleft justify-content-- is-one-third  row wrap">
             <div class="column clearleft">
                 <div class="t-field-select">
                     <?php echo CHtml::label(yii::t('default', 'Filtrar por Turma'), 'classroom', array('class' => 't-field-select__label no-wrap')); ?>

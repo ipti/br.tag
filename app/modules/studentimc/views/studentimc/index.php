@@ -10,6 +10,8 @@ $this->menu = array(
     array('label' => 'Create StudentIMC', 'url' => array('create')),
     array('label' => 'Manage StudentIMC', 'url' => array('admin')),
 );
+
+$this->setPageTitle('TAG - ' . Yii::t('default', 'Acompanhamento de Saúde'));
 ?>
 
 <div class="main">
@@ -26,7 +28,7 @@ $this->menu = array(
                 </div>
             </div>
         </div>
-        <div class="row" >
+        <div class="row">
             <div class="t-badge-info t-margin-none--left">
                 <span class="t-info_positive"></span>
                 Maior IMC: <?= $highest ?>
