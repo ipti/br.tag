@@ -1,16 +1,9 @@
 <?php
 
-// unomment the following to define a path alias
-// Yii::setPathOfAlias('local','path/to/local-folder');
-// This is the main Web application configuration. Any writable
-// CWebApplication propeties can be configured here.
-
-
 $LOG_PATH = "/app/app/runtime/" . INSTANCE . "/" . date("Y-m-d");
 
 if (!file_exists($LOG_PATH)) {
 
-    // Create a new file or direcotry
     mkdir($LOG_PATH, 0777, true);
 }
 
@@ -43,10 +36,7 @@ $log_config = array(
 if (YII_DEBUG) {
     array_push(
         $log_config['routes'],
-        // array(
-        //     'class' => 'CWebLogRoute',
-        //     'showInFireBug' => true,
-        // ),
+
         array(
             'class' => 'CProfileLogRoute',
             'showInFireBug' => true,
@@ -85,6 +75,9 @@ return array(
         'application.modules.sedsp.datasources.sed.*',
         'application.modules.sagres.soap.src.sagresEdu.*',
         'application.components.utils.TagUtils',
+        'application.components.utils.TMenu',
+        'application.components.auth.TFeature',
+        'application.components.auth.TRole',
         'application.components.utils.TLog',
         'ext.bncc-import.BNCCImport'
     ),
@@ -121,7 +114,8 @@ return array(
         'gradeconcept',
         'abilities',
         'enrollmentonline',
-        'gestaopresente'
+        'gestaopresente',
+        'systemadmin',
     ),
     // application components
     'components' => array(
@@ -194,7 +188,6 @@ return array(
                 'profissional/<action:\w+>/<id:\d+>' => 'professional/default/<action>'
             ),
         ),
-        // uncomment the following to use a MySQL database
         'db2' => array(
             'connectionString' => 'mysql:host=mariadb-s6vhx-mariadb.mariadb-s6vhx.svc.cluster.local;dbname=com.escola10',
             'emulatePrepare' => true,
@@ -217,10 +210,11 @@ return array(
         ),
         'sentry' => [
             'class' => \Websupport\YiiSentry\Client::class,
-            'dsn' => getenv("SENTRY_DSN")   ,
+            'dsn' => getenv("SENTRY_DSN"),
             'jsDsn' => getenv("SENTRY_DSN"),
             'options' => [
                 'traces_sampler' => function (\Sentry\Tracing\SamplingContext $context): float {
+                    Yii::log('Sentry traces_sampler called' . $context->getTransactionContext()->getName(), CLogger::LEVEL_INFO, 'application');
                     return 0.25;
                 },
                 'traces_sample_rate' => 0.25,

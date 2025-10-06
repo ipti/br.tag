@@ -632,7 +632,7 @@ class ClassroomController extends Controller
                         }
                         if ($saved) {
 
-                            if (Yii::app()->features->isEnable("FEAT_SEDSP")) {
+                            if (Yii::app()->features->isEnable(TFeature::FEAT_INTEGRATIONS_SEDSP)) {
                                 $loginUseCase = new LoginUseCase();
                                 $loginUseCase->checkSEDToken();
 
@@ -707,7 +707,7 @@ class ClassroomController extends Controller
             $array["dailyOrder"] = $studentEnrollment->daily_order;
             $array["status"] = $studentEnrollment->getCurrentStatus();
 
-            if (Yii::app()->features->isEnable("FEAT_SEDSP")) {
+            if (Yii::app()->features->isEnable(TFeature::FEAT_INTEGRATIONS_SEDSP)) {
                 $array["synced"] = $studentEnrollment->studentFk->sedsp_sync && $studentEnrollment->sedsp_sync;
             }
 
@@ -718,7 +718,7 @@ class ClassroomController extends Controller
 
 
         $disableFieldsWhenItsUBATUBA = false;
-        if (Yii::app()->features->isEnable("FEAT_SEDSP") && $modelClassroom->gov_id != null && !empty($modelClassroom->studentEnrollments)) {
+        if (Yii::app()->features->isEnable(TFeature::FEAT_INTEGRATIONS_SEDSP) && $modelClassroom->gov_id != null && !empty($modelClassroom->studentEnrollments)) {
             $disableFieldsWhenItsUBATUBA = true;
         }
 
@@ -786,7 +786,7 @@ class ClassroomController extends Controller
             $modelClassroom->calendar_fk = $_POST['calendar_fk'];
             $modelClassroom->assistance_type = $this->defineAssistanceType($modelClassroom);
 
-            if (Yii::app()->features->isEnable("FEAT_SEDSP") && !$disableFieldsWhenItsUBATUBA) {
+            if (Yii::app()->features->isEnable(TFeature::FEAT_INTEGRATIONS_SEDSP) && !$disableFieldsWhenItsUBATUBA) {
 
                 if (
                     $beforeChangeClassroom->turn != $modelClassroom->turn ||
@@ -864,7 +864,7 @@ class ClassroomController extends Controller
                         }
                     }
                     if ($saved) {
-                        if (Yii::app()->features->isEnable("FEAT_SEDSP") && !$modelClassroom->sedsp_sync) {
+                        if (Yii::app()->features->isEnable(TFeature::FEAT_INTEGRATIONS_SEDSP) && !$modelClassroom->sedsp_sync) {
                             $loginUseCase = new LoginUseCase();
                             $loginUseCase->checkSEDToken();
 
@@ -978,7 +978,7 @@ class ClassroomController extends Controller
         $teachingDatas = $this->loadModel($id, $this->MODEL_TEACHING_DATA);
         $transaction = Yii::app()->db->beginTransaction();
         $ableToDelete = true;
-        if (Yii::app()->features->isEnable("FEAT_SEDSP")) {
+        if (Yii::app()->features->isEnable(TFeature::FEAT_INTEGRATIONS_SEDSP)) {
             if ($classroom->gov_id !== null) {
                 $loginUseCase = new LoginUseCase();
                 $loginUseCase->checkSEDToken();

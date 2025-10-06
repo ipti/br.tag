@@ -20,7 +20,7 @@ $this->menu = array(
 	<div class="row-fluid">
 		<div class="span12">
 			<h1>
-				Habilidades
+				Cardápios
 			</h1>
 			<div class="t-buttons-container">
                 <?php

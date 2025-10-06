@@ -1,0 +1,6 @@
+ALTER TABLE `schedule`
+CHANGE `turn` `turn` varchar(45) NULL AFTER `schedule`;
+
+update schedule set turn = 'M' where turn = 0;
+update schedule set turn = 'T' where turn = 1;
+update schedule set turn = 'N' where turn = 2;

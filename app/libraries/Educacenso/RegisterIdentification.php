@@ -183,14 +183,13 @@ class RegisterIdentification
 
     public static function validarMatriculaRegistroCivil($matricula): bool
     {
-        // Remove caracteres não numéricos
+
         if ($matricula == null) {
             return false;
         }
 
         $matricula = preg_replace('/\D/', '', $matricula);
 
-        // Verifica se tem exatamente 32 dígitos
         if (strlen($matricula) !== 32) {
             return false;
         }
@@ -204,7 +203,6 @@ class RegisterIdentification
         $codigoAcervo = substr($matricula, 6, 2);
         $anoRegistro = intval(substr($matricula, 10, 4));
 
-        // Acervo "02" só permitido até 2009
         if ($codigoAcervo == '02' && $anoRegistro > 2009) {
             return false;
         }

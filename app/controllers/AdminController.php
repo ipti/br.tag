@@ -15,7 +15,7 @@ class AdminController extends Controller
                 'users' => ['*'],
             ],
             [
-                'allow', // allow authenticated user to perform 'create' and 'update' actions
+                'allow', // allow authenticated user to perform other actions
                 'actions' => [
                     'import',
                     'export',
@@ -50,6 +50,18 @@ class AdminController extends Controller
     public function actionIndex()
     {
         $this->render('index');
+    }
+
+    public function actionRestoreRBAC(){
+        Yii::import('application.components.auth.RbacSeeder');
+
+        try {
+            RbacSeeder::seed();
+        } catch (\Throwable $e) {
+            echo $e;
+        }
+
+        echo 'Sucesso';
     }
 
     public function actionExports()
@@ -430,7 +442,7 @@ SELECT
             ]
         );
         if (isset($_POST['Users'])) {
-            if (!isset($_POST['schools']) && ($_POST['Role']) != 'admin' && ($_POST['Role']) != 'nutritionist' && ($_POST['Role']) != 'reader' && ($_POST['Role'] != 'guardian')) {
+            if (!isset($_POST['schools']) && ($_POST['Role']) != 'admin' && ($_POST['Role'] != 'superuser') && ($_POST['Role']) != 'nutritionist' && ($_POST['Role']) != 'reader' && ($_POST['Role'] != 'guardian')) {
                 Yii::app()->user->setFlash('error', Yii::t('default', 'É necessário atribuir uma escola para o novo usuário criado!'));
                 $this->redirect(['index']);
             }
@@ -1092,7 +1104,8 @@ SELECT
 
     public function actionInstanceConfig()
     {
-        $configs = InstanceConfig::model()->findAll();
+
+        $configs = InstanceConfig::model()->findAllByAttributes(["superuseraccess" => 0]);
         $this->render('instanceConfig', [
             "configs" => $configs
         ]);

@@ -926,8 +926,8 @@ class SagresConsultModel
             $inconsistencyModel = new ValidationSagresModel();
             $inconsistencyModel->enrollment = SERIE_STRONG;
             $inconsistencyModel->school = $schoolName;
-            $inconsistencyModel->description = 'Série não esta associada a nenhuma etapa válida ';
-            $inconsistencyModel->action = 'Adicione uma etapa válida';
+            $inconsistencyModel->description = 'Há alunos na turma com etapa de ensino não associada a nenhuma etapa válida';
+            $inconsistencyModel->action = 'Atualize a etapa de ensino de cada aluno para uma etapa válida.';
             $inconsistencyModel->identifier = '13';
             $inconsistencyModel->idClass = $classId;
             $inconsistencyModel->insert();
@@ -1656,7 +1656,7 @@ class SagresConsultModel
     private function getAcceptedEnrollmentStatus(): array
     {
 
-        if (Yii::app()->features->isEnable("FEAT_SAGRES_STATUS_ENROL")) {
+        if (Yii::app()->features->isEnable(TFeature::FEAT_INTEGRATIONS_SAGRES_STATUS_ENROLL)) {
             return [
                 \StudentEnrollment::getStatusId(\StudentEnrollment::STATUS_ACTIVE),
                 //    \StudentEnrollment::getStatusId(\StudentEnrollment::STATUS_TRANSFERRED),
@@ -2237,10 +2237,32 @@ class SagresConsultModel
         return $stage;
     }
 
-    private function calculateAge($birthdate)
+    private function calculateAge($birthdate):int
     {
+
         $today = new DateTime();
-        $age = $today->diff($birthdate);
+        $newBirthdate = DateTime::createFromFormat('d/m/Y',$birthdate);
+
+        if ($newBirthdate === false) {
+            $formats = [
+            'Y-m-d',
+            'd/m/Y',
+            'd-m-Y',
+            'm/d/Y',
+            'd M Y',
+            'd F Y',
+            DateTime::RFC3339,
+            DateTime::ATOM
+            ];
+            foreach ($formats as $format) {
+                $dt = DateTime::createFromFormat($format, $birthdate);
+                if ($dt && $dt->format($format) === $birthdate) {
+                    $newBirthdate = $dt;
+                    break;
+                }
+            }
+        }
+        $age = $today->diff($newBirthdate);
         return (int) $age->y;
     }
 

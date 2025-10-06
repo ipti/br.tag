@@ -1,2 +1,0 @@
-ALTER TABLE `course_class`
-CHANGE `type` `type` varchar(1000) COLLATE 'utf8_unicode_ci' NULL AFTER `fkid`;
