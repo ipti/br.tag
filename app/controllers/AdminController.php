@@ -137,7 +137,7 @@ SELECT
 
         fclose($fp);
 
-        echo "<p><a href='$csv_file' download>Baixar CSV</a></p>";
+        echo "<p><a href='$csvFile' download>Baixar CSV</a></p>";
     }
 
     public function actionExportMaster()
@@ -218,9 +218,6 @@ SELECT
         foreach ($result as &$r) {
             switch ($r['cor_raca']) {
                 case '0':
-                default:
-                    $r['cor_raca'] = 'Não declarada';
-                    break;
                 case '1':
                     $r['cor_raca'] = 'Branca';
                     break;
@@ -235,6 +232,9 @@ SELECT
                     break;
                 case '5':
                     $r['cor_raca'] = 'Indígena';
+                    break;
+                default:
+                    $r['cor_raca'] = 'Não declarada';
                     break;
             }
         }
@@ -369,16 +369,10 @@ SELECT
 
     private function createDirectoriesIfNotExist($filePath)
     {
-        // Extrai o diretório do caminho do arquivo
         $directoryPath = dirname($filePath);
 
-        // Verifica se o diretório já existe
-        if (!is_dir($directoryPath)) {
-            // Tenta criar o diretório recursivamente
-            if (!mkdir($directoryPath, 0777, true)) {
-                // Caso falhe, lança uma exceção
-                throw new Exception("Falha ao criar diretórios: $directoryPath");
-            }
+        if (!is_dir($directoryPath)&&!mkdir($directoryPath, 0777, true)) {
+            throw new Exception("Falha ao criar diretórios: $directoryPath");
         }
     }
 
@@ -1160,6 +1154,8 @@ SELECT
                     break;
                 case 'date':
                     $criteria->order .= $_POST['columns'][$order['column']]['data'];
+                    break;
+                default:
                     break;
             }
             $criteria->order .= ' ' . $order['dir'];
