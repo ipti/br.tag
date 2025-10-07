@@ -13,9 +13,6 @@ Yii::import('application.repository.FormsRepository');
 
 class EnrollmentController extends Controller implements AuthenticateSEDTokenInterface
 {
-    //@done s1 - Validar Ano Letivo
-    //@done s1 - Verificar erro - Ao matricular um aluno que acabou de ser cadastrado não está salvando eno bancoo e aparece a mensagem de 'Aluno ja matriculado'
-    //@done s1 - Filtrar aluno e turma por escola
 
     /**
      * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
@@ -29,7 +26,7 @@ class EnrollmentController extends Controller implements AuthenticateSEDTokenInt
     public function filters()
     {
         return [
-            'accessControl', // perform access control for CRUD operations
+            'accessControl',
         ];
     }
 
@@ -48,7 +45,7 @@ class EnrollmentController extends Controller implements AuthenticateSEDTokenInt
     {
         return [
             [
-                'allow', // allow authenticated user to perform 'create' and 'update' actions
+                'allow',
                 'actions' => [
                     'index',
                     'view',
@@ -71,12 +68,12 @@ class EnrollmentController extends Controller implements AuthenticateSEDTokenInt
                 'users' => ['@'],
             ],
             [
-                'allow', // allow admin user to perform 'admin' and 'delete' actions
+                'allow',
                 'actions' => ['admin'],
                 'users' => ['admin'],
             ],
             [
-                'deny', // deny all users
+                'deny',
                 'users' => ['*'],
             ],
         ];
@@ -147,8 +144,6 @@ class EnrollmentController extends Controller implements AuthenticateSEDTokenInt
     public function actionCreate()
     {
         $model = new StudentEnrollment();
-        // Uncomment the following line if AJAX validation is needed
-        // $this->performAjaxValidation($model);
 
         $classrooms = Classroom::model()->findAll(
             'school_year = :year AND school_inep_fk = :school order by name',
@@ -267,7 +262,7 @@ class EnrollmentController extends Controller implements AuthenticateSEDTokenInt
                         }
 
                         if ($model->status === '2' || $model->status === '5') {
-                            //addTrocarAlunoEntreClasses
+
                             $classroomMapper = new ClassroomMapper();
                             $ensino = (object) $classroomMapper->convertStageToTipoEnsino($class->edcenso_stage_vs_modality_fk);
 
@@ -285,7 +280,7 @@ class EnrollmentController extends Controller implements AuthenticateSEDTokenInt
                             $trocarAlunoEntreClassesUseCase = new TrocarAlunoEntreClassesUseCase();
                             $result = $trocarAlunoEntreClassesUseCase->exec($inTrocarAlunoEntreClasses);
                         } elseif ($model->status === '3' || $model->status === '11') {
-                            //excluirmatricula
+
                             $class = Classroom::model()->findByPk($model->classroom_fk);
                             $inNumClasse = $class->gov_id === null ? $class->inep_id : $class->gov_id;
 
@@ -294,7 +289,6 @@ class EnrollmentController extends Controller implements AuthenticateSEDTokenInt
                             $deleteEnrollmentUseCase = new DeleteEnrollmentUseCase();
                             $result = $deleteEnrollmentUseCase->exec($inExcluirMatricula);
                         } elseif ($model->status === '4') {
-                            //baixarmatricula
 
                             $inTipoBaixa = $_POST['reason'];
                             if ($inTipoBaixa == '1') {
@@ -358,19 +352,6 @@ class EnrollmentController extends Controller implements AuthenticateSEDTokenInt
         } else {
             throw new CHttpException(404, 'The requested page does not exist.');
         }
-
-        //		if(Yii::app()->request->isPostRequest)
-        //		{
-//
-        //			// we only allow deletion via POST request
-        //			$this->loadModel($id)->delete();
-//
-        //			// if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
-        //			if(!isset($_GET['ajax']))
-        //				$this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
-        //		}
-        //		else
-        //			throw new CHttpException(400,'Invalid request. Please do not repeat this request again.');
     }
 
     /**
@@ -380,7 +361,7 @@ class EnrollmentController extends Controller implements AuthenticateSEDTokenInt
     {
         $query = StudentEnrollment::model()->findAll();
         $model = new StudentEnrollment('search');
-        $model->unsetAttributes();  // clear any default values
+        $model->unsetAttributes();
         if (isset($_GET['StudentEnrollment'])) {
             $model->attributes = $_GET['StudentEnrollment'];
         }
