@@ -517,7 +517,7 @@
                     $result = Yii::app()->db->createCommand($sql)->query();
 
                     if ($result) {
-                        $file = $fm->write($updateDir . '_version', $fileName);
+                        $fm->write($updateDir . '_version', $fileName);
                         Yii::app()->user->setFlash('success', Yii::t('default', 'Atualização Concluída!'));
                         $count++;
                     } else {
