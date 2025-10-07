@@ -8,21 +8,15 @@
 //@done S2 - Criar tela de index do AdminController.php
 //@done S2 - Criar usuários padrões.
 //@done S2 - Mensagens de retorno ao executar os scripts.
-define("SCHOOL_MANAGER_AFFILIATION",'Filiacao do Gestor Escolar');
-define("QUERY_TO_SEARCH_FOR_INEP_ID_IN_SCHOOLS",'SELECT inep_id FROM school_identification;');
-define("REGEX",'/[^A-Z ]/');
-define("REGEX_NUMBERS",'/^[0-9]+$/');
-define('CONTENT_DESCRIPTION_FILE_TRANSFER','Content-Description: File Transfer');
-define('CONTENT_TYPE_APPLICATION_OCTET_STREAM','Content-Type: application/octet-stream');
-define("EXPIRES_0",'Expires: 0');
-define('CACHE_CONTROL_MUST_REVALIDATE','Cache-Control: must-revalidate');
-define('PRAGMA_PUBLIC','Pragma: public');
 class CensoController extends Controller
 {
     public $layout = 'fullmenu';
 
     public $export = [];
     public $tmpexp = [];
+
+    private $regex = '/[^A-Z ]/';
+    private $regexNumber = '/^[0-9]+$/';
 
     public function accessRules()
     {
@@ -149,14 +143,6 @@ class CensoController extends Controller
         if (!$result['status']) {
             array_push($log, ['name' => $result['erro']]);
         }
-
-        //campo 11
-        //$result = $siv->isLatitudeValid($collumn['latitude']);
-        //if (!$result["status"]) array_push($log, array("latitude" => $result["erro"]));
-
-        //campo 12
-        //$result = $siv->isLongitudeValid($collumn['longitude']);
-        //if (!$result["status"]) array_push($log, array("longitude" => $result["erro"]));
 
         //campo 13
         $result = $siv->isCEPValid($schoolIdentificationColumn['cep']);
@@ -344,15 +330,15 @@ class CensoController extends Controller
         //campo 11, 12, 13
         $result = $siv->isNameValid(trim($managerIdentificationColumn['filiation_1']), 100);
         if (!$result['status']) {
-            array_push($log, [SCHOOL_MANAGER_AFFILIATION => $result['erro']]);
+            array_push($log, ['Filiacao do Gestor Escolar' => $result['erro']]);
         }
         $result = $siv->isNameValid(trim($managerIdentificationColumn['filiation_2']), 100);
         if (!$result['status']) {
-            array_push($log, [SCHOOL_MANAGER_AFFILIATION => $result['erro']]);
+            array_push($log, ['Filiacao do Gestor Escolar' => $result['erro']]);
         }
         $result = $siv->validateFiliation($managerIdentificationColumn['filiation'], $managerIdentificationColumn['filiation_1'], $managerIdentificationColumn['filiation_2']);
         if (!$result['status']) {
-            array_push($log, [SCHOOL_MANAGER_AFFILIATION => $result['erro']]);
+            array_push($log, ['Filiacao do Gestor Escolar' => $result['erro']]);
         }
 
         //campo 9
@@ -392,7 +378,10 @@ class CensoController extends Controller
 
         return $log;
     }
-
+    private function getInepIds (){
+        $sql = 'SELECT inep_id FROM school_identification;';
+        return Yii::app()->db->createCommand($sql)->queryAll();
+    }
     public function validateSchoolStructure($collumn, $school)
     {
         $ssv = new SchoolStructureValidation();
@@ -406,8 +395,8 @@ class CensoController extends Controller
         }
 
         //campo 2
-        $sql = QUERY_TO_SEARCH_FOR_INEP_ID_IN_SCHOOLS;
-        $inepIds = Yii::app()->db->createCommand($sql)->queryAll();
+
+        $inepIds = $this->getInepIds();
         foreach ($inepIds as  $value) {
             $allowedSchoolInepIds[] = $value['inep_id'];
         }
@@ -837,8 +826,7 @@ class CensoController extends Controller
 
     public function validateInstructor($collumn, $instructor_documents_and_address)
     {
-        $sql = QUERY_TO_SEARCH_FOR_INEP_ID_IN_SCHOOLS;
-        $inepIds = Yii::app()->db->createCommand($sql)->queryAll();
+        $inepIds = $this->getInepIds();
         foreach ($inepIds as  $value) {
             $allowedSchoolInepIds[] = $value['inep_id'];
         }
@@ -995,8 +983,8 @@ class CensoController extends Controller
         $schoolInepIdFk = $collumn['school_inep_id_fk'];
         $instructorInepId = $collumn['inep_id'];
 
-        $sql = QUERY_TO_SEARCH_FOR_INEP_ID_IN_SCHOOLS;
-        $inepIds = Yii::app()->db->createCommand($sql)->queryAll();
+
+        $inepIds = $this->getInepIds();
         foreach ($inepIds as  $value) {
             $allowedSchoolInepIds[] = $value['inep_id'];
         }
@@ -1042,8 +1030,8 @@ class CensoController extends Controller
 
     public function validateInstructorData($collumn)
     {
-        $sql = QUERY_TO_SEARCH_FOR_INEP_ID_IN_SCHOOLS;
-        $inepIds = Yii::app()->db->createCommand($sql)->queryAll();
+
+        $inepIds = $this->getInepIds();
         foreach ($inepIds as  $value) {
             $allowedSchoolInepIds[] = $value['inep_id'];
         }
@@ -1143,8 +1131,8 @@ class CensoController extends Controller
 
     public function validateStudentIdentification($collumn, $studentdocument, $classroom)
     {
-        $sql = QUERY_TO_SEARCH_FOR_INEP_ID_IN_SCHOOLS;
-        $inepIds = Yii::app()->db->createCommand($sql)->queryAll();
+
+        $inepIds = $this->getInepIds();
         foreach ($inepIds as  $value) {
             $allowedSchoolInepIds[] = $value['inep_id'];
         }
@@ -1333,15 +1321,9 @@ class CensoController extends Controller
     public function validateStudentDocumentsAddress($collumn, $studentident)
     {
         $student_inep_id = $collumn['student_fk'];
-        $sql = QUERY_TO_SEARCH_FOR_INEP_ID_IN_SCHOOLS;
-        $inepIds = Yii::app()->db->createCommand($sql)->queryAll();
+        $inepIds = $this->getInepIds();
         foreach ($inepIds as  $value) {
             $allowedSchoolInepIds[] = $value['inep_id'];
-        }
-        $sql = 'SELECT inep_id FROM student_identification;';
-        $array = Yii::app()->db->createCommand($sql)->queryAll();
-        foreach ($array as  $value) {
-            $allowed_students_inep_ids[] = $value['inep_id'];
         }
 
         $sda = new StudentDocumentsAndAddressValidation();
@@ -1411,15 +1393,10 @@ class CensoController extends Controller
 
     public function validateEnrollment($collumn)
     {
-        $sql = QUERY_TO_SEARCH_FOR_INEP_ID_IN_SCHOOLS;
-        $inepIds = Yii::app()->db->createCommand($sql)->queryAll();
+
+        $inepIds = $this->getInepIds();
         foreach ($inepIds as  $value) {
             $allowedSchoolInepIds[] = $value['inep_id'];
-        }
-        $sql = 'SELECT inep_id FROM student_identification;';
-        $array = Yii::app()->db->createCommand($sql)->queryAll();
-        foreach ($array as  $value) {
-            $allowed_students_inep_ids[] = $value['inep_id'];
         }
 
         $sev = new StudentEnrollmentValidation();
@@ -1629,12 +1606,12 @@ class CensoController extends Controller
             $linha = $this->mountItemExport($instructors);
             fwrite($file, $linha);
             fclose($file);
-            header(CONTENT_DESCRIPTION_FILE_TRANSFER);
-            header(CONTENT_TYPE_APPLICATION_OCTET_STREAM);
+            header('Content-Description: File Transfer');
+            header('Content-Type: application/octet-stream');
             header($this->concatContentDispositionAttachmentFileName($fileName));
-            header(EXPIRES_0);
-            header(CACHE_CONTROL_MUST_REVALIDATE);
-            header(PRAGMA_PUBLIC);
+            header('Expires: 0');
+            header('Cache-Control: must-revalidate');
+            header('Pragma: public');
             header($this->concatContentLength(filesize($fileDir)));
             readfile($fileDir);
         }
@@ -1647,12 +1624,12 @@ class CensoController extends Controller
             $file = fopen($fileDir, 'w');
 
             fclose($file);
-            header(CONTENT_DESCRIPTION_FILE_TRANSFER);
-            header(CONTENT_TYPE_APPLICATION_OCTET_STREAM);
+            header('Content-Description: File Transfer');
+            header('Content-Type: application/octet-stream');
             header($this->concatContentDispositionAttachmentFileName($fileName));
-            header(EXPIRES_0);
-            header(CACHE_CONTROL_MUST_REVALIDATE);
-            header(PRAGMA_PUBLIC);
+            header('Expires: 0');
+            header('Cache-Control: must-revalidate');
+            header('Pragma: public');
             header($this->concatContentLength( filesize($fileDir)));
             readfile($fileDir);
         }
@@ -1705,7 +1682,7 @@ class CensoController extends Controller
                 $linha .= $fill ? strtoupper($s['civil_register_enrollment_number']) . '|' : '|';
             }
 
-            $s['name'] = preg_replace(REGEX, '', htmlentities(strtoupper($s['name'])));
+            $s['name'] = preg_replace($this->regex, '', htmlentities(strtoupper($s['name'])));
             if ($s['name'] == null) {
                 $linha .= '|';
             } else {
@@ -1718,8 +1695,8 @@ class CensoController extends Controller
                 $linha .= $s['birthday'] . '|';
             }
 
-            $s['filiation_1'] = preg_replace(REGEX, '', htmlentities(strtoupper($s['filiation_1'])));
-            $s['filiation_2'] = preg_replace(REGEX, '', htmlentities(strtoupper($s['filiation_2'])));
+            $s['filiation_1'] = preg_replace($this->regex, '', htmlentities(strtoupper($s['filiation_1'])));
+            $s['filiation_2'] = preg_replace($this->regex, '', htmlentities(strtoupper($s['filiation_2'])));
             if ($s['filiation_1'] == null) {
                 $linha .= '|';
             } else {
@@ -2674,12 +2651,12 @@ class CensoController extends Controller
     {
         $fileDir = Yii::app()->basePath . '/export/' . date('Y_') . Yii::app()->user->school . '.TXT';
         if (file_exists($fileDir)) {
-            header(CONTENT_DESCRIPTION_FILE_TRANSFER);
-            header(CONTENT_TYPE_APPLICATION_OCTET_STREAM);
+            header('Content-Description: File Transfer');
+            header('Content-Type: application/octet-stream');
             header($this->concatContentDispositionAttachmentFileName( basename($fileDir)));
-            header(EXPIRES_0);
-            header(CACHE_CONTROL_MUST_REVALIDATE);
-            header(PRAGMA_PUBLIC);
+            header('Expires: 0');
+            header('Cache-Control: must-revalidate');
+            header('Pragma: public');
             header($this->concatContentLength(filesize($fileDir)));
             readfile($fileDir);
         } else {
@@ -2692,12 +2669,12 @@ class CensoController extends Controller
     {
         $fileDir = Yii::app()->basePath . '/export/' . date('Y_') . Yii::app()->user->school . '_IDENTIFICACAO.TXT';
         if (file_exists($fileDir)) {
-            header(CONTENT_DESCRIPTION_FILE_TRANSFER);
-            header(CONTENT_TYPE_APPLICATION_OCTET_STREAM);
+            header('Content-Description: File Transfer');
+            header('Content-Type: application/octet-stream');
             header($this->concatContentDispositionAttachmentFileName( basename($fileDir)));
-            header(EXPIRES_0);
-            header(CACHE_CONTROL_MUST_REVALIDATE);
-            header(PRAGMA_PUBLIC);
+            header('Expires: 0');
+            header('Cache-Control: must-revalidate');
+            header('Pragma: public');
             header($this->concatContentLength(filesize($fileDir)));
             readfile($fileDir);
         } else {
@@ -2764,7 +2741,7 @@ class CensoController extends Controller
             $counterStudents = 0;
             $counterInstructos = 0;
             foreach ($lineFields as $line) {
-                if ($line[8] == null || !preg_match(REGEX_NUMBERS, $line[8])) {
+                if ($line[8] == null || !preg_match($this->regexNumber, $line[8])) {
                     continue;
                 }
 
