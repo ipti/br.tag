@@ -901,10 +901,10 @@
                 }
 
                 $regType = $fileLine[0] . $fileLine[1];
-                $lineFields_Aux = explode('|', $fileLine);
+                $lineFieldsAux = explode('|', $fileLine);
                 $lineFields = [];
 
-                foreach ($lineFields_Aux as $key => $field) {
+                foreach ($lineFieldsAux as $key => $field) {
                     $value = empty($field) ? 'null' : $field;
                     $lineFields[$key] = $value;
                 }
@@ -1329,7 +1329,7 @@
                 'student_identification', 'student_documents_and_address', 'student_enrollment'
             ];
 
-            $classroom_tagId = $studentIndetification_tagId = [];
+            $classroomTagId = $studentIndetificationTagId = [];
 
             foreach ($tables as $table) {
                 $objects = [];
@@ -1440,7 +1440,7 @@
                         case '2':
                             $tagId = md5($value['school_inep_fk'] . $value['name'] . $value['school_year']);
                             $sql .= " ('" . str_replace("''", 'null', implode("', '", $value)) . "', '" . $tagId . "'),";
-                            $classroom_tagId[$value['id']] = $tagId;
+                            $classroomTagId[$value['id']] = $tagId;
                             break;
                         case '3':
                             $tagId = md5($value['name'] . $value['birthday_date']);
@@ -1456,12 +1456,12 @@
                             $instructorIdentification = InstructorIdentification::model()->findByAttributes(['id' => $value['instructor_fk']]);
                             $classroom = Classroom::model()->findByAttributes(['id' => $value['classroom_id_fk']]);
                             $tagId = md5($instructorIdentification->name . $instructorIdentification->birthday_date . $classroom->name . $classroom->school_year);
-                            $sql .= " ('" . str_replace("''", 'null', implode("', '", $value)) . "', '" . $tagId . "', '" . $classroom_tagId[$classroom->id] . "'),";
+                            $sql .= " ('" . str_replace("''", 'null', implode("', '", $value)) . "', '" . $tagId . "', '" . $classroomTagId[$classroom->id] . "'),";
                             break;
                         case '7':
                             $tagId = md5($value['name'] . $value['birthday']);
                             $sql .= " ('" . str_replace("''", 'null', implode("', '", $value)) . "', '" . $tagId . "'),";
-                            $studentIndetification_tagId[$value['id']] = $tagId;
+                            $studentIndetificationTagId[$value['id']] = $tagId;
                             break;
                         case '8':
                             $studentIdentification = StudentIdentification::model()->findByAttributes(['id' => $value['id']]);
@@ -1472,7 +1472,7 @@
                             $studentIdentification = StudentIdentification::model()->findByAttributes(['id' => $value['student_fk']]);
                             $classroom = Classroom::model()->findByAttributes(['id' => $value['classroom_fk']]);
                             $tagId = md5($studentIdentification->name . $studentIdentification->birthday . $classroom->name . $classroom->school_year);
-                            $sql .= " ('" . str_replace("''", 'null', implode("', '", $value)) . "', '" . $tagId . "', '" . $studentIndetification_tagId[$studentIdentification->id] . "', '" . $classroom_tagId[$classroom->id] . "'),";
+                            $sql .= " ('" . str_replace("''", 'null', implode("', '", $value)) . "', '" . $tagId . "', '" . $studentIndetificationTagId[$studentIdentification->id] . "', '" . $classroomTagId[$classroom->id] . "'),";
                             break;
                         default:
                             break;

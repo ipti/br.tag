@@ -627,7 +627,7 @@ SELECT
 
     public function actionGetUnities()
     {
-        $grade_rules_id = Yii::app()->request->getPost('grade_rules_id');
+        $gradeRulesId = Yii::app()->request->getPost('grade_rules_id');
 
         $result = [];
         $result['unities'] = [];
@@ -636,7 +636,7 @@ SELECT
         $criteria->alias = 'gu';
         $criteria->condition = 'grade_rules_fk = :grade_rules_fk';
         $criteria->addInCondition('gu.type', [GradeUnity::TYPE_UNITY, GradeUnity::TYPE_UNITY_BY_CONCEPT, GradeUnity::TYPE_UNITY_WITH_RECOVERY]);
-        $criteria->params = array_merge([':grade_rules_fk' => $grade_rules_id], $criteria->params);
+        $criteria->params = array_merge([':grade_rules_fk' => $gradeRulesId], $criteria->params);
         $criteria->order = 'gu.id';
 
         $gradeUnities = GradeUnity::model()
@@ -664,7 +664,7 @@ SELECT
         }
 
         $criteria->condition = 'grade_rules_fk = :grade_rules_fk and gu.type = :type';
-        $criteria->params = [':grade_rules_fk' => $grade_rules_id, ':type' => GradeUnity::TYPE_FINAL_RECOVERY];
+        $criteria->params = [':grade_rules_fk' => $gradeRulesId, ':type' => GradeUnity::TYPE_FINAL_RECOVERY];
 
         $finalRecovery = GradeUnity::model()
             ->with('gradeUnityModalities')
@@ -677,7 +677,7 @@ SELECT
 
         $gradeRules = GradeRules::model()
             ->findByPk(
-                $grade_rules_id
+                $gradeRulesId
             );
 
         $stageIds = Yii::app()->db->createCommand('
@@ -693,7 +693,7 @@ SELECT
             ORDER BY
                 esvm.name
         ')
-            ->bindParam(':grade_rule', $grade_rules_id)
+            ->bindParam(':grade_rule', $gradeRulesId)
             ->queryColumn();
         $result['edcenso_stage_vs_modality_fk'] = $stageIds;
         $result['approvalMedia'] = $gradeRules->approvation_media;
