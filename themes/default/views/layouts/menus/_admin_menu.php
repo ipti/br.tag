@@ -205,7 +205,7 @@ $menuItems = [
         'label' => 'Merenda Escolar',
         'url' => ['lunch'],
         'icon' => 't-icon-apple',
-        'roles' => [TRole::NUTRITIONIST, TRole::ADMIN, TRole::MANAGER, TRole::READER, TRole::FOOD_SERVICE_WORKER],
+        'roles' => [TRole::NUTRITIONIST, TRole::ADMIN, TRole::MANAGER, TRole::READER],
         'feature' => TTask::TASK_LUNCH_MENU_MANAGE,
     ],
     // Acompanhamento de Saúde
