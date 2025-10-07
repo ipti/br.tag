@@ -12,7 +12,7 @@ $('.js-height, .js-weight').on('input', function () {
 
 function showReportbutton(classroom) {
 
-    var button =`<a class="t-button-secondary" href="?r=forms/studentIMCReport&classroomId=${classroom}">
+    var button = `<a class="t-button-secondary" href="?r=forms/studentIMCReport&classroomId=${classroom}">
                     <span class="t-icon-printer"></span>
                     Relatório de Acompanhamento de Saúde da Turma
                 </a>`
@@ -31,7 +31,7 @@ $('.js-classroom').on('change', function () {
         data: { classroomId: classroom },
         success: function (response) {
 
-            $('.js-studentTable').html(response);
+            $('.js-studentTable').html(DOMPurify.sanitize(response));
             initDatatable();
         },
         error: function () {
