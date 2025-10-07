@@ -5,7 +5,7 @@ namespace Genericos;
 /**
  * Class representing NumeroLeiQueAutorizouTType
  *
- * 
+ *
  * XSD Type: numeroLeiQueAutorizou_t
  */
 class NumeroLeiQueAutorizouTType
@@ -64,4 +64,3 @@ class NumeroLeiQueAutorizouTType
         return $this;
     }
 }
-

@@ -22,7 +22,6 @@ class TagUtils extends CApplicationComponent
             return $result || $hasRole;
         };
 
-
         if (gettype($roles) == 'array') {
             return array_reduce($roles, $action, false);
         }
@@ -102,11 +101,9 @@ class TagUtils extends CApplicationComponent
     {
         $date = trim($date);
 
-
         if (empty($date) || is_null($date)) {
             return $date;
         }
-
 
         if (preg_match('/^\d{2}\/\d{2}\/\d{4}$/', $date)) {
             return $date;

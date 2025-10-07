@@ -1,9 +1,8 @@
 <?php
 
-
 class FeaturesComponent extends CApplicationComponent
 {
-    const STATE_KEY = '_features_cache';
+    public const STATE_KEY = '_features_cache';
 
     /**
      * Inicializa o componente

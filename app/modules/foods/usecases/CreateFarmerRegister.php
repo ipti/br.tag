@@ -1,4 +1,5 @@
 <?php
+
     Yii::import('application.modules.foods.services.*');
     /**
     * @property CreateFarmerRegister $CreateFarmerRegister
@@ -11,10 +12,13 @@
          */
         private $firebaseservice;
 
-        public function __construct($firebaseservice = null){
+        public function __construct($firebaseservice = null)
+        {
             $this->firebaseservice = $firebaseservice ?? new FireBaseService();
         }
-        public function exec($name, $cpf, $phone, $groupType, $foodsRelation){
+
+        public function exec($name, $cpf, $phone, $groupType, $foodsRelation)
+        {
             return $this->firebaseservice->createFarmerRegister($name, $cpf, $phone, $groupType, $foodsRelation);
         }
     }

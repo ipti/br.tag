@@ -2,9 +2,9 @@
 /* @var $this FoodRequestController */
 /* @var $dataProvider CActiveDataProvider */
 
-$this->breadcrumbs=array(
-	'Food Requests',
-);
+$this->breadcrumbs = [
+    'Food Requests',
+];
 
 $baseUrl = Yii::app()->baseUrl;
 $themeUrl = Yii::app()->theme->baseUrl;
@@ -13,10 +13,10 @@ $cs = Yii::app()->getClientScript();
 $cs->registerScriptFile('app\modules\foods\resources\request\_initialization.js', CClientScript::POS_END);
 $cs->registerScriptFile('app\modules\foods\resources\request\functions.js', CClientScript::POS_END);
 
-$this->menu=array(
-	array('label'=>'Create FoodRequest', 'url'=>array('create')),
-	array('label'=>'Manage FoodRequest', 'url'=>array('admin')),
-);
+$this->menu = [
+    ['label' => 'Create FoodRequest', 'url' => ['create']],
+    ['label' => 'Manage FoodRequest', 'url' => ['admin']],
+];
 ?>
 
 <div id="mainPage" class="main">
@@ -98,7 +98,7 @@ $this->menu=array(
     </div>
 </div>
 
-<!-- <?php $this->widget('zii.widgets.CListView', array(
-	'dataProvider'=>$dataProvider,
-	'itemView'=>'_view',
-)); ?> -->
+<!-- <?php $this->widget('zii.widgets.CListView', [
+    'dataProvider' => $dataProvider,
+    'itemView' => '_view',
+]); ?> -->

@@ -21,13 +21,12 @@ class CreateRA
         $ucnewstudent = new AddStudentToSED();
         $RA = $ucnewstudent->exec($id);
 
-        if(!isset($RA->outErro)){
+        if (!isset($RA->outErro)) {
             $ucadd = new AddRACodeToTAG();
             $student = $ucadd->exec($id, $RA->outAluno->outNumRA);
             return $student->gov_id;
-        }else{
+        } else {
             return $RA->outErro;
         }
     }
-
 }

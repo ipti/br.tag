@@ -54,8 +54,7 @@ class OutConsultaTurmaClasse
         ?string $outDescricaoSerieAno,
         ?OutDiasSemana $outDiasSemana,
         ?int $outProcessoID
-    )
-    {
+    ) {
         $this->outAnoLetivo = $outAnoLetivo;
         $this->outCodEscola = $outCodEscola;
         $this->outNomeEscola = $outNomeEscola;

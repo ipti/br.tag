@@ -30,7 +30,8 @@ class ImportInstructorUserUseCase
         return $this->modelInstructorIdentification;
     }
 
-    private function createUser($modelInstructorIdentification, $modelInstructorDocumentsAndAddress) {
+    private function createUser($modelInstructorIdentification, $modelInstructorDocumentsAndAddress)
+    {
         $user = new Users();
         $user->name = $modelInstructorIdentification->name;
         $user->username = $modelInstructorDocumentsAndAddress->cpf;
@@ -38,7 +39,8 @@ class ImportInstructorUserUseCase
         return $user;
     }
 
-    private function createUserSchool($user) {
+    private function createUserSchool($user)
+    {
         $userSchool = new UsersSchool();
         $userSchool->user_fk = $user->id;
         $userSchool->school_fk = Yii::app()->user->school;

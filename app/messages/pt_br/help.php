@@ -4,7 +4,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-return array(
+return [
     //Ajuda School
     'Date of start of the school year' => 'Data de inicio do ano letivo',
     'End date of the school year' => 'Data do final do ano letivo',
@@ -25,10 +25,10 @@ return array(
     'CEP' => 'Apenas números deverão ser informados. Os 8 dígitos devem ser informados. Não pode ter todos os algarismos iguais.',
     'Phone' => 'Não pode ter todos os algarismos iguais. Deve ter 8 ou 9 números. Se houver 9 números, o primeiro algarismo deve ser o dígito 9.',
     'Valid Cep' => 'Digite um CEP cadastrado nos correios.',
-    
+
     //Ajuda matrícula
     'Edcenso Stage Vs Modality Fk Help' => 'Etapa do aluno em turma multietapa / multi / correção de fluxo / EJA presencial e semipresencial - anos iniciais e anos finais / Educação profissional mista - concomitante e subsequente',
-    
+
     //Ajuda turma
     'Classroom Name' => 'Aceita somente os seguintes caracteres: A a Z, 0 a 9, espaço, ª,º,-. Deve ter no mínimo 4 posições.',
     'School year' => 'Deve possuir um ano válido, inferior ou igual ao ano atual.',
@@ -39,7 +39,7 @@ return array(
     'Email' => 'exemplo@email.com.br',
     'Instructor Full Civil Name' => 'Informe o nome civil completo do professor ',
     'Instructor Full Social Name' => 'Informe o nome social completo do professor',
-    
+
     //Ajuda Aluno
     'Student Full Civil Name' => 'Informe o nome civil completo do aluno.',
     'Student Full Social Name' => 'Informe o nome social completo do aluno.',
@@ -50,17 +50,14 @@ return array(
     'Only Numbers' => 'Apenas números são aceitos.',
     'Max length' => 'Tamanho máximo: ',
     'Min length' => 'Tamanho mínimo: ',
-    'Only characters A-Z, 0-9, ., /, -, ª, º, space and ,.'=> 'Aceita somente caracteres de A a Z, 0 a 9, ., /, -, ª, º, espaço e ,.',
-    
-    //
+    'Only characters A-Z, 0-9, ., /, -, ª, º, space and ,.' => 'Aceita somente caracteres de A a Z, 0 a 9, ., /, -, ª, º, espaço e ,.',
+
     'Confirm' => 'O valor tem que ser igual ao da senha.',
     'Full Name' => 'Nome completo',
-    
+
     //Subtítulos
     'ClassBoard Subtitle' => 'Elabore o horário semanal da turma',
     'Estimated classes' => 'Quantidade de aulas previstas',
-       
-    'CPF Numbers' => "Apenas números são aceitos e o CPF deve ser válido.",
-);
 
-?>
+    'CPF Numbers' => 'Apenas números são aceitos e o CPF deve ser válido.',
+];

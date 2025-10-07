@@ -18,27 +18,27 @@
  */
 
 $options = [
-    'allow_filelist'   => true,                // show/hide the files tab
+    'allow_filelist' => true,                // show/hide the files tab
     'allow_invalidate' => true,                // give a link to invalidate files
-    'allow_reset'      => true,                // give option to reset the whole cache
-    'allow_realtime'   => true,                // give option to enable/disable real-time updates
-    'refresh_time'     => 5,                   // how often the data will refresh, in seconds
-    'size_precision'   => 2,                   // Digits after decimal point
-    'size_space'       => false,               // have '1MB' or '1 MB' when showing sizes
-    'charts'           => true,                // show gauge chart or just big numbers
-    'debounce_rate'    => 250,                 // milliseconds after key press to send keyup event when filtering
-    'per_page'         => 200,                 // How many results per page to show in the file list, false for no pagination
-    'cookie_name'      => 'opcachegui',        // name of cookie
-    'cookie_ttl'       => 365,                 // days to store cookie
-    'datetime_format'  => 'D, d M Y H:i:s O',  // Show datetime in this format
-    'highlight'        => [
+    'allow_reset' => true,                // give option to reset the whole cache
+    'allow_realtime' => true,                // give option to enable/disable real-time updates
+    'refresh_time' => 5,                   // how often the data will refresh, in seconds
+    'size_precision' => 2,                   // Digits after decimal point
+    'size_space' => false,               // have '1MB' or '1 MB' when showing sizes
+    'charts' => true,                // show gauge chart or just big numbers
+    'debounce_rate' => 250,                 // milliseconds after key press to send keyup event when filtering
+    'per_page' => 200,                 // How many results per page to show in the file list, false for no pagination
+    'cookie_name' => 'opcachegui',        // name of cookie
+    'cookie_ttl' => 365,                 // days to store cookie
+    'datetime_format' => 'D, d M Y H:i:s O',  // Show datetime in this format
+    'highlight' => [
         'memory' => true,                      // show the memory chart/big number
-        'hits'   => true,                      // show the hit rate chart/big number
-        'keys'   => true,                      // show the keys used chart/big number
-        'jit'    => true                       // show the jit buffer chart/big number
+        'hits' => true,                      // show the hit rate chart/big number
+        'keys' => true,                      // show the keys used chart/big number
+        'jit' => true                       // show the jit buffer chart/big number
     ],
     // json structure of all text strings used, or null for default
-    'language_pack'    => null
+    'language_pack' => null
 ];
 
 /*
@@ -72,26 +72,26 @@ class Service
         'function' => 1205
     ];
     protected $defaults = [
-        'allow_filelist'   => true,                // show/hide the files tab
+        'allow_filelist' => true,                // show/hide the files tab
         'allow_invalidate' => true,                // give a link to invalidate files
-        'allow_reset'      => true,                // give option to reset the whole cache
-        'allow_realtime'   => true,                // give option to enable/disable real-time updates
-        'refresh_time'     => 5,                   // how often the data will refresh, in seconds
-        'size_precision'   => 2,                   // Digits after decimal point
-        'size_space'       => false,               // have '1MB' or '1 MB' when showing sizes
-        'charts'           => true,                // show gauge chart or just big numbers
-        'debounce_rate'    => 250,                 // milliseconds after key press to send keyup event when filtering
-        'per_page'         => 200,                 // How many results per page to show in the file list, false for no pagination
-        'cookie_name'      => 'opcachegui',        // name of cookie
-        'cookie_ttl'       => 365,                 // days to store cookie
-        'datetime_format'  => 'D, d M Y H:i:s O',  // Show datetime in this format
-        'highlight'        => [
+        'allow_reset' => true,                // give option to reset the whole cache
+        'allow_realtime' => true,                // give option to enable/disable real-time updates
+        'refresh_time' => 5,                   // how often the data will refresh, in seconds
+        'size_precision' => 2,                   // Digits after decimal point
+        'size_space' => false,               // have '1MB' or '1 MB' when showing sizes
+        'charts' => true,                // show gauge chart or just big numbers
+        'debounce_rate' => 250,                 // milliseconds after key press to send keyup event when filtering
+        'per_page' => 200,                 // How many results per page to show in the file list, false for no pagination
+        'cookie_name' => 'opcachegui',        // name of cookie
+        'cookie_ttl' => 365,                 // days to store cookie
+        'datetime_format' => 'D, d M Y H:i:s O',  // Show datetime in this format
+        'highlight' => [
             'memory' => true,                      // show the memory chart/big number
-            'hits'   => true,                      // show the hit rate chart/big number
-            'keys'   => true,                      // show the keys used chart/big number
-            'jit'    => true                       // show the jit buffer chart/big number
+            'hits' => true,                      // show the hit rate chart/big number
+            'keys' => true,                      // show the keys used chart/big number
+            'jit' => true                       // show the jit buffer chart/big number
         ],
-        'language_pack'    => null                 // json structure of all text strings used, or null for default
+        'language_pack' => null                 // json structure of all text strings used, or null for default
     ];
 
     /**
@@ -108,16 +108,16 @@ class Service
         }
 
         $this->optimizationLevels = [
-            1 << 0  => $this->txt('CSE, STRING construction'),
-            1 << 1  => $this->txt('Constant conversion and jumps'),
-            1 << 2  => $this->txt('++, +=, series of jumps'),
-            1 << 3  => $this->txt('INIT_FCALL_BY_NAME -> DO_FCALL'),
-            1 << 4  => $this->txt('CFG based optimization'),
-            1 << 5  => $this->txt('DFA based optimization'),
-            1 << 6  => $this->txt('CALL GRAPH optimization'),
-            1 << 7  => $this->txt('SCCP (constant propagation)'),
-            1 << 8  => $this->txt('TMP VAR usage'),
-            1 << 9  => $this->txt('NOP removal'),
+            1 << 0 => $this->txt('CSE, STRING construction'),
+            1 << 1 => $this->txt('Constant conversion and jumps'),
+            1 << 2 => $this->txt('++, +=, series of jumps'),
+            1 << 3 => $this->txt('INIT_FCALL_BY_NAME -> DO_FCALL'),
+            1 << 4 => $this->txt('CFG based optimization'),
+            1 << 5 => $this->txt('DFA based optimization'),
+            1 << 6 => $this->txt('CALL GRAPH optimization'),
+            1 << 7 => $this->txt('SCCP (constant propagation)'),
+            1 << 8 => $this->txt('TMP VAR usage'),
+            1 << 9 => $this->txt('NOP removal'),
             1 << 10 => $this->txt('Merge equal constants'),
             1 << 11 => $this->txt('Adjust used stack'),
             1 << 12 => $this->txt('Remove unused variables'),
@@ -190,7 +190,7 @@ class Service
      */
     public function handle(): Service
     {
-        $response = function($success) {
+        $response = function ($success) {
             if ($this->isJsonRequest()) {
                 echo '{ "success": "' . ($success ? 'yes' : 'no') . '" }';
             } else {
@@ -306,8 +306,11 @@ class Service
             $size /= 1024;
             ++$i;
         }
-        return sprintf('%.' . $this->getOption('size_precision') . 'f%s%s',
-            $size, ($this->getOption('size_space') ? ' ' : ''), $val[$i]
+        return sprintf(
+            '%.' . $this->getOption('size_precision') . 'f%s%s',
+            $size,
+            ($this->getOption('size_space') ? ' ' : ''),
+            $val[$i]
         );
     }
 
@@ -347,7 +350,7 @@ class Service
                 $file['last_used'] = (new DateTimeImmutable("@{$file['last_used_timestamp']}"))
                     ->setTimezone($this->tz)
                     ->format($this->getOption('datetime_format'));
-                $file['last_modified'] = "";
+                $file['last_modified'] = '';
                 if (!empty($file['timestamp'])) {
                     $file['last_modified'] = (new DateTimeImmutable("@{$file['timestamp']}"))
                         ->setTimezone($this->tz)
@@ -361,7 +364,9 @@ class Service
             $overview = false;
         } else {
             $overview = array_merge(
-                $status['memory_usage'], $status['opcache_statistics'], [
+                $status['memory_usage'],
+                $status['opcache_statistics'],
+                [
                     'used_memory_percentage' => round(100 * (
                         ($status['memory_usage']['used_memory'] + $status['memory_usage']['wasted_memory'])
                         / $config['directives']['opcache.memory_consumption']
@@ -387,7 +392,8 @@ class Service
                         'start_time' => (new DateTimeImmutable("@{$status['opcache_statistics']['start_time']}"))
                             ->setTimezone($this->tz)
                             ->format($this->getOption('datetime_format')),
-                        'last_restart_time' => ($status['opcache_statistics']['last_restart_time'] === 0
+                        'last_restart_time' => (
+                            $status['opcache_statistics']['last_restart_time'] === 0
                             ? $this->txt('never')
                             : (new DateTimeImmutable("@{$status['opcache_statistics']['last_restart_time']}"))
                                 ->setTimezone($this->tz)
@@ -418,7 +424,8 @@ class Service
         }
 
         if ($overview && !empty($status['jit']['enabled'])) {
-            $overview['jit_buffer_used_percentage'] = ($status['jit']['buffer_size']
+            $overview['jit_buffer_used_percentage'] = (
+                $status['jit']['buffer_size']
                 ? round(100 * (($status['jit']['buffer_size'] - $status['jit']['buffer_free']) / $status['jit']['buffer_size']))
                 : 0
             );
@@ -468,10 +475,13 @@ class Service
             [
                 'php' => PHP_VERSION,
                 'server' => $_SERVER['SERVER_SOFTWARE'] ?: '',
-                'host' => (function_exists('gethostname')
+                'host' => (
+                    function_exists('gethostname')
                     ? gethostname()
-                    : (php_uname('n')
-                        ?: (empty($_SERVER['SERVER_NAME'])
+                    : (
+                        php_uname('n')
+                        ?: (
+                            empty($_SERVER['SERVER_NAME'])
                             ? $_SERVER['HOST_NAME']
                             : $_SERVER['SERVER_NAME']
                         )

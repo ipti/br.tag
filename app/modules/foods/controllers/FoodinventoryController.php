@@ -13,10 +13,10 @@ class FoodinventoryController extends Controller
      */
     public function filters()
     {
-        return array(
+        return [
             'accessControl', // perform access control for CRUD operations
             'postOnly + delete', // we only allow deletion via POST request
-        );
+        ];
     }
 
     /**
@@ -26,10 +26,10 @@ class FoodinventoryController extends Controller
      */
     public function accessRules()
     {
-        return array(
-            array(
+        return [
+            [
                 'allow', // allow authenticated user to perform 'create' and 'update' actions
-                'actions' => array(
+                'actions' => [
                     'index',
                     'getFoodAlias',
                     'saveStock',
@@ -41,25 +41,25 @@ class FoodinventoryController extends Controller
                     'getStockMovement',
                     'updateFoodInventoryStatus',
                     'GetIsNutritionist'
-                ),
-                'users' => array('@'),
-            ),
-            array('allow',  // allow all users to perform 'index' and 'view' actions
-                'actions' => array('index', 'view'),
-                'users' => array('*'),
-            ),
-            array('allow', // allow authenticated user to perform 'create' and 'update' actions
-                'actions' => array('create', 'update'),
-                'users' => array('@'),
-            ),
-            array('allow', // allow admin user to perform 'admin' and 'delete' actions
-                'actions' => array('admin', 'delete'),
-                'users' => array('admin'),
-            ),
-            array('deny',  // deny all users
-                'users' => array('*'),
-            ),
-        );
+                ],
+                'users' => ['@'],
+            ],
+            ['allow',  // allow all users to perform 'index' and 'view' actions
+                'actions' => ['index', 'view'],
+                'users' => ['*'],
+            ],
+            ['allow', // allow authenticated user to perform 'create' and 'update' actions
+                'actions' => ['create', 'update'],
+                'users' => ['@'],
+            ],
+            ['allow', // allow admin user to perform 'admin' and 'delete' actions
+                'actions' => ['admin', 'delete'],
+                'users' => ['admin'],
+            ],
+            ['deny',  // deny all users
+                'users' => ['*'],
+            ],
+        ];
     }
 
     /**
@@ -68,9 +68,9 @@ class FoodinventoryController extends Controller
      */
     public function actionView($id)
     {
-        $this->render('view', array(
+        $this->render('view', [
             'model' => $this->loadModel($id),
-        ));
+        ]);
     }
 
     public function actionGetFoodAlias()
@@ -98,15 +98,14 @@ class FoodinventoryController extends Controller
 
         if (!empty($foodsOnStock)) {
             foreach ($foodsOnStock as $foodData) {
-                $existingFood = FoodInventory::model()->findByAttributes(array('food_fk' => $foodData['id'], 'school_fk' => Yii::app()->user->school));
+                $existingFood = FoodInventory::model()->findByAttributes(['food_fk' => $foodData['id'], 'school_fk' => Yii::app()->user->school]);
                 $expirationDate = null;
-                if($foodData['expiration_date'] != "") {
+                if ($foodData['expiration_date'] != '') {
                     $expirationDate = date('Y-m-d', strtotime(str_replace('/', '-', $foodData['expiration_date'])));
                 }
 
                 if (!$existingFood) {
-                    $FoodInventory = new FoodInventory;
-
+                    $FoodInventory = new FoodInventory();
 
                     $FoodInventory->food_fk = $foodData['id'];
                     $FoodInventory->school_fk = Yii::app()->user->school;
@@ -115,7 +114,7 @@ class FoodinventoryController extends Controller
                     $FoodInventory->expiration_date = $expirationDate;
 
                     if ($FoodInventory->save()) {
-                        $FoodInventoryReceived = new FoodInventoryReceived;
+                        $FoodInventoryReceived = new FoodInventoryReceived();
                         $FoodInventoryReceived->food_fk = $foodData['id'];
                         $FoodInventoryReceived->food_inventory_fk = $FoodInventory->id;
                         $FoodInventoryReceived->amount = $foodData['amount'];
@@ -127,17 +126,16 @@ class FoodinventoryController extends Controller
                         echo json_encode(['error' => 'Ocorreu um erro ao salvar: ' . reset($errors)[0]]);
                     }
                 } else {
-                    $FoodInventoryReceived = new FoodInventoryReceived;
+                    $FoodInventoryReceived = new FoodInventoryReceived();
                     $FoodInventoryReceived->food_fk = $foodData['id'];
                     $FoodInventoryReceived->food_inventory_fk = $existingFood->id;
                     $FoodInventoryReceived->amount = $foodData['amount'];
 
-
                     $FoodInventoryReceived->save();
 
-                    if($existingFood->measurementUnit == "Kg" && $foodData['measurementUnit'] == "g") {
-                        $existingFood->amount += $foodData['amount']/1000;
-                    } else if ($existingFood->measurementUnit == "g" && $foodData['measurementUnit'] == "Kg") {
+                    if ($existingFood->measurementUnit == 'Kg' && $foodData['measurementUnit'] == 'g') {
+                        $existingFood->amount += $foodData['amount'] / 1000;
+                    } elseif ($existingFood->measurementUnit == 'g' && $foodData['measurementUnit'] == 'Kg') {
                         $existingFood->amount += $foodData['amount'] * 1000;
                     } else {
                         $existingFood->amount += $foodData['amount'];
@@ -149,15 +147,18 @@ class FoodinventoryController extends Controller
             }
         }
     }
-    public function actionGetIsNutritionist() {
+
+    public function actionGetIsNutritionist()
+    {
         echo Yii::app()->getAuthManager()->checkAccess('nutritionist', Yii::app()->user->loginInfos->id);
     }
+
     public function actionSaveStockReceived()
     {
         $foodInventoryId = Yii::app()->request->getPost('foodInventoryId');
         $amount = Yii::app()->request->getPost('amount');
 
-        $FoodInventoryReceived = new FoodInventoryReceived;
+        $FoodInventoryReceived = new FoodInventoryReceived();
 
         $FoodInventoryReceived->food_inventory_fk = $foodInventoryId;
         $FoodInventoryReceived->amount = $amount;
@@ -170,13 +171,13 @@ class FoodinventoryController extends Controller
         $foodInventoryId = Yii::app()->request->getPost('foodInventoryId');
         $amount = Yii::app()->request->getPost('amount');
 
-        $existingFood = FoodInventory::model()->findByAttributes(array('id' => $foodInventoryId));
+        $existingFood = FoodInventory::model()->findByAttributes(['id' => $foodInventoryId]);
 
         $existingFood->amount -= $amount;
         $existingFood->status = 'Emfalta';
         $existingFood->save();
 
-        $FoodInventorySpent = new FoodInventorySpent;
+        $FoodInventorySpent = new FoodInventorySpent();
 
         $FoodInventorySpent->amount = $amount;
         $FoodInventorySpent->food_inventory_fk = $foodInventoryId;
@@ -194,7 +195,7 @@ class FoodinventoryController extends Controller
 
         $criteria = new CDbCriteria();
         $criteria->condition = 'food_inventory_fk = :foodInventoryId';
-        $criteria->params = array(':foodInventoryId' => $foodInventoryId);
+        $criteria->params = [':foodInventoryId' => $foodInventoryId];
 
         // Deletar os registros que atendem ao critério
         FoodInventorySpent::model()->deleteAll($criteria);
@@ -206,10 +207,10 @@ class FoodinventoryController extends Controller
 
         $criteria = new CDbCriteria();
         $criteria->select = 'amount, date';
-        $criteria->with = array('foodInventoryFk');
+        $criteria->with = ['foodInventoryFk'];
         $criteria->together = true;
         $criteria->condition = 'foodInventoryFk.food_fk = :foodInventoryFoodId';
-        $criteria->params = array(':foodInventoryFoodId' => $foodInventoryFoodId);
+        $criteria->params = [':foodInventoryFoodId' => $foodInventoryFoodId];
 
         $receivedData = FoodInventoryReceived::model()->findAll($criteria);
         $spentData = FoodInventorySpent::model()->findAll($criteria);
@@ -217,10 +218,10 @@ class FoodinventoryController extends Controller
         $values = [];
 
         foreach ($receivedData as $data) {
-            array_push($values, ['type' => "Entrada", 'amount' => $data->amount, 'date' => date('d/m/Y', strtotime($data->date)), 'measurementUnit' => $data->foodInventoryFk->measurementUnit]);
+            array_push($values, ['type' => 'Entrada', 'amount' => $data->amount, 'date' => date('d/m/Y', strtotime($data->date)), 'measurementUnit' => $data->foodInventoryFk->measurementUnit]);
         }
         foreach ($spentData as $data) {
-            array_push($values, ['type' => "Saída", 'amount' => $data->amount, 'date' => date('d/m/Y', strtotime($data->date)), 'measurementUnit' => $data->foodInventoryFk->measurementUnit]);
+            array_push($values, ['type' => 'Saída', 'amount' => $data->amount, 'date' => date('d/m/Y', strtotime($data->date)), 'measurementUnit' => $data->foodInventoryFk->measurementUnit]);
         }
 
         echo json_encode($values);
@@ -231,23 +232,23 @@ class FoodinventoryController extends Controller
         $schoolFk = Yii::app()->user->school;
 
         $criteria = new CDbCriteria();
-        $criteria->with = array('foodRelation');
+        $criteria->with = ['foodRelation'];
         $criteria->compare('school_fk', $schoolFk);
 
         $foodInventoryData = FoodInventory::model()->findAll($criteria);
 
         $values = [];
         foreach ($foodInventoryData as $stock) {
-            $values[] = array(
+            $values[] = [
                 'id' => $stock->id,
                 'foodId' => $stock->food_fk,
                 'description' => $stock->foodRelation->description,
                 'amount' => $stock->amount,
                 'measurementUnit' => $stock->measurementUnit,
-                'expiration_date' => ($stock->expiration_date != null) ? date('d/m/Y', strtotime($stock->expiration_date)) : "Não informada",
+                'expiration_date' => ($stock->expiration_date != null) ? date('d/m/Y', strtotime($stock->expiration_date)) : 'Não informada',
                 'status' => $stock->status,
                 'spent' => ($stock->amount > 0) ? false : true
-            );
+            ];
         }
 
         echo json_encode($values);
@@ -257,7 +258,7 @@ class FoodinventoryController extends Controller
     {
         $foodInventoryId = Yii::app()->request->getPost('foodInventoryId');
         $status = Yii::app()->request->getPost('status');
-        $foodInventory = FoodInventory::model()->findByAttributes(array('id' => $foodInventoryId));
+        $foodInventory = FoodInventory::model()->findByAttributes(['id' => $foodInventoryId]);
 
         $foodInventory->status = $status;
         $foodInventory->save();
@@ -269,20 +270,21 @@ class FoodinventoryController extends Controller
      */
     public function actionCreate()
     {
-        $model = new FoodInventory;
+        $model = new FoodInventory();
 
         // Uncomment the following line if AJAX validation is needed
         // $this->performAjaxValidation($model);
 
         if (isset($_POST['FoodInventory'])) {
             $model->attributes = $_POST['FoodInventory'];
-            if ($model->save())
-                $this->redirect(array('view', 'id' => $model->id));
+            if ($model->save()) {
+                $this->redirect(['view', 'id' => $model->id]);
+            }
         }
 
-        $this->render('create', array(
+        $this->render('create', [
             'model' => $model
-        ));
+        ]);
     }
 
     /**
@@ -299,13 +301,14 @@ class FoodinventoryController extends Controller
 
         if (isset($_POST['FoodInventory'])) {
             $model->attributes = $_POST['FoodInventory'];
-            if ($model->save())
-                $this->redirect(array('view', 'id' => $model->id));
+            if ($model->save()) {
+                $this->redirect(['view', 'id' => $model->id]);
+            }
         }
 
-        $this->render('update', array(
+        $this->render('update', [
             'model' => $model,
-        ));
+        ]);
     }
 
     /**
@@ -319,7 +322,7 @@ class FoodinventoryController extends Controller
 
         // if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
         if (!isset($_GET['ajax'])) {
-            $url = Yii::app()->createUrl(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
+            $url = Yii::app()->createUrl(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : ['admin']);
             $this->redirect($url);
         }
     }
@@ -329,20 +332,21 @@ class FoodinventoryController extends Controller
      */
     public function actionIndex()
     {
-        $model = new FoodInventory;
+        $model = new FoodInventory();
 
         // Uncomment the following line if AJAX validation is needed
         // $this->performAjaxValidation($model);
 
         if (isset($_POST['FoodInventory'])) {
             $model->attributes = $_POST['FoodInventory'];
-            if ($model->save())
-                $this->redirect(array('view', 'id' => $model->id));
+            if ($model->save()) {
+                $this->redirect(['view', 'id' => $model->id]);
+            }
         }
 
-        $this->render('create', array(
+        $this->render('create', [
             'model' => $model
-        ));
+        ]);
     }
 
     /**
@@ -352,12 +356,13 @@ class FoodinventoryController extends Controller
     {
         $model = new FoodInventory('search');
         $model->unsetAttributes();  // clear any default values
-        if (isset($_GET['FoodInventory']))
+        if (isset($_GET['FoodInventory'])) {
             $model->attributes = $_GET['FoodInventory'];
+        }
 
-        $this->render('admin', array(
+        $this->render('admin', [
             'model' => $model,
-        ));
+        ]);
     }
 
     /**
@@ -370,8 +375,9 @@ class FoodinventoryController extends Controller
     public function loadModel($id)
     {
         $model = FoodInventory::model()->findByPk($id);
-        if ($model === null)
+        if ($model === null) {
             throw new CHttpException(404, 'The requested page does not exist.');
+        }
         return $model;
     }
 

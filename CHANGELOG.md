@@ -1,3 +1,6 @@
+## [Versão 3.6.0]
+- Modulo de acompanhamento de sáude do estudante
+
 ## [Versão 3.5.0]
 - Controle de acesso por módulos
 - Refatoração de código para redução de débito tecnico

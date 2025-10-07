@@ -29,14 +29,14 @@ class GradeConcept extends TagModel
     {
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
-        return array(
-            array('name, acronym', 'required'),
-            array('value', 'numerical'),
-            array('name', 'length', 'max'=>50),
-            array('acronym', 'length', 'max'=>5),
+        return [
+            ['name, acronym', 'required'],
+            ['value', 'numerical'],
+            ['name', 'length', 'max' => 50],
+            ['acronym', 'length', 'max' => 5],
             // The following rule is used by search().
-            array('id, name, acronym, value', 'safe', 'on'=>'search'),
-        );
+            ['id, name, acronym, value', 'safe', 'on' => 'search'],
+        ];
     }
 
     /**
@@ -46,9 +46,9 @@ class GradeConcept extends TagModel
     {
         // NOTE: you may need to adjust the relation name and the related
         // class name for the relations automatically generated below.
-        return array(
-            'grades' => array(self::HAS_MANY, 'Grade', 'grade_concept_fk'),
-        );
+        return [
+            'grades' => [self::HAS_MANY, 'Grade', 'grade_concept_fk'],
+        ];
     }
 
     /**
@@ -56,12 +56,12 @@ class GradeConcept extends TagModel
      */
     public function attributeLabels()
     {
-        return array(
+        return [
             'id' => 'Id',
             'name' => 'Nome',
             'acronym' => 'Acrônimo',
             'value' => 'Valor',
-        );
+        ];
     }
 
     /**
@@ -78,17 +78,16 @@ class GradeConcept extends TagModel
      */
     public function search()
     {
+        $criteria = new CDbCriteria();
 
-        $criteria=new CDbCriteria;
+        $criteria->compare('id', $this->id);
+        $criteria->compare('name', $this->name, true);
+        $criteria->compare('acronym', $this->acronym, true);
+        $criteria->compare('value', $this->value);
 
-        $criteria->compare('id',$this->id);
-        $criteria->compare('name',$this->name,true);
-        $criteria->compare('acronym',$this->acronym,true);
-        $criteria->compare('value',$this->value);
-
-        return new CActiveDataProvider($this, array(
-            'criteria'=>$criteria,
-        ));
+        return new CActiveDataProvider($this, [
+            'criteria' => $criteria,
+        ]);
     }
 
     /**
@@ -97,7 +96,7 @@ class GradeConcept extends TagModel
      * @param string $className active record class name.
      * @return GradeConcept the static model class
      */
-    public static function model($className=__CLASS__)
+    public static function model($className = __CLASS__)
     {
         return parent::model($className);
     }

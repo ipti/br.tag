@@ -37,7 +37,6 @@ class GetRelacaoClassesFromSEDUseCase
         }
     }
 
-
     public function createAndSaveNewClass($classroom)
     {
         if ($classroom->validate() && $classroom->save()) {

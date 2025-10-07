@@ -1,4 +1,6 @@
 <?php
+$finder = PhpCsFixer\Finder::create()
+    ->in(__DIR__ . '/app');
 
 return (new PhpCsFixer\Config())
     ->setRules([
@@ -98,4 +100,5 @@ return (new PhpCsFixer\Config())
         // 'single_blank_line_at_eof' => false
     ])
     // ->setIndent("\t")
+    ->setFinder($finder)
     ->setLineEnding("\n");

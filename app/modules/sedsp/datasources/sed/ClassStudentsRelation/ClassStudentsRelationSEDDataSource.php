@@ -1,16 +1,15 @@
 <?php
 
-
 class ClassStudentsRelationSEDDataSource extends SedDataSource
 {
-
     /**
      * Summary of getRelacaoClasses
      * @param InRelacaoClasses $inRelacaoClasses
      * @return OutRelacaoClasses|OutErro
      * @throws Exception
      */
-    public function getRelacaoClasses(InRelacaoClasses $inRelacaoClasses){
+    public function getRelacaoClasses(InRelacaoClasses $inRelacaoClasses)
+    {
         try {
             $url = '/ncaapi/api/RelacaoAlunosClasse/RelacaoClasses';
             $response = $this->getApiResponse('GET', $url, $inRelacaoClasses);
@@ -47,7 +46,8 @@ class ClassStudentsRelationSEDDataSource extends SedDataSource
      * @param mixed $data
      * @return mixed
      */
-    private function getApiResponse($httpMethod, $url, $data) {
+    private function getApiResponse($httpMethod, $url, $data)
+    {
         $response = $this->client->request($httpMethod, $url, [
             'body' => json_encode($data, JSON_UNESCAPED_UNICODE)
         ]);

@@ -7,71 +7,70 @@ class DefaultController extends Controller
      * using two-column layout. See 'protected/views/layouts/column2.php'.
      */
 
-
     /**
      * @return array action filters
      */
     public function filters()
     {
-        return array(
+        return [
             'accessControl', // perform access control for CRUD operations
             'postOnly + delete', // we only allow deletion via POST request
-        );
+        ];
     }
 
     public function accessRules()
     {
-        return array(
-            array(
+        return [
+            [
                 'allow',  // allow all users to perform 'index' and 'view' actions
-                'actions' => array('index', 'view'),
-                'users' => array('*'),
-            ),
-            array(
+                'actions' => ['index', 'view'],
+                'users' => ['*'],
+            ],
+            [
                 'allow', // allow authenticated user to perform 'create' and 'update' actions
-                'actions' => array('create', 'update'),
-                'users' => array('@'),
-            ),
-            array(
+                'actions' => ['create', 'update'],
+                'users' => ['@'],
+            ],
+            [
                 'allow', // allow admin user to perform 'admin' and 'delete' actions
-                'actions' => array('admin', 'delete'),
-                'users' => array('admin'),
-            ),
-            array(
+                'actions' => ['admin', 'delete'],
+                'users' => ['admin'],
+            ],
+            [
                 'deny',  // deny all users
-                'users' => array('*'),
-            ),
-        );
+                'users' => ['*'],
+            ],
+        ];
     }
 
     public function actionView($id)
     {
-        $this->render('view', array(
+        $this->render('view', [
             'model' => $this->loadModel($id),
-        ));
+        ]);
     }
 
     public function actionCreate()
     {
-        $model = new EdcensoStageVsModality;
+        $model = new EdcensoStageVsModality();
 
         $stageVsModality = Yii::app()->request->getPost('EdcensoStageVsModality');
 
         if (isset($stageVsModality)) {
             $model->attributes = $stageVsModality;
-            $model->unified_frequency = $stageVsModality["unified_frequency"];
+            $model->unified_frequency = $stageVsModality['unified_frequency'];
             $model->is_edcenso_stage = 0;
             if ($model->save()) {
                 $msg = 'O Cadastro foi criado com sucesso!';
 
                 Yii::app()->user->setFlash('success', Yii::t('default', $msg));
-                $this->redirect(array('index'));
+                $this->redirect(['index']);
             }
         }
 
-        $this->render('create', array(
+        $this->render('create', [
             'model' => $model,
-        ));
+        ]);
     }
 
     /**
@@ -87,18 +86,18 @@ class DefaultController extends Controller
 
         if (isset($stageVsModality)) {
             $model->attributes = $stageVsModality;
-            $model->unified_frequency = $stageVsModality["unified_frequency"];
+            $model->unified_frequency = $stageVsModality['unified_frequency'];
             if ($model->save()) {
                 $msg = 'Etapa atualizada com sucesso!';
 
                 Yii::app()->user->setFlash('success', Yii::t('default', $msg));
-                $this->redirect(array('index'));
+                $this->redirect(['index']);
             }
         }
 
-        $this->render('update', array(
+        $this->render('update', [
             'model' => $model,
-        ));
+        ]);
     }
 
     /**
@@ -116,7 +115,7 @@ class DefaultController extends Controller
         // if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
         if (!isset($ajax)) {
             Yii::app()->user->setFlash('success', Yii::t('default', 'Etapa excluída com sucesso!'));
-            $this->redirect(isset($returnUrl) ? $returnUrl : array('admin'));
+            $this->redirect(isset($returnUrl) ? $returnUrl : ['admin']);
         }
     }
 
@@ -125,10 +124,10 @@ class DefaultController extends Controller
      */
     public function actionIndex()
     {
-        $dataProvider = new CActiveDataProvider('EdcensoStageVsModality', array('pagination' => false));
-        $this->render('index', array(
+        $dataProvider = new CActiveDataProvider('EdcensoStageVsModality', ['pagination' => false]);
+        $this->render('index', [
             'dataProvider' => $dataProvider,
-        ));
+        ]);
     }
 
     /**
@@ -143,9 +142,9 @@ class DefaultController extends Controller
         if (isset($stageVsModality)) {
             $model->attributes = $stageVsModality;
         }
-        $this->render('admin', array(
+        $this->render('admin', [
             'model' => $model,
-        ));
+        ]);
     }
 
     /**

@@ -12,24 +12,25 @@ use JMS\Serializer\Annotation as Serializer;
  */
 class ProfissionalTType
 {
-    #[Serializer\SerializedName("edu:cpfProfissional")]
+    #[Serializer\SerializedName('edu:cpfProfissional')]
     #[Serializer\XmlElement(cdata: false)]
     private ?string $cpfProfissional = null;
 
-    #[Serializer\SerializedName("edu:especialidade")]
+    #[Serializer\SerializedName('edu:especialidade')]
     #[Serializer\XmlElement(cdata: false)]
     private ?string $especialidade = null;
 
-    #[Serializer\SerializedName("edu:idEscola")]
+    #[Serializer\SerializedName('edu:idEscola')]
     #[Serializer\XmlElement(cdata: false)]
     private ?int $idEscola = null;
 
-    #[Serializer\SerializedName("edu:fundeb")]
+    #[Serializer\SerializedName('edu:fundeb')]
     #[Serializer\XmlElement(cdata: false)]
     private ?bool $fundeb = null;
 
-    #[Serializer\XmlList(inline: true, entry: "edu:atendimento")]
+    #[Serializer\XmlList(inline: true, entry: 'edu:atendimento')]
     private array $atendimento = [];
+
     public function getCpfProfissional(): ?string
     {
         return $this->cpfProfissional;
@@ -101,4 +102,3 @@ class ProfissionalTType
         return $this;
     }
 }
-

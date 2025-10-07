@@ -26,15 +26,15 @@ class FoodMeasurement extends TagModel
     {
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
-        return array(
-            array('unit, value, measure', 'required'),
-            array('value', 'numerical'),
-            array('unit', 'length', 'max'=>14),
-            array('measure', 'length', 'max'=>2),
+        return [
+            ['unit, value, measure', 'required'],
+            ['value', 'numerical'],
+            ['unit', 'length', 'max' => 14],
+            ['measure', 'length', 'max' => 2],
             // The following rule is used by search().
             // @todo Please remove those attributes that should not be searched.
-            array('id, unit, value, measure', 'safe', 'on'=>'search'),
-        );
+            ['id, unit, value, measure', 'safe', 'on' => 'search'],
+        ];
     }
 
     /**
@@ -44,8 +44,8 @@ class FoodMeasurement extends TagModel
     {
         // NOTE: you may need to adjust the relation name and the related
         // class name for the relations automatically generated below.
-        return array(
-        );
+        return [
+        ];
     }
 
     /**
@@ -53,12 +53,12 @@ class FoodMeasurement extends TagModel
      */
     public function attributeLabels()
     {
-        return array(
+        return [
             'id' => 'ID',
             'unit' => 'Unit',
             'value' => 'Value',
             'measure' => 'Measure',
-        );
+        ];
     }
 
     /**
@@ -77,16 +77,16 @@ class FoodMeasurement extends TagModel
     {
         // @todo Please modify the following code to remove attributes that should not be searched.
 
-        $criteria=new CDbCriteria;
+        $criteria = new CDbCriteria();
 
-        $criteria->compare('id',$this->id);
-        $criteria->compare('unit',$this->unit,true);
-        $criteria->compare('value',$this->value);
-        $criteria->compare('measure',$this->measure,true);
+        $criteria->compare('id', $this->id);
+        $criteria->compare('unit', $this->unit, true);
+        $criteria->compare('value', $this->value);
+        $criteria->compare('measure', $this->measure, true);
 
-        return new CActiveDataProvider($this, array(
-            'criteria'=>$criteria,
-        ));
+        return new CActiveDataProvider($this, [
+            'criteria' => $criteria,
+        ]);
     }
 
     /**
@@ -95,7 +95,7 @@ class FoodMeasurement extends TagModel
      * @param string $className active record class name.
      * @return FoodMeasurement the static model class
      */
-    public static function model($className=__CLASS__)
+    public static function model($className = __CLASS__)
     {
         return parent::model($className);
     }

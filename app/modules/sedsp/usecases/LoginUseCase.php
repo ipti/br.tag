@@ -10,14 +10,16 @@ Yii::import('application.modules.sedsp.datasources.tag.*');
  */
 class LoginUseCase
 {
-    private  $UsuarioSEDDataSource;
+    private $UsuarioSEDDataSource;
 
-    public function __construct($UsuarioSEDDataSource = null) {
+    public function __construct($UsuarioSEDDataSource = null)
+    {
         $this->UsuarioSEDDataSource = $UsuarioSEDDataSource ?? new UsuarioSEDDataSource();
     }
+
     /**
      * Login into SED API and set SED_TOKEN on Yii State
-     * 
+     *
      * Access Token using the code below
      * <code>
      *  <?php
@@ -32,8 +34,8 @@ class LoginUseCase
     {
         $authJson = $this->UsuarioSEDDataSource->login($user, $password);
         $auth = new Autenticacao($authJson);
-        $cookie = new CHttpCookie('SED_TOKEN',$auth->getAutenticacao());
-        $cookie->expire = time()+60*15;
+        $cookie = new CHttpCookie('SED_TOKEN', $auth->getAutenticacao());
+        $cookie->expire = time() + 60 * 15;
         Yii::app()->request->cookies['SED_TOKEN'] = $cookie;
         //Yii::app()->user->setState("SED_TOKEN", $auth->getAutenticacao());
         return Yii::app()->request->cookies['SED_TOKEN']->value;
@@ -43,10 +45,10 @@ class LoginUseCase
     {
         try {
             if (!isset(Yii::app()->request->cookies['SED_TOKEN'])) {
-                $this->exec("SME701", "zyd780mhz1s5");
+                $this->exec('SME701', 'zyd780mhz1s5');
             }
         } catch (\Throwable $th) {
-           return $th->getMessage();
+            return $th->getMessage();
         }
     }
 }

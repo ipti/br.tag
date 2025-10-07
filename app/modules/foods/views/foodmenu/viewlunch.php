@@ -2,14 +2,14 @@
 
 $this->setPageTitle('TAG - ' . Yii::t('default', 'Merenda'));
 
-$this->menu = array(
-    array('label' => 'List FoodMenu', 'url' => array('index')),
-    array('label' => 'Inventory', 'url' => array('inventory')),
-);
+$this->menu = [
+    ['label' => 'List FoodMenu', 'url' => ['index']],
+    ['label' => 'Inventory', 'url' => ['inventory']],
+];
 
 $baseScriptUrl = Yii::app()->controller->module->baseScriptUrl;
 $cs = Yii::app()->getClientScript();
-$cs->registerScriptFile($baseScriptUrl . '/mealsOfWeek/_initialization.js?v='.TAG_VERSION, CClientScript::POS_END);
+$cs->registerScriptFile($baseScriptUrl . '/mealsOfWeek/_initialization.js?v=' . TAG_VERSION, CClientScript::POS_END);
 
 $isNutritionist = Yii::app()->getAuthManager()->checkAccess('nutritionist', Yii::app()->user->loginInfos->id);
 
@@ -25,19 +25,19 @@ $isNutritionist = Yii::app()->getAuthManager()->checkAccess('nutritionist', Yii:
     <div class="row">
         <div class="t-badge-info t-margin-none--left">
             <span class="t-info_positive"></span>
-            Alunos Manhã: <?php echo $studentsByTurn["Manhã"] ?>
+            Alunos Manhã: <?php echo $studentsByTurn['Manhã'] ?>
         </div>
         <div class="t-badge-info t-margin-none--left">
             <span class="t-info_positive"></span>
-            Alunos Tarde: <?php echo $studentsByTurn["Tarde"] ?>
+            Alunos Tarde: <?php echo $studentsByTurn['Tarde'] ?>
         </div>
         <div class="t-badge-info t-margin-none--left">
             <span class="t-info_positive"></span>
-            Alunos Noite: <?php echo $studentsByTurn["Noite"] ?>
+            Alunos Noite: <?php echo $studentsByTurn['Noite'] ?>
         </div>
         <div class="t-badge-info t-margin-none--left">
             <span class="t-info_positive"></span>
-            Alunos Integral: <?php echo $studentsByTurn["Integral"] ?>
+            Alunos Integral: <?php echo $studentsByTurn['Integral'] ?>
         </div>
     </div>
     <div class="t-buttons-container">
@@ -73,8 +73,8 @@ $isNutritionist = Yii::app()->getAuthManager()->checkAccess('nutritionist', Yii:
 		</div>
         <div class="t-field-select column clearleft--on-mobile t-multiselect">
             <label class="t-field-select__label">Filtrar etapa de ensino</label>
-            <?= CHtml::dropDownList("stages", [], CHtml::listData(EdcensoStageVsModality::model()->findAll(), "id", "name"), [
-                "multiple" => "multiple", "class" => "select-search-on control-input multiselect js-filter-public-target select3-choices"
+            <?= CHtml::dropDownList('stages', [], CHtml::listData(EdcensoStageVsModality::model()->findAll(), 'id', 'name'), [
+                'multiple' => 'multiple', 'class' => 'select-search-on control-input multiselect js-filter-public-target select3-choices'
             ]) ?>
 		</div>
         <div Class="column show--desktop"></div>

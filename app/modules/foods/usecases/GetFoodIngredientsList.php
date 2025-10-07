@@ -1,8 +1,9 @@
 <?php
+
     Yii::import('application.modules.foods.services.*');
-  /**
-    * @property GetFoodIngredientsList $GetFoodIngredientsList
-    */
+    /**
+      * @property GetFoodIngredientsList $GetFoodIngredientsList
+      */
     class GetFoodIngredientsList
     {
         /**
@@ -11,10 +12,13 @@
          */
         private $foodmenuService;
 
-        public function __construct($foodmenuService = null){
+        public function __construct($foodmenuService = null)
+        {
             $this->foodmenuService = $foodmenuService ?? new FoodMenuService();
         }
-        public function exec(){
+
+        public function exec()
+        {
             return $this->foodmenuService->getFoodIngredientsList();
         }
     }

@@ -1,4 +1,5 @@
 <?php
+
     Yii::import('application.modules.foods.services.*');
     /**
     * @property DeleteFarmerRegister $DeleteFarmerRegister
@@ -11,13 +12,16 @@
          */
         private $firebaseservice;
 
-        public function __construct($firebaseservice = null){
+        public function __construct($firebaseservice = null)
+        {
             $this->firebaseservice = $firebaseservice ?? new FireBaseService();
         }
+
         /**
          * @return MrShan0\PHPFirestore\FirestoreDocument[]
          */
-        public function exec($farmerId){
+        public function exec($farmerId)
+        {
             return $this->firebaseservice->deleteFarmerRegister($farmerId);
         }
     }

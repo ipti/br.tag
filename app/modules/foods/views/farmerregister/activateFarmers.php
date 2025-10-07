@@ -2,9 +2,9 @@
 /* @var $this FarmerRegisterController */
 /* @var $dataProvider CActiveDataProvider */
 
-$this->breadcrumbs=array(
-	'Farmer Registers',
-);
+$this->breadcrumbs = [
+    'Farmer Registers',
+];
 
 $baseUrl = Yii::app()->baseUrl;
 $themeUrl = Yii::app()->theme->baseUrl;
@@ -13,7 +13,7 @@ $cs = Yii::app()->getClientScript();
 $cs->registerScriptFile($baseScriptUrl . '/farmer/activateFarmers.js', CClientScript::POS_END);
 
 $this->setPageTitle('TAG - Agricultores');
-$title = "Agricultores";
+$title = 'Agricultores';
 ?>
 
 <div id="mainPage" class="main">
@@ -60,7 +60,7 @@ $title = "Agricultores";
                             <td><?=$farmer->status?></td>
                             <td style="text-align:center;">
                                 <a id="js-change-farmer-status" data-farmerId="<?= $farmer->id?>" data-farmerStatus="<?= $farmer->status?>" style="cursor: pointer;">
-                                    <img src="/themes/default/img/<?php echo $farmer->status == "Inativo" ? "disable" : "active"?>User.svg" alt="Link">
+                                    <img src="/themes/default/img/<?php echo $farmer->status == 'Inativo' ? 'disable' : 'active'?>User.svg" alt="Link">
                                 </a>
                             </td>
                         </tr>

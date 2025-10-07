@@ -3,13 +3,13 @@
 class InConsultaTurmaClasse implements JsonSerializable
 {
     public $inAnoLetivo;
-	public $inNumClasse;
+    public $inNumClasse;
 
-	public function __construct(string $inAnoLetivo, string $inNumClasse = null)
-	{
-		$this->inAnoLetivo = $inAnoLetivo;
-		$this->inNumClasse = $inNumClasse;
-	}
+    public function __construct(string $inAnoLetivo, string $inNumClasse = null)
+    {
+        $this->inAnoLetivo = $inAnoLetivo;
+        $this->inNumClasse = $inNumClasse;
+    }
 
     /**
      * Get the value of inAnoLetivo
@@ -29,25 +29,26 @@ class InConsultaTurmaClasse implements JsonSerializable
         return $this;
     }
 
-	/**
-	 * Get the value of inNumClasse
-	 */
-	public function getInNumClasse()
-	{
-		return $this->inNumClasse;
-	}
+    /**
+     * Get the value of inNumClasse
+     */
+    public function getInNumClasse()
+    {
+        return $this->inNumClasse;
+    }
 
-	/**
-	 * Set the value of inNumClasse
-	 */
-	public function setInNumClasse($inNumClasse): self
-	{
-		$this->inNumClasse = $inNumClasse;
+    /**
+     * Set the value of inNumClasse
+     */
+    public function setInNumClasse($inNumClasse): self
+    {
+        $this->inNumClasse = $inNumClasse;
 
-		return $this;
-	}
+        return $this;
+    }
 
-	public function jsonSerialize() {
+    public function jsonSerialize()
+    {
         return get_object_vars($this);
     }
 }

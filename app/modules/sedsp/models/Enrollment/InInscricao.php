@@ -32,7 +32,7 @@ class InInscricao implements JsonSerializable
         ?string $inNecesAtendNoturno = null,
         ?string $inInteresseNovoTec = null,
         ?string $inCodigoObservacaoOpcaoNoturno = null,
-        ?string $inCodigoEixoNovotecOpcaoUm = null ,
+        ?string $inCodigoEixoNovotecOpcaoUm = null,
         ?string $inCodigoEscolaNovotecOpcaoUm = null,
         ?string $inCodigoUnidadeNovotecOpcaoUm = null,
         ?string $inFl_InteresseCentroIdiomas = null,
@@ -297,6 +297,7 @@ class InInscricao implements JsonSerializable
             $data['inCodigoEixoNovotecOpcaoTres'] ?? null
         );
     }
+
     public function jsonSerialize()
     {
         return get_object_vars($this);

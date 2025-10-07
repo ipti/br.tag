@@ -5,7 +5,7 @@ namespace Genericos;
 /**
  * Class representing NumeroAtoQueNomeGestorTType
  *
- * 
+ *
  * XSD Type: numeroAtoQueNomeGestor_t
  */
 class NumeroAtoQueNomeGestorTType
@@ -64,4 +64,3 @@ class NumeroAtoQueNomeGestorTType
         return $this;
     }
 }
-

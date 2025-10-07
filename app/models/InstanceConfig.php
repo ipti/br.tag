@@ -26,14 +26,14 @@ class InstanceConfig extends TagModel
     {
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
-        return array(
-            array('parameter_key, parameter_name', 'required'),
-            array('parameter_key', 'length', 'max' => 40),
-            array('parameter_name', 'length', 'max' => 150),
-            array('value', 'length', 'max' => 250),
+        return [
+            ['parameter_key, parameter_name', 'required'],
+            ['parameter_key', 'length', 'max' => 40],
+            ['parameter_name', 'length', 'max' => 150],
+            ['value', 'length', 'max' => 250],
             // The following rule is used by search().
-            array('id, parameter_key, parameter_name, value', 'safe', 'on' => 'search'),
-        );
+            ['id, parameter_key, parameter_name, value', 'safe', 'on' => 'search'],
+        ];
     }
 
     /**
@@ -43,8 +43,8 @@ class InstanceConfig extends TagModel
     {
         // NOTE: you may need to adjust the relation name and the related
         // class name for the relations automatically generated below.
-        return array(
-        );
+        return [
+        ];
     }
 
     /**
@@ -52,12 +52,12 @@ class InstanceConfig extends TagModel
      */
     public function attributeLabels()
     {
-        return array(
+        return [
             'id' => 'ID',
             'parameter_key' => 'Parameter Key',
             'parameter_name' => 'Parameter Name',
             'value' => 'Value',
-        );
+        ];
     }
 
     /**
@@ -74,17 +74,16 @@ class InstanceConfig extends TagModel
      */
     public function search()
     {
-
-        $criteria = new CDbCriteria;
+        $criteria = new CDbCriteria();
 
         $criteria->compare('id', $this->id);
         $criteria->compare('parameter_key', $this->parameter_key, true);
         $criteria->compare('parameter_name', $this->parameter_name, true);
         $criteria->compare('value', $this->value, true);
 
-        return new CActiveDataProvider($this, array(
+        return new CActiveDataProvider($this, [
             'criteria' => $criteria,
-        ));
+        ]);
     }
 
     /**

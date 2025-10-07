@@ -2,15 +2,15 @@
 /* @var $this FoodMenuController */
 /* @var $model FoodMenu */
 
-$this->breadcrumbs=array(
-	'Food Menus'=>array('index'),
-	'Create',
-);
+$this->breadcrumbs = [
+    'Food Menus' => ['index'],
+    'Create',
+];
 $this->setPageTitle('TAG - ' . Yii::t('default', 'Criar Cardápio'));
-$this->menu=array(
-	array('label'=>'List FoodMenu', 'url'=>array('index')),
-	array('label'=>'Manage FoodMenu', 'url'=>array('admin')),
-);
+$this->menu = [
+    ['label' => 'List FoodMenu', 'url' => ['index']],
+    ['label' => 'Manage FoodMenu', 'url' => ['admin']],
+];
 ?>
 <div class="row main">
 	<div class="column">
@@ -18,4 +18,4 @@ $this->menu=array(
 	</div>
 </div>
 
-<?php $this->renderPartial('_form', array('model'=>$model,'stages'=>$stages)); ?>
+<?php $this->renderPartial('_form', ['model' => $model, 'stages' => $stages]); ?>

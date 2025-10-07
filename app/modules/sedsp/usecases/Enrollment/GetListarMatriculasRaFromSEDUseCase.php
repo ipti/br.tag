@@ -1,11 +1,9 @@
 <?php
 
-class GetListarMatriculasRaFromSEDUseCase 
+class GetListarMatriculasRaFromSEDUseCase
 {
-    public function exec(InAluno $inAluno) 
+    public function exec(InAluno $inAluno)
     {
-        throw new Exception("Implementation errro", 1);
-        
+        throw new Exception('Implementation errro', 1);
     }
-
 }

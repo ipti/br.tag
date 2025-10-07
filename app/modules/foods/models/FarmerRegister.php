@@ -27,7 +27,6 @@ class FarmerRegister extends TagModel
         return 'farmer_register';
     }
 
-
     /**
      * @return array validation rules for model attributes.
      */
@@ -35,16 +34,16 @@ class FarmerRegister extends TagModel
     {
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
-        return array(
-            array('name, cpf', 'required'),
-            array('name', 'length', 'max'=>100),
-            array('cpf, phone', 'length', 'max'=>11),
-            array('group_type', 'length', 'max'=>21),
-            array('reference_id', 'length', 'max'=>36),
-            array('status', 'length', 'max'=>7),
+        return [
+            ['name, cpf', 'required'],
+            ['name', 'length', 'max' => 100],
+            ['cpf, phone', 'length', 'max' => 11],
+            ['group_type', 'length', 'max' => 21],
+            ['reference_id', 'length', 'max' => 36],
+            ['status', 'length', 'max' => 7],
             // The following rule is used by search().
-            array('id, name, cpf, phone, group_type, reference_id, status', 'safe', 'on'=>'search'),
-        );
+            ['id, name, cpf, phone, group_type, reference_id, status', 'safe', 'on' => 'search'],
+        ];
     }
 
     /**
@@ -54,28 +53,27 @@ class FarmerRegister extends TagModel
     {
         // NOTE: you may need to adjust the relation name and the related
         // class name for the relations automatically generated below.
-        return array(
-            'farmerFoods' => array(self::HAS_MANY, 'FarmerFoods', 'farmer_fk'),
-            'foodRequestVsFarmerRegisters' => array(self::HAS_MANY, 'FoodRequestVsFarmerRegister', 'farmer_fk'),
-        );
+        return [
+            'farmerFoods' => [self::HAS_MANY, 'FarmerFoods', 'farmer_fk'],
+            'foodRequestVsFarmerRegisters' => [self::HAS_MANY, 'FoodRequestVsFarmerRegister', 'farmer_fk'],
+        ];
     }
 
     /**
      * @return array customized attribute labels (name=>label)
      */
     public function attributeLabels()
-	{
-		return array(
-			'id' => 'ID',
-			'name' => 'Nome',
-			'cpf' => 'CPF',
-			'phone' => 'Telefone',
-			'group_type' => 'Tipo do grupo',
-			'reference_id' => 'Reference Id',
-			'status' => 'Status',
-		);
-	}
-
+    {
+        return [
+            'id' => 'ID',
+            'name' => 'Nome',
+            'cpf' => 'CPF',
+            'phone' => 'Telefone',
+            'group_type' => 'Tipo do grupo',
+            'reference_id' => 'Reference Id',
+            'status' => 'Status',
+        ];
+    }
 
     /**
      * Retrieves a list of models based on the current search/filter conditions.
@@ -91,20 +89,19 @@ class FarmerRegister extends TagModel
      */
     public function search($showAll)
     {
+        $criteria = new CDbCriteria();
 
-        $criteria=new CDbCriteria;
-
-        $criteria->compare('id',$this->id);
-        $criteria->compare('name',$this->name,true);
-        $criteria->compare('cpf',$this->cpf,true);
-        $criteria->compare('phone',$this->phone,true);
-        $criteria->compare('group_type',$this->group_type,true);
-        $criteria->compare('reference_id',$this->reference_id,true);
+        $criteria->compare('id', $this->id);
+        $criteria->compare('name', $this->name, true);
+        $criteria->compare('cpf', $this->cpf, true);
+        $criteria->compare('phone', $this->phone, true);
+        $criteria->compare('group_type', $this->group_type, true);
+        $criteria->compare('reference_id', $this->reference_id, true);
         $criteria->compare('status', $this->status, true);
 
-        return new CActiveDataProvider($this, array(
-            'criteria'=>$criteria,
-        ));
+        return new CActiveDataProvider($this, [
+            'criteria' => $criteria,
+        ]);
     }
 
     /**
@@ -113,7 +110,7 @@ class FarmerRegister extends TagModel
      * @param string $className active record class name.
      * @return FarmerRegister the static model class
      */
-    public static function model($className=__CLASS__)
+    public static function model($className = __CLASS__)
     {
         return parent::model($className);
     }

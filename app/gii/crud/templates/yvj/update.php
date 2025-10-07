@@ -7,14 +7,14 @@
 <div id="mainPage" class="main">
     <?php
     echo "<?php\n";
-    $nameColumn = $this->guessNameColumn($this->tableSchema->columns);
-    $label = $this->pluralize($this->class2name($this->modelClass));
-    echo "\$this->breadcrumbs=array(
+$nameColumn = $this->guessNameColumn($this->tableSchema->columns);
+$label = $this->pluralize($this->class2name($this->modelClass));
+echo "\$this->breadcrumbs=array(
 	'$label'=>array('index'),
 	\$model->{$nameColumn}=>array('view','id'=>\$model->{$this->tableSchema->primaryKey}),
 	'Update',
 );\n";
-    ?>
+?>
 
     $title=Yii::t('default', 'Update <?php echo $this->modelClass ?>: ');
     $contextDesc = Yii::t('default', 'Available actions that may be taken on <?php echo $this->modelClass; ?>.');

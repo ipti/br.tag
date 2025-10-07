@@ -26,6 +26,7 @@ class FoodRequestItemReceived extends CActiveRecord
     {
         return 'food_request_item_received';
     }
+
     public function behaviors()
     {
         return [
@@ -46,13 +47,13 @@ class FoodRequestItemReceived extends CActiveRecord
     {
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
-        return array(
-            array('food_fk, farmer_fk, food_request_fk', 'numerical', 'integerOnly'=>true),
-            array('amount', 'numerical'),
-            array('measurementUnit', 'length', 'max'=>7),
-            array('date', 'safe'),
-            array('id, food_fk, farmer_fk, food_request_fk, amount, measurementUnit, date', 'safe', 'on'=>'search'),
-        );
+        return [
+            ['food_fk, farmer_fk, food_request_fk', 'numerical', 'integerOnly' => true],
+            ['amount', 'numerical'],
+            ['measurementUnit', 'length', 'max' => 7],
+            ['date', 'safe'],
+            ['id, food_fk, farmer_fk, food_request_fk, amount, measurementUnit, date', 'safe', 'on' => 'search'],
+        ];
     }
 
     /**
@@ -62,11 +63,11 @@ class FoodRequestItemReceived extends CActiveRecord
     {
         // NOTE: you may need to adjust the relation name and the related
         // class name for the relations automatically generated below.
-        return array(
-            'farmerFk' => array(self::BELONGS_TO, 'FarmerRegister', 'farmer_fk'),
-            'foodFk' => array(self::BELONGS_TO, 'Food', 'food_fk'),
-            'foodRequestFk' => array(self::BELONGS_TO, 'FoodRequest', 'food_request_fk'),
-        );
+        return [
+            'farmerFk' => [self::BELONGS_TO, 'FarmerRegister', 'farmer_fk'],
+            'foodFk' => [self::BELONGS_TO, 'Food', 'food_fk'],
+            'foodRequestFk' => [self::BELONGS_TO, 'FoodRequest', 'food_request_fk'],
+        ];
     }
 
     /**
@@ -74,7 +75,7 @@ class FoodRequestItemReceived extends CActiveRecord
      */
     public function attributeLabels()
     {
-        return array(
+        return [
             'id' => 'ID',
             'food_fk' => 'Food Fk',
             'farmer_fk' => 'Farmer Fk',
@@ -82,7 +83,7 @@ class FoodRequestItemReceived extends CActiveRecord
             'amount' => 'Amount',
             'measurementUnit' => 'Measurement Unit',
             'date' => 'Date',
-        );
+        ];
     }
 
     /**
@@ -99,20 +100,19 @@ class FoodRequestItemReceived extends CActiveRecord
      */
     public function search()
     {
+        $criteria = new CDbCriteria();
 
-        $criteria=new CDbCriteria;
+        $criteria->compare('id', $this->id);
+        $criteria->compare('food_fk', $this->food_fk);
+        $criteria->compare('farmer_fk', $this->farmer_fk);
+        $criteria->compare('food_request_fk', $this->food_request_fk);
+        $criteria->compare('amount', $this->amount);
+        $criteria->compare('measurementUnit', $this->measurementUnit, true);
+        $criteria->compare('date', $this->date, true);
 
-        $criteria->compare('id',$this->id);
-        $criteria->compare('food_fk',$this->food_fk);
-        $criteria->compare('farmer_fk',$this->farmer_fk);
-        $criteria->compare('food_request_fk',$this->food_request_fk);
-        $criteria->compare('amount',$this->amount);
-        $criteria->compare('measurementUnit',$this->measurementUnit,true);
-        $criteria->compare('date',$this->date,true);
-
-        return new CActiveDataProvider($this, array(
-            'criteria'=>$criteria,
-        ));
+        return new CActiveDataProvider($this, [
+            'criteria' => $criteria,
+        ]);
     }
 
     /**
@@ -121,7 +121,7 @@ class FoodRequestItemReceived extends CActiveRecord
      * @param string $className active record class name.
      * @return FoodRequestItemReceived the static model class
      */
-    public static function model($className=__CLASS__)
+    public static function model($className = __CLASS__)
     {
         return parent::model($className);
     }

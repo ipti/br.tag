@@ -1,21 +1,20 @@
 <?php
 
-
 class InAluno implements JsonSerializable
 {
     public $inNumRA;
-	public $inDigitoRA;
-	public $inSiglaUFRA;
+    public $inDigitoRA;
+    public $inSiglaUFRA;
 
-	public function __construct(
-		?string $inNumRA = null,
-		?string $inDigitoRA= null,
-		?string $inSiglaUFRA= null
-	) {
-		$this->inNumRA = $inNumRA;
-		$this->inDigitoRA = $inDigitoRA;
-		$this->inSiglaUFRA = $inSiglaUFRA;
-	}
+    public function __construct(
+        ?string $inNumRA = null,
+        ?string $inDigitoRA = null,
+        ?string $inSiglaUFRA = null
+    ) {
+        $this->inNumRA = $inNumRA;
+        $this->inDigitoRA = $inDigitoRA;
+        $this->inSiglaUFRA = $inSiglaUFRA;
+    }
 
     /**
      * Get the value of inNumRA
@@ -35,53 +34,53 @@ class InAluno implements JsonSerializable
         return $this;
     }
 
-	/**
-	 * Get the value of inDigitoRA
-	 */
-	public function getInDigitoRA()
-	{
-		return $this->inDigitoRA;
-	}
+    /**
+     * Get the value of inDigitoRA
+     */
+    public function getInDigitoRA()
+    {
+        return $this->inDigitoRA;
+    }
 
-	/**
-	 * Set the value of inDigitoRA
-	 */
-	public function setInDigitoRA($inDigitoRA): self
-	{
-		$this->inDigitoRA = $inDigitoRA;
+    /**
+     * Set the value of inDigitoRA
+     */
+    public function setInDigitoRA($inDigitoRA): self
+    {
+        $this->inDigitoRA = $inDigitoRA;
 
-		return $this;
-	}
+        return $this;
+    }
 
-	/**
-	 * Get the value of inSiglaUFRA
-	 */
-	public function getInSiglaUFRA()
-	{
-		return $this->inSiglaUFRA;
-	}
+    /**
+     * Get the value of inSiglaUFRA
+     */
+    public function getInSiglaUFRA()
+    {
+        return $this->inSiglaUFRA;
+    }
 
-	/**
-	 * Set the value of inSiglaUFRA
-	 */
-	public function setInSiglaUFRA($inSiglaUFRA): self
-	{
-		$this->inSiglaUFRA = $inSiglaUFRA;
+    /**
+     * Set the value of inSiglaUFRA
+     */
+    public function setInSiglaUFRA($inSiglaUFRA): self
+    {
+        $this->inSiglaUFRA = $inSiglaUFRA;
 
-		return $this;
-	}
+        return $this;
+    }
 
-	public static function fromJson(array $data): self
-	{
-		return new self(
-			$data['inNumRA'] ?? null,
-			$data['inDigitoRA'] ?? null,
-			$data['inSiglaUFRA'] ?? null
-		);
-	}
+    public static function fromJson(array $data): self
+    {
+        return new self(
+            $data['inNumRA'] ?? null,
+            $data['inDigitoRA'] ?? null,
+            $data['inSiglaUFRA'] ?? null
+        );
+    }
 
-	public function jsonSerialize()
-	{
-		return get_object_vars($this);
-	}
+    public function jsonSerialize()
+    {
+        return get_object_vars($this);
+    }
 }

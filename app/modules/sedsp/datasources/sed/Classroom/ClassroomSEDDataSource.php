@@ -1,9 +1,9 @@
 <?php
+
 use GuzzleHttp\Exception\ClientException;
 
 class ClassroomSEDDataSource extends SedDataSource
 {
-
     /**
      * ===========================
      * GET REQUEST METHODS
@@ -28,11 +28,6 @@ class ClassroomSEDDataSource extends SedDataSource
             throw $exception;
         }
     }
-
-
-
-
-
 
     /**
      * ===========================
@@ -97,13 +92,14 @@ class ClassroomSEDDataSource extends SedDataSource
         }
     }
 
-        /**
+    /**
      * @param mixed $httpMethod
      * @param mixed $url
      * @param mixed $data
      * @return mixed
      */
-    private function getApiResponse($HTTPMethod, $url, $data) {
+    private function getApiResponse($HTTPMethod, $url, $data)
+    {
         $response = $this->client->request($HTTPMethod, $url, [
             'body' => json_encode($data, JSON_UNESCAPED_UNICODE)
         ]);

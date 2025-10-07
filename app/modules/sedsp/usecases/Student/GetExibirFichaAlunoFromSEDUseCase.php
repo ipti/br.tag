@@ -20,22 +20,19 @@ class GetExibirFichaAlunoFromSEDUseCase
             $this->createAndSaveStudentDocumentsAndAddress($mapper->StudentDocumentsAndAddress, $studentIdentification);
 
             return $studentIdentification;
-
         } catch (Exception $e) {
             $log = new LogError();
             $log->salvarDadosEmArquivo($e->getMessage());
         }
 
-        throw new SedspException("Não foi possivel cadastrar aluno", 1);
-
+        throw new SedspException('Não foi possivel cadastrar aluno', 1);
     }
-
 
     public function createAndSaveStudentDocumentsAndAddress($studentDocumentsAndAddress, $studentIdentification)
     {
         $documentos = StudentDocumentsAndAddress::model()->find('id = :studentFk', [':studentFk' => $studentIdentification->id]);
 
-        if($documentos === null) {
+        if ($documentos === null) {
             if ($studentDocumentsAndAddress->validate() && $studentDocumentsAndAddress->save()) {
                 return $studentDocumentsAndAddress;
             } else {

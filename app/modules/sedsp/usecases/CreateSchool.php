@@ -18,10 +18,10 @@ class CreateSchool
     {
         $ucschool = new GetSchoolFromSED();
         $school = $ucschool->exec($school_name, $school_mun);
-        if($school["SchoolIdentification"]->inep_id != null) {
+        if ($school['SchoolIdentification']->inep_id != null) {
             return $school;
-        }else {
-            throw new Exception("Ocorreu um erro ao cadastrar a escola. Certifique-se de inserir dados válidos.", 500);
+        } else {
+            throw new Exception('Ocorreu um erro ao cadastrar a escola. Certifique-se de inserir dados válidos.', 500);
         }
     }
 }

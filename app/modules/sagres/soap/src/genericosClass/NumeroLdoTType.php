@@ -5,7 +5,7 @@ namespace Genericos;
 /**
  * Class representing NumeroLdoTType
  *
- * 
+ *
  * XSD Type: numeroLdo_t
  */
 class NumeroLdoTType
@@ -64,4 +64,3 @@ class NumeroLdoTType
         return $this;
     }
 }
-

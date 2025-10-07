@@ -10,10 +10,10 @@ $cs = Yii::app()->getClientScript();
 $cs->registerScriptFile($baseScriptUrl . '/_initialization.js', CClientScript::POS_END);
 $cs->registerScriptFile($baseScriptUrl . '/functions.js', CClientScript::POS_END);
 
-$form=$this->beginWidget('CActiveForm', array(
-'id'=>'grade-concept-form',
-'enableAjaxValidation'=>false,
-)); ?>
+$form = $this->beginWidget('CActiveForm', [
+    'id' => 'grade-concept-form',
+    'enableAjaxValidation' => false,
+]); ?>
 
 <div class="form">
 
@@ -38,21 +38,21 @@ $form=$this->beginWidget('CActiveForm', array(
     </div>
 
     <div class="column t-field-select clearfix is-one-quarter">
-        <?php echo $form->label($model,'name', array('class' => 't-field-text__label--required')); ?>
-        <?php echo $form->textField($model,'name', array('id' => 'conceptName', 'size' => 50, 'class' => 't-field-text__input clear-margin--all js-amount', 'placeholder' => 'Nome')); ?>
-        <?php echo $form->error($model,'name'); ?>
+        <?php echo $form->label($model, 'name', ['class' => 't-field-text__label--required']); ?>
+        <?php echo $form->textField($model, 'name', ['id' => 'conceptName', 'size' => 50, 'class' => 't-field-text__input clear-margin--all js-amount', 'placeholder' => 'Nome']); ?>
+        <?php echo $form->error($model, 'name'); ?>
     </div>
 
     <div class="column t-field-select clearfix is-one-quarter">
-        <?php echo $form->label($model,'acronym', array('class' => 't-field-text__label--required')); ?>
-        <?php echo $form->textField($model,'acronym', array('id' => 'conceptAcronym','size' => 5, 'class' => 't-field-text__input clear-margin--all js-amount', 'placeholder' => 'Acrônimo')); ?>
-        <?php echo $form->error($model,'acronym'); ?>
+        <?php echo $form->label($model, 'acronym', ['class' => 't-field-text__label--required']); ?>
+        <?php echo $form->textField($model, 'acronym', ['id' => 'conceptAcronym', 'size' => 5, 'class' => 't-field-text__input clear-margin--all js-amount', 'placeholder' => 'Acrônimo']); ?>
+        <?php echo $form->error($model, 'acronym'); ?>
     </div>
 
     <div class="column t-field-select clearfix is-one-quarter">
-        <?php echo $form->label($model,'value', array('class' => 't-field-text__label--required')); ?>
-        <?php echo $form->textField($model,'value', array('id' => 'conceptValue', 'class' => 't-field-text__input clear-margin--all js-amount', 'placeholder' => 'Valor')); ?>
-        <?php echo $form->error($model,'value'); ?>
+        <?php echo $form->label($model, 'value', ['class' => 't-field-text__label--required']); ?>
+        <?php echo $form->textField($model, 'value', ['id' => 'conceptValue', 'class' => 't-field-text__input clear-margin--all js-amount', 'placeholder' => 'Valor']); ?>
+        <?php echo $form->error($model, 'value'); ?>
     </div>
 
     <div class="row show--tablet">

@@ -6,8 +6,8 @@ $cs->registerCssFile($baseUrl . '/css/bootstrap.min.css');
 $cs->registerCssFile($baseUrl . '/css/responsive.min.css');
 $cs->registerCssFile($baseUrl . '/css/template.css?v=1.0');
 $cs->registerCssFile($baseUrl . '/css/template2.css');
-$cs->registerCssFile($baseUrl . "/css/select2.css");
-$cs->registerCssFile(Yii::app()->baseUrl . "/sass/css/main.css?v=" . TAG_VERSION);
+$cs->registerCssFile($baseUrl . '/css/select2.css');
+$cs->registerCssFile(Yii::app()->baseUrl . '/sass/css/main.css?v=' . TAG_VERSION);
 ?>
 <!DOCTYPE html>
 <!--[if lt IE 7]> <html class="ie lt-ie9 lt-ie8 lt-ie7"> <![endif]-->

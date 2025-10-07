@@ -7,7 +7,7 @@ class InResponsavelAluno implements JsonSerializable
 
     public function __construct(InDocumentos $inDocumentosAluno, InAluno $inAluno)
     {
-        $this->inDocumentosAluno = $inDocumentosAluno; 
+        $this->inDocumentosAluno = $inDocumentosAluno;
         $this->inAluno = $inAluno;
     }
 
@@ -47,7 +47,8 @@ class InResponsavelAluno implements JsonSerializable
         return $this;
     }
 
-    public function jsonSerialize() {
+    public function jsonSerialize()
+    {
         return get_object_vars($this);
     }
 }

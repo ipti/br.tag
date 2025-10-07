@@ -39,9 +39,9 @@ class GetEscolasFromSEDUseCase
      */
     public function saveSchool($school)
     {
-        if(!$school->SchoolIdentification->validate()){
+        if (!$school->SchoolIdentification->validate()) {
             throw new SedspException(CJSON::encode([
-                'data'=> $school->SchoolIdentification->attributes,
+                'data' => $school->SchoolIdentification->attributes,
                 'errors' => $school->SchoolIdentification->getErrors()
             ]));
         }
@@ -66,7 +66,7 @@ class GetEscolasFromSEDUseCase
     private function extractStateCode($schoolId)
     {
         // remove os 2 dígitos iniciais do código da escola, referente ao código do estado
-                
+
         return strval(intval(substr($schoolId, 2)));
     }
 
