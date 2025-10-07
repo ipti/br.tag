@@ -591,7 +591,7 @@ class StudentEnrollment extends AltActiveRecord
             ]
         ];
 
-        $disciplines = ClassroomController::classroomDisciplineLabelResumeArray();
+        $disciplines = ClassroomController::classroomDisciplineLabelArray();
 
         $disciplineCategory['diversified'] = array_diff_assoc($disciplines, $disciplineCategory['base']);
 
