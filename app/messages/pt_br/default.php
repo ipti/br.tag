@@ -897,6 +897,7 @@ return [
     'guardian' => 'Pai/Mãe ou responsável',
     'reader' => 'Somente Leitura',
     'superuser' => 'Super Usuário',
+    'foodServiceWorker' => 'Merendeiro(a)',
     'admin' => 'Administrador',
     'Edit Password' => 'Alterar Senha',
 

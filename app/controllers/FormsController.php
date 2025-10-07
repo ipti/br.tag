@@ -81,6 +81,14 @@ class FormsController extends Controller
         $this->render('EnrollmentDeclarationReport', $query);
     }
 
+    public function actionStudentIMCReport($classroomId)
+    {
+        $this->layout = "reports";
+        $repository = new FormsRepository;
+        $response = $repository->getStudnetIMC($classroomId);
+        $this->render('StudentIMCReport',  array("response" => $response));
+    }
+
     public function actionConclusionCertification($enrollment_id)
     {
         $this->layout = 'reports';

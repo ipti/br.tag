@@ -351,7 +351,7 @@ class StudentEnrollment extends AltActiveRecord
 
         //frequencia em um periodo
         if ($initialMonth != null && $finalMonth != null) {
-            $criteriaTotalClasses->condition = 'AND s.month >= :initialMonth AND s.month <= :finalMonth AND s.unavailable = 0 AND s.classroom_fk = :classroom';
+            $criteriaTotalClasses->condition = 's.month >= :initialMonth AND s.month <= :finalMonth AND s.unavailable = 0 AND s.classroom_fk = :classroom';
             $criteriaTotalClasses->params = [':initialMonth' => $initialMonth, ':finalMonth' => $finalMonth, ':classroom' => $classroom->id];
 
             $criteriaTotalFaults->condition = 'se.id = :enrollment AND cf.justification IS NULL AND s.month >= :initialMonth AND s.month <= :finalMonth AND s.unavailable = 0';
@@ -364,7 +364,7 @@ class StudentEnrollment extends AltActiveRecord
             $criteriaTotalFaults->params = [':enrollment' => $this->id];
         }
 
-        $totalClasses = ClassFaults::model()->count($criteriaTotalClasses);
+        $totalClasses = Schedule::model()->count($criteriaTotalClasses);
 
         $criteriaTotalFaults->join .= ' INNER JOIN student_identification si ON si.id = cf.student_fk
                        INNER JOIN student_enrollment se ON se.student_fk = si.id';
