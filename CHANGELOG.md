@@ -1,3 +1,10 @@
+## [Versão 3.5.0]
+- Controle de acesso por módulos
+- Refatoração de código para redução de débito tecnico
+- Pefil de Super Usuário
+- Status da turma
+
+
 ## [Versão 3.2.4]
 - Permitir exportação do arquivo de identificação do censo com ou sem certidões de nascimento
 - Inclusão de faltas justificadas no cálculo da frequência
