@@ -18,14 +18,13 @@
  */
 class FarmerFoods extends TagModel
 {
-	/**
-	 * @return string the associated database table name
-	 */
-	public function tableName()
-	{
-		return 'farmer_foods';
-	}
-
+    /**
+     * @return string the associated database table name
+     */
+    public function tableName()
+    {
+        return 'farmer_foods';
+    }
 
     /**
      * @return array validation rules for model attributes.
@@ -34,14 +33,14 @@ class FarmerFoods extends TagModel
     {
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
-        return array(
-            array('amount', 'required'),
-            array('food_fk, farmer_fk, foodNotice_fk', 'numerical', 'integerOnly'=>true),
-            array('amount', 'numerical'),
-            array('measurementUnit', 'length', 'max'=>7),
+        return [
+            ['amount', 'required'],
+            ['food_fk, farmer_fk, foodNotice_fk', 'numerical', 'integerOnly' => true],
+            ['amount', 'numerical'],
+            ['measurementUnit', 'length', 'max' => 7],
             // The following rule is used by search().
-            array('id, food_fk, farmer_fk, measurementUnit, amount, foodNotice_fk', 'safe', 'on'=>'search'),
-        );
+            ['id, food_fk, farmer_fk, measurementUnit, amount, foodNotice_fk', 'safe', 'on' => 'search'],
+        ];
     }
 
     /**
@@ -51,27 +50,27 @@ class FarmerFoods extends TagModel
     {
         // NOTE: you may need to adjust the relation name and the related
         // class name for the relations automatically generated below.
-        return array(
-            'farmerFk' => array(self::BELONGS_TO, 'FarmerRegister', 'farmer_fk'),
-            'foodFk' => array(self::BELONGS_TO, 'Food', 'food_fk'),
-            'foodNoticeFk' => array(self::BELONGS_TO, 'FoodNotice', 'foodNotice_fk'),
-        );
+        return [
+            'farmerFk' => [self::BELONGS_TO, 'FarmerRegister', 'farmer_fk'],
+            'foodFk' => [self::BELONGS_TO, 'Food', 'food_fk'],
+            'foodNoticeFk' => [self::BELONGS_TO, 'FoodNotice', 'foodNotice_fk'],
+        ];
     }
 
     /**
      * @return array customized attribute labels (name=>label)
      */
     public function attributeLabels()
-	{
-		return array(
-			'id' => 'ID',
-			'food_fk' => 'Food Fk',
-			'farmer_fk' => 'Farmer Fk',
-			'measurementUnit' => 'Unidade de medida',
-			'amount' => 'Quantidade',
-			'notice' => 'Edital',
-		);
-	}
+    {
+        return [
+            'id' => 'ID',
+            'food_fk' => 'Food Fk',
+            'farmer_fk' => 'Farmer Fk',
+            'measurementUnit' => 'Unidade de medida',
+            'amount' => 'Quantidade',
+            'notice' => 'Edital',
+        ];
+    }
 
     /**
      * Retrieves a list of models based on the current search/filter conditions.
@@ -87,19 +86,18 @@ class FarmerFoods extends TagModel
      */
     public function search()
     {
+        $criteria = new CDbCriteria();
 
-        $criteria=new CDbCriteria;
+        $criteria->compare('id', $this->id);
+        $criteria->compare('food_fk', $this->food_fk);
+        $criteria->compare('farmer_fk', $this->farmer_fk);
+        $criteria->compare('measurementUnit', $this->measurementUnit, true);
+        $criteria->compare('amount', $this->amount);
+        $criteria->compare('foodNotice_fk', $this->foodNotice_fk);
 
-        $criteria->compare('id',$this->id);
-        $criteria->compare('food_fk',$this->food_fk);
-        $criteria->compare('farmer_fk',$this->farmer_fk);
-        $criteria->compare('measurementUnit',$this->measurementUnit,true);
-        $criteria->compare('amount',$this->amount);
-        $criteria->compare('foodNotice_fk',$this->foodNotice_fk);
-
-        return new CActiveDataProvider($this, array(
-            'criteria'=>$criteria,
-        ));
+        return new CActiveDataProvider($this, [
+            'criteria' => $criteria,
+        ]);
     }
 
     /**
@@ -108,7 +106,7 @@ class FarmerFoods extends TagModel
      * @param string $className active record class name.
      * @return FarmerFoods the static model class
      */
-    public static function model($className=__CLASS__)
+    public static function model($className = __CLASS__)
     {
         return parent::model($className);
     }

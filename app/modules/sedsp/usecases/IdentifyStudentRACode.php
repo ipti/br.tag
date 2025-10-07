@@ -10,10 +10,11 @@ Yii::import('application.modules.sedsp.models.*');
  */
 class IdentifyStudentRACode
 {
-    private  $studentTAGDataSource;
-    private  $studentSEDDataSource;
+    private $studentTAGDataSource;
+    private $studentSEDDataSource;
 
-    public function __construct($studentTAGDataSource = null, $studentSEDDataSource = null) {
+    public function __construct($studentTAGDataSource = null, $studentSEDDataSource = null)
+    {
         $this->studentTAGDataSource = $studentTAGDataSource ?? new StudentTAGDataSource();
         $this->studentSEDDataSource = $studentSEDDataSource ?? new StudentSEDDataSource();
     }
@@ -31,8 +32,8 @@ class IdentifyStudentRACode
         $nome = $student_tag->name;
         $data_nascimento = $student_tag->birthday;
         $nome_mae = $student_tag->filiation_1;
-        $aluno_sed = $this->studentSEDDataSource->getStudentRA($nome,$data_nascimento, $nome_mae, $force);
-  
+        $aluno_sed = $this->studentSEDDataSource->getStudentRA($nome, $data_nascimento, $nome_mae, $force);
+
         return $aluno_sed;
     }
 }

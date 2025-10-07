@@ -7,17 +7,16 @@ class UpdateFichaAlunoInTAGUseCase
         $studentDatasource = new StudentSEDDataSource();
         $response = $studentDatasource->exibirFichaAluno($inAluno);
 
-        if (method_exists($response, "getOutErro") && $response->getOutErro() === "" && $response->getCode() === 401) {
-
-            $student = StudentIdentification::model()->findByAttributes(array("gov_id"=> $inAluno->inNumRA));
+        if (method_exists($response, 'getOutErro') && $response->getOutErro() === '' && $response->getCode() === 401) {
+            $student = StudentIdentification::model()->findByAttributes(['gov_id' => $inAluno->inNumRA]);
             $student->sedsp_sync = 0;
             $student->save();
 
             return $response->getCode();
         }
 
-        if (method_exists($response, "getCode") && $response->getCode() === 401) {
-            $student = StudentIdentification::model()->findByAttributes(array("gov_id"=> $inAluno->inNumRA));
+        if (method_exists($response, 'getCode') && $response->getCode() === 401) {
+            $student = StudentIdentification::model()->findByAttributes(['gov_id' => $inAluno->inNumRA]);
             $student->sedsp_sync = 0;
             $student->save();
 
@@ -35,7 +34,7 @@ class UpdateFichaAlunoInTAGUseCase
             $this->updateStudentDocsAndAddress($mapperStudentDocuments, $studentId);
             $statusUpdateEnrollment = $this->createOrUpdateStudentEnrollment($mapper->StudentEnrollment);
 
-            if($statusUpdateEnrollment === false){
+            if ($statusUpdateEnrollment === false) {
                 return -1;
             } else {
                 return $studentIdentification;
@@ -66,9 +65,9 @@ class UpdateFichaAlunoInTAGUseCase
 
     private function updateStudentDocsAndAddress($docsAndAddress, $studentId)
     {
-        $studentDocument = StudentDocumentsAndAddress::model()->findByAttributes(array("id" => $studentId));
+        $studentDocument = StudentDocumentsAndAddress::model()->findByAttributes(['id' => $studentId]);
 
-        if($studentDocument === null) {
+        if ($studentDocument === null) {
             return $this->createStudentDocumentsAndAddress($docsAndAddress, $studentId);
         } else {
             $studentDocument->attributes = $docsAndAddress->attributes;
@@ -81,36 +80,35 @@ class UpdateFichaAlunoInTAGUseCase
 
     public function createOrUpdateStudentEnrollment($studentEnrollments)
     {
-
-        foreach($studentEnrollments as $studentEnrollment) {
-            $enrollment = StudentEnrollment::model()->find(array(
+        foreach ($studentEnrollments as $studentEnrollment) {
+            $enrollment = StudentEnrollment::model()->find([
                 'condition' => 'school_inep_id_fk=:school_inep_id_fk AND student_fk=:student_fk AND classroom_fk=:classroom_fk',
-                'params' => array(
+                'params' => [
                     ':school_inep_id_fk' => $studentEnrollment->school_inep_id_fk,
                     ':student_fk' => $studentEnrollment->student_fk,
                     ':classroom_fk' => $studentEnrollment->classroom_fk,
-                ),
-            ));
+                ],
+            ]);
 
             if ($enrollment === null) {
                 $newEnrollment = new StudentEnrollment();
                 $newEnrollment->attributes = $studentEnrollment->attributes;
                 $newEnrollment->sedsp_sync = 0;
 
-                if($newEnrollment->classroom_fk === null){
+                if ($newEnrollment->classroom_fk === null) {
                     return false;
-                }else{
-                    if($newEnrollment->validate() && $newEnrollment->save()) {
+                } else {
+                    if ($newEnrollment->validate() && $newEnrollment->save()) {
                         $newEnrollment->sedsp_sync = 1;
                     }
-    
+
                     return $newEnrollment->save();
                 }
             } else {
                 $enrollment->attributes = $studentEnrollment->attributes;
                 $enrollment->sedsp_sync = 0;
 
-                if($enrollment->validate() && $enrollment->save()){
+                if ($enrollment->validate() && $enrollment->save()) {
                     $enrollment->sedsp_sync = 1;
                 }
                 return $enrollment->save();
@@ -133,7 +131,6 @@ class UpdateFichaAlunoInTAGUseCase
         $log = new LogError();
         $log->salvarDadosEmArquivo($e->getMessage());
     }
-
 
     public function createStudentDocumentsAndAddress($attributes, $studentId)
     {

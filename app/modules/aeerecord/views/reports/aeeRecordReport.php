@@ -72,22 +72,22 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
             <?php
                 $cep = $school->cep;
 
-                if (empty($cep)){
-                    $fieldCep = '';
-                } elseif (ctype_digit($cep) && strlen($cep) === 8) {
-                    $formatted_cep = substr($cep, 0, 2) . '.' . substr($cep, 2, 3) . '-' . substr($cep, 5, 3);
-                    $fieldCep = ', CEP: '. $formatted_cep;
-                } else {
-                    $fieldCep = '';
-                }
-            ?>
+if (empty($cep)) {
+    $fieldCep = '';
+} elseif (ctype_digit($cep) && strlen($cep) === 8) {
+    $formatted_cep = substr($cep, 0, 2) . '.' . substr($cep, 2, 3) . '-' . substr($cep, 5, 3);
+    $fieldCep = ', CEP: ' . $formatted_cep;
+} else {
+    $fieldCep = '';
+}
+?>
 
             <li>
                 <?php
-                    echo $school->address.', '.(!empty($school->address_number) ? $school->address_number.', ':'' ).$school->address_neighborhood;
-                ?>,
+        echo $school->address . ', ' . (!empty($school->address_number) ? $school->address_number . ', ' : '') . $school->address_neighborhood;
+?>,
                 <?php
-                echo $school->edcensoCityFk->name . " - " . $school->edcensoUfFk->acronym . $fieldCep ?> </li>
+echo $school->edcensoCityFk->name . ' - ' . $school->edcensoUfFk->acronym . $fieldCep ?> </li>
             <li><?php echo $school->act_of_acknowledgement ?></li>
         </ul>
         <span class="clear"></span>
@@ -99,7 +99,7 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
     <div id="aeeContent" class="content-text">
         <div class="row t-margin-medium--bottom">
             <div class="column is-one-tenth font-bold">ID:</div>
-            <div class="column"><?php echo $aeeRecord['id'];?></div>
+            <div class="column"><?php echo $aeeRecord['id']; ?></div>
         </div>
         <div class="row t-margin-medium--bottom">
             <div class="column is-one-tenth font-bold">Data:</div>

@@ -1,7 +1,7 @@
 <?php
 
-class PasswordHasher {
-    
+class PasswordHasher
+{
     /**
      * @param string $password
      * @return string hashed password

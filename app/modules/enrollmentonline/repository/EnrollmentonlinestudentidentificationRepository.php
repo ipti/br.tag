@@ -2,7 +2,6 @@
 
 class EnrollmentonlinestudentidentificationRepository
 {
-
     private $studentIdentification;
     private $user;
 
@@ -20,7 +19,6 @@ class EnrollmentonlinestudentidentificationRepository
         $this->studentIdentification->cpf = preg_replace($cleanPattern, '', $this->studentIdentification->cpf);
         $this->studentIdentification->responsable_cpf = preg_replace($cleanPattern, '', $this->studentIdentification->responsable_cpf);
         $this->studentIdentification->responsable_telephone = preg_replace($cleanPattern, '', $this->studentIdentification->responsable_telephone);
-
 
         $transaction = Yii::app()->db->beginTransaction();
 
@@ -45,15 +43,15 @@ class EnrollmentonlinestudentidentificationRepository
 
             $transaction->commit();
 
-
             return $this->user;
         } catch (Exception $e) {
             $transaction->rollback();
 
-            Yii::log("Erro ao salvar pré-matrícula: " . $e->getMessage(), CLogger::LEVEL_ERROR);
+            Yii::log('Erro ao salvar pré-matrícula: ' . $e->getMessage(), CLogger::LEVEL_ERROR);
             throw $e;
         }
     }
+
     private function saveSolicitations($inepId)
     {
         $enrollmentSolicitation = new EnrollmentOnlineEnrollmentSolicitation();
@@ -66,8 +64,8 @@ class EnrollmentonlinestudentidentificationRepository
     private function createUser()
     {
         $user = new Users();
-        $passwordHasher = new PasswordHasher;
-        $password = $passwordHasher->bcriptHash(str_replace('/', '',$this->studentIdentification->birthday));
+        $passwordHasher = new PasswordHasher();
+        $password = $passwordHasher->bcriptHash(str_replace('/', '', $this->studentIdentification->birthday));
         $user->password = $password;
         $user->name = $this->studentIdentification->responsable_name;
         $user->active = 1;
@@ -75,10 +73,9 @@ class EnrollmentonlinestudentidentificationRepository
         $user->username = $this->studentIdentification->id . $cpf;
         if ($user->save()) {
             $auth = new AuthAssignment();
-            $auth->itemname ="guardian";
+            $auth->itemname = 'guardian';
             $auth->userid = $user->id;
             $auth->save();
-
 
             $this->studentIdentification->user_fk = $user->id;
             $this->user = $user;

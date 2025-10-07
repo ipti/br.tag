@@ -4,19 +4,19 @@
 
 $this->setPageTitle('TAG - ' . Yii::t('default', 'Estoque'));
 
-$this->breadcrumbs=array(
-	'Food Inventories',
-);
+$this->breadcrumbs = [
+    'Food Inventories',
+];
 
-$this->menu=array(
-	array('label'=>'Create FoodInventory', 'url'=>array('create')),
-	array('label'=>'Manage FoodInventory', 'url'=>array('admin')),
-);
+$this->menu = [
+    ['label' => 'Create FoodInventory', 'url' => ['create']],
+    ['label' => 'Manage FoodInventory', 'url' => ['admin']],
+];
 ?>
 
 <h1>Food Inventories</h1>
 
-<?php $this->widget('zii.widgets.CListView', array(
-	'dataProvider'=>$dataProvider,
-	'itemView'=>'_view',
-)); ?>
+<?php $this->widget('zii.widgets.CListView', [
+    'dataProvider' => $dataProvider,
+    'itemView' => '_view',
+]); ?>

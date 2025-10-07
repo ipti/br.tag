@@ -5,26 +5,26 @@ class GenerateRaUseCase
     public function exec($studentId)
     {
         $student = StudentIdentification::model()->findByPk($studentId);
-        $studentDocuments = StudentDocumentsAndAddress::model()->find("student_fk = :studentFk", [":studentFk" => $student->id]);
+        $studentDocuments = StudentDocumentsAndAddress::model()->find('student_fk = :studentFk', [':studentFk' => $student->id]);
 
         if ($student->filiation_1 === null) {
-            return "Nome completo da mãe não pode ser nulo";
+            return 'Nome completo da mãe não pode ser nulo';
         }
 
         $inConsultaRA = new InConsultaRA(null, $student->name, $student->filiation_1, $student->birthday);
-        $studentSEDDataSource = new StudentSEDDataSource;
+        $studentSEDDataSource = new StudentSEDDataSource();
         $statusConsult = $studentSEDDataSource->getStudentRA($inConsultaRA);
 
-        if($statusConsult->getOutErro() !== null) {
+        if ($statusConsult->getOutErro() !== null) {
             return $statusConsult->getOutErro();
         }
 
         $outStudent = $statusConsult->getOutAluno();
-        
-        if($outStudent->getOutNumRa() !== null) {
+
+        if ($outStudent->getOutNumRa() !== null) {
             $student->gov_id = $outStudent->getOutNumRa();
             $student->save();
-            return "RA já cadastrado";
+            return 'RA já cadastrado';
         }
 
         $studentToSedMapper = new StudentMapper();
@@ -40,7 +40,7 @@ class GenerateRaUseCase
             null
         );
 
-        $studentSEDDataSource = new StudentSEDDataSource;
+        $studentSEDDataSource = new StudentSEDDataSource();
         return $studentSEDDataSource->addStudentToSed($inFichaAluno);
     }
 }

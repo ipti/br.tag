@@ -74,7 +74,6 @@ class Controller extends CController
             }
 
             if (!Yii::app()->user->isGuest) {
-
                 $featuresEnabled = array_reduce($this->features, fn ($curry, $item) => $curry && Yii::app()->features->isEnable($item), true);
                 if (!empty($this->features) && !$featuresEnabled) {
                     throw new CHttpException(403, 'Você não tem permissão para acessar esta funcionalidade.');
