@@ -197,7 +197,7 @@ $menuItems = [
         'label' => 'Merenda Escolar',
         'url' => ['foods'],
         'icon' => 't-icon-apple',
-        'roles' => [TRole::NUTRITIONIST, TRole::ADMIN, TRole::MANAGER, TRole::READER],
+        'roles' => [TRole::NUTRITIONIST, TRole::ADMIN, TRole::MANAGER, TRole::READER, TRole::FOOD_SERVICE_WORKER],
         'feature' => TTask::TASK_FOODS_MENU_MANAGE,
     ],
 
@@ -207,6 +207,14 @@ $menuItems = [
         'icon' => 't-icon-apple',
         'roles' => [TRole::NUTRITIONIST, TRole::ADMIN, TRole::MANAGER, TRole::READER],
         'feature' => TTask::TASK_LUNCH_MENU_MANAGE,
+    ],
+    // Acompanhamento de Saúde
+     [
+        'label' => 'Acompanhamento de Saúde',
+        'url' => ['studentimc/studentimc/studentIndex'],
+        'icon' => 't-icon-heart',
+        'roles' => [TRole::NUTRITIONIST, TRole::ADMIN, TRole::MANAGER, TRole::READER, TRole::FOOD_SERVICE_WORKER],
+        'feature' => TTask::TASK_STUDENT_IMC,
     ],
 
     // Integrações
