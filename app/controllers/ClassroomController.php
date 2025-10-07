@@ -12,12 +12,6 @@ Yii::import('application.modules.sedsp.mappers.*');
 Yii::import('application.modules.sedsp.usecases.*');
 Yii::import('application.modules.sedsp.usecases.Enrollment.*');
 
-define('CLASSROOM_FILTER','c.id = :classroomId');
-define('CLASSROOM_ID',':classroomId');
-define('AND_ID_NOT_EQUAL','&& id!="');
-define('STAGES_ALL','stages.*');
-define('STUDENT_ENROLLMENT_JOIN','INNER JOIN student_enrollment se ON se.edcenso_stage_vs_modality_fk = stages.id');
-define('CLASSROOM_JOIN',' INNER JOIN classroom c ON c.id = se.classroom_fk');
 
 //-----------------------------------------CLASSE VALIDADA ATÉ A SEQUENCIA 35!!------------------------
 class ClassroomController extends Controller
@@ -118,10 +112,9 @@ class ClassroomController extends Controller
         $criteria->alias = 'gr';
         $criteria->join = '
         join classroom_vs_grade_rules cvgr on cvgr.grade_rules_fk = gr.id
-        join classroom c on c.id = cvgr.classroom_fk
-    ';
-        $criteria->condition = CLASSROOM_FILTER;
-        $criteria->params = [CLASSROOM_ID => $classroomId];
+        join classroom c on c.id = cvgr.classroom_fk';
+        $criteria->condition = 'c.id = :classroomId';
+        $criteria->params = [':classroomId' => $classroomId];
         $selectedOptions = GradeRules::model()->findAll($criteria);
 
         // Todas as opções disponíveis (sem filtros)
@@ -142,7 +135,6 @@ class ClassroomController extends Controller
         }
 
         foreach ($allOptions as $option) {
-            // Exclui as opções já selecionadas da lista "available"
             if (!in_array($option->id, array_column($response['selected'], 'id'))) {
                 $response['available'][] = [
                     'id' => $option->id,
@@ -151,7 +143,7 @@ class ClassroomController extends Controller
             }
         }
 
-        echo CJSON::encode($response); // Retorna JSON
+        echo CJSON::encode($response);
     }
 
     public function actionGetAssistanceType()
@@ -208,11 +200,11 @@ class ClassroomController extends Controller
 
         $where = '';
         $where .= $id1 != 'null' ? 'id!="' . $id1 . '" ' : '';
-        $where .= $id2 != 'null' ? AND_ID_NOT_EQUAL . $id2 . '" ' : '';
-        $where .= $id3 != 'null' ? AND_ID_NOT_EQUAL . $id3 . '" ' : '';
-        $where .= $id4 != 'null' ? AND_ID_NOT_EQUAL . $id4 . '" ' : '';
-        $where .= $id5 != 'null' ? AND_ID_NOT_EQUAL . $id5 . '" ' : '';
-        $where .= $id6 != 'null' ? AND_ID_NOT_EQUAL . $id6 . '" ' : '';
+        $where .= $id2 != 'null' ? '&& id!="' . $id2 . '" ' : '';
+        $where .= $id3 != 'null' ? '&& id!="' . $id3 . '" ' : '';
+        $where .= $id4 != 'null' ? '&& id!="' . $id4 . '" ' : '';
+        $where .= $id5 != 'null' ? '&& id!="' . $id5 . '" ' : '';
+        $where .= $id6 != 'null' ? '&& id!="' . $id6 . '" ' : '';
 
         $data = EdcensoComplementaryActivityType::model()->findAll($where);
         $data = CHtml::listData($data, 'id', 'name');
@@ -225,18 +217,6 @@ class ClassroomController extends Controller
 
     public function actionUpdateAssistanceTypeDependencies()
     {
-        /* 	Campo	18	Se Campo 17 = 1|5, desabilita;
-          Se Campo 17 = 0|2|3, campo 36 hanilita 1 e 2 e campo 37 habilita [4..38]|41|56;
-          Se Campo 17 = 4, campo 36&37 = null
-          Campo	19~24	Se Campo 17 = 4; Pelo menos um, Não repetidos.
-          Campo 	25~35	Se Campo 17 = 5; Pelo menos um diferente de 0.
-         *
-         * 17 tipo de atendimento
-         * 18 mais edu
-         * 19~24 tipo de atividade
-         * 25~35 atividades
-         */
-
         $classroom = new Classroom();
         $classroom->attributes = $_POST['Classroom'];
 
@@ -333,8 +313,6 @@ class ClassroomController extends Controller
         }
         return $discipline ?? 0;
     }
-
-    //@done s1 - criar função para pegar os labels das disciplinas separando pelo id do educacenso
 
     public static function classroomDisciplineLabelArray()
     {
@@ -641,25 +619,17 @@ class ClassroomController extends Controller
             }
         }
 
-        $criteria = new CDbCriteria();
-        $criteria->alias = 'stages';
-        $criteria->select = STAGES_ALL;
-        $criteria->join = STUDENT_ENROLLMENT_JOIN;
-        $criteria->join .= CLASSROOM_JOIN;
-        $criteria->condition = CLASSROOM_FILTER;
-        $criteria->group = 'stages.name';
-        $criteria->params = [CLASSROOM_ID => $modelClassroom->id];
-        $stages = EdcensoStageVsModality::model()->findAll($criteria);
+        $stages = $this->getAllModalitys($modelClassroom->id);
 
         $gradeRulesStages = [];
         foreach ($stages as $stage) {
             $criteria = new CDbCriteria();
             $criteria->alias = 'gr';
-            $criteria->select = 'gr.id';
+            $criteria->select = gr.id;
             $criteria->join = 'INNER JOIN grade_rules_vs_edcenso_stage_vs_modality grvesvm ON grvesvm.grade_rules_fk = gr.id ';
             $criteria->join .= 'INNER JOIN classroom_vs_grade_rules cvgr ON cvgr.grade_rules_fk = gr.id';
             $criteria->condition = 'cvgr.classroom_fk = :classroomId and grvesvm.edcenso_stage_vs_modality_fk = :stageId';
-            $criteria->params = [CLASSROOM_ID => $modelClassroom->id, ':stageId' => $stage->id];
+            $criteria->params = [':classroomId' => $modelClassroom->id, ':stageId' => $stage->id];
             $gradeRulesQuery = GradeRules::model()->find($criteria);
 
             $gradeRulesStages[$stage->id] = $gradeRulesQuery == null ? '' : $gradeRulesQuery;
@@ -770,9 +740,7 @@ class ClassroomController extends Controller
             $modelClassroom->calendar_fk = $_POST['calendar_fk'];
             $modelClassroom->assistance_type = $this->defineAssistanceType($modelClassroom);
 
-            if (Yii::app()->features->isEnable(TFeature::FEAT_INTEGRATIONS_SEDSP) && !$disableFieldsWhenItsUBATUBA) {
-                if (
-                    $beforeChangeClassroom->turn != $modelClassroom->turn ||
+            if ((Yii::app()->features->isEnable(TFeature::FEAT_INTEGRATIONS_SEDSP) && !$disableFieldsWhenItsUBATUBA) && ($beforeChangeClassroom->turn != $modelClassroom->turn ||
                     $beforeChangeClassroom->sedsp_acronym != $modelClassroom->sedsp_acronym ||
                     $beforeChangeClassroom->sedsp_classnumber != $modelClassroom->sedsp_classnumber ||
                     $beforeChangeClassroom->sedsp_max_physical_capacity != $modelClassroom->sedsp_max_physical_capacity ||
@@ -785,10 +753,9 @@ class ClassroomController extends Controller
                     $beforeChangeClassroom->week_days_wednesday != $modelClassroom->week_days_wednesday ||
                     $beforeChangeClassroom->week_days_thursday != $modelClassroom->week_days_thursday ||
                     $beforeChangeClassroom->week_days_friday != $modelClassroom->week_days_friday ||
-                    $beforeChangeClassroom->week_days_saturday != $modelClassroom->week_days_saturday
-                ) {
-                    $modelClassroom->sedsp_sync = 0;
-                }
+                    $beforeChangeClassroom->week_days_saturday != $modelClassroom->week_days_saturday) ) {
+
+                $modelClassroom->sedsp_sync = 0;
             }
 
             $disciplines = json_decode($_POST['disciplines'], true);
@@ -874,25 +841,17 @@ class ClassroomController extends Controller
             }
         }
 
-        $criteria = new CDbCriteria();
-        $criteria->alias = 'stages';
-        $criteria->select = STAGES_ALL;
-        $criteria->join = STUDENT_ENROLLMENT_JOIN;
-        $criteria->join .= CLASSROOM_JOIN;
-        $criteria->condition = CLASSROOM_FILTER;
-        $criteria->group = 'stages.name';
-        $criteria->params = [CLASSROOM_ID => $modelClassroom->id];
-        $stages = EdcensoStageVsModality::model()->findAll($criteria);
+        $stages = $this->getAllModalitys($modelClassroom->id);
 
         $gradeRulesStages = [];
         foreach ($stages as $stage) {
             $criteria = new CDbCriteria();
             $criteria->alias = 'gr';
-            $criteria->select = 'gr.id';
+            $criteria->select = gr.id;
             $criteria->join = 'INNER JOIN grade_rules_vs_edcenso_stage_vs_modality grvesvm ON grvesvm.grade_rules_fk = gr.id ';
             $criteria->join .= 'INNER JOIN classroom_vs_grade_rules cvgr ON cvgr.grade_rules_fk = gr.id';
             $criteria->condition = 'cvgr.classroom_fk = :classroomId and grvesvm.edcenso_stage_vs_modality_fk = :stageId';
-            $criteria->params = [CLASSROOM_ID => $modelClassroom->id, ':stageId' => $stage->id];
+            $criteria->params = [':classroomId' => $modelClassroom->id, ':stageId' => $stage->id];
             $gradeRulesQuery = GradeRules::model()->find($criteria);
 
             $gradeRulesStages[$stage->id] = $gradeRulesQuery == null ? '' : $gradeRulesQuery;
@@ -925,16 +884,7 @@ class ClassroomController extends Controller
         $classroomVsGradeRule->grade_rules_fk = $gradeRule;
         $classroomVsGradeRule->save();
         if (TagUtils::isMultiStage($classroom->edcenso_stage_vs_modality_fk)) {
-            $criteria = new CDbCriteria();
-            $criteria->alias = 'stages';
-            $criteria->select = STAGES_ALL;
-            $criteria->join = STUDENT_ENROLLMENT_JOIN;
-            $criteria->join .= CLASSROOM_JOIN;
-            $criteria->condition = CLASSROOM_FILTER;
-            $criteria->group = 'stages.name';
-            $criteria->params = [CLASSROOM_ID => $classroom->id];
-            $stages = EdcensoStageVsModality::model()->findAll($criteria);
-
+            $stages = $this->getAllModalitys($classroom->id);
             foreach ($stages as $stage) {
                 $gradeRule = $_POST['grade_rules_' . $stage->id];
                 $classroomVsGradeRule = new ClassroomVsGradeRules();
@@ -943,6 +893,19 @@ class ClassroomController extends Controller
                 $classroomVsGradeRule->save();
             }
         }
+    }
+
+    private function getAllModalitys($classroomId){
+        $criteria = new CDbCriteria();
+        $criteria->alias = 'stages';
+        $criteria->select = 'stages.*';
+        $criteria->join = 'INNER JOIN student_enrollment se ON se.edcenso_stage_vs_modality_fk = stages.id';
+        $criteria->join .= ' INNER JOIN classroom c ON c.id = se.classroom_fk';
+        $criteria->condition = 'c.id = :classroomId';
+        $criteria->group = 'stages.name';
+        $criteria->params = [':classroomId' => $classroomId];
+        $stages = EdcensoStageVsModality::model()->findAll($criteria);
+        return $stages;
     }
 
     /**
@@ -1228,7 +1191,6 @@ class ClassroomController extends Controller
         }, $enrollments);
 
         echo json_encode($result);
-        /* Yii::app()->user->setFlash('success', Yii::t('default', 'dayli order')); */
     }
 
     public function getSchoolStagesModels()
