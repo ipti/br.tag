@@ -1264,7 +1264,7 @@ class CensoController extends Controller
 
         //campo 17 à 24 e 26 à 29
 
-        $deficiencies_whole = [
+        $deficienciesWhole = [
             $collumn['deficiency_type_blindness'],
             $collumn['deficiency_type_low_vision'],
             $collumn['deficiency_type_deafness'],
@@ -1284,7 +1284,7 @@ class CensoController extends Controller
             ['Deficiência Auditiva' => [$collumn['deficiency_type_disability_hearing'] => [$collumn['deficiency_type_deafblindness']]]]
         ];
 
-        $result = $stiv->checkDeficiencies($collumn['deficiency'], $deficiencies_whole, $excludingdeficiencies);
+        $result = $stiv->checkDeficiencies($collumn['deficiency'], $deficienciesWhole, $excludingdeficiencies);
         if (!$result['status']) {
             array_push($log, ['Tipos de Deficiencia' => $result['erro']]);
         }
@@ -1315,14 +1315,14 @@ class CensoController extends Controller
             $studenteDisorder['tpac'],
         ];
 
-        array_pop($deficiencies_whole);
+        array_pop($deficienciesWhole);
 
-        $result = $stiv->inNeedOfResources($collumn['deficiency'], $deficiencies_whole, $resources, $disorders);
+        $result = $stiv->inNeedOfResources($collumn['deficiency'], $deficienciesWhole, $resources, $disorders);
         if (!$result['status']) {
             array_push($log, ['Recursos requeridos em avaliacoes do INEP' => $result['erro']]);
         }
 
-        $result = $stiv->atLeastOne($deficiencies_whole);
+        $result = $stiv->atLeastOne($deficienciesWhole);
         if ($classroom['aee'] == 1 && ($collumn['deficiency'] == 0 || !$result['status'])) {
             array_push($log, ['Deficiencia' => 'O aluno está matriculado na turma de Atendimento Educacional Especializado "' . $classroom['name'] . '", mas nenhum tipo de deficiência foi marcado.']);
         }
@@ -2758,8 +2758,8 @@ class CensoController extends Controller
                 if ($fileLine == null) {
                     break;
                 }
-                $lineFields_Aux = explode('|', $fileLine);
-                $lineFields[] = $lineFields_Aux;
+                $lineFieldsAux = explode('|', $fileLine);
+                $lineFields[] = $lineFieldsAux;
             }
             $counterStudents = 0;
             $counterInstructos = 0;
@@ -2832,8 +2832,8 @@ class CensoController extends Controller
                 if ($fileLine == null) {
                     break;
                 }
-                $lineFields_Aux = explode('|', $fileLine);
-                $lineFields[] = $lineFields_Aux;
+                $lineFieldsAux = explode('|', $fileLine);
+                $lineFields[] = $lineFieldsAux;
             }
 
             $imported = '';
@@ -2960,10 +2960,10 @@ class CensoController extends Controller
             }
 
             $regType = $fileLine[0] . $fileLine[1];
-            $lineFields_Aux = explode('|', $fileLine);
+            $lineFieldsAux = explode('|', $fileLine);
             $lineFields = [];
 
-            foreach ($lineFields_Aux as $key => $field) {
+            foreach ($lineFieldsAux as $key => $field) {
                 $value = !(isset($field)) ? '' : trim($field);
                 $lineFields[$key] = $value;
             }
