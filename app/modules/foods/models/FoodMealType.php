@@ -30,8 +30,6 @@ class FoodMealType extends TagModel
         return [
             ['description', 'required'],
             ['description', 'length', 'max' => 100],
-            // The following rule is used by search().
-            // @todo Please remove those attributes that should not be searched.
             ['id, description', 'safe', 'on' => 'search'],
         ];
     }
@@ -73,8 +71,6 @@ class FoodMealType extends TagModel
      */
     public function search()
     {
-        // @todo Please modify the following code to remove attributes that should not be searched.
-
         $criteria = new CDbCriteria();
 
         $criteria->compare('id', $this->id);

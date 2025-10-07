@@ -39,8 +39,6 @@ class StudentIMC extends CActiveRecord
 			array('height, weight, IMC', 'numerical'),
 			array('observations', 'length', 'max'=>500),
 			array('created_at, updated_at', 'safe'),
-			// The following rule is used by search().
-			// @todo Please remove those attributes that should not be searched.
 			array('id, height, weight, IMC, observations, student_fk, created_at, updated_at', 'safe', 'on'=>'search'),
 		);
 	}
@@ -88,8 +86,6 @@ class StudentIMC extends CActiveRecord
 	 */
 	public function search()
 	{
-		// @todo Please modify the following code to remove attributes that should not be searched.
-
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id',$this->id);

@@ -100,8 +100,6 @@ class GradeResults extends TagModel
             ['grade_1, grade_2, grade_3, grade_4, grade_5, grade_6, grade_7, grade_8, rec_partial_1, rec_partial_2, rec_partial_3, rec_partial_4, rec_partial_5, rec_partial_6, rec_partial_7, rec_partial_8, sem_rec_partial_1, sem_rec_partial_2, sem_rec_partial_3, sem_rec_partial_4, rec_final, final_media, sem_avarage_1, sem_avarage_2', 'numerical'],
             ['grade_concept_1, grade_concept_2, grade_concept_3, grade_concept_4, grade_concept_5, grade_concept_6, grade_concept_7, grade_concept_8, situation', 'length', 'max' => 50],
             ['created_at, updated_at', 'safe'],
-            // The following rule is used by search().
-            // @todo Please remove those attributes that should not be searched.
             ['id, grade_1, grade_2, grade_3, grade_4, grade_5, grade_6, grade_7, grade_8, rec_partial_1, rec_partial_2, rec_partial_3, rec_partial_4, rec_partial_5, rec_partial_6, rec_partial_7, rec_partial_8, sem_rec_partial_1, sem_rec_partial_2, sem_rec_partial_3, sem_rec_partial_4, rec_final, final_media, grade_concept_1, grade_concept_2, grade_concept_3, grade_concept_4, grade_concept_5, grade_concept_6, grade_concept_7, grade_concept_8, situation, enrollment_fk, discipline_fk, grade_faults_1, grade_faults_2, grade_faults_3, grade_faults_4, grade_faults_5, grade_faults_6, grade_faults_7, grade_faults_8, given_classes_1, given_classes_2, given_classes_3, given_classes_4, given_classes_5, given_classes_6, given_classes_7, given_classes_8, final_concept, created_at, updated_at, sem_avarage_1, sem_avarage_2', 'safe', 'on' => 'search'],
         ];
     }
@@ -197,7 +195,6 @@ class GradeResults extends TagModel
      */
     public function search()
     {
-        // @todo Please modify the following code to remove attributes that should not be searched.
 
         $criteria = new CDbCriteria();
 

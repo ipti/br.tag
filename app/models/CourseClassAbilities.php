@@ -45,8 +45,6 @@ class CourseClassAbilities extends TagModel
             ['description', 'length', 'max' => 1500],
             ['code', 'length', 'max' => 20],
             ['type', 'length', 'max' => 50],
-            // The following rule is used by search().
-            // @todo Please remove those attributes that should not be searched.
             ['id, description, code, type, edcenso_discipline_fk, edcenso_stage_vs_modality_fk, parent_fk', 'safe', 'on' => 'search'],
         ];
     }
@@ -97,8 +95,6 @@ class CourseClassAbilities extends TagModel
      */
     public function search()
     {
-        // @todo Please modify the following code to remove attributes that should not be searched.
-
         $criteria = new CDbCriteria();
 
         $criteria->compare('id', $this->id);

@@ -38,8 +38,6 @@ class FoodRequest extends TagModel
             ['status', 'length', 'max' => 100],
             ['reference_id', 'length', 'max' => 36],
             ['date', 'safe'],
-            // The following rule is used by search().
-            // @todo Please remove those attributes that should not be searched.
             ['id, date, status, notice_fk, reference_id', 'safe', 'on' => 'search'],
         ];
     }
@@ -87,8 +85,6 @@ class FoodRequest extends TagModel
      */
     public function search()
     {
-        // @todo Please modify the following code to remove attributes that should not be searched.
-
         $criteria = new CDbCriteria();
 
         $criteria->compare('id', $this->id);

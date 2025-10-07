@@ -359,7 +359,6 @@ class StudentController extends Controller implements AuthenticateSEDTokenInterf
     public function actionCreate()
     {
         $modelStudentIdentification = new StudentIdentification();
-        //@todo Checar o paramentro antes
         $modelStudentIdentification->deficiency = 0;
         $modelStudentDocumentsAndAddress = new StudentDocumentsAndAddress();
         $modelEnrollment = new StudentEnrollment();

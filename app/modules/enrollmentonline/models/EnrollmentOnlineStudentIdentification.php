@@ -83,8 +83,6 @@ class EnrollmentOnlineStudentIdentification extends CActiveRecord
             ['mother_name, father_name, responsable_name', 'length', 'max' => 90],
             ['cep', 'length', 'max' => 8],
             ['last_change, created_at, updated_at', 'safe'],
-            // The following rule is used by search().
-            // @todo Please remove those attributes that should not be searched.
             ['classroom_inep_id, classroom_fk, id, name, birthday, cpf, sex, color_race, deficiency, deficiency_type_blindness, deficiency_type_low_vision, deficiency_type_deafness, deficiency_type_disability_hearing, deficiency_type_deafblindness, deficiency_type_phisical_disability, deficiency_type_intelectual_disability, deficiency_type_multiple_disabilities, deficiency_type_autism, deficiency_type_gifted, last_change, mother_name, father_name, responsable_name, responsable_cpf, responsable_telephone, cep, address, number, complement, neighborhood, zone, edcenso_city_fk, edcenso_uf_fk, unavailable, student_fk, edcenso_stage_vs_modality_fk, event_pre_registration_fk, stages_vacancy_pre_registration_fk, created_at, updated_at, user_fk', 'safe', 'on' => 'search'],
         ];
     }
@@ -173,7 +171,6 @@ class EnrollmentOnlineStudentIdentification extends CActiveRecord
      */
     public function search()
     {
-        // @todo Please modify the following code to remove attributes that should not be searched.
 
         $criteria = new CDbCriteria();
 

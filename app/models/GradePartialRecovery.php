@@ -36,8 +36,6 @@ class GradePartialRecovery extends TagModel
             ['name, order_partial_recovery, grade_rules_fk, grade_calculation_fk', 'required'],
             ['order_partial_recovery, grade_rules_fk, grade_calculation_fk', 'numerical', 'integerOnly' => true],
             ['name', 'length', 'max' => 50],
-            // The following rule is used by search().
-            // @todo Please remove those attributes that should not be searched.
             ['id, name, order_partial_recovery, grade_rules_fk, grade_calculation_fk', 'safe', 'on' => 'search'],
         ];
     }
@@ -84,8 +82,6 @@ class GradePartialRecovery extends TagModel
      */
     public function search()
     {
-        // @todo Please modify the following code to remove attributes that should not be searched.
-
         $criteria = new CDbCriteria();
 
         $criteria->compare('id', $this->id);

@@ -33,8 +33,6 @@ class WorkByDiscipline extends TagModel
         return [
             ['classroom_fk, discipline_fk', 'required'],
             ['classroom_fk, discipline_fk, school_days', 'numerical', 'integerOnly' => true],
-            // The following rule is used by search().
-            // @todo Please remove those attributes that should not be searched.
             ['id, classroom_fk, discipline_fk, school_days', 'safe', 'on' => 'search'],
         ];
     }
@@ -79,7 +77,6 @@ class WorkByDiscipline extends TagModel
      */
     public function search()
     {
-        // @todo Please modify the following code to remove attributes that should not be searched.
 
         $criteria = new CDbCriteria();
 

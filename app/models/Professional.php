@@ -39,8 +39,6 @@ class Professional extends TagModel
             ['speciality', 'length', 'max' => 50],
             ['cpf_professional', 'length', 'max' => 14],
             ['inep_id_fk', 'length', 'max' => 8],
-            // The following rule is used by search().
-            // @todo Please remove those attributes that should not be searched.
             ['id_professional, name, cpf_professional, speciality, inep_id_fk, fundeb', 'safe', 'on' => 'search'],
         ];
     }
@@ -87,7 +85,6 @@ class Professional extends TagModel
      */
     public function search()
     {
-        // @todo Please modify the following code to remove attributes that should not be searched.
 
         $criteria = new CDbCriteria();
 

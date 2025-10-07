@@ -48,8 +48,6 @@ class StudentDisorder extends TagModel
             ['student_fk, tdah, depressao, tab, toc, tag, tod, tcne, disorders_impact_learning, dyscalculia, dysgraphia, dyslalia, dyslexia, tpac', 'numerical', 'integerOnly' => true],
             ['others', 'length', 'max' => 200],
             ['created_at, updated_at', 'safe'],
-            // The following rule is used by search().
-            // @todo Please remove those attributes that should not be searched.
             ['id, student_fk, tdah, depressao, tab, toc, tag, tod, tcne, others, created_at, updated_at, disorders_impact_learning, dyscalculia, dysgraphia, dyslalia, dyslexia, tpac', 'safe', 'on' => 'search'],
         ];
     }
@@ -107,7 +105,6 @@ class StudentDisorder extends TagModel
      */
     public function search()
     {
-        // @todo Please modify the following code to remove attributes that should not be searched.
 
         $criteria = new CDbCriteria();
 

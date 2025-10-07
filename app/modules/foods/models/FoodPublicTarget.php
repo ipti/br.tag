@@ -26,8 +26,6 @@ class FoodPublicTarget extends TagModel
         // will receive user inputs.
         return [
             ['name', 'length', 'max' => 100],
-            // The following rule is used by search().
-            // @todo Please remove those attributes that should not be searched.
             ['name, id', 'safe', 'on' => 'search'],
         ];
     }
@@ -68,8 +66,6 @@ class FoodPublicTarget extends TagModel
      */
     public function search()
     {
-        // @todo Please modify the following code to remove attributes that should not be searched.
-
         $criteria = new CDbCriteria();
 
         $criteria->compare('name', $this->name, true);

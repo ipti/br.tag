@@ -38,8 +38,6 @@ class Calendar extends TagModel
             ['title, start_date, end_date, school_year', 'required'],
             ['school_year', 'numerical', 'integerOnly' => true],
             ['title', 'length', 'max' => 50],
-            // The following rule is used by search().
-            // @todo Please remove those attributes that should not be searched.
             ['id, title, start_date, end_date, school_year', 'safe', 'on' => 'search'],
         ];
     }
@@ -87,8 +85,6 @@ class Calendar extends TagModel
      */
     public function search()
     {
-        // @todo Please modify the following code to remove attributes that should not be searched.
-
         $criteria = new CDbCriteria();
 
         $criteria->compare('id', $this->id);

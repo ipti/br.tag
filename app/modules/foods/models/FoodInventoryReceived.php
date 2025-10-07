@@ -25,16 +25,12 @@ class FoodInventoryReceived extends TagModel
      */
     public function rules()
     {
-        // NOTE: you should only define rules for those attributes that
-        // will receive user inputs.
         return [
             ['amount, food_inventory_fk', 'required'],
             ['food_inventory_fk', 'numerical', 'integerOnly' => true],
             ['amount', 'numerical'],
             ['foodSource', 'length', 'max' => 20],
             ['date', 'safe'],
-            // The following rule is used by search().
-            // @todo Please remove those attributes that should not be searched.
             ['id, amount, foodSource, date, food_inventory_fk', 'safe', 'on' => 'search'],
         ];
     }
@@ -44,8 +40,6 @@ class FoodInventoryReceived extends TagModel
      */
     public function relations()
     {
-        // NOTE: you may need to adjust the relation name and the related
-        // class name for the relations automatically generated below.
         return [
             'foodInventoryFk' => [self::BELONGS_TO, 'FoodInventory', 'food_inventory_fk'],
         ];
@@ -79,8 +73,6 @@ class FoodInventoryReceived extends TagModel
      */
     public function search()
     {
-        // @todo Please modify the following code to remove attributes that should not be searched.
-
         $criteria = new CDbCriteria();
 
         $criteria->compare('id', $this->id);

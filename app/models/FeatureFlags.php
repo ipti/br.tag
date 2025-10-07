@@ -32,8 +32,6 @@ class FeatureFlags extends CActiveRecord
             ['feature_name, updated_at', 'required'],
             ['active', 'numerical', 'integerOnly' => true],
             ['feature_name', 'length', 'max' => 64],
-            // The following rule is used by search().
-            // @todo Please remove those attributes that should not be searched.
             ['feature_name, active, updated_at', 'safe', 'on' => 'search'],
         ];
     }
@@ -76,8 +74,6 @@ class FeatureFlags extends CActiveRecord
      */
     public function search()
     {
-        // @todo Please modify the following code to remove attributes that should not be searched.
-
         $criteria = new CDbCriteria();
 
         $criteria->compare('feature_name', $this->feature_name, true);

@@ -35,8 +35,6 @@
             return [
                 ['stage_vs_modality_fk, discipline_fk, instructor_fk', 'required'],
                 ['stage_vs_modality_fk, discipline_fk, instructor_fk', 'numerical', 'integerOnly' => true],
-                // The following rule is used by search().
-                // @todo Please remove those attributes that should not be searched.
                 ['id, stage_vs_modality_fk, discipline_fk, instructor_fk', 'safe', 'on' => 'search'],
             ];
         }
@@ -82,8 +80,6 @@
          */
         public function search()
         {
-            // @todo Please modify the following code to remove attributes that should not be searched.
-
             $criteria = new CDbCriteria();
 
             $criteria->compare('id', $this->id);

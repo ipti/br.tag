@@ -36,8 +36,6 @@ class FoodInventorySpent extends TagModel
             ['amount', 'numerical'],
             ['motivation', 'length', 'max' => 100],
             ['date', 'safe'],
-            // The following rule is used by search().
-            // @todo Please remove those attributes that should not be searched.
             ['id, amount, date, motivation, food_inventory_fk', 'safe', 'on' => 'search'],
         ];
     }
@@ -82,8 +80,6 @@ class FoodInventorySpent extends TagModel
      */
     public function search()
     {
-        // @todo Please modify the following code to remove attributes that should not be searched.
-
         $criteria = new CDbCriteria();
 
         $criteria->compare('id', $this->id);
