@@ -504,10 +504,8 @@ class SchoolIdentificationValidation extends Register
             return ['status' => false, 'erro' => $result['erro']];
         }
 
-        if ($uf == '53') {
-            if ($value == '3') {
-                return ['status' => false, 'erro' => 'Dependencia Administrativa inválida'];
-            }
+        if ($uf == '53' && $value == '3') {
+            return ['status' => false, 'erro' => 'Dependencia Administrativa inválida'];
         }
         return ['status' => true, 'erro' => ''];
     }
