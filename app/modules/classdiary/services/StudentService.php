@@ -52,7 +52,6 @@ class StudentService
                 foreach ($enrollments as $enrollment) {
                     $array['studentId'] = $enrollment->student_fk;
                     $array['studentName'] = $enrollment->studentFk->name;
-                    $array['studentName'] = $enrollment->studentFk->name;
                     $array['status'] = $enrollment->status;
                     $array['statusLabel'] = $enrollment->getCurrentStatus();
                     foreach ($schedule as $s) {
@@ -186,8 +185,7 @@ class StudentService
 
     public function getStudent($student_id)
     {
-        $student = StudentIdentification::model()->findByPk($student_id);
-        return $student;
+        return StudentIdentification::model()->findByPk($student_id);
     }
 
     public function getStudentFault($stage_fk, $classroom_fk, $discipline_fk, $date, $student_fk, $schedule)
@@ -206,9 +204,7 @@ class StudentService
                 'day' => DateTime::createFromFormat('d/m/Y', $date)->format('d'), 'discipline_fk' => $discipline_fk,
                 'month' => DateTime::createFromFormat('d/m/Y', $date)->format('m'),  'schedule' => $schedule]);
         }
-
-        $classFault = ClassFaults::model()->find('schedule_fk = :schedule_fk and student_fk = :student_fk', ['schedule_fk' => $schedule->id, 'student_fk' => $student_fk]);
-        return  $classFault;
+        return  ClassFaults::model()->find('schedule_fk = :schedule_fk and student_fk = :student_fk', ['schedule_fk' => $schedule->id, 'student_fk' => $student_fk]);
     }
 
     public function getStudentDiary($stage_fk, $classroom_fk, $discipline_fk, $date, $student_fk)
