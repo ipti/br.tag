@@ -9,7 +9,6 @@ class CalendarModule extends CWebModule
     {
         $this->baseUrl = Yii::app()->createUrl('calendar');
         $this->baseScriptUrl = Yii::app()->getAssetManager()->publish(Yii::getPathOfAlias('application.modules.calendar.resources'));
-        //$this->layoutPath = yii::getPathOfAlias("calendar.views.layouts");
 
         $this->setImport([
             'calendar.models.*', 'calendar.components.*',
@@ -20,10 +19,6 @@ class CalendarModule extends CWebModule
     {
         $controller->layout = 'webroot.themes.default.views.layouts.fullmenu';
 
-        if (parent::beforeControllerAction($controller, $action)) {
-            return true;
-        } else {
-            return false;
-        }
+        return parent::beforeControllerAction($controller, $action);
     }
 }
