@@ -54,8 +54,6 @@ class FoodRequestItemAccepted extends CActiveRecord
             ['amount', 'numerical'],
             ['measurementUnit', 'length', 'max' => 7],
             ['created_at, updated_at, date', 'safe'],
-            // The following rule is used by search().
-            // @todo Please remove those attributes that should not be searched.
             ['id, food_fk, farmer_fk, food_request_fk, amount, measurementUnit, created_at, updated_at, date', 'safe', 'on' => 'search'],
         ];
     }
@@ -106,8 +104,6 @@ class FoodRequestItemAccepted extends CActiveRecord
      */
     public function search()
     {
-        // @todo Please modify the following code to remove attributes that should not be searched.
-
         $criteria = new CDbCriteria();
 
         $criteria->compare('id', $this->id);

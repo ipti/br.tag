@@ -13,10 +13,10 @@ class InstructorController extends Controller
      * using two-column layout. See 'protected/views/layouts/column2.php'.
      */
     public $layout = 'fullmenu';
-    private $InstructorIdentification = 'InstructorIdentification';
-    private $InstructorDocumentsAndAddress = 'InstructorDocumentsAndAddress';
-    private $InstructorVariableData = 'InstructorVariableData';
-    private $InstructorTeachingData = 'InstructorTeachingData';
+    private $instructorIdentification = 'InstructorIdentification';
+    private $instructorDocumentsAndAddress = 'InstructorDocumentsAndAddress';
+    private $instructorVariableData = 'InstructorVariableData';
+    private $instructorTeachingData = 'InstructorTeachingData';
 
     /**
      * @return array action filters
@@ -61,7 +61,7 @@ class InstructorController extends Controller
     public function actionView($id)
     {
         $this->render('view', [
-            'modelInstructorIdentification' => $this->loadModel($id, $this->InstructorIdentification),
+            'modelInstructorIdentification' => $this->loadModel($id, $this->instructorIdentification),
         ]);
     }
 
@@ -243,10 +243,10 @@ class InstructorController extends Controller
     public function actionUpdate($id)
     {
         //=======================================
-        $modelInstructorIdentification = $this->loadModel($id, $this->InstructorIdentification);
-        $modelInstructorDocumentsAndAddress = $this->loadModel($id, $this->InstructorDocumentsAndAddress);
+        $modelInstructorIdentification = $this->loadModel($id, $this->instructorIdentification);
+        $modelInstructorDocumentsAndAddress = $this->loadModel($id, $this->instructorDocumentsAndAddress);
         $modelInstructorDocumentsAndAddress = isset($modelInstructorDocumentsAndAddress) ? $modelInstructorDocumentsAndAddress : new InstructorDocumentsAndAddress();
-        $modelInstructorVariableData = $this->loadModel($id, $this->InstructorVariableData);
+        $modelInstructorVariableData = $this->loadModel($id, $this->instructorVariableData);
         if ($modelInstructorVariableData == null) {
             $modelInstructorVariableData = new InstructorVariableData();
         }
@@ -376,10 +376,10 @@ preenchidos';
      */
     public function actionDelete($id)
     {
-        $modelInstructorIdentification = $this->loadModel($id, $this->InstructorIdentification);
-        $modelInstructorDocumentsAndAddress = $this->loadModel($id, $this->InstructorDocumentsAndAddress);
-        $modelInstructorVariableData = $this->loadModel($id, $this->InstructorVariableData);
-        $modelInstructorTeachingData = $this->loadModel($id, $this->InstructorTeachingData);
+        $modelInstructorIdentification = $this->loadModel($id, $this->instructorIdentification);
+        $modelInstructorDocumentsAndAddress = $this->loadModel($id, $this->instructorDocumentsAndAddress);
+        $modelInstructorVariableData = $this->loadModel($id, $this->instructorVariableData);
+        $modelInstructorTeachingData = $this->loadModel($id, $this->instructorTeachingData);
 
         $delete = true;
         $numClassrooms = count($modelInstructorTeachingData);
@@ -432,14 +432,6 @@ preenchidos';
         ]);
     }
 
-    private function removeWhiteSpace($text)
-    {
-        $text = preg_replace('/[\t\n\r\0\x0B]/', '', $text);
-        $text = preg_replace('/([\s])\1+/', ' ', $text);
-        $text = trim($text);
-        return $text;
-    }
-
     //Método para Solicitação Ajax para o select UF x Cities
 
     public function actionGetCity()
@@ -487,19 +479,10 @@ preenchidos';
     public function actionGetInstitutions()
     {
         $institutionName = Yii::app()->request->getPost('q');
-        $results = Yii::app()->db
-            ->createCommand('  SELECT COUNT(*) AS total
-                                FROM edcenso_ies
-                                WHERE NAME like :q')
-            ->bindValue(':q', '%' . $institutionName . '%')->queryAll();
-
-        $total = (int)$results[0]['total'];
 
         $data = EdcensoIES::model()->findAll("name like '%" . $institutionName . "%' ORDER BY name LIMIT 0,10");
         $data = CHtml::listData($data, 'id', 'name');
 
-        $return = [];
-        // $return['total'] = $total;
         $return = [];
         foreach ($data as $value => $name) {
             array_push($return, ['id' => CHtml::encode($value), 'name' => CHtml::encode($name)]);
@@ -512,7 +495,6 @@ preenchidos';
     {
         $edcensoUfFk = Yii::app()->request->getPost('edcenso_uf_fk');
         $institutions = EdcensoIES::model()->findAllByAttributes(['edcenso_uf_fk' => $edcensoUfFk]);
-        // $institutions = CHtml::listData($institutions, 'id', 'name');
 
         $return = [];
         foreach ($institutions as $institution) {
@@ -551,7 +533,7 @@ preenchidos';
         $modelInstructorDocumentsAndAddress->unsetAttributes();  // clear any default values
         $modelInstructorVariableData->unsetAttributes();  // clear any default values
         $modelInstructorTeachingData->unsetAttributes();  // clear any default values
-        if (isset($_GET[$this->InstructorIdentification], $_GET[$this->InstructorDocumentsAndAddress], $_GET[$this->InstructorVariableData], $_GET[$this->InstructorTeachingData])) {
+        if (isset($_GET[$this->instructorIdentification], $_GET[$this->instructorDocumentsAndAddress], $_GET[$this->instructorVariableData], $_GET[$this->instructorTeachingData])) {
             $modelInstructorIdentification->attributes = $_GET['InstructorIdentification'];
             $modelInstructorDocumentsAndAddress->attributes = $_GET['InstructorDocumentsAndAddress'];
             $modelInstructorVariableData->attributes = $_GET['InstructorVariableData'];
@@ -576,24 +558,24 @@ preenchidos';
         $instructor = InstructorIdentification::model()->findByPk($id);
         $instructorId = $instructor->id;
         $return = null;
-        if ($model == $this->InstructorIdentification) {
+        if ($model == $this->instructorIdentification) {
             $return = InstructorIdentification::model()->findByPk($instructorId);
-        } elseif ($model == $this->InstructorDocumentsAndAddress) {
+        } elseif ($model == $this->instructorDocumentsAndAddress) {
             $return = InstructorDocumentsAndAddress::model()->findByPk($instructorId);
-        } elseif ($model == $this->InstructorVariableData) {
+        } elseif ($model == $this->instructorVariableData) {
             $return = InstructorVariableData::model()->findByPk($instructorId);
-        } elseif ($model == $this->InstructorTeachingData) {
+        } elseif ($model == $this->instructorTeachingData) {
             $return = InstructorTeachingData::model()->findAllByAttributes(['instructor_fk' => $instructorId]);
         }
 
-        if ($return === null && $model == $this->InstructorIdentification) {
+        if ($return === null && $model == $this->instructorIdentification) {
             throw new CHttpException(404, 'The requested page does not exist.');
         }
-        if ($return === null && $model == $this->InstructorDocumentsAndAddress) {
+        if ($return === null && $model == $this->instructorDocumentsAndAddress) {
             $return = InstructorDocumentsAndAddress::model()->findByPk($id);
         }
 
-        if ($return === null && $model == $this->InstructorVariableData) {
+        if ($return === null && $model == $this->instructorVariableData) {
             $return = InstructorVariableData::model()->findByPk($id);
         }
 

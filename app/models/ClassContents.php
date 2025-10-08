@@ -55,8 +55,6 @@ class ClassContents extends TagModel
             ['schedule_fk, course_class_fk, day, month, year, classroom_fk, discipline_fk', 'numerical', 'integerOnly' => true],
             ['fkid', 'length', 'max' => 40],
             ['created_at, updated_at', 'safe'],
-            // The following rule is used by search().
-            // @todo Please remove those attributes that should not be searched.
             ['id, schedule_fk, course_class_fk, fkid, created_at, updated_at, day, month, year, classroom_fk, discipline_fk', 'safe', 'on' => 'search'],
         ];
     }

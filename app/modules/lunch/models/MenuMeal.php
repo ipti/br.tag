@@ -32,8 +32,6 @@ class MenuMeal extends TagModel
         return [
             ['menu_fk, meal_fk', 'required'],
             ['menu_fk, meal_fk', 'numerical', 'integerOnly' => true],
-            // The following rule is used by search().
-            // @todo Please remove those attributes that should not be searched.
             ['id, menu_fk, meal_fk', 'safe', 'on' => 'search'],
         ];
     }
@@ -77,8 +75,6 @@ class MenuMeal extends TagModel
      */
     public function search()
     {
-        // @todo Please modify the following code to remove attributes that should not be searched.
-
         $criteria = new CDbCriteria();
 
         $criteria->compare('id', $this->id);

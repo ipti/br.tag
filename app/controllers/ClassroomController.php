@@ -904,8 +904,7 @@ class ClassroomController extends Controller
         $criteria->condition = 'c.id = :classroomId';
         $criteria->group = 'stages.name';
         $criteria->params = [':classroomId' => $classroomId];
-        $stages = EdcensoStageVsModality::model()->findAll($criteria);
-        return $stages;
+        return EdcensoStageVsModality::model()->findAll($criteria);
     }
 
     /**

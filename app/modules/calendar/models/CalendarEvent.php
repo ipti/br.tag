@@ -40,8 +40,6 @@ class CalendarEvent extends TagModel
             ['calendar_fk, calendar_event_type_fk, copyable', 'numerical', 'integerOnly' => true],
             ['name', 'length', 'max' => 50],
             ['school_fk', 'length', 'max' => 8],
-            // The following rule is used by search().
-            // @todo Please remove those attributes that should not be searched.
             ['id, name, start_date, end_date, calendar_fk, calendar_event_type_fk, copyable, school_fk', 'safe', 'on' => 'search'],
         ];
     }
@@ -91,8 +89,6 @@ class CalendarEvent extends TagModel
      */
     public function search()
     {
-        // @todo Please modify the following code to remove attributes that should not be searched.
-
         $criteria = new CDbCriteria();
 
         $criteria->compare('id', $this->id);

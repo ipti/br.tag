@@ -30,8 +30,7 @@ class SchoolIdentificationValidation extends Register
     5. O código deve ser de uma entidade existente no cadastro do Inep.
     6. A escola informada deve estar entre as escolas abrangidas pelo perfil do informante.
     7. A escola informada não pode ter sido extinta em anos anteriores.
-   */
-
+    */
     public function isInepIdValid($inep_id)
     {
         if (empty($inep_id)) {
@@ -505,10 +504,8 @@ class SchoolIdentificationValidation extends Register
             return ['status' => false, 'erro' => $result['erro']];
         }
 
-        if ($uf == '53') {
-            if ($value == '3') {
-                return ['status' => false, 'erro' => 'Dependencia Administrativa inválida'];
-            }
+        if ($uf == '53' && $value == '3') {
+            return ['status' => false, 'erro' => 'Dependencia Administrativa inválida'];
         }
         return ['status' => true, 'erro' => ''];
     }

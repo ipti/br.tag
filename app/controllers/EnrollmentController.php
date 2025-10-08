@@ -13,9 +13,6 @@ Yii::import('application.repository.FormsRepository');
 
 class EnrollmentController extends Controller implements AuthenticateSEDTokenInterface
 {
-    //@done s1 - Validar Ano Letivo
-    //@done s1 - Verificar erro - Ao matricular um aluno que acabou de ser cadastrado não está salvando eno bancoo e aparece a mensagem de 'Aluno ja matriculado'
-    //@done s1 - Filtrar aluno e turma por escola
 
     /**
      * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
@@ -29,7 +26,7 @@ class EnrollmentController extends Controller implements AuthenticateSEDTokenInt
     public function filters()
     {
         return [
-            'accessControl', // perform access control for CRUD operations
+            'accessControl',
         ];
     }
 
@@ -48,7 +45,7 @@ class EnrollmentController extends Controller implements AuthenticateSEDTokenInt
     {
         return [
             [
-                'allow', // allow authenticated user to perform 'create' and 'update' actions
+                'allow',
                 'actions' => [
                     'index',
                     'view',
@@ -71,12 +68,12 @@ class EnrollmentController extends Controller implements AuthenticateSEDTokenInt
                 'users' => ['@'],
             ],
             [
-                'allow', // allow admin user to perform 'admin' and 'delete' actions
+                'allow',
                 'actions' => ['admin'],
                 'users' => ['admin'],
             ],
             [
-                'deny', // deny all users
+                'deny',
                 'users' => ['*'],
             ],
         ];
@@ -111,18 +108,9 @@ class EnrollmentController extends Controller implements AuthenticateSEDTokenInt
 
     public function actionUpdateDependencies()
     {
-        //$enrollment = new StudentEnrollment;
-        //$enrollment->attributes = $_POST["StudentEnrollment"];
-        //$students = StudentIdentification::model()->findAll('school_inep_id_fk=:id order by name ASC', array(':id' => $enrollment->school_inep_id_fk));
-        //$students = CHtml::listData($students, 'id', 'name');
+
 
         $classrooms = Classroom::model()->findAllByAttributes(['school_year' => Yii::app()->user->year, 'school_inep_fk' => Yii::app()->user->school]);
-        //$classrooms = CHtml::listData($classrooms, 'id', 'name');
-
-        /* $result['Students'] = CHtml::tag('option', array('value' => null), 'Selecione um Aluno', true);
-          foreach ($students as $value => $name) {
-          $result['Students'] .= CHtml::tag('option', array('value' => $value, ($enrollment->student_fk == $value ? "selected" : "deselected") => ($enrollment->student_fk == $value ? "selected" : "deselected")), CHtml::encode($name), true);
-          } */
         $class = new Classroom();
         $result['Classrooms'] = CHtml::tag('option', ['value' => 0], 'Selecione uma Turma', true);
         foreach ($classrooms as $class) {
@@ -156,8 +144,6 @@ class EnrollmentController extends Controller implements AuthenticateSEDTokenInt
     public function actionCreate()
     {
         $model = new StudentEnrollment();
-        // Uncomment the following line if AJAX validation is needed
-        // $this->performAjaxValidation($model);
 
         $classrooms = Classroom::model()->findAll(
             'school_year = :year AND school_inep_fk = :school order by name',
@@ -181,7 +167,6 @@ class EnrollmentController extends Controller implements AuthenticateSEDTokenInt
                 } catch (Exception $exc) {
                     $model->addError('student_fk', Yii::t('default', 'Student Fk') . ' ' . Yii::t('default', 'already enrolled in this classroom.'));
                     $model->addError('classroom_fk', Yii::t('default', 'Classroom') . ' ' . Yii::t('default', 'already have in this student enrolled.'));
-                    //echo $exc->getTraceAsString();
                 }
             } else {
                 unset($model->s);
@@ -242,103 +227,102 @@ class EnrollmentController extends Controller implements AuthenticateSEDTokenInt
             );
         }
 
-        if (isset($_POST['StudentEnrollment'])) {
+        if (isset($_POST['StudentEnrollment'])  && $model->validate()) {
+
+            $model->attributes = $_POST['StudentEnrollment'];
+            $model->enrollment_date = DateTime::createFromFormat('d/m/Y', $model->enrollment_date);
+            $model->enrollment_date = $model->enrollment_date->format('Y-m-d');
+            $model->school_inep_id_fk = Classroom::model()->findByPk([$_POST['StudentEnrollment']['classroom_fk']])->school_inep_fk;
             if ($model->validate()) {
-                $model->attributes = $_POST['StudentEnrollment'];
-                $model->enrollment_date = DateTime::createFromFormat('d/m/Y', $model->enrollment_date);
-                $model->enrollment_date = $model->enrollment_date->format('Y-m-d');
-                $model->school_inep_id_fk = Classroom::model()->findByPk([$_POST['StudentEnrollment']['classroom_fk']])->school_inep_fk;
-                if ($model->validate()) {
-                    if ($model->status != $_POST['StudentEnrollment']['status']) {
-                        $studentEnrollmentHistory = new StudentEnrollmentHistory();
-                        $studentEnrollmentHistory->student_enrollment_fk = $model->id;
-                        $studentEnrollmentHistory->status = $model->status;
-                        $studentEnrollmentHistory->enrollment_date = $model->enrollment_date;
-                        $studentEnrollmentHistory->transfer_date = $model->transfer_date;
-                        $studentEnrollmentHistory->class_transfer_date = $model->class_transfer_date;
-                        $studentEnrollmentHistory->school_readmission_date = $model->school_readmission_date;
-                        $studentEnrollmentHistory->save();
-                    }
+                if ($model->status != $_POST['StudentEnrollment']['status']) {
+                    $studentEnrollmentHistory = new StudentEnrollmentHistory();
+                    $studentEnrollmentHistory->student_enrollment_fk = $model->id;
+                    $studentEnrollmentHistory->status = $model->status;
+                    $studentEnrollmentHistory->enrollment_date = $model->enrollment_date;
+                    $studentEnrollmentHistory->transfer_date = $model->transfer_date;
+                    $studentEnrollmentHistory->class_transfer_date = $model->class_transfer_date;
+                    $studentEnrollmentHistory->school_readmission_date = $model->school_readmission_date;
+                    $studentEnrollmentHistory->save();
+                }
 
-                    if ($model->save()) {
-                        $model->enrollment_date = DateTime::createFromFormat('Y-m-d', $model->enrollment_date);
-                        $model->enrollment_date = $model->enrollment_date->format('d/m/Y');
-                        $message = '';
-                        if (Yii::app()->features->isEnable(TFeature::FEAT_INTEGRATIONS_SEDSP)) {
-                            $this->authenticateSedToken();
+                if ($model->save()) {
+                    $model->enrollment_date = DateTime::createFromFormat('Y-m-d', $model->enrollment_date);
+                    $model->enrollment_date = $model->enrollment_date->format('d/m/Y');
+                    $message = '';
+                    if (Yii::app()->features->isEnable(TFeature::FEAT_INTEGRATIONS_SEDSP)) {
+                        $this->authenticateSedToken();
 
-                            $inNumRA = StudentIdentification::model()->findByPk($model->student_fk);
-                            $inAluno = new InAluno($inNumRA->gov_id, null, 'SP');
+                        $inNumRA = StudentIdentification::model()->findByPk($model->student_fk);
+                        $inAluno = new InAluno($inNumRA->gov_id, null, 'SP');
+                        $class = Classroom::model()->findByPk($model->classroom_fk);
+                        $newClass = $class->gov_id === null ? $class->inep_id : $class->gov_id;
+
+                        if ($model->sedsp_sync == 0) {
+                            $model->studentFk->processEnrollment($model->studentFk, $model);
+                        }
+
+                        if ($model->status === '2' || $model->status === '5') {
+
+                            $classroomMapper = new ClassroomMapper();
+                            $ensino = (object) $classroomMapper->convertStageToTipoEnsino($class->edcenso_stage_vs_modality_fk);
+
+                            $inDataMovimento = date('d/m/Y');
+                            $inNumAluno = '00';
+                            $inNumClasseOrigem = $oldClass;
+                            $inNumClasseDestino = $newClass;
+
+                            $inTrocarAlunoEntreClasses = new InTrocarAlunoEntreClasses(
+                                $inAluno,
+                                new InMatriculaTrocar(Yii::app()->user->year, $inDataMovimento, $inNumAluno, $inNumClasseOrigem, $inNumClasseDestino),
+                                new InNivelEnsino($ensino->tipoEnsino, $ensino->serieAno)
+                            );
+
+                            $trocarAlunoEntreClassesUseCase = new TrocarAlunoEntreClassesUseCase();
+                            $result = $trocarAlunoEntreClassesUseCase->exec($inTrocarAlunoEntreClasses);
+                        } elseif ($model->status === '3' || $model->status === '11') {
+
                             $class = Classroom::model()->findByPk($model->classroom_fk);
-                            $newClass = $class->gov_id === null ? $class->inep_id : $class->gov_id;
+                            $inNumClasse = $class->gov_id === null ? $class->inep_id : $class->gov_id;
 
-                            if ($model->sedsp_sync == 0) {
-                                $model->studentFk->processEnrollment($model->studentFk, $model);
-                            }
+                            $inExcluirMatricula = new InExcluirMatricula($inAluno, $inNumClasse);
 
-                            if ($model->status === '2' || $model->status === '5') {
-                                //addTrocarAlunoEntreClasses
-                                $classroomMapper = new ClassroomMapper();
-                                $ensino = (object) $classroomMapper->convertStageToTipoEnsino($class->edcenso_stage_vs_modality_fk);
+                            $deleteEnrollmentUseCase = new DeleteEnrollmentUseCase();
+                            $result = $deleteEnrollmentUseCase->exec($inExcluirMatricula);
+                        } elseif ($model->status === '4') {
 
-                                $inDataMovimento = date('d/m/Y');
-                                $inNumAluno = '00';
-                                $inNumClasseOrigem = $oldClass;
-                                $inNumClasseDestino = $newClass;
-
-                                $inTrocarAlunoEntreClasses = new InTrocarAlunoEntreClasses(
-                                    $inAluno,
-                                    new InMatriculaTrocar(Yii::app()->user->year, $inDataMovimento, $inNumAluno, $inNumClasseOrigem, $inNumClasseDestino),
-                                    new InNivelEnsino($ensino->tipoEnsino, $ensino->serieAno)
-                                );
-
-                                $trocarAlunoEntreClassesUseCase = new TrocarAlunoEntreClassesUseCase();
-                                $result = $trocarAlunoEntreClassesUseCase->exec($inTrocarAlunoEntreClasses);
-                            } elseif ($model->status === '3' || $model->status === '11') {
-                                //excluirmatricula
-                                $class = Classroom::model()->findByPk($model->classroom_fk);
-                                $inNumClasse = $class->gov_id === null ? $class->inep_id : $class->gov_id;
-
-                                $inExcluirMatricula = new InExcluirMatricula($inAluno, $inNumClasse);
-
-                                $deleteEnrollmentUseCase = new DeleteEnrollmentUseCase();
-                                $result = $deleteEnrollmentUseCase->exec($inExcluirMatricula);
-                            } elseif ($model->status === '4') {
-                                //baixarmatricula
-
-                                $inTipoBaixa = $_POST['reason'];
-                                if ($inTipoBaixa == '1') {
-                                    $inMotivoBaixa = $_POST['secondReason'];
-                                } else {
-                                    $inMotivoBaixa = null;
-                                }
-
-                                $inDataBaixa = date('Y-m-d');
-                                $class = Classroom::model()->findByPk($model->classroom_fk);
-                                $inNumClasse = $class->gov_id === null ? $class->inep_id : $class->gov_id;
-
-                                $inBaixarMatricula = new InBaixarMatricula($inAluno, $inTipoBaixa, $inMotivoBaixa, $inDataBaixa, $inNumClasse);
-
-                                $terminateEnrollmentUseCase = new TerminateEnrollmentUseCase();
-                                $result = $terminateEnrollmentUseCase->exec($inBaixarMatricula);
-                            }
-
-                            if ($result->outErro === null) {
-                                $flash = 'success';
-                                $message .= 'Matrícula alterada com sucesso!';
+                            $inTipoBaixa = $_POST['reason'];
+                            if ($inTipoBaixa == '1') {
+                                $inMotivoBaixa = $_POST['secondReason'];
                             } else {
-                                $flash = 'error';
-                                $message .= 'Matrícula alterada com sucesso no TAG, mas não foi possível sincronizá-la com o SEDSP. Motivo: ' . $result->outErro;
+                                $inMotivoBaixa = null;
                             }
-                        } else {
+
+                            $inDataBaixa = date('Y-m-d');
+                            $class = Classroom::model()->findByPk($model->classroom_fk);
+                            $inNumClasse = $class->gov_id === null ? $class->inep_id : $class->gov_id;
+
+                            $inBaixarMatricula = new InBaixarMatricula($inAluno, $inTipoBaixa, $inMotivoBaixa, $inDataBaixa, $inNumClasse);
+
+                            $terminateEnrollmentUseCase = new TerminateEnrollmentUseCase();
+                            $result = $terminateEnrollmentUseCase->exec($inBaixarMatricula);
+                        }
+
+                        if ($result->outErro === null) {
                             $flash = 'success';
                             $message .= 'Matrícula alterada com sucesso!';
+                        } else {
+                            $flash = 'error';
+                            $message .= 'Matrícula alterada com sucesso no TAG, mas não foi possível sincronizá-la com o SEDSP. Motivo: ' . $result->outErro;
                         }
-                        Log::model()->saveAction('enrollment', $model->id, 'U', $model->studentFk->name . '|' . $model->classroomFk->name);
-                        Yii::app()->user->setFlash($flash, $message);
+                    } else {
+                        $flash = 'success';
+                        $message .= 'Matrícula alterada com sucesso!';
                     }
+                    Log::model()->saveAction('enrollment', $model->id, 'U', $model->studentFk->name . '|' . $model->classroomFk->name);
+                    Yii::app()->user->setFlash($flash, $message);
                 }
             }
+
         }
 
         $this->render(
@@ -368,19 +352,6 @@ class EnrollmentController extends Controller implements AuthenticateSEDTokenInt
         } else {
             throw new CHttpException(404, 'The requested page does not exist.');
         }
-
-        //		if(Yii::app()->request->isPostRequest)
-        //		{
-//
-        //			// we only allow deletion via POST request
-        //			$this->loadModel($id)->delete();
-//
-        //			// if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
-        //			if(!isset($_GET['ajax']))
-        //				$this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
-        //		}
-        //		else
-        //			throw new CHttpException(400,'Invalid request. Please do not repeat this request again.');
     }
 
     /**
@@ -390,7 +361,7 @@ class EnrollmentController extends Controller implements AuthenticateSEDTokenInt
     {
         $query = StudentEnrollment::model()->findAll();
         $model = new StudentEnrollment('search');
-        $model->unsetAttributes();  // clear any default values
+        $model->unsetAttributes();
         if (isset($_GET['StudentEnrollment'])) {
             $model->attributes = $_GET['StudentEnrollment'];
         }
@@ -561,7 +532,7 @@ class EnrollmentController extends Controller implements AuthenticateSEDTokenInt
             )
                 ->bindParam(':stage_fk', $classroom->edcenso_stage_vs_modality_fk)
                 ->bindParam(':year', Yii::app()->user->year)->queryAll();
-            foreach ($classr as $i => $discipline) {
+            foreach ($classr as $discipline) {
                 if (isset($discipline['discipline_fk'])) {
                     echo htmlspecialchars(CHtml::tag('option', ['value' => $discipline['discipline_fk']], CHtml::encode($disciplinesLabels[$discipline['discipline_fk']]), true));
                 }
@@ -695,7 +666,7 @@ class EnrollmentController extends Controller implements AuthenticateSEDTokenInt
                     if (!$result['isUnityConcept']) {
                         $arr['finalMedia'] = $gradeResult != null ? $gradeResult->final_media : '';
                     }
-                    $arr['situation'] = $gradeResult != null ? ($gradeResult->situation != null ? $gradeResult->situation : '') : '';
+                    $arr['situation'] = $gradeResult != null ? $this->checkGradesSituation($gradeResult->situation) : '';
                     array_push($result['students'], $arr);
                 }
 
@@ -709,6 +680,9 @@ class EnrollmentController extends Controller implements AuthenticateSEDTokenInt
             $result['message'] = 'Não há estudantes matriculados na turma.';
         }
         echo json_encode($result);
+    }
+    private function checkGradesSituation($situation){
+        return $situation != null ? $situation : '';
     }
 
     /**

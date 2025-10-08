@@ -54,8 +54,6 @@ class Food extends TagModel
         return [
             ['id', 'numerical', 'integerOnly' => true],
             ['description, category, humidity_percents, energy_kcal, energy_kj, protein_g, lipidius_g, cholesterol_mg, carbohydrate_g, fiber_g, ashes_g, calcium_mg, magnesium_mg, manganese_mg, phosphorus_mg, iron_mg, sodium_mg, potassium_mg, copper_mg, zinc_mg, retinol_mcg, re_mcg, rae_mcg, tiamina_mg, riboflavin_mg, pyridoxine_mg, niacin_mg, vitaminC_mg', 'length', 'max' => 512],
-            // The following rule is used by search().
-            // @todo Please remove those attributes that should not be searched.
             ['id, description, category, humidity_percents, energy_kcal, energy_kj, protein_g, lipidius_g, cholesterol_mg, carbohydrate_g, fiber_g, ashes_g, calcium_mg, magnesium_mg, manganese_mg, phosphorus_mg, iron_mg, sodium_mg, potassium_mg, copper_mg, zinc_mg, retinol_mcg, re_mcg, rae_mcg, tiamina_mg, riboflavin_mg, pyridoxine_mg, niacin_mg, vitaminC_mg', 'safe', 'on' => 'search'],
         ];
     }
@@ -123,8 +121,6 @@ class Food extends TagModel
      */
     public function search()
     {
-        // @todo Please modify the following code to remove attributes that should not be searched.
-
         $criteria = new CDbCriteria();
 
         $criteria->compare('id', $this->id);

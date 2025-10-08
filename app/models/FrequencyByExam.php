@@ -32,8 +32,6 @@ class FrequencyByExam extends TagModel
         return [
             ['enrollment_fk, exam', 'required'],
             ['enrollment_fk, exam, absences', 'numerical', 'integerOnly' => true],
-            // The following rule is used by search().
-            // @todo Please remove those attributes that should not be searched.
             ['id, enrollment_fk, exam, absences', 'safe', 'on' => 'search'],
         ];
     }
@@ -77,8 +75,6 @@ class FrequencyByExam extends TagModel
      */
     public function search()
     {
-        // @todo Please modify the following code to remove attributes that should not be searched.
-
         $criteria = new CDbCriteria();
 
         $criteria->compare('id', $this->id);

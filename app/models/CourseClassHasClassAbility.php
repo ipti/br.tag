@@ -32,8 +32,6 @@ class CourseClassHasClassAbility extends TagModel
         return [
             ['course_class_fk, course_class_ability_fk', 'required'],
             ['course_class_fk, course_class_ability_fk', 'numerical', 'integerOnly' => true],
-            // The following rule is used by search().
-            // @todo Please remove those attributes that should not be searched.
             ['id, course_class_fk, course_class_ability_fk', 'safe', 'on' => 'search'],
         ];
     }
@@ -77,8 +75,6 @@ class CourseClassHasClassAbility extends TagModel
      */
     public function search()
     {
-        // @todo Please modify the following code to remove attributes that should not be searched.
-
         $criteria = new CDbCriteria();
 
         $criteria->compare('id', $this->id);

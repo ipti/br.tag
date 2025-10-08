@@ -28,16 +28,14 @@ class StudentEnrollmentHistory extends TagModel
 
     public function behaviors()
     {
-        // Define os comportamentos padrão
-        $behaviors = [
+
+        return [
             'CTimestampBehavior' => [
                 'class' => 'zii.behaviors.CTimestampBehavior',
                 'createAttribute' => 'created_at',
                 'timestampExpression' => new CDbExpression('CONVERT_TZ(NOW(), "+00:00", "-03:00")'),
             ]
         ];
-
-        return $behaviors;
     }
 
     /**
@@ -51,8 +49,6 @@ class StudentEnrollmentHistory extends TagModel
             ['student_enrollment_fk, status', 'required'],
             ['student_enrollment_fk, status', 'numerical', 'integerOnly' => true],
             ['enrollment_date, transfer_date, class_transfer_date, school_readmission_date, created_at', 'safe'],
-            // The following rule is used by search().
-            // @todo Please remove those attributes that should not be searched.
             ['id, student_enrollment_fk, status, enrollment_date, transfer_date, class_transfer_date, school_readmission_date, created_at', 'safe', 'on' => 'search'],
         ];
     }
@@ -62,8 +58,7 @@ class StudentEnrollmentHistory extends TagModel
      */
     public function relations()
     {
-        // NOTE: you may need to adjust the relation name and the related
-        // class name for the relations automatically generated below.
+
         return [
             'studentEnrollmentFk' => [self::BELONGS_TO, 'StudentEnrollment', 'student_enrollment_fk'],
         ];
@@ -100,7 +95,6 @@ class StudentEnrollmentHistory extends TagModel
      */
     public function search()
     {
-        // @todo Please modify the following code to remove attributes that should not be searched.
 
         $criteria = new CDbCriteria();
 

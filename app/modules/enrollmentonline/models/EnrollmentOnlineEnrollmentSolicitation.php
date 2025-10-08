@@ -34,8 +34,6 @@ class EnrollmentOnlineEnrollmentSolicitation extends CActiveRecord
             ['school_inep_id_fk, enrollment_online_student_identification_fk', 'required'],
             ['enrollment_online_student_identification_fk, status', 'numerical', 'integerOnly' => true],
             ['school_inep_id_fk', 'length', 'max' => 8],
-            // The following rule is used by search().
-            // @todo Please remove those attributes that should not be searched.
             ['id, school_inep_id_fk, enrollment_online_student_identification_fk, status', 'safe', 'on' => 'search'],
         ];
     }
@@ -80,8 +78,6 @@ class EnrollmentOnlineEnrollmentSolicitation extends CActiveRecord
      */
     public function search()
     {
-        // @todo Please modify the following code to remove attributes that should not be searched.
-
         $criteria = new CDbCriteria();
 
         $criteria->compare('id', $this->id);

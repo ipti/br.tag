@@ -55,8 +55,6 @@ class Schedule extends TagModel
             ['turn', 'length', 'max' => 45],
             ['hash', 'length', 'max' => 20],
             ['diary', 'safe'],
-            // The following rule is used by search().
-            // @todo Please remove those attributes that should not be searched.
             ['id, instructor_fk, discipline_fk, classroom_fk, day, month, year, week, week_day, schedule, turn, unavailable, diary, fkid, hash', 'safe', 'on' => 'search'],
         ];
     }
@@ -119,8 +117,6 @@ class Schedule extends TagModel
      */
     public function search()
     {
-        // @todo Please modify the following code to remove attributes that should not be searched.
-
         $criteria = new CDbCriteria();
 
         $criteria->compare('id', $this->id);

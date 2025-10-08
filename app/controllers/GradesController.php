@@ -399,10 +399,6 @@ class GradesController extends Controller
         if ($studentEnrollments != null) {
             $result['students'] = [];
             foreach ($studentEnrollments as $studentEnrollment) {
-                // TODO: Mudar lógica de criação de tabela para turmas multiseriadas
-                // $stage = isset($studentEnrollment->edcenso_stage_vs_modality_fk)
-                //     ? $studentEnrollment->edcenso_stage_vs_modality_fk :
-                //     $studentEnrollment->classroomFk->edcenso_stage_vs_modality_fk;
 
                 $unities = GradeUnity::model()->findAll(
                     'edcenso_stage_vs_modality_fk = :stageId and (type = :type or type = :type2 or type = :type3)',
@@ -665,7 +661,7 @@ class GradesController extends Controller
         }
 
         foreach ($classrooms as $classroom) {
-            if (TagUtils::isMultiStage($classroom->edcenso_stage_vs_modality_fk) == false) {
+            if (TagUtils::isMultiStage($classroom->edcenso_stage_vs_modality_fk) === false) {
                 $disciplines = Yii::app()->db->createCommand(
                     'select curricular_matrix.discipline_fk
                     from curricular_matrix
@@ -757,10 +753,10 @@ class GradesController extends Controller
             $gradeRules = GradeRules::model()->find($criteria);
 
             TLog::info('Começado processo de calcular média final.', ['Classroom' => $classroom->id, 'GradeRules' => $gradeRules->id]);
-            $TotalEnrollments = $classroom->activeStudentEnrollments;
+            $totalEnrollments = $classroom->activeStudentEnrollments;
             $studentEnrollments = [];
             if (TagUtils::isMultiStage($classroom->edcenso_stage_vs_modality_fk) && $isClassroomStage == 0) {
-                foreach ($TotalEnrollments as $enrollment) {
+                foreach ($totalEnrollments as $enrollment) {
                     if ($enrollment->edcenso_stage_vs_modality_fk == $stage) {
                         array_push($studentEnrollments, $enrollment);
                     }

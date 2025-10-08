@@ -47,8 +47,6 @@ class FoodMenuMeal extends TagModel
             ['sequence, food_meal_type_fk, friday, monday, saturday, sunday, thursday, tuesday, wednesday, food_menuId', 'numerical', 'integerOnly' => true],
             ['description, observation, turn', 'length', 'max' => 100],
             ['meal_time', 'safe'],
-            // The following rule is used by search().
-            // @todo Please remove those attributes that should not be searched.
             ['id, description, observation, sequence, food_meal_type_fk, friday, monday, saturday, sunday, thursday, tuesday, wednesday, food_menuId, meal_time, turn', 'safe', 'on' => 'search'],
         ];
     }
@@ -105,8 +103,6 @@ class FoodMenuMeal extends TagModel
      */
     public function search()
     {
-        // @todo Please modify the following code to remove attributes that should not be searched.
-
         $criteria = new CDbCriteria();
 
         $criteria->compare('id', $this->id);

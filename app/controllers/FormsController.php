@@ -41,43 +41,43 @@ class FormsController extends Controller
         $this->render('index');
     }
 
-    public function actionEnrollmentGradesReport($enrollment_id)
+    public function actionEnrollmentGradesReport($enrollmentId)
     {
         $this->layout = 'reports';
         $repository = new FormsRepository();
-        $query = $repository->getEnrollmentGrades($enrollment_id);
+        $query = $repository->getEnrollmentGrades($enrollmentId);
         $this->render('EnrollmentGradesReport', $query);
     }
 
-    public function actionIndividualRecord($enrollment_id)
+    public function actionIndividualRecord($enrollmentId)
     {
         $this->layout = 'reports';
         $repository = new FormsRepository();
-        $query = $repository->getIndividualRecord($enrollment_id);
+        $query = $repository->getIndividualRecord($enrollmentId);
         $this->render('IndividualRecord', $query);
     }
 
-    public function actionEnrollmentGradesReportBoquim($enrollment_id)
+    public function actionEnrollmentGradesReportBoquim($enrollmentId)
     {
         $this->layout = 'reports';
         $repository = new FormsRepository();
-        $query = $repository->getEnrollmentGradesBoquim($enrollment_id);
+        $query = $repository->getEnrollmentGradesBoquim($enrollmentId);
         $this->render('EnrollmentGradesReportBoquim', $query);
     }
 
-    public function actionEnrollmentGradesReportBoquimCiclo($enrollment_id)
+    public function actionEnrollmentGradesReportBoquimCiclo($enrollmentId)
     {
         $this->layout = 'reports';
         $repository = new FormsRepository();
-        $query = $repository->getEnrollmentGradesBoquimCiclo($enrollment_id);
+        $query = $repository->getEnrollmentGradesBoquimCiclo($enrollmentId);
         $this->render('EnrollmentGradesReportBoquimCiclo', $query);
     }
 
-    public function actionEnrollmentDeclarationReport($enrollment_id)
+    public function actionEnrollmentDeclarationReport($enrollmentId)
     {
         $this->layout = 'reports';
         $repository = new FormsRepository();
-        $query = $repository->getEnrollmentDeclaration($enrollment_id);
+        $query = $repository->getEnrollmentDeclaration($enrollmentId);
         $this->render('EnrollmentDeclarationReport', $query);
     }
 
@@ -89,66 +89,66 @@ class FormsController extends Controller
         $this->render('StudentIMCReport',  array("response" => $response));
     }
 
-    public function actionConclusionCertification($enrollment_id)
+    public function actionConclusionCertification($enrollmentId)
     {
         $this->layout = 'reports';
         $repository = new FormsRepository();
-        $query = $repository->getConclusionCertification($enrollment_id);
+        $query = $repository->getConclusionCertification($enrollmentId);
         $this->render('ConclusionCertification', $query);
     }
 
-    public function actionGetEnrollmentDeclarationInformation($enrollment_id)
+    public function actionGetEnrollmentDeclarationInformation($enrollmentId)
     {
         $repository = new FormsRepository();
-        $result = $repository->getEnrollmentDeclarationInformation($enrollment_id);
+        $result = $repository->getEnrollmentDeclarationInformation($enrollmentId);
 
         echo CJSON::encode($result);
     }
 
-    public function actionTransferRequirement($enrollment_id)
+    public function actionTransferRequirement($enrollmentId)
     {
         $this->layout = 'reports';
         $repository = new FormsRepository();
-        $query = $repository->getTransferRequirement($enrollment_id);
+        $query = $repository->getTransferRequirement($enrollmentId);
         $this->render('TransferRequirement', $query);
     }
 
-    public function actionGetTransferRequirementInformation($enrollment_id)
+    public function actionGetTransferRequirementInformation($enrollmentId)
     {
         $repository = new FormsRepository();
-        $result = $repository->getTransferRequirementInformation($enrollment_id);
+        $result = $repository->getTransferRequirementInformation($enrollmentId);
 
         echo CJSON::encode($result);
     }
 
-    public function actionEnrollmentNotification($enrollment_id)
+    public function actionEnrollmentNotification($enrollmentId)
     {
         $this->layout = 'reports';
         $repository = new FormsRepository();
-        $query = $repository->getEnrollmentNotification($enrollment_id);
+        $query = $repository->getEnrollmentNotification($enrollmentId);
         $this->render('EnrollmentNotification', $query);
     }
 
-    public function actionGetEnrollmentNotificationInformation($enrollment_id)
+    public function actionGetEnrollmentNotificationInformation($enrollmentId)
     {
         $repository = new FormsRepository();
-        $result = $repository->getEnrollmentNotificationInformation($enrollment_id);
+        $result = $repository->getEnrollmentNotificationInformation($enrollmentId);
 
         echo CJSON::encode($result);
     }
 
-    public function actionStudentsDeclarationReport($enrollment_id)
+    public function actionStudentsDeclarationReport($enrollmentId)
     {
         $this->layout = 'reports';
         $repository = new FormsRepository();
-        $query = $repository->getStudentsDeclaration($enrollment_id);
+        $query = $repository->getStudentsDeclaration($enrollmentId);
         $this->render('StudentsDeclarationReport', $query);
     }
 
-    public function actionGetStudentsFileInformation($enrollment_id)
+    public function actionGetStudentsFileInformation($enrollmentId)
     {
         $repository = new FormsRepository();
-        $result = $repository->getStudentsFileInformation($enrollment_id);
+        $result = $repository->getStudentsFileInformation($enrollmentId);
 
         echo CJSON::encode($result);
     }
@@ -161,11 +161,11 @@ class FormsController extends Controller
         $this->render('AtaSchoolPerformance', $query);
     }
 
-    public function actionStudentFileForm($enrollment_id)
+    public function actionStudentFileForm($enrollmentId)
     {
         $this->layout = 'reports';
         $repository = new FormsRepository();
-        $query = $repository->getStudentFileForm($enrollment_id);
+        $query = $repository->getStudentFileForm($enrollmentId);
         $this->render('StudentFileForm', $query);
     }
 
@@ -177,43 +177,43 @@ class FormsController extends Controller
         $this->render('StudentsFileForm', $query);
     }
 
-    public function actionTransferForm($enrollment_id)
+    public function actionTransferForm($enrollmentId)
     {
         $this->layout = 'reports';
         $repository = new FormsRepository();
-        $query = $repository->getTransferForm($enrollment_id);
+        $query = $repository->getTransferForm($enrollmentId);
         $this->render('TransferForm', $query);
     }
 
-    public function actionGetTransferFormInformation($enrollment_id)
+    public function actionGetTransferFormInformation($enrollmentId)
     {
         $repository = new FormsRepository();
-        $result = $repository->getTransferFormInformation($enrollment_id);
+        $result = $repository->getTransferFormInformation($enrollmentId);
 
         echo CJSON::encode($result);
     }
 
-    public function actionStatementAttended($enrollment_id)
+    public function actionStatementAttended($enrollmentId)
     {
         $this->layout = 'reports';
         $repository = new FormsRepository();
-        $query = $repository->getStatementAttended($enrollment_id);
+        $query = $repository->getStatementAttended($enrollmentId);
         $this->render('StudentStatementAttended', $query);
     }
 
-    public function actionWarningTerm($enrollment_id)
+    public function actionWarningTerm($enrollmentId)
     {
         $this->layout = 'reports';
         $repository = new FormsRepository();
-        $query = $repository->getWarningTerm($enrollment_id);
+        $query = $repository->getWarningTerm($enrollmentId);
         $this->render('WarningTerm', $query);
     }
 
-    public function actionSuspensionTerm($enrollment_id)
+    public function actionSuspensionTerm($enrollmentId)
     {
         $this->layout = 'reports';
         $repository = new FormsRepository();
-        $query = $repository->getSuspensionTerm($enrollment_id);
+        $query = $repository->getSuspensionTerm($enrollmentId);
         $this->render('SuspensionTerm', $query);
     }
 }
