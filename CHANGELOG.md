@@ -1,3 +1,6 @@
+## [Versão 3.5.1]
+- Corrigido Cálculo de Frequência
+
 ## [Versão 3.5.0]
 - Controle de acesso por módulos
 - Refatoração de código para redução de débito tecnico
