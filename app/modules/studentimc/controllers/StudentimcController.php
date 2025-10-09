@@ -67,6 +67,7 @@ class StudentIMCController extends Controller
     public function actionCreate($studentId)
     {
         $model = new StudentIMC;
+        $modelStudentDisorder = new StudentDisorder();
 
         // Uncomment the following line if AJAX validation is needed
         // $this->performAjaxValidation($model);
@@ -80,6 +81,7 @@ class StudentIMCController extends Controller
 
         $this->render('create', array(
             'model' => $model,
+            'disorder' => $modelStudentDisorder
         ));
     }
 
@@ -181,7 +183,7 @@ class StudentIMCController extends Controller
             'criteria' => array(
                 'condition' => 'school_inep_id_fk=' . $school,
             ),
-            'pagination'=> false
+            'pagination' => false
         ));
         $this->render('studentIndex', array(
             'dataProvider' => $dataProvider,
@@ -221,13 +223,13 @@ class StudentIMCController extends Controller
         ));
     }
 
-    public function actionStudentIMCReport($studentId) {
-       $studentICM =  StudentIMC::model()->findAllByAttributes(["student_fk" => $studentId]);
+    public function actionStudentIMCReport($studentId)
+    {
+        $studentICM =  StudentIMC::model()->findAllByAttributes(["student_fk" => $studentId]);
 
-       $this->render('studentIMCReport', array(
+        $this->render('studentIMCReport', array(
             'studentICM' => $studentICM,
         ));
-
     }
 
     /**

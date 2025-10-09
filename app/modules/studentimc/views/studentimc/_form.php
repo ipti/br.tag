@@ -79,6 +79,20 @@ $cs->registerScriptFile($baseScriptUrl . '/functions.js', CClientScript::POS_END
                     </div>
                 </div>
             </div>
+
+            <div class="row">
+                <div class="column">
+                    <div class="t-field-checkbox-group">
+                        <h3>
+                            Deficiências nutricionais
+                        </h3>
+                        <div class="t-field-checkbox">
+                              <?php echo $form->checkBox($disorder, 'iron_deficiency_anemia', array('class'=>'', 'value' => 1, 'uncheckValue' => 0)); ?>
+                              <?php echo $form->labelEx($disorder, 'iron_deficiency_anemia', array('class'=> 't-field-checkbox')); ?>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
