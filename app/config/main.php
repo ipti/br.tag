@@ -107,6 +107,7 @@ return [
         'enrollmentonline',
         'gestaopresente',
         'systemadmin',
+        'studentimc'
     ],
     'components' => [
         'utils' => [
