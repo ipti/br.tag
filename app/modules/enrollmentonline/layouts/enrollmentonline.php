@@ -10,11 +10,7 @@ $cs->registerCssFile($baseUrl . '/css/select2.css');
 $cs->registerCssFile(Yii::app()->baseUrl . '/sass/css/main.css?v=' . TAG_VERSION);
 ?>
 <!DOCTYPE html>
-<!--[if lt IE 7]> <html class="ie lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
-<!--[if IE 7]>    <html class="ie lt-ie9 lt-ie8"> <![endif]-->
-<!--[if IE 8]>    <html class="ie lt-ie9"> <![endif]-->
-<!--[if gt IE 8]> <html class="ie gt-ie8"> <![endif]-->
-<!--[if !IE]><!-->
+
 <html lang="pt" xml:lang="pt"><!-- <![endif]-->
 
 <head>
@@ -26,8 +22,6 @@ $cs->registerCssFile(Yii::app()->baseUrl . '/sass/css/main.css?v=' . TAG_VERSION
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <meta http-equiv="X-UA-Compatible" content="IE=9; IE=8; IE=7; IE=EDGE" />
 
-
-    <!-- Hotjar Tracking Code for https://demo.tag.ong.br -->
     <script>
         (function(h, o, t, j, a, r) {
             h.hj = h.hj || function() {

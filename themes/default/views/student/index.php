@@ -14,7 +14,6 @@
         <div class="span12">
             <h1><?php echo Yii::t('default', 'Student Identifications') ?></h1>
             <div class="t-buttons-container">
-                <!--<a href="<?= CHtml::normalizeUrl(array('student/create')) ?>" class="btn btn-primary btn-icon glyphicons circle_plus"><i></i> Alunos PNE</a>-->
                 <a class="t-button-primary"
                    href="<?= CHtml::normalizeUrl(array('student/create')) ?>"><?= Yii::t('default', 'Add') ?></a>
                 <div class="mobile-row">
