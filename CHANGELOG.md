@@ -1,3 +1,5 @@
+## [Versão 3.5.2]
+- Corrigido Exportação do Documento do Sagres
 ## [Versão 3.5.1]
 - Corrigido Cálculo de Frequência
 
