@@ -47,13 +47,11 @@
  * @property integer $hypothyroidism
  * @property integer $hyperthyroidism
  * @property integer $dyslipidemia_metabolic
- * @property integer $obesity_endocrine
  * @property integer $arterial_hypertension
  * @property integer $congenital_heart_disease
  * @property integer $chronic_gastritis
  * @property integer $gastroesophageal_reflux_disease
  * @property integer $epilepsy
- * @property integer $autism_spectrum_disorder
  * @property integer $adhd
  *
  * The followings are the available model relations:
@@ -78,12 +76,12 @@ class StudentDisorder extends TagModel
         // will receive user inputs.
         return array(
             array('student_fk', 'required'),
-            array('student_fk, tdah, depressao, tab, toc, tag, tod, tcne, disorders_impact_learning, dyscalculia, dysgraphia, dyslalia, dyslexia, tpac, iron_deficiency_anemia, hypovitaminosis_a, rickets, scurvy, iodine_deficiency, protein_energy_malnutrition, overweight, obesity, dyslipidemia, hyperglycemia_prediabetes, type2_diabetes_mellitus, anorexia_nervosa, bulimia_nervosa, binge_eating_disorder, lactose_intolerance, celiac_disease, food_allergies, asthma, chronic_bronchitis, allergic_rhinitis, chronic_sinusitis, diabetes_mellitus, hypothyroidism, hyperthyroidism, dyslipidemia_metabolic, obesity_endocrine, arterial_hypertension, congenital_heart_disease, chronic_gastritis, gastroesophageal_reflux_disease, epilepsy, autism_spectrum_disorder, adhd', 'numerical', 'integerOnly' => true),
+            array('student_fk, tdah, depressao, tab, toc, tag, tod, tcne, disorders_impact_learning, dyscalculia, dysgraphia, dyslalia, dyslexia, tpac, iron_deficiency_anemia, hypovitaminosis_a, rickets, scurvy, iodine_deficiency, protein_energy_malnutrition, overweight, obesity, dyslipidemia, hyperglycemia_prediabetes, type2_diabetes_mellitus, anorexia_nervosa, bulimia_nervosa, binge_eating_disorder, lactose_intolerance, celiac_disease, food_allergies, asthma, chronic_bronchitis, allergic_rhinitis, chronic_sinusitis, diabetes_mellitus, hypothyroidism, hyperthyroidism, dyslipidemia_metabolic, arterial_hypertension, congenital_heart_disease, chronic_gastritis, gastroesophageal_reflux_disease, epilepsy', 'numerical', 'integerOnly' => true),
             array('others', 'length', 'max' => 200),
             array('created_at, updated_at', 'safe'),
             // The following rule is used by search().
             // @todo Please remove those attributes that should not be searched.
-            array('id, student_fk, tdah, depressao, tab, toc, tag, tod, tcne, others, created_at, updated_at, disorders_impact_learning, dyscalculia, dysgraphia, dyslalia, dyslexia, tpac, iron_deficiency_anemia, hypovitaminosis_a, rickets, scurvy, iodine_deficiency, protein_energy_malnutrition, overweight, obesity, dyslipidemia, hyperglycemia_prediabetes, type2_diabetes_mellitus, anorexia_nervosa, bulimia_nervosa, binge_eating_disorder, lactose_intolerance, celiac_disease, food_allergies, asthma, chronic_bronchitis, allergic_rhinitis, chronic_sinusitis, diabetes_mellitus, hypothyroidism, hyperthyroidism, dyslipidemia_metabolic, obesity_endocrine, arterial_hypertension, congenital_heart_disease, chronic_gastritis, gastroesophageal_reflux_disease, epilepsy, autism_spectrum_disorder, adhd', 'safe', 'on' => 'search'),
+            array('id, student_fk, tdah, depressao, tab, toc, tag, tod, tcne, others, created_at, updated_at, disorders_impact_learning, dyscalculia, dysgraphia, dyslalia, dyslexia, tpac, iron_deficiency_anemia, hypovitaminosis_a, rickets, scurvy, iodine_deficiency, protein_energy_malnutrition, overweight, obesity, dyslipidemia, hyperglycemia_prediabetes, type2_diabetes_mellitus, anorexia_nervosa, bulimia_nervosa, binge_eating_disorder, lactose_intolerance, celiac_disease, food_allergies, asthma, chronic_bronchitis, allergic_rhinitis, chronic_sinusitis, diabetes_mellitus, hypothyroidism, hyperthyroidism, dyslipidemia_metabolic, arterial_hypertension, congenital_heart_disease, chronic_gastritis, gastroesophageal_reflux_disease, epilepsy', 'safe', 'on' => 'search'),
         );
     }
 
@@ -217,14 +215,11 @@ class StudentDisorder extends TagModel
         $criteria->compare('hypothyroidism', $this->hypothyroidism);
         $criteria->compare('hyperthyroidism', $this->hyperthyroidism);
         $criteria->compare('dyslipidemia_metabolic', $this->dyslipidemia_metabolic);
-        $criteria->compare('obesity_endocrine', $this->obesity_endocrine);
         $criteria->compare('arterial_hypertension', $this->arterial_hypertension);
         $criteria->compare('congenital_heart_disease', $this->congenital_heart_disease);
         $criteria->compare('chronic_gastritis', $this->chronic_gastritis);
         $criteria->compare('gastroesophageal_reflux_disease', $this->gastroesophageal_reflux_disease);
         $criteria->compare('epilepsy', $this->epilepsy);
-        $criteria->compare('autism_spectrum_disorder', $this->autism_spectrum_disorder);
-        $criteria->compare('adhd', $this->adhd);
 
         return new CActiveDataProvider($this, array(
             'criteria' => $criteria,

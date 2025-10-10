@@ -67,7 +67,10 @@ class StudentIMCController extends Controller
     public function actionCreate($studentId)
     {
         $model = new StudentIMC;
-        $modelStudentDisorder = new StudentDisorder();
+
+        $modelStudentDisorder = StudentDisorder::model()->findByAttributes(['student_fk' => $studentId]);
+        $modelStudentIdentification = new StudentIdentification();
+        $modelStudentIdentification->findByPk($studentId);
 
         // Uncomment the following line if AJAX validation is needed
         // $this->performAjaxValidation($model);
@@ -75,13 +78,16 @@ class StudentIMCController extends Controller
         if (isset($_POST['StudentIMC'])) {
             $model->attributes = $_POST['StudentIMC'];
             $model->student_fk = $studentId;
-            if ($model->save())
+            $modelStudentDisorder->attributes = $_POST['StudentDisorder'];
+            $modelStudentIdentification->deficiency_type_autism = $_POST['StudentIdentification']['deficiency_type_autism'];
+            if ($model->save() && $modelStudentDisorder->save() && $modelStudentIdentification->save())
                 $this->redirect(array('index', 'studentId' => $studentId));
         }
 
         $this->render('create', array(
             'model' => $model,
-            'disorder' => $modelStudentDisorder
+            'disorder' => $modelStudentDisorder,
+            'studentIdentification' => $modelStudentIdentification,
         ));
     }
 
@@ -91,28 +97,52 @@ class StudentIMCController extends Controller
      * @param integer $id the ID of the model to be updated
      */
     public function actionUpdate($id)
-    {
-        $model = $this->loadModel($id);
+{
+    $model = $this->loadModel($id);
+    $studentId = $model->student_fk;
 
-        // Uncomment the following line if AJAX validation is needed
-        // $this->performAjaxValidation($model);
+    // Buscar ou criar os modelos relacionados
+    $modelStudentDisorder = StudentDisorder::model()->findByAttributes(['student_fk' => $studentId]);
+    if ($modelStudentDisorder === null) {
+        $modelStudentDisorder = new StudentDisorder();
+        $modelStudentDisorder->student_fk = $studentId;
+    }
 
+    $modelStudentIdentification = StudentIdentification::model()->findByPk($studentId);
+    if ($modelStudentIdentification === null) {
+        $modelStudentIdentification = new StudentIdentification();
+        $modelStudentIdentification->id = $studentId;
+    }
 
-        if (isset($_POST['StudentIMC'])) {
+    if (isset($_POST['StudentIMC'])) {
+        $created_at = $model->created_at;
+        $model->attributes = $_POST['StudentIMC'];
+        $model->created_at = $created_at;
 
-            $created_at = $model->created_at;
-            $model->attributes = $_POST['StudentIMC'];
-            $model->created_at = $created_at;
-
-            if ($model->save())
-                $this->redirect(array('index', 'studentId' => $model->studentFk->id));
+        if (isset($_POST['StudentDisorder'])) {
+            $modelStudentDisorder->attributes = $_POST['StudentDisorder'];
         }
 
-        $model->created_at = date('d/m/Y', strtotime($model->created_at));
-        $this->render('update', array(
-            'model' => $model,
-        ));
+        if (isset($_POST['StudentIdentification'])) {
+            $modelStudentIdentification->attributes = $_POST['StudentIdentification'];
+        }
+
+        if ($model->save() && $modelStudentDisorder->save() && $modelStudentIdentification->save()) {
+            $this->redirect(['index', 'studentId' => $studentId]);
+        }
     }
+
+    if ($model->created_at) {
+        $model->created_at = date('d/m/Y', strtotime($model->created_at));
+    }
+
+    $this->render('update', [
+        'model' => $model,
+        'disorder' => $modelStudentDisorder,
+        'studentIdentification' => $modelStudentIdentification,
+    ]);
+}
+
 
     /**
      * Deletes a particular model.
@@ -225,7 +255,7 @@ class StudentIMCController extends Controller
 
     public function actionStudentIMCReport($studentId)
     {
-        $studentICM =  StudentIMC::model()->findAllByAttributes(["student_fk" => $studentId]);
+        $studentICM = StudentIMC::model()->findAllByAttributes(["student_fk" => $studentId]);
 
         $this->render('studentIMCReport', array(
             'studentICM' => $studentICM,

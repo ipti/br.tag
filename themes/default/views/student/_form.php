@@ -2674,7 +2674,7 @@ $form = $this->beginWidget(
             </div>
             <div class="column clearfix">
               <?= $modelStudentIdentification->isNewRecord ? "<a data-toggle='tab' class='t-button-primary nofloat next'>" . Yii::t('default', 'Next') . "</a>" : '' ?>
-              <a class="t-button-primary  last save-student" type="button">
+              <a class="t-button-primary last save-student" type="button" style="display: none;">
                 <?= $modelStudentIdentification->isNewRecord ? Yii::t('default', 'Create') : Yii::t('default', 'Save') ?>
               </a>
             </div>
