@@ -340,26 +340,37 @@ $cs->registerScriptFile($baseScriptUrl . '/pagination.js', CClientScript::POS_EN
 </div>
 
 
-<div class="row buttons show--desktop" style="justify-content: end;margin-right: 20px;">
-    <a data-toggle="tab" class='hide-responsive t-button-secondary prev'
-        style="display:none;"><?php echo Yii::t('default', 'Previous') ?><i></i></a>
-    <?= $model->isNewRecord ? "<a data-toggle='tab' class='t-button-primary  next'>" . Yii::t('default', 'Next') . "</a>" : '' ?>
-    <button class="t-button-primary last save-student" type="submit">
-        <?= $model->isNewRecord ? Yii::t('default', 'Create') : Yii::t('default', 'Save') ?>
-    </button>
+<?php
+$isNew = $model->isNewRecord;
+$btnNext = "<a data-toggle='tab' class='t-button-primary next'>" . Yii::t('default', 'Next') . "</a>";
+$btnPrev = "<a data-toggle='tab' class='t-button-secondary prev' style='display:none;'>" . Yii::t('default', 'Previous') . "<i></i></a>";
+$btnSubmit = "<button class='t-button-primary last' type='submit' style='" . ($isNew ? "display:none;" : "") . "'>" .
+    ($isNew ? Yii::t('default', 'Create') : Yii::t('default', 'Save')) . "</button>";
+?>
+
+<!-- Desktop -->
+<div class="row buttons show--desktop" style="justify-content: flex-end; margin-right: 20px;">
+    <?= $btnPrev ?>
+    <?= $isNew ? $btnNext : '' ?>
+    <?= $btnSubmit ?>
 </div>
-<div class="t-buttons-container show--tablet">
+
+<!-- Tablet -->
+<div class="row show--tablet">
     <div class="column">
-        <a data-toggle="tab" class='t-button-secondary prev'
-            style="display:none;"><?php echo Yii::t('default', 'Previous') ?><i></i></a>
+        <?= $btnPrev ?>
     </div>
+</div>
+<div class="row show--tablet">
     <div class="column">
-        <?= $model->isNewRecord ? "<a data-toggle='tab' class='t-button-primary nofloat next'>" . Yii::t('default', 'Next') . "</a>" : '' ?>
-        <button class="t-button-primary  last save-student" type="submit" style="width: 100%;">
-            <?= $model->isNewRecord ? Yii::t('default', 'Create') : Yii::t('default', 'Save') ?>
+        <?= $isNew ? str_replace("next", "t-button-primary nofloat next", $btnNext) : '' ?>
+        <button class="t-button-primary last" type="submit"
+            style="<?= $isNew ? 'display:none;' : '' ?> width:100%;">
+            <?= $isNew ? Yii::t('default', 'Create') : Yii::t('default', 'Save') ?>
         </button>
     </div>
+</div>
 
-    <?php $this->endWidget(); ?>
+<?php $this->endWidget(); ?>
 
 </div><!-- form -->
