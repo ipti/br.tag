@@ -553,6 +553,9 @@ class FormsRepository
             $studentIdentification = StudentIdentification::model()->findByPK($enrollment->student_fk); //
             $student["studentIdentification"] = $studentIdentification;
 
+            $studentDisorder = StudentDisorder::model()->findByAttributes(["student_fk"=> $enrollment->student_fk]) ;
+            $student["studentDisorder"] = $studentDisorder;
+
             if (!empty($studentIdentification->birthday)) {
                 $birthDate = DateTime::createFromFormat('d/m/Y', $studentIdentification->birthday)
                     ?: DateTime::createFromFormat('Y-m-d', $studentIdentification->birthday);
