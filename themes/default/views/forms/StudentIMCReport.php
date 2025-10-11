@@ -10,45 +10,22 @@ $cs->registerCssFile("$baseUrl/sass/css/main.css?v=" . TAG_VERSION);
 $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
 
 /**
- * Função auxiliar para converter o código da série/etapa
+ * Funções auxiliares
  */
-function getStageName($stageCode)
+function getStageName($code)
 {
     $map = [
-        '1' => 'CRECHE',
-        '2' => 'PRÉ-ESCOLA',
-        '3' => 'INFANTIL - UNIFICADA',
-        '4' => '1ª SÉRIE',
-        '5' => '2ª SÉRIE',
-        '6' => '3ª SÉRIE',
-        '7' => '4ª SÉRIE',
-        '8' => '5ª SÉRIE',
-        '9' => '6ª SÉRIE',
-        '10' => '7ª SÉRIE',
-        '11' => '8ª SÉRIE',
-        '14' => '1º ANO',
-        '15' => '2º ANO',
-        '16' => '3º ANO',
-        '17' => '4º ANO',
-        '18' => '5º ANO',
-        '19' => '6º ANO',
-        '20' => '7º ANO',
-        '21' => '8º ANO',
-        '41' => '9º ANO',
-        '25' => '1ª SÉRIE',
-        '30' => '1ª SÉRIE',
-        '35' => '1ª SÉRIE',
-        '26' => '2ª SÉRIE',
-        '31' => '2ª SÉRIE',
-        '36' => '2ª SÉRIE',
-        '27' => '3ª SÉRIE',
-        '32' => '3ª SÉRIE',
-        '37' => '3ª SÉRIE',
-        '28' => '4ª SÉRIE',
-        '33' => '4ª SÉRIE',
-        '38' => '4ª SÉRIE'
+        '1' => 'CRECHE', '2' => 'PRÉ-ESCOLA', '3' => 'INFANTIL - UNIFICADA',
+        '4' => '1ª SÉRIE', '5' => '2ª SÉRIE', '6' => '3ª SÉRIE', '7' => '4ª SÉRIE',
+        '8' => '5ª SÉRIE', '9' => '6ª SÉRIE', '10' => '7ª SÉRIE', '11' => '8ª SÉRIE',
+        '14' => '1º ANO', '15' => '2º ANO', '16' => '3º ANO', '17' => '4º ANO', '18' => '5º ANO',
+        '19' => '6º ANO', '20' => '7º ANO', '21' => '8º ANO', '41' => '9º ANO',
+        '25' => '1ª SÉRIE', '30' => '1ª SÉRIE', '35' => '1ª SÉRIE',
+        '26' => '2ª SÉRIE', '31' => '2ª SÉRIE', '36' => '2ª SÉRIE',
+        '27' => '3ª SÉRIE', '32' => '3ª SÉRIE', '37' => '3ª SÉRIE',
+        '28' => '4ª SÉRIE', '33' => '4ª SÉRIE', '38' => '4ª SÉRIE'
     ];
-    return $map[$stageCode] ?? '';
+    return $map[$code] ?? '';
 }
 
 function getTurnName($turn)
@@ -58,6 +35,44 @@ function getTurnName($turn)
         'T' => 'TARDE',
         'N' => 'NOITE'
     ][$turn] ?? '';
+}
+
+function getDisorders()
+{
+    return [
+        "iron_deficiency_anemia" => "Anemia ferropriva",
+        "hypovitaminosis_a" => "Hipovitaminose A",
+        "rickets" => "Raquitismo",
+        "scurvy" => "Escorbuto",
+        "iodine_deficiency" => "Deficiência de iodo",
+        "protein_energy_malnutrition" => "Desnutrição energético-proteica",
+        "overweight" => "Sobrepeso",
+        "obesity" => "Obesidade",
+        "dyslipidemia" => "Dislipidemia",
+        "hyperglycemia_prediabetes" => "Hiperglicemia / Pré-diabetes",
+        "type2_diabetes_mellitus" => "Diabetes mellitus tipo 2",
+        "anorexia_nervosa" => "Anorexia Nervosa",
+        "bulimia_nervosa" => "Bulimia Nervosa",
+        "binge_eating_disorder" => "Transtorno da compulsão alimentar periódica",
+        "lactose_intolerance" => "Intolerância à lactose",
+        "celiac_disease" => "Doença celíaca",
+        "food_allergies" => "Alergias alimentares",
+        "asthma" => "Asma",
+        "chronic_bronchitis" => "Bronquite crônica",
+        "allergic_rhinitis" => "Rinite alérgica",
+        "chronic_sinusitis" => "Sinusite crônica",
+        "diabetes_mellitus" => "Diabetes mellitus",
+        "hypothyroidism" => "Hipotireoidismo",
+        "hyperthyroidism" => "Hipertireoidismo",
+        "dyslipidemia_metabolic" => "Dislipidemia (metabólica)",
+        "arterial_hypertension" => "Hipertensão arterial",
+        "congenital_heart_disease" => "Cardiopatias congênitas ou adquiridas",
+        "chronic_gastritis" => "Gastrite crônica",
+        "gastroesophageal_reflux_disease" => "Refluxo gastroesofágico",
+        "epilepsy" => "Epilepsia",
+        "tdah" => "TDAH",
+        "deficiency_type_autism" => "Transtorno do Espectro Autista"
+    ];
 }
 ?>
 
@@ -75,7 +90,7 @@ function getTurnName($turn)
 <div class="pageA4V">
     <?php $this->renderPartial('head'); ?>
 
-    <h3>RELATÓRIO ACOMPANHAMENTO DE SAÚDE</h3>
+    <h3>RELATÓRIO DE ACOMPANHAMENTO DE SAÚDE</h3>
 
     <!-- Cabeçalho da escola -->
     <table class="table table-studentimc">
@@ -84,8 +99,8 @@ function getTurnName($turn)
             <td>CÓDIGO: <?= CHtml::encode($response["classroom"]->school_inep_fk) ?></td>
         </tr>
         <tr>
-            <td>ENDEREÇO:
-                <?= CHtml::encode($response["school"]->address) ?>
+            <td>
+                ENDEREÇO: <?= CHtml::encode($response["school"]->address) ?>
                 <?= !empty($response["school"]->address_number) ? ', ' . CHtml::encode($response["school"]->address_number) : '' ?>
             </td>
             <td>TURNO: <?= getTurnName($response["classroom"]->turn) ?></td>
@@ -95,7 +110,10 @@ function getTurnName($turn)
     </table>
 
     <!-- Lista de alunos -->
-    <?php foreach ($response["students"] as $student): ?>
+    <?php
+    $disordersMap = getDisorders();
+
+    foreach ($response["students"] as $student): ?>
         <div class="student-list">
             <div class="student-info">
                 <div>ALUNO: <?= CHtml::encode($student["studentIdentification"]->name) ?></div>
@@ -129,224 +147,79 @@ function getTurnName($turn)
                         <td><?= date('d/m/Y', strtotime($imc->created_at)) ?></td>
                     </tr>
                 <?php endforeach; ?>
+
+                <!-- Lista de doenças -->
+                <tr>
+                    <td colspan="4" class="student-disorders">
+                        <strong>Doenças:</strong>
+                        <?php
+                        $activeDisorders = [];
+                        foreach ($student["studentDisorder"] as $key => $hasDisorder) {
+                            if ($hasDisorder && isset($disordersMap[$key])) {
+                                $activeDisorders[] = $disordersMap[$key];
+                            }
+                        }
+                        echo !empty($activeDisorders)
+                            ? implode(', ', $activeDisorders)
+                            : 'Nenhuma registrada';
+                        ?>
+                    </td>
+                </tr>
             </tbody>
         </table>
-        <div class="student-disorders">
-            <div class="row">
-                <div class="column">
-                    <h5 class="disorder-title">
-                        Deficiências nutricionais
-                    </h5>
-                    <div>
-                        ( <?= !empty($student["studentDisorder"]["iron_deficiency_anemia"]) ? 'X' : '   ' ?> ) Anemia ferropriva (falta de ferro)
-                    </div>
-                    <div>
-                        ( <?= !empty($student["studentDisorder"]["hypovitaminosis_a"]) ? 'X' : '   ' ?> ) Hipovitaminose A (deficiência de vitamina A)
-                    </div>
-                    <div>
-                        ( <?= !empty($student["studentDisorder"]["rickets"]) ? 'X' : '   ' ?> ) Raquitismo (deficiência de vitamina D e cálcio)
-                    </div>
-                    <div>
-                        ( <?= !empty($student["studentDisorder"]["scurvy"]) ? 'X' : '   ' ?> ) Escorbuto (deficiência de vitamina C)
-                    </div>
-                    <div>
-                        ( <?= !empty($student["studentDisorder"]["iodine_deficiency"]) ? 'X' : '   ' ?> ) Deficiência de iodo
-                    </div>
-                    <div>
-                        ( <?= !empty($student["studentDisorder"]["protein_energy_malnutrition"]) ? 'X' : '   ' ?> )Desnutrição energético-proteica
-                    </div>
-                </div>
+    <?php endforeach; ?>
+</div>
 
-                <div class="column">
-                    <h5 class="disorder-title">
-                        Excessos nutricionais
-                    </h5>
-                    <div>
-                        ( <?= !empty($student["studentDisorder"]["overweight"]) ? 'X' : '   ' ?> ) Sobrepeso
-                    </div>
-                    <div>
-                        ( <?= !empty($student["studentDisorder"]["obesity"]) ? 'X' : '   ' ?> ) Obesidade
-                    </div>
-                    <div>
-                        ( <?= !empty($student["studentDisorder"]["dyslipidemia"]) ? 'X' : '   ' ?> ) Dislipidemia (colesterol e triglicerídeos altos)
-                    </div>
-                    <div>
-                        ( <?= !empty($student["studentDisorder"]["hyperglycemia_prediabetes"]) ? 'X' : '   ' ?> ) Hiperglicemia / Pré-diabetes
-                    </div>
-                    <div>
-                        ( <?= !empty($student["studentDisorder"]["type2_diabetes_mellitus"]) ? 'X' : '   ' ?> ) Diabetes mellitus tipo 2
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="column">
-                    <h5 class="disorder-title">
-                        Distúrbios alimentares
-                    </h5>
-                    <div>
-                        ( <?= !empty($student["studentDisorder"]["anorexia_nervosa"]) ? 'X' : '   ' ?> ) Anorexia Nervosa
-                    </div>
-                    <div>
-                        ( <?= !empty($student["studentDisorder"]["bulimia_nervosa"]) ? 'X' : '   ' ?> ) Bulimia Nervosa
-                    </div>
-                    <div>
-                        ( <?= !empty($student["studentDisorder"]["binge_eating_disorder"]) ? 'X' : '   ' ?> ) Transtorno da compulsão alimentar periódica
-                    </div>
-                </div>
-                <div class="column">
-                    <h5 class="disorder-title">
-                        Alterações relacionadas à alimentação
-                    </h5>
-                    <div>
-                        ( <?= !empty($student["studentDisorder"]["lactose_intolerance"]) ? 'X' : '   ' ?> ) Intolerância à lactose
-                    </div>
-                    <div>
-                        ( <?= !empty($student["studentDisorder"]["celiac_disease"]) ? 'X' : '   ' ?> ) Doença celíaca (intolerância ao glúten)
-                    </div>
-                    <div>
-                        ( <?= !empty($student["studentDisorder"]["food_allergies"]) ? 'X' : '   ' ?> ) Alergias alimentares (leite, ovo, peixe, amendoim, etc.)
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="column">
-                    <h5 class="disorder-title">
-                        Doenças respiratórias
-                    </h5>
-                    <div>
-                        ( <?= !empty($student["studentDisorder"]["asthma"]) ? 'X' : '   ' ?> ) Asma
-                    </div>
-                    <div>
-                        ( <?= !empty($student["studentDisorder"]["chronic_bronchitis"]) ? 'X' : '   ' ?> ) Bronquite crônicaBronquite crônica
-                    </div>
-                    <div>
-                        ( <?= !empty($student["studentDisorder"]["allergic_rhinitis"]) ? 'X' : '   ' ?> ) Rinite alérgica
-                    </div>
-                    <div>
-                        ( <?= !empty($student["studentDisorder"]["chronic_sinusitis"]) ? 'X' : '   ' ?> ) Sinusite crônica
-                    </div>
-                </div>
-                <div class="column">
-                    <h5 class="disorder-title">
-                        Doenças metabólicas e endócrinas
-                    </h5>
-                    <div>
-                        ( <?= !empty($student["studentDisorder"]["diabetes_mellitus"]) ? 'X' : '   ' ?> ) Diabetes mellitus (Tipo 1 ou Tipo 2)
-                    </div>
-                    <div>
-                        ( <?= !empty($student["studentDisorder"]["hypothyroidism"]) ? 'X' : '   ' ?> ) Hipotireoidismo
-                    </div>
-                    <div>
-                        ( <?= !empty($student["studentDisorder"]["hyperthyroidism"]) ? 'X' : '   ' ?> ) Hipertireoidismo
-                    </div>
-                    <div>
-                        ( <?= !empty($student["studentDisorder"]["dyslipidemia_metabolic"]) ? 'X' : '   ' ?> ) Dislipidemia (colesterol/triglicerídeos altos)
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="column">
-                    <h5 class="disorder-title">
-                        Doenças cardiovasculares
-                    </h5>
-                    <div>
-                        ( <?= !empty($student["studentDisorder"]["arterial_hypertension"]) ? 'X' : '   ' ?> ) Hipertensão arterial
-                    </div>
-                    <div>
-                        ( <?= !empty($student["studentDisorder"]["congenital_heart_disease"]) ? 'X' : '   ' ?> ) Cardiopatias congênitas ou adquiridas
-                    </div>
-                </div>
-                <div class="column">
-                    <h5 class="disorder-title">
-                        Doenças gastrointestinais
-                    </h5>
-                    <div>
-                        ( <?= !empty($student["studentDisorder"]["chronic_gastritis"]) ? 'X' : '   ' ?> ) Gastrite crônica
-                    </div>
-                    <div>
-                        ( <?= !empty($student["studentDisorder"]["gastroesophageal_reflux_disease"]) ? 'X' : '   ' ?> ) Refluxo gastroesofágico
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="column">
-                    <h5 class="disorder-title">
-                        Doenças neurológicas
-                    </h5>
-                    <div>
-                        ( <?= !empty($student["studentDisorder"]["epilepsy"]) ? 'X' : '   ' ?> ) Epilepsia
-                    </div>
-                    <div>
-                        ( <?= !empty($student["studentDisorder"]["tdah"]) ? 'X' : '   ' ?> ) Tdah
-                    </div>
-                    <div>
-                        ( <?= !empty($student["studentidentification"]["deficiency_type_autism"]) ? 'X' : '   ' ?> ) Transtorno do Espectro Autista
-                    </div>
-                </div>
-                <div class="column">
+<!-- Estilos -->
+<style>
+    .table-striped, .table-striped td, .table-striped th {
+        border-color: #000 !important;
+        font-size: 9px !important;
+    }
 
-                </div>
-            </div>
-        </div>
-        <?php endforeach; ?>
+    .table-studentimc {
+        font-size: 10px;
+        width: 100%;
+        table-layout: fixed;
+    }
 
-        <!-- Estilos -->
-        <style>
-            .table-striped,
-            .table-striped td,
-            .table-striped th {
-                border-color: #000 !important;
-                font-size: 9px !important;
-            }
+    .student-list {
+        margin-top: 30px;
+        padding: 4px;
+    }
 
-            .table-studentimc {
-                font-size: 10px;
-                width: 100%;
-                table-layout: fixed;
-            }
+    .student-info {
+        display: flex;
+        gap: 20px;
+        font-size: 10px;
+        flex-wrap: wrap;
+    }
 
-            .student-list {
-                margin-top: 30px;
-                padding: 4px;
-            }
+    .student-disorders {
+        font-size: 10px;
+        text-transform: uppercase;
+    }
 
-            .student-info {
-                display: flex;
-                gap: 20px;
-                font-size: 10px;
-                flex-wrap: wrap;
-            }
+    h3 {
+        text-align: center;
+    }
 
-            h3 {
-                text-align: center;
-            }
+    table {
+        page-break-after: auto;
+        border-collapse: collapse;
+    }
 
-            table {
-                page-break-after: auto;
-                border-collapse: collapse;
-            }
+    thead {
+        display: table-header-group;
+    }
 
-            thead {
-                display: table-header-group;
-            }
+    tfoot {
+        display: table-footer-group;
+    }
 
-            tfoot {
-                display: table-footer-group;
-            }
-
-            .student-disorders{
-                font-size: 10px;
-                text-transform: uppercase;
-            }
-
-            .disorder-title {
-                font-weight: bold;
-                margin-top: 15px;
-            }
-
-            @media print {
-                .hidden-print {
-                    display: none !important;
-                }
-            }
-        </style>
+    @media print {
+        .hidden-print {
+            display: none !important;
+        }
+    }
+</style>
