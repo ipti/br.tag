@@ -6,7 +6,7 @@ $menuItems = [
         'label' => 'Página Inicial',
         'url' => ['/'],
         'icon' => 't-icon-home',
-        'roles' => [TRole::ADMIN, TRole::COORDINATOR,TRole::MANAGER,TRole::INSTRUCTOR,TRole::NUTRITIONIST,TRole::READER],
+        'roles' => [TRole::ADMIN, TRole::COORDINATOR,TRole::MANAGER,TRole::INSTRUCTOR,TRole::NUTRITIONIST,TRole::READER, TRole::FOOD_SERVICE_WORKER],
         'feature' => TTask::TASK_HOME,
     ],
     [
@@ -262,7 +262,7 @@ $menuItems = [
         'url' => function() {
             return ['admin/editPassword', ['id' => Yii::app()->user->loginInfos->id]];
         },
-        'roles' => [TRole::ADMIN, TRole::MANAGER, TRole::READER, TRole::INSTRUCTOR, TRole::NUTRITIONIST, ],
+        'roles' => [TRole::ADMIN, TRole::MANAGER, TRole::READER, TRole::INSTRUCTOR, TRole::NUTRITIONIST, TRole::FOOD_SERVICE_WORKER],
         'icon' => 't-icon-lock',
         'feature' => TFeature::FEAT_ADMIN_GENERAL,
     ],

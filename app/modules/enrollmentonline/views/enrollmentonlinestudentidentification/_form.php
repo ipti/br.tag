@@ -84,9 +84,9 @@ $cs->registerScriptFile($baseScriptUrl . '/validations.js?v=' . TAG_VERSION, CCl
                             <?php echo $form->labelEx($model, 'birthday', ['class' => 't-field-text__label']); ?>
                             <?php
                             $options = DatePickerWidget::renderDatePicker($model, 'birthday');
-$options['htmlOptions']['class'] = 'js-field-required';
-$this->widget('zii.widgets.jui.CJuiDatePicker', $options);
-?>
+                            $options['htmlOptions']['class'] = 'js-field-required';
+                            $this->widget('zii.widgets.jui.CJuiDatePicker', $options);
+                            ?>
                             <?php echo $form->error($model, 'birthday'); ?>
                         </div>
                     </div>
@@ -101,11 +101,11 @@ $this->widget('zii.widgets.jui.CJuiDatePicker', $options);
                         <div class="t-field-text column">
                             <?php echo $form->labelEx($model, 'sex', ['class' => 't-field-text__label']); ?>
                             <?php echo $form->DropDownList(
-    $model,
-    'sex',
-    [null => 'Selecione o sexo', '1' => 'Masculino', '2' => 'Feminino'],
-    ['class' => 'select-search-off t-field-select__input select2-container js-field-required']
-); ?>
+                                $model,
+                                'sex',
+                                [null => 'Selecione o sexo', '1' => 'Masculino', '2' => 'Feminino'],
+                                ['class' => 'select-search-off t-field-select__input select2-container js-field-required']
+                            ); ?>
                             <?php echo $form->error($model, 'sex'); ?>
                         </div>
                     </div>
@@ -123,7 +123,7 @@ $this->widget('zii.widgets.jui.CJuiDatePicker', $options);
                                 '4' => 'Amarela',
                                 '5' => 'Indígena'
                             ], ['class' => 'select-search-off t-field-select__input select2-container js-field-required']);
-?>
+                            ?>
                             <?php echo $form->error($model, 'color_race'); ?>
                         </div>
 
@@ -144,8 +144,10 @@ $this->widget('zii.widgets.jui.CJuiDatePicker', $options);
                         <div class="column"></div>
                     </div>
                     <div class="row ">
-                        <div class="column t-field-checkbox-group control-group deficiencies-container js-change-required js-visibility-deficiencies">
-                            <label class="t-field-checkbox__label--required column t-margin-none--left"><?php echo Yii::t('default', 'Deficiency Type'); ?>
+                        <div
+                            class="column t-field-checkbox-group control-group deficiencies-container js-change-required js-visibility-deficiencies">
+                            <label
+                                class="t-field-checkbox__label--required column t-margin-none--left"><?php echo Yii::t('default', 'Deficiency Type'); ?>
                             </label>
                             <div class="t-field-checkbox">
                                 <label class="t-field-checkbox">
@@ -257,17 +259,17 @@ $this->widget('zii.widgets.jui.CJuiDatePicker', $options);
                         <div class="t-field-text column">
                             <label class="t-field-select__label--required ">Filiação</label>
                             <?php
-echo CHtml::dropDownList(
-    'filiation',
-    '',
-    [
-        null => 'Selecione a filiação',
-        '0' => 'Não declarada/ignorada',
-        '1' => 'Mãe e/ou Pai',
-    ],
-    ['class' => 'select-search-off t-field-select__input select2-container js-filiation-select js-field-required']
-);
-?>
+                            echo CHtml::dropDownList(
+                                'filiation',
+                                '',
+                                [
+                                    null => 'Selecione a filiação',
+                                    '0' => 'Não declarada/ignorada',
+                                    '1' => 'Mãe e/ou Pai',
+                                ],
+                                ['class' => 'select-search-off t-field-select__input select2-container js-filiation-select js-field-required']
+                            );
+                            ?>
                         </div>
                     </div>
                     <div class="row js-hide-filiation" style="display:none;">
@@ -299,12 +301,12 @@ echo CHtml::dropDownList(
                         <div class="t-field-text column">
                             <?php echo $form->labelEx($model, 'zone', ['class' => 't-field-text__label']); ?>
                             <?php
-echo $form->DropDownList(
-    $model,
-    'zone',
-    [null => 'Selecione uma zona', '1' => 'URBANA', '2' => 'RURAL'],
-    ['class' => 'select-search-off t-field-select__input select2-container']
-); ?>
+                            echo $form->DropDownList(
+                                $model,
+                                'zone',
+                                [null => 'Selecione uma zona', '1' => 'URBANA', '2' => 'RURAL'],
+                                ['class' => 'select-search-off t-field-select__input select2-container']
+                            ); ?>
 
                             <?php echo $form->error($model, 'zone'); ?>
                         </div>
@@ -319,7 +321,7 @@ echo $form->DropDownList(
 
                         <div class="t-field-text column">
                             <?php echo $form->labelEx($model, 'number', ['class' => 't-field-text__label']); ?>
-                            <?php echo $form->textField($model, 'number', ['size' => 10, 'maxlength' => 10, 'class' => 't-field-text__input',  'placeholder' => 'Digite o Número']); ?>
+                            <?php echo $form->textField($model, 'number', ['size' => 10, 'maxlength' => 10, 'class' => 't-field-text__input', 'placeholder' => 'Digite o Número']); ?>
                             <?php echo $form->error($model, 'number'); ?>
                         </div>
                     </div>
@@ -327,13 +329,13 @@ echo $form->DropDownList(
                     <div class="row">
                         <div class="t-field-text column">
                             <?php echo $form->labelEx($model, 'complement', ['class' => 't-field-text__label']); ?>
-                            <?php echo $form->textField($model, 'complement', ['size' => 60, 'maxlength' => 100, 'class' => 't-field-text__input',  'placeholder' => 'Digite o Complemento']); ?>
+                            <?php echo $form->textField($model, 'complement', ['size' => 60, 'maxlength' => 100, 'class' => 't-field-text__input', 'placeholder' => 'Digite o Complemento']); ?>
                             <?php echo $form->error($model, 'complement'); ?>
                         </div>
 
                         <div class="t-field-text column">
                             <?php echo $form->labelEx($model, 'neighborhood', ['class' => 't-field-text__label']); ?>
-                            <?php echo $form->textField($model, 'neighborhood', ['size' => 60, 'maxlength' => 100, 'class' => 't-field-text__input',  'placeholder' => 'Digite o Bairro / Povoado']); ?>
+                            <?php echo $form->textField($model, 'neighborhood', ['size' => 60, 'maxlength' => 100, 'class' => 't-field-text__input', 'placeholder' => 'Digite o Bairro / Povoado']); ?>
                             <?php echo $form->error($model, 'neighborhood'); ?>
                         </div>
                     </div>
@@ -342,28 +344,28 @@ echo $form->DropDownList(
                         <div class="t-field-text column">
                             <?php echo $form->labelEx($model, 'edcenso_uf_fk', ['class' => 't-field-text__label']); ?>
                             <?php
-echo $form->dropDownList(
-    $model,
-    'edcenso_uf_fk',
-    CHtml::listData(EdcensoUf::model()->findAll(['order' => 'name']), 'id', 'name'),
-    [
-        'prompt' => 'Selecione um estado',
-        'class' => 'select-search-on t-field-select__input select2-container js-uf'
-    ]
-);
-?>
+                            echo $form->dropDownList(
+                                $model,
+                                'edcenso_uf_fk',
+                                CHtml::listData(EdcensoUf::model()->findAll(['order' => 'name']), 'id', 'name'),
+                                [
+                                    'prompt' => 'Selecione um estado',
+                                    'class' => 'select-search-on t-field-select__input select2-container js-uf'
+                                ]
+                            );
+                            ?>
                             <?php echo $form->error($model, 'edcenso_uf_fk'); ?>
                         </div>
                         <div class="t-field-text column">
                             <?php echo $form->labelEx($model, 'edcenso_city_fk', ['class' => 't-field-text__label']); ?>
                             <?php
-echo $form->dropDownList(
-    $model,
-    'edcenso_city_fk',
-    [],
-    ['prompt' => 'Selecione uma cidade', 'class' => 'select-search-on t-field-select__input select2-container js-cities', 'disabled' => 'disabled']
-);
-?>
+                            echo $form->dropDownList(
+                                $model,
+                                'edcenso_city_fk',
+                                [],
+                                ['prompt' => 'Selecione uma cidade', 'class' => 'select-search-on t-field-select__input select2-container js-cities', 'disabled' => 'disabled']
+                            );
+                            ?>
                             <?php echo $form->error($model, 'edcenso_city_fk'); ?>
                         </div>
                     </div>
@@ -378,64 +380,64 @@ echo $form->dropDownList(
                         <div class="t-field-text column">
                             <?php echo $form->labelEx($model, 'edcenso_stage_vs_modality_fk', ['class' => 't-field-text__label']); ?>
                             <?php
-echo $form->dropDownList(
-    $model,
-    'edcenso_stage_vs_modality_fk',
-    CHtml::listData(EdcensoStageVsModality::model()->findAll(['order' => 'name']), 'id', 'name'),
-    [
-        'prompt' => 'Selecione uma etapa',
-        'class' => 'select-search-on t-field-select__input select2-container js-stage js-field-required'
-    ]
-);
-?>
+                            echo $form->dropDownList(
+                                $model,
+                                'edcenso_stage_vs_modality_fk',
+                                CHtml::listData(EdcensoStageVsModality::model()->findAll(['order' => 'name']), 'id', 'name'),
+                                [
+                                    'prompt' => 'Selecione uma etapa',
+                                    'class' => 'select-search-on t-field-select__input select2-container js-stage js-field-required'
+                                ]
+                            );
+                            ?>
                             <?php echo $form->error($model, 'edcenso_stage_vs_modality_fk'); ?>
                         </div>
                         <div class="t-field-text column">
                             <label for="" class="t-field-text__label">Priemira opção matrícula</label>
                             <?php
-echo CHtml::dropDownList(
-    'school_1',
-    '',
-    [],
-    [
-        'prompt' => 'Selecione uma opção de matrícula',
-        'class' => 'select-search-on t-field-select__input select2-container js-school-1 js-field-required',
-        'disabled' => 'disabled'
-    ]
-);
-?>
+                            echo CHtml::dropDownList(
+                                'school_1',
+                                '',
+                                [],
+                                [
+                                    'prompt' => 'Selecione uma opção de matrícula',
+                                    'class' => 'select-search-on t-field-select__input select2-container js-school-1 js-field-required',
+                                    'disabled' => 'disabled'
+                                ]
+                            );
+                            ?>
                         </div>
                     </div>
                     <div class="row">
                         <div class="t-field-text column">
                             <label for="" class="t-field-text__label">Segunda opção matrícula</label>
                             <?php
-echo CHtml::dropDownList(
-    'school_2',
-    '',
-    [],
-    [
-        'prompt' => 'Selecione uma opção de matrícula',
-        'class' => 'select-search-on t-field-select__input select2-container js-school-2 js-field-required',
-        'disabled' => 'disabled'
-    ]
-);
-?>
+                            echo CHtml::dropDownList(
+                                'school_2',
+                                '',
+                                [],
+                                [
+                                    'prompt' => 'Selecione uma opção de matrícula',
+                                    'class' => 'select-search-on t-field-select__input select2-container js-school-2 js-field-required',
+                                    'disabled' => 'disabled'
+                                ]
+                            );
+                            ?>
                         </div>
                         <div class="t-field-text column">
                             <label for="" class="t-field-text__label">Terceira opção matrícula</label>
                             <?php
-echo CHtml::dropDownList(
-    'school_3',
-    '',
-    [],
-    [
-        'prompt' => 'Selecione uma opção de matrícula',
-        'class' => 'select-search-on t-field-select__input select2-container js-school-3 js-field-required',
-        'disabled' => 'disabled'
-    ]
-);
-?>
+                            echo CHtml::dropDownList(
+                                'school_3',
+                                '',
+                                [],
+                                [
+                                    'prompt' => 'Selecione uma opção de matrícula',
+                                    'class' => 'select-search-on t-field-select__input select2-container js-school-3 js-field-required',
+                                    'disabled' => 'disabled'
+                                ]
+                            );
+                            ?>
                         </div>
                     </div>
                 </div>
@@ -449,11 +451,10 @@ echo CHtml::dropDownList(
                             style="display:none;"><?php echo Yii::t('default', 'Previous') ?><i></i></a>
                     </div>
                     <div class="column">
-                        <a data-toggle='tab' class='t-button-primary t-margin-none--right t-padding-small--all nofloat next'><?= Yii::t('default', 'Next') ?></a>
-                        <button
-                            class="t-button-primary t-padding-small--all t-margin-none--right last save-student"
-                            type="submit"
-                            style="display:none;width:100%;">
+                        <a data-toggle='tab'
+                            class='t-button-primary t-margin-none--right t-padding-small--all nofloat next'><?= Yii::t('default', 'Next') ?></a>
+                        <button class="t-button-primary t-padding-small--all t-margin-none--right last save-student"
+                            type="submit" style="display:none;width:100%;">
                             <?= Yii::t('default', 'Save') ?>
                         </button>
                     </div>
