@@ -66,30 +66,59 @@ class StudentIMCController extends Controller
      */
     public function actionCreate($studentId)
     {
-        $model = new StudentIMC;
-
+        $model = new StudentIMC();
         $modelStudentDisorder = StudentDisorder::model()->findByAttributes(['student_fk' => $studentId]);
-        $modelStudentIdentification = new StudentIdentification();
-        $modelStudentIdentification->findByPk($studentId);
+        $modelStudentIdentification = StudentIdentification::model()->findByPk($studentId);
 
-        // Uncomment the following line if AJAX validation is needed
-        // $this->performAjaxValidation($model);
-
-        if (isset($_POST['StudentIMC'])) {
-            $model->attributes = $_POST['StudentIMC'];
-            $model->student_fk = $studentId;
-            $modelStudentDisorder->attributes = $_POST['StudentDisorder'];
-            $modelStudentIdentification->deficiency_type_autism = $_POST['StudentIdentification']['deficiency_type_autism'];
-            if ($model->save() && $modelStudentDisorder->save() && $modelStudentIdentification->save())
-                $this->redirect(array('index', 'studentId' => $studentId));
+        if (!$modelStudentIdentification) {
+            throw new CHttpException(404, 'Estudante não encontrado.');
         }
 
-        $this->render('create', array(
+        if (!$modelStudentDisorder) {
+            $modelStudentDisorder = new StudentDisorder();
+            $modelStudentDisorder->student_fk = $studentId;
+        }
+
+        if (isset($_POST['StudentIMC'], $_POST['StudentDisorder'], $_POST['StudentIdentification'])) {
+            $model->attributes = $_POST['StudentIMC'];
+            $model->student_fk = $studentId;
+
+            $modelStudentDisorder->attributes = $_POST['StudentDisorder'];
+            $modelStudentIdentification->attributes = $_POST['StudentIdentification'];
+
+            if($_POST['StudentIdentification']['deficiency_type_autism'] == 1) {
+                $modelStudentIdentification->deficiency = 1;
+            }
+
+            $isValid = $model->validate();
+            $isValid = $modelStudentDisorder->validate() && $isValid;
+            $isValid = $modelStudentIdentification->validate() && $isValid;
+
+            if ($isValid) {
+                $transaction = Yii::app()->db->beginTransaction();
+                try {
+                    $model->save(false);
+                    $modelStudentDisorder->save(false);
+                    $modelStudentIdentification->save(false);
+
+                    $transaction->commit();
+                    Yii::app()->user->setFlash('success', Yii::t('default', 'Student IMC successfully created.'));
+                    $this->redirect(['index', 'studentId' => $studentId]);
+                } catch (Exception $e) {
+                    $transaction->rollback();
+                    Yii::log("Erro ao salvar IMC: " . $e->getMessage(), CLogger::LEVEL_ERROR);
+                    Yii::app()->user->setFlash('error', Yii::t('default', 'An error occurred while saving the data.'));
+                }
+            }
+        }
+
+        $this->render('create', [
             'model' => $model,
             'disorder' => $modelStudentDisorder,
             'studentIdentification' => $modelStudentIdentification,
-        ));
+        ]);
     }
+
 
     /**
      * Updates a particular model.
@@ -97,51 +126,54 @@ class StudentIMCController extends Controller
      * @param integer $id the ID of the model to be updated
      */
     public function actionUpdate($id)
-{
-    $model = $this->loadModel($id);
-    $studentId = $model->student_fk;
+    {
+        $model = $this->loadModel($id);
+        $studentId = $model->student_fk;
 
-    // Buscar ou criar os modelos relacionados
-    $modelStudentDisorder = StudentDisorder::model()->findByAttributes(['student_fk' => $studentId]);
-    if ($modelStudentDisorder === null) {
-        $modelStudentDisorder = new StudentDisorder();
-        $modelStudentDisorder->student_fk = $studentId;
-    }
-
-    $modelStudentIdentification = StudentIdentification::model()->findByPk($studentId);
-    if ($modelStudentIdentification === null) {
-        $modelStudentIdentification = new StudentIdentification();
-        $modelStudentIdentification->id = $studentId;
-    }
-
-    if (isset($_POST['StudentIMC'])) {
-        $created_at = $model->created_at;
-        $model->attributes = $_POST['StudentIMC'];
-        $model->created_at = $created_at;
-
-        if (isset($_POST['StudentDisorder'])) {
-            $modelStudentDisorder->attributes = $_POST['StudentDisorder'];
+        // Buscar ou criar os modelos relacionados
+        $modelStudentDisorder = StudentDisorder::model()->findByAttributes(['student_fk' => $studentId]);
+        if ($modelStudentDisorder === null) {
+            $modelStudentDisorder = new StudentDisorder();
+            $modelStudentDisorder->student_fk = $studentId;
         }
 
-        if (isset($_POST['StudentIdentification'])) {
-            $modelStudentIdentification->attributes = $_POST['StudentIdentification'];
+        $modelStudentIdentification = StudentIdentification::model()->findByPk($studentId);
+        if ($modelStudentIdentification === null) {
+            $modelStudentIdentification = new StudentIdentification();
+            $modelStudentIdentification->id = $studentId;
         }
 
-        if ($model->save() && $modelStudentDisorder->save() && $modelStudentIdentification->save()) {
-            $this->redirect(['index', 'studentId' => $studentId]);
+        if (isset($_POST['StudentIMC'])) {
+            $created_at = $model->created_at;
+            $model->attributes = $_POST['StudentIMC'];
+            $model->created_at = $created_at;
+
+            if (isset($_POST['StudentDisorder'])) {
+                $modelStudentDisorder->attributes = $_POST['StudentDisorder'];
+            }
+
+            if (isset($_POST['StudentIdentification'])) {
+                $modelStudentIdentification->attributes = $_POST['StudentIdentification'];
+                if($_POST['StudentIdentification']['deficiency_type_autism'] == 1) {
+                $modelStudentIdentification->deficiency = 1;
+            }
+            }
+
+            if ($model->save() && $modelStudentDisorder->save() && $modelStudentIdentification->save()) {
+                $this->redirect(['index', 'studentId' => $studentId]);
+            }
         }
-    }
 
-    if ($model->created_at) {
-        $model->created_at = date('d/m/Y', strtotime($model->created_at));
-    }
+        if ($model->created_at) {
+            $model->created_at = date('d/m/Y', strtotime($model->created_at));
+        }
 
-    $this->render('update', [
-        'model' => $model,
-        'disorder' => $modelStudentDisorder,
-        'studentIdentification' => $modelStudentIdentification,
-    ]);
-}
+        $this->render('update', [
+            'model' => $model,
+            'disorder' => $modelStudentDisorder,
+            'studentIdentification' => $modelStudentIdentification,
+        ]);
+    }
 
 
     /**

@@ -21,6 +21,7 @@ $cs->registerScriptFile($baseScriptUrl . '/functions.js', CClientScript::POS_END
 
     <h1>Alunos</h1>
     <div class="row justify-content--end">
+        <a class="t-button-primary" href="<?php echo Yii::app()->createUrl('student/create', array('simple' => 1)) ?>">Adicionar Aluno</a>
         <div class="js-report-button hide">
 
         </div>

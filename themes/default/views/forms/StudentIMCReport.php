@@ -15,15 +15,38 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
 function getStageName($code)
 {
     $map = [
-        '1' => 'CRECHE', '2' => 'PRÉ-ESCOLA', '3' => 'INFANTIL - UNIFICADA',
-        '4' => '1ª SÉRIE', '5' => '2ª SÉRIE', '6' => '3ª SÉRIE', '7' => '4ª SÉRIE',
-        '8' => '5ª SÉRIE', '9' => '6ª SÉRIE', '10' => '7ª SÉRIE', '11' => '8ª SÉRIE',
-        '14' => '1º ANO', '15' => '2º ANO', '16' => '3º ANO', '17' => '4º ANO', '18' => '5º ANO',
-        '19' => '6º ANO', '20' => '7º ANO', '21' => '8º ANO', '41' => '9º ANO',
-        '25' => '1ª SÉRIE', '30' => '1ª SÉRIE', '35' => '1ª SÉRIE',
-        '26' => '2ª SÉRIE', '31' => '2ª SÉRIE', '36' => '2ª SÉRIE',
-        '27' => '3ª SÉRIE', '32' => '3ª SÉRIE', '37' => '3ª SÉRIE',
-        '28' => '4ª SÉRIE', '33' => '4ª SÉRIE', '38' => '4ª SÉRIE'
+        '1' => 'CRECHE',
+        '2' => 'PRÉ-ESCOLA',
+        '3' => 'INFANTIL - UNIFICADA',
+        '4' => '1ª SÉRIE',
+        '5' => '2ª SÉRIE',
+        '6' => '3ª SÉRIE',
+        '7' => '4ª SÉRIE',
+        '8' => '5ª SÉRIE',
+        '9' => '6ª SÉRIE',
+        '10' => '7ª SÉRIE',
+        '11' => '8ª SÉRIE',
+        '14' => '1º ANO',
+        '15' => '2º ANO',
+        '16' => '3º ANO',
+        '17' => '4º ANO',
+        '18' => '5º ANO',
+        '19' => '6º ANO',
+        '20' => '7º ANO',
+        '21' => '8º ANO',
+        '41' => '9º ANO',
+        '25' => '1ª SÉRIE',
+        '30' => '1ª SÉRIE',
+        '35' => '1ª SÉRIE',
+        '26' => '2ª SÉRIE',
+        '31' => '2ª SÉRIE',
+        '36' => '2ª SÉRIE',
+        '27' => '3ª SÉRIE',
+        '32' => '3ª SÉRIE',
+        '37' => '3ª SÉRIE',
+        '28' => '4ª SÉRIE',
+        '33' => '4ª SÉRIE',
+        '38' => '4ª SÉRIE'
     ];
     return $map[$code] ?? '';
 }
@@ -159,6 +182,13 @@ function getDisorders()
                                 $activeDisorders[] = $disordersMap[$key];
                             }
                         }
+                        if (
+                            !empty($student["studentIdentification"]->deficiency_type_autism)
+                            && isset($disordersMap['deficiency_type_autism'])
+                        ) {
+                            $activeDisorders[] = $disordersMap['deficiency_type_autism'];
+                        }
+
                         echo !empty($activeDisorders)
                             ? implode(', ', $activeDisorders)
                             : 'Nenhuma registrada';
@@ -172,7 +202,9 @@ function getDisorders()
 
 <!-- Estilos -->
 <style>
-    .table-striped, .table-striped td, .table-striped th {
+    .table-striped,
+    .table-striped td,
+    .table-striped th {
         border-color: #000 !important;
         font-size: 9px !important;
     }
