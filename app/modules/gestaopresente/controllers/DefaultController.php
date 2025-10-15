@@ -342,7 +342,6 @@ class DefaultController extends Controller
     private function parsePersonalData($row)
     {
         if (TagUtils::isStageEJA($row['ESTUDANTE_ETAPA_DE_ENSINO'])) {
-            // @TODO: ADICIONAR CALCULO PARA DETERMINAR VALOR
             $row['ESTUDANTE_ANO_PERIODO'] = 2;
         }
 
