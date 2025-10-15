@@ -79,8 +79,6 @@ class StudentDisorder extends TagModel
             array('student_fk, tdah, depressao, tab, toc, tag, tod, tcne, disorders_impact_learning, dyscalculia, dysgraphia, dyslalia, dyslexia, tpac, iron_deficiency_anemia, hypovitaminosis_a, rickets, scurvy, iodine_deficiency, protein_energy_malnutrition, overweight, obesity, dyslipidemia, hyperglycemia_prediabetes, type2_diabetes_mellitus, anorexia_nervosa, bulimia_nervosa, binge_eating_disorder, lactose_intolerance, celiac_disease, food_allergies, asthma, chronic_bronchitis, allergic_rhinitis, chronic_sinusitis, diabetes_mellitus, hypothyroidism, hyperthyroidism, dyslipidemia_metabolic, arterial_hypertension, congenital_heart_disease, chronic_gastritis, gastroesophageal_reflux_disease, epilepsy', 'numerical', 'integerOnly' => true),
             array('others', 'length', 'max' => 200),
             array('created_at, updated_at', 'safe'),
-            // The following rule is used by search().
-            // @todo Please remove those attributes that should not be searched.
             array('id, student_fk, tdah, depressao, tab, toc, tag, tod, tcne, others, created_at, updated_at, disorders_impact_learning, dyscalculia, dysgraphia, dyslalia, dyslexia, tpac, iron_deficiency_anemia, hypovitaminosis_a, rickets, scurvy, iodine_deficiency, protein_energy_malnutrition, overweight, obesity, dyslipidemia, hyperglycemia_prediabetes, type2_diabetes_mellitus, anorexia_nervosa, bulimia_nervosa, binge_eating_disorder, lactose_intolerance, celiac_disease, food_allergies, asthma, chronic_bronchitis, allergic_rhinitis, chronic_sinusitis, diabetes_mellitus, hypothyroidism, hyperthyroidism, dyslipidemia_metabolic, arterial_hypertension, congenital_heart_disease, chronic_gastritis, gastroesophageal_reflux_disease, epilepsy', 'safe', 'on' => 'search'),
         );
     }
@@ -168,8 +166,6 @@ class StudentDisorder extends TagModel
      */
     public function search()
     {
-        // @todo Please modify the following code to remove attributes that should not be searched.
-
         $criteria = new CDbCriteria;
 
         $criteria->compare('id', $this->id);
