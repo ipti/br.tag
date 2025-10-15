@@ -105,8 +105,7 @@ class GetStudentGradesByDisciplineUsecase
                 $unityOrder,
                 $type,
                 $semester,
-                $showSemAvarageColumn,
-                $rules
+                $showSemAvarageColumn
             );
         }
         $partialRecoveryColumns = null;
@@ -228,7 +227,7 @@ class GetStudentGradesByDisciplineUsecase
      *
      * @return StudentGradesResult
      */
-    private function getStudentGradeByDicipline($studentEnrollment, $discipline, $unitiesByDiscipline, $unityOrder, $type, $semester, $showSemAvarageColumn, $rules)
+    private function getStudentGradeByDicipline($studentEnrollment, $discipline, $unitiesByDiscipline, $unityOrder, $type, $semester, $showSemAvarageColumn)
     {
         $studentGradeResult = new StudentGradesResult($studentEnrollment->studentFk->name, $studentEnrollment->id);
 
@@ -259,7 +258,7 @@ class GetStudentGradesByDisciplineUsecase
         $studentGradeResult->setFinalMedia($finalMedia);
         $studentGradeResult->setSituation($gradeResult->situation);
 
-        foreach ($unitiesByDiscipline as $key => $unity) {
+        foreach ($unitiesByDiscipline as $unity) {
             /** @var GradeUnity $unit */
             $unityGrades = $this->getStudentGradesFromUnity($studentEnrollment->id, $discipline, $unity->id);
             $unityResult = new GradeUnityResult($unity->name, $unity->gradeCalculationFk->name);

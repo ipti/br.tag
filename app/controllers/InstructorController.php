@@ -87,8 +87,8 @@ class InstructorController extends Controller
         if (isset($iIdentification, $iDocumentsAndAddress, $iVariableData)) {
             $modelInstructorIdentification->attributes = $iIdentification;
 
-            $id_indigenous_people = $_POST['InstructorIdentification']['id_indigenous_people'];
-            $modelInstructorIdentification->id_indigenous_people = $id_indigenous_people === '' ? null : $id_indigenous_people;
+            $idIndigenousPeople = $_POST['InstructorIdentification']['id_indigenous_people'];
+            $modelInstructorIdentification->id_indigenous_people = $idIndigenousPeople === '' ? null : $idIndigenousPeople;
 
             $modelInstructorDocumentsAndAddress->attributes = $iDocumentsAndAddress;
             $modelInstructorVariableData->attributes = $iVariableData;
@@ -263,8 +263,8 @@ class InstructorController extends Controller
         if (isset($_POST['InstructorIdentification'], $_POST['InstructorDocumentsAndAddress'], $_POST['InstructorVariableData'])) {
             $modelInstructorIdentification->attributes = $_POST['InstructorIdentification'];
 
-            $id_indigenous_people = $_POST['InstructorIdentification']['id_indigenous_people'];
-            $modelInstructorIdentification->id_indigenous_people = $id_indigenous_people === '' ? null : $id_indigenous_people;
+            $idIndigenousPeople = $_POST['InstructorIdentification']['id_indigenous_people'];
+            $modelInstructorIdentification->id_indigenous_people = $idIndigenousPeople === '' ? null : $idIndigenousPeople;
 
             $modelInstructorDocumentsAndAddress->attributes = $_POST['InstructorDocumentsAndAddress'];
             $modelInstructorVariableData->attributes = $_POST['InstructorVariableData'];

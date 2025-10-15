@@ -69,33 +69,33 @@ class CensoController extends Controller
 
     public function areThereByModalitie($sql)
     {
-        $people_by_modalitie = Yii::app()->db->createCommand($sql)->queryAll();
-        $modalities_regular = false;
-        $modalities_especial = false;
-        $modalities_eja = false;
-        $modalities_professional = false;
-        foreach ($people_by_modalitie as  $item) {
+        $peopleByMmodalitie = Yii::app()->db->createCommand($sql)->queryAll();
+        $modalitiesRegular = false;
+        $modalitiesEspecial = false;
+        $modalitiesEja = false;
+        $modalitiesProfessional = false;
+        foreach ($peopleByMmodalitie as  $item) {
             switch ($item['modalities']) {
                 case '1':
                     if ($item['number_of'] > '0') {
-                        $modalities_regular = true;
+                        $modalitiesRegular = true;
                     }
                     break;
                 case '2':
                     if ($item['number_of'] > '0') {
-                        $modalities_especial = true;
+                        $modalitiesEspecial = true;
                     }
                     break;
 
                 case '3':
                     if ($item['number_of'] > '0') {
-                        $modalities_eja = true;
+                        $modalitiesEja = true;
                     }
                     break;
 
                 case '4':
                     if ($item['number_of'] > '0') {
-                        $modalities_professional = true;
+                        $modalitiesProfessional = true;
                     }
                     break;
                 default:
@@ -103,10 +103,10 @@ class CensoController extends Controller
             }
         }
         return [
-            'modalities_regular' => $modalities_regular,
-            'modalities_especial' => $modalities_especial,
-            'modalities_eja' => $modalities_eja,
-            'modalities_professional' => $modalities_professional
+            'modalities_regular' => $modalitiesRegular,
+            'modalities_especial' => $modalitiesEspecial,
+            'modalities_eja' => $modalitiesEja,
+            'modalities_professional' => $modalitiesProfessional
         ];
     }
 
@@ -1848,11 +1848,11 @@ class CensoController extends Controller
         $result = array_reverse($result);
         $cont = 9;
         $total = 0;
-        $total2=0;
+        $total2 = 0;
         foreach ($result as $r) {
-            while ($cont >= 0) {
-                $calc = ($cont * $r);
-                $total = $total + $calc;
+            while (true) {
+                $calc = $cont * $r;
+                $total += $calc;
                 $cont--;
                 if ($cont < 0) {
                     $cont = 10;
@@ -1868,19 +1868,19 @@ class CensoController extends Controller
             $digUm = 1;
         }
         foreach ($result as $r) {
-            while ($cont >= 0) {
+            while (true) {
                 if ($valor == 0) {
                     $valor = 1;
-                    $calc = ($cont * $digUm);
-                    $total2 = $total2 + $calc;
+                    $calc = $cont * $digUm;
+                    $total2 += $calc;
                     $cont--;
                     if ($cont < 0) {
                         $cont = 10;
                         break;
                     }
                 }
-                $calc = ($cont * $r);
-                $total2 = $total2 + $calc;
+                $calc = $cont * $r;
+                $total2 += $calc;
                 $cont--;
                 if ($cont < 0) {
                     $cont = 10;
@@ -1894,7 +1894,7 @@ class CensoController extends Controller
             $digDois = 1;
         }
 
-        return $digUm . $digDois;
+        return strval($digUm) . $digDois;
     }
 
     public function sanitizeString($string)
@@ -1952,8 +1952,6 @@ class CensoController extends Controller
                 }
 
                 if (!empty($attributes['edcenso_district_fk'])) {
-                    $scholl = SchoolIdentification::model()->findByPk($attributes['inep_id']);
-                    $attributes['edcenso_district_fk'] = $scholl->edcensoDistrictFk->code;
                     $attributes['edcenso_district_fk'] = 05;
                 }
 
@@ -2006,8 +2004,8 @@ class CensoController extends Controller
                     'internet_access_local_cable',
                     'internet_access_local_wireless',
                     'internet_access_local_inexistet',
-                    'equipments_computer' .
-                        'garbage_destination_throw_away',
+                    'equipments_computer',
+                    'garbage_destination_throw_away',
                     'treatment_garbage_parting_garbage',
                     'treatment_garbage_resuse',
                     'garbage_destination_recycle',

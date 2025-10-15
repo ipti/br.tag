@@ -183,32 +183,6 @@ class CalculateNumericGradeUsecase
         );
     }
 
-    private function getGradeUnitiesByClassroomStage()
-    {
-        if (isset($this->stage) && $this->stage !== '') {
-            $criteria = new CDbCriteria();
-            $criteria->alias = 'gu';
-            $criteria->join = 'join grade_rules gr on gr.id = gu.grade_rules_fk';
-            $criteria->join .= ' join grade_rules_vs_edcenso_stage_vs_modality grvesvm on gr.id = grvesvm.grade_rules_fk';
-            $criteria->join .= ' join classroom_vs_grade_rules cvgr on cvgr.grade_rules_fk = gr.id';
-            $criteria->condition = 'grvesvm.edcenso_stage_vs_modality_fk = :stage and cvgr.classroom_fk = :classroom';
-            $criteria->params = [':classroom' => $this->classroomId, ':stage' => $this->stage];
-
-            return GradeUnity::model()->count($criteria);
-        } else {
-            $criteria = new CDbCriteria();
-            $criteria->alias = 'gu';
-            $criteria->join = 'INNER JOIN grade_rules gr ON gr.id = gu.grade_rules_fk';
-            $criteria->join .= ' INNER JOIN classroom_vs_grade_rules cgr ON cgr.grade_rules_fk = gu.grade_rules_fk';
-            $criteria->join .= ' INNER JOIN classroom c ON c.id = cgr.classroom_fk';
-            $criteria->join .= ' INNER JOIN grade_rules_vs_edcenso_stage_vs_modality grvesvm ON grvesvm.grade_rules_fk = gr.id AND grvesvm.edcenso_stage_vs_modality_fk = c.edcenso_stage_vs_modality_fk';
-            $criteria->condition = 'cgr.classroom_fk = :classroomId';
-            $criteria->params = [':classroomId' => $this->classroomId];
-
-            return GradeUnity::model()->count($criteria);
-        }
-    }
-
     /**
      * @param int $studentEnrollmentId
      * @param int $studentEnrollmentId
@@ -342,7 +316,7 @@ class CalculateNumericGradeUsecase
                 break;
             case 'Peso':
                 $acc = [0, 0];
-                if ($isRecovery == false) {
+                if ($isRecovery === false) {
                     $weights = $unityOrRecovery->gradeUnityModalities;
                 } else {
                     $weights = GradePartialRecoveryWeights::model()->findAllByAttributes(['partial_recovery_fk' => $unityOrRecovery->id]);

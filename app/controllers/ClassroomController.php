@@ -245,7 +245,7 @@ class ClassroomController extends Controller
         if ($at == 0 || $at == 1) {
             $data = EdcensoStageVsModality::model()->findAll($where);
         } elseif ($at == 2 || $at == 3) {
-            $data = EdcensoStageVsModality::model()->findAll('id!=1 && id!=2 && id!=3 && id!=56 ' . $where);
+            $data = EdcensoStageVsModality::model()->findAll('id!=1 && id!=2 && id!=3 && id!=56 ' . strval($where));
         } else {
             $data = [];
             $result['StageEmpty'] = true;

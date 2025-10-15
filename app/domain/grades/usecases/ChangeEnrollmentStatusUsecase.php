@@ -15,7 +15,6 @@ class ChangeEnrollmentStatusUsecase
 
     public function exec()
     {
-        $isAllGradesFinalMediaFilled = true;
         $isApprovedInAllGrades = true;
         // STATUS VÁLIDOS PARA APROVAÇÃO OU REPROVAÇÃO:
         // 1 - MATRICULADO, 13 - REINTEGRADO
@@ -25,9 +24,6 @@ class ChangeEnrollmentStatusUsecase
         $disciplines = $this->getDisciplines($this->enrollment->id);
 
         foreach ($disciplines as $discipline) {
-            if ($discipline->final_media != null) {
-                $isAllGradesFinalMediaFilled = false;
-            }
 
             if ($discipline->situation == 'REPROVADO') {
                 $isApprovedInAllGrades = false;
@@ -35,11 +31,7 @@ class ChangeEnrollmentStatusUsecase
         }
 
         if ($isRegistered) {
-            if ($isApprovedInAllGrades) {
-                $this->enrollment->status = 6;
-            } else {
-                $this->enrollment->status = 8;
-            }
+            $this->enrollment->status = $isApprovedInAllGrades?6:8;
         }
 
         if ($this->enrollment->save()) {
@@ -47,7 +39,6 @@ class ChangeEnrollmentStatusUsecase
                 'Status da matrícula',
                 ['enrollmentSituation' => $this->gradeResult->status]
             );
-            return;
         }
     }
 
@@ -60,11 +51,11 @@ class ChangeEnrollmentStatusUsecase
     {
         // Como cada disciplina do enrollment possui um gradeResult único
         // retornar uma disciplina significa retornar um gradeResult
-        $gradesResults = GradeResults::model()->findAllByAttributes(
+
+        return GradeResults::model()->findAllByAttributes(
             [
                 'enrollment_fk' => $enrollmentFk
             ]
         );
-        return $gradesResults;
     }
 }

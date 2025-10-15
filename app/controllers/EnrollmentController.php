@@ -595,8 +595,8 @@ class EnrollmentController extends Controller implements AuthenticateSEDTokenInt
                 }
             }
 
-            $time_elapsed_secs = microtime(true) - $start;
-            Yii::log($std['enrollmentId'] . ' - ' . $time_elapsed_secs / 60, CLogger::LEVEL_INFO);
+            $timeElapsedSecs = microtime(true) - $start;
+            Yii::log($std['enrollmentId'] . ' - ' . $timeElapsedSecs / 60, CLogger::LEVEL_INFO);
         }
 
         echo CJSON::encode(['valid' => true]);
