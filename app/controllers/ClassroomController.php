@@ -681,11 +681,11 @@ class ClassroomController extends Controller
         if (isset($_POST['enrollments']) && isset($_POST['toclassroom'])) {
             $enrollments = $_POST['enrollments'];
             if (!empty($_POST['toclassroom'])) {
-                $class_room = Classroom::model()->findByPk($_POST['toclassroom']);
+                $classroom = Classroom::model()->findByPk($_POST['toclassroom']);
                 foreach ($enrollments as $enrollment) {
                     $enro = StudentEnrollment::model()->findByPk($enrollment);
-                    $enro->classroom_fk = $class_room->id;
-                    $enro->classroom_inep_id = $class_room->inep_id;
+                    $enro->classroom_fk = $classroom->id;
+                    $enro->classroom_inep_id = $classroom->inep_id;
                     $enro->status = 2;
                     $enro->create_date = date('Y-m-d');
                     $enro->update(['classroom_fk', 'classroom_inep_id', 'status', 'create_date']);
@@ -1171,9 +1171,9 @@ class ClassroomController extends Controller
         $enrollments = StudentEnrollment::model()->findAllByPk($ids);
 
         usort($enrollments, function ($a, $b) use ($ids) {
-            $pos_a = array_search($a->id, $ids);
-            $pos_b = array_search($b->id, $ids);
-            return $pos_a - $pos_b;
+            $posA = array_search($a->id, $ids);
+            $posB = array_search($b->id, $ids);
+            return $posA - $posB;
         });
 
         foreach ($enrollments as $i => $enrollment) {
