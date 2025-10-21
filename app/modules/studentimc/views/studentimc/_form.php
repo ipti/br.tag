@@ -89,8 +89,6 @@ $cs->registerScriptFile($baseScriptUrl . '/pagination.js', CClientScript::POS_EN
                         <div class="column">
                             <div class="t-field-text <?= $model->isNewRecord ? "hide" : "" ?>">
                                 <?php echo $form->labelEx($model, 'student_imc_classification_fk', array('class' => 't-field-text__label')); ?>
-                                <?php //echo $form->textField($model, 'classification', array('class' => 't-field-text__input js-classification', 'readonly' => 'readonly')); ?>
-
                                 <?php echo $form->DropDownlist(
                                         $model,
                                         'student_imc_classification_fk',
