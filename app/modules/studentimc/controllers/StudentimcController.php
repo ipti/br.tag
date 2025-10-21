@@ -79,14 +79,20 @@ class StudentIMCController extends Controller
             $modelStudentDisorder->student_fk = $studentId;
         }
 
-        if (isset($_POST['StudentIMC'], $_POST['StudentDisorder'], $_POST['StudentIdentification'])) {
-            $model->attributes = $_POST['StudentIMC'];
+        if (isset($_POST['StudentImc'], $_POST['StudentDisorder'], $_POST['StudentIdentification'])) {
+            $model->attributes = $_POST['StudentImc'];
             $model->student_fk = $studentId;
+
+            $classification = $this->getclassification($model, $modelStudentIdentification);
+
+            $model->student_imc_classification_fk = $classification;
+
+
 
             $modelStudentDisorder->attributes = $_POST['StudentDisorder'];
             $modelStudentIdentification->attributes = $_POST['StudentIdentification'];
 
-            if($_POST['StudentIdentification']['deficiency_type_autism'] == 1) {
+            if ($_POST['StudentIdentification']['deficiency_type_autism'] == 1) {
                 $modelStudentIdentification->deficiency = 1;
             }
 
@@ -120,6 +126,29 @@ class StudentIMCController extends Controller
     }
 
 
+    private function getclassification($model, $studentIdentification)
+    {
+        Yii::import('ext.imc.IMC');
+        $imc = new IMC();
+        $birthDate = DateTime::createFromFormat('d/m/Y', $studentIdentification->birthday)
+            ?: DateTime::createFromFormat('Y-m-d', $studentIdentification->birthday);
+        $today = new DateTime();
+        $age = $today->diff($birthDate)->y;
+        $gender = $studentIdentification->sex == 1 ? 'masculino' : 'feminino';
+        if ($age <= 18 && $age >= 5) {
+
+            $classification = $imc->classificarIMCInfantil($model->IMC, $age, $gender);
+
+        } else {
+
+            $classification = $imc->IMCSituation();
+
+        }
+
+        return $classification;
+    }
+
+
     /**
      * Updates a particular model.
      * If update is successful, the browser will be redirected to the 'view' page.
@@ -129,6 +158,9 @@ class StudentIMCController extends Controller
     {
         $model = $this->loadModel($id);
         $studentId = $model->student_fk;
+
+        $model->height = number_format((float) $model->height, 2, '.', '');
+        $model->weight = number_format((float) $model->weight, 2, '.', '');
 
         // Buscar ou criar os modelos relacionados
         $modelStudentDisorder = StudentDisorder::model()->findByAttributes(['student_fk' => $studentId]);
@@ -143,10 +175,13 @@ class StudentIMCController extends Controller
             $modelStudentIdentification->id = $studentId;
         }
 
-        if (isset($_POST['StudentIMC'])) {
+        if (isset($_POST['StudentImc'])) {
             $created_at = $model->created_at;
-            $model->attributes = $_POST['StudentIMC'];
+            $model->attributes = $_POST['StudentImc'];
             $model->created_at = $created_at;
+
+            $classification = $this->getclassification($model, $modelStudentIdentification);
+            $model->student_imc_classification_fk = $classification;
 
             if (isset($_POST['StudentDisorder'])) {
                 $modelStudentDisorder->attributes = $_POST['StudentDisorder'];
@@ -154,9 +189,9 @@ class StudentIMCController extends Controller
 
             if (isset($_POST['StudentIdentification'])) {
                 $modelStudentIdentification->attributes = $_POST['StudentIdentification'];
-                if($_POST['StudentIdentification']['deficiency_type_autism'] == 1) {
-                $modelStudentIdentification->deficiency = 1;
-            }
+                if ($_POST['StudentIdentification']['deficiency_type_autism'] == 1) {
+                    $modelStudentIdentification->deficiency = 1;
+                }
             }
 
             if ($model->save() && $modelStudentDisorder->save() && $modelStudentIdentification->save()) {

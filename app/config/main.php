@@ -72,7 +72,8 @@ return [
         'application.components.auth.TFeature',
         'application.components.auth.TRole',
         'application.components.utils.TLog',
-        'ext.bncc-import.BNCCImport'
+        'ext.bncc-import.BNCCImport',
+        'ext.imc.IMC',
     ],
     'modules' => [
         'gii' => [

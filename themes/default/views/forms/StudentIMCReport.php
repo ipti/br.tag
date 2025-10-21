@@ -156,6 +156,7 @@ function getDisorders()
             <thead>
                 <tr>
                     <th>IMC</th>
+                    <th>Classificação</th>
                     <th>ALTURA (m)</th>
                     <th>PESO (kg)</th>
                     <th>DATA DE COLETA</th>
@@ -165,15 +166,16 @@ function getDisorders()
                 <?php foreach ($student["studentIMC"] as $imc): ?>
                     <tr>
                         <td><?= CHtml::encode($imc->IMC) ?></td>
-                        <td><?= CHtml::encode($imc->height) ?></td>
-                        <td><?= CHtml::encode($imc->weight) ?></td>
+                        <td><?= CHtml::encode($imc->studentImcClassificationFk->classification) ?></td>
+                        <td><?= CHtml::encode(number_format((float) $imc->height, 2, '.', '')) ?></td>
+                        <td><?= CHtml::encode(number_format((float) $imc->weight, 2, '.', '')) ?></td>
                         <td><?= date('d/m/Y', strtotime($imc->created_at)) ?></td>
                     </tr>
                 <?php endforeach; ?>
 
                 <!-- Lista de doenças -->
                 <tr>
-                    <td colspan="4" class="student-disorders">
+                    <td colspan="5" class="student-disorders">
                         <strong>Doenças:</strong>
                         <?php
                         $activeDisorders = [];

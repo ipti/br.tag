@@ -86,12 +86,29 @@ $cs->registerScriptFile($baseScriptUrl . '/pagination.js', CClientScript::POS_EN
                                 <?php echo $form->error($model, 'IMC'); ?>
                             </div>
                         </div>
-                        <div class="column <?= $model->isNewRecord ? "hide" : "" ?>">
-                            <?php echo $form->labelEx($model, 'created_at', array('class' => 't-field-text__label')); ?>
-                            <?php echo $form->textField($model, 'created_at', array('class' => 't-field-text__input', 'disabled' => 'disabled')); ?>
-                            <?php echo $form->error($model, 'created_at'); ?>
+                        <div class="column">
+                            <div class="t-field-text <?= $model->isNewRecord ? "hide" : "" ?>">
+                                <?php echo $form->labelEx($model, 'student_imc_classification_fk', array('class' => 't-field-text__label')); ?>
+                                <?php //echo $form->textField($model, 'classification', array('class' => 't-field-text__input js-classification', 'readonly' => 'readonly')); ?>
+
+                                <?php echo $form->DropDownlist(
+                                        $model,
+                                        'student_imc_classification_fk',
+                                        array(
+                                            null => "Selecione uma classificação",
+                                            1 => 'DESNUTRICAO GRAVE',
+                                            2 => 'DESNUTRICAO MODERADA',
+                                            3 => 'DESNUTRICAO',
+                                            4 => 'NORMAL',
+                                            5 => 'SOBREPESO',
+                                            6 => 'OBESIDADE'
+                                        ),
+                                        array("class" => 'select-search-off t-field-select__input', "readonly" => "readonly")
+                                    ); ?>
+
+                                <?php echo $form->error($model, 'student_imc_classification_fk'); ?>
+                            </div>
                         </div>
-                        <div class="column <?= $model->isNewRecord ? "" : "hide" ?>"></div>
                     </div>
 
 
@@ -103,6 +120,12 @@ $cs->registerScriptFile($baseScriptUrl . '/pagination.js', CClientScript::POS_EN
                                 <?php echo $form->error($model, 'observations'); ?>
                             </div>
                         </div>
+                        <div class="column <?= $model->isNewRecord ? "hide" : "" ?>">
+                            <?php echo $form->labelEx($model, 'created_at', array('class' => 't-field-text__label')); ?>
+                            <?php echo $form->textField($model, 'created_at', array('class' => 't-field-text__input', 'disabled' => 'disabled')); ?>
+                            <?php echo $form->error($model, 'created_at'); ?>
+                        </div>
+                        <div class="column <?= $model->isNewRecord ? "" : "hide" ?>"></div>
                     </div>
                 </div>
 
@@ -364,8 +387,7 @@ $btnSubmit = "<button class='t-button-primary last' type='submit' style='" . ($i
 <div class="row show--tablet">
     <div class="column">
         <?= $isNew ? str_replace("next", "t-button-primary nofloat next", $btnNext) : '' ?>
-        <button class="t-button-primary last" type="submit"
-            style="<?= $isNew ? 'display:none;' : '' ?> width:100%;">
+        <button class="t-button-primary last" type="submit" style="<?= $isNew ? 'display:none;' : '' ?> width:100%;">
             <?= $isNew ? Yii::t('default', 'Create') : Yii::t('default', 'Save') ?>
         </button>
     </div>

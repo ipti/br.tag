@@ -60,4 +60,25 @@ ADD COLUMN congenital_heart_disease TINYINT NULL,
 ADD COLUMN chronic_gastritis TINYINT NULL,
 ADD COLUMN gastroesophageal_reflux_disease TINYINT NULL,
 
-ADD COLUMN epilepsy TINYINT NULL
+ADD COLUMN epilepsy TINYINT NULL;
+
+CREATE TABLE student_imc_classification (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    classification VARCHAR(50) NOT NULL
+);
+
+INSERT INTO student_imc_classification (classification) VALUES
+('DESNUTRICAO GRAVE'),
+('DESNUTRICAO MODERADA'),
+('DESNUTRICAO'),
+('NORMAL'),
+('SOBREPESO'),
+('OBESIDADE');
+
+
+ALTER TABLE student_imc
+ADD COLUMN student_imc_classification_fk INT,
+ADD CONSTRAINT fk_student_imc_classification
+FOREIGN KEY (student_imc_classification_fk)
+REFERENCES student_imc_classification(id);
+

@@ -617,6 +617,7 @@ return [
     'Weight' => 'Peso (kg)',
     'Height' => 'Altura (m)',
     'Imc' => 'IMC',
+    'Classification' => 'Classificação do IMC',
     'Observations' => 'Observação',
     'Created_At' => 'Data da Medição',
     'Updated_At' => 'Data da Atualização',

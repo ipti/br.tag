@@ -546,8 +546,10 @@ class FormsRepository
 
             // Acesse o model via caminho completo do módulo
             Yii::import('application.modules.studentimc.models.StudentIMC');
+            Yii::import('application.modules.studentimc.models.StudentImcClassification');
 
             $student["studentIMC"] =  StudentIMC::model()->findAll($criteria);
+
 
 
             $studentIdentification = StudentIdentification::model()->findByPK($enrollment->student_fk); //

@@ -64,14 +64,19 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Acompanhamento de Saúde'));
                             'htmlOptions' => array('width' => '400px', 'class' => 'link-update-grid-view'),
                         ),
                         array(
+                            'name' => 'Classificação',
+                            'type' => 'raw',
+                            'value' => '$data->studentImcClassificationFk->classification',
+                        ),
+                        array(
                             'name' => 'height',
                             'type' => 'raw',
-                            'value' => '$data->height',
+                            'value' => 'number_format((float) $data->height, 2, ".", "")',
                         ),
                         array(
                             'name' => 'weight',
                             'type' => 'raw',
-                            'value' => '$data->weight',
+                            'value' => 'number_format((float) $data->weight, 2, ".", "")',
                         ),
                         array(
                             'name' => 'created_at',
