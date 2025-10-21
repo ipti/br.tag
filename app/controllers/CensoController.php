@@ -861,8 +861,7 @@ class CensoController extends Controller
         //campo 5
         $result = $iiv->isNameValid(
             trim($collumn['name']),
-            100,
-            $instructorDocumentsAndAddress['cpf']
+            100
         );
         if (!$result['status']) {
             array_push($log, ['name' => $result['erro']]);
@@ -894,20 +893,18 @@ class CensoController extends Controller
         }
 
         //campo 11, 12, 13
-        $result = $iiv->isNameValid(trim($collumn['filiation_1']), 100, $instructorDocumentsAndAddress['cpf']);
+        $result = $iiv->isNameValid(trim($collumn['filiation_1']), 100);
         if (!$result['status']) {
             array_push($log, ['filiation' => $result['erro']]);
         }
-        $result = $iiv->isNameValid(trim($collumn['filiation_2']), 100, $instructorDocumentsAndAddress['cpf']);
+        $result = $iiv->isNameValid(trim($collumn['filiation_2']), 100);
         if (!$result['status']) {
             array_push($log, ['filiation' => $result['erro']]);
         }
         $result = $iiv->validateFiliation(
             $collumn['filiation'],
             $collumn['filiation_1'],
-            $collumn['filiation_2'],
-            $instructorDocumentsAndAddress['cpf'],
-            100
+            $collumn['filiation_2']
         );
         if (!$result['status']) {
             array_push($log, ['filiation' => $result['erro']]);
@@ -1167,8 +1164,7 @@ class CensoController extends Controller
         //campo 5
         $result = $stiv->isNameValid(
             trim($collumn['name']),
-            100,
-            $studentDocument['cpf']
+            100
         );
         if (!$result['status']) {
             array_push($log, ['name' => $result['erro']]);
@@ -1194,20 +1190,18 @@ class CensoController extends Controller
         }
 
         //campo 9, 10, 11
-        $result = $stiv->isNameValid(trim($collumn['filiation_1']), 100, $studentDocument['cpf']);
+        $result = $stiv->isNameValid(trim($collumn['filiation_1']), 100);
         if (!$result['status']) {
             array_push($log, ['filiation' => $result['erro']]);
         }
-        $result = $stiv->isNameValid(trim($collumn['filiation_2']), 100, $studentDocument['cpf']);
+        $result = $stiv->isNameValid(trim($collumn['filiation_2']), 100);
         if (!$result['status']) {
             array_push($log, ['filiation' => $result['erro']]);
         }
         $result = $stiv->validateFiliation(
             $collumn['filiation'],
             $collumn['filiation_1'],
-            $collumn['filiation_2'],
-            $studentDocument['cpf'],
-            100
+            $collumn['filiation_2']
         );
         if (!$result['status']) {
             array_push($log, ['filiation' => $result['erro']]);

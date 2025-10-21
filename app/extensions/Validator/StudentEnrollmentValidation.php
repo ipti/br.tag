@@ -8,6 +8,7 @@ class StudentEnrollmentValidation extends Register
 {
     public function __construct()
     {
+        //Create the instance of the parent class
     }
 
     public function multiLevel($value, $demand)
@@ -140,12 +141,12 @@ class StudentEnrollmentValidation extends Register
         return ['status' => true, 'erro' => '', 'type' => 'normal'];
     }
 
-    public function studentEntryForm($value, $administrative_dependence, $edcenso_svm)
+    public function studentEntryForm($value, $administrativeDependence, $edcensoSvm)
     {
-        $edcenso_svm_allowed_values = ['39', '40', '64', '30', '31', '32', '33', '34', '74'];
-        $first_result = $this->isAllowed($edcenso_svm, $edcenso_svm_allowed_values);
+        $edcensoSvmAllowed_values = ['39', '40', '64', '30', '31', '32', '33', '34', '74'];
+        $first_result = $this->isAllowed($edcensoSvm, $edcensoSvmAllowed_values);
 
-        if ($administrative_dependence == '1' && $first_result['status']) {
+        if ($administrativeDependence == '1' && $first_result['status']) {
             $allowed_values = ['1', '2', '3', '4', '5', '6', '7', '8', '9'];
             $second_result = $this->isAllowed($value, $allowed_values);
             if (!$second_result['status']) {
