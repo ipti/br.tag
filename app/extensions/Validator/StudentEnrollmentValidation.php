@@ -4,10 +4,11 @@ $DS = DIRECTORY_SEPARATOR;
 
 require_once dirname(__FILE__) . $DS . 'register.php';
 
-class studentEnrollmentValidation extends Register
+class StudentEnrollmentValidation extends Register
 {
     public function __construct()
     {
+        //Create the instance of the parent class
     }
 
     public function multiLevel($value, $demand)
@@ -102,7 +103,7 @@ class studentEnrollmentValidation extends Register
         return ['status' => true, 'erro' => '', 'type' => 'normal'];
     }
 
-    public function publicTransportation($value, $pedagogical_mediation_type)
+    public function publicTransportation($value, $pedagogicalMediationType)
     {
         if ($value == '1' || $value == '2') {
             if (!($value == '1' || $value == '0')) {
@@ -117,9 +118,9 @@ class studentEnrollmentValidation extends Register
         return ['status' => true, 'erro' => '', 'type' => 'normal'];
     }
 
-    public function vehiculesTypes($public_transport, $types)
+    public function vehiculesTypes($publicTransport, $types)
     {
-        if ($public_transport == '1') {
+        if ($publicTransport == '1') {
             $result = $this->checkRangeOfArray($types, ['0', '1']);
             if (!$result['status']) {
                 return ['status' => false, 'erro' => $result['erro'], 'type' => 'normal'];
@@ -130,7 +131,7 @@ class studentEnrollmentValidation extends Register
                 return ['status' => false, 'erro' => $result['erro'], 'type' => 'normal'];
             }
         } else {
-            foreach ($types as $key => $value) {
+            foreach ($types as $value) {
                 if ($value != null) {
                     return ['status' => false, 'erro' => "value $value deveria ser nulo", 'type' => 'normal'];
                 }
@@ -140,16 +141,16 @@ class studentEnrollmentValidation extends Register
         return ['status' => true, 'erro' => '', 'type' => 'normal'];
     }
 
-    public function studentEntryForm($value, $administrative_dependence, $edcenso_svm)
+    public function studentEntryForm($value, $administrativeDependence, $edcensoSvm)
     {
-        $edcenso_svm_allowed_values = ['39', '40', '64', '30', '31', '32', '33', '34', '74'];
-        $first_result = $this->isAllowed($edcenso_svm, $edcenso_svm_allowed_values);
+        $edcensoSvmAllowed_values = ['39', '40', '64', '30', '31', '32', '33', '34', '74'];
+        $first_result = $this->isAllowed($edcensoSvm, $edcensoSvmAllowed_values);
 
-        if ($administrative_dependence == '1' && $first_result['status']) {
+        if ($administrativeDependence == '1' && $first_result['status']) {
             $allowed_values = ['1', '2', '3', '4', '5', '6', '7', '8', '9'];
             $second_result = $this->isAllowed($value, $allowed_values);
-            if (!$result['status']) {
-                return ['status' => false, 'erro' => $result['erro'], 'type' => 'normal'];
+            if (!$second_result['status']) {
+                return ['status' => false, 'erro' => $second_result['erro'], 'type' => 'normal'];
             }
         } else {
             if ($value != null) {
@@ -189,6 +190,8 @@ class studentEnrollmentValidation extends Register
                 if ($strEnrollmentStage !== '39' && $strEnrollmentStage !== '40') {
                     return ['status' => false, 'erro' => 'em turmas de Educação Profissional Mista - Concomitante e Subsequente , o campo ETAPA DE ENSINO na matrícula é OBRIGATÓRIA e deve ser Curso Técnico - Concomitante ou Subsequente.', 'type' => 'normal'];
                 }
+                break;
+            default:
                 break;
         }
         return ['status' => true, 'erro' => '', 'type' => 'normal'];

@@ -31,23 +31,23 @@ class SchoolIdentificationValidation extends Register
     6. A escola informada deve estar entre as escolas abrangidas pelo perfil do informante.
     7. A escola informada não pode ter sido extinta em anos anteriores.
     */
-    public function isInepIdValid($inep_id)
+    public function isInepIdValid($inepId)
     {
-        if (empty($inep_id)) {
+        if (empty($inepId)) {
             return [
                 'status' => false,
                 'erro' => 'O campo Código de escola - está vazio'
             ];
         }
 
-        if (strlen($inep_id) != 8) {
+        if (strlen($inepId) != 8) {
             return [
                 'status' => false,
                 'erro' => 'O campo Código de escola - Inep está com tamanho diferente de 8 caracteres'
             ];
         }
 
-        if (!is_numeric($inep_id)) {
+        if (!is_numeric($inepId)) {
             return [
                 'status' => false,
                 'erro' => 'O campo Código de escola - Inep foi preenchido com um valor não númerico'
@@ -521,23 +521,16 @@ class SchoolIdentificationValidation extends Register
     }
 
     //auxiliar nos campos 30,31,32
-    public function isField7And28Valid($inep_id, $schoolSituation, $dependency)
+    public function isField7And28Valid($inepId, $schoolSituation, $dependency)
     {
         //campo 7 deve ser igual a 1.. Campo 28 deve ser igual a 4
-        if (
-            $schoolSituation == 1 && isSituationValid($schoolSituation) == true
-            && isAdministrativeDependenceValid($inep_id, $dependency) == true && $dependency == 4
-        ) {
-            return true;
-        } else {
-            return false;
-        }
+        return ($schoolSituation == 1 && $this->isSituationValid($schoolSituation) === true) && ($this->isAdministrativeDependenceValid($inepId, $dependency) === true && $dependency == 4);
     }
 
     //campo 30
-    public function checkPrivateSchoolCategory($value, $situation, $administrative_dependence)
+    public function checkPrivateSchoolCategory($value, $situation, $administrativeDependence)
     {
-        if ($situation == '1' && $administrative_dependence == '4') {
+        if ($situation == '1' && $administrativeDependence == '4') {
             $result = $this->isAllowed($value, ['1', '2', '3', '4']);
             if (!$result['status']) {
                 return ['status' => false, 'erro' => $result['erro']];
@@ -553,9 +546,9 @@ class SchoolIdentificationValidation extends Register
 
     //campo 31
 
-    public function isPublicContractValid($value, $situation, $administrative_dependence)
+    public function isPublicContractValid($value, $situation, $administrativeDependence)
     {
-        if (!($situation == '1' && $administrative_dependence == '4')) {
+        if (!($situation == '1' && $administrativeDependence == '4')) {
             if ($value != null) {
                 return ['status' => false, 'erro' => "Valor $value deveria ser nulo"];
             } else {
@@ -572,15 +565,15 @@ class SchoolIdentificationValidation extends Register
 
     //campos 32 a 36
 
-    public function isPrivateSchoolMaintainerValid($keepers, $situation, $administrative_dependence)
+    public function isPrivateSchoolMaintainerValid($keepers, $situation, $administrativeDependence)
     {
-        if ($situation == '1' && $administrative_dependence == '4') {
+        if ($situation == '1' && $administrativeDependence == '4') {
             $result = $this->atLeastOne($keepers);
             if (!$result['status']) {
                 return ['status' => false, 'erro' => $result['erro']];
             }
         } else {
-            foreach ($keepers as $key => $value) {
+            foreach ($keepers as $value) {
                 if ($value != null) {
                     return ['status' => false, 'erro' => 'Valor deveria ser nulo'];
                 }
@@ -591,9 +584,9 @@ class SchoolIdentificationValidation extends Register
     }
 
     //para os campos 37 e 38
-    public function isCNPJValid($cnpj, $situation, $administrative_dependence)
+    public function isCNPJValid($cnpj, $situation, $administrativeDependence)
     {
-        if (!($situation == '1' && $administrative_dependence == '4')) {
+        if (!($situation == '1' && $administrativeDependence == '4')) {
             if ($cnpj != null) {
                 return ['status' => false, 'erro' => "Valor $cnpj deveria ser nulo"];
             } else {
@@ -629,34 +622,35 @@ class SchoolIdentificationValidation extends Register
     }
 
     //campo 40,41 e 42
+    //@TODO investigar o por que desta função está assim
     public function isOfferOrLinkedUnity(
         $value,
-        $InepCode,
-        $HeadSchool,
+        $inepCode,
+        $headSchool,
         $schoolSituation,
-        $hostedcenso_city_fk,
-        $atualedcenso_city_fk,
+        $hostedcensoCityFk,
+        $atualedcensoCityFk,
         $hostDependencyAdm,
         $atualDependencyAdm,
-        $IESCode
+        $iesCode
     ) {
         if ($value == 1) {
-            return isInepHeadSchoolValid($InepCode, $HeadSchool, $schoolSituation, $hostedcenso_city_fk, $atualedcenso_city_fk, $hostDependencyAdm, $atualDependencyAdm);
+            return isInepHeadSchoolValid($inepCode, $headSchool, $schoolSituation, $hostedcensoCityFk, $atualedcensoCityFk, $hostDependencyAdm, $atualDependencyAdm);
         }
         if ($value == 2) {
-            return isIESCodeValid($IESCode, $schoolSituation);
+            return isIESCodeValid($iesCode, $schoolSituation);
         }
     }
 
     //41
     public function inepHeadSchool(
         $value,
-        $offer_or_linked_unity,
-        $current_inep_id,
-        $head_school_situation,
-        $head_of_head_school
+        $offerOrLinkedUnity,
+        $currentInepId,
+        $headSchoolSituation,
+        $headOfHeadSchool
     ) {
-        if ($offer_or_linked_unity == '1') {
+        if ($offerOrLinkedUnity == '1') {
             if ($value == '' && $value == null) {
                 return ['status' => false, 'erro' => 'O campo não foi preenchido quando deveria ser preenchido.'];
             }
@@ -666,16 +660,16 @@ class SchoolIdentificationValidation extends Register
             if (strlen($value) != 8) {
                 return ['status' => false, 'erro' => 'Deve conter 8 caracteres'];
             }
-            if ($value == $current_inep_id) {
+            if ($value == $currentInepId) {
                 return ['status' => false, 'erro' => 'Não pode ser preenchido com o mesmo código INEP da escola.'];
             }
-            if ($head_school_situation != '1') {
+            if ($headSchoolSituation != '1') {
                 return ['status' => false, 'erro' => 'Escola sede não está em atividade'];
             }
-            if (substr($current_inep_id, 0, 2) != substr($value, 0, 2)) {
+            if (substr($currentInepId, 0, 2) != substr($value, 0, 2)) {
                 return ['status' => false, 'erro' => 'Escolas não são do mesmo estado'];
             }
-            if ($current_inep_id == $head_of_head_school) {
+            if ($currentInepId == $headOfHeadSchool) {
                 return ['status' => false, 'erro' => 'Escola sede não pode ter atual como sede'];
             }
         } else {
@@ -688,9 +682,9 @@ class SchoolIdentificationValidation extends Register
     }
 
     //42
-    public function iesCode($value, $administrativeDependence, $offer_or_linked_unity)
+    public function iesCode($value, $administrativeDependence, $offerOrLinkedUnity)
     {
-        if ($offer_or_linked_unity == '2') {
+        if ($offerOrLinkedUnity == '2') {
             if ($value == '' && $value == null) {
                 return ['status' => false, 'erro' => 'O campo não foi preenchido quando deveria ser preenchido.'];
             }

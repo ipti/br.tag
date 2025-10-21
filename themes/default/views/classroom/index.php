@@ -153,7 +153,7 @@
                         'enableSorting' => false,
                         'itemsCssClass' => 'js-tag-table tag-table-primary table table-condensed
                         table-striped table-hover table-primary table-vertical-center checkboxs',
-                        // 'afterAjaxUpdate' => 'function(id, data){initDatatable()}', // TODO: essa linha está causando erro quando SEDSP desabiitado
+                        // 'afterAjaxUpdate' => 'function(id, data){initDatatable()}', // causa erro quando SEDSP desabilitado
                         'columns' => $columns,
                     ));
                     ?>

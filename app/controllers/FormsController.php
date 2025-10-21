@@ -169,11 +169,11 @@ class FormsController extends Controller
         $this->render('StudentFileForm', $query);
     }
 
-    public function actionStudentsFileForm($classroom_id)
+    public function actionStudentsFileForm($classroomId)
     {
         $this->layout = 'reports';
         $repository = new FormsRepository();
-        $query = $repository->getStudentsFileForm($classroom_id);
+        $query = $repository->getStudentsFileForm($classroomId);
         $this->render('StudentsFileForm', $query);
     }
 

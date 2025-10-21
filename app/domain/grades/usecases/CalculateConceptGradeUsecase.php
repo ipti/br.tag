@@ -17,10 +17,10 @@ class CalculateConceptGradeUsecase
     public function exec()
     {
         $classroom = Classroom::model()->with('activeStudentEnrollments.studentFk')->findByPk($this->classroomId);
-        $TotalEnrollments = $classroom->activeStudentEnrollments;
+        $totalEnrollments = $classroom->activeStudentEnrollments;
         $studentEnrollments = [];
         if (TagUtils::isMultiStage($classroom->edcenso_stage_vs_modality_fk)) {
-            foreach ($TotalEnrollments as $enrollment) {
+            foreach ($totalEnrollments as $enrollment) {
                 if ($enrollment->edcenso_stage_vs_modality_fk == $this->stage) {
                     array_push($studentEnrollments, $enrollment);
                 }
@@ -29,26 +29,10 @@ class CalculateConceptGradeUsecase
             $studentEnrollments = $classroom->activeStudentEnrollments;
             $this->stage = $classroom->edcenso_stage_vs_modality_fk;
         }
-        // $unitiesByDiscipline = $this->getGradeUnitiesByClassroomStage($this->classroomId);
-
         foreach ($studentEnrollments as $studentEnrollment) {
             $this->calculateConceptGrades($studentEnrollment, $this->discipline);
         }
     }
-
-    private function getGradeUnitiesByClassroomStage($classroom)
-    {
-        $criteria = new CDbCriteria();
-        $criteria->alias = 'gu';
-        $criteria->join = 'join edcenso_stage_vs_modality esvm on gu.edcenso_stage_vs_modality_fk = esvm.id';
-        $criteria->join .= ' join classroom c on c.edcenso_stage_vs_modality_fk = esvm.id';
-        $criteria->condition = 'c.id = :classroom';
-        $criteria->order = 'gu.type desc';
-        $criteria->params = [':classroom' => $classroom];
-
-        return GradeUnity::model()->findAll($criteria);
-    }
-
     /**
      * @param int $studentEnrollmentId
      * @param int $studentEnrollmentId

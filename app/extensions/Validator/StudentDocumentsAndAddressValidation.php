@@ -8,17 +8,17 @@ require_once dirname(__FILE__) . $DS . 'register.php';
 class StudentDocumentsAndAddressValidation extends Register
 {
     //campo 5
-    public function isRgNumberValid($rg, $Reg60Field12)
+    public function isRgNumberValid($rg, $reg60Field12)
     {
-        if ($Reg60Field12 == 1 || $Reg60Field12 == 2) {
+        if ($reg60Field12 == 1 || $reg60Field12 == 2) {
             if (strlen($rg) > 20) {
                 return ['status' => false, 'erro' => 'Numero da Identidade não está com tamanho correto'];
-            } elseif (!preg_match('/^[0-9]{7}([- ]?[0-9]{1})?$/', $rg)) {
+            } elseif (!preg_match('/^\d{7}([- ]?\d{1})?$/', $rg)) {
                 return ['status' => false, 'erro' => 'Numero da Identidade está com padrão incorreto'];
             } else {
                 return ['status' => true, 'erro' => 'Campo 12 do registro 60 deve ser igual a 1 ou 2'];
             }
-        } elseif (preg_match('/^[0-9]{7}([- ]?[0-9]{1})?$/', $rg)) {
+        } elseif (preg_match('/^\d{7}([- ]?\d{1})?$/', $rg)) {
             return ['status' => true, 'erro' => ''];
         } else {
             return ['status' => false, 'erro' => 'Numero da Identidade está com padrão incorreto'];
@@ -26,17 +26,17 @@ class StudentDocumentsAndAddressValidation extends Register
     }
 
     //campo 6
-    public function isRgEmissorOrganValid($EmissorOrgan, $Reg60Field12, $Reg70Field5)
+    public function isRgEmissorOrganValid($emissorOrgan, $reg60Field12, $reg70Field5)
     {
-        if (strlen($Reg70Field5) != 0) {
-            if ($Reg60Field12 == 1 || $Reg60Field12 == 2) {
-                if (strlen($EmissorOrgan) == 0) {
+        if (strlen($reg70Field5) != 0) {
+            if ($reg60Field12 == 1 || $reg60Field12 == 2) {
+                if (strlen($emissorOrgan) == 0) {
                     return [
                         'status' => false,
                         'erro' => ' Orgao emissor deve ser  preenchido'
                     ];
                 }
-                if (strlen($EmissorOrgan) != 2) {
+                if (strlen($emissorOrgan) != 2) {
                     return [
                         'status' => false,
                         'erro' => ' Orgao emissor preenchido com tamanho inválido'
@@ -49,18 +49,18 @@ class StudentDocumentsAndAddressValidation extends Register
             }
         } //deve ser nulo quando campo 5 for nulo
         else {
-            if (strlen($EmissorOrgan) != 0) {
+            if (strlen($emissorOrgan) != 0) {
                 return ['status' => false, 'erro' => ' Orgao emissor deve ser nulo'];
             }
         }
     }
 
     //campo 7
-    public function isRgUfValid($rgUF, $Reg60Field12, $Reg70Field5)
+    public function isRgUfValid($rgUF, $reg60Field12, $reg70Field5)
     {
-        if ($Reg60Field12 == 1 || $Reg60Field12 == 2) {
+        if ($reg60Field12 == 1 || $reg60Field12 == 2) {
             //os campos 5 e 6 devem ser preenchidos
-            if (strlen($Reg70Field5) != 0) {
+            if (strlen($reg70Field5) != 0) {
                 if (strlen($rgUF) == 0) {
                     return ['status' => false, 'erro' => 'UF da identidade deve ser  preenchido'];
                 } else {
@@ -85,14 +85,14 @@ class StudentDocumentsAndAddressValidation extends Register
     }
 
     //campos 8 e 14
-    public function isDateValid($Reg60Field12, $expeDate, $birthDate, $currentDate, $Reg70Field9, $currentField)
+    public function isDateValid($reg60Field12, $expeDate, $birthDate, $currentDate, $reg70Field9, $currentField)
     {
-        if ($Reg60Field12 == 1 || $Reg60Field12 == 2) {
+        if ($reg60Field12 == 1 || $reg60Field12 == 2) {
             //SE FOR PARA O CAMPO 8 COM CAMPO 9 SERÁ 0 | PARA O CAMPO 14 COM CAMPO 9 SENDO 1
-            if (($currentField == 8) || ($currentField == 14 && $Reg70Field9 == 1)) {
-                if ($currentField == 14 && $Reg70Field9 == 0) {
+            if (($currentField == 8) || ($currentField == 14 && $reg70Field9 == 1)) {
+                if ($currentField == 14 && $reg70Field9 == 0) {
                     return ['status' => false, 'erro' => 'Campo 9 deve ser 1'];
-                } elseif (self::dateValid($expeDate) == true) {
+                } elseif (self::dateValid($expeDate) === true) {
                     $dataExpedicao = explode('/', $expeDate);
                     $diaExpedicao = $dataExpedicao[0];
                     $mesExpedicao = $dataExpedicao[1];
@@ -182,10 +182,10 @@ class StudentDocumentsAndAddressValidation extends Register
     }
 
     //campo 9
-    public function isCivilCertificationValid($Reg70Field5, $Reg60Field12)
+    public function isCivilCertificationValid($reg70Field5, $reg60Field12)
     {
-        if ($Reg60Field12 == 1 || $Reg60Field12 == 2) {
-            if ($Reg70Field5 == 1 || $Reg70Field5 == 2) {
+        if ($reg60Field12 == 1 || $reg60Field12 == 2) {
+            if ($reg70Field5 == 1 || $reg70Field5 == 2) {
                 return ['status' => true, 'erro' => ''];
             } else {
                 return ['status' => false, 'erro' => 'Certificacao Civil deve ser igual a 1 ou 2'];
@@ -196,9 +196,9 @@ class StudentDocumentsAndAddressValidation extends Register
     }
 
     //campo 10
-    public function isCivilCertificationTypeValid($type, $Reg70Field5, $Reg60Field12, $birthday, $currentDate)
+    public function isCivilCertificationTypeValid($type, $reg70Field5, $reg60Field12, $birthday, $currentDate)
     {
-        if ($Reg60Field12 == 1 || $Reg60Field12 == 2) {
+        if ($reg60Field12 == 1 || $reg60Field12 == 2) {
             if ($type == 1) {
                 return ['status' => true, 'erro' => ''];
             } elseif ($type == 2) {
@@ -215,12 +215,9 @@ class StudentDocumentsAndAddressValidation extends Register
 
                 $idade = $anoAtual - $anoNiver;
 
-                if ($mesAtual < $mesNiver) {
-                    $idade--;
-                } elseif ($mesAtual == $mesNiver and $diaAtual < $diaNiver) {
+                if (($mesAtual < $mesNiver ) || ($mesAtual == $mesNiver && $diaAtual < $diaNiver)) {
                     $idade--;
                 }
-
                 if ($idade <= 10) {
                     return ['status' => false, 'erro' => 'Aluno com menos de 10 anos não pode ter certidão de casamento.'];
                 }
@@ -235,10 +232,10 @@ class StudentDocumentsAndAddressValidation extends Register
     }
 
     //campos 11,12,13,15,16,17
-    public function isFieldValid($allowedSize, $value, $Reg60Field12, $Reg70Field5)
+    public function isFieldValid($allowedSize, $value, $reg60Field12, $reg70Field5)
     {
-        if ($Reg60Field12 == 1 || $Reg60Field12 == 2) {
-            if ($Reg70Field5 == 1) {
+        if ($reg60Field12 == 1 || $reg60Field12 == 2) {
+            if ($reg70Field5 == 1) {
                 if (strlen($value) <= $allowedSize) {
                     return ['status' => true, 'erro' => ''];
                 } else {
@@ -286,7 +283,7 @@ class StudentDocumentsAndAddressValidation extends Register
      */
     private function validateCertidao($value)
     {
-        if (!preg_match('/[0-9]{32}/', $value)) {
+        if (!preg_match('/\d{32}/', $value)) {
             return false;
         }
 
@@ -333,7 +330,7 @@ class StudentDocumentsAndAddressValidation extends Register
     public function isCPFValid($cpfStr)
     {
         if ($cpfStr !== '') {
-            $cpf = "$cpfStr";
+            $cpf = strval($cpfStr);
             if (strpos($cpf, '-') !== false) {
                 $cpf = str_replace('-', '', $cpf);
             }
@@ -384,12 +381,10 @@ class StudentDocumentsAndAddressValidation extends Register
     }
 
     //campo 20
-    public function isPassportValid($passport, $Reg60Field12)
+    public function isPassportValid($passport, $reg60Field12)
     {
-        if ($Reg60Field12 == 3) {
-            if (strlen($passport) > 20) {
-                return ['status' => false, 'erro' => 'Passaporte com tamanho incorreto'];
-            }
+        if ($reg60Field12 == 3 && strlen($passport) > 20) {
+            return ['status' => false, 'erro' => 'Passaporte com tamanho incorreto'];
         }
 
         return ['status' => true, 'erro' => ''];
@@ -402,16 +397,16 @@ class StudentDocumentsAndAddressValidation extends Register
             return ['status' => false, 'erro' => 'NIS tem tamanho inválido'];
         } elseif ($nis == 00000000000) {
             return ['status' => false, 'erro' => 'O NIS foi preenchido com valor inválido.'];
-        } elseif (!preg_match('/^[0-9]{11}$/', $nis)) {
+        } elseif (!preg_match('/^\d{11}$/', $nis)) {
             return ['status' => false, 'erro' => 'O NIS foi preenchido com valor inválido.'];
         }
 
         return ['status' => true, 'erro' => ''];
     }
 
-    public function isAreaOfResidenceValid($area_of_residence)
+    public function isAreaOfResidenceValid($areaOfResidence)
     {
-        if ($area_of_residence != 1 && $area_of_residence != 2) {
+        if ($areaOfResidence != 1 && $areaOfResidence != 2) {
             return ['status' => false, 'erro' => 'O campo foi preenchido com valor inválido.'];
         }
 
@@ -427,7 +422,7 @@ class StudentDocumentsAndAddressValidation extends Register
             return ['status' => false, 'erro' => 'O campo CEP está com tamanho diferente do especificado.'];
         } elseif (!is_numeric($cep)) {
             return ['status' => false, 'erro' => 'O campo CEP foi preenchido com valor inválido.'];
-        } elseif (!preg_match('/^[0-9]{5,5}([- ]?[0-9]{3,3})?$/', $cep)) {
+        } elseif (!preg_match('/^\d{5}([- ]?\d{3})?$/', $cep)) {
             return ['status' => false, 'erro' => 'O campo CEP foi preenchido com valor inválido.'];
         }
 
@@ -447,14 +442,14 @@ class StudentDocumentsAndAddressValidation extends Register
     }
 
     //campo 24,25,26,27,28,29
-    public function isAdressValid($field, $cep, $allowed_lenght)
+    public function isAdressValid($field, $cep, $allowedLenght)
     {
         $regex = '/^[0-9 a-z.,-ºª ]+$/';
         if ($cep == null) {
             if ($field == null) {
                 return ['status' => false, 'erro' => 'O campo não pode ser nulo.'];
             }
-        } elseif (strlen($field) > $allowed_lenght || strlen($field) <= 0) {
+        } elseif (strlen($field) > $allowedLenght || strlen($field) <= 0) {
             return ['status' => false, 'erro' => 'O campo está com tamanho incorreto.'];
         } elseif (!preg_match($regex, $field)) {
             return ['status' => false, 'erro' => 'O campo foi preenchido com valor inválido.'];

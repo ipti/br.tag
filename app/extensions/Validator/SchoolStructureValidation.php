@@ -39,7 +39,7 @@ class SchoolStructureValidation extends Register
                 return ['status' => false, 'erro' => "valor $value não permitido"];
             }
         } else {
-            if (($value != null)) {
+            if ($value != null) {
                 return ['status' => false, 'erro' => "operation_location_building não é 1. Valor $value deveria ser nulo"];
             }
         }
@@ -47,18 +47,18 @@ class SchoolStructureValidation extends Register
     }
 
     //campo 14 à 19
-    public function sharedSchoolInep($collun13, $inep_id, $shared_schools_inep_ids)
+    public function sharedSchoolInep($collun13, $inepId, $sharedSchoolsInepIds)
     {
         if ($collun13 == 1) {
-            foreach ($shared_schools_inep_ids as $school_inep_id) {
-                if ($school_inep_id !== null) {
+            foreach ($sharedSchoolsInepIds as $schoolInepId) {
+                if ($schoolInepId !== null) {
                     $result = $this->isEqual(
-                        substr($inep_id, 0, 2),
-                        substr($school_inep_id, 0, 2),
+                        substr($inepId, 0, 2),
+                        substr($schoolInepId, 0, 2),
                         'Escolas não são do mesmo estado'
                     );
                     if ($result['status']) {
-                        if ($inep_id == $school_inep_id) {
+                        if ($inepId == $schoolInepId) {
                             return ['status' => false, 'erro' => 'Não se deve inserir a mesma escola.'];
                         }
                     } else {
@@ -80,18 +80,18 @@ class SchoolStructureValidation extends Register
         return ['status' => false, 'erro' => "Valor $value não está entre as opções"];
     }
 
-    public function supply($supply_locations)
+    public function supply($supplyLocations)
     {
-        $len = sizeof($supply_locations);
+        $len = sizeof($supplyLocations);
 
-        $result = $this->atLeastOne($supply_locations);
+        $result = $this->atLeastOne($supplyLocations);
         if (!$result['status']) {
             return ['status' => false, 'erro' => $result['erro']];
         }
 
-        if ($supply_locations[$len - 1] == '1') { //ultimo campo
+        if ($supplyLocations[$len - 1] == '1') { //ultimo campo
             for ($i = 0; $i < ($len - 1); $i++) { //primeiros campos
-                if ($supply_locations[$i] == '1') {
+                if ($supplyLocations[$i] == '1') {
                     return [
                         'status' => false,
                         'erro' => 'Quando o campo de inexistência é marcado, nenhum outro deve estar.'
@@ -105,20 +105,16 @@ class SchoolStructureValidation extends Register
     //campo 69
     public function schoolsCount($collun3, $value)
     {
-        if ($collun3 == 1) {
-            if ($value === 0) {
-                return ['status' => false, 'erro' => 'Campo deve ser preenchido com um número maior que 0.'];
-            }
+        if ($collun3 == 1 && $value === 0) {
+            return ['status' => false, 'erro' => 'Campo deve ser preenchido com um número maior que 0.'];
         }
         return ['status' => true, 'erro' => ''];
     }
 
     public function usedSchoolsCount($collun3, $value)
     {
-        if ($collun3 == 1) {
-            if ($value > '0') {
-                return ['status' => false, 'erro' => 'Campo deve ser preenchido'];
-            }
+        if ($collun3 == 1 && $value > '0') {
+            return ['status' => false, 'erro' => 'Campo deve ser preenchido'];
         }
         return ['status' => true, 'erro' => ''];
     }
@@ -126,7 +122,7 @@ class SchoolStructureValidation extends Register
     //71 à 83
     public function equipmentAmounts($amounts)
     {
-        foreach ($amounts as $key => $value) {
+        foreach ($amounts as $value) {
             if (!$value == null) {
                 $result = $this->isGreaterThan($value, '0');
                 if (!$result['status']) {
@@ -161,10 +157,8 @@ class SchoolStructureValidation extends Register
     //campo 87
     public function bandwidth($collun, $value)
     {
-        if ($collun == 1) {
-            if (!($value == '0' || $value == '1')) {
+        if ($collun == 1 && !($value == '0' || $value == '1')) {
                 return ['status' => false, 'erro' => "valor $value não permitido"];
-            }
         }
         return ['status' => true, 'erro' => ''];
     }
@@ -185,27 +179,25 @@ class SchoolStructureValidation extends Register
         $collun90,
         $collun91,
         $modalities,
-        $are_there_students_by_modalitie,
-        $are_there_instructors_by_modalitie
+        $areThereStudentsByModalitie,
+        $areThereInstructorsByModalitie
     ) {
-        if ($collun90 != 2 && $collun91 != 2) {
-            if (!($collun90 == 1 && $collun91 == 1)) {
-                $result = $this->atLeastOne($modalities);
-                if (!$result['status']) {
-                    return ['status' => false, 'erro' => $result['erro']];
-                }
+        if (($collun90 != 2 && $collun91 != 2) && !($collun90 == 1 && $collun91 == 1)) {
+           $result = $this->atLeastOne($modalities);
+            if (!$result['status']) {
+                return ['status' => false, 'erro' => $result['erro']];
             }
         }
 
         foreach ($modalities as $key => $value) {
             if ($value == '1') {
-                if (!$are_there_students_by_modalitie[$key]) {
+                if (!$areThereStudentsByModalitie[$key]) {
                     return [
                         'status' => false,
                         'erro' => "$key é 1 e não há estudantes nessa modalidade"
                     ];
                 }
-                if (!$are_there_instructors_by_modalitie[$key]) {
+                if (!$areThereInstructorsByModalitie[$key]) {
                     return [
                         'status' => false,
                         'erro' => "$key é 1 e não há instrutores nessa modalidade"
@@ -278,8 +270,6 @@ class SchoolStructureValidation extends Register
 
     public function materials($itens)
     {
-        $len = sizeof($itens);
-
         $result = $this->checkRangeOfArray($itens, ['0', '1']);
         if (!$result['status']) {
             return ['status' => false, 'erro' => $result['erro']];
@@ -303,7 +293,7 @@ class SchoolStructureValidation extends Register
     public function languages($collun101, $languages)
     {
         if ($collun101 != '1') {
-            foreach ($languages as $key => $value) {
+            foreach ($languages as $value) {
                 if ($value != null) {
                     return ['status' => false, 'erro' => 'Valor deveria ser nulo'];
                 }
@@ -322,41 +312,34 @@ class SchoolStructureValidation extends Register
 
     public function edcensoNativeLanguages($collun102, $value)
     {
-        if ($collun102 != '1') {
-            if ($value != null) {
-                return ['status' => false, 'erro' => "Valor deveria ser nulo pois coluna 102 é $collun102"];
-            }
-        } else {
-            $sql = "SELECT * FROM edcenso_native_languages WHERE id = '$value' ";
-            $result = Yii::app()->db->createCommand($sql)->queryAll();
-            if (empty($array)) {
-                $value = $this->ifNull($value);
-                return [
-                    'status' => false,
-                    'erro' => "Valor $value não está entre os valores de edcenso_native_languages"
-                ];
-            }
+        if ($collun102 != '1' && ($value != null)) {
+            return ['status' => false, 'erro' => "Valor deveria ser nulo pois coluna 102 é $collun102"];
         }
-
+        if (empty($array)) {
+            $value = $this->ifNull($value);
+            return [
+                'status' => false,
+                'erro' => "Valor $value não está entre os valores de edcenso_native_languages"
+            ];
+        }
         return ['status' => true, 'erro' => ''];
     }
 
     //107
 
-    public function pedagogicalFormation($value, $number_of_classrooms)
+    public function pedagogicalFormation($value, $numberOfClassrooms)
     {
         if (!($value == 0 || $value == 1)) {
             $value = $this->ifNull($value);
             return ['status' => false, 'erro' => "Valor $value não permitido"];
         }
 
-        if ($number_of_classrooms == 0) {
-            if ($value != 0) {
-                $value = $this->ifNull($value);
-                return ['status' => false, 'erro' => "Valor $value não permitido"];
-            }
+        if ($numberOfClassrooms == 0 && ($value != 0)) {
+
+            $value = $this->ifNull($value);
+            return ['status' => false, 'erro' => "Valor $value não permitido"];
         }
 
         return ['status' => true, 'erro' => ''];
     }
-}//fim de classe
+}
