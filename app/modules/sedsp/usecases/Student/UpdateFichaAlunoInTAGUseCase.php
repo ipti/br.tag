@@ -93,13 +93,13 @@ class UpdateFichaAlunoInTAGUseCase
             if ($enrollment === null) {
                 $newEnrollment = new StudentEnrollment();
                 $newEnrollment->attributes = $studentEnrollment->attributes;
-                $newEnrollment->sedsp_sync = 0;
+                $newEnrollment->sedspSync = 0;
 
                 if ($newEnrollment->classroom_fk === null) {
                     return false;
                 } else {
                     if ($newEnrollment->validate() && $newEnrollment->save()) {
-                        $newEnrollment->sedsp_sync = 1;
+                        $newEnrollment->sedspSync = 1;
                     }
 
                     return $newEnrollment->save();
