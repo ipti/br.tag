@@ -71,7 +71,7 @@ class DefaultController extends Controller
         echo json_encode($classrooms, JSON_OBJECT_AS_ARRAY);
     }
 
-    public function actionClassDiary($discipline_name, $classroom_name, $date, $disciplineFk, $stageFk)
+    public function actionClassDiary($disciplineName, $classroomName, $date, $disciplineFk, $stageFk)
     {
         $getCoursePlans = new GetCoursePlans();
         $coursePlans = $getCoursePlans->exec($disciplineFk, $stageFk);
@@ -80,19 +80,19 @@ class DefaultController extends Controller
         $abilities = $getAbilities->exec($disciplineFk, $stageFk);
 
         $this->render('classDiary', [
-            'discipline_name' => $discipline_name,
-            'classroom_name' => $classroom_name,
+            'discipline_name' => $disciplineName,
+            'classroom_name' => $classroomName,
             'coursePlans' => $coursePlans,
             'abilities' => $abilities,
             'date' => $date,
         ]);
     }
 
-    public function actionclassDays($discipline_name, $classroom_name)
+    public function actionclassDays($disciplineName, $classroomName)
     {
         $this->render('classDays', [
-            'discipline_name' => $discipline_name,
-            'classroom_name' => $classroom_name
+            'discipline_name' => $disciplineName,
+            'classroom_name' => $classroomName
         ]);
     }
 
@@ -256,7 +256,7 @@ class DefaultController extends Controller
         $studentFault = $getStudentFault->exec($stageFk, $classroomId, $disciplineFk, $date, $studentId, $schedule) != null;
 
         $getStudentDiary = new GetStudentDiary();
-        $student_observation = $getStudentDiary->exec($stageFk, $classroomId, $disciplineFk, $date, $studentId);
+        $studentObservation = $getStudentDiary->exec($stageFk, $classroomId, $disciplineFk, $date, $studentId);
 
         if (isset($_POST['justification'])) {
             $justification = $_POST['justification'];
@@ -264,9 +264,9 @@ class DefaultController extends Controller
             $saveJustification->exec($studentId, $stageFk, $classroomId, $schedule, $date, $justification);
         }
         if (isset($_POST['student_observation'])) {
-            $student_observation = $_POST['student_observation'];
+            $studentObservation = $_POST['student_observation'];
             $saveStudentDiary = new SaveStudentDiary();
-            $saveStudentDiary->exec($stageFk, $classroomId, $date, $disciplineFk, $studentId, $student_observation);
+            $saveStudentDiary->exec($stageFk, $classroomId, $date, $disciplineFk, $studentId, $studentObservation);
         }
         if (isset($_POST['student_observation']) || isset($_POST['justification'])) {
             $getDiscipline = new GetDiscipline();
@@ -275,7 +275,7 @@ class DefaultController extends Controller
             $this->redirect(['classDiary', 'classroom_fk' => $classroomId, 'stage_fk' => $stageFk, 'discipline_fk' => $disciplineFk, 'discipline_name' => $discipline, 'classroom_name' => $classroom->name, 'date' => $date]);
         }
 
-        $this->render('studentClassDiary', ['student' => $student, 'stage_fk' => $stageFk, 'classroom_id' => $classroomId, 'schedule' => $schedule, 'date' => $date, 'justification' => $justification, 'studentFault' => $studentFault, 'student_observation' => $student_observation]);
+        $this->render('studentClassDiary', ['student' => $student, 'stage_fk' => $stageFk, 'classroom_id' => $classroomId, 'schedule' => $schedule, 'date' => $date, 'justification' => $justification, 'studentFault' => $studentFault, 'student_observation' => $studentObservation]);
     }
 
     private function checkIsStageMinorEducation($classroom)
