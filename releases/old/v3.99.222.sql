@@ -366,7 +366,6 @@ UPDATE
 SET
 	cpf_reason = CASE
         WHEN cpf IS NULL THEN 0
-		WHEN cpf = '' THEN 0
 		ELSE 4
 	END;
 
