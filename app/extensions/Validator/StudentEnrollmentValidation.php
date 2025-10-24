@@ -143,14 +143,14 @@ class StudentEnrollmentValidation extends Register
 
     public function studentEntryForm($value, $administrativeDependence, $edcensoSvm)
     {
-        $edcensoSvmAllowed_values = ['39', '40', '64', '30', '31', '32', '33', '34', '74'];
-        $first_result = $this->isAllowed($edcensoSvm, $edcensoSvmAllowed_values);
+        $edcensoSvmAllowedValues = ['39', '40', '64', '30', '31', '32', '33', '34', '74'];
+        $firstResult = $this->isAllowed($edcensoSvm, $edcensoSvmAllowedValues);
 
-        if ($administrativeDependence == '1' && $first_result['status']) {
-            $allowed_values = ['1', '2', '3', '4', '5', '6', '7', '8', '9'];
-            $second_result = $this->isAllowed($value, $allowed_values);
-            if (!$second_result['status']) {
-                return ['status' => false, 'erro' => $second_result['erro'], 'type' => 'normal'];
+        if ($administrativeDependence == '1' && $firstResult['status']) {
+            $allowedValues = ['1', '2', '3', '4', '5', '6', '7', '8', '9'];
+            $secondResult = $this->isAllowed($value, $allowedValues);
+            if (!$secondResult['status']) {
+                return ['status' => false, 'erro' => $secondResult['erro'], 'type' => 'normal'];
             }
         } else {
             if ($value != null) {
