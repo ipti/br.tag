@@ -18,9 +18,8 @@
             $this->classService = $classService ?? new ClassesService();
         }
 
-        public function exec($classroom_fk, $stage_fk, $date, $discipline_fk)
+        public function exec($classroomFk, $stageFk, $date, $disciplineFk)
         {
-            $response = $this->classService->getClassContents($classroom_fk, $stage_fk, $date, $discipline_fk);
-            return $response;
+            return $this->classService->getClassContents($classroomFk, $stageFk, $date, $disciplineFk);
         }
     }
