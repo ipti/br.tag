@@ -17,7 +17,7 @@ function generateCheckboxItems(student, dia, mes, ano, monthSplit, isMinor) {
                     ${isMinor == false ? schedule.schedule+'°': ''}
                     <span class="frequency-checkbox-container" ${(!schedule.available || !schedule.valid ? "disabled" : "")}>
                         <input class='frequency-checkbox' type='checkbox'
-                            ${(!schedule.available || !schedule.valid ? "disabled" : "")}
+                            ${(!schedule.available || !schedule.valid || schedule.instructorFault == 1  ? "disabled" : "")}
                             ${(schedule.fault ? "checked" : "")}
                             classroomId='${$("#classroom").val()}'
                             studentId='${student.studentId}'

@@ -661,7 +661,7 @@ class ClassesController extends Controller
 
                         $valid = $this->verifyStatusEnrollment($enrollment, $schedule);
 
-                        array_push($array["schedules"], [
+                        $studentSchedule = [
                             "available" => $available,
                             "day" => $schedule->day,
                             "week_day" => $dayName[$schedule->week_day],
@@ -670,7 +670,19 @@ class ClassesController extends Controller
                             "justification" => $classFault->justification,
                             "date" => $date,
                             "valid" => $valid
-                        ]);
+                        ];
+
+                        if (Yii::app()->getAuthManager()->checkAccess('instructor', Yii::app()->user->loginInfos->id)) {
+                            $instructor = InstructorIdentification::model()->findByAttributes(["users_fk" => Yii::app()->user->loginInfos->id]);
+                            $instructorFault = InstructorFaults::model()->find("schedule_fk = :schedule_fk AND instructor_fk = :instructor_fk", ["schedule_fk" => $schedule->id, "instructor_fk" => $instructor->id]);
+                            if ($instructorFault != null) {
+                                $studentSchedule["instructorFault"] = 1;
+                            } else {
+                                $studentSchedule["instructorFault"] = 0;
+                            }
+                        }
+
+                        array_push($array["schedules"], $studentSchedule);
                     }
                     array_push($students, $array);
                 }

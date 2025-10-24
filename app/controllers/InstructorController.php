@@ -676,7 +676,38 @@ preenchidos";
 
     public function actionGetFrequency()
     {
-        $schedules = Schedule::model()->findAll("classroom_fk = :classroom_fk and month = :month and unavailable = 0 group by day order by day, schedule", ["classroom_fk" => $_POST["classroom"], "month" => $_POST["month"]]);
+       // $schedules = Schedule::model()->findAll("classroom_fk = :classroom_fk and month = :month and unavailable = 0 group by day order by day, schedule", ["classroom_fk" => $_POST["classroom"], "month" => $_POST["month"]]);
+
+
+
+        $criteria = new CDbCriteria();
+        $criteria->alias = 's'; // apelido para schedule
+
+        $criteria->join = '
+            JOIN classroom c ON c.id = s.classroom_fk
+            JOIN instructor_teaching_data itd ON itd.classroom_id_fk = c.id
+        ';
+
+        $criteria->condition = '
+            s.classroom_fk = :classroom_fk
+            AND itd.instructor_fk = :instructor_fk
+            AND s.month = :month
+            AND s.discipline_fk = :discipline_fk
+            AND s.unavailable = 0
+        ';
+
+        $criteria->params = [
+            ':classroom_fk' => $_POST["classroom"],
+            ':instructor_fk' => $_POST["instructor"],
+            ':month' => $_POST["month"],
+            ':discipline_fk' => $_POST["discipline"],
+        ];
+
+        $criteria->order = 's.day, s.schedule';
+
+        // executa a consulta
+        $schedules = Schedule::model()->findAll($criteria);
+
 
         $criteria = new CDbCriteria();
         $criteria->with = array('instructorFk');
@@ -756,11 +787,37 @@ preenchidos";
     {
         if ($_POST["instructorId"] != null) {
             if ($_POST["fault"] == "1") {
-                $instructorFault = new InstructorFaults();
-                $instructorFault->instructor_fk = $_POST["instructorId"];
-                $instructorFault->schedule_fk = $_POST["schedule"];
-                $instructorFault->save();
+
+                $classroom = Schedule::model()->findByPk($_POST["classroomId"]);
+                $isMinor = $classroom->edcensoStageVsModalityFk->unified_frequency == 1 ? true : $this->checkIsStageMinorEducation($classroom);
+                if ($isMinor) {
+                    $schedules = Schedule::model()->findAll("classroom_fk = :classroom_fk and day = :day and month = :month and unavailable = 0", ["classroom_fk" => $_POST["classroomId"], "day" => $_POST["day"], "month" => $_POST["month"]]);
+                    foreach ($schedules as $schedule) {
+                        InstructorFaults::model()->deleteAll("schedule_fk = :schedule_fk and instructor_fk = :instructor_fk", ["schedule_fk" => $schedule->id, "instructor_fk" => $_POST["instructorId"]]);
+                        $instructorFault = new InstructorFaults();
+                        $instructorFault->instructor_fk = $_POST["instructorId"];
+                        $instructorFault->schedule_fk = $schedule->id;
+                        $instructorFault->save();
+
+                    }
+                } else {
+
+                    $instructorFault = new InstructorFaults();
+                    $instructorFault->instructor_fk = $_POST["instructorId"];
+                    $instructorFault->schedule_fk = $_POST["schedule"];
+                    $instructorFault->save();
+                }
+
             } else {
+                $classroom = Schedule::model()->findByPk($_POST["classroomId"]);
+                 $isMinor = $classroom->edcensoStageVsModalityFk->unified_frequency == 1 ? true : $this->checkIsStageMinorEducation($classroom);
+                if ($isMinor) {
+                    $schedules = Schedule::model()->findAll("classroom_fk = :classroom_fk and day = :day and month = :month and unavailable = 0", ["classroom_fk" => $_POST["classroomId"], "day" => $_POST["day"], "month" => $_POST["month"]]);
+                    foreach ($schedules as $schedule) {
+                        InstructorFaults::model()->deleteAll("schedule_fk = :schedule_fk and instructor_fk = :instructor_fk", ["schedule_fk" => $schedule->id, "instructor_fk" => $_POST["instructorId"]]);
+                    }
+                    ;
+                }
                 InstructorFaults::model()->deleteAll("schedule_fk = :schedule_fk and instructor_fk = :instructor_fk", ["schedule_fk" => $_POST["schedule"], "instructor_fk" => $_POST["instructorId"]]);
             }
         }
@@ -796,5 +853,26 @@ preenchidos";
         $classrooms = $command->queryAll();
 
         echo json_encode($classrooms);
+    }
+
+    private function checkIsStageMinorEducation($classroom) {
+            $isMinor = TagUtils::isStageMinorEducation($classroom->edcensoStageVsModalityFk->edcenso_associated_stage_id);
+
+        if (!$isMinor && TagUtils::isMultiStage($classroom->edcensoStageVsModalityFk->edcenso_associated_stage_id)) {
+            $enrollments = StudentEnrollment::model()->findAllByAttributes(["classroom_fk" => $classroom->id]);
+
+            foreach ($enrollments as $enrollment) {
+                if (
+                    !$enrollment->edcensoStageVsModalityFk->edcenso_associated_stage_id ||
+                    !TagUtils::isStageMinorEducation($enrollment->edcensoStageVsModalityFk->edcenso_associated_stage_id)
+                ) {
+                    return false;
+                }
+            }
+
+            $isMinor = true;
+        }
+
+        return $isMinor;
     }
 }
