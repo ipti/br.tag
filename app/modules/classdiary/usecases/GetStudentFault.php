@@ -13,9 +13,8 @@
             $this->studentService = $studentService ?? new StudentService();
         }
 
-        public function exec($stage_fk, $classroom_fk, $discipline_fk, $date, $student_fk, $schedule)
+        public function exec($stageFk, $classroomFk, $disciplineFk, $date, $studentFk, $schedule)
         {
-            $response = $this->studentService->GetStudentFault($stage_fk, $classroom_fk, $discipline_fk, $date, $student_fk, $schedule);
-            return  $response;
+            return $this->studentService->GetStudentFault($stageFk, $classroomFk, $disciplineFk, $date, $studentFk, $schedule);
         }
     }

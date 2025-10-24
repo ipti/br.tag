@@ -13,9 +13,8 @@
             $this->studentService = $studentService ?? new StudentService();
         }
 
-        public function exec($classroom_fk, $stage_fk, $discipline_fk, $date)
+        public function exec($classroomFk, $stageFk, $disciplineFk, $date)
         {
-            $response = $this->studentService->getFrequency($classroom_fk, $stage_fk, $discipline_fk, $date);
-            return  $response;
+            return $this->studentService->getFrequency($classroomFk, $stageFk, $disciplineFk, $date);
         }
     }
