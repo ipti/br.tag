@@ -13,9 +13,6 @@ $cs->registerScriptFile($baseScriptUrl . '/_initialization.js?v=' . TAG_VERSION,
 $cs->registerScriptFile($baseScriptUrl . '/functions.js?v=' . TAG_VERSION, CClientScript::POS_END);
 $cs->registerScriptFile($baseScriptUrl . '/validations.js?v=' . TAG_VERSION, CClientScript::POS_END);
 $cs->registerScriptFile($baseScriptUrl . '/pagination.js?v=' . TAG_VERSION, CClientScript::POS_END);
-// $cs->registerScriptFile($themeUrl . '/js/jquery/jquery.dataTables.min.js?v='.TAG_VERSION, CClientScript::POS_END);
-// $cs->registerCssFile($themeUrl . '/css/jquery.dataTables.min.css');
-// $cs->registerCssFile($themeUrl . '/css/dataTables.fontAwesome.css');
 
 $this->setPageTitle('TAG - ' . Yii::t('default', 'Course Plan'));
 $form = $this->beginWidget('CActiveForm', [
@@ -166,7 +163,7 @@ echo $form->textField($coursePlan, 'start_date', ['size' => 400, 'maxlength' => 
                         <label class="t-field-checkbox__label" for="approved">Aprovação do plano</label>
                     </div>
                     <div class="row">
-                        <a id="save-approval" class="t-button-primary">
+                        <a aria-label="Salvar aprovação" id="save-approval" class="t-button-primary">
                             <?= Yii::t('default', 'Save Approval'); ?>
                         </a>
                     </div>
@@ -218,7 +215,7 @@ echo $form->textField($coursePlan, 'start_date', ['size' => 400, 'maxlength' => 
 
                     </div>
                     <div class="js-abilities-selected">
-                        <label>SELECIONADAS</label>
+                        <span>SELECIONADAS</span>
                     </div>
                     <img class="loading-abilities-select"  style="display:none;margin: 0px 5px;" height="30px" width="30px" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/loadingTag.gif" alt="TAG Loading"></img>
 
