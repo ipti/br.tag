@@ -30,12 +30,10 @@ class RegisterIdentification
     private static function getStudents($classroom, $students)
     {
         if (count($classroom->instructorTeachingDatas) >= 1) {
-            foreach ($classroom->studentEnrollments as $ienrollment => $enrollment) {
-                if ($enrollment->isActive()) {
-                    if (!isset($students[$enrollment->student_fk])) {
+            foreach ($classroom->studentEnrollments as $enrollment) {
+                if ($enrollment->isActive() && !isset($students[$enrollment->student_fk])) {
                         $students[$enrollment->student_fk]['identification'] = $enrollment->studentFk->attributes;
                         $students[$enrollment->student_fk]['documents'] = $enrollment->studentFk->documentsFk->attributes;
-                    }
                 }
             }
         }
@@ -44,7 +42,7 @@ class RegisterIdentification
 
     private static function getInstructors($instructorsTeachingDatas, $instructors)
     {
-        foreach ($instructorsTeachingDatas as $iteaching => $teachingData) {
+        foreach ($instructorsTeachingDatas as $teachingData) {
             if (!isset($instructors[$teachingData->instructor_fk])) {
                 $instructors[$teachingData->instructor_fk]['identification'] = $teachingData->instructorFk->attributes;
                 $instructors[$teachingData->instructor_fk]['documents'] = $teachingData->instructorFk->documents->attributes;
@@ -63,7 +61,7 @@ class RegisterIdentification
 
         $register[self::EDCENSO_COD_NA_UNIDADE] = $type === RegisterIdentificationType::INSTRUCTOR ? 'II' . $identification['id'] : $identification['id'];
         $register[self::EDCENSO_CPF] = $documents['cpf'];
-        if ($withoutCertificates == true) {
+        if ($withoutCertificates === true) {
             $register[self::EDCENSO_CERT_NASCIMENTO] = '';
         } else {
             $register[self::EDCENSO_CERT_NASCIMENTO] = self::validarMatriculaRegistroCivil($documents['civil_register_enrollment_number']) ? $documents['civil_register_enrollment_number'] : null;
@@ -86,7 +84,7 @@ class RegisterIdentification
 
         $students = [];
         $instructors = [];
-        foreach ($classrooms as $iclass => $attributes) {
+        foreach ($classrooms as $attributes) {
             $students = self::getStudents($attributes, $students);
             $instructors = self::getInstructors($attributes->instructorTeachingDatas, $instructors);
         }
