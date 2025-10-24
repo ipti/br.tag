@@ -17,12 +17,12 @@ var GET_EVENT_URL = '$getEventUrl';
 if (!function_exists('isInInterval')) {
     function isInInterval($start, $end, $day, $month, $year)
     {
-        $start_ts = strtotime($start);
-        $end_ts = strtotime($end);
-        $user_ts = strtotime($year . '-' . str_pad($month, 2, '0', STR_PAD_LEFT) . '-' . str_pad($day, 2, '0', STR_PAD_LEFT));
+        $startTs = strtotime($start);
+        $endTs = strtotime($end);
+        $userTs = strtotime($year . '-' . str_pad($month, 2, '0', STR_PAD_LEFT) . '-' . str_pad($day, 2, '0', STR_PAD_LEFT));
 
         // Check that user date is between start & end
-        return (($user_ts >= $start_ts) && ($user_ts <= $end_ts));
+        return ($userTs >= $startTs) && ($userTs <= $endTs);
     }
 }
 
@@ -57,7 +57,7 @@ $calendars = Calendar::model()->findAll('YEAR(start_date) = :year', [':year' => 
             <div class="accordion-heading">
                 <div class="accordion-toggle" data-toggle="collapse" data-parent="#calendars"
                     href="#collapse<?= $calendar->id ?>">
-                    <a class="accordion-title" style="margin-left:10px"><?= $calendar->title ?></a>
+                    <a class="accordion-title" aria-label="Titulo do calendário" style="margin-left:10px"><?= $calendar->title ?></a>
                     <?php if (Yii::app()->getAuthManager()->checkAccess('admin', Yii::app()->user->loginInfos->id)): ?>
                         <span class="text-right pull-right remove-calendar" data-toggle="tooltip" data-placement="top"
                             data-original-title="Remover Calendário" data-id="<?= $calendar->id ?>">
@@ -212,8 +212,15 @@ $calendars = Calendar::model()->findAll('YEAR(start_date) = :year', [':year' => 
     <?php endforeach; ?>
 </div>
 
-<div class="modal fade modal-content" id="myNewCalendar" tabindex="-1" role="dialog" aria-labelledby="New Calendar">
-    <div class="modal-dialog modal-lg" role="document">
+<div
+    class="modal fade modal-content"
+    id="myNewCalendar"
+    tabindex="-1"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="New Calendar"
+    aria-describedby="Calendario Escolar">
+    <div class="modal-dialog modal-lg">
         <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="position:static;">
                 <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/Close.svg" alt=""
@@ -311,9 +318,15 @@ $calendars = Calendar::model()->findAll('YEAR(start_date) = :year', [':year' => 
     </div>
 </div>
 
-<div class="modal fade modal-content" id="edit-calendar-modal" tabindex="-1" role="dialog"
-     aria-labelledby="Edit Calendar">
-    <div class="modal-dialog" role="document">
+<div
+    class="modal fade modal-content"
+    id="edit-calendar-modal"
+    tabindex="-1"
+    role="dialog"
+    aria-labelledby="Edit Calendar"
+    aria-modal="true"
+    aria-describedby="Edição de calenário escolar">
+    <div class="modal-dialog" >
         <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="position:static;">
                 <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/Close.svg" alt=""
@@ -399,9 +412,15 @@ $this->endWidget();
     </div>
 </div>
 
-<div class="modal fade modal-content" id="unity-periods-modal" tabindex="-1" role="dialog"
-     aria-labelledby="Manage Unities Initial Date">
-    <div class="modal-dialog" role="document">
+<div
+    class="modal fade modal-content"
+    id="unity-periods-modal"
+    tabindex="-1"
+    role="dialog"
+    aria-modal="true"
+    aria-describedby="Controle de unidades"
+    aria-labelledby="Manage Unities Initial Date">
+    <div class="modal-dialog">
         <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="position:static;">
                 <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/Close.svg" alt=""
@@ -430,8 +449,8 @@ $this->endWidget();
     </div>
 </div>
 
-<div class="modal fade modal-content" id="myChangeEvent" tabindex="-1" role="dialog" aria-labelledby="Change Event">
-    <div class="modal-dialog" role="document">
+<div class="modal fade modal-content" id="myChangeEvent" tabindex="-1" role="dialog" aria-modal="true" aria-describedby="Alteração de evento" aria-labelledby="Change Event">
+    <div class="modal-dialog">
         <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="position:static;">
                 <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/Close.svg" alt=""
@@ -522,8 +541,8 @@ $this->endWidget();
     </div>
 </div>
 
-<div class="modal fade modal-content" id="removeCalendar" tabindex="-1" role="dialog" aria-labelledby="Remove Calendar">
-    <div class="modal-dialog" role="document">
+<div class="modal fade modal-content" id="removeCalendar" tabindex="-1" role="dialog" aria-modal="true" aria-describedby="Deletar calendário escolar" aria-labelledby="Remove Calendar">
+    <div class="modal-dialog">
         <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="position:static;">
                 <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/Close.svg" alt=""
