@@ -223,9 +223,9 @@ class SchoolStructureValidation extends Register
 
     //96
     //falta validação 'bruta'
-    public function schoolCicle($value, $number_of_schools)
+    public function schoolCicle($value, $numberOfSchools)
     {
-        if ($number_of_schools > 0) {
+        if ($numberOfSchools > 0) {
             if (!($value == 0 || $value == 1)) {
                 $value = $this->ifNull($value);
                 return ['status' => false, 'erro' => "Valor $value não permitido"];

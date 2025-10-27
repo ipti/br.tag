@@ -147,13 +147,13 @@ class ClassroomValidation extends Register
     //campos 11 a 17, 20 a 25
     public function atLeastOne($array)
     {
-        $number_of_ones = 0;
+        $numberOfOnes = 0;
         for ($i = 0; $i < sizeof($array); $i++) {
             if ((strlen($array[$i] ?? '') == 1 && $array[$i] == '1') || strlen($array[$i] ?? '') == 5) {
-                $number_of_ones++;
+                $numberOfOnes++;
             }
         }
-        if ($number_of_ones == 0) {
+        if ($numberOfOnes == 0) {
             return ['status' => false, 'erro' => 'Nenhum valor foi marcado'];
         }
         return ['status' => true, 'erro' => ''];
@@ -183,7 +183,7 @@ class ClassroomValidation extends Register
     public function isValidAssistanceType($schoolStructure, $assistanceType, $mediation)
     {
         $allowedValues = ['0', '1', '2', '3', '4', '5'];
-        $complementary_activities = $schoolStructure['complementary_activities'];
+        $complementaryActivities = $schoolStructure['complementary_activities'];
         $operationLocations = [
             $schoolStructure['operation_location_building'],
             $schoolStructure['operation_location_temple'],
@@ -261,7 +261,7 @@ class ClassroomValidation extends Register
                 }
             }
         }
-        if ($complementary_activities == 0 && $assistanceType == 4) {
+        if ($complementaryActivities == 0 && $assistanceType == 4) {
             return ['status' => false, 'erro' => 'Tipo de atendimento nao pode ser "Atividade complementar" se a escola nao oferece essa atividade'];
         }
         if ($aee == 0 && $assistanceType == 5) {

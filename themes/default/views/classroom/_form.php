@@ -412,20 +412,7 @@ $form = $this->beginWidget(
                                     <?= $form->error($modelClassroom, 'school_year'); ?>
                                 </div>
                             </div>
-                            <!-- <div class="control-group">
-                                <?= $form->label($modelClassroom, 'assistance_type', array('class' => 't-field-text__label')); ?>
-                                <div class="">
-                                    <?php
-                                    echo $form->DropDownList(
-                                        $modelClassroom,
-                                        'assistance_type',
-                                        $assistance_types,
-                                        array('prompt' => 'Selecione o Tipo de Atendimento', 'class' => 'select-search-off')
-                                    );
-                                    ?>
-                                    <?= $form->error($modelClassroom, 'assistance_type'); ?>
-                                </div>
-                            </div> -->
+
                             <!-- Tipo de Atendimento* -->
                             <div class="t-field-checkbox-group js-assistance-types-container" id="assistance_type">
                                 <label class="t-field-checkbox__label--required">

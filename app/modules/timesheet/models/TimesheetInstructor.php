@@ -48,22 +48,22 @@
             ];
         }
 
-        public function countConflicts($week_day, $turn, $schedule)
+        public function countConflicts($weekDay, $turn, $schedule)
         {
             $schedules = Schedule::model()->findAll('instructor_fk = :instructor and turn = :turn and week_day = :week_day and schedule = :schedule', [
-                ':instructor' => $this->id, ':turn' => $turn, ':week_day' => $week_day, ':schedule' => $schedule
+                ':instructor' => $this->id, ':turn' => $turn, ':week_day' => $weekDay, ':schedule' => $schedule
             ]);
 
             return count($schedules);
         }
 
-        public function isUnavailable($week_day, $turn, $schedule)
+        public function isUnavailable($weekDay, $turn, $schedule)
         {
             $instructorSchool = InstructorSchool::model()->find('instructor_fk = :instructor and school_fk = :school', [
                 ':instructor' => $this->id, ':school' => Yii::app()->user->school,
             ]);
             $una = Unavailability::model()->findAll('instructor_school_fk = :instructorSchool and turn = :turn and week_day = :week_day and schedule = :schedule', [
-                ':instructorSchool' => $instructorSchool->id, ':turn' => $turn, ':week_day' => $week_day,
+                ':instructorSchool' => $instructorSchool->id, ':turn' => $turn, ':week_day' => $weekDay,
                 ':schedule' => $schedule
             ]);
 

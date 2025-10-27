@@ -79,10 +79,10 @@ class FoodinventoryController extends Controller
         $criteria->select = 'id, description, measurementUnit';
         $criteria->condition = 'alias_id = t.id';
 
-        $foods_description = Food::model()->findAll($criteria);
+        $foodsDescription = Food::model()->findAll($criteria);
 
         $values = [];
-        foreach ($foods_description as $food) {
+        foreach ($foodsDescription as $food) {
             $values[$food->id] = (object) [
                 'description' => $food->description,
                 'measurementUnit' => $food->measurementUnit

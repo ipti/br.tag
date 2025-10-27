@@ -53,10 +53,7 @@ class DefaultController extends Controller
     {
         $model = new EdcensoDiscipline();
 
-        // Uncomment the following line if AJAX validation is needed
-        // $this->performAjaxValidation($model);
-
-        $edcenso_base_disciplines = EdcensoBaseDisciplines::model()->findAll();
+        $edcensoBaseDisciplines = EdcensoBaseDisciplines::model()->findAll();
 
         if (isset($_POST['EdcensoDiscipline'])) {
             $model->attributes = $_POST['EdcensoDiscipline'];
@@ -69,7 +66,7 @@ class DefaultController extends Controller
 
         $this->render('create', [
             'model' => $model,
-            'edcenso_base_disciplines' => $edcenso_base_disciplines,
+            'edcenso_base_disciplines' => $edcensoBaseDisciplines,
         ]);
     }
 
@@ -81,7 +78,7 @@ class DefaultController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->loadModel($id);
-        $edcenso_base_disciplines = EdcensoBaseDisciplines::model()->findAll();
+        $edcensoBaseDisciplines = EdcensoBaseDisciplines::model()->findAll();
         // Uncomment the following line if AJAX validation is needed
         // $this->performAjaxValidation($model);
 
@@ -96,7 +93,7 @@ class DefaultController extends Controller
 
         $this->render('update', [
             'model' => $model,
-            'edcenso_base_disciplines' => $edcenso_base_disciplines,
+            'edcenso_base_disciplines' => $edcensoBaseDisciplines,
         ]);
     }
 
@@ -107,14 +104,14 @@ class DefaultController extends Controller
      */
     public function actionDelete($id)
     {
-        $curricular_component = $this->loadModel($id);
+        $curricularComponent = $this->loadModel($id);
 
-        if ($curricular_component->edcenso_base_discipline_fk < 99) {
+        if ($curricularComponent->edcenso_base_discipline_fk < 99) {
             Yii::app()->user->setFlash('error', Yii::t('default', 'Não é possível remover um componente base do EducaCenso'));
             $this->redirect(['index']);
         }
 
-        if ($curricular_component->delete()) {
+        if ($curricularComponent->delete()) {
             Yii::app()->user->setFlash('success', Yii::t('default', 'Componente curricular excluído com sucesso!'));
         } else {
             Yii::app()->user->setFlash('error', Yii::t('default', 'Não é possível remover este componente curricular'));

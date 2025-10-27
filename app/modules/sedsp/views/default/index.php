@@ -47,7 +47,7 @@ $cs->registerScriptFile($baseScriptUrl . '/common/js/functions.js?v=1.1', CClien
                 </div>
             </button>
         </a>
-        
+
         <!--
         <a href="#" data-toggle="modal" data-target="#add-school" target="_blank">
             <button type="button" class="report-box-container">
@@ -175,7 +175,7 @@ $cs->registerScriptFile($baseScriptUrl . '/common/js/functions.js?v=1.1', CClien
         <h4 class="modal-title" id="myModalLabel">Importar Escola:</h4>
     </div>
     <form class="form-vertical" id="submit-full-school" action="<?php echo Yii::app()->createUrl('sedsp/default/ImportFullSchool') ?>" method="post">
-        <input type="hidden" name="nameSchool" 
+        <input type="hidden" name="nameSchool"
             value="<?php echo SchoolIdentification::model()->findBySql(
     'select name from school_identification where inep_id = ' . Yii::app()->user->school
 )->name; ?>"
@@ -229,9 +229,9 @@ $cs->registerScriptFile($baseScriptUrl . '/common/js/functions.js?v=1.1', CClien
                         </thead>
                         <tbody>
                             <?php
-                            $inep_id = Yii::app()->user->school;
+                            $inepId = Yii::app()->user->school;
 $classes = Classroom::model()->findAllByAttributes(
-    ['school_inep_fk' => $inep_id],
+    ['school_inep_fk' => $inepId],
     'gov_id IS NOT NULL'
 );
 
@@ -319,7 +319,7 @@ foreach ($classes as $class) {
         $('#loading-popup').click(function() {
             $('#loading-container-student').show();
         });
-        
+
         $('#loading-popup-school').click(function() {
             $('#loading-container-school').show();
         });

@@ -176,9 +176,9 @@ class StudentIMCController extends Controller
         }
 
         if (isset($_POST['StudentImc'])) {
-            $created_at = $model->created_at;
+            $createAt = $model->created_at;
             $model->attributes = $_POST['StudentImc'];
-            $model->created_at = $created_at;
+            $model->created_at = $createAt;
 
             $classification = $this->getclassification($model, $modelStudentIdentification);
             $model->student_imc_classification_fk = $classification;
@@ -336,9 +336,9 @@ class StudentIMCController extends Controller
     {
         $model = new StudentIMC('search');
         $model->unsetAttributes();  // clear any default values
-        if (isset($_GET['StudentIMC']))
+        if (isset($_GET['StudentIMC'])){
             $model->attributes = $_GET['StudentIMC'];
-
+        }
         $this->render('admin', array(
             'model' => $model,
         ));
@@ -354,8 +354,9 @@ class StudentIMCController extends Controller
     public function loadModel($id)
     {
         $model = StudentIMC::model()->findByPk($id);
-        if ($model === null)
+        if ($model === null){
             throw new CHttpException(404, 'The requested page does not exist.');
+        }
         return $model;
     }
 

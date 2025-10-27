@@ -4,23 +4,21 @@ class StudentTAGDataSource
 {
     public function getStudent($id)
     {
-        $student = StudentIdentification::model()->findByPk($id);
-        return $student;
+        return StudentIdentification::model()->findByPk($id);
     }
 
-    public function getAllStudentBySchool($school_id)
+    public function getAllStudentBySchool($schoolId)
     {
-        $student = StudentIdentification::model()->findAllByAttributes(['school_inep_id_fk' => $school_id]);
-        return $student;
+        return StudentIdentification::model()->findAllByAttributes(['school_inep_id_fk' => $schoolId]);
     }
 
-    public function getAllStudentWithoutRAbySchool($school_id)
+    public function getAllStudentWithoutRAbySchool($schoolId)
     {
-        return  StudentIdentification::model()->findAllByAttributes(['school_inep_id_fk' => $school_id], 'gov_id IS NULL');
+        return  StudentIdentification::model()->findAllByAttributes(['school_inep_id_fk' => $schoolId], 'gov_id IS NULL');
     }
 
-    public function getAllStudentsEnrollmentsbySchool($school_id)
+    public function getAllStudentsEnrollmentsbySchool($schoolId)
     {
-        return StudentEnrollment::model()->findAllByAttributes(['school_inep_id_fk' => $school_id]);
+        return StudentEnrollment::model()->findAllByAttributes(['school_inep_id_fk' => $schoolId]);
     }
 }

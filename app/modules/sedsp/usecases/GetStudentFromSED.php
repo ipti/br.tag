@@ -24,8 +24,6 @@ class GetStudentFromSED
     {
         $response = $this->studentSEDDataSource->getStudentWithRA($RA);
         $content = $response->getBody()->getContents();
-        $student_tag = StudentMapper::parseToTAGAlunoFicha($content);
-        //Acessando os dados do aluno
-        return $student_tag;
+        return StudentMapper::parseToTAGAlunoFicha($content);
     }
 }

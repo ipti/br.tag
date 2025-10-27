@@ -3,9 +3,9 @@
   <?php
     $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
     $schoolStrcture = SchoolStructure::model()->find('school_inep_id_fk = :school_fk', [":school_fk" => Yii::app()->user->school]);
-    $initial_date = strtotime($school->initial_date);
-    $final_date =   strtotime($school->final_date);
-    $datediff = $final_date - $initial_date;
+    $initialDate = strtotime($school->initial_date);
+    $finalDate =   strtotime($school->final_date);
+    $datediff = $finalDate - $initialDate;
 
     $totalDays = abs(round($datediff / (60 * 60 * 24)));
     $this->renderPartial('head');
@@ -74,6 +74,8 @@
         case 3:
           $this->renderPartial('_child_education', array());
         break;
+        default:
+          break;
       }
     ?>
   </div>
@@ -106,16 +108,16 @@
   <div class='container-report mt-20'>
     <table class="table-border">
       <tr class="blue-background">
-        <th colspan="7">PESSOAL ADMINISTRATIVO E DOCENTE COM DESVIO DE FUNÇÃO</th>
+        <th scope="col" colspan="7">PESSOAL ADMINISTRATIVO E DOCENTE COM DESVIO DE FUNÇÃO</th>
       </tr>
       <tr>
-        <th>Nº</th>
-        <th class="">NOME DO(A) SERVIDOR(A)</th>
-        <th>CARGO</th>
-        <th>FUNÇÃO</th>
-        <th>ANO</th>
-        <th>VÍNCULO</th>
-        <th>C.H</th>
+        <th scope="col" >Nº</th>
+        <th scope="col" class="">NOME DO(A) SERVIDOR(A)</th>
+        <th scope="col" >CARGO</th>
+        <th scope="col" >FUNÇÃO</th>
+        <th scope="col" >ANO</th>
+        <th scope="col" >VÍNCULO</th>
+        <th scope="col" >C.H</th>
       </tr>
       <? for($i=1; $i <= 15; $i++): ?>
         <tr>
@@ -134,19 +136,19 @@
   <div id="box3" class='container-report mt-20 mb-30'>
     <table class="table-border">
       <tr class="blue-background">
-        <th colspan="6">PESSOAL LICENCIADO / FÉRIAS</th>
+        <th scope="col" colspan="6">PESSOAL LICENCIADO / FÉRIAS</th>
       </tr>
       <tr>
-        <th>Nº</th>
-        <th class="">NOME DO(A) SERVIDOR(A)</th>
-        <th>CARGO</th>
-        <th>FUNÇÃO</th>
-        <th width="100" class="no-padding" colspan="2">
+        <th scope="col">Nº</th>
+        <th scope="col" class="">NOME DO(A) SERVIDOR(A)</th>
+        <th scope="col" >CARGO</th>
+        <th scope="col" >FUNÇÃO</th>
+        <th width="100" class="no-padding" colspan="2" scope="col">
           <table>
-            <tr><th class="no-border-top no-border-left no-border-right" colspan="2">LICENÇA</th></tr>
+            <tr><th scope="col" class="no-border-top no-border-left no-border-right" colspan="2">LICENÇA</th></tr>
             <tr>
-              <th class="width-50 no-border-left no-border-bottom">TIPO</th>
-              <th class="width-50 no-border-left no-border-bottom">PERÍODO</th>
+              <th scope="col" class="width-50 no-border-left no-border-bottom">TIPO</th>
+              <th scope="col" class="width-50 no-border-left no-border-bottom">PERÍODO</th>
             </tr>
           </table>
         </th>

@@ -99,81 +99,81 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
         <?php
         $ordem = 1;
         $html = "";
-        $contador_matricula1 = 0;
-        $contador_matricula2 = 0;
-        $total_matricula1 = 0;
-        $total_matricula2 = 0;
-        $total_diferenca = 0;
+        $contadorMatricula1 = 0;
+        $contadorMatricula2 = 0;
+        $totalMatricula1 = 0;
+        $totalMatricula2 = 0;
+        $totalDiferenca = 0;
 
 
         foreach ($classrooms as $classroom) {
             foreach ($matricula1 as $m) {
                 if ($m['classe_id'] == $classroom['id']) {
-                    $contador_matricula1 = $m['contador'];
+                    $contadorMatricula1 = $m['contador'];
                 }
             }
             foreach ($matricula2 as $n) {
                 if ($n['classe_id'] == $classroom['id']) {
-                    $contador_matricula2 = $n['contador'];
+                    $contadorMatricula2 = $n['contador'];
                 }
             }
-            $diferenca = $contador_matricula2 - $contador_matricula1;
+            $diferenca = $contadorMatricula2 - $contadorMatricula1;
             $producao = 0;
 
-            if ($contador_matricula1 == 0) {
-                if ($contador_matricula2 == 0) {
+            if ($contadorMatricula1 == 0) {
+                if ($contadorMatricula2 == 0) {
                     $producao = 0;
                 } else {
                     $producao = 100;
                 }
             } else {
-                if ($contador_matricula2 == 0) {
-                    $producao = - ($contador_matricula2 * 100 / $contador_matricula1);
+                if ($contadorMatricula2 == 0) {
+                    $producao = - ($contadorMatricula2 * 100 / $contadorMatricula1);
                 } else {
-                    $producao = $contador_matricula2 * 100 / $contador_matricula1;
+                    $producao = $contadorMatricula2 * 100 / $contadorMatricula1;
                 }
             }
             $html .= "<tr>"
                 . "<td>" . $ordem . "</td>"
                 . "<td>" . $classroom['modality'] . "</td>"
                 . "<td>" . $classroom['stage'] . "</td>"
-                . "<td>" .  $contador_matricula1 . "</td>"
-                . "<td>" .  $contador_matricula2 . "</td>"
+                . "<td>" .  $contadorMatricula1 . "</td>"
+                . "<td>" .  $contadorMatricula2 . "</td>"
                 . "<td>" . round($producao) . "%"  . "</td>"
                 . "<td>" .  $diferenca . "</td>"
 
                 . "</tr>";
             $ordem++;
-            $total_matricula1 += $contador_matricula1;
-            $total_matricula2 += $contador_matricula2;
-            $contador_matricula1 = 0;
-            $contador_matricula2 = 0;
+            $totalMatricula1 += $contadorMatricula1;
+            $totalMatricula2 += $contadorMatricula2;
+            $contadorMatricula1 = 0;
+            $contadorMatricula2 = 0;
         }
-        $total_producao = 0;
-        if ($total_matricula1 == 0) {
-            if ($total_matricula2 == 0) {
-                $total_producao = 0;
+        $totalProducao = 0;
+        if ($totalMatricula1 == 0) {
+            if ($totalMatricula2 == 0) {
+                $totalProducao = 0;
             } else {
-                $total_producao = 100;
+                $totalProducao = 100;
             }
         } else {
-            if ($total_matricula2 == 0) {
-                $total_producao = - ($total_matricula2 * 100 / $total_matricula1);
+            if ($totalMatricula2 == 0) {
+                $totalProducao = - ($totalMatricula2 * 100 / $totalMatricula1);
             } else {
-                $total_producao = $total_matricula2 * 100 / $total_matricula1;
+                $totalProducao = $totalMatricula2 * 100 / $totalMatricula1;
             }
         }
 
-        $total_diferenca = $total_matricula2 - $total_matricula1;
+        $totalDiferenca = $totalMatricula2 - $totalMatricula1;
         echo $html;
         $html = "";
 
         $html .= "<tr>"
             . "<td colspan=3>Totalizacao</td>"
-            . "<td>" . $total_matricula1 . "</td>"
-            . "<td>" .  $total_matricula2 . "</td>"
-            . "<td>" . round($total_producao) . "%"  . "</td>"
-            . "<td>" .  $total_diferenca  . "</td>"
+            . "<td>" . $totalMatricula1 . "</td>"
+            . "<td>" .  $totalMatricula2 . "</td>"
+            . "<td>" . round($totalProducao) . "%"  . "</td>"
+            . "<td>" .  $totalDiferenca  . "</td>"
             . "</tr>";
 
         echo $html;
@@ -217,15 +217,15 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
                 if ($m1['classe_id'] == $classroom['id']) {
                     if ($classroom["assistance_type"] == 0) {
                         $matriculasAnoAnterior['tipo0'] += $m1['contador'];
-                    } else if ($classroom["assistance_type"] == 1) {
+                    } elseif ($classroom["assistance_type"] == 1) {
                         $matriculasAnoAnterior['tipo1'] += $m1['contador'];
-                    } else if ($classroom["assistance_type"] == 2) {
+                    } elseif ($classroom["assistance_type"] == 2) {
                         $matriculasAnoAnterior['tipo2'] += $m1['contador'];
-                    } else if ($classroom["assistance_type"] == 3) {
+                    } elseif ($classroom["assistance_type"] == 3) {
                         $matriculasAnoAnterior['tipo3'] += $m1['contador'];
-                    } else if ($classroom["assistance_type"] == 4) {
+                    } elseif ($classroom["assistance_type"] == 4) {
                         $matriculasAnoAnterior['tipo4'] += $m1['contador'];
-                    } else if ($classroom["assistance_type"] == 5) {
+                    } elseif ($classroom["assistance_type"] == 5) {
                         $matriculasAnoAnterior['tipo5'] += $m1['contador'];
                     }
                 }
@@ -235,64 +235,62 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
                 if ($m2['classe_id'] == $classroom['id']) {
                     if ($classroom["assistance_type"] == 0) {
                         $matriculasAnoAtual['tipo0'] += $m2['contador'];
-                    } else if ($classroom["assistance_type"] == 1) {
+                    } elseif ($classroom["assistance_type"] == 1) {
                         $matriculasAnoAtual['tipo1'] += $m2['contador'];
-                    } else if ($classroom["assistance_type"] == 2) {
+                    } elseif ($classroom["assistance_type"] == 2) {
                         $matriculasAnoAtual['tipo2'] += $m2['contador'];
-                    } else if ($classroom["assistance_type"] == 3) {
+                    } elseif ($classroom["assistance_type"] == 3) {
                         $matriculasAnoAtual['tipo3'] += $m2['contador'];
-                    } else if ($classroom["assistance_type"] == 4) {
+                    } elseif ($classroom["assistance_type"] == 4) {
                         $matriculasAnoAtual['tipo4'] += $m2['contador'];
-                    } else if ($classroom["assistance_type"] == 5) {
+                    } elseif ($classroom["assistance_type"] == 5) {
                         $matriculasAnoAtual['tipo5'] += $m2['contador'];
                     }
                 }
             }
         }
-        $tipo_de_atendimento = array(
+        $tipoDeAtendimento = [
             0 => "N&atilde;o se Aplica",
             1 => "Classe hospitalar",
             2 => "Unidade de interna&ccedil;&atilde;o socioeducativa",
             3 => "Unidade prisional",
             4 => "Atividade complementar",
-            5 => "Atendimento Educacional Especializado"
-        );
+            5 => "Atendimento Educacional Especializado"];
+
 
         $ordem = 0;
         for ($i = 0; $i < 6; $i++) {
-            if ($matriculasAnoAnterior['tipo' . strval($i)] == 0 && $matriculasAnoAtual['tipo' . strval($i)] == 0) {
-            } else {
+            if (!($matriculasAnoAnterior['tipo' . strval($i)] == 0 && $matriculasAnoAtual['tipo' . strval($i)] == 0)) {
+                    $producao = 0;
 
-                $producao = 0;
+                    if ($matriculasAnoAnterior['tipo' . strval($i)] == 0) {
+                        if ($matriculasAnoAtual['tipo' . strval($i)] == 0) {
+                            $producao = 0;
+                        } else {
+                            $producao = 100;
+                        }
+                    } else {
+                        if ($matriculasAnoAtual['tipo' . strval($i)] == 0) {
+                            $producao = - ($matriculasAnoAtual['tipo' . strval($i)] * 100 / $matriculasAnoAnterior['tipo' . strval($i)]);
+                        } else {
+                            $producao = $matriculasAnoAtual['tipo' . strval($i)] * 100 / $matriculasAnoAnterior['tipo' . strval($i)];
+                        }
+                    }
 
-                if ($matriculasAnoAnterior['tipo' . strval($i)] == 0) {
-                    if ($matriculasAnoAtual['tipo' . strval($i)] == 0) {
-                        $producao = 0;
-                    } else {
-                        $producao = 100;
-                    }
-                } else {
-                    if ($matriculasAnoAtual['tipo' . strval($i)] == 0) {
-                        $producao = - ($matriculasAnoAtual['tipo' . strval($i)] * 100 / $matriculasAnoAnterior['tipo' . strval($i)]);
-                    } else {
-                        $producao = $matriculasAnoAtual['tipo' . strval($i)] * 100 / $matriculasAnoAnterior['tipo' . strval($i)];
-                    }
+                    $diferenca = $matriculasAnoAtual['tipo' . strval($i)] - $matriculasAnoAnterior['tipo' . strval($i)];
+                    $html = "";
+                    $ordem++;
+                    $html .= "<tr>"
+                        . "<td>" . $ordem . "</td>"
+                        . "<td>" . $tipoDeAtendimento[$i] . "</td>"
+                        . "<td>" . $matriculasAnoAnterior['tipo' . strval($i)] . "</td>"
+                        . "<td>" . $matriculasAnoAtual['tipo' . strval($i)] . "</td>"
+                        . "<td>" . round($producao) . "%" . "</td>"
+                        . "<td>" . $diferenca . "</td>"
+                        . "</tr>";
+                    echo $html;
                 }
-
-                $diferenca = $matriculasAnoAtual['tipo' . strval($i)] - $matriculasAnoAnterior['tipo' . strval($i)];
-                $html = "";
-                $ordem++;
-                $html .= "<tr>"
-                    . "<td>" . $ordem . "</td>"
-                    . "<td>" . $tipo_de_atendimento[$i] . "</td>"
-                    . "<td>" . $matriculasAnoAnterior['tipo' . strval($i)] . "</td>"
-                    . "<td>" . $matriculasAnoAtual['tipo' . strval($i)] . "</td>"
-                    . "<td>" . round($producao) . "%" . "</td>"
-                    . "<td>" . $diferenca . "</td>"
-                    . "</tr>";
-                echo $html;
             }
-        }
         ?>
     </table>
     <div id="rodape"><?php $this->renderPartial('footer'); ?></div>

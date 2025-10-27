@@ -100,17 +100,17 @@ class StudentController extends Controller implements AuthenticateSEDTokenInterf
 
     public function actionGetCities()
     {
-        $register_type = isset($_GET['rt']) ? $_GET['rt'] : 0;
+        $registerType = isset($_GET['rt']) ? $_GET['rt'] : 0;
         $uf = null;
-        if ($register_type == 0) {
+        if ($registerType == 0) {
             $student = new StudentIdentification();
             $student->attributes = $_POST[$this->studentIdentification];
             $uf = (int) $student->edcenso_uf_fk;
-        } elseif ($register_type == 1) {
+        } elseif ($registerType == 1) {
             $student = new StudentDocumentsAndAddress();
             $student->attributes = $_POST[$this->studentDocumentsAndAddress];
             $uf = (int) $student->notary_office_uf_fk;
-        } elseif ($register_type == 2) {
+        } elseif ($registerType == 2) {
             $student = new StudentDocumentsAndAddress();
             $student->attributes = $_POST[$this->studentDocumentsAndAddress];
             $uf = (int) $student->edcenso_uf_fk;
@@ -325,27 +325,27 @@ class StudentController extends Controller implements AuthenticateSEDTokenInterf
         echo json_encode($result);
     }
 
-    public function actionCompareStudentCertificate($civil_certification_term_number)
+    public function actionCompareStudentCertificate($civilCertificationTermNumber)
     {
-        $data = StudentDocumentsAndAddress::model()->find('civil_certification_term_number=:civil_certification_term_number', [':civil_certification_term_number' => $civil_certification_term_number]);
+        $data = StudentDocumentsAndAddress::model()->find('civil_certification_term_number=:civil_certification_term_number', [':civil_certification_term_number' => $civilCertificationTermNumber]);
         $result = [];
         $result[$data->student_fk] = $data->id;
 
         echo json_encode($result);
     }
 
-    public function actionCompareStudentCivilRegisterEnrollmentNumber($civil_register_enrollment_number)
+    public function actionCompareStudentCivilRegisterEnrollmentNumber($civilRegisterEnrollmentNumber)
     {
-        $data = StudentDocumentsAndAddress::model()->find('civil_register_enrollment_number=:civil_register_enrollment_number', [':civil_register_enrollment_number' => $civil_register_enrollment_number]);
+        $data = StudentDocumentsAndAddress::model()->find('civil_register_enrollment_number=:civil_register_enrollment_number', [':civil_register_enrollment_number' => $civilRegisterEnrollmentNumber]);
         $result = [];
         $result[$data->student_fk] = $data->id;
 
         echo json_encode($result);
     }
 
-    public function actionCompareStudentCpf($student_cpf)
+    public function actionCompareStudentCpf($studentCpf)
     {
-        $data = StudentDocumentsAndAddress::model()->find('cpf=:cpf', [':cpf' => $student_cpf]);
+        $data = StudentDocumentsAndAddress::model()->find('cpf=:cpf', [':cpf' => $studentCpf]);
         $result = [];
         $result[$data->id] = $data->id;
 
@@ -447,10 +447,10 @@ class StudentController extends Controller implements AuthenticateSEDTokenInterf
                             if (isset($_POST['Vaccine']['vaccine_id'])&&(count($_POST['Vaccine']['vaccine_id']) > 0)) {
                                     StudentVaccine::model()->deleteAll("student_id = $modelStudentIdentification->id");
 
-                                    foreach ($_POST['Vaccine']['vaccine_id'] as $vaccine_id) {
+                                    foreach ($_POST['Vaccine']['vaccine_id'] as $vaccineId) {
                                         $studentVaccine = new StudentVaccine();
                                         $studentVaccine->student_id = $modelStudentIdentification->id;
-                                        $studentVaccine->vaccine_id = $vaccine_id;
+                                        $studentVaccine->vaccine_id = $vaccineId;
                                         $studentVaccine->save();
                                     }
 
@@ -602,10 +602,10 @@ class StudentController extends Controller implements AuthenticateSEDTokenInterf
                                     StudentVaccine::model()->deleteAll("student_id = $modelStudentIdentification->id");
                                 }
 
-                                foreach ($_POST['Vaccine']['vaccine_id'] as $vaccine_id) {
+                                foreach ($_POST['Vaccine']['vaccine_id'] as $vaccineId) {
                                     $studentVaccine = new StudentVaccine();
                                     $studentVaccine->student_id = $modelStudentIdentification->id;
-                                    $studentVaccine->vaccine_id = $vaccine_id;
+                                    $studentVaccine->vaccine_id = $vaccineId;
                                     $studentVaccine->save();
                                 }
                         }

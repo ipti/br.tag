@@ -78,7 +78,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                     }
                                     echo CHtml::dropDownList(
                                         'Role',
-                                        $actual_role,
+                                        $actualRole,
                                         $roles,
                                         array(
                                             'class' => 'select-search-off t-field-select__input select2-container js-role js-show-instructor-input'

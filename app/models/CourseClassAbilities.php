@@ -22,7 +22,7 @@
  */
 class CourseClassAbilities extends TagModel
 {
-    public $parent_fk;
+    public $parentFk;
 
     /**
      * @return string the associated database table name
@@ -103,7 +103,7 @@ class CourseClassAbilities extends TagModel
         $criteria->compare('type', $this->type, true);
         $criteria->compare('edcenso_discipline_fk', $this->edcenso_discipline_fk);
         $criteria->compare('edcenso_stage_vs_modality_fk', $this->edcenso_stage_vs_modality_fk);
-        $criteria->compare('parent_fk', $this->parent_fk);
+        $criteria->compare('parent_fk', $this->parentFk);
 
         return new CActiveDataProvider($this, [
             'criteria' => $criteria,

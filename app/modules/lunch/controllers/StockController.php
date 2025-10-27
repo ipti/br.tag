@@ -32,7 +32,7 @@ class StockController extends Controller
         $school = yii::app()->user->school;
 
         if (!$postItem) {
-            $item_id = $postInventory['item'];
+            $itemId = $postInventory['item'];
             $amount = $postInventory['amount'];
         } else {
             $item = new Item();
@@ -43,14 +43,14 @@ class StockController extends Controller
 
             if ($item->validate()) {
                 $item->save();
-                $item_id = $item->id;
+                $itemId = $item->id;
                 $amount = $postInventory['amount'];
             }
         }
 
         $inventory = new Inventory();
         $inventory->school_fk = $school;
-        $inventory->item_fk = $item_id;
+        $inventory->item_fk = $itemId;
         $inventory->amount = $amount;
 
         if ($inventory->validate()) {

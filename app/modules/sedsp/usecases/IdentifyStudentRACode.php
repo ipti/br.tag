@@ -21,19 +21,18 @@ class IdentifyStudentRACode
 
     /**
      * Summary of exec
-     * @param int $tag_student_id StudentIdentificantion Id from TAG
+     * @param int $tagStudentId StudentIdentificantion Id from TAG
      * @param boolean $force Force search from TAG
      * @return DadosAluno|OutErro
      */
-    public function exec($tag_student_id, $force = false)
+    public function exec($tagStudentId, $force = false)
     {
         // Get Student From TAG database
-        $student_tag = $this->studentTAGDataSource->getStudent($tag_student_id);
-        $nome = $student_tag->name;
-        $data_nascimento = $student_tag->birthday;
-        $nome_mae = $student_tag->filiation_1;
-        $aluno_sed = $this->studentSEDDataSource->getStudentRA($nome, $data_nascimento, $nome_mae, $force);
+        $studentTag = $this->studentTAGDataSource->getStudent($tagStudentId);
+        $nome = $studentTag->name;
+        $dataNascimento = $studentTag->birthday;
+        $nomeMae = $studentTag->filiation_1;
+        return $this->studentSEDDataSource->getStudentRA($nome, $dataNascimento, $nomeMae, $force);
 
-        return $aluno_sed;
     }
 }

@@ -88,11 +88,11 @@ class Register30
                 $instructors[$teachingData->instructor_fk]['identification'] = $teachingData->instructorFk->attributes;
                 $instructors[$teachingData->instructor_fk]['documents'] = $teachingData->instructorFk->documents->attributes;
 
-                $instructor_inepid_id = isset($teachingData->instructorFk->inep_id) && !empty($teachingData->instructorFk->inep_id) ? $teachingData->instructorFk->inep_id : $teachingData->instructorFk->id;
+                $instructorInepidId = isset($teachingData->instructorFk->inep_id) && !empty($teachingData->instructorFk->inep_id) ? $teachingData->instructorFk->inep_id : $teachingData->instructorFk->id;
                 if (isset($teachingData->instructorFk->inep_id) && !empty($teachingData->instructorFk->inep_id)) {
-                    $variabledata = InstructorVariableData::model()->findByAttributes(['inep_id' => $instructor_inepid_id]);
+                    $variabledata = InstructorVariableData::model()->findByAttributes(['inep_id' => $instructorInepidId]);
                 } else {
-                    $variabledata = InstructorVariableData::model()->findByPk($instructor_inepid_id);
+                    $variabledata = InstructorVariableData::model()->findByPk($instructorInepidId);
                 }
                 if ($variabledata == null) {
                     $variabledata = InstructorVariableData::model()->findByPk($teachingData->instructorFk->id);

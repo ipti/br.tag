@@ -24,9 +24,9 @@ class IdentifyClassroomRACode
         $this->studentSEDDataSource = $studentSEDDataSource ?? new StudentSEDDataSource();
     }
 
-    public function exec($tag_student_id)
+    public function exec($tagStudentId)
     {
-        $students = $this->studentTAGDataSource->getAllStudentBySchool($tag_student_id);
+        $students = $this->studentTAGDataSource->getAllStudentBySchool($tagStudentId);
         $response = $this->studentSEDDataSource->getAllStudentsRA($students);
 
         //Acessando os dados do aluno

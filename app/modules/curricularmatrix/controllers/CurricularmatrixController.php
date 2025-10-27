@@ -2,7 +2,7 @@
 
 class CurricularmatrixController extends Controller
 {
-    public $MODEL_CURRICULAR_MATRIX = 'CurricularMatrix';
+    public $modelCurricularMatrix = 'CurricularMatrix';
 
     /**
      * @return array action filters
@@ -129,7 +129,7 @@ class CurricularmatrixController extends Controller
     {
         $return = null;
 
-        if ($model == $this->MODEL_CURRICULAR_MATRIX) {
+        if ($model == $this->modelCurricularMatrix) {
             $return = CurricularMatrix::model()->findByPk($id);
         }
 
@@ -147,16 +147,7 @@ class CurricularmatrixController extends Controller
     //@done s1 - excluir Matrix Curricular
     public function actionDelete($id, $confirm = 0)
     {
-        $curricularMatrix = $this->loadModel($id, $this->MODEL_CURRICULAR_MATRIX);
-
-        // $schedules = Yii::app()->db->createCommand("
-        //     select count(s.id) as qtd from schedule s
-        //     join classroom c on s.classroom_fk = c.id
-        //     where s.discipline_fk = " . $curricularMatrix->discipline_fk . " and c.edcenso_stage_vs_modality_fk = " . $curricularMatrix->stage_fk)->queryScalar();
-
-        // $teachingDatas = Yii::app()->db->createCommand("
-        //     select count(tm.id) as qtd from teaching_matrixes tm
-        //     where curricular_matrix_fk = :id")->bindParam(":id", $id)->queryScalar();
+        $curricularMatrix = $this->loadModel($id, $this->modelCurricularMatrix);
 
         if (!$confirm) {
             Yii::app()->user->setFlash('error', Yii::t('default', '

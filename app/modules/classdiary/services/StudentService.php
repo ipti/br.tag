@@ -234,10 +234,10 @@ class StudentService
             );
         }
         if (!empty($schedule)) {
-            $classDiary_key = array_search($studentFk, array_column($schedule->classDiaries, 'student_fk'));
+            $classDiaryKey = array_search($studentFk, array_column($schedule->classDiaries, 'student_fk'));
 
-            if (is_numeric($classDiary_key)) {
-                return $schedule->classDiaries[$classDiary_key]->diary;
+            if (is_numeric($classDiaryKey)) {
+                return $schedule->classDiaries[$classDiaryKey]->diary;
             } else {
                 return '';
             }

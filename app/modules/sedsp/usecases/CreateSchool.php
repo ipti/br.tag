@@ -14,10 +14,10 @@ class CreateSchool
      * @param int $RA RA Number
      * @return SchoolIdentification
      */
-    public function exec($school_name, $school_mun)
+    public function exec($schoolName, $schoolMun)
     {
         $ucschool = new GetSchoolFromSED();
-        $school = $ucschool->exec($school_name, $school_mun);
+        $school = $ucschool->exec($schoolName, $schoolMun);
         if ($school['SchoolIdentification']->inep_id != null) {
             return $school;
         } else {

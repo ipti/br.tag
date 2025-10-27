@@ -1,5 +1,5 @@
 <div class="ui-accordion-header">
-    <?= $plan_name ?>
+    <?= $planName ?>
 </div>
 <div class="ui-accordion-content">
         <div class="t-field-tarea">

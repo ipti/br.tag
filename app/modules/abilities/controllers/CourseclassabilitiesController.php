@@ -68,7 +68,7 @@ class CourseClassAbilitiesController extends Controller
                 'condition' => 'edcenso_discipline_fk = :disc AND parent_fk IS NULL',
                 'params' => [':disc' => $model->edcenso_discipline_fk]
             ]);
-            $model->parent_fk = $parent->id;
+            $model->parentFk = $parent->id;
 
             if ($model->save()) {
                 $this->redirect(['index']);
@@ -99,7 +99,7 @@ class CourseClassAbilitiesController extends Controller
                 'condition' => 'edcenso_discipline_fk = :disc AND parent_fk IS NULL',
                 'params' => [':disc' => $model->edcenso_discipline_fk]
             ]);
-            $model->parent_fk = $parent->id;
+            $model->parentFk = $parent->id;
             if ($model->save()) {
                 $this->redirect(['index']);
             }

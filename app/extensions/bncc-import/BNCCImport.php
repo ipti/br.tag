@@ -356,7 +356,7 @@ class BNCCImport
         $newAbilities = new CourseClassAbilities();
 
         $newAbilities->description = self::getText($abilities['name']);
-        $newAbilities->parent_fk = $parent;
+        $newAbilities->parentFk = $parent;
         $newAbilities->type = $abilities['type'];
         $newAbilities->code = $this->getCode($abilities['name']);
         $newAbilities->edcenso_discipline_fk = $edcensoDisciplineFk;

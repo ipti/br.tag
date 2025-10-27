@@ -8,13 +8,13 @@ require_once dirname(__FILE__) . $DS . 'register.php';
 class SchoolIdentificationValidation extends Register
 {
     //campo 1
-    public function isRegisterType00($register_type)
+    public function isRegisterType00($registerType)
     {
-        if (strlen($register_type) > 2) {
+        if (strlen($registerType) > 2) {
             return ['status' => false, 'erro' => 'As linhas devem ser iniciadas com o número do registro.'];
         }
 
-        if ($register_type != 00) {
+        if ($registerType != 00) {
             return [
                 'status' => false,
                 'erro' => 'O registro declarado <tipo de registro> não faz parte do escopo do educacenso.'
@@ -25,7 +25,7 @@ class SchoolIdentificationValidation extends Register
     }
 
     //campo 2
-    /*@todo
+    /*
     4. Deve está de acordo com a UF informada no campo 18 (UF).
     5. O código deve ser de uma entidade existente no cadastro do Inep.
     6. A escola informada deve estar entre as escolas abrangidas pelo perfil do informante.
@@ -58,16 +58,16 @@ class SchoolIdentificationValidation extends Register
     }
 
     //campo 3
-    public function isManagerCPFValid($manager_cpf)
+    public function isManagerCPFValid($managerCpf)
     {
-        if (empty($manager_cpf)) {
+        if (empty($managerCpf)) {
             return [
                 'status' => false,
                 'erro' => 'O campo Número do CPF do Gestor Escolar não está preenchido'
             ];
         }
 
-        if (strlen($manager_cpf) > 11) {
+        if (strlen($managerCpf) > 11) {
             return [
                 'status' => false,
                 'erro' => 'O campo Número do CPF do Gestor Escolar está com tamanho diferente de 11 caracteres'
@@ -75,7 +75,7 @@ class SchoolIdentificationValidation extends Register
         }
 
         // se nao for numerico
-        if (!is_numeric($manager_cpf)) {
+        if (!is_numeric($managerCpf)) {
             return [
                 'status' => false,
                 'erro' => 'O campo Número do CPF do Gestor Escolar tem que ser um valor númerico'
@@ -83,14 +83,14 @@ class SchoolIdentificationValidation extends Register
         }
 
         // se for 0000000000, 1111111
-        if (preg_match('/^(.)\1*$/', $manager_cpf)) {
+        if (preg_match('/^(.)\1*$/', $managerCpf)) {
             return [
                 'status' => false,
                 'erro' => 'O campo Número do CPF do Gestor Escolar não pode ser 0000000000 ou 1111111'
             ];
         }
 
-        if ($manager_cpf == '00000000191') {
+        if ($managerCpf == '00000000191') {
             return [
                 'status' => false,
                 'erro' => 'O campo Número do CPF do Gestor Escolar não pode ser 00000000191'
@@ -101,16 +101,16 @@ class SchoolIdentificationValidation extends Register
     }
 
     //campo 4
-    public function isManagerNameValid($manager_name)
+    public function isManagerNameValid($managerName)
     {
-        if (empty($manager_name)) {
+        if (empty($managerName)) {
             return [
                 'status' => false,
                 'erro' => 'O campo Nome do Gestor Escolar não pode ser vazio'
             ];
         }
 
-        if (strlen($manager_name) > 100) {
+        if (strlen($managerName) > 100) {
             return [
                 'status' => false,
                 'erro' => 'O campo Nome do Gestor Escolar foi preenchido com mais de 100 caracteres'
@@ -118,7 +118,7 @@ class SchoolIdentificationValidation extends Register
         }
 
         $regex = "/^[A-Z0-9°ºª\- ]/";
-        if (!preg_match($regex, $manager_name)) {
+        if (!preg_match($regex, $managerName)) {
             return [
                 'status' => false,
                 'erro' => 'O campo Nome do Gestor Escolar foi preenchido com caracteres inválidos'
@@ -129,16 +129,16 @@ class SchoolIdentificationValidation extends Register
     }
 
     //cargo do gestor campo 5
-    public function isManagerRoleValid($manager_role)
+    public function isManagerRoleValid($managerRole)
     {
-        if (empty($manager_role)) {
+        if (empty($managerRole)) {
             return [
                 'status' => false,
                 'erro' => 'O campo Cargo do Gestor Escolar não pode ser vazio.'
             ];
         }
 
-        if ($manager_role != 1 && $manager_role != 2) {
+        if ($managerRole != 1 && $managerRole != 2) {
             return [
                 'status' => false,
                 'erro' => 'O campo Cargo do Gestor Escolar foi preenchido com um valor diferente de 1 ou 2'
@@ -149,23 +149,23 @@ class SchoolIdentificationValidation extends Register
     }
 
     //address eletronico do gestor campo 6
-    public function isManagerEmailValid($manager_email)
+    public function isManagerEmailValid($managerEmail)
     {
-        if (empty($manager_email)) {
+        if (empty($managerEmail)) {
             return [
                 'status' => false,
                 'erro' => 'O campo Endereço eletrônico (e-mail) do Gestor Escolar não pode ser vazio'
             ];
         }
 
-        if (strlen($manager_email) > 50) {
+        if (strlen($managerEmail) > 50) {
             return [
                 'status' => false,
                 'erro' => 'O campo Endereço eletrônico (e-mail) do Gestor Escolar não pode ser maior que 50 caracteres'
             ];
         }
 
-        if (!preg_match("/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,})$/i", $manager_email)) {
+        if (!preg_match("/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,})$/i", $managerEmail)) {
             return [
                 'status' => false,
                 'erro' => 'O campo Endereço eletrônico (e-mail) do Gestor Escolar  foi preenchido com um valor inválido.'
@@ -246,22 +246,22 @@ class SchoolIdentificationValidation extends Register
     }
 
     //campo 8 e 9
-    public function isSchoolYearValid($initial_date, $final_date)
+    public function isSchoolYearValid($initialDate, $finalDate)
     {
-        if (empty($initial_date) || empty($final_date)) {
+        if (empty($initialDate) || empty($finalDate)) {
             return ['status' => false, 'erro' => 'As datas de início e final do ano letivo não podem ser vazias.'];
         }
-        $first_result = $this->isDateValid($initial_date);
-        $second_result = $this->isDateValid($final_date);
-        if (!($first_result['status'] && $second_result['status'])) {
+        $firstResult = $this->isDateValid($initialDate);
+        $secondResult = $this->isDateValid($finalDate);
+        if (!($firstResult['status'] && $secondResult['status'])) {
             return ['status' => false, 'erro' => 'As datas de inicio e final do ano letivo não estão em um formato válido.'];
         } else {
-            $dataInicial = explode('/', $initial_date);
+            $dataInicial = explode('/', $initialDate);
             $diaInicial = $dataInicial[0];
             $mesInicial = $dataInicial[1];
             $anoInicial = $dataInicial[2];
 
-            $dataFinal = explode('/', $final_date);
+            $dataFinal = explode('/', $finalDate);
             $diaFinal = $dataFinal[0];
             $mesFinal = $dataFinal[1];
             $anoFinal = $dataFinal[2];
@@ -412,7 +412,7 @@ class SchoolIdentificationValidation extends Register
     }
 
     //campo 14,campo 15,campo 16,campo 17,campo 18,campo 19,campo 20
-    public function isAddressValid($address, $allowed_lenght, $optional)
+    public function isAddressValid($address, $allowedLenght, $optional)
     {
         $regex = '/^[0-9 a-z.,-ºª ]/';
 
@@ -423,10 +423,10 @@ class SchoolIdentificationValidation extends Register
             ];
         }
 
-        if (strlen($address) > $allowed_lenght) {
+        if (strlen($address) > $allowedLenght) {
             return [
                 'status' => false,
-                'erro' => "O campo de endereço - $address - não pode ter mais de $allowed_lenght caracteres."
+                'erro' => "O campo de endereço - $address - não pode ter mais de $allowedLenght caracteres."
             ];
         }
         if (!preg_match($regex, $address)) {
@@ -622,7 +622,6 @@ class SchoolIdentificationValidation extends Register
     }
 
     //campo 40,41 e 42
-    //@TODO investigar o por que desta função está assim
     public function isOfferOrLinkedUnity(
         $value,
         $inepCode,

@@ -17,7 +17,7 @@ if(!isset($school)){
     <?php
     if(isset($school->logo_file_name)){
         echo '<img id="logo" src="data:'.$school->logo_file_type.';base64,'.base64_encode($school->logo_file_content).'">';
-    };
+    }
     ?>
     <ul id="info">
         <?php if (isset($school->act_of_acknowledgement) && !empty($school->act_of_acknowledgement)) { ?>
@@ -41,9 +41,9 @@ if(!isset($school)){
 
             if (empty($cep)){
                 $fieldCep = '';
-            } else if (ctype_digit($cep) && strlen($cep) === 8) {
-                $formatted_cep = substr($cep, 0, 2) . '.' . substr($cep, 2, 3) . '-' . substr($cep, 5, 3);
-                $fieldCep = ', CEP: '. $formatted_cep;
+            } elseif (ctype_digit($cep) && strlen($cep) === 8) {
+                $formattedCep = substr($cep, 0, 2) . '.' . substr($cep, 2, 3) . '-' . substr($cep, 5, 3);
+                $fieldCep = ', CEP: '. $formattedCep;
             } else {
                 $fieldCep = '';
             }
@@ -56,7 +56,6 @@ if(!isset($school)){
             <?php
             echo $school->edcensoCityFk->name . " - " . $school->edcensoUfFk->acronym . $fieldCep ?> </li>
         <li><?php echo $school->act_of_acknowledgement ?></li>
-        <!--<?php echo 'Email: '.(!empty($school->email) ? $school->email.' - ': (!empty($school->manager_email) ? $school->manager_email.' - ':'' ) ).'Tel: '.(!empty($school->phone_number) ? $school->phone_number:'' )?>-->
     </ul>
     <span class="clear"></span>
 

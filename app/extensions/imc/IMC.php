@@ -11,7 +11,7 @@ class IMC
 
 
 
-    public function IMCSituation()
+    public function imcSituation()
     {
         if($this->IMC() < 19) {
             return IMC::DESNUTRICAO;
@@ -29,7 +29,7 @@ class IMC
     public function classificarIMCInfantil($imc, $idade, $genero)
     {
         // Tabelas de classificação do IMC para crianças de acordo com a OMS
-        $tabelas_IMC = [
+        $tabelasIMC = [
             // Meninos (0 a 5 anos)
             'masculino' => [
                 5 => [12.1, 12.9, 16.6, 18.3, 18.4],
@@ -68,7 +68,7 @@ class IMC
         ];
 
         // Encontra as faixas de classificação com base na idade e no gênero
-        $faixas = $tabelas_IMC[$genero][$idade];
+        $faixas = $tabelasIMC[$genero][$idade];
 
         // Classifica o IMC com base nas faixas definidas
         if ($imc <= $faixas[0]) {

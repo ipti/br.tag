@@ -248,12 +248,12 @@
             }
             $json['classroom'] = $classroomArray;
 
-            $json_encode = json_encode($json);
+            $jsonEncode = json_encode($json);
             $date = date('d_m_Y H_i_s');
             $zipName = 'ArquivoSincronizacaoTAG_' . $school . '_' . $date . '.zip';
             $tempArchiveZip = new ZipArchive();
             $tempArchiveZip->open($zipName, ZipArchive::CREATE);
-            $tempArchiveZip->addFromString($school . '_' . $date . '.json', $json_encode);
+            $tempArchiveZip->addFromString($school . '_' . $date . '.json', $jsonEncode);
             $tempArchiveZip->close();
 
             if (file_exists($zipName)) {
