@@ -43,7 +43,7 @@ class Import extends CFormModel
         ignore_user_abort();
 
         $file = fopen($this->file, 'r');
-        if ($file == false) {
+        if ($file === false) {
             $this->setError('file', 'O arquivo não existe.');
             return;
         }

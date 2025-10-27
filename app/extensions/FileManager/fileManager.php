@@ -43,7 +43,7 @@ class fileManager
             $mode = 'w+';
             $file = $this->open($location, $mode);
             $write = fwrite($file, $text);
-            if ($write == false) {
+            if ($write === false) {
                 return false;
             }
             $this->close($file);
@@ -63,7 +63,7 @@ class fileManager
     {
         try {
             $file = fopen($location, $mode);
-            if ($file == false) {
+            if ($file === false) {
                 return false;
             }
             return $file;

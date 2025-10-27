@@ -707,7 +707,7 @@ function checkValidInputs() {
         valid = false;
         message =
             "A média de recuperação final não pode ser superior à de aprovação.";
-    } else if (partialRecoveryValid() == false) {
+    } else if (partialRecoveryValid() === false) {
         valid = false;
         message = "Os campos de recuperação parciais são obrigatórios.";
     }

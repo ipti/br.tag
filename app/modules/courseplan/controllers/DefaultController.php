@@ -300,7 +300,7 @@ class DefaultController extends Controller
         // Caso 0: converte dd/mm/yyyy para yyyy-mm-dd
         if ($case == 0) {
             $dataObj = date_create_from_format('d/m/Y', $data);
-            if (!$dataObj == false) {
+            if (!$dataObj === false) {
                 return date_format($dataObj, 'Y-m-d');
             }
         }
@@ -308,7 +308,7 @@ class DefaultController extends Controller
         // Caso 1: converte yyyy-mm-dd para dd/mm/yyyy
         if ($case == 1) {
             $dataObj = date_create_from_format('d/m/Y');
-            if (!$dataObj == false) {
+            if (!$dataObj === false) {
                 return date_format($dataObj, 'Y-m-d');
             }
         }

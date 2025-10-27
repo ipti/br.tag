@@ -191,7 +191,7 @@ function loadDisciplinesFromClassroom() {
 
                 disciplines = data.disciplines;
 
-                if (data.isMinor == false) {
+                if (data.isMinor === false) {
                     $(".disciplines-field").removeClass("hide");
                 }
 

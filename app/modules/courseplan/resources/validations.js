@@ -21,7 +21,7 @@ function validateSave() {
     }
     if (
         $(disciplines).val() === "" &&
-        isStageChildishEducation($(stage).val()) == false
+        isStageChildishEducation($(stage).val()) === false
     ) {
         submit = false;
         addError(disciplines, "Campo obrigatório.");

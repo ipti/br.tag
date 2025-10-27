@@ -59,7 +59,7 @@ class FoodmenuController extends Controller
         // Verifica se a ação de salvar foodMenu ocorreu com sucesso, caso falhe encerra a aplicação
         $saveFoodMenuResult = $modelFoodMenu->save();
 
-        if ($saveFoodMenuResult == false) {
+        if ($saveFoodMenuResult === false) {
             $message = 'Ocorreu um erro ao salvar o cardápio! Tente novamente.';
             $transaction->rollback();
             throw new CHttpException(500, $message);
