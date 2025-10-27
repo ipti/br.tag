@@ -321,15 +321,6 @@ class StudentIdentification extends AltActiveRecord
         return $this->name . ' (' . $this->filiation_1 . ')[' . $this->birthday . ']';
     }
 
-    /**
-     * This method is invoked before saving a record (after validation, if any).
-     * @return boolean whether the saving should be executed. Defaults to true.
-     */
-    protected function beforeSave()
-    {
-        return parent::beforeSave();
-    }
-
     public function getCurrentStageVsModality()
     {
         $sid = isset($this->id) ? $this->id : 0;

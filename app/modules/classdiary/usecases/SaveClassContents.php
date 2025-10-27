@@ -13,9 +13,8 @@
             $this->classesService = $classesService ?? new ClassesService();
         }
 
-        public function exec($stage_fk, $date, $discipline_fk, $classroom_fk, $classContent)
+        public function exec($stageFk, $date, $disciplineFk, $classroomFk, $classContent)
         {
-            $response = $this->classesService->saveClassContents($stage_fk, $date, $discipline_fk, $classroom_fk, $classContent);
-            return  $response;
+            return $this->classesService->saveClassContents($stageFk, $date, $disciplineFk, $classroomFk, $classContent);
         }
     }

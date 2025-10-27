@@ -102,10 +102,10 @@ function getDisorders()
 <div class="row-fluid hidden-print">
     <div class="span6">
         <div class="buttons" style="width: auto;">
-            <a id="print" onclick="window.print()" class="t-button-secondary hidden-print" style="padding: 10px;">
+            <button id="print" onclick="window.print()" class="t-button-secondary hidden-print" style="padding: 10px;">
                 <span class="t-icon-printer"></span>
                 <?= Yii::t('default', 'Print') ?>
-            </a>
+            </button>
         </div>
     </div>
 </div>
@@ -117,19 +117,23 @@ function getDisorders()
 
     <!-- Cabeçalho da escola -->
     <table class="table table-studentimc">
-        <tr>
-            <td colspan="3">ESCOLA: <?= CHtml::encode($response["school"]->name) ?></td>
-            <td>CÓDIGO: <?= CHtml::encode($response["classroom"]->school_inep_fk) ?></td>
-        </tr>
-        <tr>
-            <td>
-                ENDEREÇO: <?= CHtml::encode($response["school"]->address) ?>
-                <?= !empty($response["school"]->address_number) ? ', ' . CHtml::encode($response["school"]->address_number) : '' ?>
-            </td>
-            <td>TURNO: <?= getTurnName($response["classroom"]->turn) ?></td>
-            <td>ANO: <?= getStageName($response["classroom"]->edcenso_stage_vs_modality_fk) ?></td>
-            <td>TURMA: <?= CHtml::encode($response["classroom"]->name) ?></td>
-        </tr>
+        <thead>
+            <tr>
+                <td colspan="3">ESCOLA: <?= CHtml::encode($response["school"]->name) ?></td>
+                <td>CÓDIGO: <?= CHtml::encode($response["classroom"]->school_inep_fk) ?></td>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>
+                    ENDEREÇO: <?= CHtml::encode($response["school"]->address) ?>
+                    <?= !empty($response["school"]->address_number) ? ', ' . CHtml::encode($response["school"]->address_number) : '' ?>
+                </td>
+                <td>TURNO: <?= getTurnName($response["classroom"]->turn) ?></td>
+                <td>ANO: <?= getStageName($response["classroom"]->edcenso_stage_vs_modality_fk) ?></td>
+                <td>TURMA: <?= CHtml::encode($response["classroom"]->name) ?></td>
+            </tr>
+        </tbody>
     </table>
 
     <!-- Lista de alunos -->

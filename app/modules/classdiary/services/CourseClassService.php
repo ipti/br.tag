@@ -2,9 +2,9 @@
 
     class CourseClassService
     {
-        public function getCourseClasses($course_plan_id)
+        public function getCourseClasses($coursePlanId)
         {
-            $coursePlan = CoursePlan::model()->findByPk($course_plan_id);
+            $coursePlan = CoursePlan::model()->findByPk($coursePlanId);
             $courseClasses = [];
             foreach ($coursePlan->courseClasses as $courseClass) {
                 $order = $courseClass->order - 1;
@@ -36,7 +36,7 @@
             echo json_encode(['data' => $courseClasses]);
         }
 
-        public function GetCoursePlans($discipline_fk, $stage_fk)
+        public function getCoursePlans($disciplineFk, $stageFk)
         {
             $year = (int)Yii::app()->user->year;
 
@@ -48,11 +48,11 @@
                 ':school_fk' => Yii::app()->user->school,
             ];
 
-            if (!TagUtils::isStageMinorEducation($stage_fk)) {
+            if (!TagUtils::isStageMinorEducation($stageFk)) {
                 // Se não for Minor Education, filtra por disciplina e modalidade diretamente no banco
                 $criteria->condition .= ' AND discipline_fk = :discipline_fk AND modality_fk = :stage_fk';
-                $criteria->params[':discipline_fk'] = $discipline_fk;
-                $criteria->params[':stage_fk'] = $stage_fk;
+                $criteria->params[':discipline_fk'] = $disciplineFk;
+                $criteria->params[':stage_fk'] = $stageFk;
 
                 $courses = CoursePlan::model()->findAll($criteria);
             } else {
@@ -68,12 +68,12 @@
             return CHtml::listData($courses, 'id', 'name');
         }
 
-        public function GetAbilities($discipline_fk, $stage_fk)
+        public function getAbilities($disciplineFk, $stageFk)
         {
             $criteria = new CDbCriteria();
-            if (!TagUtils::isStageMinorEducation($stage_fk)) {
+            if (!TagUtils::isStageMinorEducation($stageFk)) {
                 $criteria->addCondition('code IS NOT NULL AND edcenso_discipline_fk = :disciplineFK');
-                $criteria->params = [':disciplineFK' => $discipline_fk];
+                $criteria->params = [':disciplineFK' => $disciplineFk];
             } else {
                 $criteria->addCondition('code IS NOT NULL');
             }

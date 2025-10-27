@@ -15,7 +15,7 @@
 
         public function exec($coursePlanId, $content, $methodology, $abilities)
         {
-            $response = $this->classesService->saveNewClassContent($coursePlanId, $content, $methodology, $abilities);
-            return  $response;
+            return $this->classesService->saveNewClassContent($coursePlanId, $content, $methodology, $abilities);
+
         }
     }

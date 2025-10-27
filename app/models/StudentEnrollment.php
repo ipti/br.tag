@@ -55,7 +55,7 @@
  * @property string $transfer_date
  * @property integer $stage
  * @property integer $reenrollment
- * @property integer $sedsp_sync
+ * @property integer $sedspSync
  * @property string $class_transfer_date
  * @property string $school_readmission_date
  * @property string $enrollment_date
@@ -87,8 +87,8 @@ class StudentEnrollment extends AltActiveRecord
     public const STATUS_ADVANCED = 'AVANÇADO';
     public const STATUS_REINTEGRATED = 'REINTEGRADO';
 
-    public $school_year;
-    public $sedsp_sync;
+    public $schoolYear;
+    public $sedspSync;
 
     /**
      * Returns the static model of the specified AR class.
@@ -152,13 +152,6 @@ class StudentEnrollment extends AltActiveRecord
 
     public function validateMultiply()
     {
-        /* if(strtolower($this->scenario) == 'insert'){
-        $enrollment_qty = $this->classroomFk()->with('studentEnrollments')
-        ->count('school_year=:school_year AND student_fk=:student_fk', array(':school_year'=>Yii::app()->user->year,':student_fk'=>$this->student_fk));
-        if($enrollment_qty > 0){
-        $this->addError('enrollment_id', Yii::t('default', 'The student is already enrolled this year'));
-        }
-        }*/
     }
 
     /**
@@ -609,7 +602,6 @@ class StudentEnrollment extends AltActiveRecord
 
         $workDaysByDiscipline = ['base' => [], 'diversified' => []];
 
-        $result = [];
         $grades = $this->grades;
         foreach ($grades as $grade) {
             if (isset($disciplines[$grade->discipline_fk])) {
@@ -729,7 +721,7 @@ class StudentEnrollment extends AltActiveRecord
             }
         }
 
-        $result = [
+        return [
             'disciplines' => $disciplineFilter,
             'evaluations' => $evaluations,
             'recovery' => $recovery,
@@ -740,13 +732,11 @@ class StudentEnrollment extends AltActiveRecord
             'frequency' => $frequency,
             'absences' => $absences
         ];
-
-        return $result;
     }
 
     public static function getListStatus()
     {
-        $status = [
+        return [
             '1' => StudentEnrollment::STATUS_ACTIVE,
             '2' => StudentEnrollment::STATUS_TRANSFERRED,
             '3' => StudentEnrollment::STATUS_CANCELED,
@@ -762,7 +752,6 @@ class StudentEnrollment extends AltActiveRecord
             '13' => StudentEnrollment::STATUS_REINTEGRATED
         ];
 
-        return $status;
     }
 
     public function getCurrentStatus()

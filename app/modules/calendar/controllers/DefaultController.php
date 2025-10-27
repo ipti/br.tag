@@ -126,8 +126,8 @@ class DefaultController extends Controller
                 $period = new DatePeriod($start, $interval, $end);
                 foreach ($period as $dt) {
                     $schedulesToAdjust = Yii::app()->db->createCommand('
-                            select s.id from schedule s 
-                            join classroom cr on s.classroom_fk = cr.id 
+                            select s.id from schedule s
+                            join classroom cr on s.classroom_fk = cr.id
                             join calendar c on cr.calendar_fk = c.id
                             where c.id = :id and s.day = :day and s.month = :month and s.year = :year')->bindParam(':id', $_POST['calendarFk'])->bindParam(':day', $dt->format('j'))->bindParam(':month', $dt->format('n'))->bindParam(':year', $dt->format('Y'))->queryAll();
                     foreach ($schedulesToAdjust as $scheduleToAdjust) {
@@ -149,10 +149,10 @@ class DefaultController extends Controller
                 $uniqueDayToDelete = null;
                 if (CalendarEventType::model()->findByPk($_POST['eventTypeFk'])->unique_day === '1') {
                     $event->end_date = $event->start_date;
-                    $start_scholar_year_date = CalendarEvent::model()->find('calendar_fk = :calendar_fk and calendar_event_type_fk = :calendar_event_type_fk', ['calendar_fk' => $_POST['calendarFk'], 'calendar_event_type_fk' => $_POST['eventTypeFk']]);
-                    if ($start_scholar_year_date->id !== $event->id) {
-                        $uniqueDayToDelete = ['id' => $start_scholar_year_date->id, 'color' => $start_scholar_year_date->calendarEventTypeFk->color];
-                        $start_scholar_year_date->delete();
+                    $startScholarYearDate = CalendarEvent::model()->find('calendar_fk = :calendar_fk and calendar_event_type_fk = :calendar_event_type_fk', ['calendar_fk' => $_POST['calendarFk'], 'calendar_event_type_fk' => $_POST['eventTypeFk']]);
+                    if ($startScholarYearDate->id !== $event->id) {
+                        $uniqueDayToDelete = ['id' => $startScholarYearDate->id, 'color' => $startScholarYearDate->calendarEventTypeFk->color];
+                        $startScholarYearDate->delete();
                     }
                 }
                 $event->save();

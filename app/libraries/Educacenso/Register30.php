@@ -70,14 +70,13 @@ class Register30
         if ($digDois == 10) {
             $digDois = 1;
         }
-        $return = $digUm . $digDois;
 
-        return $return;
+        return $digUm . $digDois;
     }
 
     private static function getInstructors($instructorsTeachingDatas, $instructors, $classroom, $school)
     {
-        foreach ($instructorsTeachingDatas as $iteaching => $teachingData) {
+        foreach ($instructorsTeachingDatas as $teachingData) {
             if (!isset($instructors[$teachingData->instructor_fk])) {
                 $teachingData->instructorFk->documents->school_inep_id_fk = $school->inep_id;
                 if (!isset($teachingData->instructorFk->instructorVariableData)) {
@@ -138,14 +137,12 @@ class Register30
     {
         $student['register_type'] = '30';
 
-        foreach ($aliases as $kord => $ord) {
+        foreach ($aliases as $ord) {
             $register[$ord['corder']] = $ord['default'];
         }
 
-        if (!empty($student['inep_id'])) {
-            if (strlen($student['inep_id']) < 9) {
-                $student['inep_id'] = '';
-            }
+        if (!empty($student['inep_id']) && strlen($student['inep_id']) < 9) {
+            $student['inep_id'] = '';
         }
 
         $student['name'] = trim(strtoupper(self::fixName($student['name'])));
@@ -186,10 +183,8 @@ class Register30
             $existone = false;
             foreach ($student as $i => $attr) {
                 $pos = strstr($i, 'deficiency_');
-                if ($pos) {
-                    if (empty($student[$i])) {
-                        $student[$i] = '0';
-                    }
+                if ($pos && empty($student[$i])) {
+                    $student[$i] = '0';
                 }
                 $pos2 = strstr($i, 'resource_');
                 if ($pos2) {
@@ -238,8 +233,8 @@ class Register30
         }
 
         foreach ($student as $key => $attr) {
-            $alias_index = array_search($key, array_column($aliases, 'attr'));
-            $alias = $alias_index !== false ? $aliases[$alias_index] : null;
+            $aliasIndex = array_search($key, array_column($aliases, 'attr'));
+            $alias = $aliasIndex !== false ? $aliases[$aliasIndex] : null;
 
             if (isset($alias['corder'])) {
                 if ($key == 'edcenso_city_fk') {
@@ -262,7 +257,7 @@ class Register30
             $student['edcenso_city_fk'] = '';
         }
 
-        if ($student['civil_certification'] != 2 || $withoutCertificates == true) {
+        if ($student['civil_certification'] != 2 || $withoutCertificates === true) {
             $student['civil_register_enrollment_number'] = '';
         }
 
@@ -273,8 +268,8 @@ class Register30
         $student['id_email'] = '';
 
         foreach ($student as $key => $attr) {
-            $alias_index = array_search($key, array_column($aliases, 'attr'));
-            $alias = $alias_index !== false ? $aliases[$alias_index] : null;
+            $aliasIndex = array_search($key, array_column($aliases, 'attr'));
+            $alias = $aliasIndex !== false ? $aliases[$aliasIndex] : null;
 
             if (isset($alias['corder'])) {
                 if ($key == 'edcenso_city_fk') {
@@ -295,8 +290,8 @@ class Register30
                 continue;
             }
 
-            $alias_index = array_search($key, array_column($aliases, 'attr'));
-            $alias = $alias_index !== false ? $aliases[$alias_index] : null;
+            $aliasIndex = array_search($key, array_column($aliases, 'attr'));
+            $alias = $aliasIndex !== false ? $aliases[$aliasIndex] : null;
 
             if (isset($alias['corder']) && $studentDisorders['disorders_impact_learning'] != 0) {
                 $register[$alias['corder']] = $attr;
@@ -352,8 +347,8 @@ class Register30
         }
 
         foreach ($instructor as $key => $attr) {
-            $alias_index = array_search($key, array_column($aliases, 'attr'));
-            $alias = $alias_index !== false ? $aliases[$alias_index] : null;
+            $aliasIndex = array_search($key, array_column($aliases, 'attr'));
+            $alias = $aliasIndex !== false ? $aliases[$aliasIndex] : null;
 
             if (isset($alias['corder'])) {
                 if ($key == 'edcenso_city_fk') {
@@ -391,8 +386,8 @@ class Register30
 
         foreach ($instructor as $key => $attr) {
             if ($key !== 'inep_id') {
-                $alias_index = array_search($key, array_column($aliases, 'attr'));
-                $alias = $alias_index !== false ? $aliases[$alias_index] : null;
+                $aliasIndex = array_search($key, array_column($aliases, 'attr'));
+                $alias = $aliasIndex !== false ? $aliases[$aliasIndex] : null;
 
                 if (isset($alias['corder'])) {
                     if ($key == 'edcenso_city_fk') {
@@ -512,8 +507,8 @@ class Register30
         }
 
         foreach ($instructor as $key => $attr) {
-            $alias_index = array_search($key, array_column($aliases, 'attr'));
-            $alias = $alias_index !== false ? $aliases[$alias_index] : null;
+            $aliasIndex = array_search($key, array_column($aliases, 'attr'));
+            $alias = $aliasIndex !== false ? $aliases[$aliasIndex] : null;
 
             if (isset($alias['corder'])) {
                 $register[$alias['corder']] = $attr;
@@ -528,8 +523,8 @@ class Register30
 
     private static function convertCourseCodes($code, $highEducationCourses)
     {
-        $found_key = array_search($code, array_column($highEducationCourses, 'id'));
-        return $highEducationCourses[$found_key]['cine_id'];
+        $foundKey = array_search($code, array_column($highEducationCourses, 'id'));
+        return $highEducationCourses[$foundKey]['cine_id'];
     }
 
     public static function export($year, $withoutCertificates)
@@ -547,7 +542,7 @@ class Register30
         $instructors = [];
         $students = [];
 
-        foreach ($classrooms as $iclass => $attributes) {
+        foreach ($classrooms as $attributes) {
             $students = self::getStudents($attributes, $students, $school);
             $instructors = self::getInstructors($attributes->instructorTeachingDatas, $instructors, $attributes, $school);
         }

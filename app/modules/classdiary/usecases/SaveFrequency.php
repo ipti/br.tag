@@ -13,9 +13,8 @@
              $this->studentService = $studentService ?? new StudentService();
          }
 
-         public function exec($schedule, $studentId, $fault, $stage_fk, $date, $classroom_id)
+         public function exec($schedule, $studentId, $fault, $stageFk, $date, $classroomId)
          {
-             $response = $this->studentService->getSechedulesToSaveFrequency($schedule, $studentId, $fault, $stage_fk, $date, $classroom_id);
-             return  $response;
+            return $this->studentService->getSechedulesToSaveFrequency($schedule, $studentId, $fault, $stageFk, $date, $classroomId);
          }
      }

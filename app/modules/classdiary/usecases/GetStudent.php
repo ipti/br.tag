@@ -13,9 +13,8 @@
             $this->studentService = $studentService ?? new StudentService();
         }
 
-        public function exec($student_id)
+        public function exec($studentId)
         {
-            $response = $this->studentService->GetStudent($student_id);
-            return  $response;
+            return $this->studentService->GetStudent($studentId);
         }
     }

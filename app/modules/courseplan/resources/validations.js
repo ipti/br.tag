@@ -5,7 +5,7 @@ function validateSave() {
     var disciplines = "#CoursePlan_discipline_fk";
     var minorEducationDisciplines = "#minorEducationDisciplines";
     let url = new URL(window.location.href);
-    let urlId = url.searchParams.get('id');
+    let urlId = url.searchParams.get("id");
 
     if ($(name).val() === "" || $(name).val().length < 3) {
         submit = false;
@@ -19,7 +19,10 @@ function validateSave() {
     } else {
         removeError(stage);
     }
-    if ($(disciplines).val() === "" && isStageChildishEducation($(stage).val()) == false) {
+    if (
+        $(disciplines).val() === "" &&
+        isStageChildishEducation($(stage).val()) == false
+    ) {
         submit = false;
         addError(disciplines, "Campo obrigatório.");
     } else {
@@ -44,39 +47,46 @@ function validateSave() {
     return submit;
 }
 
-$(document).on("focusout", ".course-class-objective", function(){
+$(document).on("focusout", ".course-class-objective", function () {
     var id = $(this).attr("id");
-    if ($(this).val().length >= 3){
-        removeError("#"+id);
+    if ($(this).val().length >= 3) {
+        removeError("#" + id);
     } else {
-        addError("#"+id, "Campo 'Objetivo' precisa ter pelo menos 3 caracteres.");
+        addError(
+            "#" + id,
+            "Campo 'Objetivo' precisa ter pelo menos 3 caracteres."
+        );
     }
 });
 
-$(document).on("keyup", ".course-class-objective", function(){
+$(document).on("keyup", ".course-class-objective", function () {
     var id = $(this).attr("id");
-    if ($(this).val().length >= 3){
-        removeError("#"+id);
+    if ($(this).val().length >= 3) {
+        removeError("#" + id);
     }
 });
 
-$('#courseplan_start_date').mask("99/99/9999", {placeholder: 'DD/MM/YYYY' });
-$('#courseplan_start_date').focusout(function () {
-    let id = '#' + $(this).attr("id");
+$("#courseplan_start_date").mask("99/99/9999", { placeholder: "DD/MM/YYYY" });
+$("#courseplan_start_date").focusout(function () {
+    let id = "#" + $(this).attr("id");
     let date = new Date();
-    let actual_year = date.getFullYear();
-    initial_date = stringToDate($('#courseplan_start_date').val());
-    if (!validateDate($('#courseplan_start_date').val())
-        || !(initial_date.year >= actual_year - 1
-            && initial_date.year <= actual_year)) {
-        $('#courseplan_start_date').attr('value', '');
-        addError(id, "A data deve ser válida, no formato Dia/Mês/Ano e inferior a data final.");
+    let actualYear = date.getFullYear();
+    let initialDate = stringToDate($("#courseplan_start_date").val());
+    if (
+        !validateDate($("#courseplan_start_date").val()) ||
+        !(initialDate.year >= actualYear - 1 && initialDate.year <= actualYear)
+    ) {
+        $("#courseplan_start_date").attr("value", "");
+        addError(
+            id,
+            "A data deve ser válida, no formato Dia/Mês/Ano e inferior a data final."
+        );
     } else {
         removeError(id);
     }
 });
 
 function isStageChildishEducation(stage) {
-    const refMinorStages = ['1', '2', '3'];
+    const refMinorStages = ["1", "2", "3"];
     return refMinorStages.includes(stage);
 }

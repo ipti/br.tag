@@ -24,10 +24,7 @@ $this->menu = [
 
 $baseScriptUrl = Yii::app()->controller->module->baseScriptUrl;
 $cs = Yii::app()->getClientScript();
-// $cs->registerScriptFile($baseScriptUrl . '/_initialization.js');
 
-// $baseScriptUrl = Yii::app()->controller->module->baseScriptUrl;
-// $themeUrl = Yii::app()->theme->baseScriptUrl;
 $cs = Yii::app()->getClientScript();
 $cs->registerScriptFile($baseScriptUrl . '/_initialization.js?v=' . TAG_VERSION, CClientScript::POS_END);
 $cs->registerScriptFile($baseScriptUrl . '/functions.js?v=' . TAG_VERSION, CClientScript::POS_END);
@@ -42,12 +39,16 @@ $cs->registerScriptFile($baseScriptUrl . '/pagination.js?v=' . TAG_VERSION, CCli
             <h1><?php echo Yii::t('default', 'Course Plan'); ?></h1>
             <div class="t-buttons-container">
                 <?php if (!Yii::app()->getAuthManager()->checkAccess('coordinator', Yii::app()->user->loginInfos->id) && !TagUtils::isManager()): ?>
-                    <a href="<?php echo Yii::app()->createUrl('courseplan/courseplan/create') ?>"
-                        class="t-button-primary"><?= Yii::t('default', 'Create Plan'); ?> </a>
+                    <a
+                        aria-label="Criar plano de aula"
+                        href="<?php echo Yii::app()->createUrl('courseplan/courseplan/create') ?>"
+                        class="t-button-primary">
+                        <?= Yii::t('default', 'Create Plan'); ?>
+                    </a>
                     <br />
                 <?php endif ?>
                 <?php if (!Yii::app()->getAuthManager()->checkAccess('instructor', Yii::app()->user->loginInfos->id)): ?>
-                    <a href="<?php echo Yii::app()->createUrl('courseplan/courseplan/pendingPlans') ?>"
+                    <a aria-label="Ir para planos pendentes" href="<?php echo Yii::app()->createUrl('courseplan/courseplan/pendingPlans') ?>"
                         class="t-button-primary"><?= Yii::t('default', 'Pendent Plan') ?></a>
                     <br />
                 <?php endif ?>

@@ -192,7 +192,7 @@ class CourseplanController extends Controller
             TLog::info('Listagem de disciplina por etapa de ensino com filtro de usuário de professor.', ['Stage' => $_POST['stage'], 'UserInstructor' => Yii::app()->user->loginInfos->id]);
         } else {
             $disciplines = Yii::app()->db->createCommand('select curricular_matrix.discipline_fk from curricular_matrix join edcenso_discipline ed on ed.id = curricular_matrix.discipline_fk where stage_fk = :stage_fk and school_year = :year order by ed.name')->bindParam(':stage_fk', $_POST['stage'])->bindParam(':year', Yii::app()->user->year)->queryAll();
-            foreach ($disciplines as $i => $discipline) {
+            foreach ($disciplines as $discipline) {
                 if (isset($discipline['discipline_fk'])) {
                     array_push($result, ['id' => $discipline['discipline_fk'], 'name' => CHtml::encode($disciplinesLabels[$discipline['discipline_fk']]), 'isMinorEducation' => $isMinorEducation]);
                 }
@@ -273,7 +273,6 @@ class CourseplanController extends Controller
      */
     public function actionSave($id = null)
     {
-        // $transaction = Yii::app()->db->beginTransaction();
         $request = Yii::app()->request->getPost('CoursePlan');
         try {
             if ($id !== null) {
@@ -297,7 +296,6 @@ class CourseplanController extends Controller
                 Yii::app()->user->setFlash('error', Yii::t('default', 'Erro ao salvar plano de aula!'));
                 $this->redirect(['index']);
             }
-            $errors = $coursePlan->getErrors();
             $courseClassIds = [];
             $i = 1;
             foreach ($_POST['course-class'] as $cc) {
@@ -369,21 +367,18 @@ class CourseplanController extends Controller
                 CourseClass::model()->deleteAll("course_plan_fk = :course_plan_fk and id not in ( '" . implode("', '", $courseClassIds) . "' )", [':course_plan_fk' => $coursePlan->id]);
                 TLog::info('Todas as aulas não inclusas na atualização foram deletadas com sucesso.', ['coursePlanId' => $coursePlan->id, 'CourseClassesIds' => $courseClassIds]);
             }
-            // $transaction->commit();
             header('HTTP/1.1 200 OK');
             Log::model()->saveAction('courseplan', $id, $logSituation, $coursePlan->name);
             Yii::app()->user->setFlash('success', Yii::t('default', 'Plano de Curso salvo com sucesso!'));
             $this->redirect(['index']);
         } catch (Exception $e) {
             TLog::error('Ocorreu um erro durante a transação de salvar um plano de aula', $e);
-            // $transaction->rollback();
             throw new Exception($e->getMessage(), 500, $e);
         }
     }
 
     public function actionAddResources()
     {
-        // $transaction = Yii::app()->db->beginTransaction();
         try {
             $resources = Yii::app()->request->getPost('resources');
             foreach ($resources as $resource) {
@@ -391,10 +386,10 @@ class CourseplanController extends Controller
                 $newResource->name = $resource;
                 $newResource->save();
             }
-            // $transaction->commit();
+
             header('HTTP/1.1 200 OK');
         } catch (Exception $e) {
-            // $transaction->rollback();
+
             throw new CHttpException(500, $e->getMessage());
         }
     }
@@ -479,13 +474,13 @@ class CourseplanController extends Controller
         }
         if (!$isUsed) {
             TLog::info('Plano de aula não está sendo utilizado', ['id' => $id]);
-            // $transaction = Yii::app()->db->beginTransaction();
+
             try {
                 $coursePlan->delete();
-                // $transaction->commit();
+
             } catch (Exception $e) {
                 TLog::error('Error ao excluir plano de aula', ['id' => $id, 'error' => $e->getMessage()]);
-                // $transaction->rollback();
+
                 throw new Exception($e->getMessage(), 500, $e);
             }
 

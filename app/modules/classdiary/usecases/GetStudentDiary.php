@@ -13,9 +13,8 @@
             $this->studentService = $studentService ?? new StudentService();
         }
 
-        public function exec($stage_fk, $classroom_fk, $discipline_fk, $date, $student_fk)
+        public function exec($stageFk, $classroomFk, $disciplineFk, $date, $studentFk)
         {
-            $response = $this->studentService->GetStudentDiary($stage_fk, $classroom_fk, $discipline_fk, $date, $student_fk);
-            return  $response;
+           return $this->studentService->GetStudentDiary($stageFk, $classroomFk, $disciplineFk, $date, $studentFk);
         }
     }

@@ -32,10 +32,6 @@ class SchoolreportModule extends CWebModule
 
     public function beforeControllerAction($controller, $action)
     {
-        if (parent::beforeControllerAction($controller, $action)) {
-            return true;
-        } else {
-            return false;
-        }
+        return parent::beforeControllerAction($controller, $action);
     }
 }

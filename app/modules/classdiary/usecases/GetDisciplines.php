@@ -15,7 +15,6 @@
 
         public function exec()
         {
-            $response = $this->instructorService->getDisciplines();
-            return  $response;
+            return $this->instructorService->getDisciplines();
         }
     }

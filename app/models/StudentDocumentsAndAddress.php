@@ -122,14 +122,14 @@ class StudentDocumentsAndAddress extends AltActiveRecord
             return true;
         }
 
-        $cpf = preg_replace('/[^0-9]/', '', $cpfStu);
+        $cpf = preg_replace('/[^\d]/', '', $cpfStu);
 
         if (strlen($cpf) !== 11) {
             $this->addError($cpfStudent, 'O CPF deve conter exatamente 11 números.');
             return;
         }
 
-        if (preg_match('/(\d)\1{10}/', $cpf)) {
+        if (preg_match('/(^\d)\1{10}/', $cpf)) {
             $this->addError($cpfStudent, 'O CPF não pode ter todos os dígitos iguais.');
             return;
         }
@@ -290,8 +290,4 @@ class StudentDocumentsAndAddress extends AltActiveRecord
         ]);
     }
 
-    protected function beforeSave()
-    {
-        return parent::beforeSave();
-    }
 }
