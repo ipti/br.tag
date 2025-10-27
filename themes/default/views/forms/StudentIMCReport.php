@@ -119,8 +119,8 @@ function getDisorders()
     <table class="table table-studentimc">
         <thead>
             <tr>
-                <td colspan="3">ESCOLA: <?= CHtml::encode($response["school"]->name) ?></td>
-                <td>CÓDIGO: <?= CHtml::encode($response["classroom"]->school_inep_fk) ?></td>
+                <th colspan="3">ESCOLA: <?= CHtml::encode($response["school"]->name) ?></th>
+                <th>CÓDIGO: <?= CHtml::encode($response["classroom"]->school_inep_fk) ?></th>
             </tr>
         </thead>
         <tbody>
