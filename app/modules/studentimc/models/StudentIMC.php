@@ -41,8 +41,6 @@ class StudentImc extends CActiveRecord
             array('height, weight, IMC', 'numerical'),
             array('observations', 'length', 'max' => 500),
             array('created_at, updated_at', 'safe'),
-            // The following rule is used by search().
-            // @todo Please remove those attributes that should not be searched.
             array('id, height, weight, IMC, observations, student_fk, created_at, updated_at, student_imc_classification_fk', 'safe', 'on' => 'search'),
         );
     }
@@ -54,10 +52,10 @@ class StudentImc extends CActiveRecord
     {
         // NOTE: you may need to adjust the relation name and the related
         // class name for the relations automatically generated below.
-        return array(
-            'studentFk' => array(self::BELONGS_TO, 'StudentIdentification', 'student_fk'),
-            'studentImcClassificationFk' => array(self::BELONGS_TO, 'StudentImcClassification', 'student_imc_classification_fk'),
-        );
+        return[
+            'studentFk' => [self::BELONGS_TO, 'StudentIdentification', 'student_fk'],
+            'studentImcClassificationFk' => [self::BELONGS_TO, 'StudentImcClassification', 'student_imc_classification_fk'],
+        ];
     }
 
     /**
@@ -65,7 +63,7 @@ class StudentImc extends CActiveRecord
      */
     public function attributeLabels()
     {
-        return array(
+        return [
             'id' => 'ID',
             'height' => Yii::t('default', 'Height'),
             'weight' => Yii::t('default', 'Weight'),
@@ -75,7 +73,7 @@ class StudentImc extends CActiveRecord
             'student_fk' => Yii::t('default', 'Student'),
             'created_at' => Yii::t('default', 'Created_At'),
             'updated_at' => Yii::t('default', 'Updated_At'),
-        );
+        ];
     }
 
     /**
@@ -92,8 +90,6 @@ class StudentImc extends CActiveRecord
      */
     public function search()
     {
-        // @todo Please modify the following code to remove attributes that should not be searched.
-
         $criteria = new CDbCriteria;
 
         $criteria->compare('id', $this->id);
@@ -106,9 +102,7 @@ class StudentImc extends CActiveRecord
         $criteria->compare('updated_at', $this->updated_at, true);
         $criteria->compare('student_imc_classification_fk', $this->student_imc_classification_fk);
 
-        return new CActiveDataProvider($this, array(
-            'criteria' => $criteria,
-        ));
+        return new CActiveDataProvider($this, ['criteria' => $criteria]);
     }
 
     /**

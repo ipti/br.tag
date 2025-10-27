@@ -27,13 +27,11 @@ class StudentImcClassification extends CActiveRecord
 	{
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
-		return array(
-			array('classification', 'required'),
-			array('classification', 'length', 'max'=>50),
-			// The following rule is used by search().
-			// @todo Please remove those attributes that should not be searched.
-			array('id, classification', 'safe', 'on'=>'search'),
-		);
+		return [
+			['classification', 'required'],
+			['classification', 'length', 'max'=>50],
+			['id, classification', 'safe', 'on'=>'search']
+		];
 	}
 
 	/**
@@ -43,9 +41,9 @@ class StudentImcClassification extends CActiveRecord
 	{
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
-		return array(
-			'studentImcs' => array(self::HAS_MANY, 'StudentImc', 'student_imc_classification_fk'),
-		);
+		return[
+			'studentImcs' => [self::HAS_MANY, 'StudentImc', 'student_imc_classification_fk'],
+		];
 	}
 
 	/**
@@ -53,10 +51,9 @@ class StudentImcClassification extends CActiveRecord
 	 */
 	public function attributeLabels()
 	{
-		return array(
+		return [
 			'id' => 'ID',
-			'classification' => 'Classification',
-		);
+			'classification' => 'Classification'];
 	}
 
 	/**
@@ -73,8 +70,6 @@ class StudentImcClassification extends CActiveRecord
 	 */
 	public function search()
 	{
-		// @todo Please modify the following code to remove attributes that should not be searched.
-
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id',$this->id);
