@@ -333,7 +333,7 @@ $calendars = Calendar::model()->findAll('YEAR(start_date) = :year', [':year' => 
                      style="vertical-align: -webkit-baseline-middle">
             </button>
             <h4 class="modal-title"
-                id="myModalLabel"><?= yii::t('calendarModule.index', 'Edit Calendar') ?></h4>
+                id="myModalLabel1"><?= yii::t('calendarModule.index', 'Edit Calendar') ?></h4>
         </div>
         <?php
 /* @var $form CActiveForm */
@@ -427,7 +427,7 @@ $this->endWidget();
                      style="vertical-align: -webkit-baseline-middle">
             </button>
             <h4 class="modal-title"
-                id="myModalLabel"><?= yii::t('calendarModule.index', 'Manage Unities Initial Date') ?></h4>
+                id="myModalLabel2"><?= yii::t('calendarModule.index', 'Manage Unities Initial Date') ?></h4>
         </div>
 
         <div class="centered-loading-gif">
@@ -457,7 +457,7 @@ $this->endWidget();
                      style="vertical-align: -webkit-baseline-middle">
             </button>
             <h4 class="modal-title"
-                id="myModalLabel"><?= yii::t('calendarModule.index', 'Change Event') ?></h4>
+                id="myModalLabel3"><?= yii::t('calendarModule.index', 'Change Event') ?></h4>
         </div>
         <?php
 /* @var $form CActiveForm */
@@ -549,7 +549,7 @@ $this->endWidget();
                      style="vertical-align: -webkit-baseline-middle">
             </button>
             <h4 class="modal-title"
-                id="myModalLabel"><?= yii::t('calendarModule.index', 'Remove Calendar') ?></h4>
+                id="myModalLabel4"><?= yii::t('calendarModule.index', 'Remove Calendar') ?></h4>
         </div>
         <form method="post">
             <div class="centered-loading-gif">
