@@ -2,12 +2,13 @@ FROM ipti/yii2:8.3-fpm
 
 # Definir o diretório principal
 WORKDIR /app
+USER root
 
+RUN rm -rf /app/.git || true
 # Copiar arquivos para o contêiner no diretório raiz da aplicação
 COPY . /app
 
 # Executar composer update e instalar dependências no diretório secundário (/app/app)
-USER root
 
 COPY --from=composer:latest /usr/bin/composer /usr/local/bin/composer
 
@@ -18,9 +19,7 @@ RUN sed -i "s|/app/web|/app|g" /etc/nginx/conf.d/default.conf \
 
 # Voltar para o diretório principal (/app) e executar comandos adicionais
 WORKDIR /app
-RUN composer update \
-    && composer update --no-plugins \
-    && composer install
+RUN composer install --no-dev --optimize-autoloader --no-interaction
 
 # Conctruir arquivos css do sass
 # RUN vendor/scssphp/scssphp/bin/pscss --no-source-map --style=compressed sass/scss:sass/css
