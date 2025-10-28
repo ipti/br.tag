@@ -30,11 +30,8 @@ jobs:
       - name: Set image tag
         id: vars
         run: |
-          if [ "${GITHUB_REF_NAME}" = "main" ]; then
-            echo "TAG=latest" >> $GITHUB_OUTPUT
-          else
-            echo "TAG=${GITHUB_REF_NAME}" >> $GITHUB_OUTPUT
-          fi
+          echo "TAG=${GITHUB_REF_NAME}" >> $GITHUB_OUTPUT
+
 
       # 5. Construir a imagem
       #    OBS: ajuste "ipti/sua-imagem" pro nome REAL do repositório no Docker Hub
