@@ -95,10 +95,15 @@ class StudentIMCController extends Controller
             if ($_POST['StudentIdentification']['deficiency_type_autism'] == 1) {
                 $modelStudentIdentification->deficiency = 1;
             }
+            $disorderHistory = new StudentDisorderHistory();
+            $disorderHistory->student_fk = $studentId;
+            $disorderHistory->student_disorder_fk = $modelStudentDisorder->id;
+            $disorderHistory->attributes =  $_POST['StudentDisorder'];
 
             $isValid = $model->validate();
             $isValid = $modelStudentDisorder->validate() && $isValid;
             $isValid = $modelStudentIdentification->validate() && $isValid;
+            $isValid = $disorderHistory->validate() && $isValid;
 
             if ($isValid) {
                 $transaction = Yii::app()->db->beginTransaction();
@@ -106,6 +111,8 @@ class StudentIMCController extends Controller
                     $model->save(false);
                     $modelStudentDisorder->save(false);
                     $modelStudentIdentification->save(false);
+                    $disorderHistory->student_imc_fk = $model->id;
+                    $disorderHistory->save(false);
 
                     $transaction->commit();
                     Yii::app()->user->setFlash('success', Yii::t('default', 'Student IMC successfully created.'));
@@ -163,10 +170,11 @@ class StudentIMCController extends Controller
         $model->weight = number_format((float) $model->weight, 2, '.', '');
 
         // Buscar ou criar os modelos relacionados
-        $modelStudentDisorder = StudentDisorder::model()->findByAttributes(['student_fk' => $studentId]);
-        if ($modelStudentDisorder === null) {
-            $modelStudentDisorder = new StudentDisorder();
-            $modelStudentDisorder->student_fk = $studentId;
+        $modelStudentDisorderHistory = StudentDisorderHistory::model()->findByAttributes(['student_fk' => $studentId, 'student_imc_fk' => $id]);
+        if ($modelStudentDisorderHistory === null) {
+            $modelStudentDisorderHistory = new StudentDisorderHistory();
+            $modelStudentDisorderHistory->student_fk = $studentId;
+            $modelStudentDisorderHistory->student_imc_fk = $id;
         }
 
         $modelStudentIdentification = StudentIdentification::model()->findByPk($studentId);
@@ -183,8 +191,8 @@ class StudentIMCController extends Controller
             $classification = $this->getclassification($model, $modelStudentIdentification);
             $model->student_imc_classification_fk = $classification;
 
-            if (isset($_POST['StudentDisorder'])) {
-                $modelStudentDisorder->attributes = $_POST['StudentDisorder'];
+            if (isset($_POST['StudentDisorderHistory'])) {
+                $modelStudentDisorderHistory->attributes = $_POST['StudentDisorderHistory'];
             }
 
             if (isset($_POST['StudentIdentification'])) {
@@ -194,7 +202,7 @@ class StudentIMCController extends Controller
                 }
             }
 
-            if ($model->save() && $modelStudentDisorder->save() && $modelStudentIdentification->save()) {
+            if ($model->save() && $modelStudentDisorderHistory->save() && $modelStudentIdentification->save()) {
                 $this->redirect(['index', 'studentId' => $studentId]);
             }
         }
@@ -205,7 +213,7 @@ class StudentIMCController extends Controller
 
         $this->render('update', [
             'model' => $model,
-            'disorder' => $modelStudentDisorder,
+            'disorder' => $modelStudentDisorderHistory,
             'studentIdentification' => $modelStudentIdentification,
         ]);
     }

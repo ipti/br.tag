@@ -113,7 +113,7 @@ function getDisorders()
 <div class="pageA4V">
     <?php $this->renderPartial('head'); ?>
 
-    <h3>RELATÓRIO DE ACOMPANHAMENTO DE SAÚDE</h3>
+    <h3>RELATÓRIO DE HISTÓRICO DE SAÚDE</h3>
 
     <!-- Cabeçalho da escola -->
     <table class="table table-studentimc">
@@ -133,40 +133,29 @@ function getDisorders()
                 <td>ANO: <?= getStageName($response["classroom"]->edcenso_stage_vs_modality_fk) ?></td>
                 <td>TURMA: <?= CHtml::encode($response["classroom"]->name) ?></td>
             </tr>
-            <tr>
-                <td>OBESIDADE: <?= CHtml::encode($response["statistics"]["obesity"]) ?></td>
-                <td>SOBREPESO: <?= CHtml::encode($response["statistics"]["overweight"]) ?></td>
-                <td colspan="2">PESO NORMAL: <?= CHtml::encode($response["statistics"]["normalWeight"]) ?></td>
-
-            </tr>
-            <tr>
-                <td>DESNUTRIÇÃO: <?= CHtml::encode($response["statistics"]["malnutrition"]) ?></td>
-                <td>DESNUTRIÇÃO MODERADA: <?= CHtml::encode($response["statistics"]["moderateMalnutrition"]) ?></td>
-                <td colspan="2">DESNUTRIÇÃO SEVERA: <?= CHtml::encode($response["statistics"]["severeMalnutrition"]) ?></td>
-            </tr>
         </tbody>
     </table>
 
-    <!-- Lista de alunos -->
-    <?php
-    $disordersMap = getDisorders();
-
-    foreach ($response["students"] as $student): ?>
-        <div class="student-list">
-            <div class="student-info">
-                <div>ALUNO: <?= CHtml::encode($student["studentIdentification"]->name) ?></div>
-                <div>IDADE: <?= CHtml::encode($student["age"]) ?></div>
-                <div>MATRÍCULA: <?= CHtml::encode($student["studentEnrollment"]->id) ?></div>
-            </div>
-
-            <?php if (!empty($student["variationRate"])): ?>
-                <div class="student-info">
-                    TAXA DE VARIAÇÃO: <?= CHtml::encode($student["variationRate"]) ?>
-                </div>
-            <?php endif; ?>
+    <div class="student-list">
+        <div class="student-info">
+            <div>ALUNO: <?= CHtml::encode($response["student"]["studentIdentification"]->name) ?></div>
+            <div>IDADE: <?= CHtml::encode($response["student"]["age"]) ?></div>
+            <div>MATRÍCULA: <?= CHtml::encode($response["student"]["studentEnrollment"]->id) ?></div>
         </div>
 
-        <!-- Tabela de IMC -->
+        <?php if (!empty($response["student"]["variationRate"])): ?>
+            <div class="student-info">
+                TAXA DE VARIAÇÃO: <?= CHtml::encode($response["student"]["variationRate"]) ?>
+            </div>
+        <?php endif; ?>
+    </div>
+
+    <!-- Tabela de IMC -->
+
+    <?php foreach ($response["student"]["imcs"] as $imc): ?>
+        <div  class="student-list">
+            Coleta do dia <?= date('d/m/Y', strtotime($imc["imc"]->created_at)) ?>
+        </div>
         <table class="table table-bordered table-striped">
             <thead>
                 <tr>
@@ -178,23 +167,23 @@ function getDisorders()
                 </tr>
             </thead>
             <tbody>
-                <?php foreach ($student["studentIMC"] as $imc): ?>
-                    <tr>
-                        <td><?= CHtml::encode($imc->IMC) ?></td>
-                        <td><?= CHtml::encode($imc->studentImcClassificationFk->classification) ?></td>
-                        <td><?= CHtml::encode(number_format((float) $imc->height, 2, '.', '')) ?></td>
-                        <td><?= CHtml::encode(number_format((float) $imc->weight, 2, '.', '')) ?></td>
-                        <td><?= date('d/m/Y', strtotime($imc->created_at)) ?></td>
-                    </tr>
-                <?php endforeach; ?>
+
+                <tr>
+                    <td><?= CHtml::encode($imc["imc"]->IMC) ?></td>
+                    <td><?= CHtml::encode($imc["classification"]) ?></td>
+                    <td><?= CHtml::encode(number_format((float) $imc["imc"]->height, 2, '.', '')) ?></td>
+                    <td><?= CHtml::encode(number_format((float) $imc["imc"]->weight, 2, '.', '')) ?></td>
+                    <td><?= date('d/m/Y', strtotime($imc["imc"]->created_at)) ?></td>
+                </tr>
 
                 <!-- Lista de doenças -->
                 <tr>
                     <td colspan="5" class="student-disorders">
                         <strong>Doenças:</strong>
                         <?php
+                        $disordersMap = getDisorders();
                         $activeDisorders = [];
-                        foreach ($student["studentDisorder"] as $key => $hasDisorder) {
+                        foreach ($imc["history"] as $key => $hasDisorder) {
                             if ($hasDisorder && isset($disordersMap[$key])) {
                                 $activeDisorders[] = $disordersMap[$key];
                             }
@@ -212,7 +201,9 @@ function getDisorders()
                         ?>
                     </td>
                 </tr>
+
             </tbody>
+
         </table>
     <?php endforeach; ?>
 </div>
