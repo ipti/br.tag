@@ -101,7 +101,7 @@ $cs->registerScriptFile($baseScriptUrl . '/pagination.js', CClientScript::POS_EN
                                             5 => 'SOBREPESO',
                                             6 => 'OBESIDADE'
                                         ),
-                                        array("class" => 'select-search-off t-field-select__input', "readonly" => "readonly")
+                                        array("class" => 'select-search-off t-field-select__input', "readonly" => "readonly", "disabled" => "disabled")
                                     ); ?>
 
                                 <?php echo $form->error($model, 'student_imc_classification_fk'); ?>
