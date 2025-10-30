@@ -25,6 +25,7 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Acompanhamento de Saúde'));
                     <a class="t-button-primary" href="<?= Yii::app()->createUrl("studentimc/studentimc/create", array("studentId" => $student->id)) ?>">
                         Nova Coleta
                     </a>
+                     <a class="t-button-secondary" href="<?php echo Yii::app()->createUrl('forms/studentIMCHistoryReport', array("studentId" => $student->id)) ?>">Histórico de coleta</a>
                 </div>
             </div>
         </div>

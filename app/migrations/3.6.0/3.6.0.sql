@@ -82,3 +82,26 @@ ADD CONSTRAINT fk_student_imc_classification
 FOREIGN KEY (student_imc_classification_fk)
 REFERENCES student_imc_classification(id);
 
+
+CREATE TABLE student_disorder_history LIKE student_disorder;
+
+ALTER TABLE student_disorder_history
+ADD COLUMN student_disorder_fk INT(11) AFTER id;
+
+ALTER TABLE student_disorder_history
+ADD CONSTRAINT fk_student_disorder_history_disorder
+FOREIGN KEY (student_disorder_fk)
+REFERENCES student_disorder(id)
+ON DELETE CASCADE
+ON UPDATE CASCADE;
+
+
+ALTER TABLE student_disorder_history
+ADD COLUMN student_imc_fk INT(11) AFTER student_disorder_fk;
+
+ALTER TABLE student_disorder_history
+ADD CONSTRAINT fk_student_disorder_history_imc
+FOREIGN KEY (student_imc_fk)
+REFERENCES student_imc(id)
+ON DELETE SET NULL
+ON UPDATE CASCADE;

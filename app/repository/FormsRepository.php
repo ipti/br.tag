@@ -534,6 +534,13 @@ class FormsRepository
 
         $response["students"] = array();
 
+        $overweight = 0;
+        $obesity = 0;
+        $normalWeight = 0;
+        $malnutrition = 0;
+        $moderateMalnutrition = 0;
+        $severeMalnutrition = 0;
+
         foreach ($enrollments as $enrollment) {
 
             $student = array();
@@ -548,15 +555,36 @@ class FormsRepository
             Yii::import('application.modules.studentimc.models.StudentIMC');
             Yii::import('application.modules.studentimc.models.StudentImcClassification');
 
-            $student["studentIMC"] =  StudentIMC::model()->findAll($criteria);
+            $criteria->order = 'created_at ASC';
+            $student["studentIMC"] = StudentIMC::model()->findAll($criteria);
 
+            if (!empty($student["studentIMC"])) {
+                $lastIMC = end($student["studentIMC"]);
+
+                if ($lastIMC->student_imc_classification_fk == 1) {
+                    $severeMalnutrition++;
+                } else if ($lastIMC->student_imc_classification_fk == 2) {
+                    $moderateMalnutrition++;
+                } else if ($lastIMC->student_imc_classification_fk == 3) {
+                    $malnutrition++;
+                } else if ($lastIMC->student_imc_classification_fk == 4) {
+                    $normalWeight++;
+                } else if ($lastIMC->student_imc_classification_fk == 5) {
+                    $overweight++;
+                } else if ($lastIMC->student_imc_classification_fk == 6) {
+                    $obesity++;
+                }
+
+            }
 
 
             $studentIdentification = StudentIdentification::model()->findByPK($enrollment->student_fk); //
             $student["studentIdentification"] = $studentIdentification;
 
-            $studentDisorder = StudentDisorder::model()->findByAttributes(["student_fk"=> $enrollment->student_fk]) ;
+            $studentDisorder = StudentDisorder::model()->findByAttributes(["student_fk" => $enrollment->student_fk]);
             $student["studentDisorder"] = $studentDisorder;
+
+
 
             if (!empty($studentIdentification->birthday)) {
                 $birthDate = DateTime::createFromFormat('d/m/Y', $studentIdentification->birthday)
@@ -596,6 +624,15 @@ class FormsRepository
             $response["students"][] = $student;
         }
 
+        $response["statistics"] = array(
+            "overweight" => $overweight,
+            "obesity" => $obesity,
+            "normalWeight" => $normalWeight,
+            "malnutrition" => $malnutrition,
+            "moderateMalnutrition" => $moderateMalnutrition,
+            "severeMalnutrition" => $severeMalnutrition
+        );
+
 
 
         $response["school"] = $classroom->schoolInepFk;
@@ -608,6 +645,118 @@ class FormsRepository
         return $response;
     }
 
+    public function getStudentIMCHistory($studentId)
+    {
+        Yii::import('application.modules.studentimc.models.StudentIMC');
+        Yii::import('application.modules.studentimc.models.StudentDisorderHistory');
+        Yii::import('application.modules.studentimc.models.StudentImcClassification');
+
+        $response = [];
+        $student = [];
+
+        // 🔹 Busca dados básicos do aluno
+        $studentIdentification = StudentIdentification::model()->findByPk($studentId);
+        if (!$studentIdentification) {
+            return ['error' => 'Aluno não encontrado'];
+        }
+
+        // 🔹 Busca o último enrollment ativo (sem atividade complementar)
+        $criteria = new CDbCriteria([
+            'alias' => 'enrollment',
+            'with' => ['classroomFk'],
+            'together' => true,
+            'condition' => '
+            enrollment.student_fk = :studentId
+            AND enrollment.status = 1
+            AND classroomFk.complementary_activity = 0
+        ',
+            'params' => [':studentId' => $studentId],
+            'order' => 'classroomFk.school_year DESC, enrollment.id DESC',
+            'limit' => 1,
+        ]);
+
+        $lastEnrollment = StudentEnrollment::model()->find($criteria);
+
+        // 🔹 Busca todos os IMCs e seus históricos
+        $imcRecords = StudentIMC::model()->findAll([
+            'condition' => 'student_fk = :student_fk',
+            'params' => [':student_fk' => $studentId],
+            'order' => 'created_at ASC',
+        ]);
+
+        $student["imcs"] = [];
+        foreach ($imcRecords as $imc) {
+            $history = StudentDisorderHistory::model()->findByAttributes([
+                'student_imc_fk' => $imc->id
+            ]);
+
+            $classification = StudentImcClassification::model()->findByPk($imc->student_imc_classification_fk)->classification;
+
+            $student["imcs"][] = [
+                'imc' => $imc,
+                'history' => $history,
+                'classification' => $classification,
+            ];
+        }
+
+        // 🔹 Dados complementares
+        $student["studentIdentification"] = $studentIdentification;
+        $student["studentEnrollment"] = $lastEnrollment;
+        $student["age"] = $this->calculateAge($studentIdentification->birthday);
+        $student["variationRate"] = $this->calculateVariationRate($studentId);
+
+        $classroom = $lastEnrollment ? $lastEnrollment->classroomFk : null;
+        // 🔹 Monta resposta final
+        $response = [
+            'student' => $student,
+            'classroom' => $classroom,
+            'school' => $classroom->schoolInepFk,
+        ];
+
+        return $response;
+    }
+
+    /**
+     * Calcula idade a partir da data de nascimento
+     */
+    private function calculateAge($birthday)
+    {
+        if (empty($birthday))
+            return null;
+
+        $birthDate = DateTime::createFromFormat('d/m/Y', $birthday)
+            ?: DateTime::createFromFormat('Y-m-d', $birthday);
+
+        if (!$birthDate)
+            return null;
+
+        return (new DateTime())->diff($birthDate)->y;
+    }
+
+    /**
+     * Calcula taxa de variação de IMC (percentual)
+     */
+    private function calculateVariationRate($studentId)
+    {
+        $highest = StudentIMC::model()->find([
+            'condition' => 'student_fk = :student_fk',
+            'params' => [':student_fk' => $studentId],
+            'order' => 'imc DESC',
+            'limit' => 1,
+        ]);
+
+        $lowest = StudentIMC::model()->find([
+            'condition' => 'student_fk = :student_fk',
+            'params' => [':student_fk' => $studentId],
+            'order' => 'imc ASC',
+            'limit' => 1,
+        ]);
+
+        if (!$lowest || !$highest || $lowest->IMC == 0)
+            return null;
+
+        return number_format((($highest->IMC - $lowest->IMC) / $lowest->IMC) * 100, 2);
+    }
 
     /**
      * Declaração de Matrícula
