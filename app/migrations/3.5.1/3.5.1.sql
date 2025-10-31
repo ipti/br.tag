@@ -1,0 +1,2 @@
+ALTER TABLE grade_unity
+ADD COLUMN weight FLOAT NULL AFTER name;

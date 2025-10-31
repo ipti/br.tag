@@ -41,7 +41,24 @@ class CalculateFinalMediaUsecase
 
                 $calculation = GradeCalculation::model()->findByAttributes(["name"=>"Média"]);
                 $finalMedia = $this->applyCalculation($calculation, $grades);
+            } else if($this->gradeRule->gradeCalculationFk->name == 'Peso') {
+                $grades = $this->extractGrades($this->gradesResult, $this->countUnities);
+                $weights = [];
+                $criteria = new CDbCriteria();
+                $criteria->alias = 'gu';
+                $criteria->condition = 'gu.grade_rules_fk = :gradeRulesId';
+                $criteria->params = array( ":gradeRulesId" => $this->gradeRule->id);
+
+                $unities = GradeUnity::model()->findAll($criteria);
+
+                foreach ($unities as $unity) {
+                    $weights[] = $unity->weight != null ? $unity->weight : 1;
+                }
+
+                $finalMedia = $this->applyCalculation($this->gradeRule->gradeCalculationFk, $grades, $weights);
+
             } else {
+
                 $grades = $this->extractGrades($this->gradesResult, $this->countUnities);
                 $finalMedia = $this->applyCalculation($this->gradeRule->gradeCalculationFk, $grades);
             }

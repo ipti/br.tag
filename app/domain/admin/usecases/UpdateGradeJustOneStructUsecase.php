@@ -80,6 +80,7 @@ class UpdateGradeJustOneStructUsecase
                 }
 
                 $unityModel->name = $unity["name"];
+                $unityModel->weight = $unity["weight"];
                 $unityModel->semester = $unity["semester"];
                 $unityModel->type = $unity["type"];
                 $unityModel->grade_calculation_fk = $unity["formula"];
