@@ -40,7 +40,7 @@ $(document).on("click", ".js-new-unity", function (e) {
         const options = $(".formulas > option").toArray();
 
         const filteredOptions = options.reduce((accumulator, option) => {
-            if (!$(option).text().includes("Média Semestral")) {
+            if (!$(option).text().includes("Média Semestral") && !$(option).text().includes("Subistituir Menor Nota")) {
                 accumulator += option.outerHTML;
             }
             return accumulator;
