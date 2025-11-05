@@ -33,14 +33,14 @@ $this->breadcrumbs = array(
                 <div class="widget-body">
                     <?php
 
-                    $this->widget('zii.widgets.grid.CGridView', array(
+                    $this->widget('zii.widgets.grid.CGridView',[
                         'dataProvider' => $dataProvider,
-                        'enablePagination' => false,
+                        'enablePagination' => true,
                         'enableSorting' => false,
-                        'itemsCssClass' => 'js-tag-table tag-table-primary table table-condensed
-                        table-striped table-hover table-primary table-vertical-center checkboxs',
+                        'itemsCssClass' => 'js-tag-table tag-table-primary table table-condensed table-striped table-hover table-primary table-vertical-center checkboxs',
                         'columns' => $columns,
-                    ));
+
+                    ]);
                     ?>
                 </div>
             </div>
