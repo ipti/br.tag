@@ -242,13 +242,7 @@ $cs->registerScriptFile($baseScriptUrl . '/validations.js?v=' . TAG_VERSION, CCl
                         </div>
                     </div>
 
-                    <div class="row">
-                        <div class="t-field-text column">
-                            <?php echo $form->labelEx($model, 'responsable_nis', ['class' => 't-field-text__label']); ?>
-                            <?php echo $form->textField($model, 'responsable_nis', ['size' => 14, 'maxlength' => 14, 'class' => 't-field-text__input  js-cpf-mask js-field-required']); ?>
-                            <?php echo $form->error($model, 'responsable_nis'); ?>
-                        </div>
-                    </div>
+
 
                     <div class="row">
                         <div class="t-field-text column">
