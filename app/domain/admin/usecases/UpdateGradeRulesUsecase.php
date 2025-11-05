@@ -53,7 +53,6 @@ class UpdateGradeRulesUsecase
             $gradeRules = new GradeRules();
         }
 
-        // $gradeRules->edcenso_stage_vs_modality_fk = $this->stages;
         $gradeRules->approvation_media = $this->approvalMedia;
         $gradeRules->name = $this->gradeRulesName;
         $gradeRules->final_recover_media = $this->finalRecoverMedia;
@@ -66,7 +65,6 @@ class UpdateGradeRulesUsecase
             Yii::log(TagUtils::stringfyValidationErrors($gradeRules), CLogger::LEVEL_ERROR);
             throw new CantSaveGradeRulesException();
         }
-        $result = $gradeRules->save();
 
         $gradeRulesVsStage = GradeRulesVsEdcensoStageVsModality::model()->findAllByAttributes(['grade_rules_fk' => $gradeRules->id]);
 

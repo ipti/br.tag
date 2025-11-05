@@ -23,14 +23,13 @@ class WebTestCase extends CWebTestCaseCustom
     protected function setUp(): void
     {
         parent::setUp();
-        $selenium_host = getenv('SELENIUM_HOST');
-        if ($selenium_host === false) {
-            $selenium_host = 'localhost';
+        $seleniumHost = getenv('SELENIUM_HOST');
+        if ($seleniumHost === false) {
+            $seleniumHost = 'localhost';
         }
-        $this->setHost($selenium_host);
+        $this->setHost($seleniumHost);
         $this->setBrowser('chrome');
         $this->setBrowserUrl($this->baseUrl);
-        // https://github.com/giorgiosironi/phpunit-selenium/issues/439#issuecomment-561740660
         $this->setDesiredCapabilities([
             'chromeOptions' => [
                 'args' => [

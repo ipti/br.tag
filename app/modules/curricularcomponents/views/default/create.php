@@ -20,5 +20,5 @@ $title = Yii::t('default', 'Adicionar Componente Curricular');
 
 
 <div id="mainPage" class="main">
-	<?php $this->renderPartial('_form', ['model' => $model, 'edcenso_base_disciplines' => $edcenso_base_disciplines,  'title' => $title]); ?>
+	<?php $this->renderPartial('_form', ['model' => $model, 'edcenso_base_disciplines' => $edcensoBaseDisciplines,  'title' => $title]); ?>
 </div>

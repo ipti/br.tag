@@ -32,8 +32,8 @@
             echo "<b>Cidade: </b>" . $r['school']->edcensoCityFk->name . "<br>";
             echo "<b>Estado: </b>" . strtoupper($r['school']->edcensoUfFk->name) . "<br>";
 
-            $student_disabilities = array();
-            $student_aid = array();
+            $studentDisabilities = [];
+            $studentAid = [];
             $i = 0;
             $j = 0;
             $ordem = 1;
@@ -58,57 +58,57 @@
             } else {
                 foreach ($r["students"] as $s) {
                     if ($s['deficiency_type_blindness'] == 1) {
-                        $student_disabilities[$i++] = "Cegueira";
-                    } else if ($s['deficiency_type_low_vision'] == 1) {
-                        $student_disabilities[$i++] = "Baixa Vis&atilde;o";
-                    } else if ($s['deficiency_type_deafness'] == 1) {
-                        $student_disabilities[$i++] = "Surdez";
-                    } else if ($s['deficiency_type_disability_hearing'] == 1) {
-                        $student_disabilities[$i++] = "Defici&ecirc;ncia Auditiva";
-                    } else if ($s['deficiency_type_deafblindness'] == 1) {
-                        $student_disabilities[$i++] = "Surdocegueira";
-                    } else if ($s['deficiency_type_phisical_disability'] == 1) {
-                        $student_disabilities[$i++] = "Defici&ecirc;ncia F&iacute;sica";
-                    } else if ($s['deficiency_type_intelectual_disability'] == 1) {
-                        $student_disabilities[$i++] = "Defici&ecirc;ncia Intelectual";
-                    } else if ($s['deficiency_type_multiple_disabilities'] == 1) {
-                        $student_disabilities[$i++] = "Defici&ecirc;ncia M&uacute;ltipla";
-                    } else if ($s['deficiency_type_autism'] == 1) {
-                        $student_disabilities[$i++] = "Autismo Infantil";
-                    } else if ($s['deficiency_type_aspenger_syndrome'] == 1) {
-                        $student_disabilities[$i++] = " S&iacute;ndrome de Asperger";
-                    } else if ($s['deficiency_type_rett_syndrome'] == 1) {
-                        $student_disabilities[$i++] = "S&iacute;ndrome de Rett";
-                    } else if ($s['deficiency_type_childhood_disintegrative_disorder'] == 1) {
-                        $student_disabilities[$i++] = "Transtorno desintegrativo da inf&acirc;ncia";
-                    } else if ($s['deficiency_type_gifted'] == 1) {
-                        $student_disabilities[$i++] = "Altas habilidades/Superdota&ccedil;&atilde;o";
+                        $studentDisabilities[$i++] = "Cegueira";
+                    } elseif ($s['deficiency_type_low_vision'] == 1) {
+                        $studentDisabilities[$i++] = "Baixa Vis&atilde;o";
+                    } elseif ($s['deficiency_type_deafness'] == 1) {
+                        $studentDisabilities[$i++] = "Surdez";
+                    } elseif ($s['deficiency_type_disability_hearing'] == 1) {
+                        $studentDisabilities[$i++] = "Defici&ecirc;ncia Auditiva";
+                    } elseif ($s['deficiency_type_deafblindness'] == 1) {
+                        $studentDisabilities[$i++] = "Surdocegueira";
+                    } elseif ($s['deficiency_type_phisical_disability'] == 1) {
+                        $studentDisabilities[$i++] = "Defici&ecirc;ncia F&iacute;sica";
+                    } elseif ($s['deficiency_type_intelectual_disability'] == 1) {
+                        $studentDisabilities[$i++] = "Defici&ecirc;ncia Intelectual";
+                    } elseif ($s['deficiency_type_multiple_disabilities'] == 1) {
+                        $studentDisabilities[$i++] = "Defici&ecirc;ncia M&uacute;ltipla";
+                    } elseif ($s['deficiency_type_autism'] == 1) {
+                        $studentDisabilities[$i++] = "Autismo Infantil";
+                    } elseif ($s['deficiency_type_aspenger_syndrome'] == 1) {
+                        $studentDisabilities[$i++] = " S&iacute;ndrome de Asperger";
+                    } elseif ($s['deficiency_type_rett_syndrome'] == 1) {
+                        $studentDisabilities[$i++] = "S&iacute;ndrome de Rett";
+                    } elseif ($s['deficiency_type_childhood_disintegrative_disorder'] == 1) {
+                        $studentDisabilities[$i++] = "Transtorno desintegrativo da inf&acirc;ncia";
+                    } elseif ($s['deficiency_type_gifted'] == 1) {
+                        $studentDisabilities[$i++] = "Altas habilidades/Superdota&ccedil;&atilde;o";
                     }
 
                     if ($s['resource_none'] == 1) {
-                        $student_aid[0] = "N&atilde;o h&aacute; aux&iacute;lio";
-                    }else if ($s['resource_none'] == null){
-                            $student_aid[0] = "N&atilde;o informado";
+                        $studentAid[0] = "N&atilde;o h&aacute; aux&iacute;lio";
+                    }elseif ($s['resource_none'] == null){
+                            $studentAid[0] = "N&atilde;o informado";
                     } else {
                         if ($s['resource_aid_lector'] == 1) {
-                            $student_aid[$j++] = 'Auxílio ledor';
-                        } else if ($s['resource_aid_transcription'] == 1) {
-                            $student_aid[$j++] = 'Auxílio transcrição';
-                        } else if ($s['resource_interpreter_guide'] == 1) {
-                            $student_aid[$j++] = 'Guia-Intérprete';
-                        } else if ($s['resource_interpreter_libras'] == 1) {
-                            $student_aid[$j++] = 'Intérprete de Libras';
-                        } else if ($s['resource_lip_reading'] == 1) {
-                            $student_aid[$j++] = 'Leitura Labial';
-                        } else if ($s['resource_zoomed_test_16'] == 1) {
-                            $student_aid[$j++] = 'Prova Ampliada (Fonte Tamanho 16)';
-                        } else if ($s['resource_zoomed_test_20'] == 1) {
-                            $student_aid[$j++] = 'Prova Ampliada (Fonte Tamanho 20)';
-                        } else if ($s['resource_zoomed_test_24'] == 1) {
-                            $student_aid[$j++] = 'Prova Ampliada (Fonte Tamanho 24)';
+                            $studentAid[$j++] = 'Auxílio ledor';
+                        } elseif ($s['resource_aid_transcription'] == 1) {
+                            $studentAid[$j++] = 'Auxílio transcrição';
+                        } elseif ($s['resource_interpreter_guide'] == 1) {
+                            $studentAid[$j++] = 'Guia-Intérprete';
+                        } elseif ($s['resource_interpreter_libras'] == 1) {
+                            $studentAid[$j++] = 'Intérprete de Libras';
+                        } elseif ($s['resource_lip_reading'] == 1) {
+                            $studentAid[$j++] = 'Leitura Labial';
+                        } elseif ($s['resource_zoomed_test_16'] == 1) {
+                            $studentAid[$j++] = 'Prova Ampliada (Fonte Tamanho 16)';
+                        } elseif ($s['resource_zoomed_test_20'] == 1) {
+                            $studentAid[$j++] = 'Prova Ampliada (Fonte Tamanho 20)';
+                        } elseif ($s['resource_zoomed_test_24'] == 1) {
+                            $studentAid[$j++] = 'Prova Ampliada (Fonte Tamanho 24)';
                         }
-                        else if ($s['resource_braille_test'] == 1) {
-                            $student_aid[$j++] = 'Prova em Braille';
+                        elseif ($s['resource_braille_test'] == 1) {
+                            $studentAid[$j++] = 'Prova em Braille';
                         }
                     }
 
@@ -137,24 +137,24 @@
                         . "<td>" . $s['birthday'] . "</td>"
                         . "<td>" . $s['name'] . "</td>";
 
-                    if (count($student_disabilities) == 1) {
-                        $html .= "<td>" . $student_disabilities[0] . "</td>";
+                    if (count($studentDisabilities) == 1) {
+                        $html .= "<td>" . $studentDisabilities[0] . "</td>";
                     }
                     else{
                         $html .= "<td>";
-                        for($a = 0 ; $a < count($student_disabilities); $a++ ){
-                            $html .= $student_disabilities[$a] . " ,";
+                        for($a = 0 ; $a < count($studentDisabilities); $a++ ){
+                            $html .= $studentDisabilities[$a] . " ,";
                         }
                         $html .= "</td>";
                     }
 
-                    if (count($student_aid) == 1) {
-                        $html .= "<td>" . $student_aid[0] . "</td>";
+                    if (count($studentAid) == 1) {
+                        $html .= "<td>" . $studentAid[0] . "</td>";
                     }
                     else{
                         $html .= "<td>";
-                        for($a = 0 ; $a < count($student_aid); $a++ ){
-                            $html .= $student_aid[$a ] . " ,";
+                        for($a = 0 ; $a < count($studentAid); $a++ ){
+                            $html .= $studentAid[$a ] . " ,";
                         }
                         $html .= "</td>";
                     }

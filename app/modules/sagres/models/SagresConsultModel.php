@@ -2030,10 +2030,10 @@ class SagresConsultModel
         }
     }
 
-    private function studentValidationWhioutCpf($studentType, $schoolName, $cpf_reason, $classId, $enrollment, $strlen): void
+    private function studentValidationWhioutCpf($studentType, $schoolName, $cpfReason, $classId, $enrollment, $strlen): void
     {
         $cpfReasons = [1, 2, 3];
-        if (!in_array($cpf_reason, $cpfReasons)) {
+        if (!in_array($cpfReason, $cpfReasons)) {
             $inconsistencyModel = new ValidationSagresModel();
             $inconsistencyModel->enrollment = '<strong>ESTUDANTE</strong>';
             $inconsistencyModel->school = $schoolName;

@@ -8,9 +8,7 @@
             $criteria->condition = 'school_year = :school_year and school_inep_fk = :school_inep_fk';
             $criteria->order = 'name';
             $criteria->params = $criteria->params = [':school_year' => Yii::app()->user->year, ':school_inep_fk' => Yii::app()->user->school];
-            $classrooms = Classroom::model()->findAll($criteria);
-
-            return $classrooms;
+            return Classroom::model()->findAll($criteria);
         }
 
         public function getClassroomsInstructor($discipline)
@@ -74,36 +72,34 @@
             $command->bindValue(':school_year', Yii::app()->user->year, PDO::PARAM_INT)
              ->bindValue(':unified_frequency', 1, PDO::PARAM_INT)
              ->bindValue(':users_fk', Yii::app()->user->loginInfos->id, PDO::PARAM_INT);
-            $minorSchoolingClassroom = $command->queryAll();
-
-            return $minorSchoolingClassroom;
+            return $command->queryAll();
         }
 
         /**
          * Summary of getClassContents
-         * @param mixed $classroom_fk
+         * @param mixed $classroomFk
          * @param mixed $date
-         * @param mixed $discipline_fk
+         * @param mixed $disciplineFk
          * @return array
          */
-        public function getClassContents($classroom_fk, $stage_fk, $date, $discipline_fk)
+        public function getClassContents($classroomFk, $stageFk, $date, $disciplineFk)
         {
             // Fundamental menor
-            $classroom = Classroom::model()->findByPk($classroom_fk);
-            $is_minor_schooling = $this->isMinorSchooling($classroom, $stage_fk);
-            if ($is_minor_schooling) {
-                $schedule = Schedule::model()->find('classroom_fk = :classroom_fk and month = :month and day = :day and unavailable = 0 group by day order by day, schedule', ['classroom_fk' => $classroom_fk,
+            $classroom = Classroom::model()->findByPk($classroomFk);
+            $isMinorSchooling = $this->isMinorSchooling($classroom, $stageFk);
+            if ($isMinorSchooling) {
+                $schedule = Schedule::model()->find('classroom_fk = :classroom_fk and month = :month and day = :day and unavailable = 0 group by day order by day, schedule', ['classroom_fk' => $classroomFk,
                     'month' => DateTime::createFromFormat('d/m/Y', $date)->format('m'),
                     'day' => DateTime::createFromFormat('d/m/Y', $date)->format('d')]);
             } else {
-                $schedule = Schedule::model()->find('classroom_fk = :classroom_fk and month = :month and day = :day  and discipline_fk = :discipline_fk and unavailable = 0 order by day, schedule', ['classroom_fk' => $classroom_fk,
+                $schedule = Schedule::model()->find('classroom_fk = :classroom_fk and month = :month and day = :day  and discipline_fk = :discipline_fk and unavailable = 0 order by day, schedule', ['classroom_fk' => $classroomFk,
                     'month' => DateTime::createFromFormat('d/m/Y', $date)->format('m'),
                     'day' => DateTime::createFromFormat('d/m/Y', $date)->format('d'),
-                    'discipline_fk' => $discipline_fk]);
+                    'discipline_fk' => $disciplineFk]);
             }
             if (!empty($schedule)) {
                 if (Yii::app()->getAuthManager()->checkAccess('instructor', Yii::app()->user->loginInfos->id)) {
-                    if ($is_minor_schooling) {
+                    if ($isMinorSchooling) {
                         $courseClasses = Yii::app()->db->createCommand(
                             'select cc.id, cp.name as cpname, ed.id as edid, ed.name as edname, cc.order, cc.content from course_class cc
                             join course_plan cp on cp.id = cc.course_plan_fk
@@ -141,7 +137,7 @@
                         )
                             ->bindParam(':school_inep_fk', Yii::app()->user->school)
                             ->bindParam(':modality_fk', $schedule->classroomFk->edcenso_stage_vs_modality_fk)
-                            ->bindParam(':discipline_fk', $discipline_fk)
+                            ->bindParam(':discipline_fk', $disciplineFk)
                             ->bindParam(':users_fk', Yii::app()->user->loginInfos->id)
                             ->queryAll();
                     }
@@ -164,29 +160,29 @@
         /**
          * Summary of SaveClassContents
          * @param mixed $classContent
-         * @param mixed $stage_fk
+         * @param mixed $stageFk
          * @param mixed $date
-         * @param mixed $discipline_fk
-         * @param mixed $classroom_fk
+         * @param mixed $disciplineFk
+         * @param mixed $classroomFk
          * @return void
          */
-        public function SaveClassContents($stage_fk, $date, $discipline_fk, $classroom_fk, $classContent)
+        public function saveClassContents($stageFk, $date, $disciplineFk, $classroomFk, $classContent)
         {
             // Fundamental menor
-            $classroom = Classroom::model()->findByPk($classroom_fk);
-            $is_minor_schooling = $this->isMinorSchooling($classroom, $stage_fk);
-            if ($is_minor_schooling) {
+            $classroom = Classroom::model()->findByPk($classroomFk);
+            $isMinorSchooling = $this->isMinorSchooling($classroom, $stageFk);
+            if ($isMinorSchooling) {
                 $schedule = Schedule::model()->find(
                     'classroom_fk = :classroom_fk and month = :month and day = :day and unavailable = 0 group by day order by day, schedule',
-                    ['classroom_fk' => $classroom_fk,
+                    ['classroom_fk' => $classroomFk,
                         'month' => DateTime::createFromFormat('d/m/Y', $date)->format('m'),
                         'day' => DateTime::createFromFormat('d/m/Y', $date)->format('d')]
                 );
             } else {
                 $schedule = Schedule::model()->find(
                     'classroom_fk = :classroom_fk and month = :month and day = :day and discipline_fk = :discipline_fk group by day order by day, schedule',
-                    ['classroom_fk' => $classroom_fk, 'month' => DateTime::createFromFormat('d/m/Y', $date)->format('m'),
-                        'day' => DateTime::createFromFormat('d/m/Y', $date)->format('d'), 'discipline_fk' => $discipline_fk]
+                    ['classroom_fk' => $classroomFk, 'month' => DateTime::createFromFormat('d/m/Y', $date)->format('m'),
+                        'day' => DateTime::createFromFormat('d/m/Y', $date)->format('d'), 'discipline_fk' => $disciplineFk]
                 );
             }
 

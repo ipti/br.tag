@@ -17,7 +17,6 @@ class InstructorIdentificationValidation extends Register
         if ($value != '') {
             $result = $this->isGreaterThan(strlen($value), $target);
             if ($result['status']) {
-                $len = strlen($value);
                 return ['status' => false, 'erro' => "'$value' contém número de caracteres maior que o permitido."];
             }
 
@@ -31,7 +30,7 @@ class InstructorIdentificationValidation extends Register
     }
 
     //campo 08
-    public function validateBirthday($date, $low_limit, $high_limit, $currentyear)
+    public function validateBirthday($date, $lowLimit, $highLimit, $currentyear)
     {
         $result = $this->validateDateformart($date);
         if (!$result['status']) {
@@ -40,12 +39,12 @@ class InstructorIdentificationValidation extends Register
 
         $mdy = explode('/', $date);
 
-        $result = $this->isOlderThan($low_limit, $mdy[2], $currentyear);
+        $result = $this->isOlderThan($lowLimit, $mdy[2], $currentyear);
         if (!$result['status']) {
             return ['status' => false, 'erro' => $result['erro']];
         }
 
-        $result = $this->isYoungerThan($high_limit, $mdy[2], $currentyear);
+        $result = $this->isYoungerThan($highLimit, $mdy[2], $currentyear);
         if (!$result['status']) {
             return ['status' => false, 'erro' => $result['erro']];
         }

@@ -19,7 +19,7 @@ $turns = ['M' => 'Manhã', 'T' => 'Tarde', 'N' => 'Noite'];
         <?php
         $this->renderPartial('head');
         $data = StudentEnrollment::getFileInformation($enrollment->id);
-        $birth_uf = $enrollment->studentFk->edcensoUfFk->acronym;
+        $birthUf = $enrollment->studentFk->edcensoUfFk->acronym;
         ?>
     </div>
     <br>
@@ -43,17 +43,18 @@ $turns = ['M' => 'Manhã', 'T' => 'Tarde', 'N' => 'Noite'];
                     echo '<td colspan="3" style="border-bottom: 1px solid black;">'
                         . 'SITUAÇÃO DA MATRÍCULA: ☐ MPP ☐ MPC ☐ MPR'
                         . '</td>';
-                } else if ($_REQUEST['type'] == '1' or $_REQUEST['type'] == '2') {
-                    echo '<th rowspan="4" style="border-right: 1px solid black; vertical-align: bottom;"><div style="transform: translate(5px, 0px) rotate(270deg);width: 15px;line-height: 53px;margin: 0px 10px 0px 0px;">REQUERIMENTO</div></th>';
-                    echo '<td colspan="3" style="border-bottom: 1px solid black;">'
-                        . 'SITUAÇÃO DA MATRÍCULA: ☐ MI ☐ MC ☐ MR ☐ MT'
-                        . '</td>';
-                } else if ($_REQUEST['type'] == '3') {
+                } elseif ($_REQUEST['type'] == '1' || $_REQUEST['type'] == '2') {
                     echo '<th rowspan="4" style="border-right: 1px solid black; vertical-align: bottom;"><div style="transform: translate(5px, 0px) rotate(270deg);width: 15px;line-height: 53px;margin: 0px 10px 0px 0px;">REQUERIMENTO</div></th>';
                     echo '<td colspan="3" style="border-bottom: 1px solid black;">'
                         . 'SITUAÇÃO DA MATRÍCULA: ☐ MI ☐ MC ☐ MR ☐ MT'
                         . '</td>';
                 }
+                // } elseif ($_REQUEST['type'] == '3') {
+                //     echo '<th rowspan="4" style="border-right: 1px solid black; vertical-align: bottom;"><div style="transform: translate(5px, 0px) rotate(270deg);width: 15px;line-height: 53px;margin: 0px 10px 0px 0px;">REQUERIMENTO</div></th>';
+                //     echo '<td colspan="3" style="border-bottom: 1px solid black;">'
+                //         . 'SITUAÇÃO DA MATRÍCULA: ☐ MI ☐ MC ☐ MR ☐ MT'
+                //         . '</td>';
+                // }
                 ?>
             </tr>
             <tr>
@@ -142,7 +143,7 @@ $turns = ['M' => 'Manhã', 'T' => 'Tarde', 'N' => 'Noite'];
                 <span class="<?php echo $data['nationality'] !== 'Brasileira' ? 'hide' : ''; ?>">
                     <div class="span12">
                         <b>UF: </b><span class="address_uf"><?= $data['birth_uf'] ?></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                        <b>Município: </b>&nbsp;<span class="birth_city"><?= $data['birth_city'] ?></span>/<?php echo $birth_uf ?>
+                        <b>Município: </b>&nbsp;<span class="birth_city"><?= $data['birth_city'] ?></span>/<?php echo $birthUf ?>
                     </div>
                 </span>
             </td>
@@ -279,8 +280,6 @@ $turns = ['M' => 'Manhã', 'T' => 'Tarde', 'N' => 'Noite'];
         <tr>
             <td>
                 <div class="span10"><b>18 - Documentos(s) que habilita(m) matrícula no segmento: </b>
-                    <!--CORRIGIR AQUI--->
-                    <!--<div class="received_documents"></div>-->
                     <br>
                     <br>
                     <b>OBS.</b>: <span> Se o requerente apresentar declaração, a matrícula ficará pendente no máximo 30 dias, até a entrega da guia de transferência. Após 30 dias a declaração perderá a validade ficando a matrícula sem efeito.</span>
@@ -290,15 +289,15 @@ $turns = ['M' => 'Manhã', 'T' => 'Tarde', 'N' => 'Noite'];
         <tr>
             <td>
                 <?php
-                    $enrollment_date = null;
+                    $enrollmentDate = null;
                     if (!empty($data['enrollment_date'])) {
                         $date = DateTime::createFromFormat('Y-m-d', trim($data['enrollment_date']));
                         if ($date) {
-                            $enrollment_date = $date->format('d/m/Y');
+                            $enrollmentDate = $date->format('d/m/Y');
                         }
                     }
                 ?>
-                <div class="span9"><b>19 - Data de matrícula: <span style="font-size:12px;" class="enrollment_date"><?= $enrollment_date ?></span></b>
+                <div class="span9"><b>19 - Data de matrícula: <span style="font-size:12px;" class="enrollment_date"><?= $enrollmentDate ?></span></b>
                 </div>
             </td>
         </tr>
@@ -365,7 +364,6 @@ $turns = ['M' => 'Manhã', 'T' => 'Tarde', 'N' => 'Noite'];
             <tr>
                 <td>
                     <div class="span12"><b>23 - Participa do Programa Bolsa Família? </b></div>
-                    <!-- <br><span class="bf_participator"><?= $data['bf_participator'] ?></span> -->
                     <div class="span4"><b><?= ($data['bf_participator'] == 'Sim') ? '☑' : '☐' ?></b> Bolsa Família</div>
                     <div class="span4"><b>☐</b> PETI</div>
                     <div class="span4"><b>☐</b> Pro Jovem</div>

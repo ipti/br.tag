@@ -13,9 +13,8 @@
             $this->courseClassService = $courseClassService ?? new CourseClassService();
         }
 
-        public function exec($course_class_id)
+        public function exec($courseClassId)
         {
-            $response = $this->courseClassService->getCourseClasses($course_class_id);
-            return  $response;
+            return $this->courseClassService->getCourseClasses($courseClassId);
         }
     }

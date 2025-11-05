@@ -5,13 +5,13 @@
         $active = '';
         if ($year == date('Y')) {
             $active = 'active';
-            $status_text = 'Cursando';
-            $status_color = '';
-            $status_icon = 'edit';
+            $statusText = 'Cursando';
+            $statusColor = '';
+            $statusIcon = 'edit';
         } else {
-            $status_text = 'Concluído';
-            $status_color = 'teal';
-            $status_icon = 'check';
+            $statusText = 'Concluído';
+            $statusColor = 'teal';
+            $statusIcon = 'check';
         }
         echo '<div class="' . $active . ' title">
                 <i class="dropdown icon"></i>
@@ -30,8 +30,8 @@
                     <div class="description">
                         <p>Turma: ' . $cName . '</p>
                     </div>
-                    <div class="ui ' . $status_color . ' right ribbon label">
-                        <i class="' . $status_icon . ' icon"></i> ' . $status_text . '
+                    <div class="ui ' . $statusColor . ' right ribbon label">
+                        <i class="' . $statusIcon . ' icon"></i> ' . $statusText . '
                     </div>
                 </div>
                 <div class="extra ui inverted tag-blue segment content">

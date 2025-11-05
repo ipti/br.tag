@@ -66,22 +66,95 @@ class StudentIMCController extends Controller
      */
     public function actionCreate($studentId)
     {
-        $model = new StudentIMC;
+        $model = new StudentIMC();
+        $modelStudentDisorder = StudentDisorder::model()->findByAttributes(['student_fk' => $studentId]);
+        $modelStudentIdentification = StudentIdentification::model()->findByPk($studentId);
 
-        // Uncomment the following line if AJAX validation is needed
-        // $this->performAjaxValidation($model);
-
-        if (isset($_POST['StudentIMC'])) {
-            $model->attributes = $_POST['StudentIMC'];
-            $model->student_fk = $studentId;
-            if ($model->save())
-                $this->redirect(array('index', 'studentId' => $studentId));
+        if (!$modelStudentIdentification) {
+            throw new CHttpException(404, 'Estudante não encontrado.');
         }
 
-        $this->render('create', array(
+        if (!$modelStudentDisorder) {
+            $modelStudentDisorder = new StudentDisorder();
+            $modelStudentDisorder->student_fk = $studentId;
+        }
+
+        if (isset($_POST['StudentImc'], $_POST['StudentDisorder'], $_POST['StudentIdentification'])) {
+            $model->attributes = $_POST['StudentImc'];
+            $model->student_fk = $studentId;
+
+            $classification = $this->getclassification($model, $modelStudentIdentification);
+
+            $model->student_imc_classification_fk = $classification;
+
+
+
+            $modelStudentDisorder->attributes = $_POST['StudentDisorder'];
+            $modelStudentIdentification->attributes = $_POST['StudentIdentification'];
+
+            if ($_POST['StudentIdentification']['deficiency_type_autism'] == 1) {
+                $modelStudentIdentification->deficiency = 1;
+            }
+            $disorderHistory = new StudentDisorderHistory();
+            $disorderHistory->student_fk = $studentId;
+            $disorderHistory->student_disorder_fk = $modelStudentDisorder->id;
+            $disorderHistory->attributes =  $_POST['StudentDisorder'];
+
+            $isValid = $model->validate();
+            $isValid = $modelStudentDisorder->validate() && $isValid;
+            $isValid = $modelStudentIdentification->validate() && $isValid;
+            $isValid = $disorderHistory->validate() && $isValid;
+
+            if ($isValid) {
+                $transaction = Yii::app()->db->beginTransaction();
+                try {
+                    $model->save(false);
+                    $modelStudentDisorder->save(false);
+                    $modelStudentIdentification->save(false);
+                    $disorderHistory->student_imc_fk = $model->id;
+                    $disorderHistory->save(false);
+
+                    $transaction->commit();
+                    Yii::app()->user->setFlash('success', Yii::t('default', 'Student IMC successfully created.'));
+                    $this->redirect(['index', 'studentId' => $studentId]);
+                } catch (Exception $e) {
+                    $transaction->rollback();
+                    Yii::log("Erro ao salvar IMC: " . $e->getMessage(), CLogger::LEVEL_ERROR);
+                    Yii::app()->user->setFlash('error', Yii::t('default', 'An error occurred while saving the data.'));
+                }
+            }
+        }
+
+        $this->render('create', [
             'model' => $model,
-        ));
+            'disorder' => $modelStudentDisorder,
+            'studentIdentification' => $modelStudentIdentification,
+        ]);
     }
+
+
+    private function getclassification($model, $studentIdentification)
+    {
+        Yii::import('ext.imc.IMC');
+        $imc = new IMC();
+        $birthDate = DateTime::createFromFormat('d/m/Y', $studentIdentification->birthday)
+            ?: DateTime::createFromFormat('Y-m-d', $studentIdentification->birthday);
+        $today = new DateTime();
+        $age = $today->diff($birthDate)->y;
+        $gender = $studentIdentification->sex == 1 ? 'masculino' : 'feminino';
+        if ($age <= 18 && $age >= 5) {
+
+            $classification = $imc->classificarIMCInfantil($model->IMC, $age, $gender);
+
+        } else {
+
+            $classification = $imc->IMCSituation();
+
+        }
+
+        return $classification;
+    }
+
 
     /**
      * Updates a particular model.
@@ -91,26 +164,60 @@ class StudentIMCController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->loadModel($id);
+        $studentId = $model->student_fk;
 
-        // Uncomment the following line if AJAX validation is needed
-        // $this->performAjaxValidation($model);
+        $model->height = number_format((float) $model->height, 2, '.', '');
+        $model->weight = number_format((float) $model->weight, 2, '.', '');
 
-
-        if (isset($_POST['StudentIMC'])) {
-
-            $created_at = $model->created_at;
-            $model->attributes = $_POST['StudentIMC'];
-            $model->created_at = $created_at;
-
-            if ($model->save())
-                $this->redirect(array('index', 'studentId' => $model->studentFk->id));
+        // Buscar ou criar os modelos relacionados
+        $modelStudentDisorderHistory = StudentDisorderHistory::model()->findByAttributes(['student_fk' => $studentId, 'student_imc_fk' => $id]);
+        if ($modelStudentDisorderHistory === null) {
+            $modelStudentDisorderHistory = new StudentDisorderHistory();
+            $modelStudentDisorderHistory->student_fk = $studentId;
+            $modelStudentDisorderHistory->student_imc_fk = $id;
         }
 
-        $model->created_at = date('d/m/Y', strtotime($model->created_at));
-        $this->render('update', array(
+        $modelStudentIdentification = StudentIdentification::model()->findByPk($studentId);
+        if ($modelStudentIdentification === null) {
+            $modelStudentIdentification = new StudentIdentification();
+            $modelStudentIdentification->id = $studentId;
+        }
+
+        if (isset($_POST['StudentImc'])) {
+            $createAt = $model->created_at;
+            $model->attributes = $_POST['StudentImc'];
+            $model->created_at = $createAt;
+
+            $classification = $this->getclassification($model, $modelStudentIdentification);
+            $model->student_imc_classification_fk = $classification;
+
+            if (isset($_POST['StudentDisorderHistory'])) {
+                $modelStudentDisorderHistory->attributes = $_POST['StudentDisorderHistory'];
+            }
+
+            if (isset($_POST['StudentIdentification'])) {
+                $modelStudentIdentification->attributes = $_POST['StudentIdentification'];
+                if ($_POST['StudentIdentification']['deficiency_type_autism'] == 1) {
+                    $modelStudentIdentification->deficiency = 1;
+                }
+            }
+
+            if ($model->save() && $modelStudentDisorderHistory->save() && $modelStudentIdentification->save()) {
+                $this->redirect(['index', 'studentId' => $studentId]);
+            }
+        }
+
+        if ($model->created_at) {
+            $model->created_at = date('d/m/Y', strtotime($model->created_at));
+        }
+
+        $this->render('update', [
             'model' => $model,
-        ));
+            'disorder' => $modelStudentDisorderHistory,
+            'studentIdentification' => $modelStudentIdentification,
+        ]);
     }
+
 
     /**
      * Deletes a particular model.
@@ -181,7 +288,7 @@ class StudentIMCController extends Controller
             'criteria' => array(
                 'condition' => 'school_inep_id_fk=' . $school,
             ),
-            'pagination'=> false
+            'pagination' => false
         ));
         $this->render('studentIndex', array(
             'dataProvider' => $dataProvider,
@@ -221,13 +328,13 @@ class StudentIMCController extends Controller
         ));
     }
 
-    public function actionStudentIMCReport($studentId) {
-       $studentICM =  StudentIMC::model()->findAllByAttributes(["student_fk" => $studentId]);
+    public function actionStudentIMCReport($studentId)
+    {
+        $studentICM = StudentIMC::model()->findAllByAttributes(["student_fk" => $studentId]);
 
-       $this->render('studentIMCReport', array(
+        $this->render('studentIMCReport', array(
             'studentICM' => $studentICM,
         ));
-
     }
 
     /**
@@ -237,9 +344,9 @@ class StudentIMCController extends Controller
     {
         $model = new StudentIMC('search');
         $model->unsetAttributes();  // clear any default values
-        if (isset($_GET['StudentIMC']))
+        if (isset($_GET['StudentIMC'])){
             $model->attributes = $_GET['StudentIMC'];
-
+        }
         $this->render('admin', array(
             'model' => $model,
         ));
@@ -255,8 +362,9 @@ class StudentIMCController extends Controller
     public function loadModel($id)
     {
         $model = StudentIMC::model()->findByPk($id);
-        if ($model === null)
+        if ($model === null){
             throw new CHttpException(404, 'The requested page does not exist.');
+        }
         return $model;
     }
 

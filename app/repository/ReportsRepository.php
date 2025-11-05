@@ -855,9 +855,8 @@ class ReportsRepository
     {
         $classroomId = $request->getPost('quarterly_follow_up_classroom');
         $disciplineId = $request->getPost('quarterly_follow_up_disciplines');
-        $classroom_model = Classroom::model()->findByPk($classroomId);
-        $classroom_stage_name = $classroom_model->edcensoStageVsModalityFk->name;
-        $discipline_model = EdcensoDiscipline::model()->findByPk($disciplineId);
+        $classroomModel = Classroom::model()->findByPk($classroomId);
+        $disciplineModel = EdcensoDiscipline::model()->findByPk($disciplineId);
         $school = SchoolIdentification::model()->findByPk($this->currentSchool);
 
         $trimestre = $request->getPost('quarterly');
@@ -895,9 +894,9 @@ class ReportsRepository
 
         $students = Yii::app()->db->createCommand($sql)->bindParam(':classroom_id', $classroomId)->queryAll();
 
-        $classroom_stage_name = $classroom_model->edcensoStageVsModalityFk->name;
-        $parts = explode('-', $classroom_stage_name);
-        $stage_name = trim($parts[1]);
+        $classroomStageName = $classroomModel->edcensoStageVsModalityFk->name;
+        $parts = explode('-', $classroomStageName);
+        $stageName = trim($parts[1]);
 
         $anos1 = ['1º', '2º', '3º'];
         $anos2 = ['4º', '5º'];
@@ -908,7 +907,7 @@ class ReportsRepository
         $stageVerify = false;
 
         for ($i = 0; $i < count($anos1); $i++) {
-            if (strpos($stage_name, $anos1[$i]) !== false) {
+            if (strpos($stageName, $anos1[$i]) !== false) {
                 $anosTitulo = '1º, 2º e 3º ANOS';
                 $anosVerify = 1;
                 $anosPosition = $i + 1;
@@ -917,7 +916,7 @@ class ReportsRepository
             }
         }
         foreach ($anos2 as $value) {
-            if (strpos($stage_name, $value) !== false) {
+            if (strpos($stageName, $value) !== false) {
                 $anosTitulo = '4º E 5º ANOS';
                 $anosVerify = 2;
                 $anosPosition = $i + 4;
@@ -928,7 +927,7 @@ class ReportsRepository
 
         if (!$stageVerify) {
             $error = true;
-            $message = 'A turma ' . $classroom_model->name . ' não possui uma etapa correspondente ao relatório. Etapa da Turma: ' . $classroom_stage_name;
+            $message = 'A turma ' . $classroomModel->name . ' não possui uma etapa correspondente ao relatório. Etapa da Turma: ' . $classroomStageName;
         } else {
             $result = [
                 'report' => $result,
@@ -936,17 +935,17 @@ class ReportsRepository
                 'turno' => $turno,
                 'trimestre' => $trimestre,
                 'students' => $students,
-                'classroom' => $classroom_model,
+                'classroom' => $classroomModel,
                 'anosTitulo' => $anosTitulo,
                 'anosVerify' => $anosVerify,
                 'anosPosition' => $anosPosition,
-                'stage_name' => $stage_name
+                'stage_name' => $stageName
             ];
         }
 
         if ($result == null) {
             $error = true;
-            $message = 'A turma ' . $classroom_model->name . ' não possui professores para a disciplina de ' . $discipline_model->name;
+            $message = 'A turma ' . $classroomModel->name . ' não possui professores para a disciplina de ' . $disciplineModel->name;
         }
 
         return ['error' => $error, 'message' => $message, 'response' => $result];
@@ -986,9 +985,9 @@ class ReportsRepository
 
         $students = Yii::app()->db->createCommand($sql)->bindParam(':classroom_id', $classroomId)->queryAll();
 
-        $classroom_stage_name = $classroom->edcensoStageVsModalityFk->name;
-        $parts = explode('-', $classroom_stage_name);
-        $stage_name = trim($parts[1]);
+        $classroomStageName = $classroom->edcensoStageVsModalityFk->name;
+        $parts = explode('-', $classroomStageName);
+        $stageName = trim($parts[1]);
 
         $anos1 = ['1º', '2º', '3º'];
         $anos2 = ['4º', '5º'];
@@ -999,7 +998,7 @@ class ReportsRepository
         $stageVerify = false;
 
         foreach ($anos1 as $key => $value) {
-            if (strpos($stage_name, $value) !== false) {
+            if (strpos($stageName, $value) !== false) {
                 $anosTitulo = '1º, 2º e 3º ANOS';
                 $anosVerify = 1;
                 $anosPosition = $key + 1;
@@ -1009,7 +1008,7 @@ class ReportsRepository
         }
 
         foreach ($anos2 as $key => $value) {
-            if (strpos($stage_name, $value) !== false) {
+            if (strpos($stageName, $value) !== false) {
                 $anosTitulo = '4º E 5º ANOS';
                 $anosVerify = 2;
                 $anosPosition = $key + 4;
@@ -1020,7 +1019,7 @@ class ReportsRepository
 
         if (!$stageVerify) {
             $error = true;
-            $message = 'A turma ' . $classroom->name . ' não possui uma etapa correspondente ao relatório. Etapa da Turma: ' . $classroom_stage_name;
+            $message = 'A turma ' . $classroom->name . ' não possui uma etapa correspondente ao relatório. Etapa da Turma: ' . $classroomStageName;
         }
 
         if ($instructor) {
@@ -2057,9 +2056,7 @@ class ReportsRepository
             $classrooms = Classroom::model()->findAll('school_year = :school_year and school_inep_fk = :school_inep_fk order by name', ['school_year' => $this->currentYear, 'school_inep_fk' => $this->currentSchool]);
         }
 
-        $response = ['classrooms' => $classrooms, 'schoolyear' => $this->currentYear];
-
-        return $response;
+        return ['classrooms' => $classrooms, 'schoolyear' => $this->currentYear];
     }
 
     /**
@@ -2150,7 +2147,7 @@ class ReportsRepository
                 ->bindParam(':year', $this->currentYear)
                 ->queryAll();
 
-            foreach ($classr as $i => $discipline) {
+            foreach ($classr as $discipline) {
                 if (isset($discipline['discipline_fk'])) {
                     echo htmlspecialchars(CHtml::tag('option', ['value' => $discipline['discipline_fk']], CHtml::encode($disciplinesLabels[$discipline['discipline_fk']]), true));
                 }
@@ -2281,9 +2278,7 @@ class ReportsRepository
         $command = Yii::app()->db->createCommand($query);
         $command->bindValue(':id', $classroomFk);
         $command->bindValue(':year', $year);
-        $classroomDetails = $command->queryRow();
-
-        return $classroomDetails;
+        return $command->queryRow();
     }
 
     private function getStudentEnrollmentDetails($studentEnrollment)
@@ -2296,9 +2291,8 @@ class ReportsRepository
         $command = Yii::app()->db->createCommand($query);
         $command->bindValue(':studentFk', $studentEnrollment->student_fk);
         $command->bindValue(':classroomFk', $studentEnrollment->classroom_fk);
-        $enrollmentDetails = $command->queryScalar();
 
-        return $enrollmentDetails;
+        return $command->queryScalar();
     }
 
     private function getUnities($classroomId, $stage)
@@ -2337,7 +2331,7 @@ class ReportsRepository
                 array_push($result['unityNames'], ['name' => $gradeUnity['name'], 'colspan' => 1]);
                 $commonModalitiesName = '';
                 $firstCommonModality = false;
-                foreach ($gradeUnity->gradeUnityModalities as $index => $gradeUnityModality) {
+                foreach ($gradeUnity->gradeUnityModalities as $gradeUnityModality) {
                     if ($gradeUnityModality->type == 'C') {
                         if (!$firstCommonModality) {
                             $commonModalitiesName .= $gradeUnityModality->name;
@@ -2395,11 +2389,15 @@ class ReportsRepository
                             $grade['unityGrade'] = $gradeResult['grade_concept_' . ($gradeIndex + 1)] != null ? $gradeResult['grade_concept_' . ($gradeIndex + 1)] : '';
                             $gradeIndex++;
                             break;
+                        default:
+                            break;
                     }
                 }
+                $finalMedia =$gradeResult->final_media != null ? $gradeResult->final_media : '';
+                $findSituation = $gradeResult->situation != null ? $gradeResult->situation : '';
 
-                $arr['finalMedia'] = $gradeResult != null ? ($gradeResult->final_media != null ? $gradeResult->final_media : '') : '';
-                $arr['situation'] = $gradeResult != null ? ($gradeResult->situation != null ? $gradeResult->situation : '') : '';
+                $arr['finalMedia'] = $gradeResult != null ? $finalMedia : '';
+                $arr['situation'] = $gradeResult != null ? $findSituation  : '';
                 array_push($result['rows'], $arr);
             }
             $result['valid'] = true;

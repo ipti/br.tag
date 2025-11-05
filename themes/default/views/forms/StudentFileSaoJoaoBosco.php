@@ -54,9 +54,9 @@
 <?php
 /* @var $enrollment string
  * @var $student StudentEnrollment
- * @var $school_address
- * @var $school_year string
- * @var $add_data */
+ * @var $schoolAddress
+ * @var $schoolYear string
+ * @var $addData */
 ?>
 <body>
 <div class="main-container">
@@ -69,12 +69,12 @@
             <div class="small-title">Ficha de Matrícula</div>
             <div>Aluno: <span class="bold"><?php echo $student->studentFk->name?></span> <span>Matrícula: <span class="bold"><?php echo $student->enrollment_id ?></span></span></div>
             <div>Curso/Turma: <span class="bold"><?php echo $student->classroomFk->name?></span>  <span>Telefone:__________  Celular: __________ </span></div>
-            <div>Endereço: <span class="bold"><?php echo $add_data["address"]; if ($add_data["number"] != null || $add_data["number"] != "" ) { echo ", " . $add_data["number"];} if ($add_data["neighborhood"] != null || $add_data["neighborhood"] != "" ) { echo ", " . $add_data["neighborhood"];} ?></span></div>
-            <div>Cidade: <span class="bold"><?php echo $city["name"]?></span> Estado: <span class="bold"><?php echo strtoupper($state["name"]);?></span><span> CEP: <span class="bold"><?php if ($add_data["cep"] != null || $add_data["cep"] != "" ) { echo $add_data["cep"];} else { echo "_____________________"; } ?></span></span></div>
+            <div>Endereço: <span class="bold"><?php echo $addData["address"]; if ($addData["number"] != null || $addData["number"] != "" ) { echo ", " . $addData["number"];} if ($addData["neighborhood"] != null || $addData["neighborhood"] != "" ) { echo ", " . $addData["neighborhood"];} ?></span></div>
+            <div>Cidade: <span class="bold"><?php echo $city["name"]?></span> Estado: <span class="bold"><?php echo strtoupper($state["name"]);?></span><span> CEP: <span class="bold"><?php if ($addData["cep"] != null || $addData["cep"] != "" ) { echo $addData["cep"];} else { echo "_____________________"; } ?></span></span></div>
             <div>Escola de Origem: ___________________ <span>Cidade: ____________ Estado: _____________ </span></div>
-            <div style="clear:both;">RG: <?php if ($add_data["rg_number"] != null || $add_data["rg_number"] != "" ) { echo "<span class=\"bold\">" . $add_data["rg_number"] . "</span>"; } else { echo "_________ " ;}?> Org.Exp.: ________ <span>Data Exp.: <?php if ($add_data["rg_number_expediction_date"] != null || $add_data["rg_number_expediction_date"] != "" ) { echo "<span class=\"bold\">" . $add_data["rg_number_expediction_date"] . "</span>" ;} else { echo "________ " ;}?> Data de Nascimento: <span class="bold"><?php echo $student->studentFk->birthday?></span></span></div>
+            <div style="clear:both;">RG: <?php if ($addData["rg_number"] != null || $addData["rg_number"] != "" ) { echo "<span class=\"bold\">" . $addData["rg_number"] . "</span>"; } else { echo "_________ " ;}?> Org.Exp.: ________ <span>Data Exp.: <?php if ($addData["rg_number_expediction_date"] != null || $addData["rg_number_expediction_date"] != "" ) { echo "<span class=\"bold\">" . $addData["rg_number_expediction_date"] . "</span>" ;} else { echo "________ " ;}?> Data de Nascimento: <span class="bold"><?php echo $student->studentFk->birthday?></span></span></div>
             <div style="clear:both;">Certidão de Nascimento:____________ Email: ________________ <span>Estado Civil: ________</span></div>
-            <div>CPF: <?php if ($add_data["cpf"] != null || $add_data["cpf"] != "" ) { echo "<span class=\"bold\">" . $add_data["cpf"] . "</span>"; } else { echo "___________ " ;}?> Naturalidade: <span class="bold"><?php echo strtoupper($student->studentFk->edcensoUfFk->name)?></span> <span>Nacionalidade: <span class="bold"><?php echo $student->studentFk->edcensoNationFk->name?></span></span></div>
+            <div>CPF: <?php if ($addData["cpf"] != null || $addData["cpf"] != "" ) { echo "<span class=\"bold\">" . $addData["cpf"] . "</span>"; } else { echo "___________ " ;}?> Naturalidade: <span class="bold"><?php echo strtoupper($student->studentFk->edcensoUfFk->name)?></span> <span>Nacionalidade: <span class="bold"><?php echo $student->studentFk->edcensoNationFk->name?></span></span></div>
         </div>
         <div class="filiation-data">
             <div class="small-title">Dados da Filiação</div>

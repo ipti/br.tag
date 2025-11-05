@@ -2,7 +2,7 @@
 /**
 * @var DefaultController $this DefaultController
 * @var EdcensoDiscipline $model EdcensoDiscipline
-* @var EdcensoBaseDisciplines[] $edcenso_base_disciplines EdcensoBaseDiscipline[]
+* @var EdcensoBaseDisciplines[] $edcensoBaseDisciplines EdcensoBaseDiscipline[]
 * @var CActiveForm $form CActiveForm
 */
 
@@ -16,7 +16,7 @@ $cs = Yii::app()->getClientScript();
 $cs->registerScriptFile($baseScriptUrl . '/common/js/professional.js?v=1.1', CClientScript::POS_END);
 
 if (!$model->isNewRecord) {
-    $cant_change_censo_discipline = $model->edcenso_base_discipline_fk < 99;
+    $cantChangeCensoDiscipline = $model->edcenso_base_discipline_fk < 99;
 }
 
 ?>
@@ -62,7 +62,7 @@ if (!$model->isNewRecord) {
 
                     <div class="t-field-text">
                         <?php echo $form->label($model, 'edcenso_base_discipline_fk', ['class' => 'control-label t-field-text__label--required']); ?>
-                        <?php echo $form->dropDownList($model, 'edcenso_base_discipline_fk', CHtml::listData($edcenso_base_disciplines, 'id', 'name'), ['class' => 't-field-text__input', 'disabled' => $cant_change_censo_discipline]); ?>
+                        <?php echo $form->dropDownList($model, 'edcenso_base_discipline_fk', CHtml::listData($edcensoBaseDisciplines, 'id', 'name'), ['class' => 't-field-text__input', 'disabled' => $cantChangeCensoDiscipline]); ?>
                         <?php echo $form->error($model, 'edcenso_base_discipline_fk'); ?>
                     </div>
                 </div>

@@ -39,7 +39,7 @@ class Register20
         $teachingDataDisciplines = [];
 
         $teachingDatasOfClassroom = Classroom::model()->findByPk($id)->instructorTeachingDatas;
-        foreach ($teachingDatasOfClassroom as $key => $teachingData) {
+        foreach ($teachingDatasOfClassroom as $teachingData) {
             foreach ($teachingData->teachingMatrixes as $teachingMatrix) {
                 if ($teachingMatrix->curricularMatrixFk->discipline_fk > 99 || $teachingMatrix->curricularMatrixFk->discipline_fk == 20 || $teachingMatrix->curricularMatrixFk->discipline_fk == 21) {
                     $teachingDataDisciplines[99] = 99;
@@ -91,7 +91,7 @@ class Register20
 
         $classrooms = Classroom::model()->findAllByAttributes(['school_inep_fk' => yii::app()->user->school, 'school_year' => Yii::app()->user->year]);
 
-        foreach ($classrooms as $iclass => $attributes) {
+        foreach ($classrooms as $attributes) {
             $hasEnrolledStudent = false;
             foreach ($attributes->studentEnrollments as $enrollment) {
                 if ($enrollment->status == 1 || $enrollment->status == null) {
@@ -215,31 +215,13 @@ class Register20
                         array_push($complementaryActivitiesArray, $attributes['complementary_activity_type_5']);
                     }
                 }
-                if ($attributes['complementary_activity_type_6'] != null) {
-                    if (in_array($attributes['complementary_activity_type_6'], $complementaryActivitiesArray)) {
-                        $attributes['complementary_activity_type_6'] = '';
-                    }
+                if ($attributes['complementary_activity_type_6'] != null && in_array($attributes['complementary_activity_type_6'], $complementaryActivitiesArray)) {
+                    $attributes['complementary_activity_type_6'] = '';
                 }
 
                 $edcensoAliases = EdcensoAlias::model()->findAll('year = :year and register = 20 order by corder', [':year' => $year]);
                 foreach ($edcensoAliases as $edcensoAlias) {
                     $register[$edcensoAlias->corder] = $edcensoAlias->default;
-
-                    // if ($edcensoAlias->corder == self::REGISTER_ATTR_FORMACAO_GERAL || $edcensoAlias->corder == self::REGISTER_ATTR_ITINERARIO || $edcensoAlias->corder == self::REGISTER_ATTR_NAO_SE_APLICA) {
-                    //     if ($attributes["schooling"] == '0') {
-                    //         $register[$edcensoAlias->corder] = '';
-                    //     } elseif ($edcensoAlias->corder == self::REGISTER_ATTR_FORMACAO_GERAL && in_array($attributes['edcenso_stage_vs_modality_fk'], [1, 2, 3, 39, 40, 64, 68])) {
-                    //         $register[self::REGISTER_ATTR_FORMACAO_GERAL] = '0';
-                    //     } elseif ($edcensoAlias->corder == self::REGISTER_ATTR_NAO_SE_APLICA && in_array($attributes['edcenso_stage_vs_modality_fk'], [1, 2, 3, 39, 40, 64, 68])) {
-                    //         $register[self::REGISTER_ATTR_NAO_SE_APLICA] = '1';
-                    //     }
-                    // }
-                    // elseif ($edcensoAlias->corder == self::REGISTER_ATTR_MODALIDADE || $edcensoAlias->corder == self::REGISTER_ATTR_ETAPA) {
-                    //     $register[$edcensoAlias->corder] = $attributes[$edcensoAlias["attr"]];
-                    //     if ($register[self::REGISTER_ATTR_FORMACAO_GERAL] == '' && $register[self::REGISTER_ATTR_NAO_SE_APLICA] == '') {
-                    //         $register[$edcensoAlias->corder] = '';
-                    //     }
-                    // }
 
                     if ($edcensoAlias->corder === self::REGISTER_ATTR_ETAPA_AGREGADA) {
                         $edcensoAssocietedStage = EdcensoStageVsModality::model()->findByPk($edcensoStageVsModality->edcenso_associated_stage_id);
@@ -306,7 +288,7 @@ class Register20
                         $register[$edcensoAlias->corder] = $attributes[$edcensoAlias['attr']];
                     }
 
-                    $clear_coders = new CList(
+                    $clearCoders = new CList(
                         [
                             self::REGISTER_ATTR_TURMA_EDUCACAO_ESPECIAL,
                             self::REGISTER_ATTR_ETAPA_AGREGADA,
@@ -315,17 +297,11 @@ class Register20
                         true
                     );
 
-                    if ($clear_coders->contains($edcensoAlias->corder) || $edcensoAlias->corder >= self::REGISTER_ATTR_QUIMICA && $edcensoAlias->corder <= self::REGISTER_ATTR_OUTRAS_DISCIPLINAS) {
-                        if ($attributes['aee'] == '1' || ($attributes['complementary_activity'] == '1' && $attributes['schooling'] == '0')) {
-                            $register[$edcensoAlias->corder] = '';
-                        }
-                    }
+                    if ($clearCoders->contains($edcensoAlias->corder) || $edcensoAlias->corder >= self::REGISTER_ATTR_QUIMICA && $edcensoAlias->corder <= self::REGISTER_ATTR_OUTRAS_DISCIPLINAS &&($attributes['aee'] == '1' || ($attributes['complementary_activity'] == '1' && $attributes['schooling'] == '0'))) {
 
-                    // if ($clear_coders->contains(strval($edcensoAlias->corder))) {
-                    //     if (($attributes["aee"] == '1' || ($attributes["complementary_activity"] == '1') && $attributes["schooling"] == '0')) {
-                    //         $register[$edcensoAlias->corder] = '';
-                    //     }
-                    // }
+                        $register[$edcensoAlias->corder] = '';
+
+                    }
 
                     if (in_array($edcensoAlias->corder, [7, 8, 9, 10, 11, 12, 13])) {
                         $register[$edcensoAlias->corder] = $attributes['initial_hour'] . ':' . $attributes['initial_minute'] . '-' . $attributes['final_hour'] . ':' . $attributes['final_minute'];

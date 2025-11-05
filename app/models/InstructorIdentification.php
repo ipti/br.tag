@@ -165,14 +165,8 @@ class InstructorIdentification extends AltActiveRecord
         // should not be searched.
 
         $criteria = new CDbCriteria();
-        //$criteria->with = array('documents');
 
         $criteria->compare('register_type', $this->register_type, true);
-
-        // if (Yii::app()->getAuthManager()->checkAccess('manager', Yii::app()->user->loginInfos->id)) {
-        //     $school = Yii::app()->user->school;
-        //     $criteria->compare('school_inep_id_fk', $school);
-        // }
 
         $criteria->compare('inep_id', $this->inep_id, true);
         $criteria->compare('id', $this->id);
@@ -191,7 +185,7 @@ class InstructorIdentification extends AltActiveRecord
 
     public function getDisciplines()
     {
-        $disciplines = EdcensoDiscipline::model()
+        return EdcensoDiscipline::model()
         ->with([
             'curricularMatrixes.teachingMatrixes.teachingDataFk' => [
                 'condition' => 'teachingDataFk.instructor_fk=:instructor_fk',
@@ -201,8 +195,6 @@ class InstructorIdentification extends AltActiveRecord
         ->findAll([
             'select' => 'DISTINCT ed.*',
         ]);
-
-        return $disciplines;
     }
 
     public function getClassrooms()
@@ -220,8 +212,6 @@ class InstructorIdentification extends AltActiveRecord
         $command = Yii::app()->db->createCommand($sql);
         $command->bindValue(':intructorId', $instructorId, PDO::PARAM_INT);
 
-        $classrooms = $command->queryAll();
-
-        return $classrooms;
+        return $command->queryAll();
     }
 }

@@ -12,7 +12,7 @@ class FormsController extends Controller
         return [
             ['allow', // allow authenticated user to perform 'create' and 'update' actions
                 'actions' => ['index', 'EnrollmentGradesReport', 'StudentsFileReport', 'EnrollmentDeclarationReport',
-                    'EnrollmentGradesReportBoquim', 'EnrollmentGradesReportBoquimCiclo',
+                    'EnrollmentGradesReportBoquim', 'EnrollmentGradesReportBoquimCiclo', 'StudentIMCHistoryReport',
                     'GetEnrollmentDeclarationInformation', 'TransferRequirement', 'GetTransferRequirementInformation',
                     'EnrollmentNotification', 'GetEnrollmentNotificationInformation', 'StudentsDeclarationReport',
                     'GetStudentsFileInformation', 'AtaSchoolPerformance', 'StudentFileForm',
@@ -84,9 +84,16 @@ class FormsController extends Controller
     public function actionStudentIMCReport($classroomId)
     {
         $this->layout = "reports";
-        $repository = new FormsRepository;
+        $repository = new FormsRepository();
         $response = $repository->getStudnetIMC($classroomId);
         $this->render('StudentIMCReport',  array("response" => $response));
+    }
+    public function actionStudentIMCHistoryReport($studentId)
+    {
+        $this->layout = "reports";
+        $repository = new FormsRepository();
+        $response = $repository->getStudentIMCHistory($studentId);
+        $this->render('StudentIMCHistoryReport',  array("response" => $response));
     }
 
     public function actionConclusionCertification($enrollmentId)
@@ -169,11 +176,11 @@ class FormsController extends Controller
         $this->render('StudentFileForm', $query);
     }
 
-    public function actionStudentsFileForm($classroom_id)
+    public function actionStudentsFileForm($classroomId)
     {
         $this->layout = 'reports';
         $repository = new FormsRepository();
-        $query = $repository->getStudentsFileForm($classroom_id);
+        $query = $repository->getStudentsFileForm($classroomId);
         $this->render('StudentsFileForm', $query);
     }
 

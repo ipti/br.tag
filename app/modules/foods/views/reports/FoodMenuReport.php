@@ -5,7 +5,7 @@ $cs->registerCssFile($baseUrl . '/sass/css/main.css');
 
 $days = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday'];
 
-if ($include_saturday) {
+if ($includeSaturday) {
     array_push($days, 'saturday');
 }
 ?>
@@ -79,7 +79,7 @@ if ($include_saturday) {
         <table aria-describedby="title-page" class="column table table-bordered">
             <thead class="background-dark font-bold">
                 <tr>
-                    <th id="title" colspan="<?= $include_saturday ? '7' : '6' ?>" class="text-align--center">
+                    <th id="title" colspan="<?= $includeSaturday ? '7' : '6' ?>" class="text-align--center">
                         <div>SECRETARIA MUNICIPAL DE
                             <?= $schoolCity ?>
                         </div>
@@ -88,7 +88,7 @@ if ($include_saturday) {
                     </th>
                 </tr>
                 <tr>
-                    <th id="food-menu-infos" colspan="<?= $include_saturday ? '7' : '6' ?>" class="text-align--center">
+                    <th id="food-menu-infos" colspan="<?= $includeSaturday ? '7' : '6' ?>" class="text-align--center">
                         <div>
                             <?= $foodMenu->description . ' - ' . $publicTarget['name'] ?>
                         </div>
@@ -149,7 +149,7 @@ echo $localizacao;
                     <td>4ª FEIRA</td>
                     <td>5ª FEIRA</td>
                     <td>6ª FEIRA</td>
-                    <?php if ($include_saturday): ?>
+                    <?php if ($includeSaturday): ?>
                         <td>SÁBADO</td>
                     <?php endif ?>
                 </tr>
@@ -210,7 +210,7 @@ echo $localizacao;
                     <td>
                         PTN(g)
                     </td>
-                    <td colspan="<?= $include_saturday ? '2' : '1' ?>">
+                    <td colspan="<?= $includeSaturday ? '2' : '1' ?>">
                         LPD(g)
                     </td>
                 </tr>
@@ -218,9 +218,9 @@ echo $localizacao;
                     <td class="nowrap">55% a %65 do VET</td>
                     <td class="nowrap">10% a 15% do VET</td>
                     <?php if ($publicTarget['id'] != 7) : ?>
-                        <td class="nowrap" colspan="<?= $include_saturday ? '2' : '1' ?>">25% a 35% do VET</td>
+                        <td class="nowrap" colspan="<?= $includeSaturday ? '2' : '1' ?>">25% a 35% do VET</td>
                     <?php else : ?>
-                        <td class="nowrap" colspan="<?= $include_saturday ? '2' : '1' ?>">15% a 30% do VET</td>
+                        <td class="nowrap" colspan="<?= $includeSaturday ? '2' : '1' ?>">15% a 30% do VET</td>
                     <?php endif; ?>
 
                 </tr>
@@ -234,7 +234,7 @@ echo $localizacao;
                     <td>
                         <?= $nutritionalValue['ptnpct'] . '%' ?>
                     </td>
-                    <td colspan="<?= $include_saturday ? '2' : '1' ?>">
+                    <td colspan="<?= $includeSaturday ? '2' : '1' ?>">
                         <?= $nutritionalValue['lpdpct'] . '%' ?>
                     </td>
                 </tr>
@@ -245,7 +245,7 @@ echo $localizacao;
                     <td>
                         <?= $nutritionalValue['ptnAvarage'] . 'g' ?>
                     </td>
-                    <td colspan="<?= $include_saturday ? '2' : '1' ?>">
+                    <td colspan="<?= $includeSaturday ? '2' : '1' ?>">
                         <?= $nutritionalValue['lpdAvarage'] . 'g' ?>
                     </td>
                 </tr>

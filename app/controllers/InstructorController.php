@@ -87,8 +87,8 @@ class InstructorController extends Controller
         if (isset($iIdentification, $iDocumentsAndAddress, $iVariableData)) {
             $modelInstructorIdentification->attributes = $iIdentification;
 
-            $id_indigenous_people = $_POST['InstructorIdentification']['id_indigenous_people'];
-            $modelInstructorIdentification->id_indigenous_people = $id_indigenous_people === '' ? null : $id_indigenous_people;
+            $idIndigenousPeople = $_POST['InstructorIdentification']['id_indigenous_people'];
+            $modelInstructorIdentification->id_indigenous_people = $idIndigenousPeople === '' ? null : $idIndigenousPeople;
 
             $modelInstructorDocumentsAndAddress->attributes = $iDocumentsAndAddress;
             $modelInstructorVariableData->attributes = $iVariableData;
@@ -263,8 +263,8 @@ class InstructorController extends Controller
         if (isset($_POST['InstructorIdentification'], $_POST['InstructorDocumentsAndAddress'], $_POST['InstructorVariableData'])) {
             $modelInstructorIdentification->attributes = $_POST['InstructorIdentification'];
 
-            $id_indigenous_people = $_POST['InstructorIdentification']['id_indigenous_people'];
-            $modelInstructorIdentification->id_indigenous_people = $id_indigenous_people === '' ? null : $id_indigenous_people;
+            $idIndigenousPeople = $_POST['InstructorIdentification']['id_indigenous_people'];
+            $modelInstructorIdentification->id_indigenous_people = $idIndigenousPeople === '' ? null : $idIndigenousPeople;
 
             $modelInstructorDocumentsAndAddress->attributes = $_POST['InstructorDocumentsAndAddress'];
             $modelInstructorVariableData->attributes = $_POST['InstructorVariableData'];
@@ -436,10 +436,10 @@ preenchidos';
 
     public function actionGetCity()
     {
-        $edcenso_uf_fk = $_POST['edcenso_uf_fk'];
-        $current_city = $_POST['current_city'];
+        $edcensoUfFk = $_POST['edcenso_uf_fk'];
+        $currentCity = $_POST['current_city'];
 
-        $data = EdcensoCity::model()->findAll('edcenso_uf_fk=:uf_id', [':uf_id' => (int)$edcenso_uf_fk]);
+        $data = EdcensoCity::model()->findAll('edcenso_uf_fk=:uf_id', [':uf_id' => (int)$edcensoUfFk]);
         $data = CHtml::listData($data, 'id', 'name');
 
         $options = [];
@@ -448,7 +448,7 @@ preenchidos';
                 'option',
                 [
                     'value' => $value,
-                    'selected' => $value == $current_city
+                    'selected' => $value == $currentCity
                 ],
                 CHtml::encode($name),
                 true

@@ -5,8 +5,6 @@ Yii::import('application.modules.sedsp.interfaces.*');
 
 class DefaultController extends Controller implements AuthenticateSEDTokenInterface
 {
-    private $ERROR_CONNECTION = 'Conexão com SEDSP falhou. Tente novamente mais tarde.';
-    public const REDIRECT_PATH = '/student/update';
 
     public function authenticateSedToken()
     {
@@ -21,7 +19,7 @@ class DefaultController extends Controller implements AuthenticateSEDTokenInterf
 
     public function actionManageRA()
     {
-        $school_id = Yii::app()->user->school;
+        $schoolId = Yii::app()->user->school;
 
         $criteira = new CDbCriteria();
         $criteira->select = 'DISTINCT t.*';
@@ -30,7 +28,7 @@ class DefaultController extends Controller implements AuthenticateSEDTokenInterf
         $criteira->addCondition('t.school_inep_id_fk = :school_id');
         $criteira->addCondition('t.gov_id is null');
         $criteira->addCondition('class.school_year = :year');
-        $criteira->params = [':school_id' => $school_id, ':year' => Yii::app()->user->year];
+        $criteira->params = [':school_id' => $schoolId, ':year' => Yii::app()->user->year];
 
         $dataProvider = new CActiveDataProvider(
             'StudentIdentification',
@@ -45,15 +43,15 @@ class DefaultController extends Controller implements AuthenticateSEDTokenInterf
 
     public function actionAddStudentWithRA()
     {
-        $RA = $_POST['ra'];
+        $ra = $_POST['ra'];
 
         $this->authenticateSEDToken();
 
         try {
             $createStudent = new CreateStudent();
-            $response = $createStudent->exec($RA);
+            $response = $createStudent->exec($ra);
             if (!$response) {
-                $response = $createStudent->exec($RA, true);
+                $response = $createStudent->exec($ra, true);
             }
 
             $modelStudentIdentification = $response['StudentIdentification'];
@@ -64,15 +62,15 @@ class DefaultController extends Controller implements AuthenticateSEDTokenInterf
             $modelStudentDocumentsAndAddress->student_fk = $modelStudentIdentification->inep_id;
             // Validação CPF->Nome
             if ($modelStudentDocumentsAndAddress->cpf != null) {
-                $student_test_cpf = StudentDocumentsAndAddress::model()->find('cpf=:cpf', [':cpf' => $modelStudentDocumentsAndAddress->cpf]);
-                if (isset($student_test_cpf)) {
+                $studentTestCpf = StudentDocumentsAndAddress::model()->find('cpf=:cpf', [':cpf' => $modelStudentDocumentsAndAddress->cpf]);
+                if (isset($studentTestCpf)) {
                     Yii::app()->user->setFlash('error', Yii::t('default', 'O Aluno já está cadastrado'));
                     $this->redirect(['index']);
                 }
             }
             if ($modelStudentIdentification->name != null) {
-                $student_test_name = StudentIdentification::model()->find('name=:name', [':name' => $modelStudentIdentification->name]);
-                if (isset($student_test_name)) {
+                $studentTestName = StudentIdentification::model()->find('name=:name', [':name' => $modelStudentIdentification->name]);
+                if (isset($studentTestName)) {
                     Yii::app()->user->setFlash('error', Yii::t('default', 'O Aluno já está cadastrado'));
                     $this->redirect(['index']);
                 }
@@ -91,40 +89,6 @@ class DefaultController extends Controller implements AuthenticateSEDTokenInterf
             Yii::app()->user->setFlash('error', Yii::t('default', 'Ocorreu um erro ao cadastrar o aluno. Certifique-se de digitar um RA válido'));
             $this->redirect(['index']);
         }
-    }
-
-    private function addClassroomStudent($RA, $classroomId, $classroomInepId, $classroomStage)
-    {
-        $this->authenticateSEDToken();
-
-        $createStudent = new CreateStudent();
-        $response = $createStudent->exec($RA);
-        $modelStudentEnrollment = new StudentEnrollment();
-
-        $modelStudentIdentification = $response['StudentIdentification'];
-        $modelStudentDocumentsAndAddress = $response['StudentDocumentsAndAddress'];
-        date_default_timezone_set('America/Recife');
-        $modelStudentIdentification->last_change = date('Y-m-d G:i:s');
-        $modelStudentDocumentsAndAddress->school_inep_id_fk = $modelStudentIdentification->school_inep_id_fk;
-        $modelStudentDocumentsAndAddress->student_fk = $modelStudentIdentification->inep_id;
-
-        if ($modelStudentIdentification->validate() && $modelStudentIdentification->save()) {
-            $modelStudentDocumentsAndAddress->id = $modelStudentIdentification->id;
-
-            $modelStudentEnrollment->school_inep_id_fk = Yii::app()->user->school;
-            $modelStudentEnrollment->student_fk = $modelStudentIdentification->id;
-            $modelStudentEnrollment->student_inep_id = $modelStudentIdentification->inep_id;
-            $modelStudentEnrollment->classroom_fk = $classroomId;
-            $modelStudentEnrollment->classroom_inep_id = $classroomInepId;
-            $modelStudentEnrollment->edcenso_stage_vs_modality_fk = $classroomStage;
-            if (
-                $modelStudentDocumentsAndAddress->validate() && $modelStudentDocumentsAndAddress->save()
-                && $modelStudentEnrollment->validate() && $modelStudentEnrollment->save()
-            ) {
-                return $modelStudentIdentification->name;
-            }
-        }
-        return false;
     }
 
     public function actionAddClassroom()
@@ -177,24 +141,24 @@ class DefaultController extends Controller implements AuthenticateSEDTokenInterf
 
     public function actionAddSchool()
     {
-        $school_name = $_POST['schoolName'];
-        $school_mun = $_POST['schoolMun'];
+        $schoolName = $_POST['schoolName'];
+        $schoolMun = $_POST['schoolMun'];
 
         $this->authenticateSEDToken();
 
         try {
             $createSchool = new CreateSchool();
-            $response = $createSchool->exec($school_name, $school_mun);
+            $response = $createSchool->exec($schoolName, $schoolMun);
             $modelSchool = $response['SchoolIdentification'];
             $modelSchoolStructure = new SchoolStructure();
             $modelSchoolStructure->school_inep_id_fk = $modelSchool->inep_id;
             // Bloqueio de duplicação por inep id
             if ($modelSchool->inep_id != null) {
-                $school_test_name = SchoolIdentification::model()->find(
+                $schoolTestName = SchoolIdentification::model()->find(
                     'inep_id=:inep_id',
                     [':inep_id' => $modelSchool->inep_id]
                 );
-                if (isset($school_test_name)) {
+                if (isset($schoolTestName)) {
                     $msg = 'O Cadastro da Escola ' . $modelSchool->name . " já existe!
 					<a href='" . Yii::app()->createUrl('school/update&id=' . $modelSchool->inep_id) . "' style='color:white;'>
 					Clique aqui para visualizar.</a>";
@@ -227,10 +191,10 @@ class DefaultController extends Controller implements AuthenticateSEDTokenInterf
 
     public function actionSyncSchoolClassrooms()
     {
-        $school_id = Yii::app()->user->school;
+        $schoolId = Yii::app()->user->school;
         $year = Yii::app()->user->year;
         $usecase = new IdentifyAllClassroomRABySchool();
-        $ra = $usecase->exec($school_id, $year);
+        $ra = $usecase->exec($schoolId, $year);
         $this->render('index', ['RA' => $ra]);
     }
 
@@ -246,7 +210,7 @@ class DefaultController extends Controller implements AuthenticateSEDTokenInterf
         $this->authenticateSEDToken();
 
         $generateRaUseCase = new GenerateRaUseCase();
-        $generationStatus = $generateRaUseCase->exec($studentId);
+        $generateRaUseCase->exec($studentId);
     }
 
     public function actionCreateRA($id)
@@ -324,7 +288,7 @@ class DefaultController extends Controller implements AuthenticateSEDTokenInterf
             $statusSave = $exibirFicha->exec($inAluno);
             $urlId =  Yii::app()->request->getQuery('id');
             $id = filter_var($urlId,FILTER_VALIDATE_INT);
-            if($id !==FALSE){
+            if($id !== false){
                 if ($statusSave === -1) {
                     Yii::app()->user->setFlash('error', 'O estudante foi sincronizado com sucesso, no entanto, a matrícula não foi sincronizada.');
                 }
@@ -342,7 +306,7 @@ class DefaultController extends Controller implements AuthenticateSEDTokenInterf
                 } else {
                     Yii::app()->user->setFlash('error', 'erro ' . $statusSave);
                 }
-                $this->redirect([self::REDIRECT_PATH, 'id' => $id]);
+                $this->redirect(['/student/update', 'id' => $id]);
             }
         } catch (Exception $e) {
             Yii::app()->user->setFlash('error', 'A escola do aluno não está cadastrada no TAG');
@@ -376,7 +340,7 @@ class DefaultController extends Controller implements AuthenticateSEDTokenInterf
             $statusSave = $classroomUseCase->exec($inConsultaTurmaClasse);
 
             $id = Yii::app()->request->getQuery('id');
-            if(filter_var($id,FILTER_VALIDATE_INT) !== FALSE){
+            if(filter_var($id,FILTER_VALIDATE_INT) !== false){
                 if ($statusSave) {
                 Yii::app()->user->setFlash('success', 'Turma importada com sucesso!');
                 } else {

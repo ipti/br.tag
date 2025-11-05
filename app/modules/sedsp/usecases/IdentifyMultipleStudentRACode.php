@@ -17,12 +17,12 @@ class IdentifyMultipleStudentRACode
 
     /**
      * Summary of exec
-     * @param int $school_id School Id from TAG
+     * @param int $schoolId School Id from TAG
      * @return DadosAluno
      */
-    public function exec($school_id)
+    public function exec($schoolId)
     {
         // Get Students From TAG database
-        return $this->studentTAGDataSource->getAllStudentsEnrollmentsbySchool($school_id);
+        return $this->studentTAGDataSource->getAllStudentsEnrollmentsbySchool($schoolId);
     }
 }

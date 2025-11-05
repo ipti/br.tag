@@ -17,4 +17,4 @@ $this->menu=array(
 $title = 'Cradastrar IMC';
 ?>
 
-<?php $this->renderPartial('_form', array('model'=>$model, 'title'=>$title)); ?>
+<?php $this->renderPartial('_form', array('model'=>$model, 'disorder' => $disorder, 'studentIdentification' => $studentIdentification, 'title'=>$title)); ?>

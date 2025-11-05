@@ -17,13 +17,6 @@
 
         public function exec($isInstructor, $discipline)
         {
-            if ($isInstructor) {
-                $response = $this->classService->getClassroomsInstructor($discipline);
-                return  $response;
-            } else {
-                $response = $this->classService->getClassrooms();
-
-                return  $response;
-            }
+            return $isInstructor?$this->classService->getClassroomsInstructor($discipline):$this->classService->getClassrooms();
         }
     }

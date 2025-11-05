@@ -248,12 +248,12 @@
             }
             $json['classroom'] = $classroomArray;
 
-            $json_encode = json_encode($json);
+            $jsonEncode = json_encode($json);
             $date = date('d_m_Y H_i_s');
             $zipName = 'ArquivoSincronizacaoTAG_' . $school . '_' . $date . '.zip';
             $tempArchiveZip = new ZipArchive();
             $tempArchiveZip->open($zipName, ZipArchive::CREATE);
-            $tempArchiveZip->addFromString($school . '_' . $date . '.json', $json_encode);
+            $tempArchiveZip->addFromString($school . '_' . $date . '.json', $jsonEncode);
             $tempArchiveZip->close();
 
             if (file_exists($zipName)) {
@@ -1094,43 +1094,43 @@
 
         public function areThereByModalitie($sql)
         {
-            $people_by_modalitie = Yii::app()->db->createCommand($sql)->queryAll();
-            $modalities_regular = false;
-            $modalities_especial = false;
-            $modalities_eja = false;
-            $modalities_professional = false;
-            foreach ($people_by_modalitie as $item) {
+            $peopleByModalitie = Yii::app()->db->createCommand($sql)->queryAll();
+            $modalitiesRegular = false;
+            $modalitiesEspecial = false;
+            $modalitiesEja = false;
+            $modalitiesProfessional = false;
+            foreach ($peopleByModalitie as $item) {
                 switch ($item['modalities']) {
                     case '1':
                         if ($item['number_of'] > '0') {
-                            $modalities_regular = true;
+                            $modalitiesRegular = true;
                         }
                         break;
                     case '2':
                         if ($item['number_of'] > '0') {
-                            $modalities_especial = true;
+                            $modalitiesEspecial = true;
                         }
                         break;
 
                     case '3':
                         if ($item['number_of'] > '0') {
-                            $modalities_eja = true;
+                            $modalitiesEja = true;
                         }
                         break;
 
                     case '4':
                         if ($item['number_of'] > '0') {
-                            $modalities_professional = true;
+                            $modalitiesProfessional = true;
                         }
                         break;
                     default:
                         break;
                 }
             }
-            return ['modalities_regular' => $modalities_regular,
-                'modalities_especial' => $modalities_especial,
-                'modalities_eja' => $modalities_eja,
-                'modalities_professional' => $modalities_professional];
+            return ['modalities_regular' => $modalitiesRegular,
+                'modalities_especial' => $modalitiesEspecial,
+                'modalities_eja' => $modalitiesEja,
+                'modalities_professional' => $modalitiesProfessional];
         }
 
         private function getInsertSQL($insertValue)

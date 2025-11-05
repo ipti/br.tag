@@ -12,8 +12,8 @@ $cs->registerScriptFile($baseScriptUrl . '/classDiary/functions.js?v=' . TAG_VER
 <div class="main">
     <div class="row">
         <div class="column">
-            <h1><?php echo $classroom_name . ' - ' . $date?></h1>
-            <h2><?php echo $discipline_name ?? null ?></h2>
+            <h1><?php echo $classroomName . ' - ' . $date?></h1>
+            <h2><?php echo $disciplineName ?? null ?></h2>
         </div>
     </div>
     <div class="alert alert-error js-validate hide">

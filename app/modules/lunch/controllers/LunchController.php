@@ -129,9 +129,8 @@ class LunchController extends Controller
         $criteria->select = 'id, description, measurementUnit';
         $criteria->condition = 'alias_id = t.id';
 
-        $foods_description = Food::model()->findAll($criteria);
+        return Food::model()->findAll($criteria);
 
-        return $foods_description;
     }
 
     public function actionGetFoodMeasurement()

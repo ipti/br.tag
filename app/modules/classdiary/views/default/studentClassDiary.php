@@ -34,7 +34,7 @@ $disabled = ($studentFault === true) ? '' : 'disabled';
             <h3>Avaliação Individual do Aluno</h3>
             <div class="t-field-tarea">
                         <?= chtml::label('Observação', 'title'); ?>
-                        <?php echo CHtml::textArea('student_observation', $student_observation, ['maxlength' => 500]); ?>
+                        <?php echo CHtml::textArea('student_observation', $studentObservation, ['maxlength' => 500]); ?>
             </div>
         </div>
     </div>

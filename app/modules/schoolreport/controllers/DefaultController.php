@@ -147,13 +147,13 @@ class DefaultController extends Controller
                         $frequency[$did]['months'][$i] = [];
                     }
                 }
-                $did_query = $did == -1 ? 'IS NULL' : "= $did";
+                $didQuery = $did == -1 ? 'IS NULL' : "= $did";
                 $f = Yii::app()->db->createCommand(
                     "select  month, discipline_fk, se.classroom_fk cid, se.id eid, count(cf.id) faults from class_faults cf
                       join schedule sc on sc.id = cf.schedule_fk
                       join student_enrollment se ON se.student_fk = cf.student_fk AND sc.classroom_fk = se.classroom_fk
                       where se.id = :eid
-                      and discipline_fk $did_query
+                      and discipline_fk $didQuery
                       and month = :month
                     GROUP BY eid, discipline_fk,  month;"
                 )->queryRow(true, [':eid' => $eid, ':month' => $month]);

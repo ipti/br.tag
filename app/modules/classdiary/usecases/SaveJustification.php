@@ -14,9 +14,8 @@
             $this->studentService = $studentService ?? new StudentService();
         }
 
-        public function exec($student_id, $stage_fk, $classroom_id, $schedule, $date, $justification)
+        public function exec($studentId, $stageFk, $classroomId, $schedule, $date, $justification)
         {
-            $response = $this->studentService->SaveJustification($student_id, $stage_fk, $classroom_id, $schedule, $date, $justification);
-            return $response;
+            return $this->studentService->SaveJustification($studentId, $stageFk, $classroomId, $schedule, $date, $justification);
         }
     }

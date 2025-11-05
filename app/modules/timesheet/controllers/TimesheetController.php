@@ -798,7 +798,7 @@ class TimesheetController extends Controller
         $isMinor = $classroom->edcensoStageVsModalityFk->unified_frequency == 1 ? true : ClassesController::checkIsStageMinorEducation($classroom);
 
         if ($substituteInstructor->save()) {
-            if ($isMinor == false) {
+            if ($isMinor === false) {
                 $schedule->substitute_instructor_fk = $substituteInstructor->id;
                 if ($schedule->save()) {
                     TLog::info('SubstituteInstructor atribuído a Schedule com sucesso', [
@@ -891,7 +891,7 @@ class TimesheetController extends Controller
             }
 
             // Para turmas do fundamental maior
-            if ($isMinor == false) {
+            if ($isMinor === false) {
                 $schedule->substitute_instructor_fk = null;
                 if (!$schedule->save()) {
                     $scheduleSaved = false;
@@ -936,7 +936,7 @@ class TimesheetController extends Controller
 
         $isMinor = $classroom->edcensoStageVsModalityFk->unified_frequency == 1 ? true : ClassesController::checkIsStageMinorEducation($classroom);
 
-        if ($isMinor == false) {
+        if ($isMinor === false) {
             $schedules = Schedule::model()->findAll(
                 'classroom_fk = :classroom and year = :year and discipline_fk = :discipline_fk and month = :month and unavailable = 0 order by day, schedule',
                 [

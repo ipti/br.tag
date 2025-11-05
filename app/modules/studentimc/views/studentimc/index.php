@@ -25,6 +25,7 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Acompanhamento de Saúde'));
                     <a class="t-button-primary" href="<?= Yii::app()->createUrl("studentimc/studentimc/create", array("studentId" => $student->id)) ?>">
                         Nova Coleta
                     </a>
+                     <a class="t-button-secondary" href="<?php echo Yii::app()->createUrl('forms/studentIMCHistoryReport', array("studentId" => $student->id)) ?>">Histórico de coleta</a>
                 </div>
             </div>
         </div>
@@ -64,14 +65,19 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Acompanhamento de Saúde'));
                             'htmlOptions' => array('width' => '400px', 'class' => 'link-update-grid-view'),
                         ),
                         array(
+                            'name' => 'Classificação',
+                            'type' => 'raw',
+                            'value' => '$data->studentImcClassificationFk->classification',
+                        ),
+                        array(
                             'name' => 'height',
                             'type' => 'raw',
-                            'value' => '$data->height',
+                            'value' => 'number_format((float) $data->height, 2, ".", "")',
                         ),
                         array(
                             'name' => 'weight',
                             'type' => 'raw',
-                            'value' => '$data->weight',
+                            'value' => 'number_format((float) $data->weight, 2, ".", "")',
                         ),
                         array(
                             'name' => 'created_at',

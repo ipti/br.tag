@@ -38,16 +38,16 @@ class MatriculaTType
     #[Serializer\XmlElement(cdata: false)]
     private ?AlunoTType $aluno = null;
 
-    private ?int $enrollment_stage = null;
+    private ?int $enrollmentStage = null;
 
     public function getEnrollmentStage(): ?int
     {
-        return $this->enrollment_stage;
+        return $this->enrollmentStage;
     }
 
-    public function setEnrollmentStage(?int $enrollment_stage): self
+    public function setEnrollmentStage(?int $enrollmentStage): self
     {
-        $this->enrollment_stage = $enrollment_stage;
+        $this->enrollmentStage = $enrollmentStage;
         return $this;
     }
 

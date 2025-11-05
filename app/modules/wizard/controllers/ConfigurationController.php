@@ -38,15 +38,15 @@ class ConfigurationController extends Controller
     public function actionClassroom()
     {
         if (isset($_POST['Classrooms'])) {
-            $Classrooms_ids = $_POST['Classrooms'];
+            $classroomsIds = $_POST['Classrooms'];
             $year = Yii::app()->user->year;
             $logYear = '';
             $errors = [];
-            foreach ($Classrooms_ids as $id) {
+            foreach ($classroomsIds as $id) {
                 $classroom = Classroom::model()->findByPk($id);
                 $logYear = $classroom->school_year;
-                $class_board = ClassBoard::model()->findAllByAttributes(['classroom_fk' => $id]);
-                $teaching_data = InstructorTeachingData::model()->findAllByAttributes(['classroom_id_fk' => $id]);
+                $classBoard = ClassBoard::model()->findAllByAttributes(['classroom_fk' => $id]);
+                $teachingData = InstructorTeachingData::model()->findAllByAttributes(['classroom_id_fk' => $id]);
 
                 $newClassroom = new Classroom();
                 $newClassroom->attributes = $classroom->attributes;
@@ -57,14 +57,14 @@ class ConfigurationController extends Controller
                 $newClassroom->sedsp_sync = 0;
                 $save = $newClassroom->save();
                 if ($save) {
-                    foreach ($class_board as $cb) {
+                    foreach ($classBoard as $cb) {
                         $newClassBorad = new ClassBoard();
                         $newClassBorad->attributes = $cb->attributes;
                         $newClassBorad->id = null;
                         $newClassBorad->classroom_fk = $newClassroom->id;
                         $save = $save && $newClassBorad->save();
                     }
-                    foreach ($teaching_data as $td) {
+                    foreach ($teachingData as $td) {
                         $newTeachingData = new InstructorTeachingData();
                         $newTeachingData->attributes = $td->attributes;
                         $newTeachingData->id = null;

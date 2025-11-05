@@ -8,13 +8,13 @@ require_once dirname(__FILE__) . $DS . 'register.php';
 class SchoolIdentificationValidation extends Register
 {
     //campo 1
-    public function isRegisterType00($register_type)
+    public function isRegisterType00($registerType)
     {
-        if (strlen($register_type) > 2) {
+        if (strlen($registerType) > 2) {
             return ['status' => false, 'erro' => 'As linhas devem ser iniciadas com o número do registro.'];
         }
 
-        if ($register_type != 00) {
+        if ($registerType != 00) {
             return [
                 'status' => false,
                 'erro' => 'O registro declarado <tipo de registro> não faz parte do escopo do educacenso.'
@@ -25,29 +25,29 @@ class SchoolIdentificationValidation extends Register
     }
 
     //campo 2
-    /*@todo
+    /*
     4. Deve está de acordo com a UF informada no campo 18 (UF).
     5. O código deve ser de uma entidade existente no cadastro do Inep.
     6. A escola informada deve estar entre as escolas abrangidas pelo perfil do informante.
     7. A escola informada não pode ter sido extinta em anos anteriores.
     */
-    public function isInepIdValid($inep_id)
+    public function isInepIdValid($inepId)
     {
-        if (empty($inep_id)) {
+        if (empty($inepId)) {
             return [
                 'status' => false,
                 'erro' => 'O campo Código de escola - está vazio'
             ];
         }
 
-        if (strlen($inep_id) != 8) {
+        if (strlen($inepId) != 8) {
             return [
                 'status' => false,
                 'erro' => 'O campo Código de escola - Inep está com tamanho diferente de 8 caracteres'
             ];
         }
 
-        if (!is_numeric($inep_id)) {
+        if (!is_numeric($inepId)) {
             return [
                 'status' => false,
                 'erro' => 'O campo Código de escola - Inep foi preenchido com um valor não númerico'
@@ -58,16 +58,16 @@ class SchoolIdentificationValidation extends Register
     }
 
     //campo 3
-    public function isManagerCPFValid($manager_cpf)
+    public function isManagerCPFValid($managerCpf)
     {
-        if (empty($manager_cpf)) {
+        if (empty($managerCpf)) {
             return [
                 'status' => false,
                 'erro' => 'O campo Número do CPF do Gestor Escolar não está preenchido'
             ];
         }
 
-        if (strlen($manager_cpf) > 11) {
+        if (strlen($managerCpf) > 11) {
             return [
                 'status' => false,
                 'erro' => 'O campo Número do CPF do Gestor Escolar está com tamanho diferente de 11 caracteres'
@@ -75,7 +75,7 @@ class SchoolIdentificationValidation extends Register
         }
 
         // se nao for numerico
-        if (!is_numeric($manager_cpf)) {
+        if (!is_numeric($managerCpf)) {
             return [
                 'status' => false,
                 'erro' => 'O campo Número do CPF do Gestor Escolar tem que ser um valor númerico'
@@ -83,14 +83,14 @@ class SchoolIdentificationValidation extends Register
         }
 
         // se for 0000000000, 1111111
-        if (preg_match('/^(.)\1*$/', $manager_cpf)) {
+        if (preg_match('/^(.)\1*$/', $managerCpf)) {
             return [
                 'status' => false,
                 'erro' => 'O campo Número do CPF do Gestor Escolar não pode ser 0000000000 ou 1111111'
             ];
         }
 
-        if ($manager_cpf == '00000000191') {
+        if ($managerCpf == '00000000191') {
             return [
                 'status' => false,
                 'erro' => 'O campo Número do CPF do Gestor Escolar não pode ser 00000000191'
@@ -101,16 +101,16 @@ class SchoolIdentificationValidation extends Register
     }
 
     //campo 4
-    public function isManagerNameValid($manager_name)
+    public function isManagerNameValid($managerName)
     {
-        if (empty($manager_name)) {
+        if (empty($managerName)) {
             return [
                 'status' => false,
                 'erro' => 'O campo Nome do Gestor Escolar não pode ser vazio'
             ];
         }
 
-        if (strlen($manager_name) > 100) {
+        if (strlen($managerName) > 100) {
             return [
                 'status' => false,
                 'erro' => 'O campo Nome do Gestor Escolar foi preenchido com mais de 100 caracteres'
@@ -118,7 +118,7 @@ class SchoolIdentificationValidation extends Register
         }
 
         $regex = "/^[A-Z0-9°ºª\- ]/";
-        if (!preg_match($regex, $manager_name)) {
+        if (!preg_match($regex, $managerName)) {
             return [
                 'status' => false,
                 'erro' => 'O campo Nome do Gestor Escolar foi preenchido com caracteres inválidos'
@@ -129,16 +129,16 @@ class SchoolIdentificationValidation extends Register
     }
 
     //cargo do gestor campo 5
-    public function isManagerRoleValid($manager_role)
+    public function isManagerRoleValid($managerRole)
     {
-        if (empty($manager_role)) {
+        if (empty($managerRole)) {
             return [
                 'status' => false,
                 'erro' => 'O campo Cargo do Gestor Escolar não pode ser vazio.'
             ];
         }
 
-        if ($manager_role != 1 && $manager_role != 2) {
+        if ($managerRole != 1 && $managerRole != 2) {
             return [
                 'status' => false,
                 'erro' => 'O campo Cargo do Gestor Escolar foi preenchido com um valor diferente de 1 ou 2'
@@ -149,23 +149,23 @@ class SchoolIdentificationValidation extends Register
     }
 
     //address eletronico do gestor campo 6
-    public function isManagerEmailValid($manager_email)
+    public function isManagerEmailValid($managerEmail)
     {
-        if (empty($manager_email)) {
+        if (empty($managerEmail)) {
             return [
                 'status' => false,
                 'erro' => 'O campo Endereço eletrônico (e-mail) do Gestor Escolar não pode ser vazio'
             ];
         }
 
-        if (strlen($manager_email) > 50) {
+        if (strlen($managerEmail) > 50) {
             return [
                 'status' => false,
                 'erro' => 'O campo Endereço eletrônico (e-mail) do Gestor Escolar não pode ser maior que 50 caracteres'
             ];
         }
 
-        if (!preg_match("/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,})$/i", $manager_email)) {
+        if (!preg_match("/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,})$/i", $managerEmail)) {
             return [
                 'status' => false,
                 'erro' => 'O campo Endereço eletrônico (e-mail) do Gestor Escolar  foi preenchido com um valor inválido.'
@@ -246,22 +246,22 @@ class SchoolIdentificationValidation extends Register
     }
 
     //campo 8 e 9
-    public function isSchoolYearValid($initial_date, $final_date)
+    public function isSchoolYearValid($initialDate, $finalDate)
     {
-        if (empty($initial_date) || empty($final_date)) {
+        if (empty($initialDate) || empty($finalDate)) {
             return ['status' => false, 'erro' => 'As datas de início e final do ano letivo não podem ser vazias.'];
         }
-        $first_result = $this->isDateValid($initial_date);
-        $second_result = $this->isDateValid($final_date);
-        if (!($first_result['status'] && $second_result['status'])) {
+        $firstResult = $this->isDateValid($initialDate);
+        $secondResult = $this->isDateValid($finalDate);
+        if (!($firstResult['status'] && $secondResult['status'])) {
             return ['status' => false, 'erro' => 'As datas de inicio e final do ano letivo não estão em um formato válido.'];
         } else {
-            $dataInicial = explode('/', $initial_date);
+            $dataInicial = explode('/', $initialDate);
             $diaInicial = $dataInicial[0];
             $mesInicial = $dataInicial[1];
             $anoInicial = $dataInicial[2];
 
-            $dataFinal = explode('/', $final_date);
+            $dataFinal = explode('/', $finalDate);
             $diaFinal = $dataFinal[0];
             $mesFinal = $dataFinal[1];
             $anoFinal = $dataFinal[2];
@@ -412,7 +412,7 @@ class SchoolIdentificationValidation extends Register
     }
 
     //campo 14,campo 15,campo 16,campo 17,campo 18,campo 19,campo 20
-    public function isAddressValid($address, $allowed_lenght, $optional)
+    public function isAddressValid($address, $allowedLenght, $optional)
     {
         $regex = '/^[0-9 a-z.,-ºª ]/';
 
@@ -423,10 +423,10 @@ class SchoolIdentificationValidation extends Register
             ];
         }
 
-        if (strlen($address) > $allowed_lenght) {
+        if (strlen($address) > $allowedLenght) {
             return [
                 'status' => false,
-                'erro' => "O campo de endereço - $address - não pode ter mais de $allowed_lenght caracteres."
+                'erro' => "O campo de endereço - $address - não pode ter mais de $allowedLenght caracteres."
             ];
         }
         if (!preg_match($regex, $address)) {
@@ -521,23 +521,16 @@ class SchoolIdentificationValidation extends Register
     }
 
     //auxiliar nos campos 30,31,32
-    public function isField7And28Valid($inep_id, $schoolSituation, $dependency)
+    public function isField7And28Valid($inepId, $schoolSituation, $dependency)
     {
         //campo 7 deve ser igual a 1.. Campo 28 deve ser igual a 4
-        if (
-            $schoolSituation == 1 && isSituationValid($schoolSituation) == true
-            && isAdministrativeDependenceValid($inep_id, $dependency) == true && $dependency == 4
-        ) {
-            return true;
-        } else {
-            return false;
-        }
+        return ($schoolSituation == 1 && $this->isSituationValid($schoolSituation) === true) && ($this->isAdministrativeDependenceValid($inepId, $dependency) === true && $dependency == 4);
     }
 
     //campo 30
-    public function checkPrivateSchoolCategory($value, $situation, $administrative_dependence)
+    public function checkPrivateSchoolCategory($value, $situation, $administrativeDependence)
     {
-        if ($situation == '1' && $administrative_dependence == '4') {
+        if ($situation == '1' && $administrativeDependence == '4') {
             $result = $this->isAllowed($value, ['1', '2', '3', '4']);
             if (!$result['status']) {
                 return ['status' => false, 'erro' => $result['erro']];
@@ -553,9 +546,9 @@ class SchoolIdentificationValidation extends Register
 
     //campo 31
 
-    public function isPublicContractValid($value, $situation, $administrative_dependence)
+    public function isPublicContractValid($value, $situation, $administrativeDependence)
     {
-        if (!($situation == '1' && $administrative_dependence == '4')) {
+        if (!($situation == '1' && $administrativeDependence == '4')) {
             if ($value != null) {
                 return ['status' => false, 'erro' => "Valor $value deveria ser nulo"];
             } else {
@@ -572,15 +565,15 @@ class SchoolIdentificationValidation extends Register
 
     //campos 32 a 36
 
-    public function isPrivateSchoolMaintainerValid($keepers, $situation, $administrative_dependence)
+    public function isPrivateSchoolMaintainerValid($keepers, $situation, $administrativeDependence)
     {
-        if ($situation == '1' && $administrative_dependence == '4') {
+        if ($situation == '1' && $administrativeDependence == '4') {
             $result = $this->atLeastOne($keepers);
             if (!$result['status']) {
                 return ['status' => false, 'erro' => $result['erro']];
             }
         } else {
-            foreach ($keepers as $key => $value) {
+            foreach ($keepers as $value) {
                 if ($value != null) {
                     return ['status' => false, 'erro' => 'Valor deveria ser nulo'];
                 }
@@ -591,9 +584,9 @@ class SchoolIdentificationValidation extends Register
     }
 
     //para os campos 37 e 38
-    public function isCNPJValid($cnpj, $situation, $administrative_dependence)
+    public function isCNPJValid($cnpj, $situation, $administrativeDependence)
     {
-        if (!($situation == '1' && $administrative_dependence == '4')) {
+        if (!($situation == '1' && $administrativeDependence == '4')) {
             if ($cnpj != null) {
                 return ['status' => false, 'erro' => "Valor $cnpj deveria ser nulo"];
             } else {
@@ -631,32 +624,32 @@ class SchoolIdentificationValidation extends Register
     //campo 40,41 e 42
     public function isOfferOrLinkedUnity(
         $value,
-        $InepCode,
-        $HeadSchool,
+        $inepCode,
+        $headSchool,
         $schoolSituation,
-        $hostedcenso_city_fk,
-        $atualedcenso_city_fk,
+        $hostedcensoCityFk,
+        $atualedcensoCityFk,
         $hostDependencyAdm,
         $atualDependencyAdm,
-        $IESCode
+        $iesCode
     ) {
         if ($value == 1) {
-            return isInepHeadSchoolValid($InepCode, $HeadSchool, $schoolSituation, $hostedcenso_city_fk, $atualedcenso_city_fk, $hostDependencyAdm, $atualDependencyAdm);
+            return isInepHeadSchoolValid($inepCode, $headSchool, $schoolSituation, $hostedcensoCityFk, $atualedcensoCityFk, $hostDependencyAdm, $atualDependencyAdm);
         }
         if ($value == 2) {
-            return isIESCodeValid($IESCode, $schoolSituation);
+            return isIESCodeValid($iesCode, $schoolSituation);
         }
     }
 
     //41
     public function inepHeadSchool(
         $value,
-        $offer_or_linked_unity,
-        $current_inep_id,
-        $head_school_situation,
-        $head_of_head_school
+        $offerOrLinkedUnity,
+        $currentInepId,
+        $headSchoolSituation,
+        $headOfHeadSchool
     ) {
-        if ($offer_or_linked_unity == '1') {
+        if ($offerOrLinkedUnity == '1') {
             if ($value == '' && $value == null) {
                 return ['status' => false, 'erro' => 'O campo não foi preenchido quando deveria ser preenchido.'];
             }
@@ -666,16 +659,16 @@ class SchoolIdentificationValidation extends Register
             if (strlen($value) != 8) {
                 return ['status' => false, 'erro' => 'Deve conter 8 caracteres'];
             }
-            if ($value == $current_inep_id) {
+            if ($value == $currentInepId) {
                 return ['status' => false, 'erro' => 'Não pode ser preenchido com o mesmo código INEP da escola.'];
             }
-            if ($head_school_situation != '1') {
+            if ($headSchoolSituation != '1') {
                 return ['status' => false, 'erro' => 'Escola sede não está em atividade'];
             }
-            if (substr($current_inep_id, 0, 2) != substr($value, 0, 2)) {
+            if (substr($currentInepId, 0, 2) != substr($value, 0, 2)) {
                 return ['status' => false, 'erro' => 'Escolas não são do mesmo estado'];
             }
-            if ($current_inep_id == $head_of_head_school) {
+            if ($currentInepId == $headOfHeadSchool) {
                 return ['status' => false, 'erro' => 'Escola sede não pode ter atual como sede'];
             }
         } else {
@@ -688,9 +681,9 @@ class SchoolIdentificationValidation extends Register
     }
 
     //42
-    public function iesCode($value, $administrativeDependence, $offer_or_linked_unity)
+    public function iesCode($value, $administrativeDependence, $offerOrLinkedUnity)
     {
-        if ($offer_or_linked_unity == '2') {
+        if ($offerOrLinkedUnity == '2') {
             if ($value == '' && $value == null) {
                 return ['status' => false, 'erro' => 'O campo não foi preenchido quando deveria ser preenchido.'];
             }

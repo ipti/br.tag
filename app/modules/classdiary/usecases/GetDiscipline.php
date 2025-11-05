@@ -13,9 +13,8 @@
             $this->disciplineService = $disciplineService ?? new DisciplineService();
         }
 
-        public function exec($discipline_fk)
+        public function exec($disciplineFk)
         {
-            $response = $this->disciplineService->getDiscipline($discipline_fk);
-            return  $response;
+            return $this->disciplineService->getDiscipline($disciplineFk);
         }
     }

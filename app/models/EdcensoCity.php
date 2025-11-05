@@ -129,7 +129,7 @@ class EdcensoCity extends TagModel
             return false;
         }
 
-        $clearedCEP = preg_replace('/[^0-9]/', '', $cep);
+        $clearedCEP = preg_replace('/[^\d]/', '', $cep);
 
         if ($clearedCEP >= $this->cep_initial && $clearedCEP <= $this->cep_final) {
             return true;

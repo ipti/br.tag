@@ -41,10 +41,10 @@ class dumpDB
 {
     private $constraints;
     private $db = null;
-    private $db_connected = null;
+    private $dbConnected = null;
 
     //max size of the query in megabytes - this value will be multiplied by 1024.
-    private $max_query_size = 50;
+    private $maxQuerySize = 50;
 
     //this can be useful when a view is defined by/for a different user or
     //that doesn't exists on the DB which this SQL will be imported
@@ -66,9 +66,9 @@ class dumpDB
             $this->db->active = true;
         }
 
-        $this->max_query_size = $this->max_query_size * 1024;
+        $this->maxQuerySize = $this->maxQuerySize * 1024;
 
-        $this->db_connected = $this->db->createCommand('SELECT DATABASE() AS db')->queryAll()[0]['db'];
+        $this->dbConnected = $this->db->createCommand('SELECT DATABASE() AS db')->queryAll()[0]['db'];
     }
 
     /**
@@ -95,8 +95,7 @@ class dumpDB
         if (!isset($size)) {
             return;
         }
-        $this->max_query_size = (int)$size * 1024;
-        return;
+        $this->maxQuerySize = (int)$size * 1024;
     }
 
     /**
@@ -107,7 +106,7 @@ class dumpDB
      */
     public function getMaxQuerySize()
     {
-        return (int)$this->max_query_size . 'Mb';
+        return (int)$this->maxQuerySize . 'Mb';
     }
 
     /**
@@ -224,29 +223,29 @@ class dumpDB
             return;
         }
 
-        $create_query = $q['Create Table'];
+        $createQuery = $q['Create Table'];
 
         $pattern = '/CONSTRAINT.*|FOREIGN[\s]+KEY/';
 
         // constraints to $tablename
-        preg_match_all($pattern, $create_query, $this->constraints[$this->db->quoteTableName($tableName)]);
+        preg_match_all($pattern, $createQuery, $this->constraints[$this->db->quoteTableName($tableName)]);
 
-        $create_query = preg_replace('/CREATE TABLE/', 'CREATE TABLE IF NOT EXISTS', $create_query);
+        $createQuery = preg_replace('/CREATE TABLE/', 'CREATE TABLE IF NOT EXISTS', $createQuery);
 
-        $create_query = explode("\n", $create_query);
+        $createQuery = explode("\n", $createQuery);
 
-        $create_query_size = count($create_query);
+        $createQuerySize = count($createQuery);
 
-        for ($i = 0; $i < $create_query_size - 1; $i++) {
-            if (preg_match($pattern, $create_query[$i + 1])) {
-                echo preg_replace('/\,$/', '', $create_query[$i]) . PHP_EOL;
+        for ($i = 0; $i < $createQuerySize - 1; $i++) {
+            if (preg_match($pattern, $createQuery[$i + 1])) {
+                echo preg_replace('/\,$/', '', $createQuery[$i]) . PHP_EOL;
                 break;
             } else {
-                echo $create_query[$i] . PHP_EOL;
+                echo $createQuery[$i] . PHP_EOL;
             }
         }
 
-        echo trim($create_query[$create_query_size - 1]) . ';' . PHP_EOL;
+        echo trim($createQuery[$createQuerySize - 1]) . ';' . PHP_EOL;
 
         $rows = $this->db->createCommand('SELECT * FROM ' . $this->db->quoteTableName($tableName) . ';')->queryAll();
 
@@ -260,36 +259,31 @@ class dumpDB
 
         $attrs = array_map([$this->db, 'quoteColumnName'], array_keys($rows[0]));
 
-        $insert_head = 'INSERT INTO ' . $this->db->quoteTableName($tableName) . '' . ' (' . implode(', ', $attrs) . ') VALUES';
-        echo $insert_head . PHP_EOL;
+        $insertHead = 'INSERT INTO ' . $this->db->quoteTableName($tableName) . '' . ' (' . implode(', ', $attrs) . ') VALUES';
+        echo $insertHead . PHP_EOL;
 
         $i = 0;
-        $query_size = 0;
+        $querySize = 0;
         $rowsCount = count($rows);
 
         foreach ($rows as $row) {
             // Process row
             foreach ($row as $key => $value) {
-                if ($value === null) {
-                    $row[$key] = 'NULL';
-                } else {
-                    $row[$key] = $pdo->quote($value);
-                }
+                $row[$key] = $value === null ? 'NULL' : $pdo->quote($value);
             }
 
-            $imploded_row = ' (' . implode(', ', $row) . ')';
-            echo $imploded_row;
+            $implodedRow = ' (' . implode(', ', $row) . ')';
+            echo $implodedRow;
 
-            //$query_size +=mb_strlen($imploded_row, 'UTF-8');
-            $query_size += strlen($imploded_row);
+            $querySize += strlen($implodedRow);
 
             if ($i < $rowsCount - 1) {
-                if ($query_size <= $this->max_query_size) {
+                if ($querySize <= $this->maxQuerySize) {
                     echo ',';
                 } else {
                     echo ';' . PHP_EOL;
-                    echo $insert_head;
-                    $query_size = 0;
+                    echo $insertHead;
+                    $querySize = 0;
                 }
             } else {
                 echo ';';
@@ -311,20 +305,17 @@ class dumpDB
     {
         $result = null;
 
-        //$this->db_connected  = $this->db->createCommand('SELECT DATABASE() AS db')->queryAll()[0];
-        $db_views = $this->db->createCommand('SHOW FULL TABLES IN ' . $this->db_connected . ' WHERE TABLE_TYPE LIKE "VIEW";')->queryAll();
+        $dbViews = $this->db->createCommand('SHOW FULL TABLES IN ' . $this->dbConnected . ' WHERE TABLE_TYPE LIKE "VIEW";')->queryAll();
 
-        foreach ($db_views as $view) {
-            $the_view = $view['Tables_in_' . $this->db_connected];
+        foreach ($dbViews as $view) {
+            $theView = $view['Tables_in_' . $this->dbConnected];
 
-            $result .= PHP_EOL . "--\n-- Structure for view `" . $the_view . "`\n--" . PHP_EOL;
+            $result .= PHP_EOL . "--\n-- Structure for view `" . $theView . "`\n--" . PHP_EOL;
 
-            $create_view = $this->db->createCommand('SHOW CREATE VIEW `' . $the_view . '`')->queryAll();
+            $createView = $this->db->createCommand('SHOW CREATE VIEW `' . $theView . '`')->queryAll();
 
-//                 DEFINER=`anpec_3`@`%`
-
-            foreach ($create_view as $create) {
-                $result .= PHP_EOL . 'DROP TABLE IF EXISTS ' . $this->db->quoteTableName($the_view) . ';' . PHP_EOL . PHP_EOL;
+            foreach ($createView as $create) {
+                $result .= PHP_EOL . 'DROP TABLE IF EXISTS ' . $this->db->quoteTableName($theView) . ';' . PHP_EOL . PHP_EOL;
 
                 if ($this->removeViewDefiner) {
                     $result .= preg_replace("/DEFINER=`\w+`@`.` /", '', $create['Create View']);
@@ -348,17 +339,15 @@ class dumpDB
      */
     private function getTables()
     {
-//            $this->db_connected  = $this->db->createCommand('SELECT DATABASE() AS db')->queryAll()[0];
-        $tables = $this->db->createCommand('SHOW FULL TABLES IN ' . $this->db_connected . ' WHERE TABLE_TYPE LIKE "BASE TABLE";')->queryAll();
+        $tables = $this->db->createCommand('SHOW FULL TABLES IN ' . $this->dbConnected . ' WHERE TABLE_TYPE LIKE "BASE TABLE";')->queryAll();
         $result = [];
 
         if (count($tables > 0)) {
             foreach ($tables as $table) {
-                $result[]['name'] = $table['Tables_in_' . $this->db_connected];
+                $result[]['name'] = $table['Tables_in_' . $this->dbConnected];
             }
         }
 
         return $result;
-        //return $this->db->getSchema()->getTables();
     }
 }

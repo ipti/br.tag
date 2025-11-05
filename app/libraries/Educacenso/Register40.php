@@ -7,7 +7,7 @@ class Register40
         $registers = [];
 
         $instructor = Yii::app()->db->createCommand(
-            '      
+        '
         SELECT ii.id, ii.inep_id from manager_identification mi
         JOIN school_identification si ON mi.school_inep_id_fk = si.inep_id
         JOIN classroom c on c.school_inep_fk = si.inep_id and c.school_year = :year
@@ -19,14 +19,14 @@ class Register40
         ->bindParam(':year', Yii::app()->user->year)
         ->queryRow();
 
-        $system_id = 'II90999';
+        $systemId = 'II90999';
         $inepId = '';
         if ($instructor != null) {
-            $system_id = 'II' . $instructor['id'];
+            $systemId = 'II' . $instructor['id'];
             $inepId = $instructor['inep_id'];
         }
 
-        array_push($registers, '40|' . Yii::app()->user->school . '|' . $system_id . '|' . $inepId . '|1|2|1');
+        array_push($registers, '40|' . Yii::app()->user->school . '|' . $systemId . '|' . $inepId . '|1|2|1');
 
         return $registers;
     }

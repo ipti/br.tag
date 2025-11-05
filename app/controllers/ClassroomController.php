@@ -245,7 +245,7 @@ class ClassroomController extends Controller
         if ($at == 0 || $at == 1) {
             $data = EdcensoStageVsModality::model()->findAll($where);
         } elseif ($at == 2 || $at == 3) {
-            $data = EdcensoStageVsModality::model()->findAll('id!=1 && id!=2 && id!=3 && id!=56 ' . $where);
+            $data = EdcensoStageVsModality::model()->findAll('id!=1 && id!=2 && id!=3 && id!=56 ' . strval($where));
         } else {
             $data = [];
             $result['StageEmpty'] = true;
@@ -681,11 +681,11 @@ class ClassroomController extends Controller
         if (isset($_POST['enrollments']) && isset($_POST['toclassroom'])) {
             $enrollments = $_POST['enrollments'];
             if (!empty($_POST['toclassroom'])) {
-                $class_room = Classroom::model()->findByPk($_POST['toclassroom']);
+                $classroom = Classroom::model()->findByPk($_POST['toclassroom']);
                 foreach ($enrollments as $enrollment) {
                     $enro = StudentEnrollment::model()->findByPk($enrollment);
-                    $enro->classroom_fk = $class_room->id;
-                    $enro->classroom_inep_id = $class_room->inep_id;
+                    $enro->classroom_fk = $classroom->id;
+                    $enro->classroom_inep_id = $classroom->inep_id;
                     $enro->status = 2;
                     $enro->create_date = date('Y-m-d');
                     $enro->update(['classroom_fk', 'classroom_inep_id', 'status', 'create_date']);
@@ -847,7 +847,7 @@ class ClassroomController extends Controller
         foreach ($stages as $stage) {
             $criteria = new CDbCriteria();
             $criteria->alias = 'gr';
-            $criteria->select = gr.id;
+            $criteria->select ='gr.id';
             $criteria->join = 'INNER JOIN grade_rules_vs_edcenso_stage_vs_modality grvesvm ON grvesvm.grade_rules_fk = gr.id ';
             $criteria->join .= 'INNER JOIN classroom_vs_grade_rules cvgr ON cvgr.grade_rules_fk = gr.id';
             $criteria->condition = 'cvgr.classroom_fk = :classroomId and grvesvm.edcenso_stage_vs_modality_fk = :stageId';
@@ -1171,9 +1171,9 @@ class ClassroomController extends Controller
         $enrollments = StudentEnrollment::model()->findAllByPk($ids);
 
         usort($enrollments, function ($a, $b) use ($ids) {
-            $pos_a = array_search($a->id, $ids);
-            $pos_b = array_search($b->id, $ids);
-            return $pos_a - $pos_b;
+            $posA = array_search($a->id, $ids);
+            $posB = array_search($b->id, $ids);
+            return $posA - $posB;
         });
 
         foreach ($enrollments as $i => $enrollment) {

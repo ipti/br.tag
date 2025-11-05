@@ -75,8 +75,8 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
 if (empty($cep)) {
     $fieldCep = '';
 } elseif (ctype_digit($cep) && strlen($cep) === 8) {
-    $formatted_cep = substr($cep, 0, 2) . '.' . substr($cep, 2, 3) . '-' . substr($cep, 5, 3);
-    $fieldCep = ', CEP: ' . $formatted_cep;
+    $formattedCep = substr($cep, 0, 2) . '.' . substr($cep, 2, 3) . '-' . substr($cep, 5, 3);
+    $fieldCep = ', CEP: ' . $formattedCep;
 } else {
     $fieldCep = '';
 }
