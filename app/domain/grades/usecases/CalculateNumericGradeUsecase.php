@@ -11,6 +11,7 @@ class CalculateNumericGradeUsecase
     private $stage;
     private $discipline;
 
+
     public function __construct($classroom, $discipline, $stage)
     {
         $this->classroomId = $classroom;
@@ -112,10 +113,12 @@ class CalculateNumericGradeUsecase
     {
         foreach ($gradesRecoveries as $gradeRecoveryAndUnities) {
             $partialRecoveryMedia = $this->calculatePartialRecoveryMedia($studentEnrollment, $discipline, $gradeRecoveryAndUnities, $gradeResult);
+            $partialRecovery = $gradeRecoveryAndUnities["partialRecovery"];
+            $calculationName = $partialRecovery->gradeCalculationFk->name;
             if ($partialRecoveryMedia != null) {
                 $partialRecoveryMedia = is_nan($partialRecoveryMedia ?? NAN) ? "" : round($partialRecoveryMedia, 1);
             }
-            if ($gradeRecoveryAndUnities["partialRecovery"]->semester != null) {
+            if ($gradeRecoveryAndUnities["partialRecovery"]->semester != null && $calculationName != "Subistituir Menor Nota") {
                 $semesterRec = $gradeRecoveryAndUnities["partialRecovery"]->semester;
                 if ($partialRecoveryMedia != null) {
                     $gradeResult["sem_rec_partial_" . $semesterRec] = $partialRecoveryMedia < $gradeResult["sem_avarage_" . $semesterRec] ? $gradeResult["sem_avarage_" . $semesterRec] : $partialRecoveryMedia;
@@ -249,37 +252,54 @@ class CalculateNumericGradeUsecase
      */
     private function calculatePartialRecoveryMedia($enrollment, $disciplineId, $gradeRecoveryAndUnities, $gradeResult)
     {
-
         $grades = [];
         $partialRecovery = $gradeRecoveryAndUnities["partialRecovery"];
         $calculationName = $partialRecovery->gradeCalculationFk->name;
+
         $gradePartialRecovery = Grade::model()->findByAttributes([
             "enrollment_fk" => $enrollment->id,
             "discipline_fk" => $disciplineId,
             "grade_partial_recovery_fk" => $partialRecovery->id
         ]);
-        if ($calculationName == 'Média Semestral') {
-            $semester = GradeUnity::model()->findByAttributes(["parcial_recovery_fk" => $partialRecovery->id])->semester;
-            array_push($grades, $gradeResult['sem_avarage_' . $semester]);
 
+        // Caso especial: Substituir Menor Nota
+        if ($calculationName === "Subistituir Menor Nota") {
+            return $gradePartialRecovery && $gradePartialRecovery->grade !== null
+                ? $gradePartialRecovery->grade
+                : null;
+        }
+
+        // Montagem do array de notas
+        if ($calculationName === 'Média Semestral') {
+            $semester = GradeUnity::model()->findByAttributes([
+                "parcial_recovery_fk" => $partialRecovery->id
+            ])->semester;
+
+            $grades[] = $gradeResult['sem_avarage_' . $semester];
         } else {
             foreach ($gradeRecoveryAndUnities["unities"] as $unity) {
-                array_push($grades, $gradeResult['grade_' . $unity]);
+                $grades[] = $gradeResult['grade_' . $unity];
             }
         }
 
-        $result = null;
-        if ($gradePartialRecovery !== null && $gradePartialRecovery->grade !== null) {
-            // Adiciona o valor de gradePartialRecovery->grade na primeira posição do array grades
+        // Cálculo se existe nota de recuperação parcial
+        if ($gradePartialRecovery && $gradePartialRecovery->grade !== null) {
+            // Coloca a nota de recuperação como primeira nota
             array_unshift($grades, $gradePartialRecovery->grade);
             $isRecovery = true;
 
-            $calculation = $calculationName == 'Média Semestral' ? 'Média' : $calculationName;
+            $calculation = ($calculationName === 'Média Semestral') ? 'Média' : $calculationName;
 
-            $result = $this->applyStrategyComputeGradesByFormula($calculation, $partialRecovery, $grades, $isRecovery);
+            return $this->applyStrategyComputeGradesByFormula(
+                $calculation,
+                $partialRecovery,
+                $grades,
+                $isRecovery
+            );
         }
 
-        return $result;
+        return null;
+
     }
     /**
      * @param StudentEnrollment $enrollment

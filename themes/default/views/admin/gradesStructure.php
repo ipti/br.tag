@@ -95,12 +95,14 @@ $this->setPageTitle('TAG - Estrutura de Unidades e Avaliações');
                 <label class="t-field-select__label--required">Calculo da média final</span></label>
                 <select class="calculation-final-media select-search-on t-field-select__input">
                     <?php foreach ($formulas as $formula):
-                    ?>
 
+                        if ($formula->name != "Subistituir Menor Nota"):
+                        ?>
                         <option value="<?= $formula->id ?>">
                             <?= $formula->name ?>
                         </option>
                     <?php
+                          endif;
                           endforeach;
                     ?>
                 </select>
@@ -176,12 +178,14 @@ $this->setPageTitle('TAG - Estrutura de Unidades e Avaliações');
             <div class="t-field-select js-calculation">
                 <label class='t-field-select__label--required'>Forma de cálculo:</span></label>
                 <select class='t-field-select__input select-search-on final-recovery-unity-calculation'>
-                    <?php foreach ($formulas as $formula):?>
+                    <?php foreach ($formulas as $formula):
+                        if ($formula->name != "Subistituir Menor Nota"):   ?>
 
                         <option value="<?= $formula->id ?>">
                             <?= $formula->name ?>
                         </option>
                     <?php
+                        endif;
                           endforeach;
                     ?>
                 </select>
