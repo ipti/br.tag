@@ -101,7 +101,7 @@ $cs->registerCssFile(Yii::app()->baseUrl . "/sass/css/main.css?v=" . TAG_VERSION
     <title><?php echo CHtml::encode($this->pageTitle); ?></title>
 
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- removida maximum-scale=1.0  e minimun-scale=1.0 -->
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="referrer" content="unsafe-url" />
     <meta name="referrer" content="origin" />
