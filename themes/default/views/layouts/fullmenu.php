@@ -101,8 +101,7 @@ $cs->registerCssFile(Yii::app()->baseUrl . "/sass/css/main.css?v=" . TAG_VERSION
     <title><?php echo CHtml::encode($this->pageTitle); ?></title>
 
     <meta charset="UTF-8" />
-    <meta name="viewport"
-        content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="referrer" content="unsafe-url" />
     <meta name="referrer" content="origin" />
@@ -151,14 +150,11 @@ $cs->registerCssFile(Yii::app()->baseUrl . "/sass/css/main.css?v=" . TAG_VERSION
         <!-- Top navbar -->
         <div class="tag-topbar hidden-print ">
 
-            <!-- Brand -->
-            <!-- <a href="<?php echo Yii::app()->homeUrl; ?>" class="appbrand pull-left"><img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/tag_logo.png" style="float:left;padding: 8px 0 0 0;height: 27px;" /><span id="schoolyear"><?php echo Yii::app()->user->year; ?></span></a> -->
-
             <!-- Top Menu Right -->
             <ul class="tag-topbar__content">
                 <li class="tag-topbar__item">
                     <a onclick="history.go(-1);" class="tag-topbar__voltar">
-                        <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/voltar_icon.png" />
+                        <img alt="icone de voltar" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/voltar_icon.png" />
                         Voltar
                     </a>
                 </li>
@@ -173,7 +169,7 @@ $cs->registerCssFile(Yii::app()->baseUrl . "/sass/css/main.css?v=" . TAG_VERSION
                 <li class="tag-topbar__item">
                     <div class="mobile-row justify-content--start">
                         <div>
-                            <img id="alt-logo" src="<?php echo $schoolLogo ?>" class="tag-topbar__school_logo show" />
+                            <img id="alt-logo" alt="logo da escola selecionada" src="<?php echo $schoolLogo ?>" class="tag-topbar__school_logo show" />
                             <img class="tag-topbar__school_logo hidden" src="<?php echo $urlSchoolLogo ?>"
                                 alt="emblema da escola"
                                 onload="$('#alt-logo').removeClass('show').addClass('hidden'); $(this).removeClass('hidden').addClass('show')" />
@@ -188,19 +184,9 @@ $cs->registerCssFile(Yii::app()->baseUrl . "/sass/css/main.css?v=" . TAG_VERSION
                     </div>
                 </li>
 
-                <?php
-                if (!Yii::app()->user->getState("rememberMe")):
-                // $this->beginWidget('zii.widgets.CPortlet', array(
-                //     'title' => '',
-                // ));
-                // echo $this->renderPartial('/layouts/_session_timer', ['sessionTime' => SessionTimer::getSessionTime()]);
-                // $this->endWidget();
-                endif;
-                ?>
-                </li>
                 <li id="menu-logout" class="hide-responsive" style="margin-left: auto">
                     <a class="t-button-tertiary" href="<?php echo yii::app()->createUrl('site/logout') ?>">
-                        <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/sair_branco.svg" />
+                        <img alt="iconde de sair em branco" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/sair_branco.svg" />
                         Sair
                     </a>
                 </li>
@@ -219,7 +205,7 @@ $cs->registerCssFile(Yii::app()->baseUrl . "/sass/css/main.css?v=" . TAG_VERSION
                     <span id="span-color-yellow"></span>
                 </div>
                 <div class="t-drawer-header column align-items--end logo-container">
-                    <img class="tag-logo" style="width:85px;"
+                    <img alt="logo da escola no menu lateral " class="tag-logo" style="width:85px;"
                         src="<?php echo Yii::app()->theme->baseUrl; ?>/img/tag_navbar.svg" />
                     <a href="#" class="t-badge pull-left" data-toggle="modal" data-target="#change-year"
                         target="_blank">
