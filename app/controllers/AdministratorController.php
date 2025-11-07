@@ -492,7 +492,7 @@
             $dirFiles = scandir($updateDir);
 
             Yii::import('ext.FileManager.fileManager');
-            $fm = new fileManager();
+            $fm = new FileManager();
 
             $file = $fm->open($updateDir . '_version');
             $version = fgets($file);
@@ -592,7 +592,7 @@
                 $dataText = json_encode($data);
 
                 Yii::import('ext.FileManager.fileManager');
-                $fm = new fileManager();
+                $fm = new FileManager();
                 $result = $fm->write($fileDir, $dataText);
                 if ($result) {
                     Yii::app()->user->setFlash('success', Yii::t('default', 'Dados salvos com Sucesso!'));
@@ -609,7 +609,7 @@
             $fileDir = Yii::app()->basePath . '/export/alunos-' . date('Y_') . Yii::app()->user->school . '.TXT';
 
             Yii::import('ext.FileManager.fileManager');
-            $fm = new fileManager();
+            $fm = new FileManager();
 
             $export = '';
 
@@ -791,7 +791,7 @@
             $fileDir = Yii::app()->basePath . '/export/' . date('Y_') . Yii::app()->user->school . '.TXT';
 
             Yii::import('ext.FileManager.fileManager');
-            $fm = new fileManager();
+            $fm = new FileManager();
             $result = $fm->write($fileDir, $export);
 
             if ($result) {
