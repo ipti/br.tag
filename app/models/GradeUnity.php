@@ -7,6 +7,7 @@
  * @property integer $id
  * @property integer $edcenso_stage_vs_modality_fk
  * @property string $name
+ * @property string $weight
  * @property string $type
  * @property integer $grade_calculation_fk
  * @property integer $parcial_recovery_fk
@@ -47,11 +48,11 @@ class GradeUnity extends TagModel
         // will receive user inputs.
         return array(
             array('name, type, grade_calculation_fk', 'required'),
-            array('edcenso_stage_vs_modality_fk, grade_calculation_fk, parcial_recovery_fk', 'numerical', 'integerOnly' => true),
+            array('edcenso_stage_vs_modality_fk, grade_calculation_fk, parcial_recovery_fk, weight', 'numerical', 'integerOnly' => true),
             array('name', 'length', 'max' => 50),
             array('type', 'length', 'max' => 2),
             // The following rule is used by search().
-            array('id, edcenso_stage_vs_modality_fk, name, type, grade_calculation_fk, parcial_recovery_fk', 'safe', 'on' => 'search'),
+            array('id, edcenso_stage_vs_modality_fk, name, type, grade_calculation_fk, parcial_recovery_fk, weight', 'safe', 'on' => 'search'),
         );
     }
 
@@ -83,7 +84,8 @@ class GradeUnity extends TagModel
             'name' => 'Unity Name',
             'type' => 'Type',
             'grade_calculation_fk' => 'Grade Calculation Fk',
-            'parcial_recovery_fk' => 'Parcial Recovery Fk'
+            'parcial_recovery_fk' => 'Parcial Recovery Fk',
+            'weight' => 'Weight'
         );
     }
 
@@ -109,6 +111,7 @@ class GradeUnity extends TagModel
         $criteria->compare('type', $this->type, true);
         $criteria->compare('grade_calculation_fk', $this->grade_calculation_fk);
         $criteria->compare('parcial_recovery_fk',$this->parcial_recovery_fk);
+        $criteria->compare('weight', $this->weight);
 
         return new CActiveDataProvider($this, array(
             'criteria' => $criteria,

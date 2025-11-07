@@ -1,3 +1,9 @@
+## [Versão 3.5.4]
+- Corrigido Cálculo de média Ponderada em estrutura de notas
+
+## [Versão 3.5.3]
+- Corrigido erro ao acessar aulas ministradas para coordenadores pedagógicos
+
 ## [Versão 3.5.2]
 - Corrigido Exportação do Documento do Sagres
 
