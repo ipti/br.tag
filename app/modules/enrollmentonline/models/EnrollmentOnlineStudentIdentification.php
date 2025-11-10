@@ -40,7 +40,6 @@
  * @property integer $unavailable
  * @property integer $student_fk
  * @property integer $edcenso_stage_vs_modality_fk
- * @property integer $event_pre_registration_fk
  * @property integer $stages_vacancy_pre_registration_fk
  * @property string $created_at
  * @property string $updated_at
@@ -149,7 +148,6 @@ class EnrollmentOnlineStudentIdentification extends CActiveRecord
             'status_fk' => 'Status',
             'student_fk' => 'Aluno',
             'edcenso_stage_vs_modality_fk' => 'Etapa',
-            'event_pre_registration_fk' => 'Evento de Pré-Matrícula',
             'stages_vacancy_pre_registration_fk' => 'Etapa/Vaga da Pré-Matrícula',
             'created_at' => 'Criado em',
             'updated_at' => 'Atualizado em',

@@ -19,10 +19,10 @@ class EnrollmentOnlineStudentIdentificationController extends Controller
      */
     public function filters()
     {
-        return [
+        return array(
             'accessControl', // perform access control for CRUD operations
             'postOnly + delete', // we only allow deletion via POST request
-        ];
+        );
     }
 
     /**
@@ -58,7 +58,8 @@ class EnrollmentOnlineStudentIdentificationController extends Controller
     public function init()
     {
         if (!Yii::app()->user->isGuest) {
-            $authTimeout = Yii::app()->user->getState('authTimeout', SESSION_MAX_LIFETIME);
+
+            $authTimeout = Yii::app()->user->getState("authTimeout", SESSION_MAX_LIFETIME);
             Yii::app()->user->authTimeout = $authTimeout;
 
             Yii::app()->sentry->setUserContext([
@@ -188,10 +189,27 @@ class EnrollmentOnlineStudentIdentificationController extends Controller
      */
     public function actionIndex()
     {
-        $dataProvider = new CActiveDataProvider('EnrollmentOnlineStudentIdentification');
-        $this->render('index', [
-            'dataProvider' => $dataProvider,
+        $schoolInepId = Yii::app()->user->school;
+        $dataProvider = new CActiveDataProvider('EnrollmentOnlineStudentIdentification', [
+            'criteria' => [
+                'alias' => 'eosi',
+                'with' => [
+                    'enrollmentOnlineEnrollmentSolicitations' => [
+                        'alias' => 'eoes',
+                        'together' => true,
+                        'joinType' => 'INNER JOIN',
+                    ],
+                ],
+                'condition' => 'eoes.school_inep_id_fk = :schoolInepId',
+                'params' => [':schoolInepId' => $schoolInepId],
+            ],
         ]);
+
+
+
+        $this->render('index', array(
+            'dataProvider' => $dataProvider,
+        ));
     }
 
     /**
