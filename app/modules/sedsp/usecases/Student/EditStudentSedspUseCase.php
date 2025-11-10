@@ -4,7 +4,6 @@ Yii::import('application.modules.sedsp.datasources.sed.Enrollment.*');
 
 class EditStudentSedspUseCase
 {
-
     /**
      * Summary of exec
      * @param OutListarAluno $outListStudent
@@ -18,14 +17,14 @@ class EditStudentSedspUseCase
         $student->InAluno->setInNumRA($numRA);
 
         $inManutencao = $this->createInManutencao($student);
-                
+
         $studentIdentification->gov_id = $numRA;
         $studentIdentification->save();
 
         $dataSource = new StudentSEDDataSource();
         $statusEditStudent = $dataSource->editStudent($inManutencao);
 
-        if($statusEditStudent->outErro === null){
+        if ($statusEditStudent->outErro === null) {
             $studentIdentification->sedsp_sync = 1;
             $studentIdentification->save();
         }
@@ -39,7 +38,8 @@ class EditStudentSedspUseCase
      * @param mixed $student
      * @return InManutencao
      */
-    public function createInManutencao($student) {
+    public function createInManutencao($student)
+    {
         return new InManutencao(
             $student->InAluno,
             $student->InDadosPessoais,

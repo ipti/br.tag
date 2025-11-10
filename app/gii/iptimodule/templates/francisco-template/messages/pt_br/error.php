@@ -1,4 +1,4 @@
-<?= "<?php" ?>
+<?= '<?php' ?>
 
 return [
     'Something happen' => "Algo inesperado aconteceu",

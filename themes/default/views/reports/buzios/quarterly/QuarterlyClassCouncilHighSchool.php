@@ -10,11 +10,11 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
 $turno =  $classroom[0]['turno'];
 if ($turno == 'M') {
     $turno = "Matutino";
-}else if ($turno == 'T') {
+}elseif ($turno == 'T') {
     $turno = "Vesperitino";
-}else if ($turno == 'N') {
+}elseif ($turno == 'N') {
     $turno = "Noturno";
-}else if ($turno == '' || $turno == null) {
+}elseif ($turno == '' || $turno == null) {
     $turno = "___________";
 }
 ?>
@@ -31,7 +31,7 @@ if ($turno == 'M') {
             </div>
         </div>
     </div>
-    <p style="font-size: 19px;">Aos <?php echo $count_days?> dias do mês de <?php echo $mounth?> de
+    <p style="font-size: 19px;">Aos <?php echo $countDays?> dias do mês de <?php echo $mounth?> de
     <?php echo $year?> às <?php echo $hour?>, teve início a
     reunião de Conselho de Classe referente ao <br> <?php echo $quarterly?> Trimestre do <?php echo $classroom[0]['class_stage']?>,
     turma <?php echo $classroom[0]['classroom_name']?>, do turno <?php echo $turno?>, presidido por _____________________________________________&nbsp,&nbsp_____________________.</p>
@@ -66,13 +66,13 @@ if ($turno == 'M') {
             </thead>
             <tbody>
                 <?php
-                $count_std = 1;
-                $array_students = [];
+                $countStd = 1;
+                $arrayStudents = [];
                 foreach ($classroom as $c) {
-                    if(!in_array($c['name'] ,$array_students)) {
+                    if(!in_array($c['name'] ,$arrayStudents)) {
                 ?>
                     <tr>
-                        <td style="text-align: center;"><?= $count_std < 10 ? "0" . $count_std : $count_std ?></td>
+                        <td style="text-align: center;"><?= $countStd < 10 ? "0" . $countStd : $countStd ?></td>
                         <td><?= $c['name'] ?></td>
                         <td></td>
                         <td></td>
@@ -90,25 +90,25 @@ if ($turno == 'M') {
                         <td></td>
                         <td style="text-align: center;">
                             <?php
-                            $create_date =  TagUtils::convertDateFormat($c['create_date']);
-                            $date_cancellation = TagUtils::convertDateFormat($c['date_cancellation']);
+                            $createDate =  TagUtils::convertDateFormat($c['create_date']);
+                            $dateCancellation = TagUtils::convertDateFormat($c['date_cancellation']);
                             if ($c['status'] == 1) {
                                 echo '';
-                            } else if ($c['status'] == 2) {
+                            } elseif ($c['status'] == 2) {
                                 if ($c['date_cancellation'] != null) {
-                                    echo 'Trans. ' . $date_cancellation;
+                                    echo 'Trans. ' . $dateCancellation;
                                 }else {
                                     echo 'Trans. ____/____/______';
                                 }
-                            } else if ($c['status'] == 3) {
+                            } elseif ($c['status'] == 3) {
                                 if ($c['date_cancellation'] != null) {
-                                    echo 'Cancel. ' . $date_cancellation;
+                                    echo 'Cancel. ' . $dateCancellation;
                                 }else {
                                     echo 'Cancel. ____/____/______';
                                 }
-                            } else if ($c['status'] == 4) {
+                            } elseif ($c['status'] == 4) {
                                 if ($c['date_cancellation'] != null) {
-                                    echo 'Evad. ' . $date_cancellation;
+                                    echo 'Evad. ' . $dateCancellation;
                                 }else {
                                     echo 'Evad. ____/____/______';
                                 }
@@ -124,9 +124,9 @@ if ($turno == 'M') {
                         </td>
                     </tr>
                 <?php
-                    $count_std++;
+                    $countStd++;
                     }
-                    array_push($array_students, $c['name']);
+                    array_push($arrayStudents, $c['name']);
                 }
                 ?>
             </tbody>
@@ -288,9 +288,9 @@ if ($turno == 'M') {
                 </thead>
                 <tbody>
                     <?php
-                        $validate_array = array();
+                        $validateArray = [];
                         foreach ($classroom as $c) {
-                            if(!in_array($c['discipline'], $validate_array)) {
+                            if(!in_array($c['discipline'], $validateArray)) {
                     ?>
                                 <tr>
                                     <td><?= $c['discipline'] ?></td>
@@ -299,7 +299,7 @@ if ($turno == 'M') {
                                 </tr>
                     <?php
                             }
-                            array_push($validate_array, $c['discipline']);
+                            array_push($validateArray, $c['discipline']);
                         }
                     ?>
                 </tbody>
@@ -373,13 +373,13 @@ if ($turno == 'M') {
             </thead>
             <tbody>
                 <?php
-                    $validate_array = array();
+                    $validateArray = array();
                     foreach ($classroom as $c) {
                         $json = json_encode(array(
                             "prof_name" => $c['prof_name'],
                             "discipline" => $c['discipline']
                         ));
-                        if(!in_array($json, $validate_array)) {
+                        if(!in_array($json, $validateArray)) {
                 ?>
                             <tr>
                                 <td><?= $c['discipline'] ?></td>
@@ -388,7 +388,7 @@ if ($turno == 'M') {
                             </tr>
                 <?php
                         }
-                        array_push($validate_array, $json);
+                        array_push($validateArray, $json);
                     }
                 ?>
             </tbody>

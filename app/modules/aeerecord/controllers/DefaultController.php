@@ -13,10 +13,10 @@ class DefaultController extends Controller
      */
     public function filters()
     {
-        return array(
+        return [
             'accessControl', // perform access control for CRUD operations
             'postOnly + delete', // we only allow deletion via POST request
-        );
+        ];
     }
 
     /**
@@ -26,39 +26,39 @@ class DefaultController extends Controller
      */
     public function accessRules()
     {
-        return array(
-            array(
+        return [
+            [
                 'allow', // allow authenticated user to perform 'create' and 'update' actions
-                'actions' => array(
+                'actions' => [
                     'getInstructorClassrooms',
                     'getClassroomStudents',
                     'getAeeRecord',
                     'checkStudentAeeRecord',
                     'delete',
                     'admin'
-                ),
-                'users' => array('@'),
-            ),
-            array(
+                ],
+                'users' => ['@'],
+            ],
+            [
                 'allow',  // allow all users to perform 'index' and 'view' actions
-                'actions' => array('index', 'view'),
-                'users' => array('*'),
-            ),
-            array(
+                'actions' => ['index', 'view'],
+                'users' => ['*'],
+            ],
+            [
                 'allow', // allow authenticated user to perform 'create' and 'update' actions
-                'actions' => array('create', 'update'),
-                'users' => array('@'),
-            ),
-            array(
+                'actions' => ['create', 'update'],
+                'users' => ['@'],
+            ],
+            [
                 'allow', // allow admin user to perform 'admin' and 'delete' actions
-                'actions' => array('admin', 'delete'),
-                'users' => array('admin'),
-            ),
-            array(
+                'actions' => ['admin', 'delete'],
+                'users' => ['admin'],
+            ],
+            [
                 'deny',  // deny all users
-                'users' => array('*'),
-            ),
-        );
+                'users' => ['*'],
+            ],
+        ];
     }
 
     /**
@@ -67,32 +67,30 @@ class DefaultController extends Controller
      */
     public function actionView($id)
     {
-        $this->render('view', array(
+        $this->render('view', [
             'model' => $this->loadModel($id),
-        ));
+        ]);
     }
 
     public function actionGetInstructorClassrooms()
     {
-        $sql = "SELECT c.id, c.name
+        $sql = 'SELECT c.id, c.name
                 from classroom c
                 join instructor_teaching_data itd on itd.classroom_id_fk = c.id
                 join instructor_identification ii on itd.instructor_fk = ii.id
-                WHERE c.school_inep_fk = :school_fk and c.school_year = :user_year and c.aee = 1";
+                WHERE c.school_inep_fk = :school_fk and c.school_year = :user_year and c.aee = 1';
 
         $command = Yii::app()->db->createCommand($sql);
 
-
         if (Yii::app()->getAuthManager()->checkAccess('instructor', Yii::app()->user->loginInfos->id)) {
-            $sql = "SELECT c.id, c.name
+            $sql = 'SELECT c.id, c.name
             from classroom c
             join instructor_teaching_data itd on itd.classroom_id_fk = c.id
             join instructor_identification ii on itd.instructor_fk = ii.id
-            WHERE c.school_inep_fk = :school_fk and ii.users_fk = :users_fk and c.school_year = :user_year and c.aee = 1";
+            WHERE c.school_inep_fk = :school_fk and ii.users_fk = :users_fk and c.school_year = :user_year and c.aee = 1';
             $command = Yii::app()->db->createCommand($sql);
             $command->bindValue(':users_fk', Yii::app()->user->loginInfos->id, PDO::PARAM_INT);
         }
-
 
         $command->bindValue(':user_year', Yii::app()->user->year, PDO::PARAM_INT);
         $command->bindValue(':school_fk', Yii::app()->user->school, PDO::PARAM_INT);
@@ -106,12 +104,12 @@ class DefaultController extends Controller
     {
         $classroomId = Yii::app()->request->getPost('classroomId');
 
-        $sql = "SELECT std.id, std.name
+        $sql = 'SELECT std.id, std.name
                 FROM student_enrollment se
                 JOIN classroom c ON c.id = se.classroom_fk
                 JOIN student_identification std ON std.id = se.student_fk
                 WHERE c.id = :classroom_id
-                order by se.daily_order";
+                order by se.daily_order';
 
         $command = Yii::app()->db->createCommand($sql);
         $command->bindValue(':classroom_id', $classroomId, PDO::PARAM_INT);
@@ -126,26 +124,25 @@ class DefaultController extends Controller
         $completeRecord = [];
         $recordId = Yii::app()->request->getPost('recordId');
 
-        $sql = "SELECT sar.id, sar.date, si.name AS studentName, c.name AS classroomName, ii.name AS instructorName
+        $sql = 'SELECT sar.id, sar.date, si.name AS studentName, c.name AS classroomName, ii.name AS instructorName
                 from student_aee_record sar
                 join student_identification si on si.id = sar.student_fk
                 join classroom c on c.id = sar.classroom_fk
                 join instructor_identification ii on ii.id = sar.instructor_fk
-                WHERE sar.id = :record_id";
+                WHERE sar.id = :record_id';
 
         $command = Yii::app()->db->createCommand($sql);
         $command->bindValue(':record_id', $recordId, PDO::PARAM_INT);
 
         $aeeRecord = $command->queryAll();
 
-
         foreach ($aeeRecord as $record) {
             array_push($completeRecord, [
-                "id" => $record["id"],
-                "date" => date("d/m/Y", strtotime($record["date"])),
-                "studentName" => $record["studentName"],
-                "classroomName" => $record["classroomName"],
-                "instructorName" => $record["instructorName"],
+                'id' => $record['id'],
+                'date' => date('d/m/Y', strtotime($record['date'])),
+                'studentName' => $record['studentName'],
+                'classroomName' => $record['classroomName'],
+                'instructorName' => $record['instructorName'],
             ]);
         }
 
@@ -158,7 +155,7 @@ class DefaultController extends Controller
 
         $criteria = new CDbCriteria();
         $criteria->condition = 't.student_fk = :student';
-        $criteria->params = array(':student' => $studentId);
+        $criteria->params = [':student' => $studentId];
         $existingAeeRecord = StudentAeeRecord::model()->find($criteria);
 
         $response = $existingAeeRecord ? $existingAeeRecord->id : '';
@@ -167,7 +164,7 @@ class DefaultController extends Controller
 
     public function actionCreate()
     {
-        $model = new StudentAeeRecord;
+        $model = new StudentAeeRecord();
 
         if (Yii::app()->request->isAjaxRequest) {
             $classroomId = Yii::app()->request->getPost('classroomId');
@@ -175,7 +172,7 @@ class DefaultController extends Controller
             $learningNeeds = Yii::app()->request->getPost('learningNeeds');
             $characterization = Yii::app()->request->getPost('characterization');
 
-            $instructor = InstructorIdentification::model()->findByAttributes(array('users_fk' => Yii::app()->user->loginInfos->id));
+            $instructor = InstructorIdentification::model()->findByAttributes(['users_fk' => Yii::app()->user->loginInfos->id]);
 
             $model->learning_needs = $learningNeeds;
             $model->characterization = $characterization;
@@ -187,12 +184,11 @@ class DefaultController extends Controller
             if ($model->save()) {
                 Yii::app()->user->setFlash('success', Yii::t('default', 'Ficha AEE foi cadastrada com sucesso!'));
             }
-
         }
 
-        $this->render('create', array(
+        $this->render('create', [
             'model' => $model,
-        ));
+        ]);
     }
 
     public function actionUpdate($id)
@@ -212,9 +208,9 @@ class DefaultController extends Controller
             }
         }
 
-        $this->render('update', array(
+        $this->render('update', [
             'model' => $model,
-        ));
+        ]);
     }
 
     /**
@@ -228,7 +224,7 @@ class DefaultController extends Controller
 
         Yii::app()->user->setFlash('success', Yii::t('default', 'Ficha AEE excluída com sucesso!'));
 
-        $this->redirect(array('index'));
+        $this->redirect(['index']);
     }
 
     /**
@@ -237,47 +233,47 @@ class DefaultController extends Controller
     public function actionIndex()
     {
         if (Yii::app()->getAuthManager()->checkAccess('instructor', Yii::app()->user->loginInfos->id)) {
-            $dataProvider = new CActiveDataProvider('StudentAeeRecord', array(
-                'criteria' => array(
-                    'with' => array(
-                        'instructorFk' => array(
+            $dataProvider = new CActiveDataProvider('StudentAeeRecord', [
+                'criteria' => [
+                    'with' => [
+                        'instructorFk' => [
                             'together' => true,
                             'condition' => 'instructorFk.users_fk=:userId',
-                            'params' => array(':userId' => Yii::app()->user->loginInfos->id),
-                        ),
-                        'classroomFk' => array(
+                            'params' => [':userId' => Yii::app()->user->loginInfos->id],
+                        ],
+                        'classroomFk' => [
                             'together' => true,
                             'condition' => 'classroomFk.school_inep_fk=:schoolId and classroomFk.school_year = :schoolYear',
-                            'params' => array(
+                            'params' => [
                                 ':schoolId' => Yii::app()->user->school,
                                 ':schoolYear' => Yii::app()->user->year
-                            ),
-                        ),
-                    ),
-                ),
+                            ],
+                        ],
+                    ],
+                ],
                 'pagination' => false
-            ));
+            ]);
         } else {
-            $dataProvider = new CActiveDataProvider('StudentAeeRecord', array(
-                'criteria' => array(
-                    'with' => array(
-                        'classroomFk' => array(
+            $dataProvider = new CActiveDataProvider('StudentAeeRecord', [
+                'criteria' => [
+                    'with' => [
+                        'classroomFk' => [
                             'together' => true,
                             'condition' => 'classroomFk.school_inep_fk=:schoolId and classroomFk.school_year = :schoolYear',
-                            'params' => array(
+                            'params' => [
                                 ':schoolId' => Yii::app()->user->school,
                                 ':schoolYear' => Yii::app()->user->year
-                            ),
-                        ),
-                    ),
-                ),
+                            ],
+                        ],
+                    ],
+                ],
                 'pagination' => false
-            ));
+            ]);
         }
 
-        $this->render('index', array(
+        $this->render('index', [
             'dataProvider' => $dataProvider,
-        ));
+        ]);
     }
 
     /**
@@ -285,23 +281,22 @@ class DefaultController extends Controller
      */
     public function actionAdmin()
     {
-        $dataProvider = new CActiveDataProvider('StudentAeeRecord', array(
-            'criteria' => array(
-                'with' => array(
-                    'classroomFk' => array(
+        $dataProvider = new CActiveDataProvider('StudentAeeRecord', [
+            'criteria' => [
+                'with' => [
+                    'classroomFk' => [
                         'together' => true,
                         'condition' => 'classroomFk.school_inep_fk=:schoolId and classroomFk.school_year = :schoolYear',
-                        'params' => array(':schoolId' => Yii::app()->user->school, ':schoolYear' => Yii::app()->user->year),
-                    ),
-                ),
-            ),
+                        'params' => [':schoolId' => Yii::app()->user->school, ':schoolYear' => Yii::app()->user->year],
+                    ],
+                ],
+            ],
             'pagination' => false
-        ));
+        ]);
 
-
-        $this->render('admin', array(
+        $this->render('admin', [
             'dataProvider' => $dataProvider,
-        ));
+        ]);
     }
 
     /**

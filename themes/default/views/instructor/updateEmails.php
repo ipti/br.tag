@@ -14,7 +14,7 @@ $cs->registerScriptFile($baseUrl . '/js/instructor/form/updateEmails.js?v='.TAG_
 $this->setPageTitle('TAG - ' . Yii::t('default', 'Update Instructor e-mails'));
 
 $form = $this->beginWidget('CActiveForm', [
-    'id' => 'updateEmails-form', 'enableAjaxValidation' => FALSE,
+    'id' => 'updateEmails-form', 'enableAjaxValidation' => false,
 ]);
 ?>
 <div class="main">
@@ -27,18 +27,17 @@ $form = $this->beginWidget('CActiveForm', [
     <div class="tag-inner instructor-emails">
         <div class="alert alert-danger">Preencha os e-mails corretamente.</div>
         <div class="row wrap">
-            <?php $half_count = ceil(count($instructors) / 2); ?>
+            <?php $halfCount = ceil(count($instructors) / 2); ?>
             <div class="column is-two-fifths t-field-text">
-                <?php foreach (array_slice($instructors, 0, $half_count) as $instructor) : ?>
+                <?php foreach (array_slice($instructors, 0, $halfCount) as $instructor) : ?>
                     <div class="t-field-text">
                         <label class="t-field-text__label" for="instructor"><?= $instructor->name ?></label>
                         <input name="<?= $instructor->id ?>" class="t-field-text__input" type="email">
-                        <!-- style="white-space:nowrap; overflow-y: hidden; overflow-x: auto; text-overflow:ellipsis; margin-top: 5px;" -->
                     </div>
                 <?php endforeach ?>
             </div>
             <div class="column is-two-fifths t-field-text">
-                <?php foreach (array_slice($instructors, $half_count) as $instructor) : ?>
+                <?php foreach (array_slice($instructors, $halfCount) as $instructor) : ?>
                     <div class="t-field-text">
                         <label class="t-field-text__label" for="instructor"><?= $instructor->name ?></label>
                         <input name="<?= $instructor->id ?>" class="t-field-text__input" type="email">

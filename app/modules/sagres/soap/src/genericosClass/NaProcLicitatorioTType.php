@@ -5,7 +5,7 @@ namespace Genericos;
 /**
  * Class representing NaProcLicitatorioTType
  *
- * 
+ *
  * XSD Type: naProcLicitatorio_t
  */
 class NaProcLicitatorioTType
@@ -64,4 +64,3 @@ class NaProcLicitatorioTType
         return $this;
     }
 }
-

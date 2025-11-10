@@ -2,12 +2,10 @@ FROM ipti/yii2:8.3-fpm
 
 # Definir o diretório principal
 WORKDIR /app
+USER root
 
 # Copiar arquivos para o contêiner no diretório raiz da aplicação
 COPY . /app
-
-# Executar composer update e instalar dependências no diretório secundário (/app/app)
-USER root
 
 COPY --from=composer:latest /usr/bin/composer /usr/local/bin/composer
 
@@ -23,12 +21,14 @@ RUN composer update \
     && composer install
 
 # Conctruir arquivos css do sass
-RUN vendor/scssphp/scssphp/bin/pscss --no-source-map --style=compressed sass/scss:sass/css
+# RUN vendor/scssphp/scssphp/bin/pscss --no-source-map --style=compressed sass/scss:sass/css
 
 # Ajustar permissões para o usuário www-data
 RUN chown -R www-data:www-data /app/app/runtime \
     && mkdir -p /app/assets && chown -R www-data:www-data /app/assets \
-    && chown -R www-data:www-data /app/app/export
+    && chown -R www-data:www-data /app/app/export \
+    && chown -R www-data:www-data /app/app/import
+
 
 RUN chmod +x /usr/local/bin/docker-run.sh \
     && chown www-data:www-data /usr/local/bin/docker-run.sh

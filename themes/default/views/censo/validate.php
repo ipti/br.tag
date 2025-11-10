@@ -13,6 +13,7 @@
     );
     $themeUrl = Yii::app()->theme->baseUrl;
     $cs = Yii::app()->getClientScript();
+    $cs->registerScriptFile($baseUrl . '/js/censo/functions.js?v=' . TAG_VERSION, CClientScript::POS_END);
 
     ?>
     <style type="text/css">
@@ -111,24 +112,33 @@
                 <?php echo Yii::app()->user->getFlash('success') ?>
             </div>
         <?php } else if (Yii::app()->user->hasFlash('error')) { ?>
-                <div class="alert alert-error">
+            <div class="alert alert-error">
                 <?php echo Yii::app()->user->getFlash('success') ?>
-                </div>
+            </div>
         <?php } ?>
         <div class="row  t-buttons-container">
-            <a href="<?= CHtml::normalizeUrl(array('censo/export')) ?>" class="t-button-primary" style="margin:0;">
+            <a href="<?= CHtml::normalizeUrl(array('censo/export', 'withoutCertificates' => 0)) ?>" class="t-button-primary js-export-link" style="margin:0;">
                 <?= Yii::t('default', 'Exportar arquivo de migração') ?>
             </a>
+            <!-- <button class="t-button-primary js-export-censo" style="margin:0;">
+                <?= Yii::t('default', 'Exportar arquivo de migração') ?>
+            </button> -->
             <?php if (Yii::app()->getAuthManager()->checkAccess('admin', Yii::app()->user->loginInfos->id)): ?>
-                <a href="<?= CHtml::normalizeUrl(array('censo/exportidentification')) ?>" class="t-button-secondary"
+                <a href="<?= CHtml::normalizeUrl(array('censo/exportidentification', 'withoutCertificates' => 0)) ?>" class="t-button-secondary js-export-link"
                     style="margin:0;">
                     <?= Yii::t('default', 'Exportar arquivo de identificação') ?>
                 </a>
-                 <a href="<?= CHtml::normalizeUrl(array('censo/inepImport')) ?>" class="t-button-secondary"
+                <a href="<?= CHtml::normalizeUrl(array('censo/inepImport')) ?>" class="t-button-secondary"
                     style="margin:0;">
                     <?= Yii::t('default', 'Importar INEP ID') ?>
                 </a>
             <?php endif; ?>
+        </div>
+        <div class="t-field-checkbox">
+            <label class="t-field-checkbox__label">
+                <input type="checkbox" class="t-field-checkbox__input js-withoutCertificates" name="withoutCertificates">
+                Exportar sem certidões de nascimento
+            </label>
         </div>
         <!-- Widget Heading END -->
         <?php
@@ -155,10 +165,10 @@
                 </div>
             </div>
             <script type="text/javascript">
-                $(function () {
+                $(function() {
                     $.ajax({
                         url: '<?= $this->createUrl('censo/validate') ?>',
-                        success: function (data) {
+                        success: function(data) {
                             $('#filterUsersTab').html(data);
                             $(".itens-censo li").parents('div').css("display", "block");
                             if ($(".list-timeline").find(".ellipsis").length) {
@@ -174,7 +184,6 @@
                     });
 
                 });
-
             </script>
         </div>
 

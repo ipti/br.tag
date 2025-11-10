@@ -2,23 +2,23 @@
 /* @var $this ProfessionalController */
 /* @var $dataProvider CActiveDataProvider */
 
-$this->breadcrumbs=array(
-	'Professionals',
-);
+$this->breadcrumbs = [
+    'Professionals',
+];
 
 ?>
 
 <div id="mainPage" class="main container-professional">
     <?php
     $this->setPageTitle('TAG - ' . Yii::t('default', 'Professional Identifications'));
-    $contextDesc = Yii::t('default', 'Available actions that may be taken on professionalIdentification.');
-    $this->menu = array(
-        array('label' => Yii::t('default', 'Create a new professionalIdentification'), 'url' => array('create'), 'description' => Yii::t('default', 'This action create a new professionalIdentification')),
-    );
-    $themeUrl = Yii::app()->theme->baseUrl;
-    $cs = Yii::app()->getClientScript();
+$contextDesc = Yii::t('default', 'Available actions that may be taken on professionalIdentification.');
+$this->menu = [
+    ['label' => Yii::t('default', 'Create a new professionalIdentification'), 'url' => ['create'], 'description' => Yii::t('default', 'This action create a new professionalIdentification')],
+];
+$themeUrl = Yii::app()->theme->baseUrl;
+$cs = Yii::app()->getClientScript();
 
-    ?>
+?>
 
 
     <div class="row-fluid box-professional">
@@ -55,53 +55,53 @@ $this->breadcrumbs=array(
         <div class="widget clearmargin">
             <div class="widget-body">
                 <?php
-                $this->widget('zii.widgets.grid.CGridView', array(
-                    'dataProvider' => $dataProvider,
-                    'enablePagination' => false,
-                    'enableSorting' => false,
-                    'itemsCssClass' => 'js-tag-table tag-table-primary table table-condensed table-striped table-hover table-primary table-vertical-center checkboxs',
-                    'columns' => array(
-                        array(
-                            'name' => 'name',
-                            'header' => 'Nome',
-                            'type' => 'raw',
-                            'value' => 'CHtml::link($data->name,Yii::app()->createUrl("professional/default/update",array("id"=>$data->id_professional)))',
-                            'htmlOptions' => array('width' => '400px', 'class' => 'link-update-grid-view'),
-                        ),
-                        array(
-                            'name' => 'cpf',
-                            'header' => 'CPF',
-                            'value' => '$data->cpf_professional',
-                        ),
-                        array(
-                            'name' => 'speciality',
-                            'header' => 'Especialidade',
-                            'value' => '$data->speciality',
-                        ),
-                        array(
-                            'name' => 'fundeb',
-                            'header' => 'Fundeb',
-                            'value' => '$data->fundeb ? "Sim" : "Não"',
-                        ),
-                        array(
-                            'header' => 'Ações',
-                            'class' => 'CButtonColumn',
-                            'template' => '{update}{delete}',
-                            'buttons' => array(
-                                'update' => array(
-                                    'imageUrl' => Yii::app()->theme->baseUrl.'/img/editar.svg',
-                                ),
-                                'delete' => array(
-                                    'imageUrl' => Yii::app()->theme->baseUrl.'/img/deletar.svg',
-                                )
-                            ),
-                            'updateButtonOptions' => array('style' => 'margin-right: 20px;'),
-                            'deleteButtonOptions' => array('style' => 'cursor: pointer;'),
-                            'htmlOptions' => array('width' => '100px', 'style' => 'text-align: center'),
-                        ),
-                    ),
-                ));
-                ?>
+            $this->widget('zii.widgets.grid.CGridView', [
+                'dataProvider' => $dataProvider,
+                'enablePagination' => false,
+                'enableSorting' => false,
+                'itemsCssClass' => 'js-tag-table tag-table-primary table table-condensed table-striped table-hover table-primary table-vertical-center checkboxs',
+                'columns' => [
+                    [
+                        'name' => 'name',
+                        'header' => 'Nome',
+                        'type' => 'raw',
+                        'value' => 'CHtml::link($data->name,Yii::app()->createUrl("professional/default/update",array("id"=>$data->id_professional)))',
+                        'htmlOptions' => ['width' => '400px', 'class' => 'link-update-grid-view'],
+                    ],
+                    [
+                        'name' => 'cpf',
+                        'header' => 'CPF',
+                        'value' => '$data->cpf_professional',
+                    ],
+                    [
+                        'name' => 'speciality',
+                        'header' => 'Especialidade',
+                        'value' => '$data->speciality',
+                    ],
+                    [
+                        'name' => 'fundeb',
+                        'header' => 'Fundeb',
+                        'value' => '$data->fundeb ? "Sim" : "Não"',
+                    ],
+                    [
+                        'header' => 'Ações',
+                        'class' => 'CButtonColumn',
+                        'template' => '{update}{delete}',
+                        'buttons' => [
+                            'update' => [
+                                'imageUrl' => Yii::app()->theme->baseUrl . '/img/editar.svg',
+                            ],
+                            'delete' => [
+                                'imageUrl' => Yii::app()->theme->baseUrl . '/img/deletar.svg',
+                            ]
+                        ],
+                        'updateButtonOptions' => ['style' => 'margin-right: 20px;'],
+                        'deleteButtonOptions' => ['style' => 'cursor: pointer;'],
+                        'htmlOptions' => ['width' => '100px', 'style' => 'text-align: center'],
+                    ],
+                ],
+            ]);
+?>
             </div>
         </div>
     </div>

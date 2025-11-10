@@ -1,6 +1,6 @@
 <?php
 
-return array(
+return [
     // Ano
     'Year' => 'Ano',
 
@@ -441,7 +441,7 @@ return array(
     'Differentiated Operating Place' => 'Local de Funcionamento Diferenciado',
     'Complementary Activity' => 'Atividade Complementar',
     'AEE' => 'Atendimento Educacional Especializado (AEE)',
-    "Ignore On Sagres" => 'Excluir da exportação do SAGRES',
+    'Ignore On Sagres' => 'Excluir da exportação do SAGRES',
     'Period' => 'Periodo',
     'Is Special Education' => 'Turma de Educação Especial (classe especial)',
 
@@ -494,7 +494,7 @@ return array(
     'Resource Proof Language' => 'Prova de Língua Portuguesa: Segunda língua surdos e deficientes auditivos',
     'Resource Cd Audio' => 'CD com áudio para deficiente visual',
     'Resource Video Libras' => 'Vídeo em Libras',
-    'Resource Additional Time'=>'Tempo Adicional',
+    'Resource Additional Time' => 'Tempo Adicional',
     'Resource None' => 'Nenhum',
     'Responsable' => 'Responsável',
     'Responsable`s Name' => 'Nome do Responsável',
@@ -534,7 +534,7 @@ return array(
     'Edcenso Notary Office Fk' => 'Cartório',
     'Civil Register Enrollment Number' => 'Nº da Matrícula (Registro Civil - Certidão nova)',
     'Cpf' => 'Nº do CPF',
-    'Justification for absence of CPF' => "Justificativa para ausência do CPF",
+    'Justification for absence of CPF' => 'Justificativa para ausência do CPF',
     'Foreign Document Or Passport' => 'Documento Estrangeiro / Passaporte',
     'Nis' => 'Nº de Identificação Social (NIS)',
     'CNS Number' => 'Nº do CNS',
@@ -612,7 +612,15 @@ return array(
     //Student Declaration
     'Student Declaration' => 'Declaração do Aluno',
 
-
+    //StudentIMC
+    'Student Imc' => 'IMC do Aluno',
+    'Weight' => 'Peso (kg)',
+    'Height' => 'Altura (m)',
+    'Imc' => 'IMC',
+    'Classification' => 'Classificação do IMC',
+    'Observations' => 'Observação',
+    'Created_At' => 'Data da Medição',
+    'Updated_At' => 'Data da Atualização',
 
     //InstructorIdentification
     'Nis' => 'Nº de Identificação Social (NIS)',
@@ -729,10 +737,10 @@ return array(
     'Discipline 13 Fk' => '',
 
     //Instructor email update
-    'Update Instructor e-mails' => "Atualizar e-mail dos professores",
+    'Update Instructor e-mails' => 'Atualizar e-mail dos professores',
 
     //Instructor frequency
-    'Instructor frequency' => "Frequência do professor",
+    'Instructor frequency' => 'Frequência do professor',
 
     //Classboards
     'Insert class' => 'Inserir aula',
@@ -807,7 +815,6 @@ return array(
     'Instructors' => 'Professores',
     'Declaration' => 'Declaração',
 
-    //
     'Area' => 'Área de Atuação',
 
     //Labels de Grupos
@@ -890,15 +897,17 @@ return array(
     'nutritionist' => 'Nutricionista',
     'guardian' => 'Pai/Mãe ou responsável',
     'reader' => 'Somente Leitura',
+    'superuser' => 'Super Usuário',
+    'foodServiceWorker' => 'Merendeiro(a)',
     'admin' => 'Administrador',
     'Edit Password' => 'Alterar Senha',
 
     'Administration' => 'Administração',
     'Conflicts' => 'Conflitos',
-    'Confirm' => "Confirme a Senha",
+    'Confirm' => 'Confirme a Senha',
 
     //Import
-    'Import File' => "Arquivo de Importação",
+    'Import File' => 'Arquivo de Importação',
     'Import File Dialog' => 'Importar Informações do EducaCenso',
     'Import' => 'Importar',
 
@@ -976,12 +985,10 @@ return array(
     'Replacement' => 'Reposição',
     'Final Exam' => 'Prova Final',
     'Subtitles' => 'Legenda',
-    "Beginning of the School Year" => "Início do Ano Escolar",
-    "End of the School Year" => "Fim do Ano Escolar",
+    'Beginning of the School Year' => 'Início do Ano Escolar',
+    'End of the School Year' => 'Fim do Ano Escolar',
     // setflas
     'dayli order' => 'Ordem do diario alterado com sucesso!',
     // Unidades
-    'Unity Name' => "Nome da unidade"
-)
-
-    ?>
+    'Unity Name' => 'Nome da unidade'
+];

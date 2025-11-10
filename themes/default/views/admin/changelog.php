@@ -1,4 +1,4 @@
-<?php 
+<?php
 $this->pageTitle = 'TAG - ' . Yii::t('default', 'Changelog');
 ?>
 
@@ -12,6 +12,7 @@ $this->pageTitle = 'TAG - ' . Yii::t('default', 'Changelog');
     if (getCookie('tag_version') !== "<?php echo TAG_VERSION; ?>") {
         setCookie("tag_version", "<?php echo TAG_VERSION; ?>", 3650);
     }
+
 
     function setCookie(name,value,days) {
         var expires = "";

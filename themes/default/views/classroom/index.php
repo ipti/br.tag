@@ -123,7 +123,7 @@
                             'htmlOptions' => array('width' => '100px', 'style' => 'text-align: center;'),
                         )
                     );
-                    if (Yii::app()->features->isEnable("FEAT_SEDSP")) {
+                    if (Yii::app()->features->isEnable(TFeature::FEAT_INTEGRATIONS_SEDSP)) {
                         array_push($columns,
                             array(
                                 'header' => 'Sincronizado',
@@ -153,7 +153,7 @@
                         'enableSorting' => false,
                         'itemsCssClass' => 'js-tag-table tag-table-primary table table-condensed
                         table-striped table-hover table-primary table-vertical-center checkboxs',
-                        // 'afterAjaxUpdate' => 'function(id, data){initDatatable()}', // TODO: essa linha está causando erro quando SEDSP desabiitado
+                        // 'afterAjaxUpdate' => 'function(id, data){initDatatable()}', // causa erro quando SEDSP desabilitado
                         'columns' => $columns,
                     ));
                     ?>

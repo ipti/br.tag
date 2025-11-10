@@ -4,7 +4,6 @@ namespace SagresEdu;
 
 use JMS\Serializer\Annotation as Serializer;
 
-
 /**
  * Class representing MatriculaTType
  *
@@ -13,41 +12,42 @@ use JMS\Serializer\Annotation as Serializer;
  */
 class MatriculaTType
 {
-    #[Serializer\SerializedName("edu:numero")]
+    #[Serializer\SerializedName('edu:numero')]
     #[Serializer\XmlElement(cdata: false)]
     private ?string $numero = null;
 
     #[Serializer\Type("DateTime<'Y-m-d'>")]
-    #[Serializer\SerializedName("edu:data_matricula")]
+    #[Serializer\SerializedName('edu:data_matricula')]
     #[Serializer\XmlElement(cdata: false)]
     private ?\DateTime $dataMatricula = null;
 
     #[Serializer\Type("DateTime<'Y-m-d'>")]
-    #[Serializer\SerializedName("edu:data_cancelamento")]
+    #[Serializer\SerializedName('edu:data_cancelamento')]
     #[Serializer\XmlElement(cdata: false)]
     private ?\DateTime $dataCancelamento = null;
 
-    #[Serializer\SerializedName("edu:numero_faltas")]
+    #[Serializer\SerializedName('edu:numero_faltas')]
     #[Serializer\XmlElement(cdata: false)]
     private ?int $numeroFaltas = null;
 
-    #[Serializer\SerializedName("edu:aprovado")]
+    #[Serializer\SerializedName('edu:aprovado')]
     #[Serializer\XmlElement(cdata: false)]
     private ?bool $aprovado = null;
 
-    #[Serializer\SerializedName("edu:aluno")]
+    #[Serializer\SerializedName('edu:aluno')]
     #[Serializer\XmlElement(cdata: false)]
     private ?AlunoTType $aluno = null;
 
-    private ?int $enrollment_stage = null;
+    private ?int $enrollmentStage = null;
 
-
-    public function getEnrollmentStage ():?int{
-        return $this->enrollment_stage;
-    }
-    public function setEnrollmentStage (?int $enrollment_stage): self
+    public function getEnrollmentStage(): ?int
     {
-        $this->enrollment_stage = $enrollment_stage;
+        return $this->enrollmentStage;
+    }
+
+    public function setEnrollmentStage(?int $enrollmentStage): self
+    {
+        $this->enrollmentStage = $enrollmentStage;
         return $this;
     }
 
@@ -117,4 +117,3 @@ class MatriculaTType
         return $this;
     }
 }
-

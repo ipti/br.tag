@@ -10,21 +10,23 @@ Yii::import('application.modules.sedsp.models.*');
  */
 class IdentifyClassroomRACode
 {
-    private  $studentTAGDataSource;
-    private   $studentSEDDataSource;
+    private $studentTAGDataSource;
+    private $studentSEDDataSource;
 
     /**
      * Summary of __construct
      * @param StudentTAGDataSource $studentTAGDataSource
      * @param StudentSEDDataSource $studentSEDDataSource
      */
-    public function __construct($studentTAGDataSource = null, $studentSEDDataSource = null) {
+    public function __construct($studentTAGDataSource = null, $studentSEDDataSource = null)
+    {
         $this->studentTAGDataSource = $studentTAGDataSource ?? new StudentTAGDataSource();
         $this->studentSEDDataSource = $studentSEDDataSource ?? new StudentSEDDataSource();
     }
-    public function exec($tag_student_id)
+
+    public function exec($tagStudentId)
     {
-        $students = $this->studentTAGDataSource->getAllStudentBySchool($tag_student_id);
+        $students = $this->studentTAGDataSource->getAllStudentBySchool($tagStudentId);
         $response = $this->studentSEDDataSource->getAllStudentsRA($students);
 
         //Acessando os dados do aluno

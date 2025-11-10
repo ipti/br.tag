@@ -1,11 +1,12 @@
 <?php
 
     Yii::import('application.modules.classdiary.services.*');
+
     /**
     * @property GetClassrooms $GetClassrooms
     */
 
-    class GetClassrooms 
+    class GetClassrooms
     {
         private $classService;
 
@@ -13,14 +14,9 @@
         {
             $this->classService = $classService ?? new ClassesService();
         }
-        public function exec($isInstructor, $discipline){
-            if ($isInstructor) {
-                $response = $this->classService->getClassroomsInstructor($discipline);
-                return  $response; 
-            } else {
-                $response = $this->classService->getClassrooms();
-                
-                return  $response; 
-            }
+
+        public function exec($isInstructor, $discipline)
+        {
+            return $isInstructor?$this->classService->getClassroomsInstructor($discipline):$this->classService->getClassrooms();
         }
     }

@@ -1,9 +1,11 @@
 <?php
+
+Yii::import('zii.behaviors.CTimestampBehavior');
 class TagModel extends CActiveRecord
 {
     public function behaviors()
     {
-        return array(
+        return [
             'CTimestampBehavior' => [
                 'class' => 'zii.behaviors.CTimestampBehavior',
                 'createAttribute' => 'created_at',
@@ -11,8 +13,9 @@ class TagModel extends CActiveRecord
                 'setUpdateOnCreate' => true,
                 'timestampExpression' => new CDbExpression('CONVERT_TZ(NOW(), "+00:00", "-03:00")'),
             ]
-        );
+        ];
     }
+
     public function save($runValidation = true, $attributes = null)
     {
         if (!Yii::app()->user->isGuest && $this->isReadOnlyUser()) {
@@ -36,6 +39,5 @@ class TagModel extends CActiveRecord
     private function isReadOnlyUser()
     {
         return Yii::app()->getAuthManager()->checkAccess('reader', Yii::app()->user->loginInfos->id);
-
     }
 }

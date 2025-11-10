@@ -16,6 +16,7 @@
         display: flex;
         flex-direction: column;
         gap: 8px;
+
         .t-cards-title {
             display: flex;
             align-items: center;
@@ -23,6 +24,7 @@
             font-size: $FontSizeHeadingTitle2;
             font-family: 'Inter', sans-serif;
             font-weight: 700;
+            line-height: normal;
 
 
             img {
@@ -34,6 +36,7 @@
             color: $colorsBaseInkLightActive;
             margin-left: $SizeXLarge;
             font-size: $FontSizeTextSmall;
+
             &.clear-margin {
                 &--left {
                     margin-left: 0;
@@ -42,18 +45,19 @@
         }
 
 
-        span{
+        span {
             margin: $spaceEmpty $spaceXXXSmall $spaceEmpty $spaceEmpty;
             font-size: $FontSizeHeadingTitle1;
         }
 
-        .t-cards-link{
+        .t-cards-link {
             display: flex;
             gap: 13px;
         }
     }
-      &:hover {
-            text-decoration: none;
-        }
+
+    &:hover {
+        text-decoration: none;
+    }
 
 }

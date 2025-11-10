@@ -1,3 +1,28 @@
+## [Versão 3.6.1]
+- Refatoração de código para redução de débito técnico
+
+## [Versão 3.6.0]
+- Modulo de acompanhamento de sáude do estudante
+
+## [Versão 3.5.0]
+- Controle de acesso por módulos
+- Refatoração de código para redução de débito tecnico
+- Pefil de Super Usuário
+- Status da turma
+
+
+## [Versão 3.2.4]
+- Permitir exportação do arquivo de identificação do censo com ou sem certidões de nascimento
+- Inclusão de faltas justificadas no cálculo da frequência
+- Corrigida a ordem dos campos de recuperação e modalidades na tela de notas
+
+
+## [Versão 3.2.3]
+- Permitir exportação do censo com ou sem certidões de nascimento
+
+## [Versão 3.2.2]
+- Adicionado tratamento automático para remoção de espaços em branco no início e fim do valor do campo nome nos formulários de professor e aluno
+
 ## [Versão 3.2.1]
 - Atividades complementares autalizadas para o Educacenso 2025
 

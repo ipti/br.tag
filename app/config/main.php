@@ -1,73 +1,56 @@
 <?php
 
-// unomment the following to define a path alias
-// Yii::setPathOfAlias('local','path/to/local-folder');
-// This is the main Web application configuration. Any writable
-// CWebApplication propeties can be configured here.
-
-
-$LOG_PATH = "/app/app/runtime/" . INSTANCE . "/" . date("Y-m-d");
+$LOG_PATH = '/app/app/runtime/' . INSTANCE . '/' . date('Y-m-d');
 
 if (!file_exists($LOG_PATH)) {
-
-    // Create a new file or direcotry
     mkdir($LOG_PATH, 0777, true);
 }
 
-$log_config = array(
+$log_config = [
     'class' => 'CLogRouter',
-    'routes' => array(
-        array(
+    'routes' => [
+        [
             'class' => 'CFileLogRoute',
             'levels' => E_ALL,
             'categories' => 'application',
             'logPath' => $LOG_PATH,
             'maxFileSize' => 10240,
             'maxLogFiles' => 5,
-            'filter' => array(
+            'filter' => [
                 'class' => 'CLogFilter',
                 'prefixSession' => false,
                 'prefixUser' => true,
                 'logUser' => false,
-                'logVars' => array(),
-            ),
-        ),
-        array(
+                'logVars' => [],
+            ],
+        ],
+        [
             'class' => \Websupport\YiiSentry\LogRoute::class,
             'levels' => E_ALL,
             'enabled' => !YII_DEBUG,
-        ),
-    ),
-);
+        ],
+    ],
+];
 
 if (YII_DEBUG) {
     array_push(
         $log_config['routes'],
-        // array(
-        //     'class' => 'CWebLogRoute',
-        //     'showInFireBug' => true,
-        // ),
-        array(
+        [
             'class' => 'CProfileLogRoute',
             'showInFireBug' => true,
             'report' => 'summary',
-        ),
-
+        ],
     );
 }
 
-
-
-return array(
+return [
     'basePath' => dirname(__FILE__) . DIRECTORY_SEPARATOR . '..',
     'name' => 'TAG',
     'theme' => 'default',
     'sourceLanguage' => 'pt-br',
     'language' => 'pt_br',
-    // preloading 'log' component
-    'preload' => array('log'),
-    // autoloading model and component classes
-    'import' => array(
+    'preload' => ['log'],
+    'import' => [
         'application.domain.admin.exceptions.*',
         'application.domain.admin.usecases.*',
         'application.domain.grades.exceptions.*',
@@ -85,20 +68,22 @@ return array(
         'application.modules.sedsp.datasources.sed.*',
         'application.modules.sagres.soap.src.sagresEdu.*',
         'application.components.utils.TagUtils',
+        'application.components.utils.TMenu',
+        'application.components.auth.TFeature',
+        'application.components.auth.TRole',
         'application.components.utils.TLog',
-        'ext.bncc-import.BNCCImport'
-    ),
-    'modules' => array(
-        // uncomment the following to enable the Gii tool
-        'gii' => array(
+        'ext.bncc-import.BNCCImport',
+        'ext.imc.IMC',
+    ],
+    'modules' => [
+        'gii' => [
             'class' => 'system.gii.GiiModule',
             'password' => 'p@s4tag',
-            // If removed, Gii defaults to localhost only. Edit carefully to taste.
-            'ipFilters' => array('*'),
-            'generatorPaths' => array(
+            'ipFilters' => ['*'],
+            'generatorPaths' => [
 
-            ),
-        ),
+            ],
+        ],
         'wizard',
         'lunch',
         'resultsmanagement',
@@ -120,33 +105,33 @@ return array(
         'aeerecord',
         'gradeconcept',
         'abilities',
-        'enrollmentonline'
-    ),
-    // application components
-    'components' => array(
-        'utils' => array(
+        'enrollmentonline',
+        'gestaopresente',
+        'systemadmin',
+        'studentimc'
+    ],
+    'components' => [
+        'utils' => [
             'class' => 'application.components.utils.TagUtils'
-        ),
-        'features' => array(
+        ],
+        'features' => [
             'class' => 'application.components.FeaturesComponent'
-        ),
-        'assetManager' => array(
+        ],
+        'assetManager' => [
             'forceCopy' => YII_DEBUG
-        ),
-        'user' => array(
-            // enable cookie-based authentication
+        ],
+        'user' => [
             'allowAutoLogin' => true,
             'authTimeout' => 3600
-        ),
-        'cache' => array(
+        ],
+        'cache' => [
             'class' => 'system.caching.CDbCache'
-        ),
-        // uncomment the following to enable URLs in path-format
-        'urlManager' => array(
+        ],
+        'urlManager' => [
             'urlFormat' => 'get',
             'showScriptName' => false,
             'caseSensitive' => false,
-            'rules' => array(
+            'rules' => [
                 'matriz-curricular/' => 'curricularmatrix/',
                 'matriz-curricular/<action:\w+>' => 'curricularmatrix/curricularmatrix/<action>',
                 'matriz-curricular/<action:\w+>/<id:\d+>' => 'curricularmatrix/curricularmatrix/<action>',
@@ -191,36 +176,34 @@ return array(
                 'gestao-resultados/escola/<action:\w+>/<sid:\d+>' => 'resultsmanagement/managementschool/<action>',
 
                 'profissional/<action:\w+>/<id:\d+>' => 'professional/default/<action>'
-            ),
-        ),
-        // uncomment the following to use a MySQL database
-        'db2' => array(
+            ],
+        ],
+        'db2' => [
             'connectionString' => 'mysql:host=mariadb-s6vhx-mariadb.mariadb-s6vhx.svc.cluster.local;dbname=com.escola10',
             'emulatePrepare' => true,
             'username' => 'admin',
             'password' => '123456',
             'charset' => 'utf8',
             'class' => 'CDbConnection'
-        ),
+        ],
         'db' => unserialize(DBCONFIG),
-        'authManager' => array(
+        'authManager' => [
             'class' => 'CDbAuthManager',
             'connectionID' => 'db',
             'itemTable' => 'auth_item',
             'assignmentTable' => 'auth_assignment',
             'itemChildTable' => 'auth_item_child',
-        ),
-        'errorHandler' => array(
-            // use 'site/error' action to display errors
+        ],
+        'errorHandler' => [
             'errorAction' => 'site/error',
-        ),
+        ],
         'sentry' => [
             'class' => \Websupport\YiiSentry\Client::class,
-            'dsn' => getenv("SENTRY_DSN"),
-            'jsDsn' => getenv("SENTRY_DSN"),
+            'dsn' => getenv('SENTRY_DSN'),
+            'jsDsn' => getenv('SENTRY_DSN'),
             'options' => [
                 'traces_sampler' => function (\Sentry\Tracing\SamplingContext $context): float {
-                    Yii::log('Sentry traces_sampler called' . $context, CLogger::LEVEL_INFO, 'application');
+                    Yii::log('Sentry traces_sampler called' . $context->getTransactionContext()->getName(), CLogger::LEVEL_INFO, 'application');
                     return 0.25;
                 },
                 'traces_sample_rate' => 0.25,
@@ -240,11 +223,8 @@ return array(
             ]
         ],
         'log' => $log_config
-    ),
-    // application-level parameters that can be accessed
-    // using Yii::app()->params['paramName']
-    'params' => array(
-        // this is used in contact page
+    ],
+    'params' => [
         'adminEmail' => 'webmaster@tag.lo',
-    ),
-);
+    ],
+];

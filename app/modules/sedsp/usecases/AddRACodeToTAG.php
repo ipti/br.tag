@@ -10,30 +10,30 @@ Yii::import('application.modules.sedsp.models.*');
  */
 class AddRACodeToTAG
 {
-    private  $studentTAGDataSource;
-    private  $studentSEDDataSource;
+    private $studentTAGDataSource;
+    private $studentSEDDataSource;
 
-    public function __construct($studentTAGDataSource = null, $studentSEDDataSource = null) {
+    public function __construct($studentTAGDataSource = null, $studentSEDDataSource = null)
+    {
         $this->studentTAGDataSource = $studentTAGDataSource ?? new StudentTAGDataSource();
         $this->studentSEDDataSource = $studentSEDDataSource ?? new StudentSEDDataSource();
     }
 
     /**
      * Summary of exec
-     * @param int $tag_student_id StudentIdentificantion Id from TAG
+     * @param int $tagStudentId StudentIdentificantion Id from TAG
      * @return StudentIdentification
      */
-    public function exec($tag_student_id, $racode)
+    public function exec($tagStudentId, $racode)
     {
         // Get Student From TAG database
-        $student_tag = $this->studentTAGDataSource->getStudent($tag_student_id);
-        $student_tag->gov_id = $racode;
-        
-        if ($student_tag->update()) {
-           return $student_tag;
+        $studentTag = $this->studentTAGDataSource->getStudent($tagStudentId);
+        $studentTag->gov_id = $racode;
+
+        if ($studentTag->update()) {
+            return $studentTag;
         }
 
-        throw new CHttpException(404,'The requested student does not updated.');
-        
+        throw new CHttpException(404, 'The requested student does not updated.');
     }
 }

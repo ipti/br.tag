@@ -1,9 +1,14 @@
 <?php
 /* @var $this DefaultController */
 
-$this->breadcrumbs = array(
-    $this->module->id,
-);
+$this->breadcrumbs = [
+    'Enrollment Online Student Identifications',
+];
+
+$this->menu = [
+    ['label' => 'Create EnrollmentOnlineStudentIdentification', 'url' => ['create']],
+    ['label' => 'Manage EnrollmentOnlineStudentIdentification', 'url' => ['admin']],
+];
 ?>
 
 

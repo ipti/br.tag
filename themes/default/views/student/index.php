@@ -62,7 +62,7 @@
                             <th>CPF</th>
                             <th>ID INEP</th>
                             <th style="width: 104px;text-align: center;">Ações</th>
-                            <?php if (Yii::app()->features->isEnable("FEAT_SEDSP")): ?>
+                            <?php if (Yii::app()->features->isEnable(TFeature::FEAT_INTEGRATIONS_SEDSP)): ?>
                                 <th style="width: 1px;text-align: center;">Sincronizado</th>
                             <?php endif; ?>
                         </tr>

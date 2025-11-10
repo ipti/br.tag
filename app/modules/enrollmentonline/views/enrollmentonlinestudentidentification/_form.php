@@ -12,14 +12,14 @@ $cs->registerScriptFile($baseScriptUrl . '/validations.js?v=' . TAG_VERSION, CCl
 
 <div class="form">
 
-    <?php $form = $this->beginWidget('CActiveForm', array(
+    <?php $form = $this->beginWidget('CActiveForm', [
         'id' => 'online-enrollment-student-identification-form',
         // Please note: When you enable ajax validation, make sure the corresponding
         // controller action is handling ajax validation correctly.
         // There is a call to performAjaxValidation() commented in generated controller code.
         // See class documentation of CActiveForm for details on this.
         'enableAjaxValidation' => false,
-    )); ?>
+    ]); ?>
     <div id="content">
         <div class="main form-content">
             <div class="row">
@@ -76,12 +76,12 @@ $cs->registerScriptFile($baseScriptUrl . '/validations.js?v=' . TAG_VERSION, CCl
                     </div>
                     <div class="row">
                         <div class="t-field-text column">
-                            <?php echo $form->labelEx($model, 'name', array('class' => 't-field-text__label')); ?>
-                            <?php echo $form->textField($model, 'name', array('size' => 60, 'maxlength' => 100, 'class' => 't-field-text__input js-field-required', 'placeholder' => 'Digite o Nome de Apresentação')); ?>
+                            <?php echo $form->labelEx($model, 'name', ['class' => 't-field-text__label']); ?>
+                            <?php echo $form->textField($model, 'name', ['size' => 60, 'maxlength' => 100, 'class' => 't-field-text__input js-field-required', 'placeholder' => 'Digite o Nome de Apresentação']); ?>
                             <?php echo $form->error($model, 'name'); ?>
                         </div>
                         <div class="t-field-text column">
-                            <?php echo $form->labelEx($model, 'birthday', array('class' => 't-field-text__label')); ?>
+                            <?php echo $form->labelEx($model, 'birthday', ['class' => 't-field-text__label']); ?>
                             <?php
                             $options = DatePickerWidget::renderDatePicker($model, 'birthday');
                             $options['htmlOptions']['class'] = 'js-field-required';
@@ -93,18 +93,18 @@ $cs->registerScriptFile($baseScriptUrl . '/validations.js?v=' . TAG_VERSION, CCl
 
                     <div class="row">
                         <div class="t-field-text column">
-                            <?php echo $form->labelEx($model, 'cpf', array('class' => 't-field-text__label')); ?>
-                            <?php echo $form->textField($model, 'cpf', array('size' => 14, 'maxlength' => 14, 'class' => 't-field-text__input js-cpf-mask js-field-required')); ?>
+                            <?php echo $form->labelEx($model, 'cpf', ['class' => 't-field-text__label']); ?>
+                            <?php echo $form->textField($model, 'cpf', ['size' => 14, 'maxlength' => 14, 'class' => 't-field-text__input js-cpf-mask js-field-required']); ?>
                             <?php echo $form->error($model, 'cpf'); ?>
                         </div>
 
                         <div class="t-field-text column">
-                            <?php echo $form->labelEx($model, 'sex', array('class' => 't-field-text__label')); ?>
+                            <?php echo $form->labelEx($model, 'sex', ['class' => 't-field-text__label']); ?>
                             <?php echo $form->DropDownList(
                                 $model,
                                 'sex',
-                                array(null => "Selecione o sexo", "1" => "Masculino", "2" => "Feminino"),
-                                array('class' => 'select-search-off t-field-select__input select2-container js-field-required')
+                                [null => 'Selecione o sexo', '1' => 'Masculino', '2' => 'Feminino'],
+                                ['class' => 'select-search-off t-field-select__input select2-container js-field-required']
                             ); ?>
                             <?php echo $form->error($model, 'sex'); ?>
                         </div>
@@ -112,17 +112,17 @@ $cs->registerScriptFile($baseScriptUrl . '/validations.js?v=' . TAG_VERSION, CCl
 
                     <div class="row">
                         <div class="t-field-text column">
-                            <?php echo $form->labelEx($model, 'color_race', array('class' => 't-field-text__label')); ?>
+                            <?php echo $form->labelEx($model, 'color_race', ['class' => 't-field-text__label']); ?>
                             <?php
-                            echo $form->DropDownList($model, 'color_race', array(
-                                null => "Selecione a cor/raça",
-                                "0" => "Não declarada",
-                                "1" => "Branca",
-                                "2" => "Preta",
-                                "3" => "Parda",
-                                "4" => "Amarela",
-                                "5" => "Indígena"
-                            ), array('class' => 'select-search-off t-field-select__input select2-container js-field-required'));
+                            echo $form->DropDownList($model, 'color_race', [
+                                null => 'Selecione a cor/raça',
+                                '0' => 'Não declarada',
+                                '1' => 'Branca',
+                                '2' => 'Preta',
+                                '3' => 'Parda',
+                                '4' => 'Amarela',
+                                '5' => 'Indígena'
+                            ], ['class' => 'select-search-off t-field-select__input select2-container js-field-required']);
                             ?>
                             <?php echo $form->error($model, 'color_race'); ?>
                         </div>
@@ -137,82 +137,84 @@ $cs->registerScriptFile($baseScriptUrl . '/validations.js?v=' . TAG_VERSION, CCl
                     </div>
                     <div class="row">
                         <div class="t-field-checkbox column">
-                            <?php echo $form->checkBox($model, 'deficiency', array('class' => 't-field-checkbox__input')); ?>
-                            <?php echo $form->labelEx($model, 'deficiency', array('class' => 't-field-text__label')); ?>
+                            <?php echo $form->checkBox($model, 'deficiency', ['class' => 't-field-checkbox__input']); ?>
+                            <?php echo $form->labelEx($model, 'deficiency', ['class' => 't-field-text__label']); ?>
                             <?php echo $form->error($model, 'deficiency'); ?>
                         </div>
                         <div class="column"></div>
                     </div>
                     <div class="row ">
-                        <div class="column t-field-checkbox-group control-group deficiencies-container js-change-required js-visibility-deficiencies">
-                            <label class="t-field-checkbox__label--required column t-margin-none--left"><?php echo Yii::t('default', 'Deficiency Type'); ?>
+                        <div
+                            class="column t-field-checkbox-group control-group deficiencies-container js-change-required js-visibility-deficiencies">
+                            <label
+                                class="t-field-checkbox__label--required column t-margin-none--left"><?php echo Yii::t('default', 'Deficiency Type'); ?>
                             </label>
                             <div class="t-field-checkbox">
                                 <label class="t-field-checkbox">
-                                    <?php echo $form->checkBox($model, 'deficiency_type_blindness', array('value' => 1, 'uncheckValue' => 0, 'class' => 'linked-deficiency')); ?>
+                                    <?php echo $form->checkBox($model, 'deficiency_type_blindness', ['value' => 1, 'uncheckValue' => 0, 'class' => 'linked-deficiency']); ?>
                                     <?php echo $model->attributeLabels()['deficiency_type_blindness']; ?>
                                 </label>
                                 <?php echo $form->error($model, 'deficiency_type_blindness'); ?>
                             </div>
                             <div class="t-field-text">
                                 <label class="t-field-checkbox">
-                                    <?php echo $form->checkBox($model, 'deficiency_type_low_vision', array('value' => 1, 'uncheckValue' => 0, 'class' => 'linked-deficiency')); ?>
+                                    <?php echo $form->checkBox($model, 'deficiency_type_low_vision', ['value' => 1, 'uncheckValue' => 0, 'class' => 'linked-deficiency']); ?>
                                     <?php echo $model->attributeLabels()['deficiency_type_low_vision']; ?>
                                 </label>
                                 <?php echo $form->error($model, 'deficiency_type_low_vision'); ?>
                             </div>
                             <div class="t-field-text">
                                 <label class="t-field-checkbox">
-                                    <?php echo $form->checkBox($model, 'deficiency_type_deafness', array('value' => 1, 'uncheckValue' => 0, 'class' => 'linked-deficiency')); ?>
+                                    <?php echo $form->checkBox($model, 'deficiency_type_deafness', ['value' => 1, 'uncheckValue' => 0, 'class' => 'linked-deficiency']); ?>
                                     <?php echo $model->attributeLabels()['deficiency_type_deafness']; ?>
                                 </label>
                                 <?php echo $form->error($model, 'deficiency_type_deafness'); ?>
                             </div>
                             <div class="t-field-text">
                                 <label class="t-field-checkbox">
-                                    <?php echo $form->checkBox($model, 'deficiency_type_disability_hearing', array('value' => 1, 'uncheckValue' => 0, 'class' => 'linked-deficiency')); ?>
+                                    <?php echo $form->checkBox($model, 'deficiency_type_disability_hearing', ['value' => 1, 'uncheckValue' => 0, 'class' => 'linked-deficiency']); ?>
                                     <?php echo $model->attributeLabels()['deficiency_type_disability_hearing']; ?>
                                 </label>
                                 <?php echo $form->error($model, 'deficiency_type_disability_hearing'); ?>
                             </div>
                             <div class="t-field-text">
                                 <label class="t-field-checkbox">
-                                    <?php echo $form->checkBox($model, 'deficiency_type_deafblindness', array('value' => 1, 'uncheckValue' => 0, 'class' => 'linked-deficiency')); ?>
+                                    <?php echo $form->checkBox($model, 'deficiency_type_deafblindness', ['value' => 1, 'uncheckValue' => 0, 'class' => 'linked-deficiency']); ?>
                                     <?php echo $model->attributeLabels()['deficiency_type_deafblindness']; ?>
                                 </label>
                                 <?php echo $form->error($model, 'deficiency_type_deafblindness'); ?>
                             </div>
                             <div class="t-field-text">
                                 <label class="t-field-checkbox">
-                                    <?php echo $form->checkBox($model, 'deficiency_type_phisical_disability', array('value' => 1, 'uncheckValue' => 0, 'class' => 'linked-deficiency')); ?>
+                                    <?php echo $form->checkBox($model, 'deficiency_type_phisical_disability', ['value' => 1, 'uncheckValue' => 0, 'class' => 'linked-deficiency']); ?>
                                     <?php echo $model->attributeLabels()['deficiency_type_phisical_disability']; ?>
                                 </label>
                                 <?php echo $form->error($model, 'deficiency_type_phisical_disability'); ?>
                             </div>
                             <div class="t-field-text">
                                 <label class="t-field-checkbox">
-                                    <?php echo $form->checkBox($model, 'deficiency_type_intelectual_disability', array('value' => 1, 'uncheckValue' => 0, 'class' => 'linked-deficiency')); ?>
+                                    <?php echo $form->checkBox($model, 'deficiency_type_intelectual_disability', ['value' => 1, 'uncheckValue' => 0, 'class' => 'linked-deficiency']); ?>
                                     <?php echo $model->attributeLabels()['deficiency_type_intelectual_disability']; ?>
                                 </label>
                                 <?php echo $form->error($model, 'deficiency_type_intelectual_disability'); ?>
                             </div>
                             <div class="t-field-text">
                                 <label class="t-field-checkbox">
-                                    <?php echo $form->checkBox($model, 'deficiency_type_multiple_disabilities', array('value' => 1, 'uncheckValue' => 0, 'class' => 'linked-deficiency')); ?>
+                                    <?php echo $form->checkBox($model, 'deficiency_type_multiple_disabilities', ['value' => 1, 'uncheckValue' => 0, 'class' => 'linked-deficiency']); ?>
                                     <?php echo $model->attributeLabels()['deficiency_type_multiple_disabilities']; ?>
                                 </label>
                                 <?php echo $form->error($model, 'deficiency_type_multiple_disabilities'); ?>
                             </div>
                             <div class="t-field-text">
                                 <label class="t-field-checkbox">
-                                    <?php echo $form->checkBox($model, 'deficiency_type_autism', array('value' => 1, 'uncheckValue' => 0, 'class' => 'linked-deficiency')); ?>
+                                    <?php echo $form->checkBox($model, 'deficiency_type_autism', ['value' => 1, 'uncheckValue' => 0, 'class' => 'linked-deficiency']); ?>
                                     <?php echo $model->attributeLabels()['deficiency_type_autism']; ?>
                                 </label>
                                 <?php echo $form->error($model, 'deficiency_type_autism'); ?>
                             </div>
                             <div class="t-field-text">
                                 <label class="t-field-checkbox">
-                                    <?php echo $form->checkBox($model, 'deficiency_type_gifted', array('value' => 1, 'uncheckValue' => 0, 'class' => 'linked-deficiency')); ?>
+                                    <?php echo $form->checkBox($model, 'deficiency_type_gifted', ['value' => 1, 'uncheckValue' => 0, 'class' => 'linked-deficiency']); ?>
                                     <?php echo $model->attributeLabels()['deficiency_type_gifted']; ?>
                                 </label>
                                 <?php echo $form->error($model, 'deficiency_type_gifted'); ?>
@@ -228,22 +230,30 @@ $cs->registerScriptFile($baseScriptUrl . '/validations.js?v=' . TAG_VERSION, CCl
                     </div>
                     <div class="row">
                         <div class="t-field-text column">
-                            <?php echo $form->labelEx($model, 'responsable_name', array('class' => 't-field-text__label')); ?>
-                            <?php echo $form->textField($model, 'responsable_name', array('size' => 60, 'maxlength' => 90, 'class' => 't-field-text__input js-field-required', 'placeholder' => 'Digite o Nome do Responsável')); ?>
+                            <?php echo $form->labelEx($model, 'responsable_name', ['class' => 't-field-text__label']); ?>
+                            <?php echo $form->textField($model, 'responsable_name', ['size' => 60, 'maxlength' => 90, 'class' => 't-field-text__input js-field-required', 'placeholder' => 'Digite o Nome do Responsável']); ?>
                             <?php echo $form->error($model, 'responsable_name'); ?>
                         </div>
 
                         <div class="t-field-text column">
-                            <?php echo $form->labelEx($model, 'responsable_cpf', array('class' => 't-field-text__label')); ?>
-                            <?php echo $form->textField($model, 'responsable_cpf', array('size' => 14, 'maxlength' => 14, 'class' => 't-field-text__input  js-cpf-mask js-field-required')); ?>
+                            <?php echo $form->labelEx($model, 'responsable_cpf', ['class' => 't-field-text__label']); ?>
+                            <?php echo $form->textField($model, 'responsable_cpf', ['size' => 14, 'maxlength' => 14, 'class' => 't-field-text__input  js-cpf-mask js-field-required']); ?>
                             <?php echo $form->error($model, 'responsable_cpf'); ?>
                         </div>
                     </div>
 
                     <div class="row">
                         <div class="t-field-text column">
-                            <?php echo $form->labelEx($model, 'responsable_telephone', array('class' => 't-field-text__label')); ?>
-                            <?php echo $form->textField($model, 'responsable_telephone', array('size' => 14, 'maxlength' => 15, 'class' => 't-field-text__input js-tel-mask js-field-required')); ?>
+                            <?php echo $form->labelEx($model, 'responsable_nis', ['class' => 't-field-text__label']); ?>
+                            <?php echo $form->textField($model, 'responsable_nis', ['size' => 14, 'maxlength' => 14, 'class' => 't-field-text__input  js-cpf-mask js-field-required']); ?>
+                            <?php echo $form->error($model, 'responsable_nis'); ?>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="t-field-text column">
+                            <?php echo $form->labelEx($model, 'responsable_telephone', ['class' => 't-field-text__label']); ?>
+                            <?php echo $form->textField($model, 'responsable_telephone', ['size' => 14, 'maxlength' => 15, 'class' => 't-field-text__input js-tel-mask js-field-required']); ?>
                             <?php echo $form->error($model, 'responsable_telephone'); ?>
                         </div>
                         <div class="t-field-text column">
@@ -252,26 +262,26 @@ $cs->registerScriptFile($baseScriptUrl . '/validations.js?v=' . TAG_VERSION, CCl
                             echo CHtml::dropDownList(
                                 'filiation',
                                 '',
-                                array(
-                                    null => "Selecione a filiação",
-                                    "0" => "Não declarada/ignorada",
-                                    "1" => "Mãe e/ou Pai",
-                                ),
-                                array('class' => 'select-search-off t-field-select__input select2-container js-filiation-select js-field-required')
+                                [
+                                    null => 'Selecione a filiação',
+                                    '0' => 'Não declarada/ignorada',
+                                    '1' => 'Mãe e/ou Pai',
+                                ],
+                                ['class' => 'select-search-off t-field-select__input select2-container js-filiation-select js-field-required']
                             );
                             ?>
                         </div>
                     </div>
                     <div class="row js-hide-filiation" style="display:none;">
                         <div class="t-field-text column">
-                            <?php echo $form->labelEx($model, 'mother_name', array('class' => 't-field-text__label')); ?>
-                            <?php echo $form->textField($model, 'mother_name', array('size' => 60, 'maxlength' => 90, 'class' => 't-field-text__input js-mother-name', 'placeholder' => 'Digite o Nome da Mãe')); ?>
+                            <?php echo $form->labelEx($model, 'mother_name', ['class' => 't-field-text__label']); ?>
+                            <?php echo $form->textField($model, 'mother_name', ['size' => 60, 'maxlength' => 90, 'class' => 't-field-text__input js-mother-name', 'placeholder' => 'Digite o Nome da Mãe']); ?>
                             <?php echo $form->error($model, 'mother_name'); ?>
                         </div>
 
                         <div class="t-field-text column">
-                            <?php echo $form->labelEx($model, 'father_name', array('class' => 't-field-text__label')); ?>
-                            <?php echo $form->textField($model, 'father_name', array('size' => 60, 'maxlength' => 90, 'class' => 't-field-text__input js-father-name', 'placeholder' => 'Digite o Nome do Pai')); ?>
+                            <?php echo $form->labelEx($model, 'father_name', ['class' => 't-field-text__label']); ?>
+                            <?php echo $form->textField($model, 'father_name', ['size' => 60, 'maxlength' => 90, 'class' => 't-field-text__input js-father-name', 'placeholder' => 'Digite o Nome do Pai']); ?>
                             <?php echo $form->error($model, 'father_name'); ?>
                         </div>
                     </div>
@@ -284,18 +294,18 @@ $cs->registerScriptFile($baseScriptUrl . '/validations.js?v=' . TAG_VERSION, CCl
                     </div>
                     <div class="row">
                         <div class="t-field-text column">
-                            <?php echo $form->labelEx($model, 'cep', array('class' => 't-field-text__label')); ?>
-                            <?php echo $form->textField($model, 'cep', array('size' => 8, 'maxlength' => 8, 'class' => 't-field-text__input js-cep-mask')); ?>
+                            <?php echo $form->labelEx($model, 'cep', ['class' => 't-field-text__label']); ?>
+                            <?php echo $form->textField($model, 'cep', ['size' => 8, 'maxlength' => 8, 'class' => 't-field-text__input js-cep-mask']); ?>
                             <?php echo $form->error($model, 'cep'); ?>
                         </div>
                         <div class="t-field-text column">
-                            <?php echo $form->labelEx($model, 'zone', array('class' => 't-field-text__label')); ?>
+                            <?php echo $form->labelEx($model, 'zone', ['class' => 't-field-text__label']); ?>
                             <?php
                             echo $form->DropDownList(
                                 $model,
                                 'zone',
-                                array(null => "Selecione uma zona", "1" => "URBANA", "2" => "RURAL"),
-                                array('class' => 'select-search-off t-field-select__input select2-container')
+                                [null => 'Selecione uma zona', '1' => 'URBANA', '2' => 'RURAL'],
+                                ['class' => 'select-search-off t-field-select__input select2-container']
                             ); ?>
 
                             <?php echo $form->error($model, 'zone'); ?>
@@ -304,56 +314,56 @@ $cs->registerScriptFile($baseScriptUrl . '/validations.js?v=' . TAG_VERSION, CCl
 
                     <div class="row">
                         <div class="t-field-text column">
-                            <?php echo $form->labelEx($model, 'address', array('class' => 't-field-text__label')); ?>
-                            <?php echo $form->textField($model, 'address', array('size' => 60, 'maxlength' => 100, 'class' => 't-field-text__input', 'placeholder' => 'Digite o Endereço')); ?>
+                            <?php echo $form->labelEx($model, 'address', ['class' => 't-field-text__label']); ?>
+                            <?php echo $form->textField($model, 'address', ['size' => 60, 'maxlength' => 100, 'class' => 't-field-text__input', 'placeholder' => 'Digite o Endereço']); ?>
                             <?php echo $form->error($model, 'address'); ?>
                         </div>
 
                         <div class="t-field-text column">
-                            <?php echo $form->labelEx($model, 'number', array('class' => 't-field-text__label')); ?>
-                            <?php echo $form->textField($model, 'number', array('size' => 10, 'maxlength' => 10, 'class' => 't-field-text__input',  'placeholder' => 'Digite o Número')); ?>
+                            <?php echo $form->labelEx($model, 'number', ['class' => 't-field-text__label']); ?>
+                            <?php echo $form->textField($model, 'number', ['size' => 10, 'maxlength' => 10, 'class' => 't-field-text__input', 'placeholder' => 'Digite o Número']); ?>
                             <?php echo $form->error($model, 'number'); ?>
                         </div>
                     </div>
 
                     <div class="row">
                         <div class="t-field-text column">
-                            <?php echo $form->labelEx($model, 'complement', array('class' => 't-field-text__label')); ?>
-                            <?php echo $form->textField($model, 'complement', array('size' => 60, 'maxlength' => 100, 'class' => 't-field-text__input',  'placeholder' => 'Digite o Complemento')); ?>
+                            <?php echo $form->labelEx($model, 'complement', ['class' => 't-field-text__label']); ?>
+                            <?php echo $form->textField($model, 'complement', ['size' => 60, 'maxlength' => 100, 'class' => 't-field-text__input', 'placeholder' => 'Digite o Complemento']); ?>
                             <?php echo $form->error($model, 'complement'); ?>
                         </div>
 
                         <div class="t-field-text column">
-                            <?php echo $form->labelEx($model, 'neighborhood', array('class' => 't-field-text__label')); ?>
-                            <?php echo $form->textField($model, 'neighborhood', array('size' => 60, 'maxlength' => 100, 'class' => 't-field-text__input',  'placeholder' => 'Digite o Bairro / Povoado')); ?>
+                            <?php echo $form->labelEx($model, 'neighborhood', ['class' => 't-field-text__label']); ?>
+                            <?php echo $form->textField($model, 'neighborhood', ['size' => 60, 'maxlength' => 100, 'class' => 't-field-text__input', 'placeholder' => 'Digite o Bairro / Povoado']); ?>
                             <?php echo $form->error($model, 'neighborhood'); ?>
                         </div>
                     </div>
 
                     <div class="row">
                         <div class="t-field-text column">
-                            <?php echo $form->labelEx($model, 'edcenso_uf_fk', array('class' => 't-field-text__label')); ?>
+                            <?php echo $form->labelEx($model, 'edcenso_uf_fk', ['class' => 't-field-text__label']); ?>
                             <?php
                             echo $form->dropDownList(
                                 $model,
                                 'edcenso_uf_fk',
-                                CHtml::listData(EdcensoUf::model()->findAll(array('order' => 'name')), 'id', 'name'),
-                                array(
-                                    "prompt" => "Selecione um estado",
-                                    "class" => "select-search-on t-field-select__input select2-container js-uf"
-                                )
+                                CHtml::listData(EdcensoUf::model()->findAll(['order' => 'name']), 'id', 'name'),
+                                [
+                                    'prompt' => 'Selecione um estado',
+                                    'class' => 'select-search-on t-field-select__input select2-container js-uf'
+                                ]
                             );
                             ?>
                             <?php echo $form->error($model, 'edcenso_uf_fk'); ?>
                         </div>
                         <div class="t-field-text column">
-                            <?php echo $form->labelEx($model, 'edcenso_city_fk', array('class' => 't-field-text__label')); ?>
+                            <?php echo $form->labelEx($model, 'edcenso_city_fk', ['class' => 't-field-text__label']); ?>
                             <?php
                             echo $form->dropDownList(
                                 $model,
                                 'edcenso_city_fk',
                                 [],
-                                array("prompt" => "Selecione uma cidade", "class" => "select-search-on t-field-select__input select2-container js-cities", "disabled" => "disabled")
+                                ['prompt' => 'Selecione uma cidade', 'class' => 'select-search-on t-field-select__input select2-container js-cities', 'disabled' => 'disabled']
                             );
                             ?>
                             <?php echo $form->error($model, 'edcenso_city_fk'); ?>
@@ -368,16 +378,16 @@ $cs->registerScriptFile($baseScriptUrl . '/validations.js?v=' . TAG_VERSION, CCl
                     </div>
                     <div class="row">
                         <div class="t-field-text column">
-                            <?php echo $form->labelEx($model, 'edcenso_stage_vs_modality_fk', array('class' => 't-field-text__label')); ?>
+                            <?php echo $form->labelEx($model, 'edcenso_stage_vs_modality_fk', ['class' => 't-field-text__label']); ?>
                             <?php
                             echo $form->dropDownList(
                                 $model,
                                 'edcenso_stage_vs_modality_fk',
-                                CHtml::listData(EdcensoStageVsModality::model()->findAll(array('order' => 'name')), 'id', 'name'),
-                                array(
-                                    "prompt" => "Selecione uma etapa",
-                                    "class" => "select-search-on t-field-select__input select2-container js-stage js-field-required"
-                                )
+                                CHtml::listData(EdcensoStageVsModality::model()->findAll(['order' => 'name']), 'id', 'name'),
+                                [
+                                    'prompt' => 'Selecione uma etapa',
+                                    'class' => 'select-search-on t-field-select__input select2-container js-stage js-field-required'
+                                ]
                             );
                             ?>
                             <?php echo $form->error($model, 'edcenso_stage_vs_modality_fk'); ?>
@@ -389,11 +399,11 @@ $cs->registerScriptFile($baseScriptUrl . '/validations.js?v=' . TAG_VERSION, CCl
                                 'school_1',
                                 '',
                                 [],
-                                array(
-                                    "prompt" => "Selecione uma opção de matrícula",
-                                    "class" => "select-search-on t-field-select__input select2-container js-school-1 js-field-required",
-                                    "disabled" => "disabled"
-                                )
+                                [
+                                    'prompt' => 'Selecione uma opção de matrícula',
+                                    'class' => 'select-search-on t-field-select__input select2-container js-school-1 js-field-required',
+                                    'disabled' => 'disabled'
+                                ]
                             );
                             ?>
                         </div>
@@ -406,11 +416,11 @@ $cs->registerScriptFile($baseScriptUrl . '/validations.js?v=' . TAG_VERSION, CCl
                                 'school_2',
                                 '',
                                 [],
-                                array(
-                                    "prompt" => "Selecione uma opção de matrícula",
-                                    "class" => "select-search-on t-field-select__input select2-container js-school-2 js-field-required",
-                                    "disabled" => "disabled"
-                                )
+                                [
+                                    'prompt' => 'Selecione uma opção de matrícula',
+                                    'class' => 'select-search-on t-field-select__input select2-container js-school-2 js-field-required',
+                                    'disabled' => 'disabled'
+                                ]
                             );
                             ?>
                         </div>
@@ -421,11 +431,11 @@ $cs->registerScriptFile($baseScriptUrl . '/validations.js?v=' . TAG_VERSION, CCl
                                 'school_3',
                                 '',
                                 [],
-                                array(
-                                    "prompt" => "Selecione uma opção de matrícula",
-                                    "class" => "select-search-on t-field-select__input select2-container js-school-3 js-field-required",
-                                    "disabled" => "disabled"
-                                )
+                                [
+                                    'prompt' => 'Selecione uma opção de matrícula',
+                                    'class' => 'select-search-on t-field-select__input select2-container js-school-3 js-field-required',
+                                    'disabled' => 'disabled'
+                                ]
                             );
                             ?>
                         </div>
@@ -441,11 +451,10 @@ $cs->registerScriptFile($baseScriptUrl . '/validations.js?v=' . TAG_VERSION, CCl
                             style="display:none;"><?php echo Yii::t('default', 'Previous') ?><i></i></a>
                     </div>
                     <div class="column">
-                        <a data-toggle='tab' class='t-button-primary t-margin-none--right t-padding-small--all nofloat next'><?= Yii::t('default', 'Next') ?></a>
-                        <button
-                            class="t-button-primary t-padding-small--all t-margin-none--right last save-student"
-                            type="submit"
-                            style="display:none;width:100%;">
+                        <a data-toggle='tab'
+                            class='t-button-primary t-margin-none--right t-padding-small--all nofloat next'><?= Yii::t('default', 'Next') ?></a>
+                        <button class="t-button-primary t-padding-small--all t-margin-none--right last save-student"
+                            type="submit" style="display:none;width:100%;">
                             <?= Yii::t('default', 'Save') ?>
                         </button>
                     </div>

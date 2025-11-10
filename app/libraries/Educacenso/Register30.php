@@ -8,9 +8,10 @@ class Register30
     private const AREA_OF_RESIDENCE = 54;
     private const TYPE_OF_HIGH_SCHOOL_ATTENDED = 57;
     private const REGISTER_TYPE = 1;
+
     private static function fixName($name)
     {
-        return preg_replace("/&([a-z])[a-z]+;/i", "$1", htmlentities($name));
+        return preg_replace('/&([a-z])[a-z]+;/i', '$1', htmlentities($name));
     }
 
     private static function certVerify($codigo)
@@ -69,28 +70,29 @@ class Register30
         if ($digDois == 10) {
             $digDois = 1;
         }
-        $return = $digUm . $digDois;
 
-        return $return;
+        return $digUm . $digDois;
     }
 
     private static function getInstructors($instructorsTeachingDatas, $instructors, $classroom, $school)
     {
-
-        foreach ($instructorsTeachingDatas as $iteaching => $teachingData) {
+        foreach ($instructorsTeachingDatas as $teachingData) {
             if (!isset($instructors[$teachingData->instructor_fk])) {
                 $teachingData->instructorFk->documents->school_inep_id_fk = $school->inep_id;
+                if (!isset($teachingData->instructorFk->instructorVariableData)) {
+                    continue;
+                }
                 $teachingData->instructorFk->instructorVariableData->school_inep_id_fk = $school->inep_id;
                 $teachingData->instructorFk->school_inep_id_fk = $school->inep_id;
 
                 $instructors[$teachingData->instructor_fk]['identification'] = $teachingData->instructorFk->attributes;
                 $instructors[$teachingData->instructor_fk]['documents'] = $teachingData->instructorFk->documents->attributes;
 
-                $instructor_inepid_id = isset($teachingData->instructorFk->inep_id) && !empty($teachingData->instructorFk->inep_id) ? $teachingData->instructorFk->inep_id : $teachingData->instructorFk->id;
+                $instructorInepidId = isset($teachingData->instructorFk->inep_id) && !empty($teachingData->instructorFk->inep_id) ? $teachingData->instructorFk->inep_id : $teachingData->instructorFk->id;
                 if (isset($teachingData->instructorFk->inep_id) && !empty($teachingData->instructorFk->inep_id)) {
-                    $variabledata = InstructorVariableData::model()->findByAttributes(['inep_id' => $instructor_inepid_id]);
+                    $variabledata = InstructorVariableData::model()->findByAttributes(['inep_id' => $instructorInepidId]);
                 } else {
-                    $variabledata = InstructorVariableData::model()->findByPk($instructor_inepid_id);
+                    $variabledata = InstructorVariableData::model()->findByPk($instructorInepidId);
                 }
                 if ($variabledata == null) {
                     $variabledata = InstructorVariableData::model()->findByPk($teachingData->instructorFk->id);
@@ -113,7 +115,7 @@ class Register30
     {
         if (count($classroom->instructorTeachingDatas) >= 1) {
             foreach ($classroom->studentEnrollments as $ienrollment => $enrollment) {
-                if ($enrollment->status == 1 || $enrollment->status == null) {
+                if ($enrollment->isActive()) {
                     if (!isset($students[$enrollment->student_fk])) {
                         $enrollment->studentFk->school_inep_id_fk = $school->inep_id;
                         $enrollment->studentFk->documentsFk->school_inep_id_fk = $school->inep_id;
@@ -135,14 +137,12 @@ class Register30
     {
         $student['register_type'] = '30';
 
-        foreach ($aliases as $kord => $ord) {
-            $register[$ord["corder"]] = $ord["default"];
+        foreach ($aliases as $ord) {
+            $register[$ord['corder']] = $ord['default'];
         }
 
-        if (!empty($student['inep_id'])) {
-            if (strlen($student['inep_id']) < 9) {
-                $student['inep_id'] = '';
-            }
+        if (!empty($student['inep_id']) && strlen($student['inep_id']) < 9) {
+            $student['inep_id'] = '';
         }
 
         $student['name'] = trim(strtoupper(self::fixName($student['name'])));
@@ -183,10 +183,8 @@ class Register30
             $existone = false;
             foreach ($student as $i => $attr) {
                 $pos = strstr($i, 'deficiency_');
-                if ($pos) {
-                    if (empty($student[$i])) {
-                        $student[$i] = '0';
-                    }
+                if ($pos && empty($student[$i])) {
+                    $student[$i] = '0';
                 }
                 $pos2 = strstr($i, 'resource_');
                 if ($pos2) {
@@ -235,14 +233,14 @@ class Register30
         }
 
         foreach ($student as $key => $attr) {
-            $alias_index = array_search($key, array_column($aliases, 'attr'));
-            $alias = $alias_index !== false ? $aliases[$alias_index] : null;
+            $aliasIndex = array_search($key, array_column($aliases, 'attr'));
+            $alias = $aliasIndex !== false ? $aliases[$aliasIndex] : null;
 
-            if (isset($alias["corder"])) {
+            if (isset($alias['corder'])) {
                 if ($key == 'edcenso_city_fk') {
                     $register[self::EDCENSO_CITY_OF_BIRTH_FK] = $attr;
                 } else {
-                    $register[$alias["corder"]] = $attr;
+                    $register[$alias['corder']] = $attr;
                 }
             }
         }
@@ -251,39 +249,36 @@ class Register30
         return $register;
     }
 
-    private static function exportStudentDocuments($student, $register, $school, $aliases)
+    private static function exportStudentDocuments($student, $register, $school, $aliases, $withoutCertificates)
     {
         $student['register_type'] = '30';
-
 
         if (empty($student['cep']) && isset($student['edcenso_city_fk'])) {
             $student['edcenso_city_fk'] = '';
         }
 
-
-        if ($student['civil_certification'] != 2) {
+        if ($student['civil_certification'] != 2 || $withoutCertificates === true) {
             $student['civil_register_enrollment_number'] = '';
         }
 
-        if ($student["residence_zone"] == "1" && $student["diff_location"] == "1") {
-            $student["diff_location"] = "";
+        if ($student['residence_zone'] == '1' && $student['diff_location'] == '1') {
+            $student['diff_location'] = '';
         }
 
-        $student["id_email"] = '';
+        $student['id_email'] = '';
 
         foreach ($student as $key => $attr) {
-            $alias_index = array_search($key, array_column($aliases, 'attr'));
-            $alias = $alias_index !== false ? $aliases[$alias_index] : null;
+            $aliasIndex = array_search($key, array_column($aliases, 'attr'));
+            $alias = $aliasIndex !== false ? $aliases[$aliasIndex] : null;
 
-            if (isset($alias["corder"])) {
+            if (isset($alias['corder'])) {
                 if ($key == 'edcenso_city_fk') {
                     $register[self::EDCENSO_CITY_OF_RESIDENCE_FK] = $attr;
                 } else {
-                    $register[$alias["corder"]] = $attr;
+                    $register[$alias['corder']] = $attr;
                 }
             }
         }
-
 
         return $register;
     }
@@ -291,20 +286,20 @@ class Register30
     public static function exportStudentDisorders($studentDisorders, $register, $aliases)
     {
         foreach ($studentDisorders as $key => $attr) {
-
-            if($key === "id") continue;
-
-            $alias_index = array_search($key, array_column($aliases, 'attr'));
-            $alias = $alias_index !== false ? $aliases[$alias_index] : null;
-
-            if (isset($alias["corder"])  &&  $studentDisorders['disorders_impact_learning'] != 0) {
-                $register[$alias["corder"]] = $attr;
+            if ($key === 'id') {
+                continue;
             }
 
-            if(isset($alias["corder"])  &&  $studentDisorders['disorders_impact_learning'] == 0) {
-                $register[$alias["corder"]] = '';
+            $aliasIndex = array_search($key, array_column($aliases, 'attr'));
+            $alias = $aliasIndex !== false ? $aliases[$aliasIndex] : null;
+
+            if (isset($alias['corder']) && $studentDisorders['disorders_impact_learning'] != 0) {
+                $register[$alias['corder']] = $attr;
             }
 
+            if (isset($alias['corder']) && $studentDisorders['disorders_impact_learning'] == 0) {
+                $register[$alias['corder']] = '';
+            }
         }
 
         return $register;
@@ -315,7 +310,7 @@ class Register30
         $instructor['register_type'] = '30';
 
         foreach ($aliases as $kord => $ord) {
-            $register[$ord["corder"]] = $ord["default"];
+            $register[$ord['corder']] = $ord['default'];
         }
 
         $instructor['name'] = trim(strtoupper(self::fixName($instructor['name'])));
@@ -324,7 +319,7 @@ class Register30
 
         if (!empty($instructor['filiation_1']) && $instructor['filiation'] == 0) {
             $instructor['filiation'] = 1;
-        } else if ($instructor['filiation'] == 0) {
+        } elseif ($instructor['filiation'] == 0) {
             $instructor['filiation_1'] = '';
             $instructor['filiation_2'] = '';
         }
@@ -352,15 +347,14 @@ class Register30
         }
 
         foreach ($instructor as $key => $attr) {
+            $aliasIndex = array_search($key, array_column($aliases, 'attr'));
+            $alias = $aliasIndex !== false ? $aliases[$aliasIndex] : null;
 
-            $alias_index = array_search($key, array_column($aliases, 'attr'));
-            $alias = $alias_index !== false ? $aliases[$alias_index] : null;
-
-            if (isset($alias["corder"])) {
+            if (isset($alias['corder'])) {
                 if ($key == 'edcenso_city_fk') {
                     $register[self::EDCENSO_CITY_OF_BIRTH_FK] = $attr;
                 } else {
-                    $register[$alias["corder"]] = $attr;
+                    $register[$alias['corder']] = $attr;
                 }
             }
         }
@@ -386,20 +380,20 @@ class Register30
             if ($instructor['documents']['diff_location'] == '1') {
                 $register[self::DIFF_LOCATION] = '';
             }
-        } else if ($instructor["area_of_residence"] == "1" && $instructor["diff_location"] == "1") {
-            $instructor["diff_location"] = "";
+        } elseif ($instructor['area_of_residence'] == '1' && $instructor['diff_location'] == '1') {
+            $instructor['diff_location'] = '';
         }
 
         foreach ($instructor as $key => $attr) {
-            if ($key !== "inep_id") {
-                $alias_index = array_search($key, array_column($aliases, 'attr'));
-                $alias = $alias_index !== false ? $aliases[$alias_index] : null;
+            if ($key !== 'inep_id') {
+                $aliasIndex = array_search($key, array_column($aliases, 'attr'));
+                $alias = $aliasIndex !== false ? $aliases[$aliasIndex] : null;
 
-                if (isset($alias["corder"])) {
+                if (isset($alias['corder'])) {
                     if ($key == 'edcenso_city_fk') {
                         $register[self::EDCENSO_CITY_OF_RESIDENCE_FK] = $attr;
                     } else {
-                        $register[$alias["corder"]] = $attr;
+                        $register[$alias['corder']] = $attr;
                     }
                 }
             }
@@ -502,22 +496,22 @@ class Register30
             $instructor['post_graduation_none'] = '1';
         }
 
-        if ($instructor['high_education_course_code_1_fk'] !== null && $instructor['high_education_course_code_1_fk'] !== "") {
+        if ($instructor['high_education_course_code_1_fk'] !== null && $instructor['high_education_course_code_1_fk'] !== '') {
             $instructor['high_education_course_code_1_fk'] = self::convertCourseCodes($instructor['high_education_course_code_1_fk'], $highEducationCourses);
         }
-        if ($instructor['high_education_course_code_2_fk'] !== null && $instructor['high_education_course_code_2_fk'] !== "") {
+        if ($instructor['high_education_course_code_2_fk'] !== null && $instructor['high_education_course_code_2_fk'] !== '') {
             $instructor['high_education_course_code_2_fk'] = self::convertCourseCodes($instructor['high_education_course_code_2_fk'], $highEducationCourses);
         }
-        if ($instructor['high_education_course_code_3_fk'] !== null && $instructor['high_education_course_code_3_fk'] !== "") {
+        if ($instructor['high_education_course_code_3_fk'] !== null && $instructor['high_education_course_code_3_fk'] !== '') {
             $instructor['high_education_course_code_3_fk'] = self::convertCourseCodes($instructor['high_education_course_code_3_fk'], $highEducationCourses);
         }
 
         foreach ($instructor as $key => $attr) {
-            $alias_index = array_search($key, array_column($aliases, 'attr'));
-            $alias = $alias_index !== false ? $aliases[$alias_index] : null;
+            $aliasIndex = array_search($key, array_column($aliases, 'attr'));
+            $alias = $aliasIndex !== false ? $aliases[$aliasIndex] : null;
 
-            if (isset($alias["corder"])) {
-                $register[$alias["corder"]] = $attr;
+            if (isset($alias['corder'])) {
+                $register[$alias['corder']] = $attr;
             }
             if ($key == 'scholarity' && $attr == '7') {
                 $register[self::TYPE_OF_HIGH_SCHOOL_ATTENDED] = '1';
@@ -529,11 +523,11 @@ class Register30
 
     private static function convertCourseCodes($code, $highEducationCourses)
     {
-        $found_key = array_search($code, array_column($highEducationCourses, 'id'));
-        return $highEducationCourses[$found_key]['cine_id'];
+        $foundKey = array_search($code, array_column($highEducationCourses, 'id'));
+        return $highEducationCourses[$foundKey]['cine_id'];
     }
 
-    public static function export($year)
+    public static function export($year, $withoutCertificates)
     {
         $registers = [];
 
@@ -542,13 +536,13 @@ class Register30
         $highEducationCourses = EdcensoCourseOfHigherEducation::model()->findAll();
 
         $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
-        $aliasesStudent = Yii::app()->db->createCommand("select * from edcenso_alias where register = 301 and year = :year")->bindParam(":year", $year)->queryAll();
-        $aliasesInstructor = Yii::app()->db->createCommand("select * from edcenso_alias where register = 302 and year = :year")->bindParam(":year", $year)->queryAll();
+        $aliasesStudent = Yii::app()->db->createCommand('select * from edcenso_alias where register = 301 and year = :year')->bindParam(':year', $year)->queryAll();
+        $aliasesInstructor = Yii::app()->db->createCommand('select * from edcenso_alias where register = 302 and year = :year')->bindParam(':year', $year)->queryAll();
 
         $instructors = [];
         $students = [];
 
-        foreach ($classrooms as $iclass => $attributes) {
+        foreach ($classrooms as $attributes) {
             $students = self::getStudents($attributes, $students, $school);
             $instructors = self::getInstructors($attributes->instructorTeachingDatas, $instructors, $attributes, $school);
         }
@@ -557,7 +551,7 @@ class Register30
             $register = [];
 
             $register = self::exportStudentIdentification($student['identification'], $register, $school, $aliasesStudent);
-            $register = self::exportStudentDocuments($student['documents'], $register, $school, $aliasesStudent);
+            $register = self::exportStudentDocuments($student['documents'], $register, $school, $aliasesStudent, $withoutCertificates);
             $register = self::exportStudentDisorders($student['disorders'], $register, $aliasesStudent);
 
             ksort($register);
@@ -567,17 +561,16 @@ class Register30
         $managerIsAnInstructor = false;
         $managerIsAnInstructorId = 'II90999';
         foreach ($instructors as $instructor) {
-            $id = (String) 'II' . $instructor['identification']['id'];
+            $id = (string) 'II' . $instructor['identification']['id'];
             $instructor['identification']['id'] = $id;
             $instructor['documents']['id'] = $id;
             $instructor['variable']['id'] = $id;
 
             $resetEmail = true;
-            if ($instructor["documents"]["cpf"] == $managerIdentification["cpf"]) {
+            if ($instructor['documents']['cpf'] == $managerIdentification['cpf']) {
                 $managerIsAnInstructor = true;
                 $managerIsAnInstructorId = $id;
                 $resetEmail = false;
-
             }
 
             $register = [];
@@ -597,7 +590,7 @@ class Register30
 
             if (!empty($managerIdentification['filiation_1']) && $managerIdentification['filiation'] == 0) {
                 $managerIdentification['filiation'] = 1;
-            } else if ($managerIdentification['filiation'] == 0) {
+            } elseif ($managerIdentification['filiation'] == 0) {
                 $managerIdentification['filiation_1'] = '';
                 $managerIdentification['filiation_2'] = '';
             }
@@ -605,12 +598,12 @@ class Register30
             array_push(
                 $registers,
                 '30|' . Yii::app()->user->school . '|' . $managerIsAnInstructorId . '||' // 1 a 4
-                . $managerIdentification["cpf"] . '|' . $managerIdentification["name"] . '|' . $managerIdentification["birthday_date"] . '|' . $managerIdentification["filiation"] . '|' // 5 a 8
-                . $managerIdentification["filiation_1"] . '|' . $managerIdentification["filiation_2"] . '|' . $managerIdentification["sex"] . '|' . $managerIdentification["color_race"] . '||' // 9 a 12
-                . $managerIdentification["nationality"] . '|' . $managerIdentification["edcenso_nation_fk"] . '|' . $managerIdentification["edcenso_city_fk"] . '|' // 13 a 15
+                . $managerIdentification['cpf'] . '|' . $managerIdentification['name'] . '|' . $managerIdentification['birthday_date'] . '|' . $managerIdentification['filiation'] . '|' // 5 a 8
+                . $managerIdentification['filiation_1'] . '|' . $managerIdentification['filiation_2'] . '|' . $managerIdentification['sex'] . '|' . $managerIdentification['color_race'] . '||' // 9 a 12
+                . $managerIdentification['nationality'] . '|' . $managerIdentification['edcenso_nation_fk'] . '|' . $managerIdentification['edcenso_city_fk'] . '|' // 13 a 15
                 . '0|||||||||||||||||||||||||||||||||||||||' // 16 a 45 (deficiencias, certidão e dados de residência (ignoráveis para o registro 40)
                 . '6||0113P011|2008|3||||||||||||||||||||||||||||1|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|1|' // 46 a 97 (escolaridade, cursos e pós-graduações)
-                . $managerIdentification["email"]
+                . $managerIdentification['email']
             );
         }
 

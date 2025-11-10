@@ -2,21 +2,21 @@
 /* @var $this FoodMenuController */
 /* @var $model FoodMenu */
 
-$this->breadcrumbs=array(
-	'Food Menus'=>array('index'),
-	'Create',
-);
+$this->breadcrumbs = [
+    'Food Menus' => ['index'],
+    'Create',
+];
 $this->setPageTitle('TAG - ' . Yii::t('default', 'Criar Cardápio'));
-$this->menu=array(
-	array('label'=>'List FoodMenu', 'url'=>array('index')),
-	array('label'=>'Manage FoodMenu', 'url'=>array('admin')),
-);
-$title = "Criar Cardápio";
+$this->menu = [
+    ['label' => 'List FoodMenu', 'url' => ['index']],
+    ['label' => 'Manage FoodMenu', 'url' => ['admin']],
+];
+$title = 'Criar Cardápio';
 ?>
 
 
 
-<?php $this->renderPartial('_form', array('model'=>$model,'stages'=>$stages, 'title' => $title)); ?>
+<?php $this->renderPartial('_form', ['model' => $model, 'stages' => $stages, 'title' => $title]); ?>
 
 <script type="text/javascript">
 	 var mealTypeList = <?php echo CJSON::encode($mealTypeList); ?>;

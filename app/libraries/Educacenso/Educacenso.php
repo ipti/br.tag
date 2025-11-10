@@ -1,4 +1,5 @@
 <?php
+
 class Educacenso
 {
     private $registers = [];
@@ -31,9 +32,9 @@ class Educacenso
         $this->registers['20'] = Register20::export($year);
     }
 
-    private function register30($year)
+    private function register30($year, $withoutCertificates)
     {
-        $this->registers['30'] = Register30::export($year);
+        $this->registers['30'] = Register30::export($year, $withoutCertificates);
     }
 
     private function register40()
@@ -56,17 +57,17 @@ class Educacenso
         $this->registers['99'] = Register99::export();
     }
 
-    private function registerIdentification()
+    private function registerIdentification($withoutCertificates)
     {
-        return  RegisterIdentification::export();
+        return  RegisterIdentification::export($withoutCertificates);
     }
 
-    public function exportar($year)
+    public function exportar($year, $withoutCertificates)
     {
         $this->register00($year);
         $this->register10($year);
         $this->register20($year);
-        $this->register30($year);
+        $this->register30($year, $withoutCertificates);
         $this->register40();
         $this->register50($year);
         $this->register60($year);
@@ -83,11 +84,9 @@ class Educacenso
         return implode("\n", $lines);
     }
 
-    public function exportarIdentification()
+    public function exportarIdentification($withoutCertificates)
     {
-
-        $registerForIdentification = $this->registerIdentification();
-
+        $registerForIdentification = $this->registerIdentification($withoutCertificates);
 
         $lines = [];
         foreach ($registerForIdentification as $register) {

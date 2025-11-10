@@ -10,6 +10,7 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
 $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
 ?>
 
+
 <div class="pageA4V">
     <?php $this->renderPartial('head'); ?>
     <div id="report" style="font-size: 14px">

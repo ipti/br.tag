@@ -39,8 +39,8 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
                     ($c['week_days_thursday'] == 1 ? "Quinta - " : "") . ($c['week_days_friday'] == 1 ? "Sexta - " : "") .
                     ($c['week_days_saturday'] == 1 ? "Sabado " : "") . "<br>";
 
-                $student_disabilities = array();
-                $student_aid = array();
+                $studentDisabilities = [];
+                $studentAid = [];
                 $i = 0;
                 $j = 0;
                 $ordem = 1;

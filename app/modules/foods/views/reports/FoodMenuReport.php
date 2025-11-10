@@ -3,10 +3,10 @@ $baseUrl = Yii::app()->baseUrl;
 $cs = Yii::app()->getClientScript();
 $cs->registerCssFile($baseUrl . '/sass/css/main.css');
 
-$days = ["monday", "tuesday", "wednesday", "thursday", "friday"];
+$days = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday'];
 
-if($include_saturday){
-    array_push($days, "saturday");
+if ($includeSaturday) {
+    array_push($days, 'saturday');
 }
 ?>
 <style>
@@ -79,7 +79,7 @@ if($include_saturday){
         <table aria-describedby="title-page" class="column table table-bordered">
             <thead class="background-dark font-bold">
                 <tr>
-                    <th id="title" colspan="<?= $include_saturday ? "7" : "6" ?>" class="text-align--center">
+                    <th id="title" colspan="<?= $includeSaturday ? '7' : '6' ?>" class="text-align--center">
                         <div>SECRETARIA MUNICIPAL DE
                             <?= $schoolCity ?>
                         </div>
@@ -88,16 +88,16 @@ if($include_saturday){
                     </th>
                 </tr>
                 <tr>
-                    <th id="food-menu-infos" colspan="<?= $include_saturday ? "7" : "6" ?>" class="text-align--center">
+                    <th id="food-menu-infos" colspan="<?= $includeSaturday ? '7' : '6' ?>" class="text-align--center">
                         <div>
-                            <?= $foodMenu->description . " - " . $publicTarget["name"] ?>
+                            <?= $foodMenu->description . ' - ' . $publicTarget['name'] ?>
                         </div>
                         <div class="t-margin-medium--top">
                             <?php
                                 foreach ($stagesNames as $name) {
-                                   echo $name. "<br>";
+                                    echo $name . '<br>';
                                 }
-                            ?>
+?>
                         </div>
                         <br>
                         <div>
@@ -112,8 +112,8 @@ if($include_saturday){
                                     $localizacao = 'DESCONHECIDO';
                                     break;
                             }
-                            echo $localizacao;
-                            ?>
+echo $localizacao;
+?>
                         </div>
                         <?php
                         switch ($foodMenu->week) {
@@ -134,7 +134,7 @@ if($include_saturday){
                                 break;
                         }
                         echo $week;
-                        ?>
+?>
                         <br>
                     </th>
                 </tr>
@@ -149,44 +149,44 @@ if($include_saturday){
                     <td>4ª FEIRA</td>
                     <td>5ª FEIRA</td>
                     <td>6ª FEIRA</td>
-                    <?php if($include_saturday): ?>
+                    <?php if ($includeSaturday): ?>
                         <td>SÁBADO</td>
                     <?php endif ?>
                 </tr>
                 <?php foreach ($mealTypes as $mealType) : ?>
                     <tr>
                         <td class="background-dark font-bold nowrap">
-                            <?= $mealType["description"] ?><br />
-                            <?= $mealType["turn"] ?><br />
-                            <?= $mealType["meal_time"] ?>
+                            <?= $mealType['description'] ?><br />
+                            <?= $mealType['turn'] ?><br />
+                            <?= $mealType['meal_time'] ?>
                         </td>
                         <?php foreach ($days as $day) : ?>
                             <td>
                                 <?php foreach ($foodMenu->$day as $meal) : ?>
-                                    <?php if ($meal["foodMealType"] == $mealType["food_meal_type"]) : ?>
+                                    <?php if ($meal['foodMealType'] == $mealType['food_meal_type']) : ?>
                                         <div>
                                             <?php
-                                            $descriptions = array_reduce($meal["mealsComponent"], function ($carry, $item) {
-                                                // Adiciona a descrição do item ao resultado acumulado
-                                                $carry[] = $item['description'];
-                                                return $carry;
-                                            });
-                                            echo implode(', ', $descriptions);
-                                            //CVarDumper::dump($meal["meals_component"], 12, true)
-                                            ?>
+                    $descriptions = array_reduce($meal['mealsComponent'], function ($carry, $item) {
+                        // Adiciona a descrição do item ao resultado acumulado
+                        $carry[] = $item['description'];
+                        return $carry;
+                    });
+                                        echo implode(', ', $descriptions);
+                                        //CVarDumper::dump($meal["meals_component"], 12, true)
+                                        ?>
                                         </div>
                                         <div class="t-margin-medium--top">
                                             <span class="font-bold">Princpais Ingredientes:</span>
                                             <br>
                                             <?php
-                                            $igredientsList = array();
-                                            foreach ($meal["mealsComponent"] as $mealComponent) {
-                                                foreach ($mealComponent["ingredients"] as $igredients) {
-                                                    array_push($igredientsList, str_replace(',', '', $igredients['foodName']));
-                                                }
+                                        $igredientsList = [];
+                                        foreach ($meal['mealsComponent'] as $mealComponent) {
+                                            foreach ($mealComponent['ingredients'] as $igredients) {
+                                                array_push($igredientsList, str_replace(',', '', $igredients['foodName']));
                                             }
-                                            echo implode(', ', $igredientsList);
-                                            ?>
+                                        }
+                                        echo implode(', ', $igredientsList);
+                                        ?>
                                         </div>
                                         <?php ?>
                                     <?php endif; ?>
@@ -210,43 +210,43 @@ if($include_saturday){
                     <td>
                         PTN(g)
                     </td>
-                    <td colspan="<?= $include_saturday ? "2" : "1" ?>">
+                    <td colspan="<?= $includeSaturday ? '2' : '1' ?>">
                         LPD(g)
                     </td>
                 </tr>
                 <tr class="font-bold">
                     <td class="nowrap">55% a %65 do VET</td>
                     <td class="nowrap">10% a 15% do VET</td>
-                    <?php if ($publicTarget["id"] != 7) : ?>
-                        <td class="nowrap" colspan="<?= $include_saturday ? "2" : "1" ?>">25% a 35% do VET</td>
+                    <?php if ($publicTarget['id'] != 7) : ?>
+                        <td class="nowrap" colspan="<?= $includeSaturday ? '2' : '1' ?>">25% a 35% do VET</td>
                     <?php else : ?>
-                        <td class="nowrap" colspan="<?= $include_saturday ? "2" : "1" ?>">15% a 30% do VET</td>
+                        <td class="nowrap" colspan="<?= $includeSaturday ? '2' : '1' ?>">15% a 30% do VET</td>
                     <?php endif; ?>
 
                 </tr>
                 <tr>
                     <td rowspan="2">
-                        <?= $nutritionalValue["kcalAverage"] . 'kcal' ?>
+                        <?= $nutritionalValue['kcalAverage'] . 'kcal' ?>
                     </td>
                     <td>
-                        <?= $nutritionalValue["calpct"] . "%" ?>
+                        <?= $nutritionalValue['calpct'] . '%' ?>
                     </td>
                     <td>
-                        <?= $nutritionalValue["ptnpct"] . "%" ?>
+                        <?= $nutritionalValue['ptnpct'] . '%' ?>
                     </td>
-                    <td colspan="<?= $include_saturday ? "2" : "1" ?>">
-                        <?= $nutritionalValue["lpdpct"] . "%" ?>
+                    <td colspan="<?= $includeSaturday ? '2' : '1' ?>">
+                        <?= $nutritionalValue['lpdpct'] . '%' ?>
                     </td>
                 </tr>
                 <tr>
                     <td>
-                        <?= $nutritionalValue["calAverage"] . "g" ?>
+                        <?= $nutritionalValue['calAverage'] . 'g' ?>
                     </td>
                     <td>
-                        <?= $nutritionalValue["ptnAvarage"] . "g" ?>
+                        <?= $nutritionalValue['ptnAvarage'] . 'g' ?>
                     </td>
-                    <td colspan="<?= $include_saturday ? "2" : "1" ?>">
-                        <?= $nutritionalValue["lpdAvarage"] . "g" ?>
+                    <td colspan="<?= $includeSaturday ? '2' : '1' ?>">
+                        <?= $nutritionalValue['lpdAvarage'] . 'g' ?>
                     </td>
                 </tr>
             </tbody>

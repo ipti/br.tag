@@ -2,20 +2,20 @@
     /* @var $this DefaultController */
     /* @var $model EdcensoStageVsModality */
 
-    $this->breadcrumbs=array(
-        'Edcenso Stage Vs Modalities'=>array('index'),
-        $model->name=>array('view','id'=>$model->id),
+    $this->breadcrumbs = [
+        'Edcenso Stage Vs Modalities' => ['index'],
+        $model->name => ['view', 'id' => $model->id],
         'Update',
-    );
+    ];
 
-    $this->menu=array(
-        array('label'=>'List EdcensoStageVsModality', 'url'=>array('index')),
-        array('label'=>'Create EdcensoStageVsModality', 'url'=>array('create')),
-        array('label'=>'View EdcensoStageVsModality', 'url'=>array('view', 'id'=>$model->id)),
-        array('label'=>'Manage EdcensoStageVsModality', 'url'=>array('admin')),
-    );
-    ?>
+$this->menu = [
+    ['label' => 'List EdcensoStageVsModality', 'url' => ['index']],
+    ['label' => 'Create EdcensoStageVsModality', 'url' => ['create']],
+    ['label' => 'View EdcensoStageVsModality', 'url' => ['view', 'id' => $model->id]],
+    ['label' => 'Manage EdcensoStageVsModality', 'url' => ['admin']],
+];
+?>
 
     <div id="mainPage" class="main">
-        <?php $this->renderPartial('_form', array('model'=>$model)); ?>
+        <?php $this->renderPartial('_form', ['model' => $model]); ?>
     </div>

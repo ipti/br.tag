@@ -7,13 +7,13 @@ $baseUrl = Yii::app()->baseUrl;
 $themeUrl = Yii::app()->theme->baseUrl;
 $baseScriptUrl = Yii::app()->controller->module->baseScriptUrl;
 $cs = Yii::app()->getClientScript();
-$cs->registerScriptFile($baseScriptUrl . '/_initialization.js?v='.TAG_VERSION, CClientScript::POS_END);
-$cs->registerScriptFile($baseScriptUrl . '/functions.js?v='.TAG_VERSION, CClientScript::POS_END);
+$cs->registerScriptFile($baseScriptUrl . '/_initialization.js?v=' . TAG_VERSION, CClientScript::POS_END);
+$cs->registerScriptFile($baseScriptUrl . '/functions.js?v=' . TAG_VERSION, CClientScript::POS_END);
 
-$form=$this->beginWidget('CActiveForm', array(
-'id'=>'student-aee-record-form',
-'enableAjaxValidation'=>false,
-)); ?>
+$form = $this->beginWidget('CActiveForm', [
+    'id' => 'student-aee-record-form',
+    'enableAjaxValidation' => false,
+]); ?>
 
 <div class="form">
 
@@ -24,7 +24,7 @@ $form=$this->beginWidget('CActiveForm', array(
         </div>
         <div class="column clearfix align-items--center justify-content--end show--desktop">
             <a class="t-button-secondary <?php echo $model->isNewRecord ? 'hide' : '' ?>" target="_blank"  rel="noopener"
-                href="<?php echo Yii::app()->createUrl('aeerecord/reports/aeeRecordReport&id='.$model->id) ?>">
+                href="<?php echo Yii::app()->createUrl('aeerecord/reports/aeeRecordReport&id=' . $model->id) ?>">
                 <span class="t-icon-printer"></span>Imprimir
             </a>
             <button id="saveAeeRecord" class="t-button-primary" type="button">
@@ -52,13 +52,13 @@ $form=$this->beginWidget('CActiveForm', array(
 
     <div class="row <?php echo $model->isNewRecord ? '' : 'hide' ?>">
         <div class="column t-field-select clearfix is-one-quarter">
-            <?php echo CHtml::label('Turma', 'classroom_fk', array('class' => 't-field-select__label--required')); ?>
+            <?php echo CHtml::label('Turma', 'classroom_fk', ['class' => 't-field-select__label--required']); ?>
             <select class="select-search-on t-field-select__input select2-container" id="classroomSelect" name="classroom">
                 <option value="">Selecione a turma</option>
             </select>
         </div>
         <div id="studentContainer" class="column t-field-select clearfix is-third hide">
-            <?php echo CHtml::label('Aluno', 'student_fk', array('class' => 't-field-select__label--required')); ?>
+            <?php echo CHtml::label('Aluno', 'student_fk', ['class' => 't-field-select__label--required']); ?>
             <select class="select-search-on t-field-select__input select2-container" id="studentSelect" name="student">
                 <option value="">Selecione o aluno</option>
             </select>
@@ -67,15 +67,15 @@ $form=$this->beginWidget('CActiveForm', array(
 
     <div class="row">
         <div class="column t-field-tarea clearfix is-three-fifths">
-            <?php echo CHtml::label('Necessidades de aprendizagem ', 'learning_needs', array('class' => 't-field-tarea__label')); ?>
-            <?php echo CHtml::activeTextArea($model, "learning_needs", array('id'=>"learningNeeds",'class' => "t-field-tarea__input large", 'maxlength' => 1000, 'style' => 'resize: none')); ?>
+            <?php echo CHtml::label('Necessidades de aprendizagem ', 'learning_needs', ['class' => 't-field-tarea__label']); ?>
+            <?php echo CHtml::activeTextArea($model, 'learning_needs', ['id' => 'learningNeeds', 'class' => 't-field-tarea__input large', 'maxlength' => 1000, 'style' => 'resize: none']); ?>
         </div>
     </div>
 
     <div class="row">
         <div class="column t-field-tarea clearfix is-three-fifths">
-            <?php echo CHtml::label('Caracterização pedagógica ', 'characterization', array('class' => 't-field-tarea__label')); ?>
-            <?php echo CHtml::activeTextArea($model, "characterization", array('id'=>"characterization",'class' => "t-field-tarea__input large", 'maxlength' => 3000, 'style' => 'resize: none; min-height: 200px; max-height: 200px')); ?>
+            <?php echo CHtml::label('Caracterização pedagógica ', 'characterization', ['class' => 't-field-tarea__label']); ?>
+            <?php echo CHtml::activeTextArea($model, 'characterization', ['id' => 'characterization', 'class' => 't-field-tarea__input large', 'maxlength' => 3000, 'style' => 'resize: none; min-height: 200px; max-height: 200px']); ?>
         </div>
     </div>
 

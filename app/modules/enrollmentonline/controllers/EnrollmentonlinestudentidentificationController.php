@@ -32,27 +32,27 @@ class EnrollmentOnlineStudentIdentificationController extends Controller
      */
     public function accessRules()
     {
-        return array(
-            array(
+        return [
+            [
                 'allow',  // allow all users to perform 'index', 'view', and 'create' actions
-                'actions' => array('index', 'view', 'create', 'getCities', 'getSchools'),
-                'users' => array('*'),
-            ),
-            array(
+                'actions' => ['index', 'view', 'create', 'getCities', 'getSchools'],
+                'users' => ['*'],
+            ],
+            [
                 'allow', // allow authenticated user to perform 'update' actions
-                'actions' => array('update', 'StudentStatus'),
-                'users' => array('@'),
-            ),
-            array(
+                'actions' => ['update', 'StudentStatus'],
+                'users' => ['@'],
+            ],
+            [
                 'allow', // allow admin user to perform 'admin' and 'delete' actions
-                'actions' => array('admin', 'delete'),
-                'users' => array('admin'),
-            ),
+                'actions' => ['admin', 'delete'],
+                'users' => ['admin'],
+            ],
             /*  array(
-                 'deny',  // deny all users
-                 'users' => array('*'),
-             ), */
-        );
+                'deny',  // deny all users
+                'users' => array('*'),
+            ), */
+        ];
     }
 
     public function init()
@@ -105,15 +105,16 @@ class EnrollmentOnlineStudentIdentificationController extends Controller
         }
         return false;
     }
+
     /**
      * Displays a particular model.
      * @param integer $id the ID of the model to be displayed
      */
     public function actionView($id)
     {
-        $this->render('view', array(
+        $this->render('view', [
             'model' => $this->loadModel($id),
-        ));
+        ]);
     }
 
     /**
@@ -122,8 +123,8 @@ class EnrollmentOnlineStudentIdentificationController extends Controller
      */
     public function actionCreate()
     {
-        $this->layout = "webroot.app.modules.enrollmentonline.layouts.enrollmentonline";
-        $model = new EnrollmentOnlineStudentIdentification;
+        $this->layout = 'webroot.app.modules.enrollmentonline.layouts.enrollmentonline';
+        $model = new EnrollmentOnlineStudentIdentification();
 
         // Uncomment the following line if AJAX validation is needed
         // $this->performAjaxValidation($model);
@@ -133,13 +134,13 @@ class EnrollmentOnlineStudentIdentificationController extends Controller
             $repository = new EnrollmentonlinestudentidentificationRepository($model);
             $user = $repository->savePreEnrollment();
             Yii::app()->user->setFlash('success', Yii::t('default', 'Pre-matricula realizada om sucesso! Agora voê pode acompnhar o andamento no com seu login ' . $user->username . ''));
-
         }
 
-        $this->render('create', array(
+        $this->render('create', [
             'model' => $model,
-        ));
+        ]);
     }
+
     public function actionStudentStatus()
     {
         $this->render('studentstatus');
@@ -160,13 +161,13 @@ class EnrollmentOnlineStudentIdentificationController extends Controller
         if (isset($_POST['EnrollmentOnlineStudentIdentification'])) {
             $model->attributes = $_POST['EnrollmentOnlineStudentIdentification'];
             if ($model->save()) {
-                $this->redirect(array('view', 'id' => $model->id));
+                $this->redirect(['view', 'id' => $model->id]);
             }
         }
 
-        $this->render('update', array(
+        $this->render('update', [
             'model' => $model,
-        ));
+        ]);
     }
 
     /**
@@ -222,9 +223,9 @@ class EnrollmentOnlineStudentIdentificationController extends Controller
             $model->attributes = $_GET['EnrollmentOnlineStudentIdentification'];
         }
 
-        $this->render('admin', array(
+        $this->render('admin', [
             'model' => $model,
-        ));
+        ]);
     }
 
     /**
@@ -259,36 +260,36 @@ class EnrollmentOnlineStudentIdentificationController extends Controller
     {
         $uf = null;
         $uf = Yii::app()->request->getPost('state');
-        $data = EdcensoCity::model()->findAll('edcenso_uf_fk=:uf_id', array(':uf_id' => $uf));
+        $data = EdcensoCity::model()->findAll('edcenso_uf_fk=:uf_id', [':uf_id' => $uf]);
         $data = CHtml::listData($data, 'id', 'name');
 
-        echo CHtml::tag('option', array('value' => null), 'Selecione uma cidade', true);
+        echo CHtml::tag('option', ['value' => null], 'Selecione uma cidade', true);
         foreach ($data as $value => $name) {
-            echo CHtml::tag('option', array('value' => $value), CHtml::encode($name), true);
+            echo CHtml::tag('option', ['value' => $value], CHtml::encode($name), true);
         }
     }
+
     public function actionGetSchools()
     {
         $stage = null;
         $stage = Yii::app()->request->getPost('stage');
 
-
         $criteria = new CDbCriteria();
         $criteria->alias = 'si';
-        $criteria->join = "
+        $criteria->join = '
             INNER JOIN school_stages ss
             ON ss.school_fk = si.inep_id
-        ";
+        ';
         $criteria->condition = 'ss.edcenso_stage_vs_modality_fk = :stageModality';
-        $criteria->params = array(':stageModality' => $stage);
+        $criteria->params = [':stageModality' => $stage];
 
         $schools = SchoolIdentification::model()->findAll($criteria);
 
         $data = CHtml::listData($schools, 'inep_id', 'name');
 
-        echo CHtml::tag('option', array('value' => ""), 'Selecione uma opção de matrícula', true);
+        echo CHtml::tag('option', ['value' => ''], 'Selecione uma opção de matrícula', true);
         foreach ($data as $value => $name) {
-            echo CHtml::tag('option', array('value' => $value), CHtml::encode($name), true);
+            echo CHtml::tag('option', ['value' => $value], CHtml::encode($name), true);
         }
     }
 }
