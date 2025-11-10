@@ -151,7 +151,7 @@ function initDatatable() {
                 || action.includes("professional")) {
                 indexActionButtons = [4];
             }
-            if (action.includes("student")) {
+            if (action.includes("student") && !action.includes("studentimc") && !action.includes("enrollmentonline")) {
                 $(".js-tag-table").DataTable({
                     language: getLanguagePtbr(),
                     serverSide: true,
