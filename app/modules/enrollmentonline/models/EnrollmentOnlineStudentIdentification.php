@@ -40,7 +40,6 @@
  * @property integer $unavailable
  * @property integer $student_fk
  * @property integer $edcenso_stage_vs_modality_fk
- * @property integer $event_pre_registration_fk
  * @property integer $stages_vacancy_pre_registration_fk
  * @property string $created_at
  * @property string $updated_at
@@ -75,7 +74,7 @@ class EnrollmentOnlineStudentIdentification extends CActiveRecord
         // will receive user inputs.
         return [
             ['name, birthday, sex, color_race, deficiency', 'required'],
-            ['classroom_fk, sex, color_race, deficiency, deficiency_type_blindness, deficiency_type_low_vision, deficiency_type_deafness, deficiency_type_disability_hearing, deficiency_type_deafblindness, deficiency_type_phisical_disability, deficiency_type_intelectual_disability, deficiency_type_multiple_disabilities, deficiency_type_autism, deficiency_type_gifted, zone, edcenso_city_fk, edcenso_uf_fk, unavailable, student_fk, edcenso_stage_vs_modality_fk, event_pre_registration_fk, stages_vacancy_pre_registration_fk, user_fk', 'numerical', 'integerOnly' => true],
+            ['classroom_fk, sex, color_race, deficiency, deficiency_type_blindness, deficiency_type_low_vision, deficiency_type_deafness, deficiency_type_disability_hearing, deficiency_type_deafblindness, deficiency_type_phisical_disability, deficiency_type_intelectual_disability, deficiency_type_multiple_disabilities, deficiency_type_autism, deficiency_type_gifted, zone, edcenso_city_fk, edcenso_uf_fk, unavailable, student_fk, edcenso_stage_vs_modality_fk, stages_vacancy_pre_registration_fk, user_fk', 'numerical', 'integerOnly' => true],
             ['classroom_inep_id', 'length', 'max' => 12],
             ['name, address, complement, neighborhood', 'length', 'max' => 100],
             ['birthday, number', 'length', 'max' => 10],
@@ -83,7 +82,7 @@ class EnrollmentOnlineStudentIdentification extends CActiveRecord
             ['mother_name, father_name, responsable_name', 'length', 'max' => 90],
             ['cep', 'length', 'max' => 8],
             ['last_change, created_at, updated_at', 'safe'],
-            ['classroom_inep_id, classroom_fk, id, name, birthday, cpf, sex, color_race, deficiency, deficiency_type_blindness, deficiency_type_low_vision, deficiency_type_deafness, deficiency_type_disability_hearing, deficiency_type_deafblindness, deficiency_type_phisical_disability, deficiency_type_intelectual_disability, deficiency_type_multiple_disabilities, deficiency_type_autism, deficiency_type_gifted, last_change, mother_name, father_name, responsable_name, responsable_cpf, responsable_telephone, cep, address, number, complement, neighborhood, zone, edcenso_city_fk, edcenso_uf_fk, unavailable, student_fk, edcenso_stage_vs_modality_fk, event_pre_registration_fk, stages_vacancy_pre_registration_fk, created_at, updated_at, user_fk', 'safe', 'on' => 'search'],
+            ['classroom_inep_id, classroom_fk, id, name, birthday, cpf, sex, color_race, deficiency, deficiency_type_blindness, deficiency_type_low_vision, deficiency_type_deafness, deficiency_type_disability_hearing, deficiency_type_deafblindness, deficiency_type_phisical_disability, deficiency_type_intelectual_disability, deficiency_type_multiple_disabilities, deficiency_type_autism, deficiency_type_gifted, last_change, mother_name, father_name, responsable_name, responsable_cpf, responsable_telephone, cep, address, number, complement, neighborhood, zone, edcenso_city_fk, edcenso_uf_fk, unavailable, student_fk, edcenso_stage_vs_modality_fk, stages_vacancy_pre_registration_fk, created_at, updated_at, user_fk', 'safe', 'on' => 'search'],
         ];
     }
 
@@ -98,7 +97,6 @@ class EnrollmentOnlineStudentIdentification extends CActiveRecord
             'enrollmentOnlineEnrollmentSolicitations' => [self::HAS_MANY, 'EnrollmentOnlineEnrollmentSolicitation', 'enrollment_online_student_identification_fk'],
             'edcensoCityFk' => [self::BELONGS_TO, 'EdcensoCity', 'edcenso_city_fk'],
             'classroomFk' => [self::BELONGS_TO, 'Classroom', 'classroom_fk'],
-            'eventPreRegistrationFk' => [self::BELONGS_TO, 'EventPreRegistration', 'event_pre_registration_fk'],
             'edcensoStageVsModalityFk' => [self::BELONGS_TO, 'EdcensoStageVsModality', 'edcenso_stage_vs_modality_fk'],
             'stagesVacancyPreRegistrationFk' => [self::BELONGS_TO, 'StagesVacancyPreRegistration', 'stages_vacancy_pre_registration_fk'],
             'studentFk' => [self::BELONGS_TO, 'StudentIdentification', 'student_fk'],
@@ -149,7 +147,6 @@ class EnrollmentOnlineStudentIdentification extends CActiveRecord
             'status_fk' => 'Status',
             'student_fk' => 'Aluno',
             'edcenso_stage_vs_modality_fk' => 'Etapa',
-            'event_pre_registration_fk' => 'Evento de Pré-Matrícula',
             'stages_vacancy_pre_registration_fk' => 'Etapa/Vaga da Pré-Matrícula',
             'created_at' => 'Criado em',
             'updated_at' => 'Atualizado em',
@@ -210,7 +207,6 @@ class EnrollmentOnlineStudentIdentification extends CActiveRecord
         $criteria->compare('unavailable', $this->unavailable);
         $criteria->compare('student_fk', $this->student_fk);
         $criteria->compare('edcenso_stage_vs_modality_fk', $this->edcenso_stage_vs_modality_fk);
-        $criteria->compare('event_pre_registration_fk', $this->event_pre_registration_fk);
         $criteria->compare('stages_vacancy_pre_registration_fk', $this->stages_vacancy_pre_registration_fk);
         $criteria->compare('created_at', $this->created_at, true);
         $criteria->compare('updated_at', $this->updated_at, true);

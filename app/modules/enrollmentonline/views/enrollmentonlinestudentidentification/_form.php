@@ -14,10 +14,6 @@ $cs->registerScriptFile($baseScriptUrl . '/validations.js?v=' . TAG_VERSION, CCl
 
     <?php $form = $this->beginWidget('CActiveForm', [
         'id' => 'online-enrollment-student-identification-form',
-        // Please note: When you enable ajax validation, make sure the corresponding
-        // controller action is handling ajax validation correctly.
-        // There is a call to performAjaxValidation() commented in generated controller code.
-        // See class documentation of CActiveForm for details on this.
         'enableAjaxValidation' => false,
     ]); ?>
     <div id="content">
@@ -445,7 +441,7 @@ $cs->registerScriptFile($baseScriptUrl . '/validations.js?v=' . TAG_VERSION, CCl
                             style="display:none;"><?php echo Yii::t('default', 'Previous') ?><i></i></a>
                     </div>
                     <div class="column">
-                        <a data-toggle='tab'
+                        <a  data-toggle='tab'
                             class='t-button-primary t-margin-none--right t-padding-small--all nofloat next'><?= Yii::t('default', 'Next') ?></a>
                         <button class="t-button-primary t-padding-small--all t-margin-none--right last save-student"
                             type="submit" style="display:none;width:100%;">
