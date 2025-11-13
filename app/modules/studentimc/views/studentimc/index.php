@@ -61,7 +61,7 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Acompanhamento de Saúde'));
                         array(
                             'name' => 'IMC',
                             'type' => 'raw',
-                            'value' => 'CHtml::link($data->IMC,Yii::app()->createUrl("studentimc/studentimc/update",array("id"=>$data->id)))',
+                            'value' => 'CHtml::link(number_format((float) $data->IMC, 2, ".", ""),Yii::app()->createUrl("studentimc/studentimc/update",array("id"=>$data->id)))',
                             'htmlOptions' => array('width' => '400px', 'class' => 'link-update-grid-view'),
                         ),
                         array(
