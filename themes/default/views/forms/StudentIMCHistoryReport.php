@@ -169,7 +169,7 @@ function getDisorders()
             <tbody>
 
                 <tr>
-                    <td><?= CHtml::encode($imc["imc"]->IMC) ?></td>
+                    <td><?= CHtml::encode(number_format((float) $imc["imc"]->IMC, 2, '.', '')) ?></td>
                     <td><?= CHtml::encode($imc["classification"]) ?></td>
                     <td><?= CHtml::encode(number_format((float) $imc["imc"]->height, 2, '.', '')) ?></td>
                     <td><?= CHtml::encode(number_format((float) $imc["imc"]->weight, 2, '.', '')) ?></td>

@@ -180,7 +180,7 @@ function getDisorders()
             <tbody>
                 <?php foreach ($student["studentIMC"] as $imc): ?>
                     <tr>
-                        <td><?= CHtml::encode($imc->IMC) ?></td>
+                        <td><?= CHtml::encode(number_format((float) $imc->IMC, 2, '.', '')) ?></td>
                         <td><?= CHtml::encode($imc->studentImcClassificationFk->classification) ?></td>
                         <td><?= CHtml::encode(number_format((float) $imc->height, 2, '.', '')) ?></td>
                         <td><?= CHtml::encode(number_format((float) $imc->weight, 2, '.', '')) ?></td>
