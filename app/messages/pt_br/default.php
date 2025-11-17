@@ -379,6 +379,7 @@ return [
     'Complementary Activity Type 4' => '',
     'Complementary Activity Type 5' => '',
     'Complementary Activity Type 6' => '',
+    'capacity' => 'Capacidade da turma',
     'Aee' => 'Atividades do Atendimento Educacional Especializado',
     'Aee Braille System Education' => 'Ensino do Sistema Braille',
     'Aee Optical And Non Optical Resources' => 'Ensino do uso de recursos ópticos e não ópticos',

@@ -105,3 +105,9 @@ FOREIGN KEY (student_imc_fk)
 REFERENCES student_imc(id)
 ON DELETE SET NULL
 ON UPDATE CASCADE;
+
+
+-- enrollmentonline
+
+ALTER TABLE classroom
+ADD COLUMN capacity INT;
