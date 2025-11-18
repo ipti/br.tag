@@ -141,8 +141,11 @@ function calculateFrequence($numClasses, $numFalts): int {
                         for ($j = 0; $j < $diciplinesColumnsCount; $j++) {
                             $gradeResultFaults += $result[$j]['grade_result']['grade_faults_' . $i];
                             $gradeResult = $result[$j]['grade_result'];
+                            $discipline = $disciplines[$gradeResult['discipline_fk']];
                             ?>
-                            <?php if ($unities[$i - 1]->type == 'RF') { ?>
+                            <?php if($discipline === 0) { ?>
+                                <td style="text-align: center;">AP</td>
+                            <?php } elseif ($unities[$i - 1]->type == 'RF') { ?>
                                 <td style="text-align: center;"><?= $gradeResult['rec_final'] ?></td>
                             <?php } elseif ($unities[$i - 1]->type == 'UC') { ?>
                                 <td style="text-align: center;"><?= $gradeResult['grade_concept_' . $i] ?></td>
@@ -171,9 +174,22 @@ function calculateFrequence($numClasses, $numFalts): int {
                 </tbody>
                 <tr>
                     <td colspan="1">MÉDIA FINAL</td>
-                    <?php for ($i = 0; $i < $diciplinesColumnsCount; $i++) { ?>
-                        <td style="text-align: center;font-weight:bold;"><?= ($conceptUnities ? '' : $result[$i]['final_media']) ?></td>
-                    <?php } ?>
+                    <?php for ($i = 0; $i < $diciplinesColumnsCount; $i++): ?>
+                        <td style="text-align: center; font-weight: bold;">
+                            <?php
+                            $gradeResult = $result[$i]['grade_result'];
+                            $discipline = $disciplines[$gradeResult['discipline_fk']];
+                                if ($conceptUnities) {
+                                    echo '';
+                                } else {
+                                    echo ($discipline === 0)
+                                        ? 'AP'
+                                        : $result[$i]['final_media'];
+                                }
+                            ?>
+                        </td>
+                    <?php endfor; ?>
+
                     <td></td>
                     <td></td>
                     <td></td>

@@ -142,7 +142,7 @@ class GradesController extends Controller
                 join instructor_identification ii on ii.id = itd.instructor_fk
                 join curricular_matrix cm on cm.id = tm.curricular_matrix_fk
                 join edcenso_discipline ed on ed.id = cm.discipline_fk
-                where ii.users_fk = :userid and itd.classroom_id_fk = :crid order by ed.name"
+                where ii.users_fk = :userid and itd.classroom_id_fk = :crid and ed.requires_exam = 1 order by ed.name"
             )
                 ->bindParam(":userid", Yii::app()->user->loginInfos->id)->bindParam(":crid", $classroom->id)->queryAll();
             foreach ($disciplines as $discipline) {
@@ -153,7 +153,7 @@ class GradesController extends Controller
                 "select curricular_matrix.discipline_fk
                 from curricular_matrix
                     join edcenso_discipline ed on ed.id = curricular_matrix.discipline_fk
-                where stage_fk = :stage_fk and school_year = :year order by ed.name"
+                where stage_fk = :stage_fk and school_year = :year and ed.requires_exam = 1  order by ed.name"
             )
                 ->bindParam(":stage_fk", $classroom->edcenso_stage_vs_modality_fk)
                 ->bindParam(":year", Yii::app()->user->year)->queryAll();

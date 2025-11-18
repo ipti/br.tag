@@ -310,6 +310,13 @@ class FormsRepository
             }
         }
 
+        $disciplinesList = EdcensoDiscipline::model()->findAll();
+
+        $disciplines = [];
+        foreach ($disciplinesList as $d) {
+            $disciplines[$d->id] = $d->requires_exam;
+        }
+
         $response = array(
             'enrollment' => $enrollment,
             'result' => $report,
@@ -319,7 +326,8 @@ class FormsRepository
             "school_days" => $schoolDaysPerUnity,
             "faults" => $faultsPerUnity,
             "workload" => $workloadPerUnity,
-            "isMinorEducation" => $isMinorEducation
+            "isMinorEducation" => $isMinorEducation,
+            "disciplines" => $disciplines
         );
 
         return $response;
