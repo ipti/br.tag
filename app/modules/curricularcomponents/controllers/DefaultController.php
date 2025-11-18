@@ -61,6 +61,7 @@ class DefaultController extends Controller
 
         if(isset($_POST['EdcensoDiscipline'])) {
             $model->attributes=$_POST['EdcensoDiscipline'];
+            $model->report_text = $_POST['EdcensoDiscipline']['report_text'];
             if($model->save()) {
                 $this->redirect(array('index'));
             } else {
@@ -88,11 +89,12 @@ class DefaultController extends Controller
 
         if(isset($_POST['EdcensoDiscipline'])) {
             $model->attributes=$_POST['EdcensoDiscipline'];
+            $model->report_text = $_POST['EdcensoDiscipline']['report_text'];
             if($model->save()) {
                 $this->redirect(array('index'));
             } else {
                 Yii::app()->user->setFlash('error', Yii::t('default', 'Não foi possível atualizar esse componente curricular'));
-            }            
+            }
         }
 
         $this->render('update', array(
