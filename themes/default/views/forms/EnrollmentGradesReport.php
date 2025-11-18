@@ -143,8 +143,8 @@ function calculateFrequence($numClasses, $numFalts): int {
                             $gradeResult = $result[$j]['grade_result'];
                             $discipline = $disciplines[$gradeResult['discipline_fk']];
                             ?>
-                            <?php if($discipline === 0) { ?>
-                                <td style="text-align: center;">AP</td>
+                            <?php if($discipline["requires_exam"] === 0) { ?>
+                                <td style="text-align: center;"><?= $discipline["report_text"] ?></td>
                             <?php } elseif ($unities[$i - 1]->type == 'RF') { ?>
                                 <td style="text-align: center;"><?= $gradeResult['rec_final'] ?></td>
                             <?php } elseif ($unities[$i - 1]->type == 'UC') { ?>
@@ -182,8 +182,8 @@ function calculateFrequence($numClasses, $numFalts): int {
                                 if ($conceptUnities) {
                                     echo '';
                                 } else {
-                                    echo ($discipline === 0)
-                                        ? 'AP'
+                                    echo ($discipline["requires_exam"] === 0)
+                                        ? $discipline["report_text"]
                                         : $result[$i]['final_media'];
                                 }
                             ?>

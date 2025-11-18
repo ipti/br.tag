@@ -314,7 +314,7 @@ class FormsRepository
 
         $disciplines = [];
         foreach ($disciplinesList as $d) {
-            $disciplines[$d->id] = $d->requires_exam;
+            $disciplines[$d->id] = $d;
         }
 
         $response = array(

@@ -1,3 +1,6 @@
+## [Versão 3.5.5]
+- Corrigido o comportamento das disciplinas que não possuem nota, garantindo o tratamento adequado nos relatórios e demais funcionalidades.
+
 ## [Versão 3.5.4]
 - Corrigido Cálculo de média Ponderada em estrutura de notas
 

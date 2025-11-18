@@ -11,10 +11,10 @@ $form = $this->beginWidget('CActiveForm', array(
     'id' => 'edcenso-discipline-_form-form',
     'enableAjaxValidation' => false,
 ));
-$themeUrl = Yii::app()->theme->baseUrl;
-$cs = Yii::app()->getClientScript();
 
-$cs->registerScriptFile($baseScriptUrl . '/common/js/professional.js?v=1.1', CClientScript::POS_END);
+$baseScriptUrl = Yii::app()->controller->module->baseScriptUrl;
+$cs = Yii::app()->getClientScript();
+$cs->registerScriptFile($baseScriptUrl . '/_initialization.js?v='.TAG_VERSION, CClientScript::POS_END);
 
 if (!$model->isNewRecord) {
     $cant_change_censo_discipline = $model->edcenso_base_discipline_fk < 99;
@@ -67,9 +67,16 @@ if (!$model->isNewRecord) {
                         <?php echo $form->error($model, 'edcenso_base_discipline_fk'); ?>
                     </div>
                     <div class="t-field-checkbox">
-                        <?php echo $form->checkBox($model, 'requires_exam', array('value' => 1, 'uncheckValue' => 0, 'class' => 't-field-checkbox__input')); ?>
+                        <?php echo $form->checkBox($model, 'requires_exam', array('value' => 1, 'uncheckValue' => 0, 'class' => 't-field-checkbox__input js-requires_exam')); ?>
                         <?php echo $form->label($model, 'requires_exam', array('class' => 't-field-checkbox__label')); ?>
                         <?php echo $form->error($model, 'requires_exam'); ?>
+                    </div>
+
+                    <div class="t-field-text js-report_text hide">
+                        <?php echo $form->label($model, 'report_text', array('class' => 't-field-text__label control-label')); ?>
+                        <?php echo $form->textField($model, 'report_text', array('class'=> 't-field-text__input')); ?>
+                        <?php echo $form->error($model, 'report_text'); ?>
+                        <span style="font-size:12px">Esse texto vai aparecer nos relatórios quando o a disciplina não exigir nota</span>
                     </div>
                 </div>
                 <div class="column"></div>
