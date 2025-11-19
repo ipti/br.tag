@@ -8,6 +8,8 @@
  * @property string $name
  * @property string $abbreviation
  * @property integer $edcenso_base_discipline_fk
+ * @property integer $requires_exam
+ * @property string $report_text
  *
  * The followings are the available model relations:
  * @property ClassBoard[] $classBoards
@@ -42,12 +44,12 @@ class EdcensoDiscipline extends TagModel
 		// will receive user inputs.
 		return array(
 			array('name, edcenso_base_discipline_fk', 'required'),
-			array('edcenso_base_discipline_fk', 'numerical', 'integerOnly'=>true),
+			array('edcenso_base_discipline_fk, requires_exam', 'numerical', 'integerOnly'=>true),
 			array('name', 'length', 'max'=>100),
 			array('abbreviation', 'length', 'max'=>15),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, name, edcenso_base_discipline_fk, abbreviation', 'safe', 'on'=>'search'),
+			array('id, name, edcenso_base_discipline_fk, abbreviation, requires_exam, report_text', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -83,6 +85,8 @@ class EdcensoDiscipline extends TagModel
 			'name' => Yii::t('default', 'Discipline'),
 			'edcenso_base_discipline_fk' => 'Componente no EducaCenso',
 			'abbreviation' => 'Abreviação do componente curricular/eixo',
+			'requires_exam' => 'Requer prova',
+			'report_text' => 'Texto exibido no Relatório',
 		);
 	}
 
