@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e61e711bca7001290ba6dad2420122f6",
+    "content-hash": "cfa0a05105a1765ad0abb1efc27f75fd",
     "packages": [
         {
             "name": "bensontrent/firestore-php",
@@ -3664,16 +3664,16 @@
         },
         {
             "name": "yiisoft/yii",
-            "version": "1.1.30",
+            "version": "1.1.31",
             "source": {
                 "type": "git",
                 "url": "https://github.com/yiisoft/yii.git",
-                "reference": "5f760e818b8bc6e4c11b6cd36d9549892fe4747b"
+                "reference": "34bac577947de8915bc9df8282ebd64d801b6032"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/yiisoft/yii/zipball/5f760e818b8bc6e4c11b6cd36d9549892fe4747b",
-                "reference": "5f760e818b8bc6e4c11b6cd36d9549892fe4747b",
+                "url": "https://api.github.com/repos/yiisoft/yii/zipball/34bac577947de8915bc9df8282ebd64d801b6032",
+                "reference": "34bac577947de8915bc9df8282ebd64d801b6032",
                 "shasum": ""
             },
             "require": {
@@ -3803,7 +3803,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2024-10-14T11:01:44+00:00"
+            "time": "2025-04-10T13:57:47+00:00"
         }
     ],
     "packages-dev": [
