@@ -27,7 +27,7 @@
  *
 
  */
-class fileManager
+class FileManager
 {
     protected $files = [];
 
