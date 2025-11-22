@@ -84,11 +84,18 @@
                         )
                     );
                     array_push($columns,
+                    array(
+                        'name' => 'edcensoStageVsModalityFk',
+                        'header' => 'Etapa',
+                        'value' => '$data->edcensoStageVsModalityFk->name',
+                        'htmlOptions' => array('width' => '400px'),
+                        )
+                    );
+                    array_push($columns,
                         array(
-                            'name' => 'edcensoStageVsModalityFk',
-                            'header' => 'Etapa',
-                            'value' => '$data->edcensoStageVsModalityFk->name',
-                            'htmlOptions' => array('width' => '400px'),
+                            'name' => 'capacity',
+                            'header' => 'Capacidade',
+                            'value' => '$data->capacity',
                         )
                     );
                     array_push($columns,
