@@ -168,6 +168,7 @@ class StudentIMCController extends Controller
 
         $model->height = number_format((float) $model->height, 2, '.', '');
         $model->weight = number_format((float) $model->weight, 2, '.', '');
+        $model->IMC = number_format((float) $model->IMC, 2, '.', '');
 
         // Buscar ou criar os modelos relacionados
         $modelStudentDisorderHistory = StudentDisorderHistory::model()->findByAttributes(['student_fk' => $studentId, 'student_imc_fk' => $id]);

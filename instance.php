@@ -36,7 +36,7 @@ define("DBCONFIG", serialize(array(
     'enableParamLogging' => YII_DEBUG,
     'username' => $USER,
     'password' => $PWD,
-    'charset' => 'utf8',
+    'charset' => 'utf8mb4',
 )));
 
 define('INSTANCE', strtoupper($domain));

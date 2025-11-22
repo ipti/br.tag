@@ -68,7 +68,7 @@ class StudentImc extends CActiveRecord
             'height' => Yii::t('default', 'Height'),
             'weight' => Yii::t('default', 'Weight'),
             'IMC' => Yii::t('default', 'IMC'),
-            'classification' => Yii::t('default', 'Classification'),
+            'student_imc_classification_fk' => Yii::t('default', 'Classification'),
             'observations' => Yii::t('default', 'Observations'),
             'student_fk' => Yii::t('default', 'Student'),
             'created_at' => Yii::t('default', 'Created_At'),
