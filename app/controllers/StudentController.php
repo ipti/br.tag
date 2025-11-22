@@ -418,78 +418,75 @@ class StudentController extends Controller implements AuthenticateSEDTokenInterf
 
             if ($modelStudentIdentification->validate() && $modelStudentDocumentsAndAddress->validate() && $modelStudentIdentification->save()) {
 
-                    $modelStudentDocumentsAndAddress->id = $modelStudentIdentification->id;
-                    $modelStudentRestrictions->student_fk = $modelStudentIdentification->id;
-                    $modelStudentDisorder->student_fk = $modelStudentIdentification->id;
+                $modelStudentDocumentsAndAddress->id = $modelStudentIdentification->id;
+                $modelStudentRestrictions->student_fk = $modelStudentIdentification->id;
+                $modelStudentDisorder->student_fk = $modelStudentIdentification->id;
 
-                    if ($modelStudentDocumentsAndAddress->validate() && $modelStudentDocumentsAndAddress->save() && $modelStudentRestrictions->save() && $modelStudentDisorder->save()) {
+                if ($modelStudentDocumentsAndAddress->validate() && $modelStudentDocumentsAndAddress->save() && $modelStudentRestrictions->save() && $modelStudentDisorder->save()) {
 
-                            $saved = true;
-                            if (
-                                isset($_POST[$this->studentEnrollment], $_POST[$this->studentEnrollment]['classroom_fk'])
-                                && !empty($_POST[$this->studentEnrollment]['classroom_fk'])
-                            ) {
-                                $modelEnrollment = new StudentEnrollment();
-                                $modelEnrollment->attributes = $_POST[$this->studentEnrollment];
-                                $modelEnrollment->school_inep_id_fk = $modelStudentIdentification->school_inep_id_fk;
-                                $modelEnrollment->student_fk = $modelStudentIdentification->id;
-                                $modelEnrollment->create_date = date('Y-m-d');
-                                if ($modelEnrollment->status == 1) {
-                                    $modelEnrollment->enrollment_date = date('Y-m-d');
-                                }
-                                $modelEnrollment->daily_order = $modelEnrollment->getDailyOrder();
-                                $saved = false;
-                                if ($modelEnrollment->validate()) {
-                                    $saved = $modelEnrollment->save();
-                                }
-                            }
-
-                            if (isset($_POST['Vaccine']['vaccine_id'])&&(count($_POST['Vaccine']['vaccine_id']) > 0)) {
-                                    StudentVaccine::model()->deleteAll("student_id = $modelStudentIdentification->id");
-
-                                    foreach ($_POST['Vaccine']['vaccine_id'] as $vaccineId) {
-                                        $studentVaccine = new StudentVaccine();
-                                        $studentVaccine->student_id = $modelStudentIdentification->id;
-                                        $studentVaccine->vaccine_id = $vaccineId;
-                                        $studentVaccine->save();
-                                    }
-
-                            }
-
-                            if ($saved) {
-                                $flash = 'success';
-                                $msg = 'O Cadastro de ' . $modelStudentIdentification->name . ' foi criado com sucesso!';
-
-                                if (Yii::app()->features->isEnable(TFeature::FEAT_INTEGRATIONS_SEDSP)) {
-                                    $this->authenticateSedToken();
-                                    $syncResult = $modelStudentIdentification->syncStudentWithSED($modelStudentIdentification->id, $modelEnrollment, self::CREATE);
-
-                                    if ($syncResult->identification->outErro !== null || $syncResult->enrollment->outErro !== null || $syncResult === false) {
-                                        $flash = 'error';
-                                        $msg = '<span style="color: white;background: #23b923; padding:10px;border-radius: 4px;">Cadastro do aluno ' . $modelStudentIdentification->name .
-                                            '  criado com sucesso no TAG, mas não foi possível sincronizá-lo com a SEDSP. Motivo: </span>';
-                                        if ($syncResult->identification->outErro) {
-                                            $msg .= '<br>Ficha do Aluno: ' . $syncResult->identification->outErro;
-                                        }
-                                        if ($syncResult->enrollment->outErro) {
-                                            $msg .= '<br>Matrícula: ' . $syncResult->enrollment->outErro;
-                                        }
-                                    }
-                                }
-
-                                Log::model()->saveAction(
-                                    'student',
-                                    $modelStudentIdentification->id,
-                                    'C',
-                                    $modelStudentIdentification->name
-                                );
-                                Yii::app()->user->setFlash($flash, Yii::t('default', $msg));
-
-                                $this->redirect(['index', 'sid' => $modelStudentIdentification->id]);
-                            }
-
+                    $saved = true;
+                    if (
+                        isset($_POST[$this->studentEnrollment], $_POST[$this->studentEnrollment]['classroom_fk'])
+                        && !empty($_POST[$this->studentEnrollment]['classroom_fk'])
+                    ) {
+                        $modelEnrollment = new StudentEnrollment();
+                        $modelEnrollment->attributes = $_POST[$this->studentEnrollment];
+                        $modelEnrollment->school_inep_id_fk = $modelStudentIdentification->school_inep_id_fk;
+                        $modelEnrollment->student_fk = $modelStudentIdentification->id;
+                        $modelEnrollment->create_date = date('Y-m-d');
+                        if ($modelEnrollment->status == 1) {
+                            $modelEnrollment->enrollment_date = date('Y-m-d');
+                        }
+                        $modelEnrollment->daily_order = $modelEnrollment->getDailyOrder();
+                        $saved = false;
+                        if ($modelEnrollment->validate()) {
+                            $saved = $modelEnrollment->save();
+                        }
                     }
 
+                    if (isset($_POST['Vaccine']['vaccine_id']) && (count($_POST['Vaccine']['vaccine_id']) > 0)) {
+                        StudentVaccine::model()->deleteAll("student_id = $modelStudentIdentification->id");
+
+                        foreach ($_POST['Vaccine']['vaccine_id'] as $vaccineId) {
+                            $studentVaccine = new StudentVaccine();
+                            $studentVaccine->student_id = $modelStudentIdentification->id;
+                            $studentVaccine->vaccine_id = $vaccineId;
+                            $studentVaccine->save();
+                        }
+                    }
+
+                    if ($saved) {
+                        $flash = 'success';
+                        $msg = 'O Cadastro de ' . $modelStudentIdentification->name . ' foi criado com sucesso!';
+
+                        if (Yii::app()->features->isEnable(TFeature::FEAT_INTEGRATIONS_SEDSP)) {
+                            $this->authenticateSedToken();
+                            $syncResult = $modelStudentIdentification->syncStudentWithSED($modelStudentIdentification->id, $modelEnrollment, self::CREATE);
+
+                            if ($syncResult->identification->outErro !== null || $syncResult->enrollment->outErro !== null || $syncResult === false) {
+                                $flash = 'error';
+                                $msg = '<span style="color: white;background: #23b923; padding:10px;border-radius: 4px;">Cadastro do aluno ' . $modelStudentIdentification->name .
+                                    '  criado com sucesso no TAG, mas não foi possível sincronizá-lo com a SEDSP. Motivo: </span>';
+                                if ($syncResult->identification->outErro) {
+                                    $msg .= '<br>Ficha do Aluno: ' . $syncResult->identification->outErro;
+                                }
+                                if ($syncResult->enrollment->outErro) {
+                                    $msg .= '<br>Matrícula: ' . $syncResult->enrollment->outErro;
+                                }
+                            }
+                        }
+
+                        Log::model()->saveAction(
+                            'student',
+                            $modelStudentIdentification->id,
+                            'C',
+                            $modelStudentIdentification->name
+                        );
+                        Yii::app()->user->setFlash($flash, Yii::t('default', $msg));
+
+                        $this->redirect(['index', 'sid' => $modelStudentIdentification->id]);
+                    }
+                }
             }
         }
 
@@ -563,93 +560,92 @@ class StudentController extends Controller implements AuthenticateSEDTokenInterf
             }
 
             if ($modelStudentIdentification->validate() && $modelStudentDocumentsAndAddress->validate() && $modelStudentIdentification->save()) {
-                    $modelStudentRestrictions->student_fk = $modelStudentIdentification->id;
-                    $modelStudentDisorder->student_fk = $modelStudentIdentification->id;
-                    $modelStudentDocumentsAndAddress->id = $modelStudentIdentification->id;
-                    if ($modelStudentDocumentsAndAddress->save() && $modelStudentRestrictions->save() && $modelStudentDisorder->save()) {
-                        $saved = true;
-                        if (
-                            isset($_POST[$this->studentEnrollment], $_POST[$this->studentEnrollment]['classroom_fk'])
-                            && !empty($_POST[$this->studentEnrollment]['classroom_fk'])
-                        ) {
-                            $modelEnrollment = new StudentEnrollment();
-                            $modelEnrollment->attributes = $_POST[$this->studentEnrollment];
-                            $modelEnrollment->enrollment_date = $modelEnrollment->enrollment_date !== '' ? DateTime::createFromFormat('d/m/Y', $modelEnrollment->enrollment_date): new DateTime();
+                $modelStudentRestrictions->student_fk = $modelStudentIdentification->id;
+                $modelStudentDisorder->student_fk = $modelStudentIdentification->id;
+                $modelStudentDocumentsAndAddress->id = $modelStudentIdentification->id;
+                if ($modelStudentDocumentsAndAddress->save() && $modelStudentRestrictions->save() && $modelStudentDisorder->save()) {
+                    $saved = true;
+                    if (
+                        isset($_POST[$this->studentEnrollment], $_POST[$this->studentEnrollment]['classroom_fk'])
+                        && !empty($_POST[$this->studentEnrollment]['classroom_fk'])
+                    ) {
+                        $modelEnrollment = new StudentEnrollment();
+                        $modelEnrollment->attributes = $_POST[$this->studentEnrollment];
+                        $modelEnrollment->enrollment_date = $modelEnrollment->enrollment_date !== '' ? DateTime::createFromFormat('d/m/Y', $modelEnrollment->enrollment_date) : new DateTime();
 
-                            $modelEnrollment->enrollment_date = $modelEnrollment->enrollment_date->format('Y-m-d');
-                            $modelEnrollment->school_inep_id_fk = $modelStudentIdentification->school_inep_id_fk;
-                            $modelEnrollment->student_fk = $modelStudentIdentification->id;
-                            $modelEnrollment->student_inep_id = $modelStudentIdentification->inep_id;
-                            $modelEnrollment->create_date = date('Y-m-d');
-                            $modelEnrollment->daily_order = $modelEnrollment->getDailyOrder();
-                            $saved = false;
+                        $modelEnrollment->enrollment_date = $modelEnrollment->enrollment_date->format('Y-m-d');
+                        $modelEnrollment->school_inep_id_fk = $modelStudentIdentification->school_inep_id_fk;
+                        $modelEnrollment->student_fk = $modelStudentIdentification->id;
+                        $modelEnrollment->student_inep_id = $modelStudentIdentification->inep_id;
+                        $modelEnrollment->create_date = date('Y-m-d');
+                        $modelEnrollment->daily_order = $modelEnrollment->getDailyOrder();
+                        $saved = false;
 
-                            $hasDuplicate = $modelEnrollment->alreadyExists();
-                            if ($modelEnrollment->validate() && !$hasDuplicate) {
-                                $saved = $modelEnrollment->save();
-                            }
-
-                            if ($hasDuplicate) {
-                                Yii::app()->user->setFlash(
-                                    'error',
-                                    Yii::t('default', 'Aluno já está matriculado nessa turma.')
-                                );
-                            }
+                        $hasDuplicate = $modelEnrollment->alreadyExists();
+                        if ($modelEnrollment->validate() && !$hasDuplicate) {
+                            $saved = $modelEnrollment->save();
                         }
 
-                        if (isset($_POST['Vaccine']['vaccine_id']) && count($_POST['Vaccine']['vaccine_id']) > 0) {
-                           if ($studentVaccinesSaves) {
-                                    StudentVaccine::model()->deleteAll("student_id = $modelStudentIdentification->id");
-                                }
-
-                                foreach ($_POST['Vaccine']['vaccine_id'] as $vaccineId) {
-                                    $studentVaccine = new StudentVaccine();
-                                    $studentVaccine->student_id = $modelStudentIdentification->id;
-                                    $studentVaccine->vaccine_id = $vaccineId;
-                                    $studentVaccine->save();
-                                }
-                        }
-
-                        if ($saved) {
-                            $flash = 'success';
-                            $msg = 'O Cadastro de ' . $modelStudentIdentification->name . ' foi alterado com sucesso!';
-
-                            if (Yii::app()->features->isEnable(TFeature::FEAT_INTEGRATIONS_SEDSP)) {
-                                $this->authenticateSedToken();
-                                $syncResult = (object) $modelStudentIdentification->syncStudentWithSED($id, $modelEnrollment, self::UPDATE);
-
-                                if ($syncResult->identification->outErro !== null || $syncResult->enrollment->outErro !== null) {
-                                    $flash = 'error';
-                                    $msg = '<span style="color: white;background: #23b923;
-                                    padding:10px;border-radius: 4px;">Cadastro do aluno ' . $modelStudentIdentification->name .
-                                        '  alterado com sucesso no TAG, mas não foi possível sincronizá-lo com a SEDSP. Motivo: </span>';
-                                    if ($syncResult->identification->outErro) {
-                                        $msg .= '<br>Ficha do Aluno: ' . $syncResult->identification->outErro;
-                                    }
-                                    if ($syncResult->enrollment->outErro) {
-                                        $msg .= '<br>Matrícula: ' . $syncResult->enrollment->outErro;
-                                    }
-                                }
-                            }
-
-                            Log::model()->saveAction(
-                                'student',
-                                $modelStudentIdentification->id,
-                                'U',
-                                $modelStudentIdentification->name
+                        if ($hasDuplicate) {
+                            Yii::app()->user->setFlash(
+                                'error',
+                                Yii::t('default', 'Aluno já está matriculado nessa turma.')
                             );
-
-                            Yii::app()->user->setFlash($flash, Yii::t('default', $msg));
-                            $this->redirect(['index', 'id' => $modelStudentIdentification->id]);
-                        } else {
-                            $msg = 'Não foi possível realizar as modificações do aluno: ' .
-                                $modelStudentIdentification->name;
-
-                            Yii::app()->user->setFlash('error', Yii::t('default', $msg));
-                            $this->redirect(['index', 'id' => $modelStudentIdentification->id]);
                         }
                     }
 
+                    if (isset($_POST['Vaccine']['vaccine_id']) && count($_POST['Vaccine']['vaccine_id']) > 0) {
+                        if ($studentVaccinesSaves) {
+                            StudentVaccine::model()->deleteAll("student_id = $modelStudentIdentification->id");
+                        }
+
+                        foreach ($_POST['Vaccine']['vaccine_id'] as $vaccineId) {
+                            $studentVaccine = new StudentVaccine();
+                            $studentVaccine->student_id = $modelStudentIdentification->id;
+                            $studentVaccine->vaccine_id = $vaccineId;
+                            $studentVaccine->save();
+                        }
+                    }
+
+                    if ($saved) {
+                        $flash = 'success';
+                        $msg = 'O Cadastro de ' . $modelStudentIdentification->name . ' foi alterado com sucesso!';
+
+                        if (Yii::app()->features->isEnable(TFeature::FEAT_INTEGRATIONS_SEDSP)) {
+                            $this->authenticateSedToken();
+                            $syncResult = (object) $modelStudentIdentification->syncStudentWithSED($id, $modelEnrollment, self::UPDATE);
+
+                            if ($syncResult->identification->outErro !== null || $syncResult->enrollment->outErro !== null) {
+                                $flash = 'error';
+                                $msg = '<span style="color: white;background: #23b923;
+                                    padding:10px;border-radius: 4px;">Cadastro do aluno ' . $modelStudentIdentification->name .
+                                    '  alterado com sucesso no TAG, mas não foi possível sincronizá-lo com a SEDSP. Motivo: </span>';
+                                if ($syncResult->identification->outErro) {
+                                    $msg .= '<br>Ficha do Aluno: ' . $syncResult->identification->outErro;
+                                }
+                                if ($syncResult->enrollment->outErro) {
+                                    $msg .= '<br>Matrícula: ' . $syncResult->enrollment->outErro;
+                                }
+                            }
+                        }
+
+                        Log::model()->saveAction(
+                            'student',
+                            $modelStudentIdentification->id,
+                            'U',
+                            $modelStudentIdentification->name
+                        );
+
+                        Yii::app()->user->setFlash($flash, Yii::t('default', $msg));
+                        $this->redirect(['index', 'id' => $modelStudentIdentification->id]);
+                    } else {
+                        $msg = 'Não foi possível realizar as modificações do aluno: ' .
+                            $modelStudentIdentification->name;
+
+                        Yii::app()->user->setFlash('error', Yii::t('default', $msg));
+                        $this->redirect(['index', 'id' => $modelStudentIdentification->id]);
+                    }
+                }
             }
         }
 
@@ -752,8 +748,10 @@ class StudentController extends Controller implements AuthenticateSEDTokenInterf
         $school = SchoolIdentification::model()->findByPk($schoolInepId);
         $classrooms = $school->classrooms;
         foreach ($classrooms as $class) {
-            if ($class->school_year == Yii::app()->user->year) {
-                echo "<option value='" . htmlspecialchars($class->id) . "'>" . htmlspecialchars($class->name) . '</option>';
+            $availableSeats = $class->capacity - $class->activeEnrollmentsCount;
+            $seatsLabel = $availableSeats == 1 ? 'Vaga' : 'Vagas';
+            if ($class->school_year == Yii::app()->user->year && $class->capacity > $class->activeEnrollmentsCount) {
+                echo "<option value='" . htmlspecialchars($class->id) . "'>" . htmlspecialchars($class->name) . ' (+' . ($availableSeats) . ' ' . htmlspecialchars($seatsLabel). ')</option>';
             }
         }
     }

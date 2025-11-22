@@ -1861,39 +1861,52 @@ $form = $this->beginWidget(
               <div class="t-field-select" id="class-select">
                 <?php echo $form->label($modelEnrollment, 'classroom_fk', array('class' => 't-fild-select--required')); ?>
                 <?php
-                $stage = $modelStudentIdentification->getCurrentStageVsModality();
-                $stages = implode(",", EdcensoStageVsModality::getNextStages($stage));
-                $classrooms = Classroom::model()->findAll(
-                  "school_year = :year AND school_inep_fk = :school order by name",
-                  [
-                    ':year' => Yii::app()->user->year,
-                    ':school' => Yii::app()->user->school,
-                  ]
-                );
+                        $currentStage = $modelStudentIdentification->getCurrentStageVsModality();
+                        $nextStages = implode(",", EdcensoStageVsModality::getNextStages($currentStage));
 
-                $classroomOptions = CHtml::listData($classrooms, 'id', 'name');
-                $optionsDataAttributes = array();
-                foreach ($classrooms as $classroom) {
-                  $optionsDataAttributes[$classroom->id] = array(
-                    'data-isMulti' =>
-                      (int) (TagUtils::isMultiStage(
-                        $classroom->edcenso_stage_vs_modality_fk
-                      ))
-                  );
-                }
+                        $classrooms = Classroom::model()->findAll(
+                            "school_year = :year AND school_inep_fk = :school ORDER BY name",
+                            [
+                                ':year' => Yii::app()->user->year,
+                                ':school' => Yii::app()->user->school,
+                            ]
+                        );
 
-                echo $form->dropDownList(
-                  $modelEnrollment,
-                  'classroom_fk',
-                  $classroomOptions,
-                  array(
-                    "prompt" => "Selecione uma Turma",
-                    'class' => 'select-search-off t-field-select__input select2-container js-classroom-is-multi',
-                    'options' => $optionsDataAttributes,
-                    'encode' => false
-                  )
-                );
+                        $classroomOptions = [];
+                        $classroomDataAttributes = [];
 
+                        foreach ($classrooms as $classroom) {
+
+                            $activeEnrollments = $classroom->activeEnrollmentsCount;
+
+                            if ($activeEnrollments < $classroom->capacity) {
+
+                                $availableSeats = $classroom->capacity - $activeEnrollments;
+                                $seatsLabel = $availableSeats == 1 ? 'Vaga' : 'Vagas';
+
+                                // Key must be the classroom ID
+                                $classroomOptions[$classroom->id] =
+                                    $classroom->name . ' (+' . $availableSeats . ' ' . $seatsLabel . ')';
+
+                                $classroomDataAttributes[$classroom->id] = [
+                                    'data-isMulti' => (int) TagUtils::isMultiStage(
+                                        $classroom->edcenso_stage_vs_modality_fk
+                                    )
+                                ];
+                            }
+                        }
+
+                        echo $form->dropDownList(
+                            $modelEnrollment,
+                            'classroom_fk',
+                            $classroomOptions,
+                            [
+                                "prompt" => "Selecione uma Turma",
+                                'class' => 'select-search-off t-field-select__input select2-container js-classroom-is-multi',
+                                'options' => $classroomDataAttributes,
+                                'encode' => false
+                            ]
+                        );
                 ?>
                 <?php echo $form->error($modelEnrollment, 'classroom_fk'); ?>
               </div>
@@ -2272,47 +2285,47 @@ $form = $this->beginWidget(
                                 if (isset($me->enrollment_date)) {
                                   $enrollmentDate = date_create_from_format('Y-m-d', $me->enrollment_date)->format('d/m/Y');
                                 }
-                                echo "<label for="checkbox" class='t-badge-success'>Matriculado " . $enrollmentDate . "</label>";
+                                echo "<label for='checkbox' class='t-badge-success'>Matriculado " . $enrollmentDate . "</label>";
                                 break;
                               case "2":
                                 $transferDate = "";
                                 if (isset($me->transfer_date)) {
                                   $transferDate = date_create_from_format('Y-m-d', $me->transfer_date)->format('d/m/Y');
                                 }
-                                echo "<label for="checkbox" class='t-badge-success'>Transferido " . $transferDate . "</label>";
+                                echo "<label for='checkbox' class='t-badge-success'>Transferido " . $transferDate . "</label>";
                                 break;
                               case "3":
-                                echo "<label for="checkbox" class='t-badge-critical'>Cancelado</label>";
+                                echo "<label for='checkbox' class='t-badge-critical'>Cancelado</label>";
                                 break;
                               case "4":
-                                echo "<label for="checkbox" class='t-badge-critical'>Deixou de Frequentar</label>";
+                                echo "<label for='checkbox' class='t-badge-critical'>Deixou de Frequentar</label>";
                                 break;
                               case "5":
-                                echo "<label for="checkbox" class='t-badge-warning'>Remanejado</label>";
+                                echo "<label for='checkbox' class='t-badge-warning'>Remanejado</label>";
                                 break;
                               case "6":
-                                echo "<label for="checkbox" class='t-badge-success'>Aprovado</label>";
+                                echo "<label for='checkbox' class='t-badge-success'>Aprovado</label>";
                                 break;
                               case "7":
-                                echo "<label for="checkbox" class='t-badge-success'>Aprovado pelo Conselho</label>";
+                                echo "<label for='checkbox' class='t-badge-success'>Aprovado pelo Conselho</label>";
                                 break;
                               case "8":
-                                echo "<label for="checkbox" class='t-badge-critical'>Reprovado</label>";
+                                echo "<label for='checkbox' class='t-badge-critical'>Reprovado</label>";
                                 break;
                               case "9":
-                                echo "<label for="checkbox" class='t-badge-success'>Concluinte</label>";
+                                echo "<label for='checkbox' class='t-badge-success'>Concluinte</label>";
                                 break;
                               case "10":
-                                echo "<label for="checkbox" class='t-badge-warning'>Indeterminado</label>";
+                                echo "<label for='checkbox' class='t-badge-warning'>Indeterminado</label>";
                                 break;
                               case "11":
-                                echo "<label for="checkbox" class='t-badge-critical'>Falecido</label>";
+                                echo "<label for='checkbox' class='t-badge-critical'>Falecido</label>";
                                 break;
                               case "12":
-                                echo "<label for="checkbox" class='t-badge-success'>Avançado</label>";
+                                echo "<label for='checkbox' class='t-badge-success'>Avançado</label>";
                                 break;
                               case "13":
-                                echo "<label for="checkbox" class='t-badge-success'>Reintegrado</label>";
+                                echo "<label for='checkbox' class='t-badge-success'>Reintegrado</label>";
                                 break;
                               default:
                                 echo "";

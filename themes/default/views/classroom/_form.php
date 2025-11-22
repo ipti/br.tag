@@ -238,7 +238,7 @@ $form = $this->beginWidget(
                             <!-- Capacidade -->
                             <div class="t-field-text">
                                 <?= $form->label($modelClassroom, 'capacity', array('class' => 't-field-text__label--required')); ?>
-                                <?= $form->textField($modelClassroom, 'capacity', array('size' => 60, 'maxlength' => 80, 'class' => 't-field-text__input', 'placeholder' => 'Quantos alunos a turma comporta')); ?>
+                                <?= $form->textField($modelClassroom, 'capacity', array('size' => 60, 'maxlength' => 80, 'class' => 't-field-text__input js-capacity', 'placeholder' => 'Quantos alunos a turma comporta')); ?>
                                 <?= $form->error($modelClassroom, 'capacity'); ?>
                             </div>
 

@@ -111,3 +111,14 @@ ON UPDATE CASCADE;
 
 ALTER TABLE classroom
 ADD COLUMN capacity INT;
+
+UPDATE classroom c
+SET capacity = (
+    SELECT COUNT(*)
+    FROM student_enrollment se
+    WHERE se.classroom_fk = c.id
+      AND (
+            se.status NOT IN (5, 3, 4, 11)
+            OR se.status IS NULL
+          )
+) + 10;

@@ -477,3 +477,14 @@ $(document).on("click", ".sync-enrollments", function (e) {
         $(".loading-sync").hide();
     })
 });
+
+$(document).on('input', '.js-capacity', function () {
+    var $el = $(this);
+    var val = $el.val();
+    var nonNumericRegex = /[^0-9]/;
+    if (nonNumericRegex.test(val)) {
+        $el.val(val.replace(/[^0-9]/g, ''));
+    } else {
+        $el.next('.capacity-error').remove();
+    }
+});
