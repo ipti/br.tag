@@ -1,3 +1,6 @@
+## [Versão 3.5.6]
+- Corrigir erros de exibição no relatório de ficha de notas
+
 ## [Versão 3.5.5]
 - Corrigido o comportamento das disciplinas que não possuem nota, garantindo o tratamento adequado nos relatórios e demais funcionalidades.
 
