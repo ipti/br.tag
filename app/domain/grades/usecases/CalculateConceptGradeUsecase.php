@@ -133,7 +133,7 @@ class CalculateConceptGradeUsecase
     {
 
         $gradesIds = array_column(Yii::app()->db->createCommand(
-            "SELECT
+               "SELECT
                 g.id
                 FROM grade g
                 join grade_unity_modality gum on g.grade_unity_modality_fk = gum.id
@@ -149,6 +149,7 @@ class CalculateConceptGradeUsecase
         return  Grade::model()->findAll(
             array(
                 'condition' => 'id IN (' . implode(',', $gradesIds) . ')',
+                'order' => 'grade_unity_modality_fk'
             )
         );
     }
