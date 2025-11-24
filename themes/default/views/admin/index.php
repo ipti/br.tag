@@ -107,7 +107,7 @@ $this->pageTitle = 'TAG - ' . Yii::t('default', 'Administration');
                             </button>
                         </a>
 
-                        <a href="<?php echo Yii::app()->createUrl('curricularcomponents') ?>">
+                        <a href="<?php echo Yii::app()->createUrl('curricularcomponents/default') ?>">
                             <button type="button" class="admin-box-container">
                                 <div class="pull-left" style="margin-right: 20px;">
                                     <span class="t-icon-copy t-reports_icons"></span>

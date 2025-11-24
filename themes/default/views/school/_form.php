@@ -813,7 +813,7 @@ $form = $this->beginWidget('CActiveForm', array(
                     <div class="row">
                         <div class="column is-two-fifths clearleft">
                             <div class="t-field-select">
-                                <?php
+                                <?php //@done s1 - Tem que filtrar de acordo com o estado e cidade, no momento está listando todos
                                 ?>
                                 <?php echo $form->label(
                                     $modelSchoolIdentification,
@@ -2547,6 +2547,70 @@ $form = $this->beginWidget('CActiveForm', array(
                             </div>
                         </div>
                     </div>
+                    <!-- <div class="row-fluid">
+                        <div class="span5">
+                            <div class="control-group">
+                                <div class="controls">
+                                    <?php echo $form->label(
+                                        $modelSchoolStructure,
+                                        'ppp_updated',
+                                        array('class' => 'control-label')
+                                    ); ?>
+                                </div>
+                                <div class="controls">
+                                    <?php echo $form->checkBox(
+                                        $modelSchoolStructure,
+                                        'ppp_updated',
+                                        array('value' => 1, 'uncheckValue' => 0)
+                                    ); ?>
+                                    <?php echo $form->error(
+                                        $modelSchoolStructure,
+                                        'ppp_updated'
+                                    ); ?>
+                                </div>
+                            </div>
+                            <div class="control-group hide-responsive">
+                                <div class="controls">
+                                    <?php echo $form->label(
+                                        $modelSchoolStructure,
+                                        'website',
+                                        array('class' => 'control-label')
+                                    ); ?>
+                                </div>
+                                <div class="controls">
+                                    <?php echo $form->checkBox(
+                                        $modelSchoolStructure,
+                                        'website',
+                                        array('value' => 1, 'uncheckValue' => 0)
+                                    ); ?>
+                                    <?php echo $form->error(
+                                        $modelSchoolStructure,
+                                        'website'
+                                    ); ?>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="span7">
+                            <div class="control-group hide-responsive">
+                                <div class="controls">
+                                    <?php echo $form->label($modelSchoolStructure, 'space_schoolenviroment', array('class' => 'control-label')); ?>
+                                </div>
+                                <div class="controls">
+                                    <?php echo $form->checkBox($modelSchoolStructure, 'space_schoolenviroment', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                    <?php echo $form->error($modelSchoolStructure, 'space_schoolenviroment'); ?>
+                                </div>
+                            </div>
+                            <div class="control-group hide-responsive">
+                                <div class="controls">
+                                    <?php echo $form->label($modelSchoolStructure, 'community_integration', array('class' => 'control-label')); ?>
+                                </div>
+                                <div class="controls">
+                                    <?php echo $form->checkBox($modelSchoolStructure, 'community_integration', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                    <?php echo $form->error($modelSchoolStructure, 'community_integration'); ?>
+                                </div>
+                            </div>
+                        </div>
+                    </div> -->
                 </div>
                 <div class="tab-pane" id="school-manager">
                     <div>
