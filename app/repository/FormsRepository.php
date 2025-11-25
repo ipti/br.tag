@@ -220,7 +220,6 @@ class FormsRepository
         $classFaults = ClassFaults::model()->findAllByAttributes(["student_fk" => $enrollment->studentFk->id]); // faltas do aluno na turma
         $unities = $this->getUnities($enrollment->classroomFk->id, $enrollment->classroomFk->edcenso_stage_vs_modality_fk); // unidades da turma
         $curricularMatrix = CurricularMatrix::model()->with("disciplineFk")->findAllByAttributes(["stage_fk" => $enrollment->classroomFk->edcenso_stage_vs_modality_fk, "school_year" => $enrollment->classroomFk->school_year]); // matriz da turma
-        // $partialRecovery = $this->getPartialRecovery($enrollment->classroomFk->edcenso_stage_vs_modality_fk);
         $isMinorEducation = TagUtils::isStageMinorEducation($enrollment->classroomFk->edcensoStageVsModalityFk->edcenso_associated_stage_id);
         $gradeRules = GradeRules::model()->findByPK($unities[0]->grade_rules_fk);
         $partialRecoveries = GradePartialRecovery::model()->findAllByAttributes(["grade_rules_fk" => $gradeRules->id]);
@@ -422,7 +421,25 @@ class FormsRepository
         $criteria->condition = 'grvesvm.edcenso_stage_vs_modality_fk = :stage and cvgr.classroom_fk = :classroom';
         $criteria->params = array(':classroom' => $classroomId, ":stage" => $stage);
 
-        return GradeUnity::model()->findAll($criteria);
+        $unities = GradeUnity::model()->findAll($criteria);
+
+        $unitiesSorted = [];
+
+        $finalRecoveryUnity = null;
+
+        foreach ($unities as $unity) {
+           if($unity->type != 'RF') {
+            $unitiesSorted[] = $unity;
+           } else {
+            $finalRecoveryUnity = $unity;
+           }
+        }
+
+        if($finalRecoveryUnity != null) {
+            $unitiesSorted[] = $finalRecoveryUnity;
+        }
+
+        return $unitiesSorted;
     }
 
     private function calculateFrequency($diasLetivos, $totalFaltas): int
