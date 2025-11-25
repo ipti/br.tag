@@ -40,7 +40,6 @@ class DefaultController extends Controller
                     'StudentClassDiary',
                 ],
                 'users' => ['@'],
-                'roles' => [TRole::ADMIN->value, TRole::INSTRUCTOR->value]
             ],
             [
                 'deny',

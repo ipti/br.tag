@@ -218,9 +218,10 @@ class FormsRepository
         $gradesResult = GradeResults::model()->findAllByAttributes(['enrollment_fk' => $enrollmentId]); // medias do aluno na turma
         $classFaults = ClassFaults::model()->findAllByAttributes(['student_fk' => $enrollment->studentFk->id]); // faltas do aluno na turma
         $unities = $this->getUnities($enrollment->classroomFk->id, $enrollment->classroomFk->edcenso_stage_vs_modality_fk); // unidades da turma
-        $curricularMatrix = CurricularMatrix::model()->with('disciplineFk')->findAllByAttributes(['stage_fk' => $enrollment->classroomFk->edcenso_stage_vs_modality_fk, 'school_year' => $enrollment->classroomFk->school_year]); // matriz da turma
-        $partialRecovery = $this->getPartialRecovery($enrollment->classroomFk->edcenso_stage_vs_modality_fk);
+        $curricularMatrix = CurricularMatrix::model()->with("disciplineFk")->findAllByAttributes(["stage_fk" => $enrollment->classroomFk->edcenso_stage_vs_modality_fk, "school_year" => $enrollment->classroomFk->school_year]); // matriz da turma
         $isMinorEducation = TagUtils::isStageMinorEducation($enrollment->classroomFk->edcensoStageVsModalityFk->edcenso_associated_stage_id);
+        $gradeRules = GradeRules::model()->findByPK($unities[0]->grade_rules_fk);
+        $partialRecoveries = GradePartialRecovery::model()->findAllByAttributes(["grade_rules_fk" => $gradeRules->id]);
 
         // Aqui eu separo as disciplinas da BNCC das disciplinas diversas para depois montar o cabeçalho
         foreach ($curricularMatrix as $matrix) {
@@ -267,14 +268,21 @@ class FormsRepository
             foreach ($gradesResult as $gradeResult) {
                 // se existe notas para essa disciplina
                 if ($gradeResult->disciplineFk->id == $discipline) {
+
+                    foreach ($partialRecoveries as $partialRecovery) {
+                        if($partialRecovery->gradeCalculationFk->name == "Subistituir Menor Nota") {
+                            $gradeResult = $this->replaceGrade($gradeResult, $partialRecovery, $gradeRules, $discipline);
+                        }
+                    }
+
                     array_push($result, [
-                        'discipline_id' => $gradeResult->disciplineFk->id,
-                        'final_media' => $gradeResult->final_media,
-                        'grade_result' => $gradeResult,
-                        'partial_recoveries' => $partialRecovery,
-                        'total_number_of_classes' => $totalContentsPerDiscipline,
-                        'total_faults' => $totalFaultsPerDicipline,
-                        'frequency_percentage' => $frequency
+                        "discipline_id" => $gradeResult->disciplineFk->id,
+                        "final_media" => $gradeResult->final_media,
+                        "grade_result" => $gradeResult,
+                        "partial_recoveries" => $partialRecoveries,
+                        "total_number_of_classes" => $totalContentsPerDiscipline,
+                        "total_faults" => $totalFaultsPerDicipline,
+                        "frequency_percentage" => $frequency
                     ]);
                     $mediaExists = true;
                     break; // quebro o laço para diminuir a complexidade do algoritmo para O(log n)2
@@ -283,13 +291,13 @@ class FormsRepository
 
             if (!$mediaExists) { // o aluno não tem notas para a disciplina
                 array_push($result, [
-                    'discipline_id' => $discipline,
-                    'final_media' => null,
-                    'grade_result' => null,
-                    'partial_recoveries' => $partialRecovery,
-                    'total_number_of_classes' => $totalContentsPerDiscipline,
-                    'total_faults' => $totalFaultsPerDicipline,
-                    'frequency_percentage' => $frequency
+                    "discipline_id" => $discipline,
+                    "final_media" => null,
+                    "grade_result" => null,
+                    "partial_recoveries" => $partialRecoveries,
+                    "total_number_of_classes" => $totalContentsPerDiscipline,
+                    "total_faults" => $totalFaultsPerDicipline,
+                    "frequency_percentage" => $frequency
                 ]);
             }
         }
@@ -306,19 +314,97 @@ class FormsRepository
             }
         }
 
-        $response = [
+        $disciplinesList = EdcensoDiscipline::model()->findAll();
+
+        $disciplines = [];
+        foreach ($disciplinesList as $d) {
+            $disciplines[$d->id] = $d;
+        }
+
+        $response = array(
             'enrollment' => $enrollment,
             'result' => $report,
             'baseDisciplines' => array_unique($baseDisciplines), //função usada para evitar repetição
             'diversifiedDisciplines' => array_unique($diversifiedDisciplines), //função usada para evitar repetição
             'unities' => $unities,
-            'school_days' => $schoolDaysPerUnity,
-            'faults' => $faultsPerUnity,
-            'workload' => $workloadPerUnity,
-            'isMinorEducation' => $isMinorEducation
-        ];
+            "school_days" => $schoolDaysPerUnity,
+            "faults" => $faultsPerUnity,
+            "workload" => $workloadPerUnity,
+            "isMinorEducation" => $isMinorEducation,
+            "disciplines" => $disciplines
+        );
 
         return $response;
+    }
+
+    private function replaceGrade($gradeResult, $partialRecovery, $gradeRules, $discipline)
+    {
+        $unities = GradeUnity::model()->findAllByAttributes([
+            "grade_rules_fk" => $gradeRules->id
+        ]);
+
+        if (empty($unities)) {
+            return $gradeResult;
+        }
+
+        $unityCount = count($unities);
+
+        // Inicializa com a primeira unidade
+        $smallestGrade = null;
+        $unityIndexToReplace = null;
+        $unityToReplace = null;
+
+        for ($i = 1; $i <= $unityCount; $i++) {
+
+            if($unities[$i-1]->parcial_recovery_fk == $partialRecovery->id) {
+
+                if (!isset($gradeResult["grade_{$i}"])) continue;
+
+                 if($i == 1) {
+                    $smallestGrade = $currentGrade;
+                    $unityIndexToReplace = $i;
+                    $unityToReplace = $currentUnity;
+                }
+
+                $currentGrade = $gradeResult["grade_{$i}"];
+                $currentUnity = $unities[$i - 1];
+
+                // PESO → menor nota, e se empatar menor peso
+                if ($gradeRules->gradeCalculationFk->name === "Peso") {
+
+                    if ( $smallestGrade == null ||
+                        ($currentGrade < $smallestGrade) ||
+                        ($currentGrade == $smallestGrade && $currentUnity->weight > $unityToReplace->weight)
+                    ) {
+                        $smallestGrade = $currentGrade;
+                        $unityIndexToReplace = $i;
+                        $unityToReplace = $currentUnity;
+                    }
+
+                } else {
+                    // Cálculo simples → menor nota apenas
+                    if ($currentGrade < $smallestGrade) {
+                        $smallestGrade = $currentGrade;
+                        $unityIndexToReplace = $i;
+                        $unityToReplace = $currentUnity;
+                    }
+                }
+            }
+
+        }
+
+        // Nota da recuperação
+        $recoveryNote = $gradeResult["rec_partial_" . $partialRecovery->order_partial_recovery];
+
+        if ($gradeRules->replace_only_if_greater ?? true) {
+            if ($recoveryNote > $smallestGrade) {
+                $gradeResult["grade_{$unityIndexToReplace}"] = $recoveryNote;
+            }
+        } else {
+            $gradeResult["grade_{$unityIndexToReplace}"] = $recoveryNote;
+        }
+
+        return $gradeResult;
     }
 
     private function getUnities($classroomId, $stage)
@@ -332,7 +418,25 @@ class FormsRepository
         $criteria->condition = 'grvesvm.edcenso_stage_vs_modality_fk = :stage and cvgr.classroom_fk = :classroom';
         $criteria->params = [':classroom' => $classroomId, ':stage' => $stage];
 
-        return GradeUnity::model()->findAll($criteria);
+        $unities = GradeUnity::model()->findAll($criteria);
+
+        $unitiesSorted = [];
+
+        $finalRecoveryUnity = null;
+
+        foreach ($unities as $unity) {
+           if($unity->type != 'RF') {
+            $unitiesSorted[] = $unity;
+           } else {
+            $finalRecoveryUnity = $unity;
+           }
+        }
+
+        if($finalRecoveryUnity != null) {
+            $unitiesSorted[] = $finalRecoveryUnity;
+        }
+
+        return $unitiesSorted;
     }
 
     private function calculateFrequency($diasLetivos, $totalFaltas): int

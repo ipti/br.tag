@@ -55,10 +55,11 @@ class DefaultController extends Controller
 
         $edcensoBaseDisciplines = EdcensoBaseDisciplines::model()->findAll();
 
-        if (isset($_POST['EdcensoDiscipline'])) {
-            $model->attributes = $_POST['EdcensoDiscipline'];
-            if ($model->save()) {
-                $this->redirect(['index']);
+        if(isset($_POST['EdcensoDiscipline'])) {
+            $model->attributes=$_POST['EdcensoDiscipline'];
+            $model->report_text = $_POST['EdcensoDiscipline']['report_text'];
+            if($model->save()) {
+                $this->redirect(array('index'));
             } else {
                 Yii::app()->user->setFlash('error', Yii::t('default', 'Não foi possível criar esse componente curricular'));
             }
@@ -82,10 +83,11 @@ class DefaultController extends Controller
         // Uncomment the following line if AJAX validation is needed
         // $this->performAjaxValidation($model);
 
-        if (isset($_POST['EdcensoDiscipline'])) {
-            $model->attributes = $_POST['EdcensoDiscipline'];
-            if ($model->save()) {
-                $this->redirect(['index']);
+        if(isset($_POST['EdcensoDiscipline'])) {
+            $model->attributes=$_POST['EdcensoDiscipline'];
+            $model->report_text = $_POST['EdcensoDiscipline']['report_text'];
+            if($model->save()) {
+                $this->redirect(array('index'));
             } else {
                 Yii::app()->user->setFlash('error', Yii::t('default', 'Não foi possível atualizar esse componente curricular'));
             }

@@ -338,27 +338,29 @@ class StudentEnrollment extends AltActiveRecord
 
         $criteriaTotalFaults = new CDbCriteria();
         $criteriaTotalFaults->alias = 'cf';
-        $criteriaTotalFaults->join = 'INNER JOIN schedule s ON s.id = cf.schedule_fk';
+        $criteriaTotalFaults->join = 'INNER JOIN student_enrollment se ON se.student_fk = cf.student_fk';
+        $criteriaTotalFaults->join .= " INNER JOIN classroom c ON c.id = se.classroom_fk";
+        $criteriaTotalFaults->join .= " INNER JOIN schedule s ON s.id = cf.schedule_fk AND s.classroom_fk = c.id";
+
 
         //frequencia em um periodo
         if ($initialMonth != null && $finalMonth != null) {
             $criteriaTotalClasses->condition = 's.month >= :initialMonth AND s.month <= :finalMonth AND s.unavailable = 0 AND s.classroom_fk = :classroom';
             $criteriaTotalClasses->params = [':initialMonth' => $initialMonth, ':finalMonth' => $finalMonth, ':classroom' => $classroom->id];
 
-            $criteriaTotalFaults->condition = 'se.id = :enrollment AND cf.justification IS NULL AND s.month >= :initialMonth AND s.month <= :finalMonth AND s.unavailable = 0';
-            $criteriaTotalFaults->params = [':enrollment' => $this->id, ':initialMonth' => $initialMonth, ':finalMonth' => $finalMonth];
+            $criteriaTotalFaults->condition = 'se.id = :enrollment AND c.id = :classroom AND cf.justification IS NULL AND s.month >= :initialMonth AND s.month <= :finalMonth AND s.unavailable = 0';
+            $criteriaTotalFaults->params = [':enrollment' => $this->id, ':classroom' => $classroom->id, ':initialMonth' => $initialMonth, ':finalMonth' => $finalMonth];
         } else {
             $criteriaTotalClasses->condition = 's.unavailable = 0 AND s.classroom_fk = :classroom';
             $criteriaTotalClasses->params = [':classroom' => $classroom->id];
 
-            $criteriaTotalFaults->condition = 'se.id = :enrollment AND cf.justification IS NULL';
-            $criteriaTotalFaults->params = [':enrollment' => $this->id];
+            $criteriaTotalFaults->condition = 'se.id = :enrollment AND c.id = :classroom AND cf.justification IS NULL';
+            $criteriaTotalFaults->params = [':enrollment' => $this->id, ':classroom' => $classroom->id];
         }
 
         $totalClasses = Schedule::model()->count($criteriaTotalClasses);
 
-        $criteriaTotalFaults->join .= ' INNER JOIN student_identification si ON si.id = cf.student_fk
-                       INNER JOIN student_enrollment se ON se.student_fk = si.id';
+
         $totalFaults = ClassFaults::model()->count($criteriaTotalFaults);
 
         return round((($totalClasses - $totalFaults) / ($totalClasses ?: 1)) * 100);
@@ -378,7 +380,8 @@ class StudentEnrollment extends AltActiveRecord
 
         $criteriaTotalFaults->join = '
                 INNER JOIN student_enrollment se ON se.student_fk = cf.student_fk
-                INNER JOIN schedule s ON s.id = cf.schedule_fk
+                INNER JOIN classroom c ON c.id = se.classroom_fk
+                INNER JOIN schedule s ON s.id = cf.schedule_fk AND s.classroom_fk = c.id
             ';
 
         //frequencia em um periodo
@@ -416,7 +419,8 @@ class StudentEnrollment extends AltActiveRecord
         $criteria->alias = 'cf';
         $criteria->join = 'INNER JOIN student_identification si ON si.id = cf.student_fk
                    INNER JOIN student_enrollment se ON se.student_fk = si.id
-                   INNER JOIN schedule s ON s.id = cf.schedule_fk';
+                   INNER JOIN classroom c ON c.id = se.classroom_fk
+                   INNER JOIN schedule s ON s.id = cf.schedule_fk AND s.classroom_fk = c.id';
         $criteria->condition = 'se.id = :enrollmentId and s.classroom_fk = :classroomId AND s.discipline_fk = :disciplineId AND cf.justification IS NULL AND s.unavailable = 0';
         $criteria->params = [':enrollmentId' => $this->id, ':classroomId' => $classroom->id, ':disciplineId' => $disciplineId];
         $totalFaults = ClassFaults::model()->count($criteria);

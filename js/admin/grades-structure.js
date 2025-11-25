@@ -40,13 +40,14 @@ $(document).on("click", ".js-new-unity", function (e) {
         const options = $(".formulas > option").toArray();
 
         const filteredOptions = options.reduce((accumulator, option) => {
-            if (!$(option).text().includes("Média Semestral")) {
+            if (!$(option).text().includes("Média Semestral") && !$(option).text().includes("Subistituir Menor Nota")) {
                 accumulator += option.outerHTML;
             }
             return accumulator;
         }, "");
         const unities = $(".unity").length;
         const isUnityConcept = $(".js-rule-type").select2("val") === "C";
+        const isCalculationWeight = $('.calculation-final-media').select2("data").text.trim() === "Peso";
         const unityHtml = template`
             <div class='unity column is-three-fifths' hasGrades='0'>
                 <div class='row unity-heading ui-accordion-header'>
@@ -65,9 +66,12 @@ $(document).on("click", ".js-new-unity", function (e) {
                         <input type='text' class='t-field-text__input unity-name' placeholder='1ª Unidade, 2ª Unidade, Recuperação Final, etc.'>
                     </div>
 
-                    <div class="t-field-select js-mester-container ${
-                        isUnityConcept ? "hide" : ""
-                    }">
+                    <div class="t-field-text ${isCalculationWeight ? "" : "hide"} unity-weight" style="margin-top: 16px" >
+                        <label class='t-field-text__label--required'>Peso: </label>
+                        <input type='text' class='t-field-text__input unity-weight-input' placeholder='Insira o peso da unidade'>
+                    </div>
+
+                    <div class="t-field-select js-mester-container ${isUnityConcept ? "hide": ""}">
                         <label class='t-field-select__label--required'>Semestre: </label>
                        <select class='t-field-select__input js-semester select-search-on'>
                             <option value="">Selecione um semestre</option>
@@ -530,6 +534,7 @@ function saveUnities(reply) {
         unities.push({
             id: $(this).find(".unity-id").val(),
             name: $(this).find(".unity-name").val(),
+            weight: $(this).find(".unity-weight-input").val(),
             semester: $(this).find("select.js-semester").val(),
             type: $(this).find("select.js-type-select").val(),
             formula: $(this).find("select.js-formula-select").val(),
@@ -979,18 +984,61 @@ function loadStructure() {
                         .val(this.type)
                         .trigger("change");
 
-                    unity.find(".modality").remove();
-                    $.each(this.modalities, function (e) {
-                        unity.find(".js-new-modality").trigger("click");
-                        let modality = unity.find(".modality").last();
-                        modality.find(".modality-id").val(this.id);
-                        modality.find(".modality-name").val(this.name);
-                        modality
-                            .find(".modality-name")
-                            .attr("modalitytype", this.type);
-                        if (this.type == "R") {
-                            modality
-                                .find("label")
+                $("select.js-final-recovery-fomula-select").select2(
+                    "val",
+                    data.final_recovery.final_recovery_avarage_formula
+                )
+                $(".final-recover-media").val(data.finalRecoverMedia);
+
+                if (data.hasFinalRecovery) {
+                    $(".js-recovery-form").show();
+                } else {
+                    $(".js-recovery-form").hide();
+                }
+
+                $(
+                    ".js-grades-structure-container, .js-grades-rules-container"
+                ).show();
+                if (Object.keys(data.unities).length) {
+                    let newUnityButton = $(".js-new-unity");
+                    $.each(data.unities, function (e) {
+                        if (newUnityButton.hasClass('disabled')) {
+                            newUnityButton.removeClass("disabled");
+                        }
+                        newUnityButton.trigger("click");
+                        const unity = $(".unity").last();
+                        unity.attr("hasGrades", this.hasGrades == true ? 1 : 0);
+                        unity.find(".unity-name").val(this.name);
+                        if(this.weight != null) {
+                            unity.find(".unity-weight-input").val(this.weight);
+                            unity.find(".unity-weight-container").show();
+                        } else {
+                            unity.find(".unity-weight-container").hide();
+                        }
+                        unity.find(".unity-title").html(this.name);
+                        unity.find(".unity-id").val(this.id);
+                        unity
+                            .find("select.js-semester")
+                            .val(this.semester)
+                            .trigger("change");
+                        unity
+                            .find("select.js-formula-select")
+                            .val(this.grade_calculation_fk)
+                            .trigger("change");
+                        unity
+                            .find("select.js-type-select")
+                            .val(this.type)
+                            .trigger("change");
+
+                        unity.find(".modality").remove();
+                        $.each(this.modalities, function (e) {
+                            unity.find(".js-new-modality").trigger("click");
+                            let modality = unity.find(".modality").last();
+                            modality.find(".modality-id").val(this.id);
+                            modality.find(".modality-name").val(this.name);
+                            modality.find(".modality-name").attr("modalitytype", this.type);
+                            if(this.type == 'R') {
+                                modality.find("label")
                                 .html("Recuperação: ")
                                 .css("width", "206px");
                             modality.find(".remove-button").remove();
@@ -1240,3 +1288,12 @@ $(document).on("keyup", ".partial-recovery-name", function (e) {
     const partialRecovery = $(this).closest(".partial-recovery-container");
     partialRecovery.find(".partial-recovery-title").html($(this).val());
 });
+
+$(document).on("change", "select.calculation-final-media", function (e) {
+    if ($(this).find(':selected').text().trim() === "Peso") {
+        $(".unity-weight").removeClass("hide");
+
+    } else  {
+        $(".unity-weight").addClass("hide");
+    }
+})
