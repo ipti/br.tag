@@ -2,7 +2,7 @@
     "minimum-stability": "dev",
     "require": {
         "php": ">=5.1.0",
-        "yiisoft/yii": "1.1.29",
+        "yiisoft/yii": "1.1.31",
         "guzzlehttp/guzzle": "^6.0",
         "symfony/validator": "^4.0",
         "jms/serializer": "3.29.1",

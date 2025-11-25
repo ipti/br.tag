@@ -40,13 +40,14 @@ $(document).on("click", ".js-new-unity", function (e) {
         const options = $(".formulas > option").toArray();
 
         const filteredOptions = options.reduce((accumulator, option) => {
-            if (!$(option).text().includes("Média Semestral")) {
+            if (!$(option).text().includes("Média Semestral") && !$(option).text().includes("Subistituir Menor Nota")) {
                 accumulator += option.outerHTML;
             }
             return accumulator;
         }, "");
         const unities = $(".unity").length;
         const isUnityConcept = $(".js-rule-type").select2("val") === "C";
+        const isCalculationWeight = $('.calculation-final-media').select2("data").text.trim() === "Peso";
         const unityHtml = template`
             <div class='unity column is-three-fifths' hasGrades='0'>
                 <div class='row unity-heading ui-accordion-header'>
@@ -61,6 +62,11 @@ $(document).on("click", ".js-new-unity", function (e) {
                     <div class="t-field-text" style="margin-top: 16px">
                         <label class='t-field-text__label--required'>Nome: </label>
                         <input type='text' class='t-field-text__input unity-name' placeholder='1ª Unidade, 2ª Unidade, Recuperação Final, etc.'>
+                    </div>
+
+                    <div class="t-field-text ${isCalculationWeight ? "" : "hide"} unity-weight" style="margin-top: 16px" >
+                        <label class='t-field-text__label--required'>Peso: </label>
+                        <input type='text' class='t-field-text__input unity-weight-input' placeholder='Insira o peso da unidade'>
                     </div>
 
                     <div class="t-field-select js-mester-container ${isUnityConcept ? "hide": ""}">
@@ -480,6 +486,7 @@ function saveUnities(reply) {
         unities.push({
             id: $(this).find(".unity-id").val(),
             name: $(this).find(".unity-name").val(),
+            weight: $(this).find(".unity-weight-input").val(),
             semester: $(this).find("select.js-semester").val(),
             type: $(this).find("select.js-type-select").val(),
             formula: $(this).find("select.js-formula-select").val(),
@@ -874,6 +881,12 @@ function loadStructure() {
                         const unity = $(".unity").last();
                         unity.attr("hasGrades", this.hasGrades == true ? 1 : 0);
                         unity.find(".unity-name").val(this.name);
+                        if(this.weight != null) {
+                            unity.find(".unity-weight-input").val(this.weight);
+                            unity.find(".unity-weight-container").show();
+                        } else {
+                            unity.find(".unity-weight-container").hide();
+                        }
                         unity.find(".unity-title").html(this.name);
                         unity.find(".unity-id").val(this.id);
                         unity
@@ -1110,3 +1123,12 @@ $(document).on("keyup", ".partial-recovery-name", function (e) {
     const partialRecovery = $(this).closest(".partial-recovery-container");
     partialRecovery.find(".partial-recovery-title").html($(this).val());
 });
+
+$(document).on("change", "select.calculation-final-media", function (e) {
+    if ($(this).find(':selected').text().trim() === "Peso") {
+        $(".unity-weight").removeClass("hide");
+
+    } else  {
+        $(".unity-weight").addClass("hide");
+    }
+})
