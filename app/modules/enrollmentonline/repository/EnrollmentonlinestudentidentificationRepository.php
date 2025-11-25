@@ -70,7 +70,7 @@ class EnrollmentonlinestudentidentificationRepository
         $user->name = $this->studentIdentification->responsable_name;
         $user->active = 1;
         $cpf = preg_replace('/\D/', '', $this->studentIdentification->responsable_cpf);
-        $user->username = $this->studentIdentification->id . $cpf;
+        $user->username = $cpf;
         if ($user->save()) {
             $auth = new AuthAssignment();
             $auth->itemname = 'guardian';
@@ -82,4 +82,15 @@ class EnrollmentonlinestudentidentificationRepository
             return $this->studentIdentification->save();
         }
     }
+
+    public function getStudentList()
+    {
+
+        $criteria = new CDbCriteria();
+        $criteria->condition = 'user_fk = :user_fk';
+        $criteria->params = [':user_fk' => Yii::app()->user->loginInfos->id];
+
+        return EnrollmentOnlineStudentIdentification::model()->findAll($criteria);
+    }
+
 }

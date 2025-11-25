@@ -141,9 +141,24 @@ class EnrollmentOnlineStudentIdentificationController extends Controller
         ]);
     }
 
-    public function actionStudentStatus()
+    public function actionStudentList()
     {
-        $this->render('studentstatus');
+        $model = new EnrollmentOnlineStudentIdentification();
+        $repository = new EnrollmentonlinestudentidentificationRepository($model);
+        $studentList = $repository->getStudentList();
+        $this->render('studentList', [
+            'studentList' => $studentList,
+        ]);
+    }
+
+       public function actionStudentStatus()
+    {
+        $model = new EnrollmentOnlineStudentIdentification();
+        $repository = new EnrollmentonlinestudentidentificationRepository($model);
+        $studentStatus = $repository->getStudentStatus();
+        $this->render('studentstatus', [
+            'studentStatus' => $studentStatus,
+        ]);
     }
 
     /**
