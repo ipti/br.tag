@@ -97,9 +97,9 @@
  */
 class StudentIdentification extends AltActiveRecord
 {
+    public const CREATE = 'create';
+    public const UPDATE = 'update';
 
-    const CREATE = 'create';
-    const UPDATE = 'update';
     /**
      * Returns the static model of the specified AR class.
      * @param string $className active record class name.
@@ -150,26 +150,24 @@ class StudentIdentification extends AltActiveRecord
     {
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
-        return array(
-            array('school_inep_id_fk, birthday, sex, name, color_race, filiation, nationality, edcenso_nation_fk, deficiency, send_year', 'required'),
-            array('edcenso_uf_fk, edcenso_city_fk', 'required', 'on' => 'formSubmit'),
-            array('responsable_nis, sex, color_race, filiation, scholarity, nationality, edcenso_nation_fk, edcenso_uf_fk, edcenso_city_fk, deficiency, deficiency_type_blindness, deficiency_type_low_vision, deficiency_type_monocular_vision, deficiency_type_deafness, deficiency_type_disability_hearing, deficiency_type_deafblindness, deficiency_type_phisical_disability, deficiency_type_intelectual_disability, deficiency_type_multiple_disabilities, deficiency_type_autism, deficiency_type_aspenger_syndrome, deficiency_type_rett_syndrome, deficiency_type_childhood_disintegrative_disorder, deficiency_type_gifted, resource_aid_lector, resource_aid_transcription, resource_interpreter_guide, resource_interpreter_libras, resource_lip_reading, resource_zoomed_test_16, resource_zoomed_test_20, resource_zoomed_test_24, resource_zoomed_test_18, resource_braille_test, resource_proof_language, resource_cd_audio, resource_video_libras, resource_none, send_year, responsable, responsable_scholarity, filiation_1_scholarity, filiation_2_scholarity, bf_participator, no_document_desc', 'numerical', 'integerOnly' => true),
-            array('register_type', 'length', 'max' => 2),
-            array('school_inep_id_fk', 'length', 'max' => 8),
-            array('inep_id', 'length', 'max' => 12),
-            array('name, filiation_1, filiation_2', 'length', 'max' => 100),
-            array('id_email, email_responsable', 'length', 'max' => 255),
-            array('id_email', 'email'),
-            array('birthday, filiation_1_birthday, filiation_2_birthday', 'length', 'max' => 10),
-            array('responsable_name', 'length', 'max' => 90),
-            array('responsable_rg, responsable_job, filiation_1_rg, filiation_2_rg, filiation_1_job, filiation_2_job', 'length', 'max' => 45),
-            array('responsable_cpf, responsable_telephone, filiation_1_cpf, filiation_2_cpf', 'length', 'max' => 11),
-            array('hash', 'length', 'max' => 40),
-            array('last_change, civil_name', 'safe'),
-            // The following rule is used by search().
-            // @todo Please remove those attributes that should not be searched.
-            array('register_type, id_indigenous_people, school_inep_id_fk, inep_id, id, name, civil_name, birthday, sex, color_race, filiation, id_email, scholarity, filiation_1, filiation_2, nationality, edcenso_nation_fk, edcenso_uf_fk, edcenso_city_fk, deficiency, deficiency_type_blindness, deficiency_type_low_vision, deficiency_type_monocular_vision, deficiency_type_deafness, deficiency_type_disability_hearing, deficiency_type_deafblindness, deficiency_type_phisical_disability, deficiency_type_intelectual_disability, deficiency_type_multiple_disabilities, deficiency_type_autism, deficiency_type_aspenger_syndrome, deficiency_type_rett_syndrome, deficiency_type_childhood_disintegrative_disorder, deficiency_type_gifted, resource_aid_lector, resource_aid_transcription, resource_interpreter_guide, resource_interpreter_libras, resource_lip_reading, resource_zoomed_test_16, resource_zoomed_test_20, resource_zoomed_test_24, resource_zoomed_test_18, resource_braille_test, resource_proof_language, resource_cd_audio, resource_video_libras, resource_none, send_year, last_change, responsable, responsable_name, responsable_rg, responsable_cpf, responsable_scholarity, responsable_job, bf_participator, responsable_telephone, fkid, no_documents_desc', 'safe', 'on' => 'search'),
-        );
+        return [
+            ['school_inep_id_fk, birthday, sex, name, color_race, filiation, nationality, edcenso_nation_fk, deficiency, send_year', 'required'],
+            ['edcenso_uf_fk, edcenso_city_fk', 'required', 'on' => 'formSubmit'],
+            ['responsable_nis, sex, color_race, filiation, scholarity, nationality, edcenso_nation_fk, edcenso_uf_fk, edcenso_city_fk, deficiency, deficiency_type_blindness, deficiency_type_low_vision, deficiency_type_monocular_vision, deficiency_type_deafness, deficiency_type_disability_hearing, deficiency_type_deafblindness, deficiency_type_phisical_disability, deficiency_type_intelectual_disability, deficiency_type_multiple_disabilities, deficiency_type_autism, deficiency_type_aspenger_syndrome, deficiency_type_rett_syndrome, deficiency_type_childhood_disintegrative_disorder, deficiency_type_gifted, resource_aid_lector, resource_aid_transcription, resource_interpreter_guide, resource_interpreter_libras, resource_lip_reading, resource_zoomed_test_16, resource_zoomed_test_20, resource_zoomed_test_24, resource_zoomed_test_18, resource_braille_test, resource_proof_language, resource_cd_audio, resource_video_libras, resource_none, send_year, responsable, responsable_scholarity, filiation_1_scholarity, filiation_2_scholarity, bf_participator, no_document_desc', 'numerical', 'integerOnly' => true],
+            ['register_type', 'length', 'max' => 2],
+            ['school_inep_id_fk', 'length', 'max' => 8],
+            ['inep_id', 'length', 'max' => 12],
+            ['name, filiation_1, filiation_2', 'length', 'max' => 100],
+            ['id_email, email_responsable', 'length', 'max' => 255],
+            ['id_email', 'email'],
+            ['birthday, filiation_1_birthday, filiation_2_birthday', 'length', 'max' => 10],
+            ['responsable_name', 'length', 'max' => 90],
+            ['responsable_rg, responsable_job, filiation_1_rg, filiation_2_rg, filiation_1_job, filiation_2_job', 'length', 'max' => 45],
+            ['responsable_cpf, responsable_telephone, filiation_1_cpf, filiation_2_cpf', 'length', 'max' => 11],
+            ['hash', 'length', 'max' => 40],
+            ['last_change, civil_name', 'safe'],
+            ['register_type, id_indigenous_people, school_inep_id_fk, inep_id, id, name, civil_name, birthday, sex, color_race, filiation, id_email, scholarity, filiation_1, filiation_2, nationality, edcenso_nation_fk, edcenso_uf_fk, edcenso_city_fk, deficiency, deficiency_type_blindness, deficiency_type_low_vision, deficiency_type_monocular_vision, deficiency_type_deafness, deficiency_type_disability_hearing, deficiency_type_deafblindness, deficiency_type_phisical_disability, deficiency_type_intelectual_disability, deficiency_type_multiple_disabilities, deficiency_type_autism, deficiency_type_aspenger_syndrome, deficiency_type_rett_syndrome, deficiency_type_childhood_disintegrative_disorder, deficiency_type_gifted, resource_aid_lector, resource_aid_transcription, resource_interpreter_guide, resource_interpreter_libras, resource_lip_reading, resource_zoomed_test_16, resource_zoomed_test_20, resource_zoomed_test_24, resource_zoomed_test_18, resource_braille_test, resource_proof_language, resource_cd_audio, resource_video_libras, resource_none, send_year, last_change, responsable, responsable_name, responsable_rg, responsable_cpf, responsable_scholarity, responsable_job, bf_participator, responsable_telephone, fkid, no_documents_desc', 'safe', 'on' => 'search'],
+        ];
     }
 
     /**
@@ -179,30 +177,30 @@ class StudentIdentification extends AltActiveRecord
     {
         // NOTE: you may need to adjust the relation name and the related
         // class name for the relations automatically generated below.
-        return array(
-            'edcensoNationFk' => array(self::BELONGS_TO, 'EdcensoNation', 'edcenso_nation_fk'),
-            'studentDisorders' => array(self::HAS_ONE, 'StudentDisorder', 'student_fk'),
-            'edcensoUfFk' => array(self::BELONGS_TO, 'EdcensoUf', 'edcenso_uf_fk'),
-            'edcensoCityFk' => array(self::BELONGS_TO, 'EdcensoCity', 'edcenso_city_fk'),
-            'schoolInepIdFk' => array(self::BELONGS_TO, 'SchoolIdentification', 'school_inep_id_fk'),
-            'documentsFk' => array(self::BELONGS_TO, 'StudentDocumentsAndAddress', 'id'),
-            'studentEnrollments' => array(
+        return [
+            'edcensoNationFk' => [self::BELONGS_TO, 'EdcensoNation', 'edcenso_nation_fk'],
+            'studentDisorders' => [self::HAS_ONE, 'StudentDisorder', 'student_fk'],
+            'edcensoUfFk' => [self::BELONGS_TO, 'EdcensoUf', 'edcenso_uf_fk'],
+            'edcensoCityFk' => [self::BELONGS_TO, 'EdcensoCity', 'edcenso_city_fk'],
+            'schoolInepIdFk' => [self::BELONGS_TO, 'SchoolIdentification', 'school_inep_id_fk'],
+            'documentsFk' => [self::BELONGS_TO, 'StudentDocumentsAndAddress', 'id'],
+            'studentEnrollments' => [
                 self::HAS_MANY,
                 'StudentEnrollment',
                 'student_fk',
                 'with' => 'classroomFk',
                 'together' => true,
                 'order' => 'classroomFk.school_year DESC, status, studentEnrollments.id DESC'
-            ),
-            'lastEnrollment' => array(
+            ],
+            'lastEnrollment' => [
                 self::HAS_ONE,
                 'StudentEnrollment',
                 'student_fk',
                 'with' => 'classroomFk',
                 'together' => true,
                 'order' => 'classroomFk.school_year DESC, lastEnrollment.id DESC'
-            )
-        );
+            ]
+        ];
     }
 
     /**
@@ -210,7 +208,7 @@ class StudentIdentification extends AltActiveRecord
      */
     public function attributeLabels()
     {
-        return array(
+        return [
             'register_type' => Yii::t('default', 'Register Type'),
             'school_inep_id_fk' => Yii::t('default', 'School Inep Id Fk'),
             'inep_id' => Yii::t('default', 'ID INEP'),
@@ -259,7 +257,7 @@ class StudentIdentification extends AltActiveRecord
             'resource_proof_language' => Yii::t('default', 'Resource Proof Language'),
             'resource_cd_audio' => Yii::t('default', 'Resource Cd Audio'),
             'resource_video_libras' => Yii::t('default', 'Resource Video Libras'),
-            'resource_additional_time' =>  Yii::t('default', 'Resource Additional Time'),
+            'resource_additional_time' => Yii::t('default', 'Resource Additional Time'),
             'resource_none' => Yii::t('default', 'Resource None'),
             'send_year' => Yii::t('default', 'Pós Censo'),
             'last_change' => Yii::t('default', 'Last Change'),
@@ -284,7 +282,7 @@ class StudentIdentification extends AltActiveRecord
             'filiation_2_job' => Yii::t('default', 'Father Job'),
             'no_document_desc' => Yii::t('default', 'No Documents Desc'),
             'id_indigenous_people' => Yii::t('default', 'Id Indigenous People')
-        );
+        ];
     }
 
     /**
@@ -296,7 +294,7 @@ class StudentIdentification extends AltActiveRecord
         // Warning: Please modify the following code to remove attributes that
         // should not be searched.
 
-        $criteria = new CDbCriteria;
+        $criteria = new CDbCriteria();
 
         $criteria->compare('register_type', $this->register_type, true);
         $criteria->compare('inep_id', $this->inep_id, true);
@@ -304,18 +302,17 @@ class StudentIdentification extends AltActiveRecord
         $criteria->compare('name', $this->name, true);
         $criteria->compare('filiation_1', $this->filiation_1, true);
 
-
         return new CActiveDataProvider(
             $this,
-            array(
+            [
                 'criteria' => $criteria,
-                'sort' => array(
-                    'defaultOrder' => array(
+                'sort' => [
+                    'defaultOrder' => [
                         'name' => CSort::SORT_ASC
-                    ),
-                ),
+                    ],
+                ],
                 'pagination' => false
-            )
+            ]
         );
     }
 
@@ -324,19 +321,9 @@ class StudentIdentification extends AltActiveRecord
         return $this->name . ' (' . $this->filiation_1 . ')[' . $this->birthday . ']';
     }
 
-    /**
-     * This method is invoked before saving a record (after validation, if any).
-     * @return boolean whether the saving should be executed. Defaults to true.
-     */
-    protected function beforeSave()
-    {
-
-        return parent::beforeSave();
-    }
-
     public function getCurrentStageVsModality()
     {
-        $sid = isset ($this->id) ? $this->id : 0;
+        $sid = isset($this->id) ? $this->id : 0;
         $sql = "select student_fk student, se.id enrollment, se.edcenso_stage_vs_modality_fk enrollment_svm, c.edcenso_stage_vs_modality_fk classroom_svm from student_enrollment se
                   join classroom c on c.id = se.classroom_fk
                 where se.student_fk = $sid
@@ -344,16 +331,14 @@ class StudentIdentification extends AltActiveRecord
         $result = Yii::app()->db->createCommand($sql)->queryRow();
 
         $stage = null;
-        if (isset ($result)) {
-            $stage = isset ($result['enrollment_svm']) ? $result['enrollment_svm'] : $result['classroom_svm'];
+        if (isset($result)) {
+            $stage = isset($result['enrollment_svm']) ? $result['enrollment_svm'] : $result['classroom_svm'];
         }
         return $stage;
-
     }
 
     public function syncStudentWithSED($id, $modelEnrollment, $type)
     {
-
         $studentInfo = $this->getStudentInformation($id);
         $studentIdentification = $studentInfo['studentIdentification'];
         $studentIdentification->sedsp_sync = 0;
@@ -372,8 +357,8 @@ class StudentIdentification extends AltActiveRecord
         $dataSource = new StudentSEDDataSource();
         $outListStudent = $dataSource->getListStudents($this->createInListarAlunos($studentIdentification->name, $studentIdentification->filiation_1, $studentIdentification->filiation_2));
 
-        $return["identification"] = "";
-        $return["enrollment"] = "";
+        $return['identification'] = '';
+        $return['enrollment'] = '';
         if (method_exists($outListStudent, 'getCode') && $this->handleUnauthorizedError($outListStudent->getCode())) {
             return false;
         }
@@ -398,14 +383,13 @@ class StudentIdentification extends AltActiveRecord
                         $enrollmentResult = $this->processEnrollment($studentFromSed, $modelEnrollment);
                     }
                 }
-                $result["identification"] = $statusAdd;
-                $result["enrollment"] = $enrollmentResult;
+                $result['identification'] = $statusAdd;
+                $result['enrollment'] = $enrollmentResult;
             }
         } elseif ($type == self::UPDATE) {
-
             $govId = $studentIdentification->gov_id === null ? $outListStudent->outListaAlunos[0]->getOutNumRa() : $studentIdentification->gov_id;
 
-            $response = $studentDatasource->exibirFichaAluno(new InAluno($govId, null, "SP"));
+            $response = $studentDatasource->exibirFichaAluno(new InAluno($govId, null, 'SP'));
             if (method_exists($response, 'getCode') && $this->handleUnauthorizedError($response->getCode())) {
                 return false;
             }
@@ -419,7 +403,6 @@ class StudentIdentification extends AltActiveRecord
             $outListStudent = $dataSource->getListStudents($inListarAlunos);
 
             if ($outListStudent->outErro === null) {
-
                 $studentIdentification->gov_id = $govId;
                 $studentIdentification->save();
 
@@ -438,8 +421,8 @@ class StudentIdentification extends AltActiveRecord
                 $enrollmentResult = $this->processEnrollment($studentIdentification, $modelEnrollment);
             }
 
-            $result["identification"] = $statusAdd;
-            $result["enrollment"] = $enrollmentResult;
+            $result['identification'] = $statusAdd;
+            $result['enrollment'] = $enrollmentResult;
         }
 
         return $result;
@@ -460,9 +443,9 @@ class StudentIdentification extends AltActiveRecord
             $inAluno = new InAluno($modelStudentIdentification->gov_id, null, 'SP');
             $inAnoLetivo = Yii::app()->user->year;
             $inCodEscola = substr($modelStudentIdentification->school_inep_id_fk, 2);
-            $inscricao = new InInscricao($inAnoLetivo, $inCodEscola, null, "4");
+            $inscricao = new InInscricao($inAnoLetivo, $inCodEscola, null, '4');
 
-            $classroomMapper = new ClassroomMapper;
+            $classroomMapper = new ClassroomMapper();
             $ensino = (object) $classroomMapper->convertStageToTipoEnsino($classroom->edcenso_stage_vs_modality_fk);
             $inNivelEnsino = new InNivelEnsino($ensino->tipoEnsino, $ensino->serieAno);
 
@@ -478,7 +461,7 @@ class StudentIdentification extends AltActiveRecord
     {
         //InscreverStudent
         $enrollStudent = new InscreverAluno($inAluno, $inscricao, $inNivelEnsino);
-        $enrollStudentUseCase = new EnrollStudentUseCase;
+        $enrollStudentUseCase = new EnrollStudentUseCase();
         return $enrollStudentUseCase->exec($enrollStudent);
     }
 
@@ -487,10 +470,10 @@ class StudentIdentification extends AltActiveRecord
         $modelEnrollment->sedsp_sync = 0;
         $modelEnrollment->save();
 
-        $enrollmentMapper = new EnrollmentMapper;
+        $enrollmentMapper = new EnrollmentMapper();
         $mapper = (object) $enrollmentMapper->parseToSEDEnrollment($modelStudentIdentification, $modelEnrollment);
 
-        $addEnrollmentToSed = new AddMatriculaToSEDUseCase;
+        $addEnrollmentToSed = new AddMatriculaToSEDUseCase();
         $statusAddEnrollmentToSed = $addEnrollmentToSed->exec($mapper->Enrollment);
 
         if ($statusAddEnrollmentToSed->outErro === null) {

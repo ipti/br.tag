@@ -339,9 +339,9 @@ class DefaultController extends Controller
         }
     }
 
-    private function parsePersonalData($row){
-         if (TagUtils::isStageEJA($row['ESTUDANTE_ETAPA_DE_ENSINO'])) {
-            // @TODO: ADICIONAR CALCULO PARA DETERMINAR VALOR
+    private function parsePersonalData($row)
+    {
+        if (TagUtils::isStageEJA($row['ESTUDANTE_ETAPA_DE_ENSINO'])) {
             $row['ESTUDANTE_ANO_PERIODO'] = 2;
         }
 
@@ -354,21 +354,11 @@ class DefaultController extends Controller
 
         $row['MOTIVO_STATUS_MATRICULA'] = $this->mapEnrollmentStatus($row['MOTIVO_STATUS_MATRICULA'])->value;
 
-        if (TagUtils::isStageEJA($row['ESTUDANTE_ETAPA_DE_ENSINO'])) {
-            // $row['TURMA_FORMA_ORGANIZACAO'] = 2;
-            // $row['TURMA_ORGANIZACAO_QUANTIDADE_TOTAL'] = 2;
-        }
-
         return $row;
     }
 
     private function parseRowReenrolment($row)
     {
-        if (TagUtils::isStageEJA($row['ESTUDANTE_ETAPA_DE_ENSINO'])) {
-            // $row['TURMA_FORMA_ORGANIZACAO'] = 2;
-            // $row['TURMA_ORGANIZACAO_QUANTIDADE_TOTAL'] = 2;
-        }
-
         return $row;
     }
 

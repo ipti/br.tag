@@ -1,24 +1,40 @@
 function generateCheckboxItems(student, dia, mes, ano, monthSplit, isMinor) {
     return student.schedules.reduce((acc, schedule) => {
-        let checkboxItem = '';
-        if (dia == schedule.day && mes == monthSplit[1] && ano == monthSplit[0]) {
+        let checkboxItem = "";
+        if (
+            dia == schedule.day &&
+            mes == monthSplit[1] &&
+            ano == monthSplit[0]
+        ) {
             let justificationContainer = "";
             if (schedule.fault) {
                 if (schedule.justification !== null) {
                     justificationContainer +=
-                        "data-toggle='tooltip' data-placement='left' title='" + schedule.justification + "'";
+                        "data-toggle='tooltip' data-placement='left' title='" +
+                        schedule.justification +
+                        "'";
                 }
             }
             checkboxItem = `
                 <span class="align-items--center" style='margin-left:5px;'>
-                    <a href='javascript:;' style='margin-left:5px;' studentId=${student.studentId} day=${dia} data-toggle='tooltip' class='frequency-justification-icon  ${!schedule.fault ? 'hide' : ''}' title=''>
+                    <a href='javascript:;' style='margin-left:5px;' studentId=${
+                        student.studentId
+                    } day=${dia} data-toggle='tooltip' class='frequency-justification-icon  ${
+                !schedule.fault ? "hide" : ""
+            }' title=''>
                         <span class='t-icon-annotation icon-color'></span>
                     </a>
-                    ${isMinor == false ? schedule.schedule+'°': ''}
-                    <span class="frequency-checkbox-container" ${(!schedule.available || !schedule.valid ? "disabled" : "")}>
+                    ${isMinor === false ? schedule.schedule + "°" : ""}
+                    <span class="frequency-checkbox-container" ${
+                        !schedule.available || !schedule.valid ? "disabled" : ""
+                    }>
                         <input class='frequency-checkbox' type='checkbox'
-                            ${(!schedule.available || !schedule.valid ? "disabled" : "")}
-                            ${(schedule.fault ? "checked" : "")}
+                            ${
+                                !schedule.available || !schedule.valid
+                                    ? "disabled"
+                                    : ""
+                            }
+                            ${schedule.fault ? "checked" : ""}
                             classroomId='${$("#classroom").val()}'
                             studentId='${student.studentId}'
                             day='${schedule.day}'
@@ -32,28 +48,43 @@ function generateCheckboxItems(student, dia, mes, ano, monthSplit, isMinor) {
                 </span>`;
         }
         return acc + checkboxItem;
-    }, '');
+    }, "");
 }
 function generateStudentLines(data, dia, mes, ano, monthSplit, isMinor) {
     return data.students.reduce((line, student) => {
-        return line + `
+        return (
+            line +
+            `
             <div
                 class='justify-content--space-between t-padding-small--top t-padding-small--bottom'
                 style="border-bottom:1px #e8e8e8 solid;"
             >
                 <div>
-                    ${buildEnrollmentStatusLabel(student.status, student.statusLabel)}
+                    ${buildEnrollmentStatusLabel(
+                        student.status,
+                        student.statusLabel
+                    )}
                     ${student.studentName}
                 </div>
                 <div style='display:flex;'>
-                    ${generateCheckboxItems(student, dia, mes, ano, monthSplit, isMinor)}
+                    ${generateCheckboxItems(
+                        student,
+                        dia,
+                        mes,
+                        ano,
+                        monthSplit,
+                        isMinor
+                    )}
                 </div>
-            </div>`;
-    }, '');
+            </div>`
+        );
+    }, "");
 }
 
-function buildEnrollmentStatusLabel(status, label){
-    return `<label class="t-badge-info t-margin-none--left ${status == 1 ? 'hide' : ''}">
+function buildEnrollmentStatusLabel(status, label) {
+    return `<label class="t-badge-info t-margin-none--left ${
+        status == 1 ? "hide" : ""
+    }">
                 ${label}
             </label>`;
 }
@@ -63,7 +94,9 @@ function generateScheduleDays(data, monthSplit, isMinor) {
         let dia = scheduleDays.day;
         let mes = monthSplit[1];
         let ano = monthSplit[0];
-        return acc + `
+        return (
+            acc +
+            `
             <div class="ui-accordion-header justify-content--space-between">
                 <div>Aula do dia ${scheduleDays.date}</div>
                 <div>
@@ -72,14 +105,26 @@ function generateScheduleDays(data, monthSplit, isMinor) {
             </div>
             <div class='ui-accordion-content'>
                 <div style='width: 100%; overflow-x:auto;'>
-                    ${generateStudentLines(data, dia, mes, ano, monthSplit, isMinor)}
+                    ${generateStudentLines(
+                        data,
+                        dia,
+                        mes,
+                        ano,
+                        monthSplit,
+                        isMinor
+                    )}
                 </div>
-            </div>`;
-    }, '');
+            </div>`
+        );
+    }, "");
 }
 
 function load() {
-    if ($("#classroom").val() !== "Selecione a turma" && $("#month").val() !== "" && (!$("#disciplines").is(":visible") || $("#disciplines").val() !== "")) {
+    if (
+        $("#classroom").val() !== "Selecione a turma" &&
+        $("#month").val() !== "" &&
+        (!$("#disciplines").is(":visible") || $("#disciplines").val() !== "")
+    ) {
         $(".alert-required-fields, .alert-incomplete-data").hide();
         let monthSplit = $("#month").val().split("-");
         jQuery.ajax({
@@ -90,12 +135,16 @@ function load() {
                 classroom: $("#classroom").val(),
                 discipline: $("#disciplines").val(),
                 month: monthSplit[1],
-                year: monthSplit[0]
+                year: monthSplit[0],
             },
             beforeSend: function () {
                 $(".loading-frequency").css("display", "inline-block");
-                $(".table-frequency").css("opacity", 0.3).css("pointer-events", "none");
-                $(".table-frequency-head").css("opacity", 0.3).css("pointer-events", "none");
+                $(".table-frequency")
+                    .css("opacity", 0.3)
+                    .css("pointer-events", "none");
+                $(".table-frequency-head")
+                    .css("opacity", 0.3)
+                    .css("pointer-events", "none");
                 $("#classroom, #month, #disciplines, #classesSearch").attr(
                     "disabled",
                     "disabled"
@@ -105,8 +154,12 @@ function load() {
             success: function (response) {
                 let data = JSON.parse(response);
                 if (data.valid) {
-                    let accordion = $('<div id="accordion" class="t-accordeon-secondary"></div>');
-                    accordion.append(generateScheduleDays(data, monthSplit, data.isMinor))
+                    let accordion = $(
+                        '<div id="accordion" class="t-accordeon-secondary"></div>'
+                    );
+                    accordion.append(
+                        generateScheduleDays(data, monthSplit, data.isMinor)
+                    );
                     $("#frequency-container").html(accordion).show();
 
                     $(function () {
@@ -122,22 +175,27 @@ function load() {
             },
             complete: function () {
                 $(".loading-frequency").hide();
-                $(".table-frequency").css("opacity", 1).css("pointer-events", "auto").css("background-color", "white");
-                $(".table-frequency-head").css("opacity", 1).css("pointer-events", "auto");
-                $("#classroom, #month, #disciplines, #classesSearch").removeAttr(
-                    "disabled"
-                );
+                $(".table-frequency")
+                    .css("opacity", 1)
+                    .css("pointer-events", "auto")
+                    .css("background-color", "white");
+                $(".table-frequency-head")
+                    .css("opacity", 1)
+                    .css("pointer-events", "auto");
+                $(
+                    "#classroom, #month, #disciplines, #classesSearch"
+                ).removeAttr("disabled");
             },
         });
     } else {
         $(".alert-required-fields").show();
         $("#frequency-container, .alert-incomplete-data").hide();
     }
-};
+}
 
 function pad(n, width, z) {
-    z = z || '0';
-    n = n + '';
+    z = z || "0";
+    n = n + "";
     return n.length >= width ? n : new Array(width - n.length + 1).join(z) + n;
 }
 
@@ -145,7 +203,10 @@ $(document).on("click", ".frequency-checkbox-container", function (e) {
     if (e.target === this && !$(this).hasClass("disabled")) {
         $(this)
             .find(".frequency-checkbox")
-            .prop("checked", !$(this).find(".frequency-checkbox").is(":checked"))
+            .prop(
+                "checked",
+                !$(this).find(".frequency-checkbox").is(":checked")
+            )
             .trigger("change");
     }
 });
@@ -159,11 +220,14 @@ $("#classroom").on("change", function () {
             url: "?r=classes/getMonthsAndDisciplines",
             cache: false,
             data: {
-                classroom: $("#classroom").val()
+                classroom: $("#classroom").val(),
             },
             beforeSend: function () {
                 $(".loading-frequency").css("display", "inline-block");
-                $("#classroom, #month, #disciplines").attr("disabled", "disabled");
+                $("#classroom, #month, #disciplines").attr(
+                    "disabled",
+                    "disabled"
+                );
             },
             success: function (data) {
                 data = JSON.parse(data);
@@ -173,15 +237,23 @@ $("#classroom").on("change", function () {
                     $.each(data.months, function (index, value) {
                         $("#month").append(new Option(value.name, value.id));
                     });
-                    $("#month option:first").attr("selected", "selected").trigger("change.select2");
+                    $("#month option:first")
+                        .attr("selected", "selected")
+                        .trigger("change.select2");
 
-                    if (data.isMinor == false) {
+                    if (data.isMinor === false) {
                         $("#disciplines").children().remove();
-                        $("#disciplines").append(new Option("Selecione a Disciplina", ""));
+                        $("#disciplines").append(
+                            new Option("Selecione a Disciplina", "")
+                        );
                         $.each(data.disciplines, function (index, value) {
-                            $("#disciplines").append(new Option(value.name, value.id));
+                            $("#disciplines").append(
+                                new Option(value.name, value.id)
+                            );
                         });
-                        $("#disciplines option:first").attr("selected", "selected").trigger("change.select2");
+                        $("#disciplines option:first")
+                            .attr("selected", "selected")
+                            .trigger("change.select2");
                         $(".disciplines-container").show();
                     } else {
                         $(".disciplines-container").hide();
@@ -220,29 +292,41 @@ $(document).on("change", ".frequency-checkbox", function () {
             year: monthSplit[0],
             schedule: $(this).attr("schedule"),
             studentId: $(this).attr("studentId"),
-            fault: $(this).is(":checked") ? 1 : 0
+            fault: $(this).is(":checked") ? 1 : 0,
         },
 
         beforeSend: function () {
             $(".loading-frequency").css("display", "inline-block");
-            $(".table-frequency").css("opacity", 0.3).css("pointer-events", "none");
-            $(".table-frequency-head").css("opacity", 0.3).css("pointer-events", "none");
+            $(".table-frequency")
+                .css("opacity", 0.3)
+                .css("pointer-events", "none");
+            $(".table-frequency-head")
+                .css("opacity", 0.3)
+                .css("pointer-events", "none");
             $("#classroom, #month, #disciplines, #classesSearch").attr(
                 "disabled",
                 "disabled"
             );
         },
         complete: function () {
-            $(checkbox).parent().parent().find('.frequency-justification-icon').toggleClass('hide')
+            $(checkbox)
+                .parent()
+                .parent()
+                .find(".frequency-justification-icon")
+                .toggleClass("hide");
 
-                $(".loading-frequency").hide();
-                $(".table-frequency").css("opacity", 1).css("pointer-events", "auto");
-                $(".table-frequency-head").css("opacity", 1).css("pointer-events", "auto");
-                $("#classroom, #month, #disciplines, #classesSearch").removeAttr(
-                    "disabled"
-                );
-            },
-        })
+            $(".loading-frequency").hide();
+            $(".table-frequency")
+                .css("opacity", 1)
+                .css("pointer-events", "auto");
+            $(".table-frequency-head")
+                .css("opacity", 1)
+                .css("pointer-events", "auto");
+            $("#classroom, #month, #disciplines, #classesSearch").removeAttr(
+                "disabled"
+            );
+        },
+    });
 });
 
 $(document).on("click", ".frequency-justification-icon", function () {
@@ -254,7 +338,9 @@ $(document).on("click", ".frequency-justification-icon", function () {
     $("#justification-month").val(checkbox.attr("month"));
     $("#justification-year").val(checkbox.attr("year"));
     $("#justification-schedule").val(checkbox.attr("schedule"));
-    $(".justification-text").val($(this).parent().find(".frequency-checkbox").attr("title"));
+    $(".justification-text").val(
+        $(this).parent().find(".frequency-checkbox").attr("title")
+    );
     $("#save-justification-modal").modal("show");
 });
 
@@ -277,23 +363,53 @@ $(document).on("click", ".btn-save-justification", function () {
             justification: $(".justification-text").val(),
         },
         beforeSend: function () {
-            $("#save-justification-modal").find(".modal-body").css("opacity", 0.3).css("pointer-events", "none");
-            $("#save-justification-modal").find("button").attr("disabled", "disabled");
+            $("#save-justification-modal")
+                .find(".modal-body")
+                .css("opacity", 0.3)
+                .css("pointer-events", "none");
+            $("#save-justification-modal")
+                .find("button")
+                .attr("disabled", "disabled");
             $("#save-justification-modal").find(".centered-loading-gif").show();
         },
         success: function (data) {
-            let justification = $(".frequency-checkbox[studentid=" + $("#justification-studentid").val() + "][schedule=" + $("#justification-schedule").val() + "][day=" + $("#justification-day").val() + "][month=" + $("#justification-month").val() + "][year=" + $("#justification-year").val() + "]").parent().parent().find(".frequency-justification-icon");
+            let justification = $(
+                ".frequency-checkbox[studentid=" +
+                    $("#justification-studentid").val() +
+                    "][schedule=" +
+                    $("#justification-schedule").val() +
+                    "][day=" +
+                    $("#justification-day").val() +
+                    "][month=" +
+                    $("#justification-month").val() +
+                    "][year=" +
+                    $("#justification-year").val() +
+                    "]"
+            )
+                .parent()
+                .parent()
+                .find(".frequency-justification-icon");
             if ($(".justification-text").val() == "") {
                 justification.attr("title", "").tooltip("hide");
             } else {
-                justification.parent().find(".frequency-checkbox").attr("title", $(".justification-text").val())
-                justification.attr("title", $(".justification-text").val()).tooltip({container: "body"});
+                justification
+                    .parent()
+                    .find(".frequency-checkbox")
+                    .attr("title", $(".justification-text").val());
+                justification
+                    .attr("title", $(".justification-text").val())
+                    .tooltip({ container: "body" });
             }
             $("#save-justification-modal").modal("hide");
         },
         complete: function () {
-            $("#save-justification-modal").find(".modal-body").css("opacity", 1).css("pointer-events", "auto");
-            $("#save-justification-modal").find("button").removeAttr("disabled");
+            $("#save-justification-modal")
+                .find(".modal-body")
+                .css("opacity", 1)
+                .css("pointer-events", "auto");
+            $("#save-justification-modal")
+                .find("button")
+                .removeAttr("disabled");
             $("#save-justification-modal").find(".centered-loading-gif").hide();
         },
     });

@@ -26,7 +26,7 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
         echo "<br><span class='alert alert-primary'>N&atilde;o h&aacute; turmas para esta escola.</span>";
     } else {
         foreach ($classroom as $c) {
-            $total_docentes = 0;
+            $totlaDocentes = 0;
 
             echo "<b>Nome da turma: </b>" . $c['name'] . "<br>";
             echo "<b>Codigo da Turma: </b>" . $c['inep_id'] . "<br>";
@@ -68,12 +68,12 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
                             . "</tr>";
 
                         $ordem++;
-                        $total_docentes++;
+                        $totlaDocentes++;
                     }
                 }
             }
             $html .= "<tr>"
-                . "<td colspan= 4>" . " <b> Total de docentes nessa turma: </b>" . $total_docentes .
+                . "<td colspan= 4>" . " <b> Total de docentes nessa turma: </b>" . $totlaDocentes .
                 "</td>"
                 . "</tr>";
             $html .= "</table>" . "<br>";

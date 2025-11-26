@@ -3,9 +3,9 @@
   <?php
     $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
     $schoolStrcture = SchoolStructure::model()->find('school_inep_id_fk = :schoolId', [':schoolId' => Yii::app()->user->school]);
-    $initial_date = strtotime($school->initial_date);
-    $final_date =   strtotime($school->final_date);
-    $datediff = $final_date - $initial_date;
+    $initialDate = strtotime($school->initial_date);
+    $finalDate =   strtotime($school->final_date);
+    $datediff = $finalDate - $initialDate;
 
     $totalDays = abs(round($datediff / (60 * 60 * 24)));
     $this->renderPartial('head');
@@ -50,6 +50,8 @@
       case 2:
         $this->renderPartial('_education_eja', array());
       break;
+      default:
+        break;
      }
   ?>
 

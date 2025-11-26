@@ -235,6 +235,13 @@ $form = $this->beginWidget(
                                 <?= $form->error($modelClassroom, 'classroom_status'); ?>
                             </div>
 
+                            <!-- Capacidade -->
+                            <div class="t-field-text">
+                                <?= $form->label($modelClassroom, 'capacity', array('class' => 't-field-text__label--required')); ?>
+                                <?= $form->textField($modelClassroom, 'capacity', array('size' => 60, 'maxlength' => 80, 'class' => 't-field-text__input js-capacity', 'placeholder' => 'Quantos alunos a turma comporta')); ?>
+                                <?= $form->error($modelClassroom, 'capacity'); ?>
+                            </div>
+
                             <div class="t-field-checkbox-group">
                                 <label class="t-field-checkbox__label">
                                     <?= Yii::t("default", "Configuração do Sagres") ?>
@@ -412,20 +419,7 @@ $form = $this->beginWidget(
                                     <?= $form->error($modelClassroom, 'school_year'); ?>
                                 </div>
                             </div>
-                            <!-- <div class="control-group">
-                                <?= $form->label($modelClassroom, 'assistance_type', array('class' => 't-field-text__label')); ?>
-                                <div class="">
-                                    <?php
-                                    echo $form->DropDownList(
-                                        $modelClassroom,
-                                        'assistance_type',
-                                        $assistance_types,
-                                        array('prompt' => 'Selecione o Tipo de Atendimento', 'class' => 'select-search-off')
-                                    );
-                                    ?>
-                                    <?= $form->error($modelClassroom, 'assistance_type'); ?>
-                                </div>
-                            </div> -->
+
                             <!-- Tipo de Atendimento* -->
                             <div class="t-field-checkbox-group js-assistance-types-container" id="assistance_type">
                                 <label class="t-field-checkbox__label--required">

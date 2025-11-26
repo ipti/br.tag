@@ -1,28 +1,28 @@
 <?php
 
 namespace SagresEdu;
-use JMS\Serializer\Annotation as Serializer;
 
+use JMS\Serializer\Annotation as Serializer;
 
 /**
  * Class representing EscolaTType
  *
- * 
+ *
  * XSD Type: escola_t
  */
 class EscolaTType
 {
-    #[Serializer\SerializedName("edu:idEscola")]
+    #[Serializer\SerializedName('edu:idEscola')]
     #[Serializer\XmlElement(cdata: false)]
     private ?int $idEscola = null;
 
-    #[Serializer\XmlList(inline: true, entry: "edu:turma")]
+    #[Serializer\XmlList(inline: true, entry: 'edu:turma')]
     private array $turma = [];
 
-    #[Serializer\SerializedName("edu:diretor")]
+    #[Serializer\SerializedName('edu:diretor')]
     private ?DiretorTType $diretor = null;
 
-    #[Serializer\XmlList(inline: true, entry: "edu:cardapio")]
+    #[Serializer\XmlList(inline: true, entry: 'edu:cardapio')]
     private array $cardapio = [];
 
     /**
@@ -30,7 +30,7 @@ class EscolaTType
      *
      * @return int
      */
-    public function getIdEscola():?int
+    public function getIdEscola(): ?int
     {
         return $this->idEscola;
     }
@@ -132,7 +132,6 @@ class EscolaTType
      * @param \SagresEdu\CardapioTType $cardapio
      */
     public function addToCardapio(CardapioTType $cardapio): self
-
     {
         $this->cardapio[] = $cardapio;
         return $this;
@@ -182,4 +181,3 @@ class EscolaTType
         return $this;
     }
 }
-

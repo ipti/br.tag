@@ -58,7 +58,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                                 $namestg = $enr->id . '[edcenso_stage_vs_modality_fk]';
                                                 $status = $enr->id . '[status]';
                                                 echo "<tr><td>" . $enr->studentFk->name . "</a></td>";
-                                                echo "<td>" . CHtml::dropDownList($namestg, $enr->edcenso_stage_vs_modality_fk, $options_stage, ['class' => 'select-search-on t-field-select__input select2-container']) . "</td>";
+                                                echo "<td>" . CHtml::dropDownList($namestg, $enr->edcenso_stage_vs_modality_fk, $optionsStage, ['class' => 'select-search-on t-field-select__input select2-container']) . "</td>";
                                                 echo "<td>" . CHtml::dropDownList($status, $enr->status, StudentEnrollment::getListStatus()) . "</td></tr>";
                                             }
                                             echo "<tr><th>Total:</th><td colspan='2'>" . count($enrollments) . "</td></tr>";

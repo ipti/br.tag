@@ -3,17 +3,17 @@
 /* @var $model StudentAeeRecord */
 
 $this->setPageTitle('TAG - ' . Yii::t('default', 'Cadastrar Ficha AEE'));
-$this->breadcrumbs=array(
-	'Student Aee Records'=>array('index'),
-	'Create',
-);
+$this->breadcrumbs = [
+    'Student Aee Records' => ['index'],
+    'Create',
+];
 
-$this->menu=array(
-	array('label'=>'List StudentAeeRecord', 'url'=>array('index')),
-	array('label'=>'Manage StudentAeeRecord', 'url'=>array('admin')),
-);
+$this->menu = [
+    ['label' => 'List StudentAeeRecord', 'url' => ['index']],
+    ['label' => 'Manage StudentAeeRecord', 'url' => ['admin']],
+];
 ?>
 
 <div id="mainPage" class="main">
-    <?php $this->renderPartial('_form', array('model'=>$model)); ?>
+    <?php $this->renderPartial('_form', ['model' => $model]); ?>
 </div>

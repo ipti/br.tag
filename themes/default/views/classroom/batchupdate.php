@@ -51,12 +51,12 @@ $form = $this->beginWidget('CActiveForm', array(
                                      <?php
                                      if(isset($enrollments)){
                                         foreach ($enrollments as $enr) {
-                                            $options_adt = array('0' => 'MI', '1' => 'MC','4'=>'MR','3'=>'MT');
-                                            $options_css = array('0' => 'N', '1' => 'P','2'=>'R');
+                                            $optionsAdt = array('0' => 'MI', '1' => 'MC','4'=>'MR','3'=>'MT');
+                                            $optionsCss = array('0' => 'N', '1' => 'P','2'=>'R');
                                             $namecss = $enr->id.'[current_stage_situation]';
                                             $nameadt = $enr->id.'[admission_type]';
-                                            echo "<tr><td>".$enr->studentFk->name."</a></td><td>".CHtml::dropDownList($nameadt, $enr->admission_type, $options_adt)."</td>";
-                                            echo "<td>".CHtml::dropDownList($namecss, $enr->current_stage_situation, $options_css)."</td></tr>";
+                                            echo "<tr><td>".$enr->studentFk->name."</a></td><td>".CHtml::dropDownList($nameadt, $enr->admission_type, $optionsAdt)."</td>";
+                                            echo "<td>".CHtml::dropDownList($namecss, $enr->current_stage_situation, $optionsCss)."</td></tr>";
                                         }
                                         echo "<tr><th>Total:</th><td>" . count($enrollments) . "</td></tr>";
                                     } else {

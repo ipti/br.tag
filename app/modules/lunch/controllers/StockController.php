@@ -5,22 +5,25 @@
  *
  * @property School $school
  */
-class StockController extends Controller{
-
+class StockController extends Controller
+{
     public $school;
 
-    public function init(){
+    public function init()
+    {
         $this->school = School::model()->findByPk(yii::app()->user->school);
     }
 
-    public function actionIndex(){
-         $items = CHtml::listData(Item::model()->findAll(), 'id', 'concatName');
-         $this->render('index', [
-            "items" => $items
-         ]);
+    public function actionIndex()
+    {
+        $items = CHtml::listData(Item::model()->findAll(), 'id', 'concatName');
+        $this->render('index', [
+            'items' => $items
+        ]);
     }
 
-    public function actionAddItem(){
+    public function actionAddItem()
+    {
         $request = Yii::app()->getRequest();
 
         $postItem = $request->getPost('Item', false);
@@ -29,7 +32,7 @@ class StockController extends Controller{
         $school = yii::app()->user->school;
 
         if (!$postItem) {
-            $item_id = $postInventory['item'];
+            $itemId = $postInventory['item'];
             $amount = $postInventory['amount'];
         } else {
             $item = new Item();
@@ -40,14 +43,14 @@ class StockController extends Controller{
 
             if ($item->validate()) {
                 $item->save();
-                $item_id = $item->id;
+                $itemId = $item->id;
                 $amount = $postInventory['amount'];
             }
         }
 
         $inventory = new Inventory();
         $inventory->school_fk = $school;
-        $inventory->item_fk = $item_id;
+        $inventory->item_fk = $itemId;
         $inventory->amount = $amount;
 
         if ($inventory->validate()) {
@@ -55,11 +58,11 @@ class StockController extends Controller{
 
             $received = new Received();
             $received->inventory_fk = $inventory->id;
-            $received->date = date("Y/m/d h:i:s");
+            $received->date = date('Y/m/d h:i:s');
 
             if ($received->validate()) {
                 $received->save();
-                Log::model()->saveAction("lunch_stock", $received->id, "C", $received->inventory->item->name . "|" . $amount * $received->inventory->item->measure . " " . $received->inventory->item->unity->acronym);
+                Log::model()->saveAction('lunch_stock', $received->id, 'C', $received->inventory->item->name . '|' . $amount * $received->inventory->item->measure . ' ' . $received->inventory->item->unity->acronym);
                 Yii::app()->user->setFlash('success', Yii::t('lunchModule.stock', 'Item added successfully.'));
                 $this->redirect(['stock/index']);
             } else {
@@ -74,7 +77,8 @@ class StockController extends Controller{
         }
     }
 
-    public function actionRemoveItem(){
+    public function actionRemoveItem()
+    {
         $request = Yii::app()->getRequest();
 
         $item = $request->getPost('Item');
@@ -92,12 +96,12 @@ class StockController extends Controller{
 
             $spent = new Spent();
             $spent->inventory_fk = $inventory->id;
-            $spent->date = date("Y/m/d h:i:s");
+            $spent->date = date('Y/m/d h:i:s');
             $spent->motivation = $motivation;
 
             if ($spent->validate()) {
                 $spent->save();
-                Log::model()->saveAction("lunch_stock", $spent->id, "D", $spent->inventory->item->name . "|" . $amount * $spent->inventory->item->measure . " " . $spent->inventory->item->unity->acronym);
+                Log::model()->saveAction('lunch_stock', $spent->id, 'D', $spent->inventory->item->name . '|' . $amount * $spent->inventory->item->measure . ' ' . $spent->inventory->item->unity->acronym);
                 Yii::app()->user->setFlash('success', Yii::t('lunchModule.stock', 'Item spent successfully.'));
                 $this->redirect(['stock/index']);
             } else {
@@ -111,18 +115,19 @@ class StockController extends Controller{
             $this->redirect(['stock/index']);
         }
     }
-    public function actionDeleteItem() {
+
+    public function actionDeleteItem()
+    {
         $lunchItemId = Yii::app()->request->getPost('lunchItemId', null);
-        if($lunchItemId){
+        if ($lunchItemId) {
             $inventory = Inventory::model()->findAllByAttributes([
-                'item_fk'=>$lunchItemId, "school_fk" => Yii::app()->user->school]);
-                foreach ($inventory as $i) {
-                    $i->delete();
-                }
-            $item =  Item::model()->findByPk($lunchItemId);
+                'item_fk' => $lunchItemId, 'school_fk' => Yii::app()->user->school]);
+            foreach ($inventory as $i) {
+                $i->delete();
+            }
+            $item = Item::model()->findByPk($lunchItemId);
             $item->delete();
             var_dump(Yii::app()->user->school);
         }
-
     }
 }

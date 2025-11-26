@@ -16,31 +16,30 @@ class GenRA
      * @param boolean $force Force search from TAG
      * @return DadosAluno
      */
-    public function exec($id,$force = false)
+    public function exec($id, $force = false)
     {
         $ucidentify = new IdentifyStudentRACode();
-        $TryRA = $ucidentify->exec($id,$force);
+        $TryRA = $ucidentify->exec($id, $force);
 
-        if(method_exists($TryRA,'getoutSucesso')){
-            if(!isset($TryRA->outErro)){
+        if (method_exists($TryRA, 'getoutSucesso')) {
+            if (!isset($TryRA->outErro)) {
                 $ucadd = new AddRACodeToTAG();
-                $student = $ucadd->exec($id,$TryRA->getoutAluno()->outNumRA);
+                $student = $ucadd->exec($id, $TryRA->getoutAluno()->outNumRA);
                 return $student->gov_id;
-            }else {
-                if($force){
+            } else {
+                if ($force) {
                     throw new Exception('RA Não Encontrado');
-                }else {
+                } else {
                     return false;
                 }
             }
-        }else if($TryRA->getHasResponse()){
-            if($TryRA->getCode()==400){
+        } elseif ($TryRA->getHasResponse()) {
+            if ($TryRA->getCode() == 400) {
                 throw new Exception($TryRA->getoutErro());
-            }else if($TryRA->getCode()==500){
+            } elseif ($TryRA->getCode() == 500) {
                 throw new Exception('Erro 500');
             }
         }
-            return 'Tentar Novamente';
+        return 'Tentar Novamente';
     }
-
 }

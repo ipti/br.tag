@@ -1,3 +1,9 @@
+## [Versão 3.6.1]
+- Refatoração de código para redução de débito técnico
+
+## [Versão 3.6.0]
+- Modulo de acompanhamento de sáude do estudante
+
 ## [Versão 3.5.7]
 - Corrigido ordem das unidades no relatório de ficha de notas
 

@@ -1,8 +1,8 @@
 <?php
 
 namespace SagresEdu;
-use JMS\Serializer\Annotation as Serializer;
 
+use JMS\Serializer\Annotation as Serializer;
 
 /**
  * Class representing HorarioTType
@@ -12,25 +12,25 @@ use JMS\Serializer\Annotation as Serializer;
  */
 class HorarioTType
 {
-    #[Serializer\SerializedName("edu:dia_semana")]
+    #[Serializer\SerializedName('edu:dia_semana')]
     #[Serializer\XmlElement(cdata: false)]
     private ?int $diaSemana = null;
 
-    #[Serializer\SerializedName("edu:duracao")]
+    #[Serializer\SerializedName('edu:duracao')]
     #[Serializer\XmlElement(cdata: false)]
     private ?int $duracao = null;
 
     #[Serializer\Type("DateTime<'H:i:s'>")]
-    #[Serializer\SerializedName("edu:hora_inicio")]
+    #[Serializer\SerializedName('edu:hora_inicio')]
     #[Serializer\XmlElement(cdata: false)]
     private ?\DateTime $horaInicio = null;
 
-    #[Serializer\SerializedName("edu:disciplina")]
+    #[Serializer\SerializedName('edu:disciplina')]
     #[Serializer\XmlElement(cdata: false)]
     private ?string $disciplina = null;
 
-    #[Serializer\XmlList(inline: true, entry: "edu:cpfProfessor")]
-    #[Serializer\SerializedName("edu:cpfProfessor")]
+    #[Serializer\XmlList(inline: true, entry: 'edu:cpfProfessor')]
+    #[Serializer\SerializedName('edu:cpfProfessor')]
     #[Serializer\XmlElement(cdata: false)]
     private array $cpfProfessor = [];
 
@@ -39,7 +39,7 @@ class HorarioTType
      *
      * @return int
      */
-    public function getDiaSemana() : ?int
+    public function getDiaSemana(): ?int
     {
         return $this->diaSemana;
     }
@@ -105,7 +105,7 @@ class HorarioTType
      *
      * @return string
      */
-    public function getDisciplina():?string
+    public function getDisciplina(): ?string
     {
         return $this->disciplina;
     }
@@ -178,4 +178,3 @@ class HorarioTType
         return $this;
     }
 }
-

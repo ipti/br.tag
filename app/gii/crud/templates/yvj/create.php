@@ -7,12 +7,12 @@
 <div id="mainPage" class="main">
     <?php
     echo "<?php\n";
-    $label = $this->pluralize($this->class2name($this->modelClass));
-    echo "\$this->breadcrumbs=array(
+$label = $this->pluralize($this->class2name($this->modelClass));
+echo "\$this->breadcrumbs=array(
 	'$label'=>array('index'),
 	'Create',
 );\n";
-    ?>
+?>
     $title=Yii::t('default', 'Create a new <?php echo $this->modelClass; ?>');
     $contextDesc = Yii::t('default', 'Available actions that may be taken on <?php echo $this->modelClass; ?>.');
     $this->menu=array(

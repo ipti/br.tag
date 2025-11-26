@@ -34,29 +34,21 @@ $school = SchoolIdentification::model()->findByPk($classroom->school_inep_fk);
             </tr>
             <?php
             $rows = "";
+            $icon = '<i class="fa fa-close" style="color: black"></i>';
+            $defaultText = 'Não possui';
             foreach ($report as $key=>$r){
                 //validacoes
-                if($r['celiac'] == 1){ $celiac =  '<i class="fa fa-close" style="color: black"></i>';}else{
-                    $celiac =  '';};
-                if($r['diabetes'] == 1){ $diabetes =  '<i class="fa fa-close" style="color: black"></i>';}else{
-                    $diabetes =  '';};
-                if($r['hypertension'] == 1){ $hypertension =  '<i class="fa fa-close" style="color: black"></i>';}else{
-                    $hypertension =  '';};
-                if($r['iron_deficiency_anemia'] == 1){ $iron_deficiency_anemia =  '<i class="fa fa-close" style="color: black"></i>';}else{
-                    $iron_deficiency_anemia =  '';};
-                if($r['sickle_cell_anemia'] == 1){ $sickle_cell_anemia =  '<i class="fa fa-close" style="color: black"></i>';}else{
-                    $sickle_cell_anemia =  '';};
-                if($r['lactose_intolerance'] == 1){ $lactose_intolerance =  '<i class="fa fa-close" style="color: black"></i>';}else{
-                    $lactose_intolerance =  '';};
-                if($r['malnutrition'] == 1){ $malnutrition =  '<i class="fa fa-close" style="color: black"></i>';}else{
-                    $malnutrition =  '';};
-                if($r['obesity'] == 1){ $obesity =  '<i class="fa fa-close" style="color: black"></i>';}else{
-                    $obesity =  '';};
-                if($r['others'] != null && $r['others'] != "") {
-                    $others = $r['others'];
-                }else {
-                    $others = "Não possui";
-                }
+                $celiac = ($r['celiac'] == 1) ? $icon : '';
+                $diabetes = ($r['diabetes'] == 1) ? $icon : '';
+                $hypertension = ($r['hypertension'] == 1) ? $icon : '';
+                $ironDeficiencyAnemia = ($r['iron_deficiency_anemia'] == 1) ? $icon : '';
+                $sickleCellAnemia = ($r['sickle_cell_anemia'] == 1) ? $icon : '';
+                $lactoseIntolerance = ($r['lactose_intolerance'] == 1) ? $icon : '';
+                $malnutrition = ($r['malnutrition'] == 1) ? $icon : '';
+                $obesity = ($r['obesity'] == 1) ? $icon : '';
+                $othersText = trim($r['others'] ?? '');
+                $others = ($othersText !== '') ? $othersText : $defaultText;
+
                 $rows .= "<tr>"
                     . "<td style='text-align: center;'>" . ($key + 1) . "</td>"
                     . "<td style='text-align: center;'>" . $r['inep_id'] . "</td>"
@@ -76,9 +68,9 @@ $school = SchoolIdentification::model()->findByPk($classroom->school_inep_fk);
                                 <td style='text-align: center;'>".$celiac."</td>
                                 <td style='text-align: center;'>".$diabetes."</td>
                                 <td style='text-align: center;'>".$hypertension."</td>
-                                <td style='text-align: center;'>".$iron_deficiency_anemia."</td>
-                                <td style='text-align: center;'>".$sickle_cell_anemia."</td>
-                                <td style='text-align: center;'>".$lactose_intolerance."</td>
+                                <td style='text-align: center;'>".$ironDeficiencyAnemia."</td>
+                                <td style='text-align: center;'>".$sickleCellAnemia."</td>
+                                <td style='text-align: center;'>".$lactoseIntolerance."</td>
                                 <td style='text-align: center;'>".$malnutrition."</td>
                                 <td style='text-align: center;'>".$obesity."</td>
                                 <td style='text-align: center;'>".$others."</td>
