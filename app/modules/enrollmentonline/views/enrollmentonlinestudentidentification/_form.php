@@ -20,7 +20,7 @@ $cs->registerScriptFile($baseScriptUrl . '/validations.js?v=' . TAG_VERSION, CCl
         // See class documentation of CActiveForm for details on this.
         'enableAjaxValidation' => false,
     ]); ?>
-    <div id="content">
+    <div id="<?= $model->isNewRecord ? 'content' : '' ?>">
         <div class="main form-content">
             <div class="row">
                 <div class="column">
@@ -447,7 +447,7 @@ $cs->registerScriptFile($baseScriptUrl . '/validations.js?v=' . TAG_VERSION, CCl
                             style="display:none;"><?php echo Yii::t('default', 'Previous') ?><i></i></a>
                     </div>
                     <div class="column">
-                        <a data-toggle='tab'
+                        <a class="<?= $model->isNewRecord ? "" : "hide" ?>" data-toggle='tab'
                             class='t-button-primary t-margin-none--right t-padding-small--all nofloat next'><?= Yii::t('default', 'Next') ?></a>
                         <button class="t-button-primary t-padding-small--all t-margin-none--right last save-student"
                             type="submit" style="display:none;width:100%;">

@@ -15,7 +15,7 @@
 
             ?>
             <div class="column clearfix no-grow">
-                <a href="${window.location.host}?r=classdiary/default/classDays&classroom_fk=${element['id']}"
+                <a href="${window.location.host}?r=enrollmentonline/Enrollmentonlinestudentidentification/update&id=<?= $student["id"] ?>"
                     class="t-cards">
                     <div class="t-cards-content">
                         <div class="t-tag-primary"><?= $student["birthday"] ?></div>
