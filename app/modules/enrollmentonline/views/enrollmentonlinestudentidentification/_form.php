@@ -388,13 +388,13 @@ $cs->registerScriptFile($baseScriptUrl . '/validations.js?v=' . TAG_VERSION, CCl
                             ?>
                             <?php echo $form->error($model, 'edcenso_stage_vs_modality_fk'); ?>
                         </div>
-                        <div class="t-field-text column">
+                        <div class="t-field-text column is-half">
                             <label for="" class="t-field-text__label">Priemira opção matrícula</label>
                             <?php
                             echo CHtml::dropDownList(
                                 'school_1',
-                                '',
-                                [],
+                                $studentSolicitations[0]['school_inep_id_fk'],
+                                $schools,
                                 [
                                     'prompt' => 'Selecione uma opção de matrícula',
                                     'class' => 'select-search-on t-field-select__input select2-container js-school-1 js-field-required',
@@ -405,13 +405,13 @@ $cs->registerScriptFile($baseScriptUrl . '/validations.js?v=' . TAG_VERSION, CCl
                         </div>
                     </div>
                     <div class="row">
-                        <div class="t-field-text column">
+                        <div class="t-field-text column is-half">
                             <label for="" class="t-field-text__label">Segunda opção matrícula</label>
                             <?php
                             echo CHtml::dropDownList(
                                 'school_2',
-                                '',
-                                [],
+                                $studentSolicitations[1]->school_inep_id_fk,
+                                $schools,
                                 [
                                     'prompt' => 'Selecione uma opção de matrícula',
                                     'class' => 'select-search-on t-field-select__input select2-container js-school-2 js-field-required',
@@ -425,8 +425,8 @@ $cs->registerScriptFile($baseScriptUrl . '/validations.js?v=' . TAG_VERSION, CCl
                             <?php
                             echo CHtml::dropDownList(
                                 'school_3',
-                                '',
-                                [],
+                                $studentSolicitations[2]->school_inep_id_fk,
+                                $schools,
                                 [
                                     'prompt' => 'Selecione uma opção de matrícula',
                                     'class' => 'select-search-on t-field-select__input select2-container js-school-3 js-field-required',

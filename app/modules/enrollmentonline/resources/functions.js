@@ -59,6 +59,10 @@ $(".js-stage").on("change", () => {
     })
 })
 
+/* if ($(".js-stage").val() !== "") {
+    document.querySelector(".js-stage").dispatchEvent(new Event("change"));
+} */
+
 $("select.js-school-1, select.js-school-2, select.js-school-3").on("change", function () {
     const currentVal = $(this).val();
     const currentSelect = this;

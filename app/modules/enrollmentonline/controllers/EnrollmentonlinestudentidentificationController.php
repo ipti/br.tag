@@ -159,6 +159,7 @@ class EnrollmentOnlineStudentIdentificationController extends Controller
         $this->render('studentstatus', [
             'studentStatus' => $studentStatus,
         ]);
+
     }
 
     /**
@@ -180,8 +181,29 @@ class EnrollmentOnlineStudentIdentificationController extends Controller
             }
         }
 
+        $solicitationsRepository = new EnrollmentonlinestudentidentificationRepository($model);
+        $studentSolicitations = $solicitationsRepository->getStatus($model->id);
+
+        $criteria = new CDbCriteria();
+        $criteria->alias = 'si';
+        $criteria->join = '
+            INNER JOIN school_stages ss
+            ON ss.school_fk = si.inep_id
+        ';
+        $criteria->condition = 'ss.edcenso_stage_vs_modality_fk = :stageModality';
+        $criteria->params = [':stageModality' => $model->edcenso_stage_vs_modality_fk];
+
+        $schools = SchoolIdentification::model()->findAll($criteria);
+
+        $schools = CHtml::listData($schools, 'inep_id', 'name');
+
+
+
+
         $this->render('update', [
             'model' => $model,
+            'studentSolicitations' => $studentSolicitations,
+            'schools' => $schools,
         ]);
     }
 

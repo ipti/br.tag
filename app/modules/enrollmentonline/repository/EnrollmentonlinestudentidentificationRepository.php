@@ -93,4 +93,13 @@ class EnrollmentonlinestudentidentificationRepository
         return EnrollmentOnlineStudentIdentification::model()->findAll($criteria);
     }
 
+    public function getStatus($studentId)
+    {
+        $criteria = new CDbCriteria();
+        $criteria->condition = 'enrollment_online_student_identification_fk = :studentId';
+        $criteria->params = [':studentId' => $studentId];
+
+        return EnrollmentOnlineEnrollmentSolicitation::model()->findAll($criteria);
+    }
+
 }

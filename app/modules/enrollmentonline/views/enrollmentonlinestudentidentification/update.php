@@ -20,4 +20,4 @@ $this->pageTitle = 'TAG - Pré-Matrícula';
 ?>
 
 
-<?php $this->renderPartial('_form', ['model' => $model, 'title' => $title]); ?>
+<?php $this->renderPartial('_form', ['model' => $model, 'title' => $title, 'studentSolicitations' => $studentSolicitations, 'schools' => $schools]); ?>

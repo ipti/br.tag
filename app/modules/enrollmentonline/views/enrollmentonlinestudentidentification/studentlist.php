@@ -18,7 +18,8 @@
                 <a href="${window.location.host}?r=enrollmentonline/Enrollmentonlinestudentidentification/update&id=<?= $student["id"] ?>"
                     class="t-cards">
                     <div class="t-cards-content">
-                        <div class="t-tag-primary"><?= $student["birthday"] ?></div>
+                        <div class="t-tag-success">Em processamento</div>
+                        <div class="t-tag-primary">Escola da pica pau</div>
                         <div class="t-cards-title"><?= $student["name"] ?></div>
                         <div class="t-cards-text clear-margin--left"><?= preg_replace('/(\d{3})(\d{3})(\d{3})(\d{2})/', '$1.$2.$3-$4', $student["cpf"]) ?></div>
                     </div>
