@@ -12,7 +12,6 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
  */
 ?>
 
-
 <div class="pageA4V">
     <?php $this->renderPartial('head'); ?>
     <div>
@@ -127,11 +126,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
             #textOption{
                 display: none;
             }
-            /*#optionForm {*/
-            /*width: 66%;*/
-            /*border-color: transparent;*/
-            /*color: white;*/
-            /*}*/
+
             select , textarea {
                 width: 66%!important;
                 -webkit-appearance: none;

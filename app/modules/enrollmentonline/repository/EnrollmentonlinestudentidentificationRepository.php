@@ -12,7 +12,6 @@ class EnrollmentonlinestudentidentificationRepository
 
     public function savePreEnrollment()
     {
-        // Regex para remover pontos, traços, parênteses e espaços
         $cleanPattern = '/[\.\-\(\)\s]/';
 
         // Limpeza dos campos

@@ -48,10 +48,6 @@ class EnrollmentOnlineStudentIdentificationController extends Controller
                 'actions' => ['admin', 'delete'],
                 'users' => ['admin'],
             ],
-            /*  array(
-                'deny',  // deny all users
-                'users' => array('*'),
-            ), */
         ];
     }
 
@@ -88,7 +84,6 @@ class EnrollmentOnlineStudentIdentificationController extends Controller
         SentrySdk::getCurrentHub()->setSpan($transaction);
 
         if (parent::beforeAction($action)) {
-            // Verifica o timeout com base na última atividade
             if (isset(Yii::app()->user->authTimeout)) {
                 $lastActivity = Yii::app()->user->getState('last_activity');
                 $timeout = Yii::app()->user->authTimeout;
@@ -98,8 +93,6 @@ class EnrollmentOnlineStudentIdentificationController extends Controller
                     return false;
                 }
             }
-
-            // Atualiza a última atividade
             Yii::app()->user->setState('last_activity', time());
             return true;
         }
@@ -155,9 +148,6 @@ class EnrollmentOnlineStudentIdentificationController extends Controller
     {
         $model = $this->loadModel($id);
 
-        // Uncomment the following line if AJAX validation is needed
-        // $this->performAjaxValidation($model);
-
         if (isset($_POST['EnrollmentOnlineStudentIdentification'])) {
             $model->attributes = $_POST['EnrollmentOnlineStudentIdentification'];
             if ($model->save()) {
@@ -177,11 +167,7 @@ class EnrollmentOnlineStudentIdentificationController extends Controller
      */
     public function actionDelete($id)
     {
-        // $this->loadModel($id)->delete();
 
-        // if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
-        // if(!isset($_GET['ajax']))
-        // 	$this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
     }
 
     /**
