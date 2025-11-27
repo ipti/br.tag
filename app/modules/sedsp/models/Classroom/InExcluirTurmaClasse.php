@@ -27,7 +27,8 @@ class InExcluirTurmaClasse implements JsonSerializable
         );
     }
 
-    public function jsonSerialize() {
+    public function jsonSerialize()
+    {
         return get_object_vars($this);
     }
 }

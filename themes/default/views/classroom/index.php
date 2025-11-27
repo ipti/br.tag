@@ -84,11 +84,18 @@
                         )
                     );
                     array_push($columns,
+                    array(
+                        'name' => 'edcensoStageVsModalityFk',
+                        'header' => 'Etapa',
+                        'value' => '$data->edcensoStageVsModalityFk->name',
+                        'htmlOptions' => array('width' => '400px'),
+                        )
+                    );
+                    array_push($columns,
                         array(
-                            'name' => 'edcensoStageVsModalityFk',
-                            'header' => 'Etapa',
-                            'value' => '$data->edcensoStageVsModalityFk->name',
-                            'htmlOptions' => array('width' => '400px'),
+                            'name' => 'capacity',
+                            'header' => 'Capacidade',
+                            'value' => '$data->capacity',
                         )
                     );
                     array_push($columns,
@@ -153,7 +160,7 @@
                         'enableSorting' => false,
                         'itemsCssClass' => 'js-tag-table tag-table-primary table table-condensed
                         table-striped table-hover table-primary table-vertical-center checkboxs',
-                        // 'afterAjaxUpdate' => 'function(id, data){initDatatable()}', // TODO: essa linha está causando erro quando SEDSP desabiitado
+                        // 'afterAjaxUpdate' => 'function(id, data){initDatatable()}', // causa erro quando SEDSP desabilitado
                         'columns' => $columns,
                     ));
                     ?>

@@ -126,6 +126,7 @@
 class SchoolStructure extends AltActiveRecord
 {
     public $stages;
+
     /**
      * Returns the static model of the specified AR class.
      * @param string $className active record class name.
@@ -144,7 +145,6 @@ class SchoolStructure extends AltActiveRecord
         return 'school_structure';
     }
 
-
     /**
      * @return array validation rules for model attributes.
      */
@@ -152,12 +152,12 @@ class SchoolStructure extends AltActiveRecord
     {
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
-        return array(
-            array(
+        return [
+            [
                 'school_inep_id_fk',
                 'required'
-            ),
-            array(
+            ],
+            [
                 'operation_location_building,
                 operation_location_temple,
                 operation_location_businness_room,
@@ -370,9 +370,9 @@ class SchoolStructure extends AltActiveRecord
                 dependencies_student_repose_room',
                 'numerical',
                 'integerOnly' => true
-            ),
-            array('register_type', 'length', 'max' => 2),
-            array(
+            ],
+            ['register_type', 'length', 'max' => 2],
+            [
                 'school_inep_id_fk,
             shared_school_inep_id_1,
             shared_school_inep_id_2,
@@ -382,11 +382,9 @@ class SchoolStructure extends AltActiveRecord
             shared_school_inep_id_6',
                 'length',
                 'max' => 8
-            ),
-            // The following rule is used by search().
-            // @todo Please remove those attributes that should not be searched.
-            array('register_type, school_inep_id_fk, operation_location_building, operation_location_temple, operation_location_businness_room, operation_location_instructor_house, operation_location_other_school_room, operation_location_barracks, operation_location_socioeducative_unity, operation_location_prison_unity, operation_location_other, building_occupation_situation, shared_building_with_school, shared_school_inep_id_1, shared_school_inep_id_2, shared_school_inep_id_3, shared_school_inep_id_4, shared_school_inep_id_5, shared_school_inep_id_6, consumed_water_type, water_supply_public, water_supply_artesian_well, water_supply_well, water_supply_river, water_supply_car, water_supply_inexistent, energy_supply_public, energy_supply_generator, energy_supply_other, energy_supply_inexistent, sewage_public, sewage_fossa, sewage_inexistent, garbage_destination_collect, garbage_destination_burn, garbage_destination_throw_away, garbage_destination_recycle, garbage_destination_bury, garbage_destination_other, dependencies_principal_room, dependencies_instructors_room, dependencies_secretary_room, dependencies_info_lab, dependencies_science_lab, dependencies_aee_room, dependencies_indoor_sports_court, dependencies_outdoor_sports_court, dependencies_kitchen, dependencies_library, dependencies_reading_room, dependencies_playground, dependencies_nursery, dependencies_outside_bathroom, dependencies_inside_bathroom, dependencies_child_bathroom, dependencies_prysical_disability_bathroom, dependencies_physical_disability_support, dependencies_bathroom_with_shower, dependencies_refectory, dependencies_storeroom, dependencies_warehouse, dependencies_auditorium, dependencies_covered_patio, dependencies_uncovered_patio, dependencies_student_accomodation, dependencies_instructor_accomodation, dependencies_green_area, dependencies_laundry, dependencies_professional_specific_lab, dependencies_vocational_education_workshop, dependencies_recording_and_editing_studio, dependencies_garden_planting_agricultural, dependencies_none, classroom_count, used_classroom_count, instruments_inexistent, equipments_material_professional_education, equipments_tv, equipments_vcr, equipments_dvd, equipments_satellite_dish, equipments_copier, equipments_overhead_projector, equipments_printer, equipments_stereo_system, equipments_data_show, equipments_fax, equipments_camera, equipments_computer, equipments_multifunctional_printer, equipments_inexistent, administrative_computers_count, student_computers_count, internet_access, bandwidth, employees_count, feeding, aee, complementary_activities, modalities_regular, modalities_especial, modalities_eja, modalities_professional, basic_education_cycle_organized, different_location, sociocultural_didactic_material_none, sociocultural_didactic_material_quilombola, sociocultural_didactic_material_native, native_education, native_education_language_native, native_education_language_portuguese, edcenso_native_languages_fk, brazil_literate, open_weekend, pedagogical_formation_by_alternance', 'safe', 'on' => 'search'),
-        );
+            ],
+            ['register_type, school_inep_id_fk, operation_location_building, operation_location_temple, operation_location_businness_room, operation_location_instructor_house, operation_location_other_school_room, operation_location_barracks, operation_location_socioeducative_unity, operation_location_prison_unity, operation_location_other, building_occupation_situation, shared_building_with_school, shared_school_inep_id_1, shared_school_inep_id_2, shared_school_inep_id_3, shared_school_inep_id_4, shared_school_inep_id_5, shared_school_inep_id_6, consumed_water_type, water_supply_public, water_supply_artesian_well, water_supply_well, water_supply_river, water_supply_car, water_supply_inexistent, energy_supply_public, energy_supply_generator, energy_supply_other, energy_supply_inexistent, sewage_public, sewage_fossa, sewage_inexistent, garbage_destination_collect, garbage_destination_burn, garbage_destination_throw_away, garbage_destination_recycle, garbage_destination_bury, garbage_destination_other, dependencies_principal_room, dependencies_instructors_room, dependencies_secretary_room, dependencies_info_lab, dependencies_science_lab, dependencies_aee_room, dependencies_indoor_sports_court, dependencies_outdoor_sports_court, dependencies_kitchen, dependencies_library, dependencies_reading_room, dependencies_playground, dependencies_nursery, dependencies_outside_bathroom, dependencies_inside_bathroom, dependencies_child_bathroom, dependencies_prysical_disability_bathroom, dependencies_physical_disability_support, dependencies_bathroom_with_shower, dependencies_refectory, dependencies_storeroom, dependencies_warehouse, dependencies_auditorium, dependencies_covered_patio, dependencies_uncovered_patio, dependencies_student_accomodation, dependencies_instructor_accomodation, dependencies_green_area, dependencies_laundry, dependencies_professional_specific_lab, dependencies_vocational_education_workshop, dependencies_recording_and_editing_studio, dependencies_garden_planting_agricultural, dependencies_none, classroom_count, used_classroom_count, instruments_inexistent, equipments_material_professional_education, equipments_tv, equipments_vcr, equipments_dvd, equipments_satellite_dish, equipments_copier, equipments_overhead_projector, equipments_printer, equipments_stereo_system, equipments_data_show, equipments_fax, equipments_camera, equipments_computer, equipments_multifunctional_printer, equipments_inexistent, administrative_computers_count, student_computers_count, internet_access, bandwidth, employees_count, feeding, aee, complementary_activities, modalities_regular, modalities_especial, modalities_eja, modalities_professional, basic_education_cycle_organized, different_location, sociocultural_didactic_material_none, sociocultural_didactic_material_quilombola, sociocultural_didactic_material_native, native_education, native_education_language_native, native_education_language_portuguese, edcenso_native_languages_fk, brazil_literate, open_weekend, pedagogical_formation_by_alternance', 'safe', 'on' => 'search'],
+        ];
     }
 
     /**
@@ -396,7 +394,7 @@ class SchoolStructure extends AltActiveRecord
     {
         // NOTE: you may need to adjust the relation name and the related
         // class name for the relations automatically generated below.
-        return array();
+        return [];
     }
 
     /**
@@ -404,7 +402,7 @@ class SchoolStructure extends AltActiveRecord
      */
     public function attributeLabels()
     {
-        return array(
+        return [
             'register_type' => Yii::t('default', 'Register Type'),
             'school_inep_id_fk' => Yii::t('default', 'School Inep Id Fk'),
             'operation_location_building' => Yii::t('default', 'Operation Location Building'),
@@ -501,7 +499,7 @@ class SchoolStructure extends AltActiveRecord
             'internet_access' => Yii::t('default', 'Have Internet Access'),
             'bandwidth' => Yii::t('default', 'Bandwidth'),
             'employees_count' => Yii::t('default', 'Employees Count'),
-            'feeding' => Yii::t('default', 'Feeding') . " *",
+            'feeding' => Yii::t('default', 'Feeding') . ' *',
             'aee' => Yii::t('default', 'Aee'),
             'complementary_activities' => Yii::t('default', 'Complementary Activities'),
             'modalities_regular' => Yii::t('default', 'Modalities Regular'),
@@ -526,7 +524,7 @@ class SchoolStructure extends AltActiveRecord
             'energy_supply_generator_alternative' => Yii::t('default', 'Generator Alternative'),
             'sewage_fossa_common' => Yii::t('default', 'Fossa Common'),
             'garbage_destination_public' => Yii::t('default', 'Destination Public'),
-            'supply_food' => Yii::t('default', 'Food') . " *",
+            'supply_food' => Yii::t('default', 'Food') . ' *',
             'treatment_garbage_parting_garbage' => Yii::t('default', 'Garbage Parting'),
             'treatment_garbage_resuse' => Yii::t('default', 'Garbage Resuse'),
             'traetment_garbage_inexistent' => Yii::t('default', 'Garbage Inexistent'),
@@ -542,7 +540,7 @@ class SchoolStructure extends AltActiveRecord
             'dependencies_indoor_roomspublic' => Yii::t('default', 'Indoor Rooms Public'),
             'dependencies_climate_roomspublic' => Yii::t('default', 'Climate Rooms Public'),
             'dependencies_acessibility_roomspublic' => Yii::t('default', 'Acessibility Rooms Public'),
-            'dependencies_reading_corners' => Yii::t('default', "Reading Room Count"),
+            'dependencies_reading_corners' => Yii::t('default', 'Reading Room Count'),
             'acessability_handrails_guardrails' => Yii::t('default', 'Handrails Guardrails'),
             'acessability_elevator' => Yii::t('default', 'Elevator'),
             'acessability_tactile_floor' => Yii::t('default', 'Tactile Floor'),
@@ -625,7 +623,7 @@ class SchoolStructure extends AltActiveRecord
             'provide_potable_water' => Yii::t('default', 'Provide Potable Water'),
             'dependencies_student_repose_room' => Yii::t('default', 'Student Repose Room'),
             'stages' => Yii::t('default', 'School Stages')
-        );
+        ];
     }
 
     /**
@@ -637,7 +635,7 @@ class SchoolStructure extends AltActiveRecord
         // Warning: Please modify the following code to remove attributes that
         // should not be searched.
 
-        $criteria = new CDbCriteria;
+        $criteria = new CDbCriteria();
 
         $criteria->compare('register_type', $this->register_type, true);
         $criteria->compare('school_inep_id_fk', $this->school_inep_id_fk, true);
@@ -776,8 +774,8 @@ class SchoolStructure extends AltActiveRecord
         $criteria->compare('open_weekend', $this->open_weekend);
         $criteria->compare('pedagogical_formation_by_alternance', $this->pedagogical_formation_by_alternance);
 
-        return new CActiveDataProvider($this, array(
+        return new CActiveDataProvider($this, [
             'criteria' => $criteria,
-        ));
+        ]);
     }
 }

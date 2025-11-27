@@ -1,108 +1,179 @@
-$("#classrooms").on("change", function() {
-    $('.instructors-field').removeClass('hide');
-    $('.month-field').removeClass('hide');
+var data;
+var disciplines;
+
+$("#classrooms").on("change", function () {
+    $(".instructors-field").removeClass("hide");
+    $(".month-field").removeClass("hide");
 
     loadInstructorsByClassroom();
 
-    $('.instructors-field').removeClass('hide');
-    $('.month-field').removeClass('hide');
+    $(".instructors-field").removeClass("hide");
+    $(".month-field").removeClass("hide");
 
     loadDisciplinesFromClassroom();
-})
+});
 
-$("#month").on("change", function() {
+$("#month").on("change", function () {
     loadFrequency();
-})
+});
 
-$("#instructor").on("change", function() {
+$("#instructor").on("change", function () {
     loadFrequency();
-})
+});
 
 $("#disciplines").on("change", function () {
     loadFrequency();
-})
+});
 
-function loadFrequency(){
-
-    const isMinorClass = $('.disciplines-field').hasClass('hide');
-    const isMajorClassValid = !isMinorClass && $('#disciplines').val() !== "";
+function loadFrequency() {
+    const isMinorClass = $(".disciplines-field").hasClass("hide");
+    const isMajorClassValid = !isMinorClass && $("#disciplines").val() !== "";
 
     if (
-        $('#classrooms').val() !== "" &&
+        $("#classrooms").val() !== "" &&
         $("#instructor").val() !== "" &&
         $("#month").val() !== "" &&
         (isMinorClass || isMajorClassValid)
-    ){
-            $.ajax({
-                type: "POST",
-                url: "?r=timesheet/timesheet/getFrequency",
-                cache: false,
-                data: {
-                    instructor: $("#instructor").val(),
-                    classroom: $("#classrooms").val(),
-                    month: $("#month").val(),
-                    year: $('#schoolyear').html(),
-                    discipline: $('#disciplines').val(),
-                },
-                beforeSend: function () {
-                    $(".loading-frequency").css("display", "inline-block");
-                    $(".table-frequency").css("opacity", 0.3).css("pointer-events", "none");
-                    $("#classrooms, #month, #instructor, #disciplines").attr("disabled", "disabled");
-                },
-                success: function (response) {
-                    var data = JSON.parse(response);
-                    if (data.valid) {
-                        var html = "";
-                        html += "" +
+    ) {
+        $.ajax({
+            type: "POST",
+            url: "?r=timesheet/timesheet/getFrequency",
+            cache: false,
+            data: {
+                instructor: $("#instructor").val(),
+                classroom: $("#classrooms").val(),
+                month: $("#month").val(),
+                year: $("#schoolyear").html(),
+                discipline: $("#disciplines").val(),
+            },
+            beforeSend: function () {
+                $(".loading-frequency").css("display", "inline-block");
+                $(".table-frequency")
+                    .css("opacity", 0.3)
+                    .css("pointer-events", "none");
+                $("#classrooms, #month, #instructor, #disciplines").attr(
+                    "disabled",
+                    "disabled"
+                );
+            },
+            success: function (response) {
+                var data = JSON.parse(response);
+                if (data.valid) {
+                    var html = "";
+                    html +=
+                        "" +
                         "<table class='t-accordion table-frequency table table-bordered table-striped table-hover'>" +
                         "<thead class='t-accordion__head'>" +
-                        "<tr><th class='table-title' colspan='" + (Object.keys(data.response.schedules).length + 1) + "'>" + "Dias de Aula</th></tr>";
-                        var daynameRow = "";
-                        var dayRow = "";
-                        var scheduleRow = "";
-                        var checkboxRow = "";
-                        const instructorId = data.instructorId;
-                        const schedules = data.response.schedules;
-                        $.each(schedules, function() {
-                            dayRow += "<th>" + (pad(this.day, 2) + "/" + pad($("#month").val(), 2)) + "</th>";
-                            daynameRow += "<th>" + this.week_day + "</th>";
-                            if (!data.response.isMinor){
-                                scheduleRow += "<th>" + this.schedule + "º Horário</th>";
-                            }
-                            checkboxRow += "<th class='frequency-checkbox-general frequency-checkbox-container'><input class='frequency-checkbox-substitute' type='checkbox' " + "classroomId='" + $("#classrooms").val() + "' day='" + this.day + "' month='" + $("#month").val() + "' schedule='" + this.schedule + "' /></th>";
-                        });
-                        html += "<tr class='day-row'>" + dayRow + "</tr><tr class='dayname-row'>" + daynameRow + "</tr>" + ("<tr class='schedule-row'>" + scheduleRow + "</tr>");
-                        html += "</thead><tbody class='t-accordion__body'><tr>";
-                        $.each(schedules, function() {
-                            html += "<td class='frequency-checkbox-instructor" + "'><input class='frequency-checkbox-substitute' type='checkbox' " + " " + (this.class_day ? "checked" : "") + " classroomId='" + $("#classrooms").val() + "' instructorId='" + instructorId + "' day='" + this.day + "' month='" + $("#month").val() + "' schedule='" + this.idSchedule + "'>" + "</td>";
-                        })
-                        html += "</tr></tbody></table>";
-                        $("#frequency-container").html(html).show();
-                        $(".frequency-checkbox-general").each(function () {
-                            var day = $(this).find(".frequency-checkbox-substitute").attr("day");
-                            $(this).find(".frequency-checkbox-substitute").prop("checked", $(".frequency-checkbox-instructor .frequency-checkbox-substitute[day=" + day + "]:checked").length === $(".frequency-checkbox-instructor .frequency-checkbox-substitute[day=" + day + "]").length);
-
-                        });
-                        $('[data-toggle="tooltip"]').tooltip({ container: "body" });
-                    } else {
-                        $("#frequency-container").hide();
-                        $(".alert-incomplete-data").html(DOMPurify.sanitize(data.error)).show();
-                    }
-                }, complete: function (response) {
-                    $(".loading-frequency").hide();
-                    $(".table-frequency").css("opacity", 1).css("pointer-events", "auto");
-                    $("#classrooms, #month, #disciplines, #instructor").removeAttr("disabled");
-                },
-            })
-        } else {
-            $(".alert-required-fields").show();
-            $("#frequency-container, .alert-incomplete-data").hide();
-        }
+                        "<tr><th class='table-title' colspan='" +
+                        (Object.keys(data.response.schedules).length + 1) +
+                        "'>" +
+                        "Dias de Aula</th></tr>";
+                    var daynameRow = "";
+                    var dayRow = "";
+                    var scheduleRow = "";
+                    var checkboxRow = "";
+                    const instructorId = data.instructorId;
+                    const schedules = data.response.schedules;
+                    $.each(schedules, function () {
+                        dayRow +=
+                            "<th>" +
+                            (pad(this.day, 2) +
+                                "/" +
+                                pad($("#month").val(), 2)) +
+                            "</th>";
+                        daynameRow += "<th>" + this.week_day + "</th>";
+                        if (!data.response.isMinor) {
+                            scheduleRow +=
+                                "<th>" + this.schedule + "º Horário</th>";
+                        }
+                        checkboxRow +=
+                            "<th class='frequency-checkbox-general frequency-checkbox-container'><input class='frequency-checkbox-substitute' type='checkbox' " +
+                            "classroomId='" +
+                            $("#classrooms").val() +
+                            "' day='" +
+                            this.day +
+                            "' month='" +
+                            $("#month").val() +
+                            "' schedule='" +
+                            this.schedule +
+                            "' /></th>";
+                    });
+                    html +=
+                        "<tr class='day-row'>" +
+                        dayRow +
+                        "</tr><tr class='dayname-row'>" +
+                        daynameRow +
+                        "</tr>" +
+                        ("<tr class='schedule-row'>" + scheduleRow + "</tr>");
+                    html += "</thead><tbody class='t-accordion__body'><tr>";
+                    $.each(schedules, function () {
+                        html +=
+                            "<td class='frequency-checkbox-instructor" +
+                            "'><input class='frequency-checkbox-substitute' type='checkbox' " +
+                            " " +
+                            (this.class_day ? "checked" : "") +
+                            " classroomId='" +
+                            $("#classrooms").val() +
+                            "' instructorId='" +
+                            instructorId +
+                            "' day='" +
+                            this.day +
+                            "' month='" +
+                            $("#month").val() +
+                            "' schedule='" +
+                            this.idSchedule +
+                            "'>" +
+                            "</td>";
+                    });
+                    html += "</tr></tbody></table>";
+                    $("#frequency-container").html(html).show();
+                    $(".frequency-checkbox-general").each(function () {
+                        var day = $(this)
+                            .find(".frequency-checkbox-substitute")
+                            .attr("day");
+                        $(this)
+                            .find(".frequency-checkbox-substitute")
+                            .prop(
+                                "checked",
+                                $(
+                                    ".frequency-checkbox-instructor .frequency-checkbox-substitute[day=" +
+                                        day +
+                                        "]:checked"
+                                ).length ===
+                                    $(
+                                        ".frequency-checkbox-instructor .frequency-checkbox-substitute[day=" +
+                                            day +
+                                            "]"
+                                    ).length
+                            );
+                    });
+                    $('[data-toggle="tooltip"]').tooltip({ container: "body" });
+                } else {
+                    $("#frequency-container").hide();
+                    $(".alert-incomplete-data")
+                        .html(DOMPurify.sanitize(data.error))
+                        .show();
+                }
+            },
+            complete: function (response) {
+                $(".loading-frequency").hide();
+                $(".table-frequency")
+                    .css("opacity", 1)
+                    .css("pointer-events", "auto");
+                $("#classrooms, #month, #disciplines, #instructor").removeAttr(
+                    "disabled"
+                );
+            },
+        });
+    } else {
+        $(".alert-required-fields").show();
+        $("#frequency-container, .alert-incomplete-data").hide();
+    }
 }
 
-function loadDisciplinesFromClassroom(){
-    const classroom = $('#classrooms').val();
-    if(classroom !== "") {
+function loadDisciplinesFromClassroom() {
+    const classroom = $("#classrooms").val();
+    if (classroom !== "") {
         $.ajax({
             type: "POST",
             url: "?r=timesheet/timesheet/getDisciplines",
@@ -112,27 +183,28 @@ function loadDisciplinesFromClassroom(){
             },
             beforeSend: function () {
                 $("#js-loading-div").removeClass("hide");
-                $('#classrooms').attr("disabled", "disabled");
-                $('#disciplines').attr("disabled", "disabled");
+                $("#classrooms").attr("disabled", "disabled");
+                $("#disciplines").attr("disabled", "disabled");
             },
             success: function (response) {
-
                 data = JSON.parse(response);
 
                 disciplines = data.disciplines;
 
-                if (data.isMinor == false) {
-                    $('.disciplines-field').removeClass('hide');
+                if (data.isMinor === false) {
+                    $(".disciplines-field").removeClass("hide");
                 }
 
-                if(data.isMinor) {
-                    $('.disciplines-field').addClass('hide');
+                if (data.isMinor) {
+                    $(".disciplines-field").addClass("hide");
                 }
 
                 if (disciplines === "") {
-                    $('#disciplines').html(
-                        "<option value='-1'> Não há matriz curricular</option>"
-                    ).show();
+                    $("#disciplines")
+                        .html(
+                            "<option value='-1'> Não há matriz curricular</option>"
+                        )
+                        .show();
                     $("#classroom").select2("val", "-1");
                 }
 
@@ -141,23 +213,23 @@ function loadDisciplinesFromClassroom(){
                     $("#disciplines").select2("val", "-1");
                 }
             },
-            complete: function() {
+            complete: function () {
                 $("#js-loading-div").addClass("hide");
-                $('#disciplines').removeAttr("disabled");
-                $('#classrooms').removeAttr("disabled");
-            }
-        })
+                $("#disciplines").removeAttr("disabled");
+                $("#classrooms").removeAttr("disabled");
+            },
+        });
     }
 }
 
-function loadInstructorsByClassroom(){
-    const classroom = $("#classrooms").val()
+function loadInstructorsByClassroom() {
+    const classroom = $("#classrooms").val();
     $.ajax({
         type: "POST",
         url: "?r=timesheet/timesheet/getInstructors",
         cache: false,
         data: {
-            classroom: classroom
+            classroom: classroom,
         },
         beforeSend: function () {
             $(".js-loadinging-div").css("display", "inline-block");
@@ -167,34 +239,38 @@ function loadInstructorsByClassroom(){
             data = JSON.parse(response);
 
             if (data === "") {
-                $("#instructor").html(
-                    "<option value='-1'> Não há instrutores cadastrados </option>"
-                ).show();
+                $("#instructor")
+                    .html(
+                        "<option value='-1'> Não há instrutores cadastrados </option>"
+                    )
+                    .show();
                 $("#instructores").select2("val", "-1");
             }
 
             if (data !== "") {
-                $("#instructor").html(decodeHtml(DOMPurify.sanitize(data))).show();
+                $("#instructor")
+                    .html(decodeHtml(DOMPurify.sanitize(data)))
+                    .show();
                 $("#instructor").select2("val", "-1");
             }
         },
         complete: function () {
-            $("#js-loading-div").addClass('hide');
-            $('#classrooms').removeAttr("disabled");
-        }
-    })
+            $("#js-loading-div").addClass("hide");
+            $("#classrooms").removeAttr("disabled");
+        },
+    });
 }
 
 $(document).on("change", ".frequency-checkbox-substitute", function () {
     let checkbox = this;
     let isSave, route;
 
-    if ($(this).is(":checked")){
+    if ($(this).is(":checked")) {
         route = "?r=timesheet/timesheet/addSubstituteInstructorDay";
         isSave = 1;
     }
 
-    if (!$(this).is(":checked")){
+    if (!$(this).is(":checked")) {
         route = "?r=timesheet/timesheet/deleteSubstituteInstructorDay";
     }
 
@@ -210,17 +286,30 @@ $(document).on("change", ".frequency-checkbox-substitute", function () {
             instructorId: $("#instructor").val(),
         },
         beforeSend: function () {
-            $(".loading-frequency")
-            $(".table-frequency")
-            $("#classrooms, #month, #disciplines, #instructor").attr("disabled", "disabled")
+            $(".loading-frequency");
+            $(".table-frequency");
+            $("#classrooms, #month, #disciplines, #instructor").attr(
+                "disabled",
+                "disabled"
+            );
         },
         complete: function (response) {
             if ($(checkbox).attr("instructorId") === undefined) {
-                $(".table-frequency tbody .frequency-checkbox-substitute[day=" + $(checkbox).attr("day") + "][schedule=" + $(checkbox).attr("schedule") + "]").prop("checked", $(checkbox).is(":checked"));
+                $(
+                    ".table-frequency tbody .frequency-checkbox-substitute[day=" +
+                        $(checkbox).attr("day") +
+                        "][schedule=" +
+                        $(checkbox).attr("schedule") +
+                        "]"
+                ).prop("checked", $(checkbox).is(":checked"));
             }
             $(".loading-frequency").hide();
-            $(".table-frequency").css("opacity", 1).css("pointer-events", "auto");
-            $("#classrooms, #month, #disciplines, #instructor").removeAttr("disabled");
+            $(".table-frequency")
+                .css("opacity", 1)
+                .css("pointer-events", "auto");
+            $("#classrooms, #month, #disciplines, #instructor").removeAttr(
+                "disabled"
+            );
         },
     });
 });

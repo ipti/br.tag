@@ -50,13 +50,13 @@ if (!$model->isNewRecord) {
                     <?php echo $form->hiddenField($model, 'id'); ?>
 
                     <div class="t-field-text">
-                        <?php echo $form->label($model, 'name', array('class' => 'control-label t-field-text__label--required')); ?>
+                        <?php echo $form->label($model, 'name', ['class' => 'control-label t-field-text__label--required']); ?>
                         <?php echo $form->textField($model, 'name'); ?>
                         <?php echo $form->error($model, 'name'); ?>
                     </div>
 
                     <div class="t-field-text">
-                        <?php echo $form->label($model, 'abbreviation', array('class' => 't-field-text__label control-label')); ?>
+                        <?php echo $form->label($model, 'abbreviation', ['class' => 't-field-text__label control-label']); ?>
                         <?php echo $form->textField($model, 'abbreviation'); ?>
                         <?php echo $form->error($model, 'abbreviation'); ?>
                     </div>

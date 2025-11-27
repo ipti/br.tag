@@ -1,11 +1,11 @@
-
 var lastValidValue = "";
+var grade;
 
 function initializeGradesMask() {
     $(document).on("focus", "input.grade", function (e) {
-        lastValidValue = this.value
+        lastValidValue = this.value;
     });
-    
+
     $("input.grade").on("input", function (e) {
         e.preventDefault();
         var val = this.value;

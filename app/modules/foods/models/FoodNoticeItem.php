@@ -18,14 +18,13 @@
  */
 class FoodNoticeItem extends TagModel
 {
-	/**
-	 * @return string the associated database table name
-	 */
-	public function tableName()
-	{
-		return 'food_notice_item';
-	}
-
+    /**
+     * @return string the associated database table name
+     */
+    public function tableName()
+    {
+        return 'food_notice_item';
+    }
 
     /**
      * @return array validation rules for model attributes.
@@ -34,15 +33,15 @@ class FoodNoticeItem extends TagModel
     {
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
-        return array(
-            array('name, measurement', 'required'),
-            array('food_id, foodNotice_fk', 'numerical', 'integerOnly'=>true),
-            array('name', 'length', 'max'=>255),
-            array('description', 'length', 'max'=>1000),
-            array('measurement, year_amount', 'length', 'max'=>20),
+        return [
+            ['name, measurement', 'required'],
+            ['food_id, foodNotice_fk', 'numerical', 'integerOnly' => true],
+            ['name', 'length', 'max' => 255],
+            ['description', 'length', 'max' => 1000],
+            ['measurement, year_amount', 'length', 'max' => 20],
             // The following rule is used by search().
-            array('id, name, description, measurement, year_amount, food_id, foodNotice_fk', 'safe', 'on'=>'search'),
-        );
+            ['id, name, description, measurement, year_amount, food_id, foodNotice_fk', 'safe', 'on' => 'search'],
+        ];
     }
 
     /**
@@ -52,10 +51,10 @@ class FoodNoticeItem extends TagModel
     {
         // NOTE: you may need to adjust the relation name and the related
         // class name for the relations automatically generated below.
-        return array(
-            'food' => array(self::BELONGS_TO, 'Food', 'food_id'),
-            'foodNoticeFk' => array(self::BELONGS_TO, 'FoodNotice', 'foodNotice_fk'),
-        );
+        return [
+            'food' => [self::BELONGS_TO, 'Food', 'food_id'],
+            'foodNoticeFk' => [self::BELONGS_TO, 'FoodNotice', 'foodNotice_fk'],
+        ];
     }
 
     /**
@@ -63,7 +62,7 @@ class FoodNoticeItem extends TagModel
      */
     public function attributeLabels()
     {
-        return array(
+        return [
             'id' => 'ID',
             'name' => 'Name',
             'description' => 'Description',
@@ -71,7 +70,7 @@ class FoodNoticeItem extends TagModel
             'year_amount' => 'Year Amount',
             'food_id' => 'Food',
             'foodNotice_fk' => 'Food Notice Fk',
-        );
+        ];
     }
 
     /**
@@ -88,20 +87,19 @@ class FoodNoticeItem extends TagModel
      */
     public function search()
     {
+        $criteria = new CDbCriteria();
 
-        $criteria=new CDbCriteria;
+        $criteria->compare('id', $this->id);
+        $criteria->compare('name', $this->name, true);
+        $criteria->compare('description', $this->description, true);
+        $criteria->compare('measurement', $this->measurement, true);
+        $criteria->compare('year_amount', $this->year_amount, true);
+        $criteria->compare('food_id', $this->food_id);
+        $criteria->compare('foodNotice_fk', $this->foodNotice_fk);
 
-        $criteria->compare('id',$this->id);
-        $criteria->compare('name',$this->name,true);
-        $criteria->compare('description',$this->description,true);
-        $criteria->compare('measurement',$this->measurement,true);
-        $criteria->compare('year_amount',$this->year_amount,true);
-        $criteria->compare('food_id',$this->food_id);
-        $criteria->compare('foodNotice_fk',$this->foodNotice_fk);
-
-        return new CActiveDataProvider($this, array(
-            'criteria'=>$criteria,
-        ));
+        return new CActiveDataProvider($this, [
+            'criteria' => $criteria,
+        ]);
     }
 
     /**
@@ -110,7 +108,7 @@ class FoodNoticeItem extends TagModel
      * @param string $className active record class name.
      * @return FoodNoticeItem the static model class
      */
-    public static function model($className=__CLASS__)
+    public static function model($className = __CLASS__)
     {
         return parent::model($className);
     }

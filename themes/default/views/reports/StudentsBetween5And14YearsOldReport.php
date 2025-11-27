@@ -47,7 +47,7 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
                 . "<th> <b>Nome Completo do  Pai </b></th>"
                 . "</tr>";
 
-            $total_alunos = 0;
+            $totalAlunos = 0;
             $ordem = 1;
 
             foreach ($students as $s) {
@@ -76,13 +76,13 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
                             . "<td>" . $s['filiation_2'] . "</td>"
                             . "</tr>";
                         $ordem++;
-                        $total_alunos++;
+                        $totalAlunos++;
                     }
                 }
             }
 
             $html .= "<tr>"
-                . "<td colspan= 4>" . " <b> Total de alunos nessa turma: </b>" . $total_alunos .
+                . "<td colspan= 4>" . " <b> Total de alunos nessa turma: </b>" . $totalAlunos .
                 "</td>"
                 . "</tr>";
             $html .= "</table>" . "<br>";

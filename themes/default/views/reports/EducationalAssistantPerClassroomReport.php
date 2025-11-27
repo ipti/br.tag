@@ -31,7 +31,7 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
     } else {
         foreach ($classrooms as $c) {
             @$stage = EdcensoStageVsModality::model()->findByPk($c->edcenso_stage_vs_modality_fk)->name;
-            $total_docentes = 0;
+            $totlaDocentes = 0;
 
             echo "<b>Nome da turma: </b>" . $c['name'] . "<br>";
             echo "<b>C&oacute;digo da Turma: </b>" . $c['inep_id'] . "<br>";
@@ -75,11 +75,11 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
                         . "</tr>";
 
                     $ordem++;
-                    $total_docentes++;
+                    $totlaDocentes++;
                 }
             }
             $html .= "<tr>"
-                . "<td colspan= 5>" . " <b> Total de assistentes educacionais nessa turma: </b>" . $total_docentes . "</td>"
+                . "<td colspan= 5>" . " <b> Total de assistentes educacionais nessa turma: </b>" . $totlaDocentes . "</td>"
                 . "</tr>";
 
             $html .= "</table>" . "<br>";

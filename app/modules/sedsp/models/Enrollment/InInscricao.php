@@ -14,8 +14,8 @@ class InInscricao implements JsonSerializable
     public $inCodigoEixoNovotecOpcaoUm;
     public $inCodigoEscolaNovotecOpcaoUm;
     public $inCodigoUnidadeNovotecOpcaoUm;
-    public $inFl_InteresseCentroIdiomas;
-    public $inFl_AceiteEscolaPEIDistante;
+    public $inFlInteresseCentroIdiomas;
+    public $inFlAceiteEscolaPEIDistante;
     public $inCodigoEixoCELOpcaoUm;
     public $inCodigoEscolaCELOpcaoUm;
     public $inCodigoUnidadeCELOpcaoUm;
@@ -32,11 +32,11 @@ class InInscricao implements JsonSerializable
         ?string $inNecesAtendNoturno = null,
         ?string $inInteresseNovoTec = null,
         ?string $inCodigoObservacaoOpcaoNoturno = null,
-        ?string $inCodigoEixoNovotecOpcaoUm = null ,
+        ?string $inCodigoEixoNovotecOpcaoUm = null,
         ?string $inCodigoEscolaNovotecOpcaoUm = null,
         ?string $inCodigoUnidadeNovotecOpcaoUm = null,
-        ?string $inFl_InteresseCentroIdiomas = null,
-        ?string $inFl_AceiteEscolaPEIDistante = null,
+        ?string $inFlInteresseCentroIdiomas = null,
+        ?string $inFlAceiteEscolaPEIDistante = null,
         ?string $inCodigoEixoCELOpcaoUm = null,
         ?string $inCodigoEscolaCELOpcaoUm = null,
         ?string $inCodigoUnidadeCELOpcaoUm = null,
@@ -55,8 +55,8 @@ class InInscricao implements JsonSerializable
         $this->inCodigoEixoNovotecOpcaoUm = $inCodigoEixoNovotecOpcaoUm;
         $this->inCodigoEscolaNovotecOpcaoUm = $inCodigoEscolaNovotecOpcaoUm;
         $this->inCodigoUnidadeNovotecOpcaoUm = $inCodigoUnidadeNovotecOpcaoUm;
-        $this->inFl_InteresseCentroIdiomas = $inFl_InteresseCentroIdiomas;
-        $this->inFl_AceiteEscolaPEIDistante = $inFl_AceiteEscolaPEIDistante;
+        $this->inFlInteresseCentroIdiomas = $inFlInteresseCentroIdiomas;
+        $this->inFlAceiteEscolaPEIDistante = $inFlAceiteEscolaPEIDistante;
         $this->inCodigoEixoCELOpcaoUm = $inCodigoEixoCELOpcaoUm;
         $this->inCodigoEscolaCELOpcaoUm = $inCodigoEscolaCELOpcaoUm;
         $this->inCodigoUnidadeCELOpcaoUm = $inCodigoUnidadeCELOpcaoUm;
@@ -126,12 +126,12 @@ class InInscricao implements JsonSerializable
 
     public function get_inFl_InteresseCentroIdiomas(): ?string
     {
-        return $this->inFl_InteresseCentroIdiomas;
+        return $this->inFlInteresseCentroIdiomas;
     }
 
     public function get_inFl_AceiteEscolaPEIDistante(): ?string
     {
-        return $this->inFl_AceiteEscolaPEIDistante;
+        return $this->inFlAceiteEscolaPEIDistante;
     }
 
     public function get_inCodigoEixoCELOpcaoUm(): ?string
@@ -231,15 +231,15 @@ class InInscricao implements JsonSerializable
         return $this;
     }
 
-    public function setInFlInteresseCentroIdiomas(?string $inFl_InteresseCentroIdiomas): self
+    public function setInFlInteresseCentroIdiomas(?string $inFlInteresseCentroIdiomas): self
     {
-        $this->inFl_InteresseCentroIdiomas = $inFl_InteresseCentroIdiomas;
+        $this->inFlInteresseCentroIdiomas = $inFlInteresseCentroIdiomas;
         return $this;
     }
 
-    public function setInFlAceiteEscolaPeiDistante(?string $inFl_AceiteEscolaPEIDistante): self
+    public function setInFlAceiteEscolaPeiDistante(?string $inFlAceiteEscolaPEIDistante): self
     {
-        $this->inFl_AceiteEscolaPEIDistante = $inFl_AceiteEscolaPEIDistante;
+        $this->inFlAceiteEscolaPEIDistante = $inFlAceiteEscolaPEIDistante;
         return $this;
     }
 
@@ -297,6 +297,7 @@ class InInscricao implements JsonSerializable
             $data['inCodigoEixoNovotecOpcaoTres'] ?? null
         );
     }
+
     public function jsonSerialize()
     {
         return get_object_vars($this);

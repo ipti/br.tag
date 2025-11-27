@@ -5,7 +5,7 @@ namespace Genericos;
 /**
  * Class representing OrgaoRespAtaRegPrecosTType
  *
- * 
+ *
  * XSD Type: OrgaoRespAtaRegPrecos_t
  */
 class OrgaoRespAtaRegPrecosTType
@@ -64,4 +64,3 @@ class OrgaoRespAtaRegPrecosTType
         return $this;
     }
 }
-

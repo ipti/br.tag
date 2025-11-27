@@ -49,7 +49,7 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
            $cargos[2] = 0;
            $cargos[3] = 0;
 
-           $classroom_inep_id = "";
+           $classroomInepId = "";
 
             foreach($role as $r) {
 
@@ -63,7 +63,7 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
                     } else if ($r['role'] == '4') {
                         $cargos[3]++;
                     }
-                    $classroom_inep_id = $r['classroom_inep_id'];
+                    $classroomInepId = $r['classroom_inep_id'];
                 }
             }
 

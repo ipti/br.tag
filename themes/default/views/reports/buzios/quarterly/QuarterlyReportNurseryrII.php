@@ -10,11 +10,11 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
 $turno =  $classroom->turn;
 if ($turno == 'M') {
    $turno = "Matutino";
-} else if ($turno == 'T') {
+} elseif($turno == 'T') {
    $turno = "Vespertino";
-} else if ($turno == 'N') {
+} elseif($turno == 'N') {
    $turno = "Noturno";
-} else if ($turno == '' || $turno == null) {
+} elseif($turno == '' || $turno == null) {
    $turno = "______________________";
 }
 
@@ -25,7 +25,7 @@ if ($turno == 'M') {
       <?php $this->renderPartial('buzios/headers/headBuziosIII'); ?>
    </div>
    <h4>
-      <?php echo Yii::t('default', 'Quarterly Report') . ' - ' . $current_year ?></h3>
+      <?php echo Yii::t('default', 'Quarterly Report') . ' - ' . $currentYear ?></h3>
       <div class="row-fluid hidden-print">
         <div class="span12">
             <div class="buttons">
@@ -45,15 +45,15 @@ if ($turno == 'M') {
          }
          ?>
          <p>
-            <span class="pull-left">Etapa: <?php echo $classroom_etapa ? $classroom_etapa->name : '______________________' ?></span>
+            <span class="pull-left">Etapa: <?php echo $classroomEtapa ? $classroomEtapa->name : '______________________' ?></span>
          <div class="pull-right" style="margin-right: 40px;">
             <span style="margin-right: 100px;">Turno: <?php echo $turno ?></span>
             <span>Turma: <?php echo $classroom->name ?></span>
          </div>
          </p>
          <p style="margin-top: 60px;">
-            <span class="pull-left">Nome do Aluno (a): <?php echo $student_identification->name ?></span>
-            <span class="pull-right" style="margin-right: 40px;">Data de Nascimento: <?php echo $dateFormatCorrect ? $student_identification->birthday : date('d/m/Y', strtotime($student_identification->birthday)); ?></span>
+            <span class="pull-left">Nome do Aluno (a): <?php echo $studentIdentification->name ?></span>
+            <span class="pull-right" style="margin-right: 40px;">Data de Nascimento: <?php echo $dateFormatCorrect ? $studentIdentification->birthday : date('d/m/Y', strtotime($studentIdentification->birthday)); ?></span>
          </p>
       </div>
       <div class="container-box learning-objectives">

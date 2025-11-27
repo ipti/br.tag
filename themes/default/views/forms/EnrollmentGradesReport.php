@@ -31,7 +31,7 @@ function calculateFrequence($numClasses, $numFalts): int {
 <div class="row-fluid hidden-print">
     <div class="span12">
         <div class="buttons">
-            <a id="print" onclick="imprimirPagina()" class='btn btn-icon hidden-print' style="padding: 10px;"><img
+            <a id="print" onkeypress="imprimirPagina()" class='btn btn-icon hidden-print' style="padding: 10px;"><img
                         alt="impressora" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/Impressora.svg"
                         class="img_cards"/> <?php echo Yii::t('default', 'Print') ?><i></i></a>
         </div>
@@ -161,7 +161,7 @@ function calculateFrequence($numClasses, $numFalts): int {
                             <?php } ?>
                         <?php } ?>
                         <?php if ($unities[$i - 1]->type != 'RF') { ?>
-                            <td style="text-align: center;"><?= $school_days[$i - 1] ?></td>
+                            <td style="text-align: center;"><?= $schoolDays[$i - 1] ?></td>
                             <td style="text-align: center;"><?= $workload[$i - 1] ?></td>
                             <td style="text-align: center;"><?= $gradeResultFaults == 0 ? $faults[$i - 1] : $gradeResultFaults ?></td>
                         <?php } else { ?>

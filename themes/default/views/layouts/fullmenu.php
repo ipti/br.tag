@@ -6,16 +6,16 @@ if (Yii::app()->user->isGuest) {
     $this->redirect(yii::app()->createUrl('site/login'));
 }
 
-$school_logo = $baseUrl . "/img/emblema-escola.svg";
-$url_school_logo = '/?r=school/displayLogo&id=' . Yii::app()->user->school;
+$schoolLogo = $baseUrl . "/img/emblema-escola.svg";
+$urlSchoolLogo = '/?r=school/displayLogo&id=' . Yii::app()->user->school;
 $schoolurl = yii::app()->createUrl('school');
 
 
-$select_school = '';
+$selectSchool = '';
 
 
 if (TagUtils::checkAccess(['admin', 'nutritionist', 'reader'])) {
-    $select_school = CHtml::activeDropDownList(
+    $selectSchool = CHtml::activeDropDownList(
         SchoolIdentification::model(),
         'inep_id',
         Chtml::listData(Yii::app()->user->usersSchools, 'inep_id', 'name'),
@@ -23,7 +23,7 @@ if (TagUtils::checkAccess(['admin', 'nutritionist', 'reader'])) {
     );
 } else {
     if (TagUtils::checkAccess(TRole::GUARDIAN)) {
-        $select_school = CHtml::activeDropDownList(
+        $selectSchool = CHtml::activeDropDownList(
             UsersSchool::model(),
             'school_fk',
             [],
@@ -36,7 +36,7 @@ if (TagUtils::checkAccess(['admin', 'nutritionist', 'reader'])) {
             ]
         );
     } else {
-        $select_school = CHtml::activeDropDownList(
+        $selectSchool = CHtml::activeDropDownList(
             UsersSchool::model(),
             'school_fk',
             Chtml::listData(Yii::app()->user->usersSchools, 'school_fk', 'schoolFk.name'),
@@ -173,15 +173,15 @@ $cs->registerCssFile(Yii::app()->baseUrl . "/sass/css/main.css?v=" . TAG_VERSION
                 <li class="tag-topbar__item">
                     <div class="mobile-row justify-content--start">
                         <div>
-                            <img id="alt-logo" src="<?php echo $school_logo ?>" class="tag-topbar__school_logo show" />
-                            <img class="tag-topbar__school_logo hidden" src="<?php echo $url_school_logo ?>"
+                            <img id="alt-logo" src="<?php echo $schoolLogo ?>" class="tag-topbar__school_logo show" />
+                            <img class="tag-topbar__school_logo hidden" src="<?php echo $urlSchoolLogo ?>"
                                 alt="emblema da escola"
                                 onload="$('#alt-logo').removeClass('show').addClass('hidden'); $(this).removeClass('hidden').addClass('show')" />
                         </div>
                         <div class="column">
                             <form class="school" id2="school"
                                 action="<?php echo yii::app()->createUrl('site/changeschool') ?>" method="Post">
-                                <?php echo $select_school; ?>
+                                <?php echo $selectSchool; ?>
                             </form>
                             <div class="tag-topbar__username"><?= Yii::app()->user->loginInfos->username ?></div>
                         </div>

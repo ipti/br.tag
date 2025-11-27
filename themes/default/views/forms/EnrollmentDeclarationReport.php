@@ -19,7 +19,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
             /*<![CDATA[*/
             jQuery(function ($) {
                     jQuery.ajax({'type': 'GET',
-                        'data': {'enrollment_id':<?php echo $enrollment_id;?>},
+                        'data': {'enrollment_id':<?php echo $enrollmentId;?>},
                         'url': '<?php echo Yii::app()->createUrl('forms/getEnrollmentDeclarationInformation') ?>',
                         'success': function (data) {
                             gerarRelatorio(data);
@@ -67,8 +67,6 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                 <span class="enrollment_date"></span>,
                 <?php
                 $c;
-                //$stage = '7';
-                //$class = '41';
                 switch ($class) {
                     case '2':
                         $c = 'Escola (4 e 5 anos)';
@@ -147,6 +145,8 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                     case '38':
                         $c = '4º';
                         break;
+                    default:
+                        break;
                 }
                 switch ($stage) {
                     case '1':
@@ -185,7 +185,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                             } else {
                                 echo "a mesma:";
                             }
-                        } else if ($class == '41') {
+                        } elseif ($class == '41') {
                             echo "no " . $c . " Ano do Ensino Fundamental, onde ";
                             if ($gender == '1'){
                                 echo "o mesmo:";
@@ -201,7 +201,8 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                             }
                         }
                         break;
-
+                        default:
+                            break;
                 }
                 ?>
                 <br/><br/>
@@ -262,7 +263,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                             $ano =  " para o _____ Ano do __________________________________________<br>"
                                 . "(&nbsp;&nbsp;&nbsp;&nbsp;) foi ";
                         }
-                        else if ($class == '41'){
+                        elseif ($class == '41'){
                             $ano =  " para o _____ Ano do Ensino Médio<br>";
                         }
                          else {
@@ -288,26 +289,6 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                             ."<option value=' prazo de expedição do documento'> prazo de expedição do documento _____ dias</option>"
 
                             ."</select>";
-
-//                            . "<br>(&nbsp;&nbsp;&nbsp;&nbsp;) foi ";
-//                        if ($gender == '1') {
-//                            echo "aprovado";
-//                        } else {
-//                            echo "aprovada";
-//                        }
-//                        if ($class == '56'){
-//                            echo " para o _____ Ano do __________________________________________<br>"
-//                                . "(&nbsp;&nbsp;&nbsp;&nbsp;) foi ";
-//                        } else {
-//                            echo " para o ______Ano do Ensino Fundamental<br>"
-//                                //echo " para o " . $c . " Ano do Ensino Fundamental<br>"
-//                                . "(&nbsp;&nbsp;&nbsp;&nbsp;) foi ";
-//                        }
-//                        if ($gender == '1') {
-//                            echo "reprovado<br>";
-//                        } else {
-//                            echo "reprovada<br>";
-//                        }
                         break;
 
                     case '4':
@@ -322,9 +303,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                             $ano =  " para o _____ Ano do __________________________________________<br>"
                                 . "(&nbsp;&nbsp;&nbsp;&nbsp;) foi ";
                         } else {
-                            $ano =  " para o ______Ano do Ensino Fundamental<br>"
-                                //echo " para o " . $c . " Ano do Ensino Fundamental<br>"
-                            ;
+                            $ano =  " para o ______Ano do Ensino Fundamental<br>";
                         }
                         if ($gender == '1') {
                             $situacaoRp = "reprovado<br>";
@@ -371,6 +350,9 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
 
                             ."</select>";
                         break;
+
+                        default:
+                            break;
                 }
                 ?>
 
@@ -390,19 +372,6 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                 </p>
                 <br>
                 <?php if(!(isset($school->act_of_acknowledgement))){?>
-                    <!--<div style="text-align: center">
-                        <span style="font-size: 14px">
-                            SIMONE MOURA DE SOUZA ALMEIDA
-                        </span>
-                        <br/>
-                        <span>
-                            Chefe de Divisão de Inspeção Escolar
-                        </span>
-                        <br/>
-                        <span>
-                            Decreto de 03/05/2013
-                        </span>
-                    </div>-->
                 <?php } ?>
         </div>
         <?php $this->renderPartial('footer'); ?>

@@ -12,42 +12,33 @@ class ChangeEnrollmentStatusUsecase
     {
         $this->enrollment = $this->getStudentEnrollment($enrollmentId);
     }
+
     public function exec()
     {
-        $isAllGradesFinalMediaFilled = true;
         $isApprovedInAllGrades = true;
         // STATUS VÁLIDOS PARA APROVAÇÃO OU REPROVAÇÃO:
         // 1 - MATRICULADO, 13 - REINTEGRADO
-        $validStatus = [1,6,8,13];
+        $validStatus = [1, 6, 8, 13];
         $isRegistered = in_array($this->enrollment->status, $validStatus);
 
         $disciplines = $this->getDisciplines($this->enrollment->id);
 
-        foreach($disciplines as $discipline){
-            if($discipline->final_media != null){
-                $isAllGradesFinalMediaFilled = false;
-            }
+        foreach ($disciplines as $discipline) {
 
-            if($discipline->situation == "REPROVADO"){
+            if ($discipline->situation == 'REPROVADO') {
                 $isApprovedInAllGrades = false;
             }
         }
 
-
-        if($isRegistered) {
-            if($isApprovedInAllGrades){
-                $this->enrollment->status = 6;
-            }else{
-                $this->enrollment->status = 8;
-            }
+        if ($isRegistered) {
+            $this->enrollment->status = $isApprovedInAllGrades?6:8;
         }
 
-        if($this->enrollment->save()){
+        if ($this->enrollment->save()) {
             TLog::info(
-                "Status da matrícula",
-                ["enrollmentSituation" => $this->gradeResult->status]
-                );
-            return;
+                'Status da matrícula',
+                ['enrollmentSituation' => $this->gradeResult->status]
+            );
         }
     }
 
@@ -56,12 +47,13 @@ class ChangeEnrollmentStatusUsecase
         return StudentEnrollment::model()->findByPk($enrollmentId);
     }
 
-    public function getDisciplines($enrollmentFk){
+    public function getDisciplines($enrollmentFk)
+    {
         // Como cada disciplina do enrollment possui um gradeResult único
         // retornar uma disciplina significa retornar um gradeResult
         $allGradesResults = GradeResults::model()->findAllByAttributes(
             [
-                "enrollment_fk" => $enrollmentFk
+                'enrollment_fk' => $enrollmentFk
             ]
         );
         $result = [];
@@ -74,4 +66,3 @@ class ChangeEnrollmentStatusUsecase
         return $result;
     }
 }
-?>

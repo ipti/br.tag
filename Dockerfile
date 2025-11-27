@@ -2,12 +2,10 @@ FROM ipti/yii2:8.3-fpm
 
 # Definir o diretório principal
 WORKDIR /app
+USER root
 
 # Copiar arquivos para o contêiner no diretório raiz da aplicação
 COPY . /app
-
-# Executar composer update e instalar dependências no diretório secundário (/app/app)
-USER root
 
 COPY --from=composer:latest /usr/bin/composer /usr/local/bin/composer
 

@@ -2,170 +2,165 @@
 
 class DefaultController extends Controller
 {
-	/**
-	 * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
-	 * using two-column layout. See 'protected/views/layouts/column2.php'.
-	 */
-	public $layout='//layouts/column2';
+    /**
+     * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
+     * using two-column layout. See 'protected/views/layouts/column2.php'.
+     */
+    public $layout = '//layouts/column2';
 
-	/**
-	 * @return array action filters
-	 */
-	public function filters()
-	{
-		return array(
-			'accessControl', // perform access control for CRUD operations
-			'postOnly + delete', // we only allow deletion via POST request
-		);
-	}
+    /**
+     * @return array action filters
+     */
+    public function filters()
+    {
+        return [
+            'accessControl', // perform access control for CRUD operations
+            'postOnly + delete', // we only allow deletion via POST request
+        ];
+    }
 
-	/**
-	 * Specifies the access control rules.
-	 * This method is used by the 'accessControl' filter.
-	 * @return array access control rules
-	 */
-	public function accessRules()
-	{
-		return array(
-			array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array('index','create','update', 'delete', 'deleteAttendance'),
-				'users'=>array('@'),
-			),
-			array('deny',  // deny all users
-				'users'=>array('*'),
-			),
-		);
-	}
+    /**
+     * Specifies the access control rules.
+     * This method is used by the 'accessControl' filter.
+     * @return array access control rules
+     */
+    public function accessRules()
+    {
+        return [
+            ['allow', // allow authenticated user to perform 'create' and 'update' actions
+                'actions' => ['index', 'create', 'update', 'delete', 'deleteAttendance'],
+                'users' => ['@'],
+            ],
+            ['deny',  // deny all users
+                'users' => ['*'],
+            ],
+        ];
+    }
 
-	/**
-	 * Creates a new model.
-	 * If creation is successful, the browser will be redirected to the 'view' page.
-	 */
-	public function actionCreate()
-	{
+    /**
+     * Creates a new model.
+     * If creation is successful, the browser will be redirected to the 'view' page.
+     */
+    public function actionCreate()
+    {
+        $modelProfessional = new Professional();
 
-		$modelProfessional = new Professional;
+        if (isset($_POST['Professional'])) {
+            $modelProfessional->attributes = $_POST['Professional'];
+            $modelProfessional->inep_id_fk = Yii::app()->user->school;
 
-		if(isset($_POST['Professional']))
-		{
-			$modelProfessional->attributes=$_POST['Professional'];
-			$modelProfessional->inep_id_fk = Yii::app()->user->school;
+            $professional = Professional::model()->findByAttributes([
+                'inep_id_fk' => Yii::app()->user->school,
+                'cpf_professional' => [$modelProfessional->cpf_professional, str_replace(['.', '-'], '', $modelProfessional->cpf_professional)]
+            ]);
 
-			$professional = Professional::model()->findByAttributes(array(
-				'inep_id_fk' => Yii::app()->user->school,
-				'cpf_professional' => array($modelProfessional->cpf_professional, str_replace(['.', '-'] , '' , $modelProfessional->cpf_professional))
-			));
+            if ($professional === null) {
+                $modelProfessional->cpf_professional = str_replace(['.', '-'], '', $modelProfessional->cpf_professional);
+                if ($modelProfessional->validate()) {
+                    if ($modelProfessional->save()) {
+                        Yii::app()->user->setFlash('success', Yii::t('default', 'Profissional cadastrado com sucesso!'));
+                        $this->redirect(['index']);
+                    }
+                }
+            } else {
+                Yii::app()->user->setFlash('error', Yii::t('default', 'Profissional já cadastrado para esta escola!'));
+                $this->redirect(['index']);
+            }
+        }
 
-			if($professional === null) {
-				$modelProfessional->cpf_professional = str_replace(['.', '-'] , '' , $modelProfessional->cpf_professional);
-				if($modelProfessional->validate()) {
-					if($modelProfessional->save()) {
-						Yii::app()->user->setFlash('success', Yii::t('default', 'Profissional cadastrado com sucesso!'));
-						$this->redirect(array('index'));
-					}
-				}
-			} else {
-				Yii::app()->user->setFlash('error', Yii::t('default', 'Profissional já cadastrado para esta escola!'));
-				$this->redirect(array('index'));
-			}
+        $this->render('create', [
+            'modelProfessional' => $modelProfessional,
+        ]);
+    }
 
-			 
+    /**
+     * Updates a particular model.
+     * If update is successful, the browser will be redirected to the 'view' page.
+     * @param integer $id the ID of the model to be updated
+     */
+    public function actionUpdate($id)
+    {
+        $criteria = new CDbCriteria();
+        $criteria->condition = 'professional_fk = ' . $id;
+        $criteria->order = 'date desc';
+        $modelProfessional = Professional::model()->findByPk($id);
+        $modelAttendance = new Attendance();
+        $modelAttendances = Attendance::model()->findAll($criteria);
 
-		}
+        if (isset($_POST['Attendance'])) {
+            $modelAttendance->attributes = $_POST['Attendance'];
+            $modelAttendance->professional_fk = $modelProfessional->id_professional;
 
-		$this->render('create',array(
-			'modelProfessional' => $modelProfessional,
-		));
-	}
+            $modelAttendance->date = Yii::app()->dateFormatter->format(
+                'yyyy-MM-dd',
+                CDateTimeParser::parse($modelAttendance->date, 'dd/MM/yyyy')
+            );
 
-	/**
-	 * Updates a particular model.
-	 * If update is successful, the browser will be redirected to the 'view' page.
-	 * @param integer $id the ID of the model to be updated
-	 */
-	public function actionUpdate($id)
-	{
-		$criteria = new CDbCriteria();
-		$criteria->condition = "professional_fk = ".$id;
-		$criteria->order = "date desc";
-		$modelProfessional = Professional::model()->findByPk($id);
-		$modelAttendance = new Attendance;
-		$modelAttendances = Attendance::model()->findAll($criteria);
+            if ($modelAttendance->validate()) {
+                if ($modelAttendance->save()) {
+                    Yii::app()->user->setFlash('success', Yii::t('default', 'Atendimento adicionado com sucesso!'));
+                    $this->redirect(['update', 'id' => $id]);
+                }
+            }
+        }
 
-		if(isset($_POST['Attendance'])) {
-			$modelAttendance->attributes = $_POST['Attendance'];
-			$modelAttendance->professional_fk = $modelProfessional->id_professional;
+        if (isset($_POST['Professional'])) {
+            $modelProfessional->attributes = $_POST['Professional'];
 
-			$modelAttendance->date = Yii::app()->dateFormatter->format(
-				'yyyy-MM-dd', CDateTimeParser::parse($modelAttendance->date, 'dd/MM/yyyy')
-			);
+            if ($modelProfessional->save()) {
+                Yii::app()->user->setFlash('success', Yii::t('default', 'Profissional atualizado com sucesso!'));
+                $this->redirect(['index']);
+            } else {
+                Yii::app()->user->setFlash('error', Yii::t('default', 'Não foi possível atualizar o profissional!'));
+                $this->redirect(['index']);
+            }
+        }
 
-			if($modelAttendance->validate()) {
-				if($modelAttendance->save()){
-					Yii::app()->user->setFlash('success', Yii::t('default', 'Atendimento adicionado com sucesso!'));
-					$this->redirect(array('update', 'id' => $id));
-				}
-			}
-		}
+        $this->render('update', [
+            'modelProfessional' => $modelProfessional,
+            'modelAttendances' => $modelAttendances,
+            'modelAttendance' => $modelAttendance
+        ]);
+    }
 
-		if(isset($_POST['Professional']))
-		{
-			$modelProfessional->attributes = $_POST['Professional'];
+    /**
+     * Deletes a particular model.
+     * If deletion is successful, the browser will be redirected to the 'admin' page.
+     * @param integer $id the ID of the model to be deleted
+     */
+    public function actionDelete($id)
+    {
+        $professional = Professional::model()->findByPk($id);
+        $attendance = Attendance::model()->findAllByAttributes(['professional_fk' => $id]);
 
-			if($modelProfessional->save()){
-				Yii::app()->user->setFlash('success', Yii::t('default', 'Profissional atualizado com sucesso!'));
-				$this->redirect(array('index'));
-			}else{
-				Yii::app()->user->setFlash('error', Yii::t('default', 'Não foi possível atualizar o profissional!'));
-				$this->redirect(array('index'));
-			}
-		}
+        foreach ($attendance as $att) {
+            $att->delete();
+        }
 
-		$this->render('update',array(
-			'modelProfessional' => $modelProfessional,
-			'modelAttendances' => $modelAttendances,
-			'modelAttendance' => $modelAttendance
-		));
-	}
+        if ($professional->delete()) {
+            Yii::app()->user->setFlash('success', Yii::t('default', 'Profissional excluído com sucesso!'));
+            $this->redirect(['index']);
+        }
+    }
 
-	/**
-	 * Deletes a particular model.
-	 * If deletion is successful, the browser will be redirected to the 'admin' page.
-	 * @param integer $id the ID of the model to be deleted
-	 */
-	public function actionDelete($id)
-	{
-		$professional = Professional::model()->findByPk($id);
-		$attendance = Attendance::model()->findAllByAttributes(array('professional_fk'=>$id));
-
-		foreach($attendance as $att) {
-			$att->delete();
-		}
-
-		if($professional->delete()) {
-			Yii::app()->user->setFlash('success', Yii::t('default', 'Profissional excluído com sucesso!'));
-            $this->redirect(array('index'));
-		}
-	}
-
-	/**
-	 * Lists all models.
-	 */
-	public function actionIndex()
-	{
-		$query = Professional::model()->findAll();
-		$dataProvider = new CActiveDataProvider('Professional', [
+    /**
+     * Lists all models.
+     */
+    public function actionIndex()
+    {
+        $query = Professional::model()->findAll();
+        $dataProvider = new CActiveDataProvider('Professional', [
             'criteria' => [
                 'order' => 'name ASC',
-				'condition' => "inep_id_fk = ".Yii::app()->user->school,
+                'condition' => 'inep_id_fk = ' . Yii::app()->user->school,
             ], 'pagination' => [
                 'pageSize' => count($query),
             ]
         ]);
-		$this->render('index',array(
-			'dataProvider'=>$dataProvider,
-		));
-	}
+        $this->render('index', [
+            'dataProvider' => $dataProvider,
+        ]);
+    }
 
     public function actionDeleteAttendance()
     {

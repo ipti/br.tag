@@ -1,20 +1,20 @@
 <div class="ui-accordion-header">
-    <?= $plan_name ?>
+    <?= $planName ?>
 </div>
 <div class="ui-accordion-content">
         <div class="t-field-tarea">
-            <?= CHtml::label('Objetivo', 'objective', array('class' => 't-field-tarea__label')) ?>
-            <?= CHtml::textArea('objective', '', array('id' => 'objective', 'class' => 't-field-tarea__input')) ?>
+            <?= CHtml::label('Objetivo', 'objective', ['class' => 't-field-tarea__label']) ?>
+            <?= CHtml::textArea('objective', '', ['id' => 'objective', 'class' => 't-field-tarea__input']) ?>
         </div>
         <div class="t-multiselect">
-            <?= CHtml::label('Tipo', 'type', array('class' => 't-field-select__label')) ?>
-            <?= CHtml::dropDownList('type', '', [], array('multiple' => 'multiple', 'class' => 'select-search-on t-multiselect multiselect', 'id' => 'type',)) ?>
+            <?= CHtml::label('Tipo', 'type', ['class' => 't-field-select__label']) ?>
+            <?= CHtml::dropDownList('type', '', [], ['multiple' => 'multiple', 'class' => 'select-search-on t-multiselect multiselect', 'id' => 'type', ]) ?>
         </div>
         <div class="t-field-select">
-            <?= CHtml::label('Recursos', 'resources', array('class' => 't-field-select__label clear-margin--all')) ?>
+            <?= CHtml::label('Recursos', 'resources', ['class' => 't-field-select__label clear-margin--all']) ?>
             <div class="mobile-row">
                 <div class="column clearfix is-four-fifths--mobile">
-                    <?php echo CHtml::dropDownList('resources', '',  [], array('class' => 'select-search-on t-field-select__input full--width clear-margin--all', 'id' => 'resources')); ?>
+                    <?php echo CHtml::dropDownList('resources', '', [], ['class' => 'select-search-on t-field-select__input full--width clear-margin--all', 'id' => 'resources']); ?>
                 </div>
                 <div class="column full--height is-one-tenth--mobile">
                     <input type="number" class="full clear-margin--bottom" name="amount" value="1" max="999">

@@ -1,4 +1,5 @@
 <?php
+
     Yii::import('application.modules.classdiary.services.*');
     /**
     * @property GetClassContents $GetClassContent
@@ -12,11 +13,13 @@
          */
         private $classService;
 
-        public function __construct($classService = null){
+        public function __construct($classService = null)
+        {
             $this->classService = $classService ?? new ClassesService();
         }
-        public function exec($classroom_fk, $stage_fk, $date, $discipline_fk){
-            $response = $this->classService->getClassContents($classroom_fk, $stage_fk, $date, $discipline_fk);
-            return $response;
+
+        public function exec($classroomFk, $stageFk, $date, $disciplineFk)
+        {
+            return $this->classService->getClassContents($classroomFk, $stageFk, $date, $disciplineFk);
         }
     }

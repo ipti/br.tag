@@ -2,7 +2,6 @@
 
 class SiteController extends Controller
 {
-
     //@done S2 -FAzer Cadastro de usuário
     //@done s1 -Limitar a escolha de escolas apenas para o Administrador
 
@@ -43,25 +42,13 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-
-        // renders the view file 'protected/views/site/index.php'
-        // using the default layout 'protected/views/layouts/main.php'
         if (Yii::app()->user->isGuest) {
             $this->redirect(yii::app()->createUrl('site/login'));
         }
 
-        $this->loadLogsHtml(5);
-
-        if (TagUtils::isInstructor()) {
-            $this->render('index', ["htmlLogs" => $this->loadLogsHtml(8)]);
-        } else {
-            $this->render('index', ["htmlLogs" => $this->loadLogsHtml(8)]);
-        }
-
+        $this->render('index', ['htmlLogs' => $this->loadLogsHtml(8)]);
 
     }
-
-
 
     /**
      * This is the action to handle external exceptions.
@@ -82,13 +69,13 @@ class SiteController extends Controller
      */
     public function actionContact()
     {
-        $model = new ContactForm;
+        $model = new ContactForm();
         if (isset($_POST['ContactForm'])) {
             $model->attributes = $_POST['ContactForm'];
             if ($model->validate()) {
                 $name = '=?UTF-8?B?' . base64_encode($model->name) . '?=';
                 $subject = '=?UTF-8?B?' . base64_encode($model->subject) . '?=';
-                $headers = "From: $name <{$model->email}>\r\n" . "Reply-To: {$model->email}\r\n" . "MIME-Version: 1.0\r\n" . "Content-type: text/plain; charset=UTF-8";
+                $headers = "From: $name <{$model->email}>\r\n" . "Reply-To: {$model->email}\r\n" . "MIME-Version: 1.0\r\n" . 'Content-type: text/plain; charset=UTF-8';
 
                 mail(Yii::app()->params['adminEmail'], $subject, $model->body, $headers);
                 Yii::app()->user->setFlash('contact', 'Thank you for contacting us. We will respond to you as soon as possible.');
@@ -103,9 +90,9 @@ class SiteController extends Controller
      */
     public function actionLogin()
     {
-        $this->layout = "login";
+        $this->layout = 'login';
 
-        $model = new LoginForm;
+        $model = new LoginForm();
 
         // if it is ajax validation request
         if (isset($_POST['ajax']) && $_POST['ajax'] === 'login-form') {
@@ -120,18 +107,17 @@ class SiteController extends Controller
             if ($model->validate() && $model->login()) {
                 Yii::app()->features->refreshCache();
                 $this->layout = 'fullmenu';
-                if(isset(Yii::app()->user->loginInfos) && Yii::app()->getAuthManager()->checkAccess('guardian', Yii::app()->user->loginInfos->id)){
+                if (isset(Yii::app()->user->loginInfos) && Yii::app()->getAuthManager()->checkAccess('guardian', Yii::app()->user->loginInfos->id)) {
                     $this->redirect(['enrollmentonline/Enrollmentonlinestudentidentification/StudentStatus']);
                 } else {
                     $this->redirect(Yii::app()->user->returnUrl);
                 }
-
             }
         }
         // display the login form
         $year = date('Y');
         $model->year = 0;
-        $years = array();
+        $years = [];
         if (date('m') >= 11) {
             $year = $year + 1;
             $model->year = 1;
@@ -139,8 +125,6 @@ class SiteController extends Controller
         for ($i = $year; $i >= 2014; $i--) {
             $years[$i] = $i;
         }
-
-
 
         $this->render('login', ['model' => $model, 'years' => $years]);
     }
@@ -158,12 +142,9 @@ class SiteController extends Controller
     {
         if (isset($_POST['UsersSchool']['school_fk']) && !empty($_POST['UsersSchool']['school_fk'])) {
             Yii::app()->user->school = $_POST['UsersSchool']['school_fk'];
-        } else if (isset($_POST['SchoolIdentification']['inep_id']) && !empty($_POST['SchoolIdentification']['inep_id'])) {
+        } elseif (isset($_POST['SchoolIdentification']['inep_id']) && !empty($_POST['SchoolIdentification']['inep_id'])) {
             Yii::app()->user->school = $_POST['SchoolIdentification']['inep_id'];
         }
-
-        // Yii::app()->cache->delete("fullmenu");
-
         echo '<script>history.go(-1);</script>';
         exit;
     }
@@ -173,16 +154,12 @@ class SiteController extends Controller
         if (isset($_POST['years']) && !empty($_POST['years'])) {
             Yii::app()->user->year = $_POST['years'];
         }
-
-        // Yii::app()->cache->flush();
-
         echo '<script>history.go(-1);</script>';
         exit;
     }
 
     private function loadLogsHtml($limit, $date = null)
     {
-        $baseUrl = Yii::app()->theme->baseUrl;
         $isInstructor = Yii::app()->getAuthManager()->checkAccess('instructor', Yii::app()->user->loginInfos->id);
         $criteria = new CDbCriteria();
         $criteria->compare('school_fk', Yii::app()->user->school);
@@ -200,20 +177,18 @@ class SiteController extends Controller
 
         $logs = Log::model()->findAll($criteria);
 
-
-        $html = "";
+        $html = '';
 
         if (count($logs) > 0) {
-
             $bgColor = 'gray';
             foreach ($logs as $log) {
                 $elements = $log->loadIconsAndTexts($log);
                 $bgColor = 'gray' == $bgColor ? 'blue' : 'gray';
                 $date = date("d/m/Y à\s H:i:s", strtotime($log->date));
-                $html .= '<li class="row justify-content--start  home-page-table-item ' . $bgColor . '" title=\'' . $elements["text"] . '\'>'
+                $html .= '<li class="row justify-content--start  home-page-table-item ' . $bgColor . '" title=\'' . $elements['text'] . '\'>'
                     . '<div  class="column align-items--center" style="max-width:815px;text-overflow: ellipsis;">'
-                    . '<img style="background-color:' . $elements["color"] . '" src="' . Yii::app()->theme->baseUrl . '/img/homePageIcons/' . $elements["icon"] . '.svg"/>'
-                    . $elements["text"] . '</div>'
+                    . '<img style="background-color:' . $elements['color'] . '" src="' . Yii::app()->theme->baseUrl . '/img/homePageIcons/' . $elements['icon'] . '.svg"/>'
+                    . $elements['text'] . '</div>'
                     . '<div class="column">'
                     . '<div class="log-date">' . $date . '</div>'
                     . '<div class="log-author">' . $log->userFk->name . ' - </div>'
@@ -232,12 +207,12 @@ class SiteController extends Controller
         echo $this->loadLogsHtml(10, $date);
     }
 
-    private function actionLoadWarnsHtml(int $limit)
+    public function actionLoadWarnsHtml(int $limit)
     {
         $warns = [];
 
         //Verifica a existência de turmas na escola
-        $listSchoolClassrooms = Classroom::model()->findallByAttributes(["school_inep_fk" => yii::app()->user->school, "school_year" => Yii::app()->user->year]);
+        $listSchoolClassrooms = Classroom::model()->findallByAttributes(['school_inep_fk' => yii::app()->user->school, 'school_year' => Yii::app()->user->year]);
         if (count($listSchoolClassrooms) == 0) {
             $schoolModel = SchoolIdentification::model()->findByAttributes(['inep_id' => yii::app()->user->school]);
             $warning = 'Escola <b>' . $schoolModel->name . '</b> está sem turmas cadastradas.';
@@ -289,7 +264,6 @@ class SiteController extends Controller
                             . '</li>';
                         array_push($warns, $htmlpart);
                     }
-
                 }
 
                 //Se houver turma, verificar se existe calendario vinculado a ela
@@ -343,26 +317,25 @@ class SiteController extends Controller
                         . '</li>';
                     array_push($warns, $htmlpart);
                 }
-
             }
         }
 
-        if (count($warns) == 0) {
-            $this->renderPartial("_warns",[
-                "total" => 0,
-                "limit" => $limit,
-                "html" => '<div class="no-recent-activitive t-badge-info" id="no-recent-warnings"><span class="t-info_positive t-badge-info__icon"></span>Não há cadastros pendentes.</div>'
+        if (empty($warns)) {
+            $this->renderPartial('_warns', [
+                'total' => 0,
+                'limit' => $limit,
+                'html' => '<div class="no-recent-activitive t-badge-info" id="no-recent-warnings"><span class="t-info_positive t-badge-info__icon"></span>Não há cadastros pendentes.</div>'
             ]);
         } else {
-            $html = "";
+            $html = '';
             $count = min([$limit, count($warns)]) ;
             for ($i = 0; $i < $count; $i++) {
                 $html .= $warns[$i];
             }
-            $this->renderPartial("_warns", [
-                "total" => count($warns),
-                "limit" => $limit,
-                "html" => $html
+            $this->renderPartial('_warns', [
+                'total' => count($warns),
+                'limit' => $limit,
+                'html' => $html
             ]);
         }
 
@@ -371,29 +344,28 @@ class SiteController extends Controller
 
     public function actionLoadLineChartData()
     {
-        $year = $_POST["year"];
+        $year = $_POST['year'];
         $school = Yii::app()->user->school;
-        $sql = "select " .
-            "month(date) as month, " .
+        $sql = 'select month(date) as month, ' .
             "(select  count(*) from log where crud = 'C' and reference = 'school' and year(date) = $year and month(date) = month and school_fk = $school) as schools, " .
             "(select  count(*) from log where crud = 'C' and reference = 'classroom' and year(date) = $year and month(date) = month and school_fk = $school) as classrooms, " .
             "(select  count(*) from log where crud = 'C' and reference = 'instructor' and year(date) = $year and month(date) = month and school_fk = $school) as instructors, " .
             "(select  count(*) from log where crud = 'C' and reference = 'student' and year(date) = $year and month(date) = month and school_fk = $school) as students " .
-            "from log " .
-            "group by month(date)";
+            'from log ' .
+            'group by month(date)';
         $chartData = Yii::app()->db->schema->commandBuilder->createSqlCommand($sql)->queryAll();
         $monthsFilled = [];
         foreach ($chartData as $data) {
-            array_push($monthsFilled, $data["month"]);
+            array_push($monthsFilled, $data['month']);
         }
         for ($i = 1; $i <= 12; $i++) {
             if (!in_array($i, $monthsFilled)) {
                 $emptyMonth = [
-                    "month" => $i,
-                    "schools" => 0,
-                    "classrooms" => 0,
-                    "instructors" => 0,
-                    "students" => 0,
+                    'month' => $i,
+                    'schools' => 0,
+                    'classrooms' => 0,
+                    'instructors' => 0,
+                    'students' => 0,
                 ];
                 array_push($chartData, $emptyMonth);
             }
@@ -401,48 +373,50 @@ class SiteController extends Controller
 
         function cmp($a, $b)
         {
-            return $a["month"] - $b["month"];
+            return $a['month'] - $b['month'];
         }
 
-        usort($chartData, "cmp");
+        usort($chartData, 'cmp');
 
         foreach ($chartData as $key => $data) {
-            switch ($data["month"]) {
-                case "1":
-                    $chartData[$key]["month"] = "Janeiro";
+            switch ($data['month']) {
+                case '1':
+                    $chartData[$key]['month'] = 'Janeiro';
                     break;
-                case "2":
-                    $chartData[$key]["month"] = "Fevereiro";
+                case '2':
+                    $chartData[$key]['month'] = 'Fevereiro';
                     break;
-                case "3":
-                    $chartData[$key]["month"] = "Março";
+                case '3':
+                    $chartData[$key]['month'] = 'Março';
                     break;
-                case "4":
-                    $chartData[$key]["month"] = "Abril";
+                case '4':
+                    $chartData[$key]['month'] = 'Abril';
                     break;
-                case "5":
-                    $chartData[$key]["month"] = "Maio";
+                case '5':
+                    $chartData[$key]['month'] = 'Maio';
                     break;
-                case "6":
-                    $chartData[$key]["month"] = "Junho";
+                case '6':
+                    $chartData[$key]['month'] = 'Junho';
                     break;
-                case "7":
-                    $chartData[$key]["month"] = "Julho";
+                case '7':
+                    $chartData[$key]['month'] = 'Julho';
                     break;
-                case "8":
-                    $chartData[$key]["month"] = "Agosto";
+                case '8':
+                    $chartData[$key]['month'] = 'Agosto';
                     break;
-                case "9":
-                    $chartData[$key]["month"] = "Setembro";
+                case '9':
+                    $chartData[$key]['month'] = 'Setembro';
                     break;
-                case "10":
-                    $chartData[$key]["month"] = "Outubro";
+                case '10':
+                    $chartData[$key]['month'] = 'Outubro';
                     break;
-                case "11":
-                    $chartData[$key]["month"] = "Novembro";
+                case '11':
+                    $chartData[$key]['month'] = 'Novembro';
                     break;
-                case "12":
-                    $chartData[$key]["month"] = "Dezembro";
+                case '12':
+                    $chartData[$key]['month'] = 'Dezembro';
+                    break;
+                default:
                     break;
             }
         }
@@ -452,9 +426,8 @@ class SiteController extends Controller
     public function actionLoadCylinderChartData()
     {
         $school = Yii::app()->user->school;
-        $year = $_POST["year"];
-        $sql = "select " .
-            "1 as schools, " .
+        $year = $_POST['year'];
+        $sql = strval("select 1 as schools, ") .
             "(select count(*) from classroom where school_inep_fk = $school and school_year = $year) as classrooms, " .
             "(select count(*) from instructor_identification where school_inep_id_fk = $school) as instructors, " .
             "(select count(*) from student_identification where school_inep_id_fk = $school) as students";
@@ -465,14 +438,12 @@ class SiteController extends Controller
     public function actionLoadPieChartData()
     {
         $school = Yii::app()->user->school;
-        $year = $_POST["year"];
-        $sql = "select " .
-            "(select count(*) from student_identification si where si.school_inep_id_fk = $school) as students, " .
+        $year = $_POST['year'];
+        $sql = "select (select count(*) from student_identification si where si.school_inep_id_fk = $school) as students, " .
             "(select distinct count(*) from student_identification si join student_enrollment se on si.id = se.student_fk join classroom c on c.id = se.classroom_fk where c.school_year = $year and si.school_inep_id_fk = $school) as enrollments";
         $chartData = Yii::app()->db->schema->commandBuilder->createSqlCommand($sql)->queryRow();
         echo json_encode($chartData);
     }
-
 
     public function actionViewFileLogs($page = 1)
     {
@@ -498,19 +469,19 @@ class SiteController extends Controller
             $logContent = array_slice($lines, $start, $linesPerPage);
 
             // Gera a string do conteúdo do log para exibição
-            $logContent = implode("", $logContent);
+            $logContent = implode('', $logContent);
         } else {
-            $logContent = "O arquivo de log não foi encontrado.";
+            $logContent = 'O arquivo de log não foi encontrado.';
             $totalPages = 1;
             $page = 1;
         }
 
         // Renderiza a view e passa os parâmetros para a página
-        $this->render('viewLogs', array(
+        $this->render('viewLogs', [
             'logContent' => $logContent,
             'totalPages' => $totalPages,
             'currentPage' => $page,
-        ));
+        ]);
     }
 
     public function actionDownloadFileLog(): void
@@ -522,13 +493,13 @@ class SiteController extends Controller
 
     private function download($arquivo)
     {
-        header("Content-Type: application/force-download");
-        header("Content-Type: application/octet-stream;");
-        header("Content-Length:" . filesize($arquivo));
-        header("Content-disposition: attachment; filename=" . $arquivo);
-        header("Pragma: no-cache");
-        header("Cache-Control: no-store, no-cache, must-revalidate, post-check=0, pre-check=0");
-        header("Expires: 0");
+        header('Content-Type: application/force-download');
+        header('Content-Type: application/octet-stream;');
+        header('Content-Length:' . filesize($arquivo));
+        header('Content-disposition: attachment; filename=' . $arquivo);
+        header('Pragma: no-cache');
+        header('Cache-Control: no-store, no-cache, must-revalidate, post-check=0, pre-check=0');
+        header('Expires: 0');
         readfile($arquivo);
         flush();
     }

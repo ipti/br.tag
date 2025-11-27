@@ -12,25 +12,10 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
  */
 ?>
 
+
 <div class="pageA4V">
     <?php $this->renderPartial('head'); ?>
     <div>
-        <script type="text/javascript">
-            /*<![CDATA[*/
-            jQuery(function ($) {
-                    jQuery.ajax({'type': 'GET',
-                        'data': {'enrollment_id':<?php echo $enrollment_id;?>},
-                        'url': '<?php echo Yii::app()->createUrl('forms/getEnrollmentDeclarationInformation') ?>',
-                        'success': function (data) {
-                            gerarRelatorio(data);
-                        }, 'error': function () {
-                            limpar();
-                        }, 'cache': false});
-                    return false;
-                }
-            );
-            /*]]>*/
-        </script>
         <br>
         <div id="report" style="font-size: 14px">
 

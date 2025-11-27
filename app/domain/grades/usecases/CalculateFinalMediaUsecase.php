@@ -56,7 +56,6 @@ class CalculateFinalMediaUsecase
             }
 
             $finalMedia = $this->applyCalculation($this->gradeRule->gradeCalculationFk, $grades, $weights);
-
         } else {
 
             $grades = $this->extractGrades($this->gradesResult, $this->countUnities);
@@ -82,8 +81,8 @@ class CalculateFinalMediaUsecase
                 $semRecPartial1 = is_numeric($this->gradesResult["sem_rec_partial_1"]) ? $this->gradesResult["sem_rec_partial_1"] : 0;
                 $semRecPartial2 = is_numeric($this->gradesResult["sem_rec_partial_2"]) ? $this->gradesResult["sem_rec_partial_2"] : 0;
 
-                $gradesSemAvarage1 = max($this->gradesResult["sem_avarage_1"], $semRecPartial1);
-                $gradesSemAvarage2 = max($this->gradesResult["sem_avarage_2"], $semRecPartial2);
+                $gradesSemAvarage1 = max($this->gradesResult['sem_avarage_1'], $semRecPartial1);
+                $gradesSemAvarage2 = max($this->gradesResult['sem_avarage_2'], $semRecPartial2);
 
                 $gradesFinalRecovery = [];
 
@@ -94,7 +93,6 @@ class CalculateFinalMediaUsecase
                 if ($gradesSemAvarage2 !== null) {
                     $gradesFinalRecovery[] = $gradesSemAvarage2;
                 }
-
             } else {
                 $gradesFinalRecovery[] = $finalMedia;
             }
@@ -108,12 +106,13 @@ class CalculateFinalMediaUsecase
 
     private function saveFinalMedia($gradesResult, $finalMedia)
     {
-        $gradesResult->setAttribute("final_media", $finalMedia);
+        $gradesResult->setAttribute('final_media', $finalMedia);
         $gradesResult->save();
     }
+
     private function saveFinalRecoveryMedia($gradesResult, $finalMedia)
     {
-        $gradesResult->setAttribute("rec_final", $finalMedia);
+        $gradesResult->setAttribute('rec_final', $finalMedia);
         $gradesResult->save();
     }
 
@@ -121,8 +120,7 @@ class CalculateFinalMediaUsecase
     {
         return isset($gradeRule->has_final_recovery)
             && $gradeRule->has_final_recovery
-            && $finalMedia < (double) $gradeRule->approvation_media;
-
+            && $finalMedia < (float) $gradeRule->approvation_media;
     }
 
     private function applyFinalRecovery($gradesResult, $gradesFinalRecovery)
@@ -131,9 +129,8 @@ class CalculateFinalMediaUsecase
         $finalRecovery = GradeUnity::model()->findByAttributes(["grade_rules_fk" => $this->gradeRule->id, "type" => "RF"]);
         $finalRecoveryGrade = $this->getFinalRevoveryGrade($gradesResult->enrollment_fk, $gradesResult->discipline_fk, $finalRecovery->id);
         array_push($gradesFinalRecovery, $finalRecoveryGrade);
-        if ($finalRecovery->gradeCalculationFk->name == "Média Semestral") {
-
-            $calculation = GradeCalculation::model()->findByAttributes(["name" => "Média"]);
+        if ($finalRecovery->gradeCalculationFk->name == 'Média Semestral') {
+            $calculation = GradeCalculation::model()->findByAttributes(['name' => 'Média']);
             $result = $this->applyCalculation($calculation, $gradesFinalRecovery);
         } elseif ($finalRecovery->gradeCalculationFk->name == "Peso") {
             $weights = [
@@ -148,23 +145,21 @@ class CalculateFinalMediaUsecase
         return $result;
     }
 
-
     private function getFinalRevoveryGrade($enrollmentId, $discipline, $finalRecoveryId)
     {
         $criteria = new CDbCriteria();
-        $criteria->alias = "g";
-        $criteria->select = "distinct g.id, g.*";
-        $criteria->join = " join grade_unity_modality gum1 on g.grade_unity_modality_fk = gum1.id";
-        $criteria->join .= " join grade_unity gu on gum1.grade_unity_fk = gu.id"; // Corrigido o alias e referência
-        $criteria->condition = "g.discipline_fk = :discipline_fk and g.enrollment_fk = :enrollment_fk and gu.id = :finalRecoveryId";
-        $criteria->params = array(
-            ":discipline_fk" => $discipline,
-            ":enrollment_fk" => $enrollmentId,
-            ":finalRecoveryId" => $finalRecoveryId
-        );
-        $criteria->order = "g.id";
+        $criteria->alias = 'g';
+        $criteria->select = 'distinct g.id, g.*';
+        $criteria->join = ' join grade_unity_modality gum1 on g.grade_unity_modality_fk = gum1.id';
+        $criteria->join .= ' join grade_unity gu on gum1.grade_unity_fk = gu.id'; // Corrigido o alias e referência
+        $criteria->condition = 'g.discipline_fk = :discipline_fk and g.enrollment_fk = :enrollment_fk and gu.id = :finalRecoveryId';
+        $criteria->params = [
+            ':discipline_fk' => $discipline,
+            ':enrollment_fk' => $enrollmentId,
+            ':finalRecoveryId' => $finalRecoveryId
+        ];
+        $criteria->order = 'g.id';
         return Grade::model()->find($criteria)->grade;
-
     }
 
     private function applyCalculation($calculation, $grades, $weights = [])
@@ -233,9 +228,19 @@ class CalculateFinalMediaUsecase
             $otherGrade = $gradesResult->attributes["grade_" . ($j + 1)];
             $otherWeight = $this->gradesStudent[$j]->weight ?? null;
 
-            // Se há outra nota menor ou igual com peso maior, não é a menor
+            // Regra: Se existe outra nota menor -> não é a menor
+            if ($otherGrade < $grade) {
+                return false;
+            }
+
+            // Se as notas forem iguais mas a outra NÃO tem peso -> ela deve ser considerara menor
+            if ($otherGrade == $grade && $otherWeight === null) {
+                return false;
+            }
+
+            // Se as notas forem iguais e outro peso é maior -> não é a menor
             if (
-                $otherGrade <= $grade &&
+                $otherGrade == $grade &&
                 $otherWeight !== null &&
                 $otherWeight > $studentGrade->weight
             ) {
@@ -245,5 +250,4 @@ class CalculateFinalMediaUsecase
 
         return true;
     }
-
 }

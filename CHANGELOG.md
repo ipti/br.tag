@@ -1,5 +1,15 @@
+## [Versão 3.6.1]
+- Refatoração de código para redução de débito técnico
+
+## [Versão 3.6.0]
+- Modulo de acompanhamento de sáude do estudante
+
+## [Versão 3.5.7]
+- Corrigido ordem das unidades no relatório de ficha de notas
+
 ## [Versão 3.5.6]
-- Corrigir erros de exibição no relatório de ficha de notas
+- Corrigido erro no relátorio de ficha de notas para turmas por conceito
+- COrrigida a substituição da nota da unidade pela nota da recuperação parcial nos casos pertinetes no relatório de ficha de notas
 
 ## [Versão 3.5.5]
 - Corrigido o comportamento das disciplinas que não possuem nota, garantindo o tratamento adequado nos relatórios e demais funcionalidades.

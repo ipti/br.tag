@@ -22,12 +22,11 @@
  */
 class GradeUnity extends TagModel
 {
-
-    public const TYPE_UNITY = "U";
-    public const TYPE_UNITY_BY_CONCEPT = "UC";
-    public const TYPE_UNITY_WITH_RECOVERY = "UR";
-    public const TYPE_SEMIANUAL_RECOVERY = "RS";
-    public const TYPE_FINAL_RECOVERY = "RF";
+    public const TYPE_UNITY = 'U';
+    public const TYPE_UNITY_BY_CONCEPT = 'UC';
+    public const TYPE_UNITY_WITH_RECOVERY = 'UR';
+    public const TYPE_SEMIANUAL_RECOVERY = 'RS';
+    public const TYPE_FINAL_RECOVERY = 'RF';
 
     /**
      * @return string the associated database table name
@@ -37,13 +36,11 @@ class GradeUnity extends TagModel
         return 'grade_unity';
     }
 
-
     /**
      * @return array validation rules for model attributes.
      */
     public function rules()
     {
-
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
@@ -56,29 +53,29 @@ class GradeUnity extends TagModel
         );
     }
 
-	/**
-	 * @return array relational rules.
-	 */
-	public function relations()
-	{
-		// NOTE: you may need to adjust the relation name and the related
-		// class name for the relations automatically generated below.
-		return array(
-            'parcialRecoveryFk' => array(self::BELONGS_TO, 'GradePartialRecovery', 'parcial_recovery_fk'),
-			'gradeCalculationFk' => array(self::BELONGS_TO, 'GradeCalculation', 'grade_calculation_fk'),
-			'edcensoStageVsModalityFk' => array(self::BELONGS_TO, 'EdcensoStageVsModality', 'edcenso_stage_vs_modality_fk'),
-			'gradeUnityModalities' => array(self::HAS_MANY, 'GradeUnityModality', 'grade_unity_fk'),
-            'gradeUnityPeriods' => array(self::HAS_MANY, 'GradeUnityPeriods', 'grade_unity_fk'),
-            'countGradeUnityModalities' => array(self::STAT, 'GradeUnityModality', 'grade_unity_fk', 'condition' => "type = 'C'"),
-        );
-	}
+    /**
+     * @return array relational rules.
+     */
+    public function relations()
+    {
+        // NOTE: you may need to adjust the relation name and the related
+        // class name for the relations automatically generated below.
+        return [
+            'parcialRecoveryFk' => [self::BELONGS_TO, 'GradePartialRecovery', 'parcial_recovery_fk'],
+            'gradeCalculationFk' => [self::BELONGS_TO, 'GradeCalculation', 'grade_calculation_fk'],
+            'edcensoStageVsModalityFk' => [self::BELONGS_TO, 'EdcensoStageVsModality', 'edcenso_stage_vs_modality_fk'],
+            'gradeUnityModalities' => [self::HAS_MANY, 'GradeUnityModality', 'grade_unity_fk'],
+            'gradeUnityPeriods' => [self::HAS_MANY, 'GradeUnityPeriods', 'grade_unity_fk'],
+            'countGradeUnityModalities' => [self::STAT, 'GradeUnityModality', 'grade_unity_fk', 'condition' => "type = 'C'"],
+        ];
+    }
 
     /**
      * @return array customized attribute labels (name=>label)
      */
     public function attributeLabels()
     {
-        return array(
+        return [
             'id' => 'ID',
             'edcenso_stage_vs_modality_fk' => 'Edcenso Stage Vs Modality Fk',
             'name' => 'Unity Name',
@@ -86,7 +83,7 @@ class GradeUnity extends TagModel
             'grade_calculation_fk' => 'Grade Calculation Fk',
             'parcial_recovery_fk' => 'Parcial Recovery Fk',
             'weight' => 'Weight'
-        );
+            ];
     }
 
     /**
@@ -103,7 +100,7 @@ class GradeUnity extends TagModel
      */
     public function search()
     {
-        $criteria = new CDbCriteria;
+        $criteria = new CDbCriteria();
 
         $criteria->compare('id', $this->id);
         $criteria->compare('edcenso_stage_vs_modality_fk', $this->edcenso_stage_vs_modality_fk);
@@ -113,9 +110,11 @@ class GradeUnity extends TagModel
         $criteria->compare('parcial_recovery_fk',$this->parcial_recovery_fk);
         $criteria->compare('weight', $this->weight);
 
-        return new CActiveDataProvider($this, array(
-            'criteria' => $criteria,
-        )
+        return new CActiveDataProvider(
+            $this,
+            [
+                'criteria' => $criteria,
+            ]
         );
     }
 

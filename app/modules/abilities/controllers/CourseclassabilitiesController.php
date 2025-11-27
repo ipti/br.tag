@@ -13,10 +13,10 @@ class CourseClassAbilitiesController extends Controller
      */
     public function filters()
     {
-        return array(
+        return [
             'accessControl', // perform access control for CRUD operations
             'postOnly + delete', // we only allow deletion via POST request
-        );
+        ];
     }
 
     /**
@@ -26,29 +26,28 @@ class CourseClassAbilitiesController extends Controller
      */
     public function accessRules()
     {
-        return array(
-            array(
+        return [
+            [
                 'allow',
-                'actions' => array('index', 'view'),
-                'users' => array('*'),
-            ),
-            array(
+                'actions' => ['index', 'view'],
+                'users' => ['*'],
+            ],
+            [
                 'allow',
-                'actions' => array('create', 'update', 'delete'),
-                'users' => array('@'),
-            ),
-            array(
+                'actions' => ['create', 'update', 'delete'],
+                'users' => ['@'],
+            ],
+            [
                 'allow',
-                'actions' => array('admin'),
-                'users' => array('admin'),
-            ),
-            array(
+                'actions' => ['admin'],
+                'users' => ['admin'],
+            ],
+            [
                 'deny',
-                'users' => array('*'),
-            ),
-        );
+                'users' => ['*'],
+            ],
+        ];
     }
-
 
     /**
      * Creates a new model.
@@ -56,29 +55,29 @@ class CourseClassAbilitiesController extends Controller
      */
     public function actionCreate()
     {
-        $model = new CourseClassAbilities;
+        $model = new CourseClassAbilities();
 
         // Uncomment the following line if AJAX validation is needed
         // $this->performAjaxValidation($model);
 
         if (isset($_POST['CourseClassAbilities'])) {
             $model->attributes = $_POST['CourseClassAbilities'];
-            $model->type = "HABILIDADE";
+            $model->type = 'HABILIDADE';
 
             $parent = CourseClassAbilities::model()->find([
                 'condition' => 'edcenso_discipline_fk = :disc AND parent_fk IS NULL',
                 'params' => [':disc' => $model->edcenso_discipline_fk]
             ]);
-            $model->parent_fk = $parent->id;
+            $model->parentFk = $parent->id;
 
             if ($model->save()) {
-                $this->redirect(array('index'));
+                $this->redirect(['index']);
             }
         }
 
-        $this->render('create', array(
+        $this->render('create', [
             'model' => $model,
-        ));
+        ]);
     }
 
     /**
@@ -100,15 +99,15 @@ class CourseClassAbilitiesController extends Controller
                 'condition' => 'edcenso_discipline_fk = :disc AND parent_fk IS NULL',
                 'params' => [':disc' => $model->edcenso_discipline_fk]
             ]);
-            $model->parent_fk = $parent->id;
+            $model->parentFk = $parent->id;
             if ($model->save()) {
-                $this->redirect(array('index'));
+                $this->redirect(['index']);
             }
         }
 
-        $this->render('update', array(
+        $this->render('update', [
             'model' => $model,
-        ));
+        ]);
     }
 
     /**
@@ -122,7 +121,7 @@ class CourseClassAbilitiesController extends Controller
 
         // if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
         if (!isset($_GET['ajax'])) {
-            $this->redirect(array('index'));
+            $this->redirect(['index']);
         }
     }
 
@@ -135,18 +134,17 @@ class CourseClassAbilitiesController extends Controller
 
         $criteria->addCondition('code IS NOT NULL');
 
-
         $criteria->addCondition("created_at >= '2025-01-01'");
 
-        $dataProvider = new CActiveDataProvider('CourseClassAbilities', array(
+        $dataProvider = new CActiveDataProvider('CourseClassAbilities', [
             'criteria' => $criteria,
             'pagination' => false,
-        ));
+        ]);
         $this->render(
             'index',
-            array(
+            [
                 'dataProvider' => $dataProvider,
-            )
+            ]
         );
     }
 
@@ -160,8 +158,9 @@ class CourseClassAbilitiesController extends Controller
     public function loadModel($id)
     {
         $model = CourseClassAbilities::model()->findByPk($id);
-        if ($model === null)
+        if ($model === null) {
             throw new CHttpException(404, 'The requested page does not exist.');
+        }
         return $model;
     }
 

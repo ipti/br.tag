@@ -24,7 +24,7 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
     <div class="container-section"><?php echo "Professor(a): ".$report[0]['instructor_name']?></div>
     <div class="container-section container">
         <span><?php echo "Turma: ".$report[0]['classroom_name']?></span>
-        <span><?php echo "Ano de escolaridade: ".mb_strtoupper($stage_name,'UTF-8')?></span>
+        <span><?php echo "Ano de escolaridade: ".mb_strtoupper($stageName,'UTF-8')?></span>
         <span style="margin-right: 100px;"><?php echo "Turno: ".$turno?></span>
     </div>
     <div class="container-section container">
