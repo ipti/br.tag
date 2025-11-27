@@ -148,7 +148,7 @@ class StudentIMCController extends Controller
 
         } else {
 
-            $classification = $imc->IMCSituation();
+            $classification = $imc->imcSituation();
 
         }
 
