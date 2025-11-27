@@ -2254,7 +2254,7 @@ $form = $this->beginWidget(
           </div>
           <div class="row-fluid">
             <?php
-            $error = $modelEnrollment->getErrors('enrollment_id');
+            $error = $modelEnrollment->getErrors('enrollmentId');
             if (!empty($error)):
               ?>
               <div class="alert alert-error">
@@ -2467,7 +2467,7 @@ $form = $this->beginWidget(
                           <?php
                           $forms = unserialize(FORMS);
                           foreach ($forms as $item) {
-                            $link = Yii::app()->createUrl('forms/' . $item['action'], array('type' => $type, 'enrollment_id' => $me->id));
+                            $link = Yii::app()->createUrl('forms/' . $item['action'], array('type' => $type, 'enrollmentId' => $me->id));
                             ?>
                             <a class="<?= $item['name'] == "Ficha de Matrícula" ? 't-button-primary' : 't-button-secondary' ?> mobile-margin"
                               rel="noopener" target="_blank" href="<?= $link ?>">
@@ -2479,14 +2479,14 @@ $form = $this->beginWidget(
                           ?>
                           <a class="t-button-secondary" rel="noopener" target="_blank" href="<?php echo @Yii::app()->createUrl(
                             'forms/EnrollmentGradesReport',
-                            array('enrollment_id' => $me->id)
+                            array('enrollmentId' => $me->id)
                           ) ?>">
                             <span class="t-icon-printer"></span>
                             Ficha de Notas
                           </a>
                           <?php if (Yii::app()->features->isEnable("HAS_INDIVIDUALRECORD")): ?>
                           <a class="t-button-secondary" rel="noopener" target="_blank"
-                            href="<?php echo @Yii::app()->createUrl('forms/IndividualRecord', array('enrollment_id' => $me->id)) ?>">
+                            href="<?php echo @Yii::app()->createUrl('forms/IndividualRecord', array('enrollmentId' => $me->id)) ?>">
                             <span class="t-icon-printer"></span>
                             Ficha Individual
                           </a>
