@@ -42,116 +42,109 @@ class EnrollmentOnlineManagerController extends Controller
         }
     }
 
-    public function actionIndex () {
-        // $dataProvider = new CActiveDataProvider('EnrollmentOnlineStudentIdentification',[
-        //         'criteria' => [
-        //             'select' => '
-        //                 t.id,
-        //                 t.name,
-        //                 t.cpf,
-        //                 t.responsable_name,
-        //                 t.responsable_cpf,
-        //                 t.edcenso_stage_vs_modality_fk AS etapa,
-        //                 eoes.status AS status_matricula
-        //             ',
-        //             'join' => '
-        //                 JOIN enrollment_online_enrollment_solicitation eoes
-        //                     ON t.id = eoes.enrollment_online_student_identification_fk
-        //                 JOIN edcenso_stage_vs_modality esvm
-        //                     ON t.edcenso_stage_vs_modality_fk = esvm.id
-        //             ',
-        //             'group' => 't.id',
-        //         ]
-        //     ]
-        // );
+    public function actionIndex()
+    {
+        $countSql = "
+            SELECT COUNT(t.id)
+            FROM enrollment_online_student_identification AS t
+            JOIN edcenso_stage_vs_modality esvm
+                ON t.edcenso_stage_vs_modality_fk = esvm.id
+        ";
 
-        // $columns = [
-        //     ['name'=>'id','header'=>'ID','value'=>'$data->id'],
-        //     [
-        //         'name' => 'name',
-        //         'type' => 'raw',
-        //         'value' => '$data->name',
-        //         'header'=> "Nome"
-        //     ],
-        //     [
-        //         'name' => 'cpf',
-        //         'header' => 'Cpf',
-        //         'value' => '$data->cpf',
-        //     ],
-        //     [
-        //         'name' => 'responsable_name',
-        //         'header'=> 'Responsável',
-        //         'value' =>'$data->responsable_name',
-        //     ],
-        //     [
-        //         'name'=>'responsable_cpf',
-        //         'header'=>'Cpf do responsável',
-        //         'value'=>'$data->responsable_cpf'
-        //     ],
-        //     [
-        //         'name'=>'etapa',
-        //         'header'=> 'Etapa escolar',
-        //         'value'=> '$data->etapa'
-        //     ],
-        //     [
-        //         'name'=>'status_matricula',
-        //         'header'=>'Status da matrícula',
-        //         'value'=>'$data->status_matricula']
-        // ];
+        $sql = "
+        SELECT
+            t.id,
+            t.name,
+            t.cpf,
+            t.responsable_name,
+            t.responsable_cpf,
+            t.edcenso_stage_vs_modality_fk AS etapa,
+            p.status_matricula,
+            p.prioridade_1,
+            p.prioridade_2,
+            p.prioridade_3
+        FROM
+            enrollment_online_student_identification AS t
+        JOIN
+            edcenso_stage_vs_modality esvm
+            ON t.edcenso_stage_vs_modality_fk = esvm.id
+        LEFT JOIN (
+            SELECT
+                p_inner.enrollment_online_student_identification_fk,
+                MAX(
+                    CASE
+                        WHEN p_inner.prioridade_num = 1 THEN p_inner.status
+                        ELSE NULL
+                    END
+                ) AS status_matricula,
+                MAX(
+                    CASE
+                        WHEN p_inner.prioridade_num = 1 THEN p_inner.school_name
+                        ELSE NULL
+                    END
+                ) AS prioridade_1,
+                MAX(
+                    CASE
+                        WHEN p_inner.prioridade_num = 2 THEN p_inner.school_name
+                        ELSE NULL
+                    END
+                ) AS prioridade_2,
+                MAX(
+                    CASE
+                        WHEN p_inner.prioridade_num = 3 THEN p_inner.school_name
+                        ELSE NULL
+                    END
+                ) AS prioridade_3
+            FROM
+            (
+                SELECT
+                    sol.enrollment_online_student_identification_fk,
+                    si.name AS school_name,
+                    sol.status,
+                    @row_num := IF(@current_student = sol.enrollment_online_student_identification_fk, @row_num + 1, 1) AS prioridade_num,
+                    @current_student := sol.enrollment_online_student_identification_fk
 
+                /*
+                 * INÍCIO DA CORREÇÃO:
+                 * Trocamos a vírgula (,) por um JOIN explícito (CROSS JOIN).
+                 */
+                FROM
+                    enrollment_online_enrollment_solicitation AS sol
+                JOIN
+                    school_identification AS si
+                    ON sol.school_inep_id_fk = si.inep_id /* <--- ATENÇÃO AQUI */
+                CROSS JOIN
+                    (SELECT @row_num := 0, @current_student := '') AS vars
+                /* FIM DA CORREÇÃO */
 
+                ORDER BY
+                    sol.enrollment_online_student_identification_fk, sol.id ASC
+            ) AS p_inner
+            GROUP BY
+                p_inner.enrollment_online_student_identification_fk
+        ) AS p ON t.id = p.enrollment_online_student_identification_fk
+    ";
 
-        $mockData = [
-            [
-                'id' => 1,
-                'name' => 'Maria Souza',
-                'cpf' => '123.456.789-00',
-                'responsable_name' => 'João Souza',
-                'responsable_cpf' => '987.654.321-00',
-                'etapa' => 'Ensino Fundamental I',
-                'status_matricula' => 'Aprovado',
-                'prioriedade'=> 'Sim',
-            ],
-            [
-                'id' => 2,
-                'name' => 'Carlos Lima',
-                'cpf' => '321.654.987-00',
-                'responsable_name' => 'Fernanda Lima',
-                'responsable_cpf' => '654.987.321-00',
-                'etapa' => 'Ensino Fundamental I',
-                'status_matricula' => 'Pendente',
-                'prioriedade'=> 'Não',
-            ],
-        ];
-
-        $dataProvider = new CArrayDataProvider($mockData, [
+        $dataProvider = new CSqlDataProvider($sql, [
+            'totalItemCount' => Yii::app()->db->createCommand($countSql)->queryScalar(),
             'keyField' => 'id',
-            'pagination' => ['pageSize' => 10],
+            'pagination' => [
+                'pageSize' => 10,
+            ],
         ]);
 
         $columns = [
-                ['name' => 'id', 'header' => 'ID'],
-                ['name' => 'name', 'header' => 'Nome'],
-                ['name' => 'cpf', 'header' => 'CPF'],
-                ['name' => 'responsable_name', 'header' => 'Responsável'],
-                ['name' => 'responsable_cpf', 'header' => 'CPF do Responsável'],
-                ['name' => 'etapa', 'header' => 'Etapa Escolar'],
-                ['name' => 'status_matricula', 'header' => 'Status da Matrícula'],
-                ['name'=> 'prioriedade', 'header'=> 'Prioriedade'],
-                [
-                    'header'=> "Ações",
-                    "type"=> "raw",
-                    'value' => '
-                        CHtml::button("Aceitar", [
-                            "class" => "btn btn-success btn-sm",
-                            "onclick" => "updateEnrollmentStatus($data->id, \'Aprovado\')"
-                        ]) . " " .
-                        CHtml::button("Negar", [
-                            "class" => "btn btn-danger btn-sm",
-                            "onclick" => "updateEnrollmentStatus($data->id, \'Rejeitado\')"
-                        ])
-                ',],
-            ];
+            ['name' => 'id', 'header' => 'ID'],
+            ['name' => 'name', 'header' => "Nome"],
+            ['name' => 'cpf', 'header' => 'Cpf'],
+            ['name' => 'responsable_name', 'header' => 'Responsável'],
+            ['name' => 'responsable_cpf', 'header' => 'Cpf do responsável'],
+            ['name' => 'etapa', 'header' => 'Etapa escolar'],
+            ['name' => 'status_matricula', 'header' => 'Status da matrícula'],
+            ['name' => 'prioridade_1', 'header' => 'Prioridade 1'],
+            ['name' => 'prioridade_2', 'header' => 'Prioridade 2'],
+            ['name' => 'prioridade_3', 'header' => 'Prioridade 3'],
+        ];
 
         $this->render('index', [
             'dataProvider' => $dataProvider,
@@ -159,17 +152,18 @@ class EnrollmentOnlineManagerController extends Controller
         ]);
     }
 
-    public function actionUpdateEnrollmentStatus ($studentId,$status){
+    public function actionUpdateEnrollmentStatus($studentId, $status)
+    {
         $query = '
             UPDATE enrollment_online_enrollment_solicitation eoes
             JOIN enrollment_online_student_identification eosi
                 ON eosi.id = eoes.enrollment_online_student_identification_fk
             SET eoes.status = :value
             WHERE eosi.id = :id';
-        $data = Yii::app()->db->createCommand($query)->execute([
+        Yii::app()->db->createCommand($query)->execute([
             ':value' => $status,
             ':id' => $studentId
         ]);
-        $teste = "teste";
+
     }
 }
