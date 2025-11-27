@@ -78,6 +78,7 @@ class FormsController extends Controller
         $this->layout = 'reports';
         $repository = new FormsRepository();
         $query = $repository->getEnrollmentDeclaration($enrollmentId);
+        $query['enrollmentId'] = $enrollmentId;
         $this->render('EnrollmentDeclarationReport', $query);
     }
 
