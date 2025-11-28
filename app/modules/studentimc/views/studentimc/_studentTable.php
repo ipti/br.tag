@@ -34,8 +34,9 @@
                         ),
                         array(
                             'name' => 'birthday_date',
+                            'header' => 'Data de Nascimento',
                             'filter' => false,
-                            'value' => 'Yii::app()->dateFormatter->format("dd/MM/yyyy", $data->birthday)',
+                            'value' => '$data->birthday',
                         ),
                     ),
                 ));

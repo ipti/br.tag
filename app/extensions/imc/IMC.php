@@ -11,15 +11,15 @@ class IMC
 
 
 
-    public function imcSituation()
+    public function imcSituation($imc)
     {
-        if($this->IMC() < 19) {
+        if($imc < 19) {
             return IMC::DESNUTRICAO;
-        } elseif($this->IMC() >= 19 && $this->IMC() < 24.9) {
+        } elseif($imc >= 19 && $imc < 24.9) {
             return IMC::NORMAL;
-        } elseif($this->IMC() >= 25 && $this->IMC() < 29.9) {
+        } elseif($imc >= 25 && $imc < 29.9) {
             return IMC::SOBREPESO;
-        } elseif($this->IMC() >= 30) {
+        } elseif($imc >= 30) {
             return IMC::OBESIDADE;
         } else {
             return null;
