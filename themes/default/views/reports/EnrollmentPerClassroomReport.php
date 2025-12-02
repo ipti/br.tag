@@ -47,8 +47,6 @@ $subtitle = "
                 case "N":
                     echo "NOITE";
                     break;
-                default:
-                    break;
             }
             ?>
         </td>
@@ -136,8 +134,6 @@ $subtitle = "
                 case '38':
                     $stage = '4ª SÉRIE';
                     break;
-                default:
-                    break;
             }
             echo $stage;
             ?>
@@ -159,8 +155,8 @@ $subtitle = "
     $rows = "";
     foreach ($report as $key=>$r){
 
-        $statusId = $r['status'];
-        $status = StudentEnrollment::getListStatus()[$statusId];
+        $status_id = $r['status'];
+        $status = StudentEnrollment::getListStatus()[$status_id];
 
         if($r['city'] && $r['uf']) {
             $citySpace = '/';
@@ -187,7 +183,7 @@ $subtitle = "
                 . "<td style='text-align: center;'>" . ($r['situation'] == '2' ? 'X' : '') . "</td>"
                 . "<td>" . $r['address'] . (strlen($r['number']) != 0 ? ", " . $r['number'] : '') . "</td>"
                 . "</tr>";
-        } elseif($key > 20 && $key < 40){
+        } else if($key > 20 && $key < 40){
             $r40 .= "<tr>". "<td style='text-align: center;'>" . ($key + 1) . "</td>"
                 . "<td style='text-align: center;'>" . $r['inep_id'] . "</td>"
                 . "<td style='text-align: center;'>" . $r['name'] . "</td>"
@@ -205,7 +201,7 @@ $subtitle = "
                 . "<td style='text-align: center;'>" . ($r['situation'] == '2' ? 'X' : '') . "</td>"
                 . "<td>" . $r['address'] . (strlen($r['number']) != 0 ? ", " . $r['number'] : '') . "</td>"
                 . "</tr>";
-        }elseif($key >=40 && $key <60){
+        }else if($key >=40 && $key <60){
             $r40 .= "<tr>". "<td style='text-align: center;'>" . ($key + 1) . "</td>"
                 . "<td style='text-align: center;'>" . $r['inep_id'] . "</td>"
                 . "<td style='text-align: center;'>" . $r['name'] . "</td>"
@@ -261,27 +257,27 @@ $subtitle = "
     ?>
     <table class="table table-bordered table-striped" style="font-size: 11px;">
         <tr>
-            <th rowspan="2" style="text-align: center;" scope="col">Nº</th>
-            <th rowspan="2" style="text-align: center;" scope="col">ID INEP</th>
-            <th rowspan="2" style="text-align: center;" scope="col">ALUNO</th>
+            <th rowspan="2" style="text-align: center;">Nº</th>
+            <th rowspan="2" style="text-align: center;">ID INEP</th>
+            <th rowspan="2" style="text-align: center;">ALUNO</th>
             <th rowspan="2" style="text-align: center;" scope="col">PCD</th>
-            <th rowspan="2" style="text-align: center;" scope="col">SITUAÇÃO DO ALUNO</th>
-            <th colspan="2" style="text-align: center;" scope="col">GÊNERO</th>
-            <th rowspan="2" style="text-align: center;" scope="col">DATA DE NASCIMENTO</th>
-            <th rowspan="2" style="text-align: center;" scope="col">NATURALIDADE</th>
-            <th colspan="3" style="text-align: center;" scope="col">TIPO DE MATRÍCULA</th>
-            <th colspan="3" style="text-align: center;" scope="col">SITUAÇÃO NA SÉRIE</th>
-            <th rowspan="2" style="text-align: center;" scope="col">ENDEREÇO</th>
+            <th rowspan="2" style="text-align: center;">SITUAÇÃO DO ALUNO</th>
+            <th colspan="2" style="text-align: center;">GÊNERO</th>
+            <th rowspan="2" style="text-align: center;">DATA DE NASCIMENTO</th>
+            <th rowspan="2" style="text-align: center;">NATURALIDADE</th>
+            <th colspan="3" style="text-align: center;">TIPO DE MATRÍCULA</th>
+            <th colspan="3" style="text-align: center;">SITUAÇÃO NA SÉRIE</th>
+            <th rowspan="2" style="text-align: center;">ENDEREÇO</th>
         </tr>
         <tr>
-            <th style="text-align: center;" scope="col">M</th>
-            <th style="text-align: center;" scope="col">F</th>
-            <th style="text-align: center;" scope="col">RM</th>
-            <th style="text-align: center;" scope="col">MTI</th>
-            <th style="text-align: center;" scope="col">MTE</th>
-            <th style="text-align: center;" scope="col">PM</th>
-            <th style="text-align: center;" scope="col">P</th>
-            <th style="text-align: center;" scope="col">R</th>
+            <th style="text-align: center;">M</th>
+            <th style="text-align: center;">F</th>
+            <th style="text-align: center;">RM</th>
+            <th style="text-align: center;">MTI</th>
+            <th style="text-align: center;">MTE</th>
+            <th style="text-align: center;">PM</th>
+            <th style="text-align: center;">P</th>
+            <th style="text-align: center;">R</th>
         </tr>
         <?php echo $r20;?>
     </table>
@@ -292,27 +288,27 @@ $subtitle = "
         <div style="page-break-after: always;"></div>
         <table class="table table-bordered table-striped" style="font-size: 11px;">
             <tr>
-                <th rowspan="2" style="text-align: center;" scope="col">Nº</th>
-                <th rowspan="2" style="text-align: center;" scope="col">ID INEP</th>
-                <th rowspan="2" style="text-align: center;" scope="col">ALUNO</th>
+                <th rowspan="2" style="text-align: center;">Nº</th>
+                <th rowspan="2" style="text-align: center;">ID INEP</th>
+                <th rowspan="2" style="text-align: center;">ALUNO</th>
                 <th rowspan="2" style="text-align: center;" scope="col">PCD</th>
-                <th rowspan="2" style="text-align: center;" scope="col">SITUAÇÃO DO ALUNO</th>
-                <th colspan="2" style="text-align: center;" scope="col">GÊNERO</th>
-                <th rowspan="2" style="text-align: center;" scope="col">DATA DE NASCIMENTO</th>
-                <th rowspan="2" style="text-align: center;" scope="col">NATURALIDADE</th>
-                <th colspan="3" style="text-align: center;" scope="col">TIPO DE MATRÍCULA</th>
-                <th colspan="3" style="text-align: center;" scope="col">SITUAÇÃO NA SÉRIE</th>
-                <th rowspan="2" style="text-align: center;" scope="col">ENDEREÇO</th>
+                <th rowspan="2" style="text-align: center;">SITUAÇÃO DO ALUNO</th>
+                <th colspan="2" style="text-align: center;">GÊNERO</th>
+                <th rowspan="2" style="text-align: center;">DATA DE NASCIMENTO</th>
+                <th rowspan="2" style="text-align: center;">NATURALIDADE</th>
+                <th colspan="3" style="text-align: center;">TIPO DE MATRÍCULA</th>
+                <th colspan="3" style="text-align: center;">SITUAÇÃO NA SÉRIE</th>
+                <th rowspan="2" style="text-align: center;">ENDEREÇO</th>
             </tr>
             <tr>
-                <th style="text-align: center;" scope="col">M</th>
-                <th style="text-align: center;" scope="col">F</th>
-                <th style="text-align: center;" scope="col">RM</th>
-                <th style="text-align: center;" scope="col">MTI</th>
-                <th style="text-align: center;" scope="col">MTE</th>
-                <th style="text-align: center;" scope="col">PM</th>
-                <th style="text-align: center;" scope="col">P</th>
-                <th style="text-align: center;" scope="col">R</th>
+                <th style="text-align: center;">M</th>
+                <th style="text-align: center;">F</th>
+                <th style="text-align: center;">RM</th>
+                <th style="text-align: center;">MTI</th>
+                <th style="text-align: center;">MTE</th>
+                <th style="text-align: center;">PM</th>
+                <th style="text-align: center;">P</th>
+                <th style="text-align: center;">R</th>
             </tr>
             <?php echo $r40;?>
         </table>
@@ -328,7 +324,7 @@ $subtitle = "
 <br>
     <p style="margin: 0 auto; text-align: right; width:600px">
         <?php
-        setlocale(LC_ALL, null);
+        setlocale(LC_ALL, NULL);
         setlocale(LC_ALL, "pt_BR.utf8", "pt_BR", "ptb", "ptb.utf8");
         setlocale(LC_TIME, "pt_BR.UTF-8");
         $time = time();
