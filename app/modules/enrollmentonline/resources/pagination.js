@@ -12,6 +12,7 @@ function changeTab(index){
         $('.prev').hide();
         $('.next').show();
         window.location.search.includes("update") ? $('.last').show() : $('.last').hide();
+        console.log( window.location.search.includes("update"))
     }else if(index == size){
         $('.prev').show();
     	$('.next').hide();

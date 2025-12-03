@@ -40,7 +40,7 @@ class EnrollmentOnlineStudentIdentificationController extends Controller
             ],
             [
                 'allow', // allow authenticated user to perform 'update' actions
-                'actions' => ['update', 'StudentStatus'],
+                'actions' => ['update', 'StudentList', 'confirmEnrollment', 'rejectEnrollment'],
                 'users' => ['@'],
             ],
             [
@@ -72,7 +72,7 @@ class EnrollmentOnlineStudentIdentificationController extends Controller
 
     public function beforeAction($action)
     {
-        $publicActions = ['getschools', 'getcities'];
+        $publicActions = ['getSchools', 'getCities'];
 
         if (Yii::app()->user->isGuest && Yii::app()->request->isAjaxRequest && !in_array($action->id, $publicActions)) {
             // Se a sessão expirou e é uma requisição AJAX
@@ -87,7 +87,7 @@ class EnrollmentOnlineStudentIdentificationController extends Controller
 
         SentrySdk::getCurrentHub()->setSpan($transaction);
 
-        if (parent::beforeAction($action)) {
+        if (parent::beforeAction(action: $action)) {
             // Verifica o timeout com base na última atividade
             if (isset(Yii::app()->user->authTimeout)) {
                 $lastActivity = Yii::app()->user->getState('last_activity');
@@ -106,16 +106,6 @@ class EnrollmentOnlineStudentIdentificationController extends Controller
         return false;
     }
 
-    /**
-     * Displays a particular model.
-     * @param integer $id the ID of the model to be displayed
-     */
-    public function actionView($id)
-    {
-        $this->render('view', [
-            'model' => $this->loadModel($id),
-        ]);
-    }
 
     /**
      * Creates a new model.
@@ -131,14 +121,21 @@ class EnrollmentOnlineStudentIdentificationController extends Controller
 
         if (isset($_POST['EnrollmentOnlineStudentIdentification'])) {
             $model->attributes = $_POST['EnrollmentOnlineStudentIdentification'];
+            $model->cpf = preg_replace('/\D/', '', $model->cpf);
+            $model->responsable_cpf = preg_replace('/\D/', '', $model->responsable_cpf);
+            $model->responsable_telephone = preg_replace('/\D/', '', $model->responsable_telephone);
+            $model->edcenso_nation_fk = $_POST['EnrollmentOnlineStudentIdentification']['edcenso_nation_fk'];
             $repository = new EnrollmentonlinestudentidentificationRepository($model);
             $user = $repository->savePreEnrollment();
             Yii::app()->user->setFlash('success', Yii::t('default', 'Pre-matricula realizada om sucesso! Agora voê pode acompnhar o andamento no com seu login ' . $user->username . ''));
         }
 
-        $this->render('create', [
-            'model' => $model,
-        ]);
+        Yii::app()->user->setFlash('success', Yii::t('default', 'Pre-matricula realizada om sucesso! Agora voê pode acompnhar o andamento no com seu login ' . $user->username . ''));
+
+        $this->render('login');
+        /* $this->render('create', [
+        'model' => $model,
+        ]); */
     }
 
     public function actionStudentList()
@@ -150,16 +147,21 @@ class EnrollmentOnlineStudentIdentificationController extends Controller
             'studentList' => $studentList,
         ]);
     }
-
-       public function actionStudentStatus()
+    public function actionConfirmEnrollment()
     {
-        $model = new EnrollmentOnlineStudentIdentification();
-        $repository = new EnrollmentonlinestudentidentificationRepository($model);
-        $studentStatus = $repository->getStudentStatus();
-        $this->render('studentstatus', [
-            'studentStatus' => $studentStatus,
-        ]);
 
+        $id = Yii::app()->request->getPost('enrollmentId');
+        $model = $this->loadModel($id);
+        $repository = new EnrollmentonlinestudentidentificationRepository($model);
+        echo $repository->confirmEnrollment();
+    }
+    public function actionRejectEnrollment()
+    {
+
+        $id = Yii::app()->request->getPost('enrollmentId');
+        $model = $this->loadModel($id);
+        $repository = new EnrollmentonlinestudentidentificationRepository($model);
+        echo $repository->rejectedEnrollment();
     }
 
     /**
@@ -176,8 +178,18 @@ class EnrollmentOnlineStudentIdentificationController extends Controller
 
         if (isset($_POST['EnrollmentOnlineStudentIdentification'])) {
             $model->attributes = $_POST['EnrollmentOnlineStudentIdentification'];
+            $model->cpf = preg_replace('/\D/', '', $model->cpf);
+            $model->responsable_cpf = preg_replace('/\D/', '', $model->responsable_cpf);
+            $model->responsable_telephone = preg_replace('/\D/', '', $model->responsable_telephone);
             if ($model->save()) {
-                $this->redirect(['view', 'id' => $model->id]);
+                if (
+                    Yii::app()->getAuthManager()->checkAccess('admin', Yii::app()->user->loginInfos->id) ||
+                    Yii::app()->getAuthManager()->checkAccess('manager', Yii::app()->user->loginInfos->id)
+                ) {
+                    $this->redirect(['index']);
+                } else {
+                    $this->redirect(['StudentList']);
+                }
             }
         }
 
@@ -227,6 +239,7 @@ class EnrollmentOnlineStudentIdentificationController extends Controller
     public function actionIndex()
     {
         $schoolInepId = Yii::app()->user->school;
+
         $dataProvider = new CActiveDataProvider('EnrollmentOnlineStudentIdentification', [
             'criteria' => [
                 'alias' => 'eosi',
@@ -237,17 +250,19 @@ class EnrollmentOnlineStudentIdentificationController extends Controller
                         'joinType' => 'INNER JOIN',
                     ],
                 ],
-                'condition' => 'eoes.school_inep_id_fk = :schoolInepId',
+                'condition' => " eoes.school_inep_id_fk = :schoolInepId and NOT EXISTS ( SELECT 1 FROM enrollment_online_enrollment_solicitation eoes
+                                    WHERE eoes.enrollment_online_student_identification_fk = eosi.id
+                                    AND eoes.status = 2 ) and NOT EXISTS ( SELECT 1 FROM enrollment_online_enrollment_solicitation eoes
+                                    WHERE eoes.enrollment_online_student_identification_fk = eosi.id and eoes.status = 3  and eoes.school_inep_id_fk = :schoolInepId) ",
                 'params' => [':schoolInepId' => $schoolInepId],
             ],
         ]);
 
-
-
-        $this->render('index', array(
+        $this->render('index', [
             'dataProvider' => $dataProvider,
-        ));
+        ]);
     }
+
 
     /**
      * Manages all models.
