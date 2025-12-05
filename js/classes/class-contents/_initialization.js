@@ -22,10 +22,9 @@ function loadClassContents() {
         success: function (data) {
             data = jQuery.parseJSON(data);
             if (data.valid) {
-                let urlIsValidate = window.location.href.includes(
-                    "validateClassContents"
-                );
-                if (urlIsValidate) {
+                let urlIsValidate = window.location.href.includes("validateclasscontents");
+
+                if(urlIsValidate) {
                     createValidateTable(data);
                 } else {
                     createTable(data);

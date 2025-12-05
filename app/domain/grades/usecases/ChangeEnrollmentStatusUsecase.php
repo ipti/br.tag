@@ -51,11 +51,18 @@ class ChangeEnrollmentStatusUsecase
     {
         // Como cada disciplina do enrollment possui um gradeResult único
         // retornar uma disciplina significa retornar um gradeResult
-
-        return GradeResults::model()->findAllByAttributes(
+        $allGradesResults = GradeResults::model()->findAllByAttributes(
             [
                 'enrollment_fk' => $enrollmentFk
             ]
         );
+        $result = [];
+        foreach ($allGradesResults as $gradesResult) {
+            $disipline =  EdcensoDiscipline::model()->findByPk($gradesResult->discipline_fk);
+            if($disipline->requires_exam == 1) {
+                array_push($result, $gradesResult);
+            }
+        }
+        return $result;
     }
 }

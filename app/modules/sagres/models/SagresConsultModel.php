@@ -72,7 +72,7 @@ class SagresConsultModel
             $connection->createCommand($resetQuery)->execute();
 
         } catch (Exception $e) {
-            throw $e;
+            throw new Error($e->getMessage());
         }
     }
 
@@ -298,7 +298,7 @@ class SagresConsultModel
             $inconsistencyModel->insert();
         }
 
-        if ($diretor->getCpfDiretor() === null || !preg_match('/^[0-9]{11}$/', $diretor->getCpfDiretor())) {
+        if ($diretor->getCpfDiretor() === null || !preg_match('/\d{11}$/', $diretor->getCpfDiretor())) {
             $inconsistencyModel = new ValidationSagresModel();
             $inconsistencyModel->enrollment = 'DIRETOR';
             $inconsistencyModel->school = $school['name'];
@@ -354,8 +354,8 @@ class SagresConsultModel
 
         foreach ($students as $student) {
             $infoStudent = $this->getStudentInfo($student['student_fk']);
-            $count = $this->getCountOfClassrooms($student, $infoStudent, $year);
-            $this->checkStudentEnrollment($student['student_fk'], $year, $infoStudent);
+            $count = $this->getCountOfClassrooms($student,$year);
+            $this->checkStudentEnrollment($student['student_fk'], $year, infoStudent: $infoStudent);
 
             if (!in_array($student['student_fk'], $processedStudents)) {
                 $this->createInconsistencyModel($student, $infoStudent, $count);
@@ -364,7 +364,7 @@ class SagresConsultModel
         }
     }
 
-    private function getCountOfClassrooms($student, $infoStudent, $year)
+    private function getCountOfClassrooms($student, $year)
     {
         $query = 'SELECT complementary_activity, aee, school_inep_id_fk, c.name
                   FROM student_enrollment se
@@ -379,19 +379,10 @@ class SagresConsultModel
         $count = count($result);
 
         $classNames = [];
-        $schoolInepIds = [];
 
         foreach ($result as $row) {
             $classNames[] = $row['name'];
-            $schoolInepIds[] = $row['school_inep_id_fk'];
         }
-
-        /*
-        if (count(array_unique($schoolInepIds)) > 1) {
-            $this->duplicatedSchool($student, $infoStudent);
-        }
-        */
-
         if ($count > 2) {
             $classNamesString = implode(', ', $classNames);
             return [
@@ -537,7 +528,7 @@ class SagresConsultModel
         $command->bindParam(':id', $id);
         $result = $command->queryRow();
 
-        return $result;
+        return $command->queryRow();
     }
 
     private function getStudentInfo($studentfk)
@@ -733,10 +724,9 @@ class SagresConsultModel
             ':referenceYear' => $this->referenceYear
         ];
 
-        $turmas = Yii::app()->db->createCommand($query)
+        return Yii::app()->db->createCommand($query)
             ->bindValues($params)
             ->queryAll();
-        return $turmas;
     }
 
     private function getClassesValidation($count, $schoolName, $classType, $classId, $inepId)
@@ -2201,9 +2191,8 @@ class SagresConsultModel
     {
         $command = Yii::app()->db->createCommand('SELECT esvm.stage FROM edcenso_stage_vs_modality esvm WHERE id = :id');
         $command->bindParam(':id', $id);
-        $stage = $command->queryScalar();
 
-        return $stage;
+        return $command->queryScalar();
     }
 
     private function calculateAge($birthdate): int

@@ -84,10 +84,11 @@ class UpdateGradeJustOneStructUsecase
                     $unityModel = new GradeUnity();
                 }
 
-                $unityModel->name = $unity['name'];
-                $unityModel->semester = $unity['semester'];
-                $unityModel->type = $unity['type'];
-                $unityModel->grade_calculation_fk = $unity['formula'];
+                $unityModel->name = $unity["name"];
+                $unityModel->weight = $unity["weight"];
+                $unityModel->semester = $unity["semester"];
+                $unityModel->type = $unity["type"];
+                $unityModel->grade_calculation_fk = $unity["formula"];
                 $unityModel->grade_rules_fk = $this->gradeRulesId;
 
                 if (!$unityModel->validate()) {
