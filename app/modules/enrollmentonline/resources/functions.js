@@ -59,6 +59,7 @@ $(".js-stage").on("change", () => {
     })
 })
 
+
 $("select.js-school-1, select.js-school-2, select.js-school-3").on("change", function () {
     const currentVal = $(this).val();
     const currentSelect = this;
@@ -77,6 +78,86 @@ $("select.js-school-1, select.js-school-2, select.js-school-3").on("change", fun
         $(this).select2("val", "");
         $(this).select2();
 
+    }
+});
+
+
+$(".js-confirm-enrollment").on("click", function () {
+    if (confirm("Tem certeza que deseja confirmar a matrícula?")) {
+        $.ajax({
+            type: "POST",
+            url: "?r=enrollmentonline/Enrollmentonlinestudentidentification/confirmEnrollment",
+            dataType: "json",
+            cache: false,
+            data: {
+                enrollmentId: $('input.js-online-enrollment-id').val(),
+            },
+            success: function (result) {
+
+                $(".js-alert-enrollment-online").text(result.message);
+
+                if (result.status === "success") {
+                    $(".js-alert-enrollment-online").removeClass("alert-danger");
+                    $(".js-alert-enrollment-online").addClass("alert-success");
+                } else {
+                    $(".js-alert-enrollment-online").removeClass("alert-success");
+                    $(".js-alert-enrollment-online").addClass("alert-danger");
+                }
+            }
+        });
+
+    }
+});
+
+$(".js-rejected-enrollment").on("click", function () {
+    if (confirm("Tem certeza que deseja rejeitar a matrícula?")) {
+        $.ajax({
+            type: "POST",
+            url: "?r=enrollmentonline/Enrollmentonlinestudentidentification/rejectEnrollment",
+            dataType: "json",
+            cache: false,
+            data: {
+                enrollmentId: $('input.js-online-enrollment-id').val(),
+            },
+            beforeSend: function () {
+                 $("#loading-popup").removeClass("hide").addClass("loading-center");
+            },
+            success: function (result) {
+
+                $(".js-alert-enrollment-online").text(result.message);
+
+                if (result.status === "success") {
+                    $(".js-alert-enrollment-online").removeClass("alert-error");
+                    $(".js-alert-enrollment-online").addClass("alert-success");
+                } else {
+                    $(".js-alert-enrollment-online").removeClass("alert-success");
+                    $(".js-alert-enrollment-online").addClass("alert-error");
+                }
+                $(".js-alert-enrollment-online").show();
+               $("#loading-popup").removeClass("loading-center").addClass("hide");
+
+            }
+        });
+
+    }
+});
+
+
+$(".js-nationality-select").on("change", () => {
+    const val = $(".js-nationality-select").select2("val");
+
+    if (val === "1" || val === "2") {
+        $('.js-edcenso_nation_fk').attr('disabled', 'disabled');
+        $('.js-edcenso_nation_fk').select2('val', 76);
+        $('.js-edcenso_nation_fk_hidden').val(76);
+    } else if (val === "3") {
+        $('.js-edcenso_nation_fk').removeAttr('disabled');
+        $('.js-edcenso_nation_fk').select2('val', '');
+        $('.js-edcenso_nation_fk_hidden').val('');
+    } else {
+        $('.js-edcenso_nation_fk').attr('disabled', 'disabled');
+        $('.js-edcenso_nation_fk').select2('val', '');
+        $('.js-edcenso_nation_fk_hidden').val('');
     }
 });
 

@@ -8,10 +8,16 @@ $cs = Yii::app()->getClientScript();
 $cs->registerScriptFile($baseScriptUrl . '/functions.js?v=' . TAG_VERSION, CClientScript::POS_END);
 $cs->registerScriptFile($baseScriptUrl . '/pagination.js?v=' . TAG_VERSION, CClientScript::POS_END);
 $cs->registerScriptFile($baseScriptUrl . '/validations.js?v=' . TAG_VERSION, CClientScript::POS_END);
+
+$adminOrManager = !Yii::app()->user->isGuest &&
+    (Yii::app()->authManager->checkAccess('admin', Yii::app()->user->loginInfos->id) ||
+     Yii::app()->authManager->checkAccess('manager', Yii::app()->user->loginInfos->id));
+
+
 ?>
 
-<div class="form">
 
+<div class="form">
     <?php $form = $this->beginWidget('CActiveForm', [
         'id' => 'online-enrollment-student-identification-form',
         // Please note: When you enable ajax validation, make sure the corresponding
@@ -20,20 +26,36 @@ $cs->registerScriptFile($baseScriptUrl . '/validations.js?v=' . TAG_VERSION, CCl
         // See class documentation of CActiveForm for details on this.
         'enableAjaxValidation' => false,
     ]); ?>
-    <div id="content">
-        <div class="main form-content">
+    <div id="<?= $model->isNewRecord ? 'content' : '' ?>" class="<?= $model->isNewRecord ? 'enrolment-online-content' : '' ?>">
+        <div id="loading-popup" class="hide">
+            <img class="js-grades-loading" height="60px" width="60px" src="/themes/default/img/loadingTag.gif" alt="TAG Loading">
+        </div>
+        <div class="main <?= $model->isNewRecord ? 'form-content' : '' ?>">
             <div class="row">
                 <div class="column">
                     <h1>
                         <?php echo $title; ?>
                     </h1>
                 </div>
+                <div class="column clearfix align-items--center justify-content--end show--desktop">
+                    <a data-toggle="tab" class='hide-responsive t-button-secondary prev'
+                        style="display:none;"><?php echo Yii::t('default', 'Previous') ?><i></i></a>
+                    <?= $model->isNewRecord ? "<a data-toggle='tab' class='t-button-primary  next'>" . Yii::t('default', 'Next') . "</a>" : '' ?>
+
+                    <button class="t-button-primary last " type="submit" style="display:none;">
+                        <?= $model->isNewRecord ? Yii::t('default', 'Create') : Yii::t('default', 'Save') ?>
+                    </button>
+
+                </div>
             </div>
             <?php if (Yii::app()->user->hasFlash('success') && (!$model->isNewRecord)): ?>
-                <div class="alert classroom-alert alert-success">
+                <div class="alert alert-success">
                     <?= Yii::app()->user->getFlash('success') ?>
                 </div>
             <?php endif; ?>
+            <div class="alert alert-success js-alert-enrollment-online hide">
+                <?= Yii::app()->user->getFlash('success') ?>
+            </div>
             <div class="alert alert-error hide js-alert"></div>
             <div class="t-tabs js-tab-control" style="margin-left: 1em;">
                 <ul class="tab-student t-tabs__list">
@@ -74,6 +96,7 @@ $cs->registerScriptFile($baseScriptUrl . '/validations.js?v=' . TAG_VERSION, CCl
                             Dados Básicos
                         </h3>
                     </div>
+                    <?php echo $form->hiddenField($model, 'id', ['id' => 'online-enrollment-id', 'class' => 'js-online-enrollment-id']); ?>
                     <div class="row">
                         <div class="t-field-text column">
                             <?php echo $form->labelEx($model, 'name', ['class' => 't-field-text__label']); ?>
@@ -88,6 +111,40 @@ $cs->registerScriptFile($baseScriptUrl . '/validations.js?v=' . TAG_VERSION, CCl
                             $this->widget('zii.widgets.jui.CJuiDatePicker', $options);
                             ?>
                             <?php echo $form->error($model, 'birthday'); ?>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="column">
+                            <div class="t-field-select" id="nationality-select">
+                                <?= $form->label($model, 'nationality', array('class' => 't-field-select__label--required')); ?>
+                                <?=
+                                $form->dropDownList(
+                                    $model,
+                                    'nationality',
+                                    array(null => "Selecione a nacionalidade", "1" => "Brasileira", "2" => "Brasileira: Nascido no exterior ou Naturalizado", "3" => "Estrangeira"),
+                                    array('class' => 'select-search-off t-field-select__input select2-container js-nationality-select')
+
+                                );
+                                ?>
+                                <?php echo $form->error($model, 'nationality'); ?>
+                            </div>
+                        </div>
+                        <div class="column">
+                            <div class="t-field-select">
+                                <?php echo $form->label($model, 'edcenso_nation_fk', array('class' => 't-field-select__label--required')); ?>
+                                <?php
+                                echo CHtml::hiddenField('EnrollmentOnlineStudentIdentification[edcenso_nation_fk]', '', [
+                                    'class' => 'js-edcenso_nation_fk_hidden'
+                                ]);
+                                echo $form->dropDownList(
+                                    $model,
+                                    'edcenso_nation_fk',
+                                    CHtml::listData(EdcensoNation::model()->findAll(array('order' => 'name')), 'id', 'name'),
+                                    array("prompt" => "Selecione uma nação", 'class' => 'select-search-on nationality-sensitive no-br t-field-select__input select2-container js-edcenso_nation_fk', 'disabled' => 'disabled')
+                                );
+                                ?>
+                                <?php echo $form->error($model, 'edcenso_nation_fk'); ?>
+                            </div>
                         </div>
                     </div>
 
@@ -243,11 +300,7 @@ $cs->registerScriptFile($baseScriptUrl . '/validations.js?v=' . TAG_VERSION, CCl
                     </div>
 
                     <div class="row">
-                        <div class="t-field-text column">
-                            <?php echo $form->labelEx($model, 'responsable_nis', ['class' => 't-field-text__label']); ?>
-                            <?php echo $form->textField($model, 'responsable_nis', ['size' => 14, 'maxlength' => 14, 'class' => 't-field-text__input  js-cpf-mask js-field-required']); ?>
-                            <?php echo $form->error($model, 'responsable_nis'); ?>
-                        </div>
+
                     </div>
 
                     <div class="row">
@@ -259,10 +312,11 @@ $cs->registerScriptFile($baseScriptUrl . '/validations.js?v=' . TAG_VERSION, CCl
                         <div class="t-field-text column">
                             <label class="t-field-select__label--required ">Filiação</label>
                             <?php
-                            echo CHtml::dropDownList(
+                            echo $form->DropDownList(
+                                $model,
                                 'filiation',
-                                '',
                                 [
+
                                     null => 'Selecione a filiação',
                                     '0' => 'Não declarada/ignorada',
                                     '1' => 'Mãe e/ou Pai',
@@ -274,15 +328,15 @@ $cs->registerScriptFile($baseScriptUrl . '/validations.js?v=' . TAG_VERSION, CCl
                     </div>
                     <div class="row js-hide-filiation" style="display:none;">
                         <div class="t-field-text column">
-                            <?php echo $form->labelEx($model, 'mother_name', ['class' => 't-field-text__label']); ?>
-                            <?php echo $form->textField($model, 'mother_name', ['size' => 60, 'maxlength' => 90, 'class' => 't-field-text__input js-mother-name', 'placeholder' => 'Digite o Nome da Mãe']); ?>
-                            <?php echo $form->error($model, 'mother_name'); ?>
+                            <?php echo $form->labelEx($model, 'filiation_1', ['class' => 't-field-text__label']); ?>
+                            <?php echo $form->textField($model, 'filiation_1', ['size' => 60, 'maxlength' => 100, 'class' => 't-field-text__input js-mother-name', 'placeholder' => 'Digite o Nome da Mãe']); ?>
+                            <?php echo $form->error($model, 'filiation_1'); ?>
                         </div>
 
                         <div class="t-field-text column">
-                            <?php echo $form->labelEx($model, 'father_name', ['class' => 't-field-text__label']); ?>
-                            <?php echo $form->textField($model, 'father_name', ['size' => 60, 'maxlength' => 90, 'class' => 't-field-text__input js-father-name', 'placeholder' => 'Digite o Nome do Pai']); ?>
-                            <?php echo $form->error($model, 'father_name'); ?>
+                            <?php echo $form->labelEx($model, 'filiation_2', ['class' => 't-field-text__label']); ?>
+                            <?php echo $form->textField($model, 'filiation_2', ['size' => 60, 'maxlength' => 100, 'class' => 't-field-text__input js-father-name', 'placeholder' => 'Digite o Nome do Pai']); ?>
+                            <?php echo $form->error($model, 'filiation_2'); ?>
                         </div>
                     </div>
                 </div>
@@ -295,20 +349,20 @@ $cs->registerScriptFile($baseScriptUrl . '/validations.js?v=' . TAG_VERSION, CCl
                     <div class="row">
                         <div class="t-field-text column">
                             <?php echo $form->labelEx($model, 'cep', ['class' => 't-field-text__label']); ?>
-                            <?php echo $form->textField($model, 'cep', ['size' => 8, 'maxlength' => 8, 'class' => 't-field-text__input js-cep-mask']); ?>
+                            <?php echo $form->textField($model, 'cep', ['size' => 9, 'maxlength' => 9, 'class' => 't-field-text__input js-cep-mask']); ?>
                             <?php echo $form->error($model, 'cep'); ?>
                         </div>
                         <div class="t-field-text column">
-                            <?php echo $form->labelEx($model, 'zone', ['class' => 't-field-text__label']); ?>
+                            <?php echo $form->labelEx($model, 'residence_zone', ['class' => 't-field-text__label']); ?>
                             <?php
                             echo $form->DropDownList(
                                 $model,
-                                'zone',
+                                'residence_zone',
                                 [null => 'Selecione uma zona', '1' => 'URBANA', '2' => 'RURAL'],
                                 ['class' => 'select-search-off t-field-select__input select2-container']
                             ); ?>
 
-                            <?php echo $form->error($model, 'zone'); ?>
+                            <?php echo $form->error($model, 'residence_zone'); ?>
                         </div>
                     </div>
 
@@ -392,13 +446,13 @@ $cs->registerScriptFile($baseScriptUrl . '/validations.js?v=' . TAG_VERSION, CCl
                             ?>
                             <?php echo $form->error($model, 'edcenso_stage_vs_modality_fk'); ?>
                         </div>
-                        <div class="t-field-text column">
+                        <div class="t-field-text column is-half">
                             <label for="" class="t-field-text__label">Priemira opção matrícula</label>
                             <?php
                             echo CHtml::dropDownList(
                                 'school_1',
-                                '',
-                                [],
+                                $studentSolicitations[0]['school_inep_id_fk'],
+                                $schools,
                                 [
                                     'prompt' => 'Selecione uma opção de matrícula',
                                     'class' => 'select-search-on t-field-select__input select2-container js-school-1 js-field-required',
@@ -409,13 +463,13 @@ $cs->registerScriptFile($baseScriptUrl . '/validations.js?v=' . TAG_VERSION, CCl
                         </div>
                     </div>
                     <div class="row">
-                        <div class="t-field-text column">
+                        <div class="t-field-text column is-half">
                             <label for="" class="t-field-text__label">Segunda opção matrícula</label>
                             <?php
                             echo CHtml::dropDownList(
                                 'school_2',
-                                '',
-                                [],
+                                $studentSolicitations[1]->school_inep_id_fk,
+                                $schools,
                                 [
                                     'prompt' => 'Selecione uma opção de matrícula',
                                     'class' => 'select-search-on t-field-select__input select2-container js-school-2 js-field-required',
@@ -429,8 +483,8 @@ $cs->registerScriptFile($baseScriptUrl . '/validations.js?v=' . TAG_VERSION, CCl
                             <?php
                             echo CHtml::dropDownList(
                                 'school_3',
-                                '',
-                                [],
+                                $studentSolicitations[2]->school_inep_id_fk,
+                                $schools,
                                 [
                                     'prompt' => 'Selecione uma opção de matrícula',
                                     'class' => 'select-search-on t-field-select__input select2-container js-school-3 js-field-required',
@@ -440,9 +494,37 @@ $cs->registerScriptFile($baseScriptUrl . '/validations.js?v=' . TAG_VERSION, CCl
                             ?>
                         </div>
                     </div>
+                    <?php if($adminOrManager):?>
+                    <div class="row show--desktop">
+                        <div class="column"></div>
+                        <div class="column">
+                            <div class="row justify-content--end">
+                                <a class="t-button-danger column t-margin-none--right js-rejected-enrollment">
+                                    Rejeitar Matrícula
+                                </a>
+                                <a class="t-button-success column t-margin-none--right  js-confirm-enrollment">
+                                    Confirmar Matrícula
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row show--tablet">
+                        <div class="column">
+                            <a class="t-button-danger  t-margin-none--bottom  t-margin-none--right  js-rejected-enrollment">
+                                Rejeitar Matrícula
+                            </a>
+
+                        </div>
+                        <div class="column">
+                            <a class="t-button-success  t-margin-none--top  t-margin-none--right  js-confirm-enrollment">
+                                Confirmar Matrícula
+                            </a>
+                        </div>
+                    </div>
+                    <?php endif;?>
                 </div>
             </div>
-            <div class="row reverse t-margin-large--top">
+            <div class="row reverse t-margin-large--top reverse show--tablet">
                 <div class="t-buttons-container">
                     <div class="column"></div>
                     <div class="column"></div>
@@ -451,13 +533,14 @@ $cs->registerScriptFile($baseScriptUrl . '/validations.js?v=' . TAG_VERSION, CCl
                             style="display:none;"><?php echo Yii::t('default', 'Previous') ?><i></i></a>
                     </div>
                     <div class="column">
-                        <a data-toggle='tab'
-                            class='t-button-primary t-margin-none--right t-padding-small--all nofloat next'><?= Yii::t('default', 'Next') ?></a>
+                        <?= $model->isNewRecord ? "<a data-toggle='tab' class='t-button-primary t-margin-none--right t-padding-small--all nofloat next'>" . Yii::t('default', 'Next') . "</a>" : '' ?>
                         <button class="t-button-primary t-padding-small--all t-margin-none--right last save-student"
                             type="submit" style="display:none;width:100%;">
                             <?= Yii::t('default', 'Save') ?>
                         </button>
                     </div>
+
+
                 </div>
             </div>
             <?php $this->endWidget(); ?>
@@ -465,7 +548,7 @@ $cs->registerScriptFile($baseScriptUrl . '/validations.js?v=' . TAG_VERSION, CCl
     </div>
 </div><!-- form -->
 <style>
-    #content {
+    #content.enrolment-online-content {
         margin-top: 80px;
     }
 </style>

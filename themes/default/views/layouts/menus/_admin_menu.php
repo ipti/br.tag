@@ -16,13 +16,6 @@ $menuItems = [
         'roles' => [TRole::SUPERUSER],
         'feature' => TTask::TASK_HOME,
     ],
-    [
-        'label' => 'Matrícula Online',
-        'url' => ['enrollmentonline/Enrollmentonlinestudentidentification/StudentStatus'],
-        'icon' => 't-icon-backpack',
-        'roles' => [TRole::GUARDIAN],
-        'feature' => TTask::TASK_ONLINE_ENROLLMENT,
-    ],
 
     // Escola, Turmas, Alunos, Professores
     [
@@ -49,6 +42,19 @@ $menuItems = [
         'icon' => 't-icon-pencil',
         'roles' => [TRole::ADMIN, TRole::MANAGER, TRole::READER],
         'feature' => TTask::TASK_STUDENT_MANAGE,
+    ],
+    [
+        'label' => 'Matrícula Online',
+        'url' =>function() {
+            if(Yii::app()->getAuthManager()->checkAccess('guardian', Yii::app()->user->loginInfos->id)) {
+                return ['enrollmentonline/Enrollmentonlinestudentidentification/StudentList'];
+            }
+            return ['enrollmentonline/Enrollmentonlinestudentidentification/index'];
+        },
+         ['enrollmentonline/Enrollmentonlinestudentidentification/StudentStatus'],
+        'icon' => 't-icon-backpack',
+        'roles' => [TRole::GUARDIAN, TRole::ADMIN, TRole::MANAGER, TRole::READER],
+        'feature' => TTask::TASK_ONLINE_ENROLLMENT,
     ],
     [
         'label' => 'Professores',
@@ -262,7 +268,7 @@ $menuItems = [
         'url' => function() {
             return ['admin/editPassword', ['id' => Yii::app()->user->loginInfos->id]];
         },
-        'roles' => [TRole::ADMIN, TRole::MANAGER, TRole::READER, TRole::INSTRUCTOR, TRole::NUTRITIONIST, TRole::FOOD_SERVICE_WORKER],
+        'roles' => [TRole::ADMIN, TRole::MANAGER, TRole::READER, TRole::INSTRUCTOR, TRole::NUTRITIONIST, TRole::FOOD_SERVICE_WORKER, TRole::GUARDIAN],
         'icon' => 't-icon-lock',
         'feature' => TFeature::FEAT_ADMIN_GENERAL,
     ],

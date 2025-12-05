@@ -46,7 +46,7 @@ $this->menu = [
                         array(
                             'name' => 'name',
                             'type' => 'raw',
-                            'value' => '$data->name',
+                            'value' => ' CHtml::link($data->name,Yii::app()->createUrl("enrollmentonline/enrollmentonlinestudentidentification/update",array("id"=>$data->id)))',
                             'htmlOptions' => array('width' => '300px', 'class' => 'link-update-grid-view'),
                         )
                     );
