@@ -72,7 +72,7 @@ class EnrollmentOnlineStudentIdentificationController extends Controller
 
     public function beforeAction($action)
     {
-        $publicActions = ['getSchools', 'getCities'];
+        $publicActions = ['getschools', 'getcities'];
 
         if (Yii::app()->user->isGuest && Yii::app()->request->isAjaxRequest && !in_array($action->id, $publicActions)) {
             // Se a sessão expirou e é uma requisição AJAX
@@ -128,14 +128,12 @@ class EnrollmentOnlineStudentIdentificationController extends Controller
             $repository = new EnrollmentonlinestudentidentificationRepository($model);
             $user = $repository->savePreEnrollment();
             Yii::app()->user->setFlash('success', Yii::t('default', 'Pre-matricula realizada om sucesso! Agora voê pode acompnhar o andamento no com seu login ' . $user->username . ''));
+            $this->render('login');
         }
 
-        Yii::app()->user->setFlash('success', Yii::t('default', 'Pre-matricula realizada om sucesso! Agora voê pode acompnhar o andamento no com seu login ' . $user->username . ''));
-
-        $this->render('login');
-        /* $this->render('create', [
+        $this->render('create', [
         'model' => $model,
-        ]); */
+        ]);
     }
 
     public function actionStudentList()

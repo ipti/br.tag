@@ -19,6 +19,7 @@ class EnrollmentonlinestudentidentificationRepository
         $this->studentIdentification->cpf = preg_replace($cleanPattern, '', $this->studentIdentification->cpf);
         $this->studentIdentification->responsable_cpf = preg_replace($cleanPattern, '', $this->studentIdentification->responsable_cpf);
         $this->studentIdentification->responsable_telephone = preg_replace($cleanPattern, '', $this->studentIdentification->responsable_telephone);
+        $this->studentIdentification->cep = preg_replace($cleanPattern, '', $this->studentIdentification->cep);
 
         $transaction = Yii::app()->db->beginTransaction();
 

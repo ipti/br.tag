@@ -349,7 +349,7 @@ $adminOrManager = !Yii::app()->user->isGuest &&
                     <div class="row">
                         <div class="t-field-text column">
                             <?php echo $form->labelEx($model, 'cep', ['class' => 't-field-text__label']); ?>
-                            <?php echo $form->textField($model, 'cep', ['size' => 8, 'maxlength' => 8, 'class' => 't-field-text__input js-cep-mask']); ?>
+                            <?php echo $form->textField($model, 'cep', ['size' => 9, 'maxlength' => 9, 'class' => 't-field-text__input js-cep-mask']); ?>
                             <?php echo $form->error($model, 'cep'); ?>
                         </div>
                         <div class="t-field-text column">
