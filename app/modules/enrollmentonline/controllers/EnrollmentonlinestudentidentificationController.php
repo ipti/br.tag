@@ -342,4 +342,28 @@ class EnrollmentOnlineStudentIdentificationController extends Controller
             echo CHtml::tag('option', ['value' => $value], CHtml::encode($name), true);
         }
     }
+
+    public function actionRenderStudentTable()
+    {
+        $status = Yii::app()->request->getPost('status');
+        $schoolInepId = Yii::app()->user->school;
+
+        $dataProvider = new CActiveDataProvider('EnrollmentOnlineStudentIdentification', [
+            'criteria' => [
+                'alias' => 'eosi',
+                'with' => [
+                    'enrollmentOnlineEnrollmentSolicitations' => [
+                        'alias' => 'eoes',
+                        'together' => true,
+                        'joinType' => 'INNER JOIN',
+                    ],
+                ],
+                'condition' => " eoes.school_inep_id_fk = :schoolInepId and eoes.status = :status and NOT EXISTS ( SELECT 1 FROM enrollment_online_enrollment_solicitation eoes
+                                    WHERE eoes.enrollment_online_student_identification_fk = eosi.id
+                                    AND eoes.status = 2  and eoes.school_inep_id_fk != :schoolInepId) ",
+                'params' => [':schoolInepId' => $schoolInepId, ':status' => $status],
+            ],
+        ]);
+        $this->renderPartial('_studentTable', ['dataProvider' => $dataProvider]);
+    }
 }

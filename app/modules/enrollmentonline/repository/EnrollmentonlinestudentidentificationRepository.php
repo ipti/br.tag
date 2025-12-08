@@ -56,7 +56,7 @@ class EnrollmentonlinestudentidentificationRepository
     private function saveSolicitations($inepId)
     {
         $enrollmentSolicitation = new EnrollmentOnlineEnrollmentSolicitation();
-        $enrollmentSolicitation->status = 0;
+        $enrollmentSolicitation->status = 1;
         $enrollmentSolicitation->school_inep_id_fk = $inepId;
         $enrollmentSolicitation->enrollment_online_student_identification_fk = $this->studentIdentification->id;
         return $enrollmentSolicitation->save();
@@ -137,7 +137,24 @@ class EnrollmentonlinestudentidentificationRepository
 
     public function confirmEnrollment()
     {
-        // ---------- 1. Buscar turma com vaga ----------
+
+        $classroom = $this->findAvailableClassroom();
+
+        if (!$classroom) {
+            return $this->jsonError("Não há vagas disponíveis para esta etapa/modalidade.");
+        }
+
+        $existingStudent = $this->findExistingStudent();
+
+        if ($existingStudent === null) {
+            return $this->createNewStudentAndEnrollment($classroom);
+        }
+
+        return $this->createEnrollmentForExistingStudent($existingStudent, $classroom);
+    }
+
+    private function findAvailableClassroom()
+    {
         $criteria = new CDbCriteria();
         $criteria->alias = 'c';
 
@@ -164,91 +181,145 @@ class EnrollmentonlinestudentidentificationRepository
         $criteria->group = 'c.id';
         $criteria->having = 'COUNT(se.id) < c.capacity';
 
-        $classroom = Classroom::model()->find($criteria);
+        return Classroom::model()->find($criteria);
+    }
 
-        if (!$classroom) {
-            return $this->jsonError("Não há vagas disponíveis para esta etapa/modalidade.");
+    private function findExistingStudent()
+    {
+        $si = $this->studentIdentification;
+
+        // 1. Tentar buscar por CPF
+        if (!empty($si->cpf)) {
+            $student = StudentDocumentsAndAddress::model()->findByAttributes([
+                'cpf' => $si->cpf
+            ]);
+            if ($student) return StudentIdentification::model()->findByPk($student->student_fk);
         }
 
-        // ---------- 2. Criar models ----------
-        $studentIdentification = new StudentIdentification();
-        $studentDocuments = new StudentDocumentsAndAddress();
-        $studentEnrollment = new StudentEnrollment();
+        // 2. Buscar pelos demais dados
+        return StudentIdentification::model()->findByAttributes([
+            'responsable_cpf'  => $si->responsable_cpf,
+            'name'             => $si->name,
+            'responsable_name' => $si->responsable_name
+        ]);
+    }
 
-        $studentIdentification->attributes = $this->studentIdentification->attributes;
-        $studentDocuments->attributes = $this->studentIdentification->attributes;
-        $studentIdentification->deficiency = 0;
-
-        $studentIdentification->school_inep_id_fk = Yii::app()->user->school;
-        $studentIdentification->send_year = date('Y');
-        $studentIdentification->edcenso_uf_fk = null;
-        $studentIdentification->edcenso_city_fk = null;
-        $studentIdentification->send_year = date('Y');
-
-        $studentDocuments->school_inep_id_fk = Yii::app()->user->school;
-
+    private function createNewStudentAndEnrollment($classroom)
+    {
         $transaction = Yii::app()->db->beginTransaction();
 
         try {
+            // Criar models
+            $studentIdentification = new StudentIdentification();
+            $studentDocuments = new StudentDocumentsAndAddress();
+            $studentEnrollment = new StudentEnrollment();
 
-            // ---------- 3. Validar ----------
+            // Preencher atributos
+            $si = $this->studentIdentification;
+            $studentIdentification->attributes = $si->attributes;
+            $studentDocuments->attributes = $si->attributes;
+
+            $studentIdentification->deficiency = 0;
+            $studentIdentification->school_inep_id_fk = Yii::app()->user->school;
+            $studentIdentification->send_year = date('Y');
+            $studentIdentification->edcenso_uf_fk = null;
+            $studentIdentification->edcenso_city_fk = null;
+
+            $studentDocuments->school_inep_id_fk = Yii::app()->user->school;
+
+            // Validar
             if (!$studentIdentification->validate() || !$studentDocuments->validate()) {
                 throw new Exception("Dados inválidos. Verifique o formulário.");
             }
 
-            // ---------- 4. Salvar StudentIdentification ----------
+            // Salvar identificação
             if (!$studentIdentification->save()) {
                 throw new Exception("Erro ao salvar identificação.");
             }
 
-            // ---------- 5. Salvar documentos ----------
+            // Salvar documentos
             $studentDocuments->student_fk = $studentIdentification->id;
             if (!$studentDocuments->save()) {
                 throw new Exception("Erro ao salvar documentos/endereço.");
             }
 
-            // ---------- 6. Salvar identificação ----------
-            $this->studentIdentification->student_fk = $studentIdentification->id;
-            if (!$this->studentIdentification->save()) {
+            // Salvar EOSI com referência do estudante
+            $si->student_fk = $studentIdentification->id;
+            if (!$si->save()) {
                 throw new Exception("Erro ao atualizar identificação com FK do estudante.");
             }
 
-            // ---------- 7. Salvar matrícula ----------
-            $studentEnrollment->student_fk = $studentIdentification->id;
-            $studentEnrollment->school_inep_id_fk = Yii::app()->user->school;
-            $studentEnrollment->classroom_fk = $classroom->id;
-            $studentEnrollment->status = 1;
-            $studentEnrollment->create_date = date('Y-m-d');
-            $studentEnrollment->enrollment_date = date('Y-m-d');
-            $studentEnrollment->daily_order = $studentEnrollment->getDailyOrder();
+            // Criar matrícula
+            $this->saveEnrollment($studentEnrollment, $studentIdentification->id, $classroom);
 
-            if (!$studentEnrollment->save()) {
-                throw new Exception("Erro ao salvar a matrícula.");
-            }
+            // Atualizar solicitação
+            $this->updateSolicitationStatus($si->id);
 
-            $solicitation = EnrollmentOnlineEnrollmentSolicitation::model()->findByAttributes([
-                'enrollment_online_student_identification_fk' => $this->studentIdentification->id,
-                'school_inep_id_fk' => Yii::app()->user->school
-            ]);
-            $solicitation->status = EnrollmentOnlineEnrollmentSolicitation::ACCEPTED; // Aprovado
+            $transaction->commit();
 
-            // ---------- 7. Salvar matrícula ----------
-            if (!$solicitation->save()) {
-                throw new Exception("Erro ao atualizar solicitação de matrícula.");
-            }
+            return $this->jsonSuccess("O Cadastro de {$studentIdentification->name} foi criado com sucesso!");
+        } catch (Exception $e) {
+            $transaction->rollback();
+            return $this->jsonError($e->getMessage());
+        }
+    }
 
 
-            // Commit final
+    private function createEnrollmentForExistingStudent($existingStudent, $classroom)
+    {
+        $transaction = Yii::app()->db->beginTransaction();
+
+        try {
+            $studentEnrollment = new StudentEnrollment();
+
+            // Criar matrícula
+            $this->saveEnrollment($studentEnrollment, $existingStudent->id, $classroom);
+
+            // Atualizar solicitação
+            $this->updateSolicitationStatus($this->studentIdentification->id);
+
             $transaction->commit();
 
             return $this->jsonSuccess(
-                "O Cadastro de {$studentIdentification->name} foi criado com sucesso!"
+                "O Cadastro de {$existingStudent->name} foi criado com sucesso!"
             );
         } catch (Exception $e) {
             $transaction->rollback();
             return $this->jsonError($e->getMessage());
         }
     }
+
+    private function saveEnrollment($enrollment, $studentId, $classroom)
+    {
+        $enrollment->student_fk = $studentId;
+        $enrollment->school_inep_id_fk = Yii::app()->user->school;
+        $enrollment->classroom_fk = $classroom->id;
+        $enrollment->status = 1;
+        $enrollment->create_date = date('Y-m-d');
+        $enrollment->enrollment_date = date('Y-m-d');
+        $enrollment->daily_order = $enrollment->getDailyOrder();
+
+        if (!$enrollment->save()) {
+            throw new Exception("Erro ao salvar a matrícula.");
+        }
+    }
+
+    private function updateSolicitationStatus($id)
+    {
+        $solicitation = EnrollmentOnlineEnrollmentSolicitation::model()->findByAttributes([
+            'enrollment_online_student_identification_fk' => $id,
+            'school_inep_id_fk' => Yii::app()->user->school
+        ]);
+
+        $solicitation->status = EnrollmentOnlineEnrollmentSolicitation::ACCEPTED;
+
+        if (!$solicitation->save()) {
+            throw new Exception("Erro ao atualizar solicitação de matrícula.");
+        }
+    }
+
+
+
 
     private function jsonSuccess($msg)
     {

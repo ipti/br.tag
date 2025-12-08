@@ -96,13 +96,11 @@ $(".js-confirm-enrollment").on("click", function () {
 
                 $(".js-alert-enrollment-online").text(result.message);
 
-                if (result.status === "success") {
-                    $(".js-alert-enrollment-online").removeClass("alert-danger");
-                    $(".js-alert-enrollment-online").addClass("alert-success");
-                } else {
-                    $(".js-alert-enrollment-online").removeClass("alert-success");
-                    $(".js-alert-enrollment-online").addClass("alert-danger");
-                }
+
+                $(".js-hide-buttons-enrollment").hide();
+                $(".js-alert-enrollment-online").removeClass("alert-danger");
+                $(".js-alert-enrollment-online").addClass("alert-success");
+                $(".js-alert-enrollment-online").show();
             }
         });
 
@@ -120,7 +118,7 @@ $(".js-rejected-enrollment").on("click", function () {
                 enrollmentId: $('input.js-online-enrollment-id').val(),
             },
             beforeSend: function () {
-                 $("#loading-popup").removeClass("hide").addClass("loading-center");
+                $("#loading-popup").removeClass("hide").addClass("loading-center");
             },
             success: function (result) {
 
@@ -134,7 +132,7 @@ $(".js-rejected-enrollment").on("click", function () {
                     $(".js-alert-enrollment-online").addClass("alert-error");
                 }
                 $(".js-alert-enrollment-online").show();
-               $("#loading-popup").removeClass("loading-center").addClass("hide");
+                $("#loading-popup").removeClass("loading-center").addClass("hide");
 
             }
         });
@@ -161,3 +159,21 @@ $(".js-nationality-select").on("change", () => {
     }
 });
 
+$("select.js-filter-enrollment-status").on("change", () => {
+    const selectedStatus = $(".js-filter-enrollment-status").select2("val");
+
+    $.ajax({
+        type: "POST",
+        url: "?r=enrollmentonline/Enrollmentonlinestudentidentification/renderStudentTable",
+        cache: false,
+        data: {
+            status: selectedStatus,
+        },
+        success: function (response) {
+            const data = DOMPurify.sanitize(response);
+
+            $(".js-student-table-container").html(data);
+            initDatatable();
+        }
+    });
+});
