@@ -93,6 +93,7 @@ $(".js-confirm-enrollment").on("click", function () {
                 enrollmentId: $('input.js-online-enrollment-id').val(),
             },
             success: function (result) {
+                result = DOMPurify.sanitize(result);
 
                 if (result.status === "error") {
 
@@ -138,7 +139,7 @@ $(".js-rejected-enrollment").on("click", function () {
                 $("#loading-popup").removeClass("hide").addClass("loading-center");
             },
             success: function (result) {
-
+                   result = DOMPurify.sanitize(result);
                 $(".js-alert-enrollment-online").text(result.message);
 
                 if (result.status === "success") {
