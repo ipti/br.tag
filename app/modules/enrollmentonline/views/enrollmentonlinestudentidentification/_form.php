@@ -494,7 +494,7 @@ $adminOrManager = !Yii::app()->user->isGuest &&
                             ?>
                         </div>
                     </div>
-                    <?php if($adminOrManager && !$model->student_fk):?>
+                    <?php if($adminOrManager && !$model->student_fk && !$isRejected):?>
                     <div class="row show--desktop  js-hide-buttons-enrollment">
                         <div class="column"></div>
                         <div class="column">

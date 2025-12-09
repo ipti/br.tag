@@ -94,12 +94,29 @@ $(".js-confirm-enrollment").on("click", function () {
             },
             success: function (result) {
 
-                $(".js-alert-enrollment-online").text(result.message);
+                if (result.status === "error") {
+
+                    mensagem = result.message;
+                    $(".js-alert-enrollment-online").removeClass("alert-success");
+                    $(".js-alert-enrollment-online").addClass("alert-error");
+
+                } else if (result.status === "success") {
+
+                    link = "?r=classroom/update&id=" + result.data.classroomId;
+                    mensagem = result.message +
+                        " Acesse a turma: " +
+                        "<a href='" + link + "' target='_blank' style='text-decoration: underline;'>" +
+                        result.data.classroomName +
+                        "</a>";
+                    $(".js-alert-enrollment-online").removeClass("alert-err");
+                    $(".js-alert-enrollment-online").addClass("alert-success");
+
+                }
+                $(".js-alert-enrollment-online").html(mensagem);
 
 
                 $(".js-hide-buttons-enrollment").hide();
-                $(".js-alert-enrollment-online").removeClass("alert-danger");
-                $(".js-alert-enrollment-online").addClass("alert-success");
+
                 $(".js-alert-enrollment-online").show();
             }
         });
@@ -131,6 +148,7 @@ $(".js-rejected-enrollment").on("click", function () {
                     $(".js-alert-enrollment-online").removeClass("alert-success");
                     $(".js-alert-enrollment-online").addClass("alert-error");
                 }
+                $(".js-hide-buttons-enrollment").hide();
                 $(".js-alert-enrollment-online").show();
                 $("#loading-popup").removeClass("loading-center").addClass("hide");
 

@@ -138,6 +138,7 @@ class EnrollmentonlinestudentidentificationRepository
     public function confirmEnrollment()
     {
 
+
         $classroom = $this->findAvailableClassroom();
 
         if (!$classroom) {
@@ -174,12 +175,12 @@ class EnrollmentonlinestudentidentificationRepository
 
         $criteria->params = [
             ':school' => Yii::app()->user->school,
-            ':stage'  => $this->studentIdentification->edcenso_stage_vs_modality_fk
+            ':stage' => $this->studentIdentification->edcenso_stage_vs_modality_fk
         ];
 
         $criteria->addCondition('(se.status IN (1,2,6,7,8,9,10) OR se.status IS NULL)');
         $criteria->group = 'c.id';
-        $criteria->having = 'COUNT(se.id) < c.capacity';
+        $criteria->having = 'COUNT(DISTINCT se.id) < c.capacity';
 
         return Classroom::model()->find($criteria);
     }
@@ -193,13 +194,14 @@ class EnrollmentonlinestudentidentificationRepository
             $student = StudentDocumentsAndAddress::model()->findByAttributes([
                 'cpf' => $si->cpf
             ]);
-            if ($student) return StudentIdentification::model()->findByPk($student->student_fk);
+            if ($student)
+                return StudentIdentification::model()->findByPk($student->student_fk);
         }
 
         // 2. Buscar pelos demais dados
         return StudentIdentification::model()->findByAttributes([
-            'responsable_cpf'  => $si->responsable_cpf,
-            'name'             => $si->name,
+            'responsable_cpf' => $si->responsable_cpf,
+            'name' => $si->name,
             'responsable_name' => $si->responsable_name
         ]);
     }
@@ -257,7 +259,13 @@ class EnrollmentonlinestudentidentificationRepository
 
             $transaction->commit();
 
-            return $this->jsonSuccess("O Cadastro de {$studentIdentification->name} foi criado com sucesso!");
+             return $this->jsonSuccess(
+            "O Cadastro de {$studentIdentification->name} foi criado com sucesso!",
+            [
+                "classroomName" => $classroom->name,
+                "classroomId" => $classroom->id
+            ]
+            );
         } catch (Exception $e) {
             $transaction->rollback();
             return $this->jsonError($e->getMessage());
@@ -279,9 +287,12 @@ class EnrollmentonlinestudentidentificationRepository
             $this->updateSolicitationStatus($this->studentIdentification->id);
 
             $transaction->commit();
-
             return $this->jsonSuccess(
-                "O Cadastro de {$existingStudent->name} foi criado com sucesso!"
+                "O Cadastro de {$existingStudent->name} foi criado com sucesso!",
+                [
+                    "classroomName" => $classroom->name,
+                    "classroomId" => $classroom->id
+                ]
             );
         } catch (Exception $e) {
             $transaction->rollback();
@@ -321,10 +332,10 @@ class EnrollmentonlinestudentidentificationRepository
 
 
 
-    private function jsonSuccess($msg)
+    private function jsonSuccess($msg, $data = null)
     {
         header('Content-Type: application/json');
-        echo json_encode(["status" => "success", "message" => $msg]);
+        echo json_encode(["status" => "success", "message" => $msg, "data" => $data ]);
         Yii::app()->end();
     }
 

@@ -207,13 +207,14 @@ class EnrollmentOnlineStudentIdentificationController extends Controller
 
         $schools = CHtml::listData($schools, 'inep_id', 'name');
 
-
+        $isRejected = EnrollmentOnlineEnrollmentSolicitation::model()->exists('enrollment_online_student_identification_fk = :studentId AND status = :rejected AND school_inep_id_fk = :schoolInepId', [':studentId' => $model->id, ':rejected' => EnrollmentOnlineEnrollmentSolicitation::REJECTED, ':schoolInepId' => Yii::app()->user->school]);
 
 
         $this->render('update', [
             'model' => $model,
             'studentSolicitations' => $studentSolicitations,
             'schools' => $schools,
+            'isRejected' => $isRejected
         ]);
     }
 
