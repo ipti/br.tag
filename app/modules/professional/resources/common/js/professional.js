@@ -5,7 +5,7 @@ $(".new-attendance-button").on("click", function () {
 
 function deleteAttendance(deleteBt){
     const idAttendance = deleteBt.value;
-    const idProfessional = document.querySelector('#id_professional').innerHTML;
+    const idProfessional = document.querySelector('#id_professional').value;
     $.ajax({
         type: 'POST',
         url: '?r=professional/default/deleteAttendance',
@@ -17,3 +17,9 @@ function deleteAttendance(deleteBt){
         location.reload();
     })
 }
+
+
+$('#new-enrollment-button').on('click', function (event) {
+    $("#js-add-professional-enrollment").modal("show");
+});
+

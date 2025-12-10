@@ -65,24 +65,24 @@ $this->breadcrumbs=array(
                             'name' => 'name',
                             'header' => 'Nome',
                             'type' => 'raw',
-                            'value' => 'CHtml::link($data->name,Yii::app()->createUrl("professional/default/update",array("id"=>$data->id_professional)))',
+                            'value' => 'CHtml::link($data->name,Yii::app()->createUrl("professional/default/update",array("id"=>$data->name)))',
                             'htmlOptions' => array('width' => '400px', 'class' => 'link-update-grid-view'),
                         ),
                         array(
                             'name' => 'cpf',
                             'header' => 'CPF',
-                            'value' => '$data->cpf_professional',
+                            'value' => '$data->cpf',
                         ),
-                        array(
-                            'name' => 'speciality',
-                            'header' => 'Especialidade',
-                            'value' => '$data->speciality',
-                        ),
-                        array(
-                            'name' => 'fundeb',
-                            'header' => 'Fundeb',
-                            'value' => '$data->fundeb ? "Sim" : "Não"',
-                        ),
+                        // array(
+                        //     'name' => 'speciality',
+                        //     'header' => 'Especialidade',
+                        //     'value' => '$data->speciality',
+                        // ),
+                        // array(
+                        //     'name' => 'fundeb',
+                        //     'header' => 'Fundeb',
+                        //     'value' => '$data->fundeb ? "Sim" : "Não"',
+                        // ),
                         array(
                             'header' => 'Ações',
                             'class' => 'CButtonColumn',

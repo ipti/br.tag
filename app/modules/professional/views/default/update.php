@@ -19,6 +19,7 @@ $this->breadcrumbs=array(
         'modelProfessional' => $modelProfessional,
         'modelAttendance' => $modelAttendance,
         'modelAttendances' => $modelAttendances,
+        'specialities' => $specialities,
         'title' => $title
     ));
     ?> 

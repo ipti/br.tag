@@ -1,26 +1,26 @@
 <?php
 
 /**
- * This is the model class for table "professional".
+ * This is the model class for table "specialty".
  *
- * The followings are the available columns in table 'professional':
+ * The followings are the available columns in table 'specialty':
  * @property integer $id
  * @property string $name
- * @property string $cpf
+ * @property string $code
  * @property string $created_at
  * @property string $updated_at
  *
  * The followings are the available model relations:
- * @property ProfessionalSchoolAffiliation[] $professionalSchoolAffiliations
+ * @property ProfessionalSpecialty[] $professionalSpecialties
  */
-class Professional extends CActiveRecord
+class Specialty extends CActiveRecord
 {
 	/**
 	 * @return string the associated database table name
 	 */
 	public function tableName()
 	{
-		return 'professional';
+		return 'specialty';
 	}
 
 	/**
@@ -31,13 +31,13 @@ class Professional extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('name, cpf', 'required'),
-			array('name', 'length', 'max'=>200),
-			array('cpf', 'length', 'max'=>14),
+			array('name', 'required'),
+			array('name', 'length', 'max'=>100),
+			array('code', 'length', 'max'=>20),
 			array('created_at, updated_at', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, name, cpf, created_at, updated_at', 'safe', 'on'=>'search'),
+			array('id, name, code, created_at, updated_at', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -49,7 +49,7 @@ class Professional extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'professionalSchoolAffiliations' => array(self::HAS_MANY, 'ProfessionalSchoolAffiliation', 'professional_id'),
+			'professionalSpecialties' => array(self::HAS_MANY, 'ProfessionalSpecialty', 'specialty_id'),
 		);
 	}
 
@@ -61,7 +61,7 @@ class Professional extends CActiveRecord
 		return array(
 			'id' => 'ID',
 			'name' => 'Name',
-			'cpf' => 'Cpf',
+			'code' => 'Code',
 			'created_at' => 'Created At',
 			'updated_at' => 'Updated At',
 		);
@@ -87,7 +87,7 @@ class Professional extends CActiveRecord
 
 		$criteria->compare('id',$this->id);
 		$criteria->compare('name',$this->name,true);
-		$criteria->compare('cpf',$this->cpf,true);
+		$criteria->compare('code',$this->code,true);
 		$criteria->compare('created_at',$this->created_at,true);
 		$criteria->compare('updated_at',$this->updated_at,true);
 
@@ -100,7 +100,7 @@ class Professional extends CActiveRecord
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!
 	 * @param string $className active record class name.
-	 * @return Professional the static model class
+	 * @return Specialty the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{

@@ -1,26 +1,27 @@
 <?php
 
 /**
- * This is the model class for table "professional".
+ * This is the model class for table "professional_specialty".
  *
- * The followings are the available columns in table 'professional':
+ * The followings are the available columns in table 'professional_specialty':
  * @property integer $id
- * @property string $name
- * @property string $cpf
- * @property string $created_at
- * @property string $updated_at
+ * @property integer $professional_id
+ * @property integer $specialty_id
+ * @property string $start_date
+ * @property string $end_date
  *
  * The followings are the available model relations:
- * @property ProfessionalSchoolAffiliation[] $professionalSchoolAffiliations
+ * @property Professional $professional
+ * @property Specialty $specialty
  */
-class Professional extends CActiveRecord
+class ProfessionalSpecialty extends TagModel
 {
 	/**
 	 * @return string the associated database table name
 	 */
 	public function tableName()
 	{
-		return 'professional';
+		return 'professional_specialty';
 	}
 
 	/**
@@ -31,13 +32,12 @@ class Professional extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('name, cpf', 'required'),
-			array('name', 'length', 'max'=>200),
-			array('cpf', 'length', 'max'=>14),
-			array('created_at, updated_at', 'safe'),
+			array('professional_id, specialty_id', 'required'),
+			array('professional_id, specialty_id', 'numerical', 'integerOnly'=>true),
+			array('start_date, end_date', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, name, cpf, created_at, updated_at', 'safe', 'on'=>'search'),
+			array('id, professional_id, specialty_id, start_date, end_date', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -49,7 +49,8 @@ class Professional extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'professionalSchoolAffiliations' => array(self::HAS_MANY, 'ProfessionalSchoolAffiliation', 'professional_id'),
+			'professional' => array(self::BELONGS_TO, 'Professional', 'professional_id'),
+			'specialty' => array(self::BELONGS_TO, 'Specialty', 'specialty_id'),
 		);
 	}
 
@@ -60,10 +61,10 @@ class Professional extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'name' => 'Name',
-			'cpf' => 'Cpf',
-			'created_at' => 'Created At',
-			'updated_at' => 'Updated At',
+			'professional_id' => 'Professional',
+			'specialty_id' => 'Specialty',
+			'start_date' => 'Start Date',
+			'end_date' => 'End Date',
 		);
 	}
 
@@ -86,10 +87,10 @@ class Professional extends CActiveRecord
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id',$this->id);
-		$criteria->compare('name',$this->name,true);
-		$criteria->compare('cpf',$this->cpf,true);
-		$criteria->compare('created_at',$this->created_at,true);
-		$criteria->compare('updated_at',$this->updated_at,true);
+		$criteria->compare('professional_id',$this->professional_id);
+		$criteria->compare('specialty_id',$this->specialty_id);
+		$criteria->compare('start_date',$this->start_date,true);
+		$criteria->compare('end_date',$this->end_date,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -100,7 +101,7 @@ class Professional extends CActiveRecord
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!
 	 * @param string $className active record class name.
-	 * @return Professional the static model class
+	 * @return ProfessionalSpecialty the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{
