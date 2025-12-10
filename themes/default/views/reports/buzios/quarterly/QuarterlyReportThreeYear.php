@@ -10,11 +10,11 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
 $turno =  $classroom->turn;
 if ($turno == 'M') {
     $turno = "Matutino";
-} else if ($turno == 'T') {
+} elseif($turno == 'T') {
     $turno = "Vespertino";
-} else if ($turno == 'N') {
+} elseif($turno == 'N') {
     $turno = "Noturno";
-} else if ($turno == '' || $turno == null) {
+} elseif($turno == '' || $turno == null) {
     $turno = "______________________";
 }
 
@@ -23,7 +23,7 @@ if ($turno == 'M') {
     <div class="cabecalho" style="margin: 30px 0;">
         <?php $this->renderPartial('buzios/headers/headBuziosII'); ?>
     </div>
-    <h4><?php echo Yii::t('default', 'Quarterly Report') . ' - ' . $current_year ?></h3>
+    <h4><?php echo Yii::t('default', 'Quarterly Report') . ' - ' . $currentYear ?></h3>
     <div class="row-fluid hidden-print">
         <div class="span12">
             <div class="buttons">
@@ -43,17 +43,17 @@ if ($turno == 'M') {
             }
             ?>
             <p>
-                <span class="pull-left">Ano de escolaridade: <?php echo $current_year ?></span>
+                <span class="pull-left">Ano de escolaridade: <?php echo $currentYear ?></span>
                 <div class="pull-right" style="margin-right: 40px;">
                     <span style="margin-right: 300px;">Turno: <?php echo $turno ?></span>
                     <span>Turma: <?php echo $classroom->name ?></span>
                 </div>
             </p>
             <div class="container-box header-student-info" style="margin-top: 60px">
-                <span class="pull-left">Aluno (a): <?php echo $student_identification->name ?></span>
+                <span class="pull-left">Aluno (a): <?php echo $studentIdentification->name ?></span>
                 <div class="pull-right" style="margin-right: 10px;">
                     <span>Turma: <?php echo $classroom->name ?></span>
-                    <span style="margin-left:20px">Ano letivo: <?php echo $current_year ?></span>
+                    <span style="margin-left:20px">Ano letivo: <?php echo $currentYear ?></span>
                 </div>
             </div>
         </div>
@@ -234,10 +234,10 @@ if ($turno == 'M') {
             </div>
             <!-- PAGINA 2 -->
             <div class="container-box header-student-info" style="margin-top: 400px;">
-                <span class="pull-left">Aluno (a): <?php echo $student_identification->name ?></span>
+                <span class="pull-left">Aluno (a): <?php echo $studentIdentification->name ?></span>
                 <div class="pull-right" style="margin-right: 10px;">
                     <span>Turma: <?php echo $classroom->name ?></span>
-                    <span style="margin-left:20px">Ano letivo: <?php echo $current_year ?></span>
+                    <span style="margin-left:20px">Ano letivo: <?php echo $currentYear ?></span>
                 </div>
             </div>
             <h4><u>OBJETIVOS DE APRENDIZAGEM - HISTÓRIA - 3º ANO</u></h3>
@@ -436,10 +436,10 @@ if ($turno == 'M') {
                     </table>
                     <!-- PAGINA 3 -->
                     <div class="container-box header-student-info" style="margin-top: 300px;">
-                        <span class="pull-left">Aluno (a): <?php echo $student_identification->name ?></span>
+                        <span class="pull-left">Aluno (a): <?php echo $studentIdentification->name ?></span>
                         <div class="pull-right" style="margin-right: 10px;">
                             <span>Turma: <?php echo $classroom->name ?></span>
-                            <span style="margin-left:20px">Ano letivo: <?php echo $current_year ?></span>
+                            <span style="margin-left:20px">Ano letivo: <?php echo $currentYear ?></span>
                         </div>
                     </div>
                     <h4><u>OBJETIVOS DE APRENDIZAGEM - MATEMÁTICA - 3º ANO</u></h3>
@@ -721,10 +721,10 @@ if ($turno == 'M') {
                             </table>
                             <!-- PAGINA 4 -->
                             <div class="container-box header-student-info" style="margin-top: 1500px;">
-                                <span class="pull-left">Aluno (a): <?php echo $student_identification->name ?></span>
+                                <span class="pull-left">Aluno (a): <?php echo $studentIdentification->name ?></span>
                                 <div class="pull-right" style="margin-right: 10px;">
                                     <span>Turma: <?php echo $classroom->name ?></span>
-                                    <span style="margin-left:20px">Ano letivo: <?php echo $current_year ?></span>
+                                    <span style="margin-left:20px">Ano letivo: <?php echo $currentYear ?></span>
                                 </div>
                             </div>
                             <div class="container-box student-performance">

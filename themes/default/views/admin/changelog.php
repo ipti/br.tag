@@ -1,5 +1,5 @@
 <?php 
-$this->pageTitle = 'TAG - ' . Yii::t('default', 'Changelog');
+    $this->pageTitle = 'TAG - ' . Yii::t('default', 'Changelog');
 ?>
 
 <script type="module" src="<?php echo Yii::app()->theme->baseUrl; ?>/js/zero-md.min.js"></script>

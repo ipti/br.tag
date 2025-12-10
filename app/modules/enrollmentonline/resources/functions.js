@@ -59,6 +59,7 @@ $(".js-stage").on("change", () => {
     })
 })
 
+
 $("select.js-school-1, select.js-school-2, select.js-school-3").on("change", function () {
     const currentVal = $(this).val();
     const currentSelect = this;
@@ -80,3 +81,118 @@ $("select.js-school-1, select.js-school-2, select.js-school-3").on("change", fun
     }
 });
 
+
+$(".js-confirm-enrollment").on("click", function () {
+    if (confirm("Tem certeza que deseja confirmar a matrícula?")) {
+        $.ajax({
+            type: "POST",
+            url: "?r=enrollmentonline/Enrollmentonlinestudentidentification/confirmEnrollment",
+            dataType: "json",
+            cache: false,
+            data: {
+                enrollmentId: $('input.js-online-enrollment-id').val(),
+            },
+            success: function (result) {
+                result = DOMPurify.sanitize(result);
+
+                if (result.status === "error") {
+
+                    mensagem = result.message;
+                    $(".js-alert-enrollment-online").removeClass("alert-success");
+                    $(".js-alert-enrollment-online").addClass("alert-error");
+
+                } else if (result.status === "success") {
+
+                    link = "?r=classroom/update&id=" + result.data.classroomId;
+                    mensagem = result.message +
+                        " Acesse a turma: " +
+                        "<a href='" + link + "' target='_blank' style='text-decoration: underline;'>" +
+                        result.data.classroomName +
+                        "</a>";
+                    $(".js-alert-enrollment-online").removeClass("alert-err");
+                    $(".js-alert-enrollment-online").addClass("alert-success");
+
+                }
+                $(".js-alert-enrollment-online").html(mensagem);
+
+
+                $(".js-hide-buttons-enrollment").hide();
+
+                $(".js-alert-enrollment-online").show();
+            }
+        });
+
+    }
+});
+
+$(".js-rejected-enrollment").on("click", function () {
+    if (confirm("Tem certeza que deseja rejeitar a matrícula?")) {
+        $.ajax({
+            type: "POST",
+            url: "?r=enrollmentonline/Enrollmentonlinestudentidentification/rejectEnrollment",
+            dataType: "json",
+            cache: false,
+            data: {
+                enrollmentId: $('input.js-online-enrollment-id').val(),
+            },
+            beforeSend: function () {
+                $("#loading-popup").removeClass("hide").addClass("loading-center");
+            },
+            success: function (result) {
+                   result = DOMPurify.sanitize(result);
+                $(".js-alert-enrollment-online").text(result.message);
+
+                if (result.status === "success") {
+                    $(".js-alert-enrollment-online").removeClass("alert-error");
+                    $(".js-alert-enrollment-online").addClass("alert-success");
+                } else {
+                    $(".js-alert-enrollment-online").removeClass("alert-success");
+                    $(".js-alert-enrollment-online").addClass("alert-error");
+                }
+                $(".js-hide-buttons-enrollment").hide();
+                $(".js-alert-enrollment-online").show();
+                $("#loading-popup").removeClass("loading-center").addClass("hide");
+
+            }
+        });
+
+    }
+});
+
+
+$(".js-nationality-select").on("change", () => {
+    const val = $(".js-nationality-select").select2("val");
+
+    if (val === "1" || val === "2") {
+        $('.js-edcenso_nation_fk').attr('disabled', 'disabled');
+        $('.js-edcenso_nation_fk').select2('val', 76);
+        $('.js-edcenso_nation_fk_hidden').val(76);
+    } else if (val === "3") {
+        $('.js-edcenso_nation_fk').removeAttr('disabled');
+        $('.js-edcenso_nation_fk').select2('val', '');
+        $('.js-edcenso_nation_fk_hidden').val('');
+    } else {
+        $('.js-edcenso_nation_fk').attr('disabled', 'disabled');
+        $('.js-edcenso_nation_fk').select2('val', '');
+        $('.js-edcenso_nation_fk_hidden').val('');
+    }
+});
+
+$("select.js-filter-enrollment-status").on("change", () => {
+    const selectedStatus = $(".js-filter-enrollment-status").select2("val");
+
+    $.ajax({
+        type: "POST",
+        url: "?r=enrollmentonline/Enrollmentonlinestudentidentification/renderStudentTable",
+        cache: false,
+        data: {
+            status: selectedStatus,
+        },
+        success: function (response) {
+            const data = DOMPurify.sanitize(response);
+
+            $(".js-student-table-container").html(data);
+            initDatatable();
+        }
+    });
+});

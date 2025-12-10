@@ -2,19 +2,19 @@
 /* @var $this GradeConceptController */
 /* @var $model GradeConcept */
 
-$this->breadcrumbs=array(
-	'Grade Concepts'=>array('index'),
-	$model->name=>array('view','id'=>$model->id),
-	'Update',
-);
+$this->breadcrumbs = [
+    'Grade Concepts' => ['index'],
+    $model->name => ['view', 'id' => $model->id],
+    'Update',
+];
 
-$this->menu=array(
-	array('label'=>'List GradeConcept', 'url'=>array('index')),
-	array('label'=>'Create GradeConcept', 'url'=>array('create')),
-	array('label'=>'View GradeConcept', 'url'=>array('view', 'id'=>$model->id)),
-	array('label'=>'Manage GradeConcept', 'url'=>array('admin')),
-);
+$this->menu = [
+    ['label' => 'List GradeConcept', 'url' => ['index']],
+    ['label' => 'Create GradeConcept', 'url' => ['create']],
+    ['label' => 'View GradeConcept', 'url' => ['view', 'id' => $model->id]],
+    ['label' => 'Manage GradeConcept', 'url' => ['admin']],
+];
 ?>
 <div id="mainPage" class="main">
-    <?php $this->renderPartial('_form', array('model'=>$model)); ?>
+    <?php $this->renderPartial('_form', ['model' => $model]); ?>
 </div>

@@ -13,7 +13,7 @@
         "gradeRules" => $gradeRules,
         'gradeRulesStages' => $gradeRulesStages,
         'modelClassroom' => $modelClassroom,
-        'complementaryActivities' => $complementary_activities,
+        'complementaryActivities' => $complementaryActivities,
         'modelTeachingData' => $modelTeachingData,
         'edcensoStageVsModalities' => $edcensoStageVsModalities,
         'modelEnrollments' => $modelEnrollments,

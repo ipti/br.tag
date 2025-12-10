@@ -4,23 +4,23 @@
 /** @var FoodMenu $model */
 $this->setPageTitle('TAG - ' . Yii::t('default', 'Atualizar Cardápio'));
 
-$this->breadcrumbs=array(
-	'Food Menus'=>array('index'),
-	$model->id=>array('view','id'=>$model->id),
-	'Update',
-);
+$this->breadcrumbs = [
+    'Food Menus' => ['index'],
+    $model->id => ['view', 'id' => $model->id],
+    'Update',
+];
 
-$this->menu=array(
-	array('label'=>'List FoodMenu', 'url'=>array('index')),
-	array('label'=>'Create FoodMenu', 'url'=>array('create')),
-	array('label'=>'View FoodMenu', 'url'=>array('view', 'id'=>$model->id)),
-	array('label'=>'Manage FoodMenu', 'url'=>array('admin')),
-);
+$this->menu = [
+    ['label' => 'List FoodMenu', 'url' => ['index']],
+    ['label' => 'Create FoodMenu', 'url' => ['create']],
+    ['label' => 'View FoodMenu', 'url' => ['view', 'id' => $model->id]],
+    ['label' => 'Manage FoodMenu', 'url' => ['admin']],
+];
 $title = $model->description
 ?>
 
 
-<?php $this->renderPartial('_form', array('model'=>$model, 'title' => $title, 'stages' => $stages)); ?>
+<?php $this->renderPartial('_form', ['model' => $model, 'title' => $title, 'stages' => $stages]); ?>
 <script type="text/javascript">
 	 var menuUpdate = <?php echo CJSON::encode($model); ?>;
 	 var mealTypeList = <?php echo CJSON::encode($mealTypeList); ?>;

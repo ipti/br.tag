@@ -40,7 +40,6 @@ class DefaultController extends Controller
                     'StudentClassDiary',
                 ],
                 'users' => ['@'],
-                'roles' => [TRole::ADMIN->value, TRole::INSTRUCTOR->value]
             ],
             [
                 'deny',
@@ -59,7 +58,6 @@ class DefaultController extends Controller
             ]);
         } catch (\Throwable $th) {
             Yii::app()->user->setFlash('error', Yii::t('default', 'Ocorreu um erro ao carregar as turmas.'));
-            // var_dump($th);
         }
     }
 
@@ -72,28 +70,28 @@ class DefaultController extends Controller
         echo json_encode($classrooms, JSON_OBJECT_AS_ARRAY);
     }
 
-    public function actionClassDiary($discipline_name, $classroom_name, $date, $discipline_fk, $stage_fk)
+    public function actionClassDiary($disciplineName, $classroomName, $date, $disciplineFk, $stageFk)
     {
         $getCoursePlans = new GetCoursePlans();
-        $coursePlans = $getCoursePlans->exec($discipline_fk, $stage_fk);
+        $coursePlans = $getCoursePlans->exec($disciplineFk, $stageFk);
 
         $getAbilities = new GetAbilities();
-        $abilities = $getAbilities->exec($discipline_fk, $stage_fk);
+        $abilities = $getAbilities->exec($disciplineFk, $stageFk);
 
         $this->render('classDiary', [
-            'discipline_name' => $discipline_name,
-            'classroom_name' => $classroom_name,
+            'discipline_name' => $disciplineName,
+            'classroom_name' => $classroomName,
             'coursePlans' => $coursePlans,
             'abilities' => $abilities,
             'date' => $date,
         ]);
     }
 
-    public function actionclassDays($discipline_name, $classroom_name)
+    public function actionclassDays($disciplineName, $classroomName)
     {
         $this->render('classDays', [
-            'discipline_name' => $discipline_name,
-            'classroom_name' => $classroom_name
+            'discipline_name' => $disciplineName,
+            'classroom_name' => $classroomName
         ]);
     }
 
@@ -141,7 +139,7 @@ class DefaultController extends Controller
         $discipline = EdcensoDiscipline::model()->findByPk($disciplineId);
         $isMinor = $classroom->edcensoStageVsModalityFk->unified_frequency == 1 ? true : $this->checkIsStageMinorEducation($classroom);
         $instructorFilter = $this->getInstructorFilter($classroom);
-        if ($isMinor == false) {
+        if ($isMinor === false) {
             $schedules = Schedule::model()->findAll(
                 'classroom_fk = :classroom_fk and year = :year and month = :month and discipline_fk = :discipline_fk and unavailable = 0 ' . $instructorFilter . ' order by day, schedule',
                 [
@@ -181,24 +179,24 @@ class DefaultController extends Controller
                 ]
             );
         } else {
-            echo json_encode(['valid' => false, 'error' => 'Mês/Ano ' . ($isMinor == false ? 'e Disciplina' : '') . ' sem aula no Quadro de Horário.']);
+            echo json_encode(['valid' => false, 'error' => 'Mês/Ano ' . ($isMinor === false ? 'e Disciplina' : '') . ' sem aula no Quadro de Horário.']);
         }
     }
 
-    public function actionGetClassesContents($classroom_fk, $stage_fk, $date, $discipline_fk)
+    public function actionGetClassesContents($classroomFk, $stageFk, $date, $disciplineFk)
     {
         $getClassContents = new GetClassContents();
-        $classContent = $getClassContents->exec($classroom_fk, $stage_fk, $date, $discipline_fk);
+        $classContent = $getClassContents->exec($classroomFk, $stageFk, $date, $disciplineFk);
         header('Content-Type: application/json; charset="UTF-8"');
         echo json_encode($classContent, JSON_OBJECT_AS_ARRAY);
     }
 
     public function actionSaveClassContents()
     {
-        $stage_fk = Yii::app()->request->getPost('stage_fk');
+        $stageFk = Yii::app()->request->getPost('stage_fk');
         $date = Yii::app()->request->getPost('date');
-        $discipline_fk = Yii::app()->request->getPost('discipline_fk');
-        $classroom_fk = Yii::app()->request->getPost('classroom_fk');
+        $disciplineFk = Yii::app()->request->getPost('discipline_fk');
+        $classroomFk = Yii::app()->request->getPost('classroom_fk');
         $classContent = Yii::app()->request->getPost('classContent');
         $hasNewClassContent = Yii::app()->request->getPost('hasNewClassContent');
         $content = Yii::app()->request->getPost('content');
@@ -216,67 +214,67 @@ class DefaultController extends Controller
             }
         }
         $saveClassContent = new SaveClassContents();
-        $saveClassContent->exec($stage_fk, $date, $discipline_fk, $classroom_fk, $classContent);
+        $saveClassContent->exec($stageFk, $date, $disciplineFk, $classroomFk, $classContent);
     }
 
     public function actionRenderAccordion()
     {
-        $course_class_id = $_POST['id'];
+        $courseClassId = $_POST['id'];
         $getCourseClasses = new GetCourseClasses();
-        $types = $getCourseClasses->exec($course_class_id);
-        $plan_name = $_POST['plan_name'];
-        $this->renderPartial('_accordion', ['plan_name' => $plan_name]);
+        $getCourseClasses->exec($courseClassId);
+        $planName = $_POST['plan_name'];
+        $this->renderPartial('_accordion', ['plan_name' => $planName]);
     }
 
-    public function actionRenderFrequencyElementMobile($classroom_fk, $stage_fk, $discipline_fk, $date)
+    public function actionRenderFrequencyElementMobile($classroomFk, $stageFk, $disciplineFk, $date)
     {
         $getFrequency = new GetFrequency();
-        $frequency = $getFrequency->exec($classroom_fk, $stage_fk, $discipline_fk, $date);
-        $this->renderPartial('_frequencyElementMobile', ['frequency' => $frequency, 'date' => $date,  'discipline_fk' => $discipline_fk, 'stage_fk' => $stage_fk, 'classroom_fk' => $classroom_fk]);
+        $frequency = $getFrequency->exec($classroomFk, $stageFk, $disciplineFk, $date);
+        $this->renderPartial('_frequencyElementMobile', ['frequency' => $frequency, 'date' => $date,  'discipline_fk' => $disciplineFk, 'stage_fk' => $stageFk, 'classroom_fk' => $classroomFk]);
     }
 
-    public function actionRenderFrequencyElementDesktop($classroom_fk, $stage_fk, $discipline_fk, $date)
+    public function actionRenderFrequencyElementDesktop($classroomFk, $stageFk, $disciplineFk, $date)
     {
         $getFrequency = new GetFrequency();
-        $frequency = $getFrequency->exec($classroom_fk, $stage_fk, $discipline_fk, $date);
+        $frequency = $getFrequency->exec($classroomFk, $stageFk, $disciplineFk, $date);
         $this->renderPartial('frequencyElementDesktop', ['frequency' => $frequency]);
     }
 
     public function actionSaveFresquency()
     {
         $saveFrequency = new SaveFrequency();
-        $frequency = $saveFrequency->exec($_POST['schedule'], $_POST['studentId'], $_POST['fault'], $_POST['stage_fk'], $_POST['date'], $_POST['classroom_id']);
+        $saveFrequency->exec($_POST['schedule'], $_POST['studentId'], $_POST['fault'], $_POST['stage_fk'], $_POST['date'], $_POST['classroom_id']);
     }
 
-    public function actionStudentClassDiary($student_id, $stage_fk, $classroom_id, $schedule, $date, $discipline_fk, $justification)
+    public function actionStudentClassDiary($studentId, $stageFk, $classroomId, $schedule, $date, $disciplineFk, $justification)
     {
         $getStudent = new GetStudent();
-        $student = $getStudent->exec($student_id);
+        $student = $getStudent->exec($studentId);
 
         $getStudentFault = new GetStudentFault();
-        $studentFault = $getStudentFault->exec($stage_fk, $classroom_id, $discipline_fk, $date, $student_id, $schedule) != null;
+        $studentFault = $getStudentFault->exec($stageFk, $classroomId, $disciplineFk, $date, $studentId, $schedule) != null;
 
         $getStudentDiary = new GetStudentDiary();
-        $student_observation = $getStudentDiary->exec($stage_fk, $classroom_id, $discipline_fk, $date, $student_id);
+        $studentObservation = $getStudentDiary->exec($stageFk, $classroomId, $disciplineFk, $date, $studentId);
 
         if (isset($_POST['justification'])) {
             $justification = $_POST['justification'];
             $saveJustification = new SaveJustification();
-            $saveJustification->exec($student_id, $stage_fk, $classroom_id, $schedule, $date, $justification);
+            $saveJustification->exec($studentId, $stageFk, $classroomId, $schedule, $date, $justification);
         }
         if (isset($_POST['student_observation'])) {
-            $student_observation = $_POST['student_observation'];
+            $studentObservation = $_POST['student_observation'];
             $saveStudentDiary = new SaveStudentDiary();
-            $saveStudentDiary->exec($stage_fk, $classroom_id, $date, $discipline_fk, $student_id, $student_observation);
+            $saveStudentDiary->exec($stageFk, $classroomId, $date, $disciplineFk, $studentId, $studentObservation);
         }
         if (isset($_POST['student_observation']) || isset($_POST['justification'])) {
             $getDiscipline = new GetDiscipline();
-            $discipline = $getDiscipline->exec($discipline_fk)[0]['name'];
-            $classroom = Classroom::model()->findByPk($classroom_id);
-            $this->redirect(['classDiary', 'classroom_fk' => $classroom_id, 'stage_fk' => $stage_fk, 'discipline_fk' => $discipline_fk, 'discipline_name' => $discipline, 'classroom_name' => $classroom->name, 'date' => $date]);
+            $discipline = $getDiscipline->exec($disciplineFk)[0]['name'];
+            $classroom = Classroom::model()->findByPk($classroomId);
+            $this->redirect(['classDiary', 'classroom_fk' => $classroomId, 'stage_fk' => $stageFk, 'discipline_fk' => $disciplineFk, 'discipline_name' => $discipline, 'classroom_name' => $classroom->name, 'date' => $date]);
         }
 
-        $this->render('studentClassDiary', ['student' => $student, 'stage_fk' => $stage_fk, 'classroom_id' => $classroom_id, 'schedule' => $schedule, 'date' => $date, 'justification' => $justification, 'studentFault' => $studentFault, 'student_observation' => $student_observation]);
+        $this->render('studentClassDiary', ['student' => $student, 'stage_fk' => $stageFk, 'classroom_id' => $classroomId, 'schedule' => $schedule, 'date' => $date, 'justification' => $justification, 'studentFault' => $studentFault, 'student_observation' => $studentObservation]);
     }
 
     private function checkIsStageMinorEducation($classroom)

@@ -13,10 +13,10 @@ class DefaultController extends Controller
      */
     public function filters()
     {
-        return array(
+        return [
             'accessControl', // perform access control for CRUD operations
             'postOnly + delete', // we only allow deletion via POST request
-        );
+        ];
     }
 
     /**
@@ -26,25 +26,24 @@ class DefaultController extends Controller
      */
     public function accessRules()
     {
-        return array(
-            array('allow',  // allow all users to perform 'index' and 'view' actions
-                'actions'=>array('index','view'),
-                'users'=>array('*'),
-            ),
-            array('allow', // allow authenticated user to perform 'create' and 'update' actions
-                'actions'=>array('create','update'),
-                'users'=>array('@'),
-            ),
-            array('allow', // allow admin user to perform 'admin' and 'delete' actions
-                'actions'=>array('admin','delete'),
-                'users'=>array('admin'),
-            ),
-            array('deny',  // deny all users
-                'users'=>array('*'),
-            ),
-        );
+        return [
+            ['allow',  // allow all users to perform 'index' and 'view' actions
+                'actions' => ['index', 'view'],
+                'users' => ['*'],
+            ],
+            ['allow', // allow authenticated user to perform 'create' and 'update' actions
+                'actions' => ['create', 'update'],
+                'users' => ['@'],
+            ],
+            ['allow', // allow admin user to perform 'admin' and 'delete' actions
+                'actions' => ['admin', 'delete'],
+                'users' => ['admin'],
+            ],
+            ['deny',  // deny all users
+                'users' => ['*'],
+            ],
+        ];
     }
-
 
     /**
      * Creates a new model.
@@ -52,15 +51,13 @@ class DefaultController extends Controller
      */
     public function actionCreate()
     {
-        $model=new EdcensoDiscipline();
+        $model = new EdcensoDiscipline();
 
-        // Uncomment the following line if AJAX validation is needed
-        // $this->performAjaxValidation($model);
-
-        $edcenso_base_disciplines =  EdcensoBaseDisciplines::model()->findAll();
+        $edcensoBaseDisciplines = EdcensoBaseDisciplines::model()->findAll();
 
         if(isset($_POST['EdcensoDiscipline'])) {
             $model->attributes=$_POST['EdcensoDiscipline'];
+            $model->report_text = $_POST['EdcensoDiscipline']['report_text'];
             if($model->save()) {
                 $this->redirect(array('index'));
             } else {
@@ -68,10 +65,10 @@ class DefaultController extends Controller
             }
         }
 
-        $this->render('create', array(
-            'model'=>$model,
-            'edcenso_base_disciplines' => $edcenso_base_disciplines,
-        ));
+        $this->render('create', [
+            'model' => $model,
+            'edcenso_base_disciplines' => $edcensoBaseDisciplines,
+        ]);
     }
 
     /**
@@ -81,24 +78,25 @@ class DefaultController extends Controller
      */
     public function actionUpdate($id)
     {
-        $model=$this->loadModel($id);
-        $edcenso_base_disciplines =  EdcensoBaseDisciplines::model()->findAll();
+        $model = $this->loadModel($id);
+        $edcensoBaseDisciplines = EdcensoBaseDisciplines::model()->findAll();
         // Uncomment the following line if AJAX validation is needed
         // $this->performAjaxValidation($model);
 
         if(isset($_POST['EdcensoDiscipline'])) {
             $model->attributes=$_POST['EdcensoDiscipline'];
+            $model->report_text = $_POST['EdcensoDiscipline']['report_text'];
             if($model->save()) {
                 $this->redirect(array('index'));
             } else {
                 Yii::app()->user->setFlash('error', Yii::t('default', 'Não foi possível atualizar esse componente curricular'));
-            }            
+            }
         }
 
-        $this->render('update', array(
-            'model'=>$model,
-            'edcenso_base_disciplines' => $edcenso_base_disciplines,
-        ));
+        $this->render('update', [
+            'model' => $model,
+            'edcenso_base_disciplines' => $edcensoBaseDisciplines,
+        ]);
     }
 
     /**
@@ -108,20 +106,20 @@ class DefaultController extends Controller
      */
     public function actionDelete($id)
     {
-        $curricular_component = $this->loadModel($id);
+        $curricularComponent = $this->loadModel($id);
 
-        if($curricular_component->edcenso_base_discipline_fk < 99) {
+        if ($curricularComponent->edcenso_base_discipline_fk < 99) {
             Yii::app()->user->setFlash('error', Yii::t('default', 'Não é possível remover um componente base do EducaCenso'));
-            $this->redirect(array('index'));
+            $this->redirect(['index']);
         }
 
-        if($curricular_component->delete()){
+        if ($curricularComponent->delete()) {
             Yii::app()->user->setFlash('success', Yii::t('default', 'Componente curricular excluído com sucesso!'));
         } else {
             Yii::app()->user->setFlash('error', Yii::t('default', 'Não é possível remover este componente curricular'));
         }
 
-        $this->redirect(array('index'));
+        $this->redirect(['index']);
     }
 
     /**
@@ -129,10 +127,10 @@ class DefaultController extends Controller
      */
     public function actionIndex()
     {
-        $dataProvider = new CActiveDataProvider('EdcensoDiscipline', array('pagination' => false));
-        $this->render('index', array(
-            'dataProvider'=> $dataProvider,
-        ));
+        $dataProvider = new CActiveDataProvider('EdcensoDiscipline', ['pagination' => false]);
+        $this->render('index', [
+            'dataProvider' => $dataProvider,
+        ]);
     }
 
     /**
@@ -142,13 +140,13 @@ class DefaultController extends Controller
     {
         $model = new EdcensoDiscipline('search');
         $model->unsetAttributes();  // clear any default values
-        if(isset($_GET['EdcensoDiscipline'])) {
-            $model->attributes=$_GET['EdcensoDiscipline'];
+        if (isset($_GET['EdcensoDiscipline'])) {
+            $model->attributes = $_GET['EdcensoDiscipline'];
         }
 
-        $this->render('admin', array(
-            'model'=>$model,
-        ));
+        $this->render('admin', [
+            'model' => $model,
+        ]);
     }
 
     /**
@@ -161,7 +159,7 @@ class DefaultController extends Controller
     public function loadModel($id)
     {
         $model = EdcensoDiscipline::model()->findByPk($id);
-        if($model===null) {
+        if ($model === null) {
             throw new CHttpException(404, 'The requested page does not exist.');
         }
         return $model;
@@ -173,7 +171,7 @@ class DefaultController extends Controller
      */
     protected function performAjaxValidation($model)
     {
-        if(isset($_POST['ajax']) && $_POST['ajax']==='edcenso-discipline-form') {
+        if (isset($_POST['ajax']) && $_POST['ajax'] === 'edcenso-discipline-form') {
             echo CActiveForm::validate($model);
             Yii::app()->end();
         }

@@ -10,7 +10,6 @@
  */
 class Vaccine extends AltActiveRecord
 {
-
     public $name;
 
     /**
@@ -22,7 +21,7 @@ class Vaccine extends AltActiveRecord
     {
         return parent::model($className);
     }
-    
+
     /**
      * @return string the associated database table name
      */
@@ -38,11 +37,11 @@ class Vaccine extends AltActiveRecord
     {
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
-        return array(
-            array('name', 'required'),
-            array('name', 'length', 'max'=>100),
-            array('code', 'length', 'max'=>10),
-        );
+        return [
+            ['name', 'required'],
+            ['name', 'length', 'max' => 100],
+            ['code', 'length', 'max' => 10],
+        ];
     }
 
     /**
@@ -50,10 +49,10 @@ class Vaccine extends AltActiveRecord
      */
     public function attributeLabels()
     {
-        return array(
+        return [
             'id' => Yii::t('default', 'ID'),
             'name' => Yii::t('default', 'Name'),
             'code' => Yii::t('default', 'Code')
-        );
+        ];
     }
 }

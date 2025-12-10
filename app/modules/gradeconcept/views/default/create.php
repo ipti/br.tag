@@ -3,17 +3,17 @@
 /* @var $model GradeConcept */
 
 $this->setPageTitle('TAG - ' . Yii::t('default', 'Cadastrar Conceito'));
-$this->breadcrumbs=array(
-	'Grade Concepts'=>array('index'),
-	'Create',
-);
+$this->breadcrumbs = [
+    'Grade Concepts' => ['index'],
+    'Create',
+];
 
-$this->menu=array(
-	array('label'=>'List GradeConcept', 'url'=>array('index')),
-	array('label'=>'Manage GradeConcept', 'url'=>array('admin')),
-);
+$this->menu = [
+    ['label' => 'List GradeConcept', 'url' => ['index']],
+    ['label' => 'Manage GradeConcept', 'url' => ['admin']],
+];
 ?>
 
 <div id="mainPage" class="main">
-	<?php $this->renderPartial('_form', array('model'=>$model)); ?>
+	<?php $this->renderPartial('_form', ['model' => $model]); ?>
 </div>

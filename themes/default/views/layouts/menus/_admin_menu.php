@@ -6,7 +6,7 @@ $menuItems = [
         'label' => 'Página Inicial',
         'url' => ['/'],
         'icon' => 't-icon-home',
-        'roles' => [TRole::ADMIN, TRole::COORDINATOR,TRole::MANAGER,TRole::INSTRUCTOR,TRole::NUTRITIONIST,TRole::READER],
+        'roles' => [TRole::ADMIN, TRole::COORDINATOR,TRole::MANAGER,TRole::INSTRUCTOR,TRole::NUTRITIONIST,TRole::READER, TRole::FOOD_SERVICE_WORKER],
         'feature' => TTask::TASK_HOME,
     ],
     [
@@ -15,13 +15,6 @@ $menuItems = [
         'icon' => 't-icon-home',
         'roles' => [TRole::SUPERUSER],
         'feature' => TTask::TASK_HOME,
-    ],
-    [
-        'label' => 'Matrícula Online',
-        'url' => ['enrollmentonline/Enrollmentonlinestudentidentification/StudentStatus'],
-        'icon' => 't-icon-backpack',
-        'roles' => [TRole::GUARDIAN],
-        'feature' => TTask::TASK_ONLINE_ENROLLMENT,
     ],
 
     // Escola, Turmas, Alunos, Professores
@@ -49,6 +42,19 @@ $menuItems = [
         'icon' => 't-icon-pencil',
         'roles' => [TRole::ADMIN, TRole::MANAGER, TRole::READER],
         'feature' => TTask::TASK_STUDENT_MANAGE,
+    ],
+    [
+        'label' => 'Matrícula Online',
+        'url' =>function() {
+            if(Yii::app()->getAuthManager()->checkAccess('guardian', Yii::app()->user->loginInfos->id)) {
+                return ['enrollmentonline/Enrollmentonlinestudentidentification/StudentList'];
+            }
+            return ['enrollmentonline/Enrollmentonlinestudentidentification/index'];
+        },
+         ['enrollmentonline/Enrollmentonlinestudentidentification/StudentStatus'],
+        'icon' => 't-icon-backpack',
+        'roles' => [TRole::GUARDIAN, TRole::ADMIN, TRole::MANAGER, TRole::READER],
+        'feature' => TTask::TASK_ONLINE_ENROLLMENT,
     ],
     [
         'label' => 'Professores',
@@ -197,7 +203,7 @@ $menuItems = [
         'label' => 'Merenda Escolar',
         'url' => ['foods'],
         'icon' => 't-icon-apple',
-        'roles' => [TRole::NUTRITIONIST, TRole::ADMIN, TRole::MANAGER, TRole::READER],
+        'roles' => [TRole::NUTRITIONIST, TRole::ADMIN, TRole::MANAGER, TRole::READER, TRole::FOOD_SERVICE_WORKER],
         'feature' => TTask::TASK_FOODS_MENU_MANAGE,
     ],
 
@@ -207,6 +213,14 @@ $menuItems = [
         'icon' => 't-icon-apple',
         'roles' => [TRole::NUTRITIONIST, TRole::ADMIN, TRole::MANAGER, TRole::READER],
         'feature' => TTask::TASK_LUNCH_MENU_MANAGE,
+    ],
+    // Acompanhamento de Saúde
+     [
+        'label' => 'Acompanhamento de Saúde',
+        'url' => ['studentimc/studentimc/studentIndex'],
+        'icon' => 't-icon-heart',
+        'roles' => [TRole::NUTRITIONIST, TRole::ADMIN, TRole::MANAGER, TRole::READER, TRole::FOOD_SERVICE_WORKER],
+        'feature' => TTask::TASK_STUDENT_IMC,
     ],
 
     // Integrações
@@ -254,7 +268,7 @@ $menuItems = [
         'url' => function() {
             return ['admin/editPassword', ['id' => Yii::app()->user->loginInfos->id]];
         },
-        'roles' => [TRole::ADMIN, TRole::MANAGER, TRole::READER, TRole::INSTRUCTOR, TRole::NUTRITIONIST, ],
+        'roles' => [TRole::ADMIN, TRole::MANAGER, TRole::READER, TRole::INSTRUCTOR, TRole::NUTRITIONIST, TRole::FOOD_SERVICE_WORKER, TRole::GUARDIAN],
         'icon' => 't-icon-lock',
         'feature' => TFeature::FEAT_ADMIN_GENERAL,
     ],

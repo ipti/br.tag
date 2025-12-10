@@ -17,7 +17,7 @@ $domain = array_shift($host_array);
 $newdb = $domain . '.tag.ong.br';
 
 if ($domain == "localhost") {
-    $newdb = 'demo';
+    $newdb = 'demo.tag.ong.br';
 }
 
 $_GLOBALGROUP = 0;
@@ -36,7 +36,7 @@ define("DBCONFIG", serialize(array(
     'enableParamLogging' => YII_DEBUG,
     'username' => $USER,
     'password' => $PWD,
-    'charset' => 'utf8',
+    'charset' => 'utf8mb4',
 )));
 
 define('INSTANCE', strtoupper($domain));

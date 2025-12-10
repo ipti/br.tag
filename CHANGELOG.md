@@ -1,3 +1,38 @@
+## [Versão 3.6.1]
+- Refatoração de código para redução de débito técnico
+
+## [Versão 3.6.0]
+- Modulo de acompanhamento de sáude do estudante
+
+## [Versão 3.5.7]
+- Corrigido ordem das unidades no relatório de ficha de notas
+
+## [Versão 3.5.6]
+- Corrigido erro no relátorio de ficha de notas para turmas por conceito
+- COrrigida a substituição da nota da unidade pela nota da recuperação parcial nos casos pertinetes no relatório de ficha de notas
+
+## [Versão 3.5.5]
+- Corrigido o comportamento das disciplinas que não possuem nota, garantindo o tratamento adequado nos relatórios e demais funcionalidades.
+
+## [Versão 3.5.4]
+- Corrigido Cálculo de média Ponderada em estrutura de notas
+
+## [Versão 3.5.3]
+- Corrigido erro ao acessar aulas ministradas para coordenadores pedagógicos
+
+## [Versão 3.5.2]
+- Corrigido Exportação do Documento do Sagres
+
+## [Versão 3.5.1]
+- Corrigido Cálculo de Frequência
+
+## [Versão 3.5.0]
+- Controle de acesso por módulos
+- Refatoração de código para redução de débito tecnico
+- Pefil de Super Usuário
+- Status da turma
+
+
 ## [Versão 3.2.4]
 - Permitir exportação do arquivo de identificação do censo com ou sem certidões de nascimento
 - Inclusão de faltas justificadas no cálculo da frequência

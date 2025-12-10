@@ -1,19 +1,20 @@
 <?php
+
     class ClassesService
     {
-        public function getClassrooms() {
-            $criteria = new CDbCriteria;
-            $criteria->condition = "school_year = :school_year and school_inep_fk = :school_inep_fk";
-                $criteria->order = "name";
-                $criteria->params = $criteria->params = array(':school_year' => Yii::app()->user->year, ':school_inep_fk' => Yii::app()->user->school);
-            $classrooms = Classroom::model()->findAll($criteria);
-
-            return $classrooms;
+        public function getClassrooms()
+        {
+            $criteria = new CDbCriteria();
+            $criteria->condition = 'school_year = :school_year and school_inep_fk = :school_inep_fk';
+            $criteria->order = 'name';
+            $criteria->params = $criteria->params = [':school_year' => Yii::app()->user->year, ':school_inep_fk' => Yii::app()->user->school];
+            return Classroom::model()->findAll($criteria);
         }
 
-        public function getClassroomsInstructor($discipline) {
-             if ($discipline != "") {
-                $sql = "SELECT c.id, esvm.id as stage_fk, ii.name as instructor_name, ed.id as edcenso_discipline_fk,
+        public function getClassroomsInstructor($discipline)
+        {
+            if ($discipline != '') {
+                $sql = 'SELECT c.id, esvm.id as stage_fk, ii.name as instructor_name, ed.id as edcenso_discipline_fk,
                 ed.name as discipline_name, esvm.name as stage_name, c.name
                 from instructor_teaching_data itd
                 join teaching_matrixes tm ON itd.id = tm.teaching_data_fk
@@ -24,7 +25,7 @@
                 Join edcenso_stage_vs_modality esvm on esvm.id = c.edcenso_stage_vs_modality_fk
                 WHERE ii.users_fk = :users_fk and esvm.id NOT BETWEEN 14 AND 18 and esvm.unified_frequency = :unified_frequency
                 and ed.id = :discipline_id and c.school_year = :user_year
-                ORDER BY ii.name";
+                ORDER BY ii.name';
 
                 $command = Yii::app()->db->createCommand($sql);
                 $command->bindValue(':users_fk', Yii::app()->user->loginInfos->id, PDO::PARAM_INT)
@@ -32,7 +33,7 @@
                 ->bindValue(':unified_frequency', 0, PDO::PARAM_INT)
                 ->bindValue(':user_year', Yii::app()->user->year, PDO::PARAM_INT);
             } else {
-                $sql = "SELECT c.id, esvm.id as stage_fk, ii.name as instructor_name, ed.id as edcenso_discipline_fk, ed.name as discipline_name, esvm.name as stage_name, c.name
+                $sql = 'SELECT c.id, esvm.id as stage_fk, ii.name as instructor_name, ed.id as edcenso_discipline_fk, ed.name as discipline_name, esvm.name as stage_name, c.name
                 from instructor_teaching_data itd
                 join teaching_matrixes tm ON itd.id = tm.teaching_data_fk
                 join instructor_identification ii on itd.instructor_fk = ii.id
@@ -41,7 +42,7 @@
                 join classroom c on c.id = itd.classroom_id_fk
                 Join edcenso_stage_vs_modality esvm on esvm.id = c.edcenso_stage_vs_modality_fk
                 WHERE ii.users_fk = :users_fk and esvm.id NOT BETWEEN 14 AND 18 and c.school_year = :user_year and esvm.unified_frequency = :unified_frequency
-                ORDER BY ii.name";
+                ORDER BY ii.name';
 
                 $command = Yii::app()->db->createCommand($sql);
                 $command->bindValue(':users_fk', Yii::app()->user->loginInfos->id, PDO::PARAM_INT)
@@ -53,94 +54,91 @@
             $minorSchoolingClassroom = $this->getMinorSchoolingClassrooms();
 
             return [
-                "valid" => true,
-                "classrooms" => $classrooms,
-                "minorSchoolingClassroom" => $minorSchoolingClassroom
+                'valid' => true,
+                'classrooms' => $classrooms,
+                'minorSchoolingClassroom' => $minorSchoolingClassroom
             ] ;
         }
-        public function getMinorSchoolingClassrooms() {
-            $sql = "SELECT c.id, esvm.name as stage_name, c.name, c.edcenso_stage_vs_modality_fk as stage_fk
+
+        public function getMinorSchoolingClassrooms()
+        {
+            $sql = 'SELECT c.id, esvm.name as stage_name, c.name, c.edcenso_stage_vs_modality_fk as stage_fk
             from classroom c
             join instructor_teaching_data on instructor_teaching_data.classroom_id_fk = c.id
             join instructor_identification on instructor_teaching_data.instructor_fk = instructor_identification.id
             join edcenso_stage_vs_modality esvm on esvm.id = c.edcenso_stage_vs_modality_fk
-            where c.school_year = :school_year and instructor_identification.users_fk = :users_fk and( esvm.id BETWEEN 14 AND 18 or esvm.unified_frequency = :unified_frequency) ";
-             $command = Yii::app()->db->createCommand($sql);
-             $command->bindValue(':school_year', Yii::app()->user->year, PDO::PARAM_INT)
+            where c.school_year = :school_year and instructor_identification.users_fk = :users_fk and( esvm.id BETWEEN 14 AND 18 or esvm.unified_frequency = :unified_frequency) ';
+            $command = Yii::app()->db->createCommand($sql);
+            $command->bindValue(':school_year', Yii::app()->user->year, PDO::PARAM_INT)
              ->bindValue(':unified_frequency', 1, PDO::PARAM_INT)
              ->bindValue(':users_fk', Yii::app()->user->loginInfos->id, PDO::PARAM_INT);
-             $minorSchoolingClassroom = $command->queryAll();
-
-
-
-            return $minorSchoolingClassroom;
+            return $command->queryAll();
         }
 
         /**
          * Summary of getClassContents
-         * @param mixed $classroom_fk
+         * @param mixed $classroomFk
          * @param mixed $date
-         * @param mixed $discipline_fk
+         * @param mixed $disciplineFk
          * @return array
          */
-        public function getClassContents($classroom_fk, $stage_fk, $date, $discipline_fk) {
+        public function getClassContents($classroomFk, $stageFk, $date, $disciplineFk)
+        {
             // Fundamental menor
-            $classroom = Classroom::model()->findByPk($classroom_fk);
-            $is_minor_schooling = $this->isMinorSchooling($classroom, $stage_fk);
-            if ($is_minor_schooling)
-            {
-                $schedule = Schedule::model()->find("classroom_fk = :classroom_fk and month = :month and day = :day and unavailable = 0 group by day order by day, schedule", ["classroom_fk" => $classroom_fk,
-                "month" => DateTime::createFromFormat("d/m/Y", $date)->format("m"),
-                "day" => DateTime::createFromFormat("d/m/Y", $date)->format("d")]);
+            $classroom = Classroom::model()->findByPk($classroomFk);
+            $isMinorSchooling = $this->isMinorSchooling($classroom, $stageFk);
+            if ($isMinorSchooling) {
+                $schedule = Schedule::model()->find('classroom_fk = :classroom_fk and month = :month and day = :day and unavailable = 0 group by day order by day, schedule', ['classroom_fk' => $classroomFk,
+                    'month' => DateTime::createFromFormat('d/m/Y', $date)->format('m'),
+                    'day' => DateTime::createFromFormat('d/m/Y', $date)->format('d')]);
             } else {
-                $schedule = Schedule::model()->find("classroom_fk = :classroom_fk and month = :month and day = :day  and discipline_fk = :discipline_fk and unavailable = 0 order by day, schedule", ["classroom_fk" => $classroom_fk,
-                "month" => DateTime::createFromFormat("d/m/Y", $date)->format("m"),
-                "day" => DateTime::createFromFormat("d/m/Y", $date)->format("d"),
-                "discipline_fk" => $discipline_fk]);
+                $schedule = Schedule::model()->find('classroom_fk = :classroom_fk and month = :month and day = :day  and discipline_fk = :discipline_fk and unavailable = 0 order by day, schedule', ['classroom_fk' => $classroomFk,
+                    'month' => DateTime::createFromFormat('d/m/Y', $date)->format('m'),
+                    'day' => DateTime::createFromFormat('d/m/Y', $date)->format('d'),
+                    'discipline_fk' => $disciplineFk]);
             }
             if (!empty($schedule)) {
-
                 if (Yii::app()->getAuthManager()->checkAccess('instructor', Yii::app()->user->loginInfos->id)) {
-                    if ($is_minor_schooling) {
+                    if ($isMinorSchooling) {
                         $courseClasses = Yii::app()->db->createCommand(
-                            "select cc.id, cp.name as cpname, ed.id as edid, ed.name as edname, cc.order, cc.content from course_class cc
+                            'select cc.id, cp.name as cpname, ed.id as edid, ed.name as edname, cc.order, cc.content from course_class cc
                             join course_plan cp on cp.id = cc.course_plan_fk
                             join edcenso_discipline ed on cp.discipline_fk = ed.id
                             where cp.school_inep_fk = :school_inep_fk and cp.modality_fk = :modality_fk and cp.users_fk = :users_fk
-                            order by ed.name, cp.name"
+                            order by ed.name, cp.name'
                         )
-                            ->bindParam(":school_inep_fk", Yii::app()->user->school)
-                            ->bindParam(":modality_fk", $schedule->classroomFk->edcenso_stage_vs_modality_fk)
-                            ->bindParam(":users_fk", Yii::app()->user->loginInfos->id)
+                            ->bindParam(':school_inep_fk', Yii::app()->user->school)
+                            ->bindParam(':modality_fk', $schedule->classroomFk->edcenso_stage_vs_modality_fk)
+                            ->bindParam(':users_fk', Yii::app()->user->loginInfos->id)
                             ->queryAll();
 
                         $additionalClasses = Yii::app()->db->createCommand(
-                            "select cc.id, cp.name as cpname, cp.discipline_fk ,cc.order, cc.content, cp.id as cpid
+                            'select cc.id, cp.name as cpname, cp.discipline_fk ,cc.order, cc.content, cp.id as cpid
                             from course_class cc
                             join course_plan cp on cp.id = cc.course_plan_fk
                             where cp.school_inep_fk = :school_inep_fk and cp.modality_fk = :modality_fk and cp.users_fk = :users_fk and cp.discipline_fk IS NULL
                             and YEAR(cp.start_date) = :year
-                            order by cp.name"
+                            order by cp.name'
                         )
-                            ->bindParam(":school_inep_fk", Yii::app()->user->school)
-                            ->bindParam(":modality_fk", $schedule->classroomFk->edcenso_stage_vs_modality_fk)
-                            ->bindParam(":users_fk", Yii::app()->user->loginInfos->id)
-                            ->bindParam(":year", Yii::app()->user->year)
+                            ->bindParam(':school_inep_fk', Yii::app()->user->school)
+                            ->bindParam(':modality_fk', $schedule->classroomFk->edcenso_stage_vs_modality_fk)
+                            ->bindParam(':users_fk', Yii::app()->user->loginInfos->id)
+                            ->bindParam(':year', Yii::app()->user->year)
                             ->queryAll();
 
-                            $courseClasses = array_merge($courseClasses, $additionalClasses);
+                        $courseClasses = array_merge($courseClasses, $additionalClasses);
                     } else {
                         $courseClasses = Yii::app()->db->createCommand(
-                            "select cc.id, cp.name as cpname, ed.id as edid, ed.name as edname, cc.order, cc.content from course_class cc
+                            'select cc.id, cp.name as cpname, ed.id as edid, ed.name as edname, cc.order, cc.content from course_class cc
                             join course_plan cp on cp.id = cc.course_plan_fk
                             join edcenso_discipline ed on cp.discipline_fk = ed.id
                             where cp.school_inep_fk = :school_inep_fk and cp.modality_fk = :modality_fk and cp.discipline_fk = :discipline_fk and cp.users_fk = :users_fk
-                            order by ed.name, cp.name"
+                            order by ed.name, cp.name'
                         )
-                            ->bindParam(":school_inep_fk", Yii::app()->user->school)
-                            ->bindParam(":modality_fk", $schedule->classroomFk->edcenso_stage_vs_modality_fk)
-                            ->bindParam(":discipline_fk",  $discipline_fk)
-                            ->bindParam(":users_fk", Yii::app()->user->loginInfos->id)
+                            ->bindParam(':school_inep_fk', Yii::app()->user->school)
+                            ->bindParam(':modality_fk', $schedule->classroomFk->edcenso_stage_vs_modality_fk)
+                            ->bindParam(':discipline_fk', $disciplineFk)
+                            ->bindParam(':users_fk', Yii::app()->user->loginInfos->id)
                             ->queryAll();
                     }
                 }
@@ -150,51 +148,54 @@
                 }
 
                 return [
-                    "valid" => true,
-                    "courseClasses" => $courseClasses,
-                    "classContents" => $classContents,
+                    'valid' => true,
+                    'courseClasses' => $courseClasses,
+                    'classContents' => $classContents,
                 ];
             } else {
-                return ["valid" => false, "error" => "Não existe quadro de horário com dias letivos para o mês selecionado."];
+                return ['valid' => false, 'error' => 'Não existe quadro de horário com dias letivos para o mês selecionado.'];
             }
         }
 
         /**
          * Summary of SaveClassContents
          * @param mixed $classContent
-         * @param mixed $stage_fk
+         * @param mixed $stageFk
          * @param mixed $date
-         * @param mixed $discipline_fk
-         * @param mixed $classroom_fk
+         * @param mixed $disciplineFk
+         * @param mixed $classroomFk
          * @return void
          */
-        public function SaveClassContents($stage_fk, $date, $discipline_fk, $classroom_fk, $classContent)
+        public function saveClassContents($stageFk, $date, $disciplineFk, $classroomFk, $classContent)
         {
-             // Fundamental menor
-             $classroom = Classroom::model()->findByPk($classroom_fk);
-             $is_minor_schooling = $this->isMinorSchooling($classroom, $stage_fk);
-             if ($is_minor_schooling)
-             {
-                 $schedule = Schedule::model()->find("classroom_fk = :classroom_fk and month = :month and day = :day and unavailable = 0 group by day order by day, schedule",
-                 ["classroom_fk" => $classroom_fk,
-                 "month" => DateTime::createFromFormat("d/m/Y", $date)->format("m"),
-                 "day" => DateTime::createFromFormat("d/m/Y", $date)->format("d")]);
-             } else {
-                 $schedule = Schedule::model()->find("classroom_fk = :classroom_fk and month = :month and day = :day and discipline_fk = :discipline_fk group by day order by day, schedule",
-                  ["classroom_fk" => $classroom_fk, "month" => DateTime::createFromFormat("d/m/Y", $date)->format("m"),
-                   "day" => DateTime::createFromFormat("d/m/Y", $date)->format("d"), "discipline_fk" => $discipline_fk]);
-             }
+            // Fundamental menor
+            $classroom = Classroom::model()->findByPk($classroomFk);
+            $isMinorSchooling = $this->isMinorSchooling($classroom, $stageFk);
+            if ($isMinorSchooling) {
+                $schedule = Schedule::model()->find(
+                    'classroom_fk = :classroom_fk and month = :month and day = :day and unavailable = 0 group by day order by day, schedule',
+                    ['classroom_fk' => $classroomFk,
+                        'month' => DateTime::createFromFormat('d/m/Y', $date)->format('m'),
+                        'day' => DateTime::createFromFormat('d/m/Y', $date)->format('d')]
+                );
+            } else {
+                $schedule = Schedule::model()->find(
+                    'classroom_fk = :classroom_fk and month = :month and day = :day and discipline_fk = :discipline_fk group by day order by day, schedule',
+                    ['classroom_fk' => $classroomFk, 'month' => DateTime::createFromFormat('d/m/Y', $date)->format('m'),
+                        'day' => DateTime::createFromFormat('d/m/Y', $date)->format('d'), 'discipline_fk' => $disciplineFk]
+                );
+            }
 
-             $contentsToExclude = array_column(ClassContents::model()->with("courseClassFk.coursePlanFk")->findAll(
+            $contentsToExclude = array_column(ClassContents::model()->with('courseClassFk.coursePlanFk')->findAll(
                 'schedule_fk = :schedule_fk and coursePlanFk.users_fk = :user_fk',
                 [
                     'schedule_fk' => $schedule->id,
                     'user_fk' => Yii::app()->user->loginInfos->id
                 ]
-             ), 'id');
+            ), 'id');
 
-            if (!empty($contentsToExclude)){
-                ClassContents::model()->deleteAll("id IN (" . implode(" , ", $contentsToExclude) . ")");
+            if (!empty($contentsToExclude)) {
+                ClassContents::model()->deleteAll('id IN (' . implode(' , ', $contentsToExclude) . ')');
             }
 
             foreach ($classContent as $content) {
@@ -209,20 +210,19 @@
 
                 $classHasContent->save();
             }
-
         }
-        public function saveNewClassContent($coursePlanId, $content, $methodology, $abilities) {
 
-            $nextOrder = Yii::app()->db->createCommand("
+        public function saveNewClassContent($coursePlanId, $content, $methodology, $abilities)
+        {
+            $nextOrder = Yii::app()->db->createCommand('
             SELECT MAX(`order`) AS max_order
             FROM course_class
             WHERE course_plan_fk = :coursePlanId
-        ")
-            ->bindParam(":coursePlanId", $coursePlanId, PDO::PARAM_INT)
+        ')
+            ->bindParam(':coursePlanId', $coursePlanId, PDO::PARAM_INT)
             ->queryRow();
 
-
-            $nextOrderValue = $nextOrder['max_order']  + 1;
+            $nextOrderValue = $nextOrder['max_order'] + 1;
 
             $courseClass = new CourseClass();
             $courseClass->course_plan_fk = $coursePlanId;
@@ -230,8 +230,6 @@
             $courseClass->methodology = $methodology;
             $courseClass->order = $nextOrderValue;
             $courseClass->save();
-
-
 
             foreach ($abilities as $ability) {
                 $courseClassAbility = new CourseClassHasClassAbility();
@@ -243,7 +241,8 @@
             return $courseClass->id;
         }
 
-        public function isMinorSchooling($classroom , $stageFk){
+        public function isMinorSchooling($classroom, $stageFk)
+        {
             return
                 $classroom->edcensoStageVsModalityFk->unified_frequency == 1 ||
                 TagUtils::isStageMinorEducation($stageFk) ||
@@ -252,4 +251,3 @@
                 );
         }
     }
-

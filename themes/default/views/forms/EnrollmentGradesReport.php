@@ -31,7 +31,7 @@ function calculateFrequence($numClasses, $numFalts): int {
 <div class="row-fluid hidden-print">
     <div class="span12">
         <div class="buttons">
-            <a id="print" onclick="imprimirPagina()" class='btn btn-icon hidden-print' style="padding: 10px;"><img
+            <a id="print" onkeypress="imprimirPagina()" class='btn btn-icon hidden-print' style="padding: 10px;"><img
                         alt="impressora" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/Impressora.svg"
                         class="img_cards"/> <?php echo Yii::t('default', 'Print') ?><i></i></a>
         </div>
@@ -141,8 +141,11 @@ function calculateFrequence($numClasses, $numFalts): int {
                         for ($j = 0; $j < $diciplinesColumnsCount; $j++) {
                             $gradeResultFaults += $result[$j]['grade_result']['grade_faults_' . $i];
                             $gradeResult = $result[$j]['grade_result'];
+                            $discipline = $disciplines[$gradeResult['discipline_fk']];
                             ?>
-                            <?php if ($unities[$i - 1]->type == 'RF') { ?>
+                            <?php if($discipline["requires_exam"] === 0) { ?>
+                                <td style="text-align: center;"><?= $discipline["report_text"] ?></td>
+                            <?php } elseif ($unities[$i - 1]->type == 'RF') { ?>
                                 <td style="text-align: center;"><?= $gradeResult['rec_final'] ?></td>
                             <?php } elseif ($unities[$i - 1]->type == 'UC') { ?>
                                 <td style="text-align: center;"><?= $gradeResult['grade_concept_' . $i] ?></td>
@@ -158,7 +161,7 @@ function calculateFrequence($numClasses, $numFalts): int {
                             <?php } ?>
                         <?php } ?>
                         <?php if ($unities[$i - 1]->type != 'RF') { ?>
-                            <td style="text-align: center;"><?= $school_days[$i - 1] ?></td>
+                            <td style="text-align: center;"><?= $schoolDays[$i - 1] ?></td>
                             <td style="text-align: center;"><?= $workload[$i - 1] ?></td>
                             <td style="text-align: center;"><?= $gradeResultFaults == 0 ? $faults[$i - 1] : $gradeResultFaults ?></td>
                         <?php } else { ?>
@@ -171,9 +174,22 @@ function calculateFrequence($numClasses, $numFalts): int {
                 </tbody>
                 <tr>
                     <td colspan="1">MÉDIA FINAL</td>
-                    <?php for ($i = 0; $i < $diciplinesColumnsCount; $i++) { ?>
-                        <td style="text-align: center;font-weight:bold;"><?= ($conceptUnities ? '' : $result[$i]['final_media']) ?></td>
-                    <?php } ?>
+                    <?php for ($i = 0; $i < $diciplinesColumnsCount; $i++): ?>
+                        <td style="text-align: center; font-weight: bold;">
+                            <?php
+                            $gradeResult = $result[$i]['grade_result'];
+                            $discipline = $disciplines[$gradeResult['discipline_fk']];
+                                if ($conceptUnities) {
+                                    echo '';
+                                } else {
+                                    echo ($discipline["requires_exam"] === 0)
+                                        ? $discipline["report_text"]
+                                        : $result[$i]['final_media'];
+                                }
+                            ?>
+                        </td>
+                    <?php endfor; ?>
+
                     <td></td>
                     <td></td>
                     <td></td>

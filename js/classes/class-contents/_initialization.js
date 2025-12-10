@@ -1,24 +1,29 @@
 function loadClassContents() {
     var monthSplit = $("#month").val().split("-");
     $.ajax({
-        type: 'POST',
+        type: "POST",
         url: "?r=classes/getClassContents",
         cache: false,
         data: {
             classroom: $("#classroom").val(),
             month: monthSplit[1],
             year: monthSplit[0],
-            discipline: $("#disciplines").val()
+            discipline: $("#disciplines").val(),
         },
         beforeSend: function () {
             $(".loading-class-contents").css("display", "flex");
-            $("#widget-class-contents").css("opacity", 0.3).css("pointer-events", "none");
-            $("#classroom, #month, #disciplines, #classesSearch, #classesSearchMobile").attr("disabled", "disabled");
+            $("#widget-class-contents")
+                .css("opacity", 0.3)
+                .css("pointer-events", "none");
+            $(
+                "#classroom, #month, #disciplines, #classesSearch, #classesSearchMobile"
+            ).attr("disabled", "disabled");
         },
         success: function (data) {
             data = jQuery.parseJSON(data);
             if (data.valid) {
-                let urlIsValidate = window.location.href.includes("validateClassContents");
+                let urlIsValidate = window.location.href.includes("validateclasscontents");
+
                 if(urlIsValidate) {
                     createValidateTable(data);
                 } else {
@@ -27,23 +32,38 @@ function loadClassContents() {
 
                 $("#print-button").addClass("show").removeClass("hide");
                 $("#save").addClass("show--desktop").removeClass("hide");
-                $("#save-button-mobile").addClass("show--tablet").removeClass("hide");
-                $('#error-badge').html('')
+                $("#save-button-mobile")
+                    .addClass("show--tablet")
+                    .removeClass("hide");
+                $("#error-badge").html("");
             } else {
-                $('#error-badge').html('<div class="t-badge-info"><span class="t-info_positive t-badge-info__icon"></span>' + data.error + '</div>')
-                $('#class-contents > thead').html('');
-                $('#class-contents > tbody').html('');
-                $('#class-contents').show();
+                $("#error-badge").html(
+                    '<div class="t-badge-info"><span class="t-info_positive t-badge-info__icon"></span>' +
+                        data.error +
+                        "</div>"
+                );
+                $("#class-contents > thead").html("");
+                $("#class-contents > tbody").html("");
+                $("#class-contents").show();
                 $("#save, #save-button-mobile").addClass("hide");
             }
-            $('#month_text').html($('#month').find('option:selected').text());
-            $('#discipline_text').html($('#disciplines').is(":visible") ? $('#disciplines').find('option:selected').text() : "Todas as Disciplinas");
+            $("#month_text").html($("#month").find("option:selected").text());
+            $("#discipline_text").html(
+                $("#disciplines").is(":visible")
+                    ? $("#disciplines").find("option:selected").text()
+                    : "Todas as Disciplinas"
+            );
         },
         complete: function () {
             $(".loading-class-contents").hide();
-            $("#widget-class-contents").css("opacity", 1).css("pointer-events", "auto").show();
-            $("#classroom, #month, #disciplines, #classesSearch, #classesSearchMobile").removeAttr("disabled");
-        }
+            $("#widget-class-contents")
+                .css("opacity", 1)
+                .css("pointer-events", "auto")
+                .show();
+            $(
+                "#classroom, #month, #disciplines, #classesSearch, #classesSearchMobile"
+            ).removeAttr("disabled");
+        },
     });
 }
 
@@ -60,7 +80,10 @@ $("#classroom").on("change", function () {
             },
             beforeSend: function () {
                 $(".loading-frequency").css("display", "inline-block");
-                $("#classroom, #month, #disciplines").attr("disabled", "disabled");
+                $("#classroom, #month, #disciplines").attr(
+                    "disabled",
+                    "disabled"
+                );
             },
             success: function (data) {
                 data = JSON.parse(data);
@@ -70,15 +93,23 @@ $("#classroom").on("change", function () {
                     $.each(data.months, function (index, value) {
                         $("#month").append(new Option(value.name, value.id));
                     });
-                    $("#month option:first").attr("selected", "selected").trigger("change.select2");
+                    $("#month option:first")
+                        .attr("selected", "selected")
+                        .trigger("change.select2");
 
-                    if (data.isMinor == false) {
+                    if (data.isMinor === false) {
                         $("#disciplines").children().remove();
-                        $("#disciplines").append(new Option("Selecione a Disciplina", ""));
+                        $("#disciplines").append(
+                            new Option("Selecione a Disciplina", "")
+                        );
                         $.each(data.disciplines, function (index, value) {
-                            $("#disciplines").append(new Option(value.name, value.id));
+                            $("#disciplines").append(
+                                new Option(value.name, value.id)
+                            );
                         });
-                        $("#disciplines option:first").attr("selected", "selected").trigger("change.select2");
+                        $("#disciplines option:first")
+                            .attr("selected", "selected")
+                            .trigger("change.select2");
                         $(".disciplines-container").show();
                     } else {
                         $(".disciplines-container").hide();
@@ -97,11 +128,14 @@ $("#classroom").on("change", function () {
     } else {
         $(".disciplines-container, .month-container").hide();
     }
-
 });
 
 $("#month, #disciplines").on("change", function () {
-    if ($("#classroom").val() !== "" && $("#month").val() !== "" && (!$("#disciplines").is(":visible") || $("#disciplines").val() !== "")) {
+    if (
+        $("#classroom").val() !== "" &&
+        $("#month").val() !== "" &&
+        (!$("#disciplines").is(":visible") || $("#disciplines").val() !== "")
+    ) {
         loadClassContents();
         $("#disciplinesValue").text($("#disciplines option:selected").text());
         $("#monthValue").text($("#month option:selected").text());
@@ -113,12 +147,12 @@ $("#month, #disciplines").on("change", function () {
 });
 
 $(document).ready(function () {
-    $('#class-contents').hide();
+    $("#class-contents").hide();
 });
 
 $(document).on("click", "#print-button", function (e) {
     e.preventDefault();
-    let  monthSplit = $("#month").val().split("-");
+    let monthSplit = $("#month").val().split("-");
 
     let classroomId = $("#classroom").val();
     let month = monthSplit[1];
@@ -128,25 +162,26 @@ $(document).on("click", "#print-button", function (e) {
     let url = `?r=reports/ClassContentsReport&classroomId=${classroomId}&month=${month}&year=${year}&disciplineId=${disciplineId}`;
 
     window.open(url, "_blank");
-
 });
 
-$("#save, #save-button-mobile").on('click', function () {
+$("#save, #save-button-mobile").on("click", function () {
     $(".alert-save").hide();
     let classContents = [];
     $(".day-row").each(function () {
         let students = [];
-        $(this).find(".student-diary-of-the-day").each(function () {
-            students.push({
-                id: $(this).attr("studentid"),
-                diary: $(this).val()
-            })
-        });
+        $(this)
+            .find(".student-diary-of-the-day")
+            .each(function () {
+                students.push({
+                    id: $(this).attr("studentid"),
+                    diary: $(this).val(),
+                });
+            });
         classContents.push({
             day: $(this).attr("day"),
             diary: $(this).find(".classroom-diary-of-the-day").val(),
             contents: $(this).find("select.course-classes-select").val(),
-            students: students
+            students: students,
         });
     });
     $.ajax({
@@ -158,57 +193,106 @@ $("#save, #save-button-mobile").on('click', function () {
             month: $("#class-contents").attr("month"),
             year: $("#class-contents").attr("year"),
             discipline: $("#class-contents").attr("discipline"),
-            classContents: classContents
+            classContents: classContents,
         },
         beforeSend: function () {
             $(".loading-class-contents").css("display", "flex");
-            $("#widget-class-contents").css("opacity", 0.3).css("pointer-events", "none");
-            $("#classroom, #month, #disciplines, #classesSearch, #classesSearchMobile").attr("disabled", "disabled");
+            $("#widget-class-contents")
+                .css("opacity", 0.3)
+                .css("pointer-events", "none");
+            $(
+                "#classroom, #month, #disciplines, #classesSearch, #classesSearchMobile"
+            ).attr("disabled", "disabled");
         },
         success: function (response) {
             $(".alert-save").show();
         },
         complete: function (response) {
             $(".loading-class-contents").hide();
-            $("#widget-class-contents").css("opacity", 1).css("pointer-events", "auto");
-            $("#classroom, #month, #disciplines, #classesSearch, #classesSearchMobile").removeAttr("disabled");
+            $("#widget-class-contents")
+                .css("opacity", 1)
+                .css("pointer-events", "auto");
+            $(
+                "#classroom, #month, #disciplines, #classesSearch, #classesSearchMobile"
+            ).removeAttr("disabled");
         },
     });
 });
 
-$('.heading-buttons').css('width', $('#content').width());
+$(".heading-buttons").css("width", $("#content").width());
 
 $(document).on("click", ".classroom-diary-button", function () {
     let button = this;
     $(".classroom-diary-day").val($(button).closest("tr").attr("day"));
-    $(".classroom-diary-textarea").val($(button).parent().find(".classroom-diary-of-the-day").val());
+    $(".classroom-diary-textarea").val(
+        $(button).parent().find(".classroom-diary-of-the-day").val()
+    );
     $(".js-std-classroom-diaries").each(function () {
-        let value = $(button).parent().find(".student-diary-of-the-day[studentid=" + $(this).find(".js-student-classroom-diary").attr("studentid") + "]").val();
+        let value = $(button)
+            .parent()
+            .find(
+                ".student-diary-of-the-day[studentid=" +
+                    $(this)
+                        .find(".js-student-classroom-diary")
+                        .attr("studentid") +
+                    "]"
+            )
+            .val();
         $(this).find(".js-student-classroom-diary").val(value);
         value !== ""
-            ? $(this).find(".accordion-title").find(".fa").removeClass("fa-file-o").addClass("fa-file-text-o")
-            : $(this).find(".accordion-title").find(".fa").removeClass("fa-file-text-o").addClass("fa-file-o");
+            ? $(this)
+                  .find(".accordion-title")
+                  .find(".fa")
+                  .removeClass("fa-file-o")
+                  .addClass("fa-file-text-o")
+            : $(this)
+                  .find(".accordion-title")
+                  .find(".fa")
+                  .removeClass("fa-file-text-o")
+                  .addClass("fa-file-o");
     });
     $("#js-classroomdiary").modal("show");
 });
 
 $(document).on("click", ".js-add-classroom-diary", function () {
-    let tr = $("#class-contents tbody").find("tr[day=" + $(".classroom-diary-day").val() + "]");
-    tr.find(".classroom-diary-of-the-day").val($(".classroom-diary-textarea").val());
+    let tr = $("#class-contents tbody").find(
+        "tr[day=" + $(".classroom-diary-day").val() + "]"
+    );
+    tr.find(".classroom-diary-of-the-day").val(
+        $(".classroom-diary-textarea").val()
+    );
     $(".js-student-classroom-diary").each(function () {
-        tr.find(".student-diary-of-the-day[studentid=" + $(this).attr("studentid") + "]").val($(this).val())
+        tr.find(
+            ".student-diary-of-the-day[studentid=" +
+                $(this).attr("studentid") +
+                "]"
+        ).val($(this).val());
     });
 });
 
-$(document).on("keypress", ".js-classroom-diary, .js-student-classroom-diary", function (event) {
-    if (event.which === 13) {
-        event.preventDefault();
-        this.value = this.value + "\n";
+$(document).on(
+    "keypress",
+    ".js-classroom-diary, .js-student-classroom-diary",
+    function (event) {
+        if (event.which === 13) {
+            event.preventDefault();
+            this.value = this.value + "\n";
+        }
     }
-});
+);
 
 $(document).on("input", ".js-student-classroom-diary", function () {
     $(this).val() === ""
-        ? $(this).closest(".accordion-group").find(".accordion-title").find(".fa").removeClass("fa-file-text-o").addClass("fa-file-o")
-        : $(this).closest(".accordion-group").find(".accordion-title").find(".fa").removeClass("fa-file-o").addClass("fa-file-text-o");
+        ? $(this)
+              .closest(".accordion-group")
+              .find(".accordion-title")
+              .find(".fa")
+              .removeClass("fa-file-text-o")
+              .addClass("fa-file-o")
+        : $(this)
+              .closest(".accordion-group")
+              .find(".accordion-title")
+              .find(".fa")
+              .removeClass("fa-file-o")
+              .addClass("fa-file-text-o");
 });

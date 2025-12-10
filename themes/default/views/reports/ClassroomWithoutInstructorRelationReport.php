@@ -27,7 +27,7 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
 
     <?php
     // Caso para quando não há turmas sem instrutor para a escola selecionada
-    if (count($classroom) == 0) {
+    if (empty($classroom)) {
         echo "<br><span class='alert alert-primary'>N&atilde;o h&aacute; turmas para esta escola.</span>";
     } else { ?>
         <table class="table-no-instructors table table-bordered table-striped">
@@ -42,12 +42,12 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
 
             $ordem = 1;
 
-            $classroom_number = count($classroom);
+            $classroomNumber = count($classroom);
 
             // Laço para percorrer o vetor $classroom e preencher a tabela
             // Nesse caso, as duas tabelas já estão obedecendo a uma mesma ordem, portanto há a garantia
             // de que as linhas estão de acordo para as duas consultas $classroom e $disciplinas
-            for ($i = 0; $i < $classroom_number; $i++) {
+            for ($i = 0; $i < $classroomNumber; $i++) {
 
                 // Colunas que serão apresentadas na tabela
                 // $classroom[linha]['name'];
@@ -77,7 +77,7 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
             ?>
         </table>
     <?php
-        }; // Fechando o else
+        } // Fechando o else
         $this->renderPartial('footer');
     ?>
 </div>

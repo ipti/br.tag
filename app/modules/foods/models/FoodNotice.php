@@ -19,14 +19,13 @@
  */
 class FoodNotice extends TagModel
 {
-	/**
-	 * @return string the associated database table name
-	 */
-	public function tableName()
-	{
-		return 'food_notice';
-	}
-
+    /**
+     * @return string the associated database table name
+     */
+    public function tableName()
+    {
+        return 'food_notice';
+    }
 
     /**
      * @return array validation rules for model attributes.
@@ -35,15 +34,15 @@ class FoodNotice extends TagModel
     {
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
-        return array(
-            array('name, date', 'required'),
-            array('name', 'length', 'max'=>255),
-            array('status', 'length', 'max'=>7),
-            array('reference_id', 'length', 'max'=>36),
-            array('file_name', 'length', 'max'=>100),
+        return [
+            ['name, date', 'required'],
+            ['name', 'length', 'max' => 255],
+            ['status', 'length', 'max' => 7],
+            ['reference_id', 'length', 'max' => 36],
+            ['file_name', 'length', 'max' => 100],
             // The following rule is used by search().
-            array('id, name, date, status, reference_id, file_name', 'safe', 'on'=>'search'),
-        );
+            ['id, name, date, status, reference_id, file_name', 'safe', 'on' => 'search'],
+        ];
     }
 
     /**
@@ -53,11 +52,11 @@ class FoodNotice extends TagModel
     {
         // NOTE: you may need to adjust the relation name and the related
         // class name for the relations automatically generated below.
-        return array(
-            'farmerFoods' => array(self::HAS_MANY, 'FarmerFoods', 'foodNotice_fk'),
-            'foodNoticeItems' => array(self::HAS_MANY, 'FoodNoticeItem', 'foodNotice_fk'),
-            'foodRequests' => array(self::HAS_MANY, 'FoodRequest', 'notice_fk'),
-        );
+        return [
+            'farmerFoods' => [self::HAS_MANY, 'FarmerFoods', 'foodNotice_fk'],
+            'foodNoticeItems' => [self::HAS_MANY, 'FoodNoticeItem', 'foodNotice_fk'],
+            'foodRequests' => [self::HAS_MANY, 'FoodRequest', 'notice_fk'],
+        ];
     }
 
     /**
@@ -65,14 +64,14 @@ class FoodNotice extends TagModel
      */
     public function attributeLabels()
     {
-        return array(
+        return [
             'id' => 'ID',
             'name' => 'Name',
             'date' => 'Date',
             'status' => 'Status',
             'reference_id' => 'Reference',
             'file_name' => 'File Name',
-        );
+        ];
     }
 
     /**
@@ -89,19 +88,18 @@ class FoodNotice extends TagModel
      */
     public function search()
     {
+        $criteria = new CDbCriteria();
 
-        $criteria=new CDbCriteria;
+        $criteria->compare('id', $this->id);
+        $criteria->compare('name', $this->name, true);
+        $criteria->compare('date', $this->date, true);
+        $criteria->compare('status', $this->status, true);
+        $criteria->compare('reference_id', $this->reference_id, true);
+        $criteria->compare('file_name', $this->file_name, true);
 
-        $criteria->compare('id',$this->id);
-        $criteria->compare('name',$this->name,true);
-        $criteria->compare('date',$this->date,true);
-        $criteria->compare('status',$this->status,true);
-        $criteria->compare('reference_id',$this->reference_id,true);
-        $criteria->compare('file_name',$this->file_name,true);
-
-        return new CActiveDataProvider($this, array(
-            'criteria'=>$criteria,
-        ));
+        return new CActiveDataProvider($this, [
+            'criteria' => $criteria,
+        ]);
     }
 
     /**
@@ -110,7 +108,7 @@ class FoodNotice extends TagModel
      * @param string $className active record class name.
      * @return FoodNotice the static model class
      */
-    public static function model($className=__CLASS__)
+    public static function model($className = __CLASS__)
     {
         return parent::model($className);
     }

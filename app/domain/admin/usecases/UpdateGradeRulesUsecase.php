@@ -18,8 +18,18 @@ declare(strict_types=1);
  */
 class UpdateGradeRulesUsecase
 {
-    public function __construct($gradeRulesId, $gradeRulesName, $stages, $approvalMedia, $finalRecoverMedia, $calcFinalMedia, $hasFinalRecovery, $ruleType,
-    $hasPartialRecovery, $partialRecoveries)
+    public function __construct(
+        $gradeRulesId,
+        $gradeRulesName,
+        $stages,
+        $approvalMedia,
+        $finalRecoverMedia,
+        $calcFinalMedia,
+        $hasFinalRecovery,
+        $ruleType,
+        $hasPartialRecovery,
+        $partialRecoveries
+    )
     {
         $this->gradeRulesId = $gradeRulesId;
         $this->gradeRulesName = $gradeRulesName;
@@ -43,44 +53,42 @@ class UpdateGradeRulesUsecase
             $gradeRules = new GradeRules();
         }
 
-
-        // $gradeRules->edcenso_stage_vs_modality_fk = $this->stages;
         $gradeRules->approvation_media = $this->approvalMedia;
         $gradeRules->name = $this->gradeRulesName;
         $gradeRules->final_recover_media = $this->finalRecoverMedia;
-        $gradeRules->grade_calculation_fk = (int) $this->calcFinalMedia == NULL ? 1 :  $this->calcFinalMedia;
+        $gradeRules->grade_calculation_fk = (int) $this->calcFinalMedia == null ? 1 : $this->calcFinalMedia;
         $gradeRules->has_final_recovery = (int) $this->hasFinalRecovery;
         $gradeRules->has_partial_recovery = (int) $this->hasPartialRecovery;
         $gradeRules->rule_type = $this->ruleType;
 
-        if(!$gradeRules->validate()) {
+        if (!$gradeRules->validate()) {
             Yii::log(TagUtils::stringfyValidationErrors($gradeRules), CLogger::LEVEL_ERROR);
             throw new CantSaveGradeRulesException();
         }
-       $result = $gradeRules->save();
+        $gradeRules->save();
 
-       $gradeRulesVsStage = GradeRulesVsEdcensoStageVsModality::model()->findAllByAttributes(["grade_rules_fk" => $gradeRules->id]);
+        $gradeRulesVsStage = GradeRulesVsEdcensoStageVsModality::model()->findAllByAttributes(['grade_rules_fk' => $gradeRules->id]);
 
-       $this->deleteGradeRulesVsStage($gradeRulesVsStage);
+        $this->deleteGradeRulesVsStage($gradeRulesVsStage);
 
-       foreach ($this->stages as $stage) {
+        foreach ($this->stages as $stage) {
             $gradeRulesVsStage = new GradeRulesVsEdcensoStageVsModality();
             $gradeRulesVsStage->edcenso_stage_vs_modality_fk = $stage;
             $gradeRulesVsStage->grade_rules_fk = $gradeRules->id;
             $gradeRulesVsStage->save();
-       }
+        }
 
-        if($this->hasPartialRecovery === true) {
+        if ($this->hasPartialRecovery === true) {
             $pRecoveryUseCase = new UpdateGradePartialRecoveryUsecase($gradeRules->id, $this->partialRecoveries);
             $pRecoveryUseCase->exec();
         }
         return $gradeRules;
     }
-       public function deleteGradeRulesVsStage($gradeRulesVsStages) {
-        foreach($gradeRulesVsStages as $gradeRulesVsStage) {
 
+    public function deleteGradeRulesVsStage($gradeRulesVsStages)
+    {
+        foreach ($gradeRulesVsStages as $gradeRulesVsStage) {
             $gradeRulesVsStage->delete();
         }
     }
 }
-

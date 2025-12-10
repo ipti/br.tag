@@ -49,12 +49,12 @@ $form = $this->beginWidget(
       <div style="display: flex;align-items: center;margin-right: 10px;margin-top: 13px;">
         <?php if ($sedspSync): ?>
           <div style="font-weight: bold;margin-right: 20px;">
-            <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/SyncTrue.png"
+            <img alt="icone de sincronizado" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/SyncTrue.png"
               style="width: 25px; margin-right: 2px;">Sincronizado
           </div>
         <?php else: ?>
           <div style="font-weight: bold;margin-right: 20px;">
-            <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/notSync.png" style="width: 25px;margin-right: 2px;">Não
+            <img alt="tag icon" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/notSync.png" style="width: 25px;margin-right: 2px;">Não
             sincronizado
           </div>
         <?php endif; ?>
@@ -186,7 +186,7 @@ $form = $this->beginWidget(
                 <input type="checkbox" class="t-field-checkbox__input" id="show-student-civil-name" <?php if ($modelStudentIdentification->civil_name != null) {
                   echo "checked";
                 } ?>>
-                <label class="t-field-checkbox__label">Esse é um nome social?</label>
+                <label for="checkbox" class="t-field-checkbox__label">Esse é um nome social?</label>
               </div>
               <div class="t-field-text student-civil-name" id="civilName" style="display: none;">
                 <?php echo $form->label($modelStudentIdentification, 'civil_name', array('class' => 't-field-text__label--required')); ?>
@@ -224,7 +224,7 @@ $form = $this->beginWidget(
                 <div class="t-field-text js-hide-not-required" id="show-student-cpf-box" style="display:flex; flex-direction:row; gap:0 0.5rem;">
                     <input type="checkbox" class="t-field-checkbox__input" id="show-cpf-reason"
                         <?php if ($modelStudentDocumentsAndAddress->cpf != null) { echo "checked"; } ?>>
-                    <label class="t-field-checkbox__label">Aluno possui CPF?</label>
+                    <label for="checkbox" class="t-field-checkbox__label">Aluno possui CPF?</label>
                 </div>
                 <div class="t-field-text" id="cpfStudents" style="display: none;">
                     <?php echo $form->label($modelStudentDocumentsAndAddress, 'cpf', array('class' => 't-field-text__label')); ?>
@@ -448,60 +448,60 @@ $form = $this->beginWidget(
               <!-- Tipos de deficiência -->
               <div id="StudentIdentification_deficiencies"
                 class="t-field-checkbox-group control-group deficiencies-container js-change-required js-visibility-deficiencies">
-                <label class="t-field-checkbox__label--required">
+                <label for="deficiency_type_blindness" class="t-field-checkbox__label--required">
                     Deficiência, transtorno do espectro autista e altas habilidades ou superdotação
                 </label>
                 <div class="t-field-checkbox">
                   <?php echo $form->checkBox($modelStudentIdentification, 'deficiency_type_blindness', array('value' => 1, 'uncheckValue' => 0, 'class' => 'linked-deficiency')); ?>
-                  <label class="t-field-checkbox">
+                  <label for="deficiency_type_blindness" class="t-field-checkbox">
                     <?php echo StudentIdentification::model()->attributeLabels()['deficiency_type_blindness']; ?>
                   </label>
                 </div>
                 <div class="t-field-checkbox">
                   <?php echo $form->checkBox($modelStudentIdentification, 'deficiency_type_low_vision', array('value' => 1, 'uncheckValue' => 0, 'class' => 'linked-deficiency')); ?>
-                  <label class="t-field-checkbox">
+                  <label for="deficiency_type_low_vision" class="t-field-checkbox">
                     <?php echo StudentIdentification::model()->attributeLabels()['deficiency_type_low_vision']; ?>
                   </label>
                 </div>
                 <div class="t-field-checkbox">
                   <?php echo $form->checkBox($modelStudentIdentification, 'deficiency_type_deafness', array('value' => 1, 'uncheckValue' => 0, 'class' => 'linked-deficiency')); ?>
-                  <label class="t-field-checkbox">
+                  <label for="deficiency_type_deafness" class="t-field-checkbox">
                     <?php echo StudentIdentification::model()->attributeLabels()['deficiency_type_deafness']; ?>
                   </label>
                 </div>
                 <div class="t-field-checkbox">
                   <?php echo $form->checkBox($modelStudentIdentification, 'deficiency_type_disability_hearing', array('value' => 1, 'uncheckValue' => 0, 'class' => 'linked-deficiency')); ?>
-                  <label class="t-field-checkbox">
+                  <label for="deficiency_type_disability_hearing" class="t-field-checkbox">
                     <?php echo StudentIdentification::model()->attributeLabels()['deficiency_type_disability_hearing']; ?>
                   </label>
                 </div>
                 <div class="t-field-checkbox">
                   <?php echo $form->checkBox($modelStudentIdentification, 'deficiency_type_deafblindness', array('value' => 1, 'uncheckValue' => 0, 'class' => 'linked-deficiency')); ?>
-                  <label class="t-field-checkbox">
+                  <label for="deficiency_type_deafblindness" class="t-field-checkbox">
                     <?php echo StudentIdentification::model()->attributeLabels()['deficiency_type_deafblindness']; ?>
                   </label>
                 </div>
                 <div class="t-field-checkbox">
                   <?php echo $form->checkBox($modelStudentIdentification, 'deficiency_type_phisical_disability', array('value' => 1, 'uncheckValue' => 0, 'class' => 'linked-deficiency')); ?>
-                  <label class="t-field-checkbox">
+                  <label for="deficiency_type_phisical_disability" class="t-field-checkbox">
                     <?php echo StudentIdentification::model()->attributeLabels()['deficiency_type_phisical_disability']; ?>
                   </label>
                 </div>
                 <div class="t-field-checkbox">
                   <?php echo $form->checkBox($modelStudentIdentification, 'deficiency_type_intelectual_disability', array('value' => 1, 'uncheckValue' => 0, 'class' => 'linked-deficiency')); ?>
-                  <label class="t-field-checkbox">
+                  <label for="deficiency_type_intelectual_disability" class="t-field-checkbox">
                     <?php echo StudentIdentification::model()->attributeLabels()['deficiency_type_intelectual_disability']; ?>
                   </label>
                 </div>
                 <div class="t-field-checkbox">
                   <?php echo $form->checkBox($modelStudentIdentification, 'deficiency_type_autism', array('value' => 1, 'uncheckValue' => 0)); ?>
-                  <label class="t-field-checkbox">
+                  <label for="deficiency_type_autism" class="t-field-checkbox">
                     <?php echo StudentIdentification::model()->attributeLabels()['deficiency_type_autism']; ?>
                   </label>
                 </div>
                 <div class="t-field-checkbox">
                   <?php echo $form->checkBox($modelStudentIdentification, 'deficiency_type_gifted', array('value' => 1, 'uncheckValue' => 0)); ?>
-                  <label class="t-field-checkbox">
+                  <label for="deficiency_type_gifted" class="t-field-checkbox">
                     <?php echo StudentIdentification::model()->attributeLabels()['deficiency_type_gifted']; ?>
                   </label>
                 </div>
@@ -513,37 +513,37 @@ $form = $this->beginWidget(
                 <div class="t-field-checkbox-group" id="transtorno-checkbox">
                     <div class="t-field-checkbox">
                     <?php echo $form->checkBox($modelStudentDisorder, 'dyscalculia', array('class'=>'js-disorder-impact-learning', 'value' => 1, 'uncheckValue' => 0)); ?>
-                    <label class="t-field-checkbox">
+                    <label for="disorder" class="t-field-checkbox">
                         Discalculia ou outro transtorno da matemática e raciocínio lógico
                     </label>
                     </div>
                     <div class="t-field-checkbox">
                     <?php echo $form->checkBox($modelStudentDisorder, 'dysgraphia', array('class'=>'js-disorder-impact-learning',  'value' => 1, 'uncheckValue' => 0)); ?>
-                    <label class="t-field-checkbox">
+                    <label for="disorder" class="t-field-checkbox">
                         Disgrafia, Disortografia ou outro transtorno da escrita e ortografia
                     </label>
                     </div>
                     <div class="t-field-checkbox">
                     <?php echo $form->checkBox($modelStudentDisorder, 'dyslalia', array('class'=>'js-disorder-impact-learning', 'value' => 1, 'uncheckValue' => 0)); ?>
-                    <label class="t-field-checkbox">
+                    <label for="disorder" class="t-field-checkbox">
                        Dislalia ou outro transtorno da linguagem e comunicação
                     </label>
                     </div>
                     <div class="t-field-checkbox">
                     <?php echo $form->checkBox($modelStudentDisorder, 'dyslexia', array('class'=>'js-disorder-impact-learning', 'value' => 1, 'uncheckValue' => 0)); ?>
-                    <label class="t-field-checkbox">
+                    <label for="dislexia" class="t-field-checkbox">
                        Dislexia
                     </label>
                     </div>
                     <div class="t-field-checkbox">
                     <?php echo $form->checkBox($modelStudentDisorder, 'tdah', array('class'=>'js-disorder-impact-learning','value' => 1, 'uncheckValue' => 0)); ?>
-                    <label class="t-field-checkbox">
+                    <label for="tdah" class="t-field-checkbox">
                        Transtorno do Déficit de Atenção com Hiperatividade (TDAH)
                     </label>
                     </div>
                     <div class="t-field-checkbox">
                     <?php echo $form->checkBox($modelStudentDisorder, 'tpac', array('class'=>'js-disorder-impact-learning', 'value' => 1, 'uncheckValue' => 0)); ?>
-                    <label class="t-field-checkbox">
+                    <label for="TPAC" class="t-field-checkbox">
                        Transtorno do Processamento Auditivo Central (TPAC)
                     </label>
                     </div>
@@ -556,85 +556,85 @@ $form = $this->beginWidget(
                 <!-- Recursos requeridos em avaliações do INEP (Prova Brasil, SAEB, outros) -->
                 <div class="t-field-checkbox-group js-visibility-dresource hide-responsive resources-container"
                   id="resources-checkbox">
-                  <label class="t-field-checkbox__label">
+                  <label for="checkbox" class="t-field-checkbox__label">
                     Recursos para uso do(a) aluno(a) em sala de aula e para participação em avaliações do Inep (Saeb)
                   </label>
                   <div class="t-field-checkbox">
                     <?php echo $form->checkBox($modelStudentIdentification, 'resource_aid_lector', array('value' => 1, 'uncheckValue' => 0)); ?>
-                    <label class="t-field-checkbox">
+                    <label for="checkbox" class="t-field-checkbox">
                       <?php echo StudentIdentification::model()->attributeLabels()['resource_aid_lector']; ?>
                     </label>
                   </div>
                   <div class="t-field-checkbox">
                     <?php echo $form->checkBox($modelStudentIdentification, 'resource_aid_transcription', array('value' => 1, 'uncheckValue' => 0)); ?>
-                    <label class="t-field-checkbox">
+                    <label for="checkbox" class="t-field-checkbox">
                       <?php echo StudentIdentification::model()->attributeLabels()['resource_aid_transcription']; ?>
                     </label>
                   </div>
                   <div class="t-field-checkbox">
                     <?php echo $form->checkBox($modelStudentIdentification, 'resource_interpreter_guide', array('value' => 1, 'uncheckValue' => 0)); ?>
-                    <label class="t-field-checkbox">
+                    <label for="checkbox" class="t-field-checkbox">
                       <?php echo StudentIdentification::model()->attributeLabels()['resource_interpreter_guide']; ?>
                     </label>
                   </div>
                   <div class="t-field-checkbox">
                     <?php echo $form->checkBox($modelStudentIdentification, 'resource_interpreter_libras', array('value' => 1, 'uncheckValue' => 0)); ?>
-                    <label class="t-field-checkbox">
+                    <label for="checkbox" class="t-field-checkbox">
                       <?php echo StudentIdentification::model()->attributeLabels()['resource_interpreter_libras']; ?>
                     </label>
                   </div>
                   <div class="t-field-checkbox">
                     <?php echo $form->checkBox($modelStudentIdentification, 'resource_lip_reading', array('value' => 1, 'uncheckValue' => 0)); ?>
-                    <label class="t-field-checkbox">
+                    <label for="checkbox" class="t-field-checkbox">
                       <?php echo StudentIdentification::model()->attributeLabels()['resource_lip_reading']; ?>
                     </label>
                   </div>
                   <div class="t-field-checkbox">
                     <?php echo $form->checkBox($modelStudentIdentification, 'resource_zoomed_test_18', array('value' => 1, 'uncheckValue' => 0)); ?>
-                    <label class="t-field-checkbox">
+                    <label for="checkbox" class="t-field-checkbox">
                       <?php echo StudentIdentification::model()->attributeLabels()['resource_zoomed_test_18']; ?>
                     </label>
                   </div>
                   <div class="t-field-checkbox">
                     <?php echo $form->checkBox($modelStudentIdentification, 'resource_zoomed_test_24', array('value' => 1, 'uncheckValue' => 0)); ?>
-                    <label class="t-field-checkbox">
+                    <label for="checkbox" class="t-field-checkbox">
                       <?php echo StudentIdentification::model()->attributeLabels()['resource_zoomed_test_24']; ?>
                     </label>
                   </div>
                   <div class="t-field-checkbox">
                     <?php echo $form->checkBox($modelStudentIdentification, 'resource_braille_test', array('value' => 1, 'uncheckValue' => 0)); ?>
-                    <label class="t-field-checkbox">
+                    <label for="checkbox" class="t-field-checkbox">
                       <?php echo StudentIdentification::model()->attributeLabels()['resource_braille_test']; ?>
                     </label>
                   </div>
                   <div class="t-field-checkbox">
                     <?php echo $form->checkBox($modelStudentIdentification, 'resource_proof_language', array('value' => 1, 'uncheckValue' => 0)); ?>
-                    <label class="t-field-checkbox">
+                    <label for="checkbox" class="t-field-checkbox">
                       <?php echo StudentIdentification::model()->attributeLabels()['resource_proof_language']; ?>
                     </label>
                   </div>
 
                   <div class="t-field-checkbox">
                     <?php echo $form->checkBox($modelStudentIdentification, 'resource_cd_audio', array('value' => 1, 'uncheckValue' => 0)); ?>
-                    <label class="t-field-checkbox">
+                    <label for="checkbox" class="t-field-checkbox">
                       <?php echo StudentIdentification::model()->attributeLabels()['resource_cd_audio']; ?>
                     </label>
                   </div>
                   <div class="t-field-checkbox">
                     <?php echo $form->checkBox($modelStudentIdentification, 'resource_additional_time', array('value' => 1, 'uncheckValue' => 0)); ?>
-                    <label class="t-field-checkbox">
+                    <label for="checkbox" class="t-field-checkbox">
                       <?php echo StudentIdentification::model()->attributeLabels()['resource_additional_time']; ?>
                     </label>
                   </div>
                   <div class="t-field-checkbox">
                     <?php echo $form->checkBox($modelStudentIdentification, 'resource_video_libras', array('value' => 1, 'uncheckValue' => 0)); ?>
-                    <label class="t-field-checkbox">
+                    <label for="checkbox" class="t-field-checkbox">
                       <?php echo StudentIdentification::model()->attributeLabels()['resource_video_libras']; ?>
                     </label>
                   </div>
                   <div class="t-field-checkbox">
                     <?php echo $form->checkBox($modelStudentIdentification, 'resource_none', array('value' => 1, 'uncheckValue' => 0)); ?>
-                    <label class="t-field-checkbox">
+                    <label for="checkbox" class="t-field-checkbox">
                       <?php echo StudentIdentification::model()->attributeLabels()['resource_none']; ?>
                     </label>
                   </div>
@@ -1071,7 +1071,7 @@ $form = $this->beginWidget(
                     'checked' => ($modelStudentDocumentsAndAddress->id == "") ? 'checked' : $modelStudentDocumentsAndAddress->received_cc
                   )
                 ); ?>
-                <label class="t-field-checkbox">
+                <label for="checkbox" class="t-field-checkbox">
                   <?php echo StudentDocumentsAndAddress::model()->attributeLabels()['received_cc']; ?>
                 </label>
               </div>
@@ -1086,7 +1086,7 @@ $form = $this->beginWidget(
                     'checked' => ($modelStudentDocumentsAndAddress->id == "") ? 'checked' : $modelStudentDocumentsAndAddress->received_address
                   )
                 ); ?>
-                <label class="t-field-checkbox ">
+                <label for="checkbox" class="t-field-checkbox ">
                   <?php echo StudentDocumentsAndAddress::model()->attributeLabels()['received_address']; ?>
                 </label>
               </div>
@@ -1103,7 +1103,7 @@ $form = $this->beginWidget(
                     'checked' => ($modelStudentDocumentsAndAddress->id == "") ? 'checked' : $modelStudentDocumentsAndAddress->received_photo
                   )
                 ); ?>
-                <label class="t-field-checkbox ">
+                <label for="checkbox" class="t-field-checkbox ">
                   <?php echo StudentDocumentsAndAddress::model()->attributeLabels()['received_photo']; ?>
                 </label>
               </div>
@@ -1118,7 +1118,7 @@ $form = $this->beginWidget(
                     'checked' => ($modelStudentDocumentsAndAddress->id == "") ? 'checked' : $modelStudentDocumentsAndAddress->received_nis
                   )
                 ); ?>
-                <label class="t-field-checkbox ">
+                <label for="checkbox" class="t-field-checkbox ">
                   <?php echo StudentDocumentsAndAddress::model()->attributeLabels()['received_nis']; ?>
                 </label>
               </div>
@@ -1135,7 +1135,7 @@ $form = $this->beginWidget(
                     'checked' => ($modelStudentDocumentsAndAddress->id == "") ? 'checked' : $modelStudentDocumentsAndAddress->received_responsable_rg
                   )
                 ); ?>
-                <label class="t-field-checkbox">
+                <label for="checkbox" class="t-field-checkbox">
                   <?php echo StudentDocumentsAndAddress::model()->attributeLabels()['received_responsable_rg']; ?>
                 </label>
               </div>
@@ -1150,13 +1150,13 @@ $form = $this->beginWidget(
                     'checked' => ($modelStudentDocumentsAndAddress->id == "") ? 'checked' : $modelStudentDocumentsAndAddress->received_responsable_cpf
                   )
                 ); ?>
-                <label class="t-field-checkbox">
+                <label for="checkbox" class="t-field-checkbox">
                   <?php echo StudentDocumentsAndAddress::model()->attributeLabels()['received_responsable_cpf']; ?>
                 </label>
               </div>
             </div>
             <div class="column clearleft--on-mobile is-two-fifths">
-              <label class="t-field-checkbox" style="align-items: center">
+              <label for="checkbox" class="t-field-checkbox" style="align-items: center">
                 <?php echo $form->checkBox(
                   $modelStudentDocumentsAndAddress,
                   'consent_form',
@@ -1169,7 +1169,7 @@ $form = $this->beginWidget(
                 ); ?>
                 <?php echo StudentDocumentsAndAddress::model()->attributeLabels()['consent_form']; ?>
               </label>
-              <label class="t-field-checkbox" style="align-items: center">
+              <label for="checkbox" class="t-field-checkbox" style="align-items: center">
                 <?php echo $form->checkBox(
                   $modelStudentDocumentsAndAddress,
                   'received_sus_card',
@@ -1184,7 +1184,7 @@ $form = $this->beginWidget(
               </label>
             </div>
             <div class="column clearleft--on-mobile is-two-fifths">
-              <label class="t-field-checkbox" style="align-items: center">
+              <label for="checkbox" class="t-field-checkbox" style="align-items: center">
                 <?php echo $form->checkBox(
                   $modelStudentDocumentsAndAddress,
                   'received_student_rg',
@@ -1197,7 +1197,7 @@ $form = $this->beginWidget(
                 ); ?>
                 <?php echo StudentDocumentsAndAddress::model()->attributeLabels()['received_student_rg']; ?>
               </label>
-              <label class="t-field-checkbox" style="align-items: center">
+              <label for="checkbox" class="t-field-checkbox" style="align-items: center">
                 <?php echo $form->checkBox(
                   $modelStudentDocumentsAndAddress,
                   'received_student_cpf',
@@ -1861,39 +1861,52 @@ $form = $this->beginWidget(
               <div class="t-field-select" id="class-select">
                 <?php echo $form->label($modelEnrollment, 'classroom_fk', array('class' => 't-fild-select--required')); ?>
                 <?php
-                $stage = $modelStudentIdentification->getCurrentStageVsModality();
-                $stages = implode(",", EdcensoStageVsModality::getNextStages($stage));
-                $classrooms = Classroom::model()->findAll(
-                  "school_year = :year AND school_inep_fk = :school order by name",
-                  [
-                    ':year' => Yii::app()->user->year,
-                    ':school' => Yii::app()->user->school,
-                  ]
-                );
+                        $currentStage = $modelStudentIdentification->getCurrentStageVsModality();
+                        $nextStages = implode(",", EdcensoStageVsModality::getNextStages($currentStage));
 
-                $classroomOptions = CHtml::listData($classrooms, 'id', 'name');
-                $optionsDataAttributes = array();
-                foreach ($classrooms as $classroom) {
-                  $optionsDataAttributes[$classroom->id] = array(
-                    'data-isMulti' =>
-                      (int) (TagUtils::isMultiStage(
-                        $classroom->edcenso_stage_vs_modality_fk
-                      ))
-                  );
-                }
+                        $classrooms = Classroom::model()->findAll(
+                            "school_year = :year AND school_inep_fk = :school ORDER BY name",
+                            [
+                                ':year' => Yii::app()->user->year,
+                                ':school' => Yii::app()->user->school,
+                            ]
+                        );
 
-                echo $form->dropDownList(
-                  $modelEnrollment,
-                  'classroom_fk',
-                  $classroomOptions,
-                  array(
-                    "prompt" => "Selecione uma Turma",
-                    'class' => 'select-search-off t-field-select__input select2-container js-classroom-is-multi',
-                    'options' => $optionsDataAttributes,
-                    'encode' => false
-                  )
-                );
+                        $classroomOptions = [];
+                        $classroomDataAttributes = [];
 
+                        foreach ($classrooms as $classroom) {
+
+                            $activeEnrollments = $classroom->activeEnrollmentsCount;
+
+                            if ($activeEnrollments < $classroom->capacity) {
+
+                                $availableSeats = $classroom->capacity - $activeEnrollments;
+                                $seatsLabel = $availableSeats == 1 ? 'Vaga' : 'Vagas';
+
+                                // Key must be the classroom ID
+                                $classroomOptions[$classroom->id] =
+                                    $classroom->name . ' (+' . $availableSeats . ' ' . $seatsLabel . ')';
+
+                                $classroomDataAttributes[$classroom->id] = [
+                                    'data-isMulti' => (int) TagUtils::isMultiStage(
+                                        $classroom->edcenso_stage_vs_modality_fk
+                                    )
+                                ];
+                            }
+                        }
+
+                        echo $form->dropDownList(
+                            $modelEnrollment,
+                            'classroom_fk',
+                            $classroomOptions,
+                            [
+                                "prompt" => "Selecione uma Turma",
+                                'class' => 'select-search-off t-field-select__input select2-container js-classroom-is-multi',
+                                'options' => $classroomDataAttributes,
+                                'encode' => false
+                            ]
+                        );
                 ?>
                 <?php echo $form->error($modelEnrollment, 'classroom_fk'); ?>
               </div>
@@ -2094,65 +2107,65 @@ $form = $this->beginWidget(
               </div>
               <!-- Tipo de Transporte * -->
               <div class="t-field-checkbox-group hide-responsive" id="transport_type">
-                <label class="t-field-checkbox__label"><?php echo Yii::t('default', 'Transport Type'); ?>
+                <label for="checkbox" class="t-field-checkbox__label"><?php echo Yii::t('default', 'Transport Type'); ?>
                   *</label>
                 <div class="t-field-checkbox">
                   <?php echo $form->checkBox($modelEnrollment, 'vehicle_type_van', array('value' => 1, 'uncheckValue' => 0)); ?>
-                  <label class="t-field-checkbox">
+                  <label for="checkbox" class="t-field-checkbox">
                     <?php echo StudentEnrollment::model()->attributeLabels()['vehicle_type_van']; ?>
                   </label>
                 </div>
                 <div class="t-field-checkbox">
                   <?php echo $form->checkBox($modelEnrollment, 'vehicle_type_microbus', array('value' => 1, 'uncheckValue' => 0)); ?>
-                  <label class="t-field-checkbox">
+                  <label for="checkbox" class="t-field-checkbox">
                     <?php echo StudentEnrollment::model()->attributeLabels()['vehicle_type_microbus']; ?>
                   </label>
                 </div>
                 <div class="t-field-checkbox">
                   <?php echo $form->checkBox($modelEnrollment, 'vehicle_type_bus', array('value' => 1, 'uncheckValue' => 0)); ?>
-                  <label class="t-field-checkbox">
+                  <label for="checkbox" class="t-field-checkbox">
                     <?php echo StudentEnrollment::model()->attributeLabels()['vehicle_type_bus']; ?>
                   </label>
                 </div>
                 <div class="t-field-checkbox">
                   <?php echo $form->checkBox($modelEnrollment, 'vehicle_type_bike', array('value' => 1, 'uncheckValue' => 0)); ?>
-                  <label class="t-field-checkbox">
+                  <label for="checkbox" class="t-field-checkbox">
                     <?php echo StudentEnrollment::model()->attributeLabels()['vehicle_type_bike']; ?>
                   </label>
                 </div>
                 <div class="t-field-checkbox">
                   <?php echo $form->checkBox($modelEnrollment, 'vehicle_type_animal_vehicle', array('value' => 1, 'uncheckValue' => 0)); ?>
-                  <label class="t-field-checkbox">
+                  <label for="checkbox" class="t-field-checkbox">
                     <?php echo StudentEnrollment::model()->attributeLabels()['vehicle_type_animal_vehicle']; ?>
                   </label>
                 </div>
                 <div class="t-field-checkbox">
                   <?php echo $form->checkBox($modelEnrollment, 'vehicle_type_other_vehicle', array('value' => 1, 'uncheckValue' => 0)); ?>
-                  <label class="t-field-checkbox">
+                  <label for="checkbox" class="t-field-checkbox">
                     <?php echo StudentEnrollment::model()->attributeLabels()['vehicle_type_other_vehicle']; ?>
                   </label>
                 </div>
                 <div class="t-field-checkbox">
                   <?php echo $form->checkBox($modelEnrollment, 'vehicle_type_waterway_boat_5', array('value' => 1, 'uncheckValue' => 0)); ?>
-                  <label class="t-field-checkbox">
+                  <label for="checkbox" class="t-field-checkbox">
                     <?php echo StudentEnrollment::model()->attributeLabels()['vehicle_type_waterway_boat_5']; ?>
                   </label>
                 </div>
                 <div class="t-field-checkbox">
                   <?php echo $form->checkBox($modelEnrollment, 'vehicle_type_waterway_boat_5_15', array('value' => 1, 'uncheckValue' => 0)); ?>
-                  <label class="t-field-checkbox">
+                  <label for="checkbox" class="t-field-checkbox">
                     <?php echo StudentEnrollment::model()->attributeLabels()['vehicle_type_waterway_boat_5_15']; ?>
                   </label>
                 </div>
                 <div class="t-field-checkbox">
                   <?php echo $form->checkBox($modelEnrollment, 'vehicle_type_waterway_boat_15_35', array('value' => 1, 'uncheckValue' => 0)); ?>
-                  <label class="t-field-checkbox">
+                  <label for="checkbox" class="t-field-checkbox">
                     <?php echo StudentEnrollment::model()->attributeLabels()['vehicle_type_waterway_boat_15_35']; ?>
                   </label>
                 </div>
                 <div class="t-field-checkbox">
                   <?php echo $form->checkBox($modelEnrollment, 'vehicle_type_waterway_boat_35', array('value' => 1, 'uncheckValue' => 0)); ?>
-                  <label class="t-field-checkbox">
+                  <label for="checkbox" class="t-field-checkbox">
                     <?php echo StudentEnrollment::model()->attributeLabels()['vehicle_type_waterway_boat_35']; ?>
                   </label>
                 </div>
@@ -2163,71 +2176,71 @@ $form = $this->beginWidget(
               <h3>Atendimento especializado</h3>
               <!-- Tipo de Atendimento Educacional Especializado -->
               <div class="t-field-checkbox-group js-hide-not-required" id="typeOfService">
-                <label
+                <label for="checkbox"
                   class="t-field-checkbox__label"><?php echo Yii::t('default', 'Type of Specialized Educational Assistance'); ?></label>
                 <div class="t-field-checkbox">
                   <?php echo $form->checkBox($modelEnrollment, 'aee_cognitive_functions', array('value' => 1, 'uncheckValue' => 0)); ?>
-                  <label class="t-field-checkbox">
+                  <label for="checkbox" class="t-field-checkbox">
                     <?php echo StudentEnrollment::model()->attributeLabels()['aee_cognitive_functions']; ?>
                   </label>
                 </div>
                 <div class="t-field-checkbox" id="text">
                   <?php echo $form->checkBox($modelEnrollment, 'aee_autonomous_life', array('value' => 1, 'uncheckValue' => 0)); ?>
-                  <label class="t-field-checkbox">
+                  <label for="checkbox" class="t-field-checkbox">
                     <?php echo StudentEnrollment::model()->attributeLabels()['aee_autonomous_life']; ?>
                   </label>
                 </div>
                 <div class="t-field-checkbox">
                   <?php echo $form->checkBox($modelEnrollment, 'aee_curriculum_enrichment', array('value' => 1, 'uncheckValue' => 0)); ?>
-                  <label class="t-field-checkbox">
+                  <label for="checkbox" class="t-field-checkbox">
                     <?php echo StudentEnrollment::model()->attributeLabels()['aee_curriculum_enrichment']; ?>
                   </label>
                 </div>
                 <div class="t-field-checkbox">
                   <?php echo $form->checkBox($modelEnrollment, 'aee_accessible_teaching', array('value' => 1, 'uncheckValue' => 0)); ?>
-                  <label class="t-field-checkbox">
+                  <label for="checkbox" class="t-field-checkbox">
                     <?php echo StudentEnrollment::model()->attributeLabels()['aee_accessible_teaching']; ?>
                   </label>
                 </div>
                 <div class="t-field-checkbox">
                   <?php echo $form->checkBox($modelEnrollment, 'aee_libras', array('value' => 1, 'uncheckValue' => 0)); ?>
-                  <label class="t-field-checkbox">
+                  <label for="checkbox" class="t-field-checkbox">
                     <?php echo StudentEnrollment::model()->attributeLabels()['aee_libras']; ?>
                   </label>
                 </div>
                 <div class="t-field-checkbox">
                   <?php echo $form->checkBox($modelEnrollment, 'aee_portuguese', array('value' => 1, 'uncheckValue' => 0)); ?>
-                  <label class="t-field-checkbox">
+                  <label for="checkbox" class="t-field-checkbox">
                     <?php echo StudentEnrollment::model()->attributeLabels()['aee_portuguese']; ?>
                   </label>
                 </div>
                 <div class="t-field-checkbox">
                   <?php echo $form->checkBox($modelEnrollment, 'aee_soroban', array('value' => 1, 'uncheckValue' => 0)); ?>
-                  <label class="t-field-checkbox">
+                  <label for="checkbox" class="t-field-checkbox">
                     <?php echo StudentEnrollment::model()->attributeLabels()['aee_soroban']; ?>
                   </label>
                 </div>
                 <div class="t-field-checkbox">
                   <?php echo $form->checkBox($modelEnrollment, 'aee_braille', array('value' => 1, 'uncheckValue' => 0)); ?>
-                  <label class="t-field-checkbox">
+                  <label for="checkbox" class="t-field-checkbox">
                     <?php echo StudentEnrollment::model()->attributeLabels()['aee_braille']; ?>
                   </label>
                 </div>
                 <div class="t-field-checkbox">
                   <?php echo $form->checkBox($modelEnrollment, 'aee_mobility_techniques', array('value' => 1, 'uncheckValue' => 0)); ?>
-                  <label class="t-field-checkbox">
+                  <label for="checkbox" class="t-field-checkbox">
                     <?php echo StudentEnrollment::model()->attributeLabels()['aee_mobility_techniques']; ?>
                   </label>
                 </div>
                 <div class="t-field-checkbox">
                   <?php echo $form->checkBox($modelEnrollment, 'aee_caa', array('value' => 1, 'uncheckValue' => 0)); ?>
-                  <label class="t-field-checkbox">
+                  <label for="checkbox" class="t-field-checkbox">
                     <?php echo StudentEnrollment::model()->attributeLabels()['aee_caa']; ?>
                   </label>
                 </div>
                 <div class="t-field-checkbox">
                   <?php echo $form->checkBox($modelEnrollment, 'aee_optical_nonoptical', array('value' => 1, 'uncheckValue' => 0)); ?>
-                  <label class="t-field-checkbox">
+                  <label for="checkbox" class="t-field-checkbox">
                     <?php echo StudentEnrollment::model()->attributeLabels()['aee_optical_nonoptical']; ?>
                   </label>
                 </div>
@@ -2268,51 +2281,51 @@ $form = $this->beginWidget(
                             <?php
                             switch ($me->status) {
                               case "1":
-                                $enrollment_date = "";
+                                $enrollmentDate = "";
                                 if (isset($me->enrollment_date)) {
-                                  $enrollment_date = date_create_from_format('Y-m-d', $me->enrollment_date)->format('d/m/Y');
+                                  $enrollmentDate = date_create_from_format('Y-m-d', $me->enrollment_date)->format('d/m/Y');
                                 }
-                                echo "<label class='t-badge-success'>Matriculado " . $enrollment_date . "</label>";
+                                echo "<label for='checkbox' class='t-badge-success'>Matriculado " . $enrollmentDate . "</label>";
                                 break;
                               case "2":
-                                $transfer_date = "";
+                                $transferDate = "";
                                 if (isset($me->transfer_date)) {
-                                  $transfer_date = date_create_from_format('Y-m-d', $me->transfer_date)->format('d/m/Y');
+                                  $transferDate = date_create_from_format('Y-m-d', $me->transfer_date)->format('d/m/Y');
                                 }
-                                echo "<label class='t-badge-success'>Transferido " . $transfer_date . "</label>";
+                                echo "<label for='checkbox' class='t-badge-success'>Transferido " . $transferDate . "</label>";
                                 break;
                               case "3":
-                                echo "<label class='t-badge-critical'>Cancelado</label>";
+                                echo "<label for='checkbox' class='t-badge-critical'>Cancelado</label>";
                                 break;
                               case "4":
-                                echo "<label class='t-badge-critical'>Deixou de Frequentar</label>";
+                                echo "<label for='checkbox' class='t-badge-critical'>Deixou de Frequentar</label>";
                                 break;
                               case "5":
-                                echo "<label class='t-badge-warning'>Remanejado</label>";
+                                echo "<label for='checkbox' class='t-badge-warning'>Remanejado</label>";
                                 break;
                               case "6":
-                                echo "<label class='t-badge-success'>Aprovado</label>";
+                                echo "<label for='checkbox' class='t-badge-success'>Aprovado</label>";
                                 break;
                               case "7":
-                                echo "<label class='t-badge-success'>Aprovado pelo Conselho</label>";
+                                echo "<label for='checkbox' class='t-badge-success'>Aprovado pelo Conselho</label>";
                                 break;
                               case "8":
-                                echo "<label class='t-badge-critical'>Reprovado</label>";
+                                echo "<label for='checkbox' class='t-badge-critical'>Reprovado</label>";
                                 break;
                               case "9":
-                                echo "<label class='t-badge-success'>Concluinte</label>";
+                                echo "<label for='checkbox' class='t-badge-success'>Concluinte</label>";
                                 break;
                               case "10":
-                                echo "<label class='t-badge-warning'>Indeterminado</label>";
+                                echo "<label for='checkbox' class='t-badge-warning'>Indeterminado</label>";
                                 break;
                               case "11":
-                                echo "<label class='t-badge-critical'>Falecido</label>";
+                                echo "<label for='checkbox' class='t-badge-critical'>Falecido</label>";
                                 break;
                               case "12":
-                                echo "<label class='t-badge-success'>Avançado</label>";
+                                echo "<label for='checkbox' class='t-badge-success'>Avançado</label>";
                                 break;
                               case "13":
-                                echo "<label class='t-badge-success'>Reintegrado</label>";
+                                echo "<label for='checkbox' class='t-badge-success'>Reintegrado</label>";
                                 break;
                               default:
                                 echo "";
@@ -2327,7 +2340,7 @@ $form = $this->beginWidget(
                             <div class="t-icon-trash t-icon js-remove-enrollment" style="color:red; margin-left:8px;" enrollment-id="<?= $me->id ?>"></div>
                           </div>
                           <div id="accordion-school-label" class="mobile-row">
-                            <label class="accordion-label"><?php echo $me->schoolInepIdFk->name ?></label>
+                            <label for="checkbox" class="accordion-label"><?php echo $me->schoolInepIdFk->name ?></label>
                           </div>
                         </div>
                         <div class="align-items--center">
@@ -2338,12 +2351,12 @@ $form = $this->beginWidget(
                             <div style="display: flex;align-items: center;margin-right: 10px;margin-top: 13px;">
                               <?php if ($sedspSync) { ?>
                                 <div style="font-weight: bold;margin-right: 20px;">
-                                  <img src="/themes/default/img/SyncTrue.png" title="Sincronizado"
+                                  <img alt="tag icon sicronizado" src="/themes/default/img/SyncTrue.png" title="Sincronizado"
                                     style="width: 20px;margin-right: 20px;">
                                 </div>
                               <?php } else { ?>
                                 <div style="font-weight: bold;margin-right: 20px;">
-                                  <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/notSync.png"
+                                  <img alt="tag icon não sincronizado" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/notSync.png"
                                     title="Não Sincronizado" style="width: 20px;margin-right: 20px;">
                                 </div>
                               <?php } ?>
@@ -2354,15 +2367,15 @@ $form = $this->beginWidget(
                       </div>
                       <div class="ui-accordion-content">
                         <div class="mobile-row">
-                          <label class="accordion-label--title">Turma:</label>
+                          <label for="checkbox" class="accordion-label--title">Turma:</label>
                           <a href='<?php echo Yii::app()->createUrl("classroom/update", array("id" => $me->classroomFk->id)); ?>'
                             class="t-link-button--info accordion-label">
                             <?php echo $me->classroomFk->name; ?>
                           </a>
                         </div>
                         <div class="mobile-row">
-                          <label class="accordion-label--title">Turno:</label>
-                          <label class="accordion-label">
+                          <label for="checkbox" class="accordion-label--title">Turno:</label>
+                          <label for="checkbox" class="accordion-label">
                             <?php
                             switch ($me->classroomFk->turn) {
                               case "M":
@@ -2384,29 +2397,29 @@ $form = $this->beginWidget(
                           </label>
                         </div>
                         <div class="mobile-row">
-                          <label class="accordion-label--title">Ano:</label>
-                          <label class="accordion-label"><?php echo $me->classroomFk->school_year ?></label>
+                          <label for="checkbox" class="accordion-label--title">Ano:</label>
+                          <label for="checkbox" class="accordion-label"><?php echo $me->classroomFk->school_year ?></label>
                         </div>
                         <?php if (!empty($me->studentEnrollmentHistories)): ?>
                           <div class="mobile-row upper-margin">
-                            <label class="accordion-label--title">Histórico:</label>
+                            <label for="checkbox" class="accordion-label--title">Histórico:</label>
                           </div>
                           <div class="enrollment-history">
                             <?php foreach (array_reverse($me->studentEnrollmentHistories) as $studentEnrollmentHistory) {
                               switch ($studentEnrollmentHistory->status) {
                                 case "1":
-                                  $enrollment_date = "";
+                                  $enrollmentDate = "";
                                   if (isset($studentEnrollmentHistory->enrollment_date)) {
-                                    $enrollment_date = date_create_from_format('Y-m-d', $studentEnrollmentHistory->enrollment_date)->format('d/m/Y');
+                                    $enrollmentDate = date_create_from_format('Y-m-d', $studentEnrollmentHistory->enrollment_date)->format('d/m/Y');
                                   }
-                                  echo "<div>• Matriculado " . $enrollment_date . "</div>";
+                                  echo "<div>• Matriculado " . $enrollmentDate . "</div>";
                                   break;
                                 case "2":
-                                  $transfer_date = "";
+                                  $transferDate = "";
                                   if (isset($studentEnrollmentHistory->transfer_date)) {
-                                    $transfer_date = date_create_from_format('Y-m-d', $studentEnrollmentHistory->transfer_date)->format('d/m/Y');
+                                    $transferDate = date_create_from_format('Y-m-d', $studentEnrollmentHistory->transfer_date)->format('d/m/Y');
                                   }
-                                  echo "<div>• Transferido " . $transfer_date . "</div>";
+                                  echo "<div>• Transferido " . $transferDate . "</div>";
                                   break;
                                 case "3":
                                   echo "<div>• Cancelado</div>";
@@ -2448,7 +2461,7 @@ $form = $this->beginWidget(
                           </div>
                         <?php endif; ?>
                         <div class="mobile-row upper-margin">
-                          <label class="accordion-label--title">Formulários:</label>
+                          <label for="checkbox" class="accordion-label--title">Formulários:</label>
                         </div>
                         <div class="reports">
                           <?php
@@ -2481,7 +2494,7 @@ $form = $this->beginWidget(
                         </div>
                         <?php if ($me->classroomFk->school_year == date('Y')) { ?>
                           <div class="mobile-row">
-                            <label class="accordion-label--title">Questionários:</label>
+                            <label for="checkbox" class="accordion-label--title">Questionários:</label>
                           </div>
                         <?php } ?>
                         <div class="reports">
@@ -2536,37 +2549,37 @@ $form = $this->beginWidget(
                 <div class="t-field-checkbox-group" id="transtorno-checkbox">
                     <div class="t-field-checkbox">
                     <?php echo $form->checkBox($modelStudentDisorder, 'depressao', array('value' => 1, 'uncheckValue' => 0)); ?>
-                    <label class="t-field-checkbox">
+                    <label for="checkbox" class="t-field-checkbox">
                         Transtorno depressivo (depressão)
                     </label>
                     </div>
                     <div class="t-field-checkbox">
                     <?php echo $form->checkBox($modelStudentDisorder, 'tab', array('value' => 1, 'uncheckValue' => 0)); ?>
-                    <label class="t-field-checkbox">
+                    <label for="checkbox" class="t-field-checkbox">
                         Transtorno bipolar (TAB)
                     </label>
                     </div>
                     <div class="t-field-checkbox">
                     <?php echo $form->checkBox($modelStudentDisorder, 'toc', array('value' => 1, 'uncheckValue' => 0)); ?>
-                    <label class="t-field-checkbox">
+                    <label for="checkbox" class="t-field-checkbox">
                         Transtorno obsessivo compulsivo (TOC)
                     </label>
                     </div>
                     <div class="t-field-checkbox">
                     <?php echo $form->checkBox($modelStudentDisorder, 'tag', array('value' => 1, 'uncheckValue' => 0)); ?>
-                    <label class="t-field-checkbox">
+                    <label for="checkbox" class="t-field-checkbox">
                         Transtorno de ansiedade generalizada (TAG)
                     </label>
                     </div>
                     <div class="t-field-checkbox">
                     <?php echo $form->checkBox($modelStudentDisorder, 'tod', array('value' => 1, 'uncheckValue' => 0)); ?>
-                    <label class="t-field-checkbox">
+                    <label for="checkbox" class="t-field-checkbox">
                         Distúrbio desafiador e de oposição (TOD)
                     </label>
                     </div>
                     <div class="t-field-checkbox">
                     <?php echo $form->checkBox($modelStudentDisorder, 'tcne', array('value' => 1, 'uncheckValue' => 0)); ?>
-                    <label class="t-field-checkbox">
+                    <label for="checkbox" class="t-field-checkbox">
                         Transtorno de conduta não especificado
                     </label>
                     </div>
@@ -2574,7 +2587,7 @@ $form = $this->beginWidget(
                     <?php echo $modelStudentDisorder->others != null ?
                         "<input type='checkbox' id='others-check' checked>" :
                         "<input type='checkbox' id='others-check'>" ?>
-                    <label class="t-field-checkbox">
+                    <label for="checkbox" class="t-field-checkbox">
                         Outros transtornos de conduta
                     </label>
                     </div>
@@ -2592,7 +2605,7 @@ $form = $this->beginWidget(
                 <?php foreach ($vaccines as $vaccine): ?>
                   <div class="t-field-checkbox" id="vaccine-checkbox">
                     <?php echo CHtml::activeCheckBox($vaccine, "vaccine_id[]", array('checked' => in_array($vaccine->id, $studentVaccinesSaves), 'value' => $vaccine->id, 'uncheckValue' => null, 'class' => 'vaccine-checkbox', 'code' => $vaccine->code)); ?>
-                    <label class="t-field-checkbox">
+                    <label for="checkbox" class="t-field-checkbox">
                       <?= $vaccine->name; ?>
                     </label>
                   </div>
@@ -2604,49 +2617,49 @@ $form = $this->beginWidget(
               <div class="t-field-checkbox-group" id="restrictions-checkbox">
                 <div class="t-field-checkbox">
                   <?php echo $form->checkBox($modelStudentRestrictions, 'celiac', array('value' => 1, 'uncheckValue' => 0)); ?>
-                  <label class="t-field-checkbox">
+                  <label for="checkbox" class="t-field-checkbox">
                     <?php echo StudentRestrictions::model()->attributeLabels()['celiac']; ?>
                   </label>
                 </div>
                 <div class="t-field-checkbox">
                   <?php echo $form->checkBox($modelStudentRestrictions, 'diabetes', array('value' => 1, 'uncheckValue' => 0)); ?>
-                  <label class="t-field-checkbox">
+                  <label for="checkbox" class="t-field-checkbox">
                     <?php echo StudentRestrictions::model()->attributeLabels()['diabetes']; ?>
                   </label>
                 </div>
                 <div class="t-field-checkbox">
                   <?php echo $form->checkBox($modelStudentRestrictions, 'hypertension', array('value' => 1, 'uncheckValue' => 0)); ?>
-                  <label class="t-field-checkbox">
+                  <label for="checkbox" class="t-field-checkbox">
                     <?php echo StudentRestrictions::model()->attributeLabels()['hypertension']; ?>
                   </label>
                 </div>
                 <div class="t-field-checkbox">
                   <?php echo $form->checkBox($modelStudentRestrictions, 'iron_deficiency_anemia', array('value' => 1, 'uncheckValue' => 0)); ?>
-                  <label class="t-field-checkbox">
+                  <label for="checkbox" class="t-field-checkbox">
                     <?php echo StudentRestrictions::model()->attributeLabels()['iron_deficiency_anemia']; ?>
                   </label>
                 </div>
                 <div class="t-field-checkbox">
                   <?php echo $form->checkBox($modelStudentRestrictions, 'sickle_cell_anemia', array('value' => 1, 'uncheckValue' => 0)); ?>
-                  <label class="t-field-checkbox">
+                  <label for="checkbox" class="t-field-checkbox">
                     <?php echo StudentRestrictions::model()->attributeLabels()['sickle_cell_anemia']; ?>
                   </label>
                 </div>
                 <div class="t-field-checkbox">
                   <?php echo $form->checkBox($modelStudentRestrictions, 'lactose_intolerance', array('value' => 1, 'uncheckValue' => 0)); ?>
-                  <label class="t-field-checkbox">
+                  <label for="checkbox" class="t-field-checkbox">
                     <?php echo StudentRestrictions::model()->attributeLabels()['lactose_intolerance']; ?>
                   </label>
                 </div>
                 <div class="t-field-checkbox">
                   <?php echo $form->checkBox($modelStudentRestrictions, 'malnutrition', array('value' => 1, 'uncheckValue' => 0)); ?>
-                  <label class="t-field-checkbox">
+                  <label for="checkbox" class="t-field-checkbox">
                     <?php echo StudentRestrictions::model()->attributeLabels()['malnutrition']; ?>
                   </label>
                 </div>
                 <div class="t-field-checkbox">
                   <?php echo $form->checkBox($modelStudentRestrictions, 'obesity', array('value' => 1, 'uncheckValue' => 0)); ?>
-                  <label class="t-field-checkbox">
+                  <label for="checkbox" class="t-field-checkbox">
                     <?php echo StudentRestrictions::model()->attributeLabels()['obesity']; ?>
                   </label>
                 </div>
@@ -2654,7 +2667,7 @@ $form = $this->beginWidget(
                   <?php echo $modelStudentRestrictions->others != null ?
                     "<input type='checkbox' id='others-check' checked>" :
                     "<input type='checkbox' id='others-check'>" ?>
-                  <label class="t-field-checkbox">
+                  <label for="checkbox" class="t-field-checkbox">
                     <?php echo StudentRestrictions::model()->attributeLabels()['others']; ?>
                   </label>
                 </div>
@@ -2674,7 +2687,7 @@ $form = $this->beginWidget(
             </div>
             <div class="column clearfix">
               <?= $modelStudentIdentification->isNewRecord ? "<a data-toggle='tab' class='t-button-primary nofloat next'>" . Yii::t('default', 'Next') . "</a>" : '' ?>
-              <a class="t-button-primary  last save-student" type="button">
+              <a class="t-button-primary last save-student" type="button" style="display: none;">
                 <?= $modelStudentIdentification->isNewRecord ? Yii::t('default', 'Create') : Yii::t('default', 'Save') ?>
               </a>
             </div>

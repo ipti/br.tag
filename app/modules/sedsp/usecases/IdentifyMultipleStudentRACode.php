@@ -6,22 +6,23 @@
  */
 class IdentifyMultipleStudentRACode
 {
-    private  $studentTAGDataSource;
-    private  $studentSEDDataSource;
+    private $studentTAGDataSource;
+    private $studentSEDDataSource;
 
-    public function __construct($studentTAGDataSource = null, $studentSEDDataSource = null) {
+    public function __construct($studentTAGDataSource = null, $studentSEDDataSource = null)
+    {
         $this->studentTAGDataSource = $studentTAGDataSource ?? new StudentTAGDataSource();
         $this->studentSEDDataSource = $studentSEDDataSource ?? new StudentSEDDataSource();
     }
 
     /**
      * Summary of exec
-     * @param int $school_id School Id from TAG
+     * @param int $schoolId School Id from TAG
      * @return DadosAluno
      */
-    public function exec($school_id)
+    public function exec($schoolId)
     {
         // Get Students From TAG database
-        return $this->studentTAGDataSource->getAllStudentsEnrollmentsbySchool($school_id);
+        return $this->studentTAGDataSource->getAllStudentsEnrollmentsbySchool($schoolId);
     }
 }
