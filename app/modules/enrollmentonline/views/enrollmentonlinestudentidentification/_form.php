@@ -347,13 +347,13 @@ $adminOrManager = !Yii::app()->user->isGuest &&
                         </h3>
                     </div>
                     <div class="row">
-                        <div class="t-field-text column">
-                            <?php echo $form->labelEx($model, 'cep', ['class' => 't-field-text__label']); ?>
+                            <div class="t-field-text column">
+                                <?php echo $form->labelEx($model, 'cep', ['class' => 't-field-text__label--required']); ?>
                             <?php echo $form->textField($model, 'cep', ['size' => 9, 'maxlength' => 9, 'class' => 't-field-text__input js-cep-mask']); ?>
                             <?php echo $form->error($model, 'cep'); ?>
                         </div>
                         <div class="t-field-text column">
-                            <?php echo $form->labelEx($model, 'residence_zone', ['class' => 't-field-text__label']); ?>
+                            <?php echo $form->labelEx($model, 'residence_zone', ['class' => 't-field-text__label--required']); ?>
                             <?php
                             echo $form->DropDownList(
                                 $model,
