@@ -122,7 +122,7 @@ class EnrollmentOnlineStudentIdentification extends CActiveRecord
             'nationality' => 'Nacionalidade',
             'edcenso_nation_fk' => 'País de Origem',
             'color_race' => 'Cor/Raça',
-            'deficiency' => 'Possui Deficiência',
+            'deficiency' => 'Possui Alguma Condição e/ou Necessidades Específicas',
             'deficiency_type_blindness' => 'Cegueira',
             'deficiency_type_low_vision' => 'Baixa Visão',
             'deficiency_type_deafness' => 'Surdez',
