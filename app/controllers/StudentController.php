@@ -885,7 +885,7 @@ class StudentController extends Controller implements AuthenticateSEDTokenInterf
                         'target' => '_blank',
                         'href' => yii::app()->createUrl(
                             '/forms/StudentFileForm',
-                            ['type' => $type, 'enrollment_id' => $enrollmentId]
+                            ['type' => $type, 'enrollmentId' => $enrollmentId]
                         ),
                         'class' => 'btn btn-primary btn-icon glyphicons notes_2',
                         'style' => 'margin-top: 5px; width: 110px'
