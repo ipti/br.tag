@@ -1,5 +1,4 @@
 function renderClasroomsCards(discipline) {
-    debugger;
     $.ajax({
         url: `${window.location.host}?r=classdiary/default/getclassrooms`,
         type: "POST",
@@ -8,6 +7,7 @@ function renderClasroomsCards(discipline) {
         },
     }).success(function (response) {
         const result = JSON.parse(response);
+
         const classrooms = $(".js-add-classrooms-cards");
         var cardsClassrooms = result["classrooms"].reduce(
             (acc, element) =>
