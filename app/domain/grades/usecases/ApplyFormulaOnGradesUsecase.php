@@ -70,6 +70,6 @@ class ApplyFormulaOnGradesUsecase
                 break;
         }
 
-        return round($result, 1);
+         return floor($result * 10) / 10;
     }
 }
