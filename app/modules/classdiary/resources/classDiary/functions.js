@@ -1,24 +1,25 @@
 const urlParams = new URLSearchParams(window.location.search);
-const date = urlParams.get("date")
-$('.js-add-course-classes-accordion').on("change", function (){
+const date = urlParams.get("date");
+$(".js-add-course-classes-accordion").on("change", function () {
     let optionSelected = $(this).val();
-     let PlanName = $(this).find('option[value="' + optionSelected + '"]').text();
-
+    let PlanName = $(this)
+        .find('option[value="' + optionSelected + '"]')
+        .text();
 
     $.ajax({
-        type:'POST',
+        type: "POST",
         data: {
             plan_name: PlanName,
-            id: optionSelected
+            id: optionSelected,
         },
-        url:`?r=classdiary/default/RenderAccordion`
-    }).success(function (response){
-        $('.js-course-classes-accordion').append(DOMPurify.sanitize(response))
+        url: `?r=classdiary/default/RenderAccordion`,
+    }).success(function (response) {
+        $(".js-course-classes-accordion").append(DOMPurify.sanitize(response));
         $(function () {
-            if($(".js-course-classes-accordion").data('uiAccordion')){
-                $(".js-course-classes-accordion").accordion('destroy');
+            if ($(".js-course-classes-accordion").data("uiAccordion")) {
+                $(".js-course-classes-accordion").accordion("destroy");
             }
-            $( ".js-course-classes-accordion").accordion({
+            $(".js-course-classes-accordion").accordion({
                 active: false,
                 collapsible: true,
                 icons: false,
@@ -27,53 +28,86 @@ $('.js-add-course-classes-accordion').on("change", function (){
 
         // Remover a opção selecionada
         // $(this).find('option[value="' + optionSelected + '"]').remove();
-    })
-})
+    });
+});
 function renderFrequencyElement(w) {
-    const classroom_fk = urlParams.get("classroom_fk")
-    const stage_fk = urlParams.get("stage_fk")
-    const discipline_fk = urlParams.get("discipline_fk")
-    const url =`RenderFrequencyElementMobile`;
+    const classroomFK = urlParams.get("classroomFK");
+    const stageFk = urlParams.get("stageFk");
+    const disciplineFk = urlParams.get("disciplineFk");
+    const url = `RenderFrequencyElementMobile`;
     $.ajax({
-        url: `${window.location.host}?r=classdiary/default/${url}&classroom_fk=${classroom_fk}&stage_fk=${stage_fk}&discipline_fk=${discipline_fk}&date=${date}`,
+        url: `${window.location.host}?r=classdiary/default/${url}&classroomFK=${classroomFK}&stageFk=${stageFk}&disciplineFk=${disciplineFk}&date=${date}`,
         type: "GET",
-
     }).success(function (response) {
-        $(".js-frequency-element").html(DOMPurify.sanitize(response))
+        $(".js-frequency-element").html(DOMPurify.sanitize(response));
     });
 }
-function updateClassesContents()
-{
-    const classroom_fk = urlParams.get("classroom_fk")
-    const discipline_fk = urlParams.get("discipline_fk")
-    const stage_fk = urlParams.get("stage_fk")
+function updateClassesContents() {
+    const classroomFK = urlParams.get("classroomFK");
+    const disciplineFk = urlParams.get("disciplineFk");
+    const stageFk = urlParams.get("stageFk");
     $.ajax({
-        type:'GET',
-        url:  `${window.location.host}?r=classdiary/default/GetClassesContents&classroom_fk=${classroom_fk}&stage_fk=${stage_fk}&date=${date}&discipline_fk=${discipline_fk}`
+        type: "GET",
+        url: `${window.location.host}?r=classdiary/default/GetClassesContents&classroomFK=${classroomFK}&stageFk=${stageFk}&date=${date}&disciplineFk=${disciplineFk}`,
     }).success((response) => {
-        if(response.valid==true){
+        if (response.valid == true) {
             let options = "";
             $.each(response["courseClasses"], function () {
-                options += '<option value="' + this.id + '" disciplineid="' + this.edid + '" disciplinename="' + this.edname + '">' + this.cpname + "|" + this.order + "|" + this.content + "|" + this.edname + '</option>';
+                options +=
+                    '<option value="' +
+                    this.id +
+                    '" disciplineid="' +
+                    this.edid +
+                    '" disciplinename="' +
+                    this.edname +
+                    '">' +
+                    this.cpname +
+                    "|" +
+                    this.order +
+                    "|" +
+                    this.content +
+                    "|" +
+                    this.edname +
+                    "</option>";
             });
             $("#coursePlan").html(options);
             $("#coursePlan").select2("val", response["classContents"]);
-            $('#coursePlan').select2({
+            $("#coursePlan").select2({
                 formatSelection: function (state) {
                     let textArray = state.text.split("|");
-                    return '<div class="text-align--left" style="margin-left: 0"><b>Aula:</b> "' + textArray[1] + '" <b>Plano de Aula:</b> ' + textArray[0] + ' <br><b>Conteúdo:</b> ' + textArray[2] + "</div>";
+                    return (
+                        '<div class="text-align--left" style="margin-left: 0"><b>Aula:</b> "' +
+                        textArray[1] +
+                        '" <b>Plano de Aula:</b> ' +
+                        textArray[0] +
+                        " <br><b>Conteúdo:</b> " +
+                        textArray[2] +
+                        "</div>"
+                    );
                 },
                 formatResult: function (data, container) {
                     let textArray = data.text.split("|");
-                    console.log(data.text)
+                    console.log(data.text);
                     if (textArray.length === 1) {
-                        return "<div class='course-classes-optgroup'><b>" + textArray[0] + "</b></div>";
+                        return (
+                            "<div class='course-classes-optgroup'><b>" +
+                            textArray[0] +
+                            "</b></div>"
+                        );
                     } else {
-                        return "<div class='course-classes-option'><div><b>Plano de Aula:</b> <span>" + textArray[0] + "</span></div><div><b>Aula " + textArray[1] + "</b> - " + textArray[2] + "</div></div>";
+                        return (
+                            "<div class='course-classes-option'><div><b>Plano de Aula:</b> <span>" +
+                            textArray[0] +
+                            "</span></div><div><b>Aula " +
+                            textArray[1] +
+                            "</b> - " +
+                            textArray[2] +
+                            "</div></div>"
+                        );
                     }
                 },
             });
-            $(".js-hide-is-not-valid").show()
+            $(".js-hide-is-not-valid").show();
         }
     });
 }
@@ -87,7 +121,7 @@ function validadeNewClassContent() {
     let mensege = "";
 
     if (!content) {
-        mensege  +="O campo de conteúdo é obrigatório <br>";
+        mensege += "O campo de conteúdo é obrigatório <br>";
     }
 
     if (!methodology) {
@@ -103,63 +137,63 @@ function validadeNewClassContent() {
     }
 
     if (mensege) {
-        $('.js-validate').html(mensege).removeClass("hide");
+        $(".js-validate").html(mensege).removeClass("hide");
         return false;
     }
-    $('.js-validate').html('').addClass("hide");
+    $(".js-validate").html("").addClass("hide");
 
     return true;
 }
 
 $(".js-save-course-plan").on("click", function () {
-    const classroom_fk = urlParams.get("classroom_fk")
-    const stage_fk = urlParams.get("stage_fk")
-    const discipline_fk = urlParams.get("discipline_fk")
-    const classContent = $('#coursePlan').val();
+    const classroomFK = urlParams.get("classroomFK");
+    const stageFk = urlParams.get("stageFk");
+    const disciplineFk = urlParams.get("disciplineFk");
+    const classContent = $("#coursePlan").val();
 
     let content = null;
     let methodology = null;
     let coursePlanId = null;
     let abilities = [];
 
-    const hasNewClassContent = $('.js-new-class-content').text().trim() === "Cancelar";
-    if(hasNewClassContent) {
+    const hasNewClassContent =
+        $(".js-new-class-content").text().trim() === "Cancelar";
+    if (hasNewClassContent) {
         if (!validadeNewClassContent()) {
             return;
         }
-             content = $(".js-class-content-textarea").val();
-             methodology = $(".js-class-content-methodology").val();
-             coursePlanId = $("select.js-course-plan-id").val();
-             abilities = [];
-            $(".ability-panel-option-id").each(function () {
-                abilities.push($(this).val());
-            });
-
+        content = $(".js-class-content-textarea").val();
+        methodology = $(".js-class-content-methodology").val();
+        coursePlanId = $("select.js-course-plan-id").val();
+        abilities = [];
+        $(".ability-panel-option-id").each(function () {
+            abilities.push($(this).val());
+        });
     }
 
     $.ajax({
-        type: 'POST',
+        type: "POST",
         url: `${window.location.origin}?r=classdiary/default/SaveClassContents`,
         data: {
-            stage_fk: stage_fk,
+            stageFk: stageFk,
             date: date,
-            discipline_fk: discipline_fk,
-            classroom_fk: classroom_fk,
+            disciplineFk: disciplineFk,
+            classroomFK: classroomFK,
             classContent: classContent,
             hasNewClassContent: hasNewClassContent,
             content: content,
             methodology: methodology,
             coursePlanId: coursePlanId,
-            abilities: abilities
-        }
-    }).done(function(response) {
+            abilities: abilities,
+        },
+    }).done(function (response) {
         updateClassesContents();
         $(".js-class-content-textarea, .js-class-content-methodology").val("");
         $(".js-course-plan-id").val(null).trigger("change");
         $(".courseplan-abilities-selected").html("");
         $(".js-add-new-class-content-form").addClass("hide");
-        $('.js-new-class-content').text("Nova Aula");
-    })
+        $(".js-new-class-content").text("Nova Aula");
+    });
 });
 
 $(document).on("change", ".js-frequency-checkbox", function () {
@@ -173,46 +207,53 @@ $(document).on("change", ".js-frequency-checkbox", function () {
             schedule: $(this).attr("data-schedule"),
             studentId: $(this).attr("data-studentId"),
             fault: $(this).is(":checked") ? 1 : 0,
-            stage_fk: $(this).attr("data-stage_fk")
+            stageFk: $(this).attr("data-stage_fk"),
         },
         beforeSend: function () {
-            $(".js-table-frequency").css("opacity", 0.3).css("pointer-events", "none");
+            $(".js-table-frequency")
+                .css("opacity", 0.3)
+                .css("pointer-events", "none");
             $(".js-date, .js-change-date").attr("disabled", "disabled");
         },
         complete: function (response) {
-            $(".js-table-frequency").css("opacity", 1).css("pointer-events", "auto");
+            $(".js-table-frequency")
+                .css("opacity", 1)
+                .css("pointer-events", "auto");
             $(".js-date, .js-change-date").removeAttr("disabled");
         },
-    })
+    });
 });
 
 $(document).on("change", "select.js-add-abilities", function () {
     const selectedText = $(this).find("option:selected").text();
     const value = $(this).val();
 
-    let exists = $(".courseplan-abilities-selected .ability-panel-option span").filter(function () {
-        return $(this).text().trim() === selectedText;
-    }).length > 0;
+    let exists =
+        $(".courseplan-abilities-selected .ability-panel-option span").filter(
+            function () {
+                return $(this).text().trim() === selectedText;
+            }
+        ).length > 0;
 
-    if(!exists) {
+    if (!exists) {
         let abilityPaneOption = $(`<div class='ability-panel-option'>
                                         <i class="fa fa-check-square"></i>
                                         <span>${selectedText}</span>
                                         <i class="fa fa-remove remove-abilitie js-remove-abilitie"></i>
                                 </div>`);
-        let hiddenInput = $(`<input type="hidden" class="ability-panel-option-id" value=${value}>`);
+        let hiddenInput = $(
+            `<input type="hidden" class="ability-panel-option-id" value=${value}>`
+        );
         $(".courseplan-abilities-selected").append(abilityPaneOption);
         $(".courseplan-abilities-selected").append(hiddenInput);
     }
 
     $(this).select2("val", "");
-
-})
+});
 
 $(document).on("click", ".js-remove-abilitie", function () {
     $(this).parent().next().remove();
     $(this).parent().remove();
-
 });
 
 $(document).on("click", ".js-new-class-content", function () {
@@ -226,13 +267,14 @@ $(document).on("click", ".js-new-class-content", function () {
     $(this).text("Nova Aula");
 });
 
-
-
 $(".js-change-date").on("click", function () {
-    renderFrequencyElement(widthWindow)
+    renderFrequencyElement(widthWindow);
     updateClassesContents();
 });
 
-let widthWindow = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
-renderFrequencyElement(widthWindow)
+let widthWindow =
+    window.innerWidth ||
+    document.documentElement.clientWidth ||
+    document.body.clientWidth;
+renderFrequencyElement(widthWindow);
 updateClassesContents();
