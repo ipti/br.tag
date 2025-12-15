@@ -79,8 +79,8 @@ class DefaultController extends Controller
         $abilities = $getAbilities->exec($disciplineFk, $stageFk);
 
         $this->render('classDiary', [
-            'discipline_name' => $disciplineName,
-            'classroom_name' => $classroomName,
+            'disciplineName' => $disciplineName,
+            'classroomName' => $classroomName,
             'coursePlans' => $coursePlans,
             'abilities' => $abilities,
             'date' => $date,
@@ -90,8 +90,8 @@ class DefaultController extends Controller
     public function actionclassDays($disciplineName, $classroomName)
     {
         $this->render('classDays', [
-            'discipline_name' => $disciplineName,
-            'classroom_name' => $classroomName
+            'disciplineName' => $disciplineName,
+            'classroomName' => $classroomName
         ]);
     }
 
@@ -230,7 +230,7 @@ class DefaultController extends Controller
     {
         $getFrequency = new GetFrequency();
         $frequency = $getFrequency->exec($classroomFk, $stageFk, $disciplineFk, $date);
-        $this->renderPartial('_frequencyElementMobile', ['frequency' => $frequency, 'date' => $date,  'discipline_fk' => $disciplineFk, 'stage_fk' => $stageFk, 'classroom_fk' => $classroomFk]);
+        $this->renderPartial('_frequencyElementMobile', ['frequency' => $frequency, 'date' => $date, 'discipline_fk' => $disciplineFk, 'stage_fk' => $stageFk, 'classroom_fk' => $classroomFk]);
     }
 
     public function actionRenderFrequencyElementDesktop($classroomFk, $stageFk, $disciplineFk, $date)
@@ -285,8 +285,10 @@ class DefaultController extends Controller
             $enrollments = StudentEnrollment::model()->findAllByAttributes(['classroom_fk' => $classroom->id]);
 
             foreach ($enrollments as $enrollment) {
-                if (!$enrollment->edcenso_stage_vs_modality_fk ||
-                    !TagUtils::isStageMinorEducation($enrollment->edcenso_stage_vs_modality_fk)) {
+                if (
+                    !$enrollment->edcenso_stage_vs_modality_fk ||
+                    !TagUtils::isStageMinorEducation($enrollment->edcenso_stage_vs_modality_fk)
+                ) {
                     return false;
                 }
             }
