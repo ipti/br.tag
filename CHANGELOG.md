@@ -1,3 +1,6 @@
+## [Versão 3.6.2]
+- Corrigida a visualização do relatório de notas por aluno para as disciplinas que não requerem prova
+
 ## [Versão 3.6.1]
 - Refatoração de código para redução de débito técnico
 
