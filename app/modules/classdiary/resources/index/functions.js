@@ -9,7 +9,7 @@ function renderClasroomsCards(discipline) {
         const result = JSON.parse(response);
 
         const classrooms = $(".js-add-classrooms-cards");
-        var cardsClassrooms = result["classrooms"].reduce(
+        let cardsClassrooms = result["classrooms"].reduce(
             (acc, element) =>
                 (acc += `
             <div class="column clearfix no-grow">
