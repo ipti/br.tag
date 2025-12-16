@@ -1345,7 +1345,7 @@ class ReportsRepository
             ->bindParam(':school_year', $this->currentYear)
             ->queryAll();
 
-        return ['report' => $result, ];
+        return ['report' => $result,];
     }
 
     /**
@@ -2200,6 +2200,8 @@ class ReportsRepository
         $arr = explode('/', $finalDate);
         $finalDate = $arr[2] . '-' . $arr[1] . '-' . $arr[0];
         $students = [];
+        $initialMonth = date('m', strtotime($initialDate));
+        $finalMonth   = date('m', strtotime($finalDate));
         if ($fundamentalMaior == '1') {
             $schedules = Schedule::model()
                 ->findAll(
@@ -2208,13 +2210,16 @@ class ReportsRepository
                 );
             if ($schedules !== null) {
                 foreach ($schedules[0]->classroomFk->studentEnrollments as $studentEnrollment) {
+                    $frequency = $studentEnrollment->totalStudentEnrolmentFrequency($initialMonth, $finalMonth) . '%';
                     $classroomName = $this->getEjaClassroomNameForReport($studentEnrollment, Yii::app()->user->year);
-                    array_push($students, ['id' => $studentEnrollment->student_fk, 'name' => $studentEnrollment->studentFk->name, 'infoClassroom' => $classroomName, 'total' => count($schedules), 'faults' => [], 'frequency' => '']);
+                    array_push($students, ['id' => $studentEnrollment->student_fk, 'name' => $studentEnrollment->studentFk->name, 'infoClassroom' => $classroomName, 'total' => count($schedules), 'faults' => [], 'frequency' => $frequency]);
                 }
                 foreach ($schedules as $schedule) {
                     foreach ($schedule->classFaults as $classFault) {
                         $key = array_search($classFault->student_fk, array_column($students, 'id'));
-                        array_push($students[$key]['faults'], str_pad($schedule['day'], 2, '0', STR_PAD_LEFT) . '/' . str_pad($schedule['month'], 2, '0', STR_PAD_LEFT) . ' (' . $schedule['schedule'] . 'º Hor.)');
+                        if ($classFault->justification == null && $classFault->justification == '') {
+                            array_push($students[$key]['faults'], str_pad($schedule['day'], 2, '0', STR_PAD_LEFT) . '/' . str_pad($schedule['month'], 2, '0', STR_PAD_LEFT) . ' (' . $schedule['schedule'] . 'º Hor.)');
+                        }
                     }
                 }
                 foreach ($students as &$student) {
@@ -2230,7 +2235,8 @@ class ReportsRepository
                 );
             if ($schedules !== null) {
                 foreach ($schedules[0]->classroomFk->studentEnrollments as $studentEnrollment) {
-                    array_push($students, ['id' => $studentEnrollment->student_fk, 'name' => $studentEnrollment->studentFk->name, 'classroom' => null, 'days' => 0, 'faults' => [], 'frequency' => '']);
+                    $frequency = $studentEnrollment->totalStudentEnrolmentFrequency($initialMonth, $finalMonth) . '%';
+                    array_push($students, ['id' => $studentEnrollment->student_fk, 'name' => $studentEnrollment->studentFk->name, 'classroom' => null, 'days' => 0, 'faults' => [], 'frequency' => $frequency]);
                 }
                 $days = [];
                 foreach ($schedules as $schedule) {
@@ -2239,14 +2245,15 @@ class ReportsRepository
                     }
                     foreach ($schedule->classFaults as $classFault) {
                         $key = array_search($classFault->student_fk, array_column($students, 'id'));
-                        if (!in_array(str_pad($schedule['day'], 2, '0', STR_PAD_LEFT) . '/' . str_pad($schedule['month'], 2, '0', STR_PAD_LEFT), $students[$key]['faults'])) {
+                        if ($classFault->justification == null && $classFault->justification == '' && !in_array(str_pad($schedule['day'], 2, '0', STR_PAD_LEFT) . '/' . str_pad($schedule['month'], 2, '0', STR_PAD_LEFT), $students[$key]['faults'])) {
                             array_push($students[$key]['faults'], str_pad($schedule['day'], 2, '0', STR_PAD_LEFT) . '/' . str_pad($schedule['month'], 2, '0', STR_PAD_LEFT));
                         }
                     }
                 }
                 foreach ($students as &$student) {
+
                     $student['total'] = count($days);
-                    $student['frequency'] = (floor((($student['total'] - count($student['faults'])) / $student['total']) * 100 * 100) / 100) . '%';
+                    //$student['frequency'] = $frequency; //(floor((($student['total'] - count($student['faults'])) / $student['total']) * 100 * 100) / 100) . '%';
                 }
             }
         }
@@ -2393,7 +2400,7 @@ class ReportsRepository
                             break;
                     }
                 }
-                $finalMedia =$gradeResult->final_media != null ? $gradeResult->final_media : '';
+                $finalMedia = $gradeResult->final_media != null ? $gradeResult->final_media : '';
                 $findSituation = $gradeResult->situation != null ? $gradeResult->situation : '';
 
                 $arr['finalMedia'] = $gradeResult != null ? $finalMedia : '';
