@@ -52,8 +52,8 @@ $("select.js-months").on("change", function () {
             const daysCardsContainer = $(".js-days-cards");
             if (result["scheduleDays"]) {
                 let daysCards = result["scheduleDays"].reduce(
-                    (acc, element) =>
-                        (acc += `<div class="column clearfix no-grow">
+                    (acc, element) => {
+                        return (acc += `<div class="column clearfix no-grow">
                     <a href="${
                         window.location.host
                     }?r=classdiary/default/classDiary&classroomFk=${
@@ -73,7 +73,8 @@ $("select.js-months").on("change", function () {
                             }</div>
                         </div>
                     </a>
-                </div>`),
+                </div>`);
+                    },
                     ""
                 );
                 if (daysCards != "") {

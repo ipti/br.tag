@@ -9,9 +9,8 @@ function renderClasroomsCards(discipline) {
         const result = JSON.parse(response);
 
         const classrooms = $(".js-add-classrooms-cards");
-        let cardsClassrooms = result["classrooms"].reduce(
-            (acc, element) =>
-                (acc += `
+        let cardsClassrooms = result["classrooms"].reduce((acc, element) => {
+            return (acc += `
             <div class="column clearfix no-grow">
                 <a href="${window.location.host}?r=classdiary/default/classDays&classroomFk=${element["id"]}&stageFk=${element["stage_fk"]}&disciplineFk=${element["edcenso_discipline_fk"]}&disciplineName=${element["discipline_name"]}&classroomName=${element["name"]}" class="t-cards">
                     <div class="t-cards-content">
@@ -20,12 +19,11 @@ function renderClasroomsCards(discipline) {
                         <div class="t-cards-text clear-margin--left">${element["stage_name"]}</div>
                     </div>
                 </a>
-            </div>`),
-            ""
-        );
+            </div>`);
+        }, "");
         cardsClassrooms += result["minorSchoolingClassroom"].reduce(
-            (acc, element) =>
-                (acc += `
+            (acc, element) => {
+                return (acc += `
         <div class="column clearfix no-grow">
             <a href="${window.location.host}?r=classdiary/default/classDays&classroomFk=${element["id"]}&stageFk=${element["stage_fk"]}&disciplineFk=''&disciplineName=&classroomName=${element["name"]}" class="t-cards">
                 <div class="t-cards-content">
@@ -33,7 +31,8 @@ function renderClasroomsCards(discipline) {
                     <div class="t-cards-text clear-margin--left">${element["stage_name"]}</div>
                 </div>
             </a>
-        </div>`),
+        </div>`);
+            },
             ""
         );
         classrooms.append(cardsClassrooms);
