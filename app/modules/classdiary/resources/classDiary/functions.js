@@ -25,30 +25,27 @@ $(".js-add-course-classes-accordion").on("change", function () {
                 icons: false,
             });
         });
-
-        // Remover a opção selecionada
-        // $(this).find('option[value="' + optionSelected + '"]').remove();
     });
 });
 function renderFrequencyElement(w) {
-    const classroomFK = urlParams.get("classroomFK");
+    const classroomFk = urlParams.get("classroomFk");
     const stageFk = urlParams.get("stageFk");
     const disciplineFk = urlParams.get("disciplineFk");
     const url = `RenderFrequencyElementMobile`;
     $.ajax({
-        url: `${window.location.host}?r=classdiary/default/${url}&classroomFK=${classroomFK}&stageFk=${stageFk}&disciplineFk=${disciplineFk}&date=${date}`,
+        url: `${window.location.host}?r=classdiary/default/${url}&classroomFk=${classroomFk}&stageFk=${stageFk}&disciplineFk=${disciplineFk}&date=${date}`,
         type: "GET",
     }).success(function (response) {
         $(".js-frequency-element").html(DOMPurify.sanitize(response));
     });
 }
 function updateClassesContents() {
-    const classroomFK = urlParams.get("classroomFK");
+    const classroomFk = urlParams.get("classroomFk");
     const disciplineFk = urlParams.get("disciplineFk");
     const stageFk = urlParams.get("stageFk");
     $.ajax({
         type: "GET",
-        url: `${window.location.host}?r=classdiary/default/GetClassesContents&classroomFK=${classroomFK}&stageFk=${stageFk}&date=${date}&disciplineFk=${disciplineFk}`,
+        url: `${window.location.host}?r=classdiary/default/GetClassesContents&classroomFk=${classroomFk}&stageFk=${stageFk}&date=${date}&disciplineFk=${disciplineFk}`,
     }).success((response) => {
         if (response.valid == true) {
             let options = "";
@@ -146,7 +143,7 @@ function validadeNewClassContent() {
 }
 
 $(".js-save-course-plan").on("click", function () {
-    const classroomFK = urlParams.get("classroomFK");
+    const classroomFk = urlParams.get("classroomFk");
     const stageFk = urlParams.get("stageFk");
     const disciplineFk = urlParams.get("disciplineFk");
     const classContent = $("#coursePlan").val();
@@ -178,7 +175,7 @@ $(".js-save-course-plan").on("click", function () {
             stageFk: stageFk,
             date: date,
             disciplineFk: disciplineFk,
-            classroomFK: classroomFK,
+            classroomFk: classroomFk,
             classContent: classContent,
             hasNewClassContent: hasNewClassContent,
             content: content,
@@ -225,6 +222,7 @@ $(document).on("change", ".js-frequency-checkbox", function () {
 });
 
 $(document).on("change", "select.js-add-abilities", function () {
+    debugger;
     const selectedText = $(this).find("option:selected").text();
     const value = $(this).val();
 
