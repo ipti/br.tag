@@ -17,7 +17,6 @@ class ChageStudentStatusByGradeUsecase
 
     private const SITUATION_APPROVED = 'APROVADO';
     private const SITUATION_DISAPPROVED = 'REPROVADO';
-    private const SITUATION_DISAPPROVED_BY_FREQUENCY = 'REPROVADO POR FALTA';
     private const SITUATION_RECOVERY = 'RECUPERAÇÃO';
 
     public function __construct($gradeResult, $gradeRule, $numUnities, $stage, $frequency = null)
