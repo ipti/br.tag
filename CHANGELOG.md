@@ -1,3 +1,5 @@
+## [Versão 3.6.3]
+- Corrigido fluxo de criação do diário de classe
 ## [Versão 3.6.2]
 - Corrigida a visualização do relatório de notas por aluno para as disciplinas que não requerem prova
 
