@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @property int $classroomId
  * @property int $disciplineId
@@ -260,7 +261,14 @@ class GetStudentGradesByDisciplineUsecase
 
         foreach ($unitiesByDiscipline as $unity) {
             /** @var GradeUnity $unit */
-            $unityGrades = $this->getStudentGradesFromUnity($studentEnrollment->id, $discipline, $unity->id);
+            
+            $allGrades = $this->getStudentGradesFromUnity(
+                $studentEnrollment->id,
+                $discipline
+            );
+
+            $gradesByUnity = $this->indexGradesByUnity($allGrades);
+            $unityGrades = $gradesByUnity[$unit->id]; 
             $unityResult = new GradeUnityResult($unity->name, $unity->gradeCalculationFk->name);
 
             if ($unity->type == GradeUnity::TYPE_UNITY || $unity->type == GradeUnity::TYPE_UNITY_WITH_RECOVERY) {
@@ -348,27 +356,39 @@ class GetStudentGradesByDisciplineUsecase
     /**
      * @return Grade[]
      */
-    private function getStudentGradesFromUnity($enrollmentId, $discipline, $unityId): array
+    private function getStudentGradesFromUnity($enrollmentId, $disciplineId): array
     {
-        $gradesIds = array_column(Yii::app()->db->createCommand(
-            'SELECT
-                g.id
-                FROM grade g
-                join grade_unity_modality gum on g.grade_unity_modality_fk = gum.id
-                join grade_unity gu on gu.id= gum.grade_unity_fk
-                WHERE g.enrollment_fk = :enrollment_id and g.discipline_fk = :discipline_id and gu.id = :unity_id'
-        )->bindParam(':enrollment_id', $enrollmentId)
-            ->bindParam(':discipline_id', $discipline)
-            ->bindParam(':unity_id', $unityId)->queryAll(), 'id');
+        $criteria = new CDbCriteria();
+        $criteria->alias = 'g';
+        $criteria->join = '
+        JOIN grade_unity_modality gum ON gum.id = g.grade_unity_modality_fk
+        JOIN grade_unity gu ON gu.id = gum.grade_unity_fk';
+        $criteria->condition = '
+        g.enrollment_fk = :enrollment
+        AND g.discipline_fk = :discipline
+    ';
+        $criteria->params = [
+            ':enrollment' => $enrollmentId,
+            ':discipline' => $disciplineId,
+        ];
 
-        if ($gradesIds == null) {
-            return [];
+        return Grade::model()->findAll($criteria);
+    }
+    /**
+     * @param Grade[] $grades
+     */
+    private function indexGradesByUnity(array $grades): array
+    {
+        $indexed = [];
+
+        foreach ($grades as $grade) {
+            $unityId = $grade->gradeUnityModality->gradeUnity->id;
+            $modalityId = $grade->grade_unity_modality_fk;
+
+            $indexed[$unityId][$modalityId] = $grade;
         }
-        return Grade::model()->findAll(
-            [
-                'condition' => 'id IN (' . implode(',', $gradesIds) . ')',
-            ]
-        );
+
+        return $indexed;
     }
 }
 
