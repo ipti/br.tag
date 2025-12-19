@@ -268,7 +268,7 @@ class GetStudentGradesByDisciplineUsecase
             );
 
             $gradesByUnity = $this->indexGradesByUnity($allGrades);
-            $unityGrades = $gradesByUnity[$unit->id]; 
+            $unityGrades = $gradesByUnity[$unity->id] ?? []; 
             $unityResult = new GradeUnityResult($unity->name, $unity->gradeCalculationFk->name);
 
             if ($unity->type == GradeUnity::TYPE_UNITY || $unity->type == GradeUnity::TYPE_UNITY_WITH_RECOVERY) {
@@ -294,10 +294,8 @@ class GetStudentGradesByDisciplineUsecase
             $orderedModalities = array_merge($normalModalities, $recoveryModalities);
 
             foreach ($orderedModalities as $modality) {
-                $gradeIndex = array_search($modality->id, array_column($unityGrades, 'grade_unity_modality_fk'));
-
-                if ($gradeIndex !== false) {
-                    $grade = $unityGrades[$gradeIndex];
+                if (array_key_exists($modality->id, $unityGrades)) {
+                    $grade = $unityGrades[$modality->id];
                 } else {
                     $grade = new Grade();
                     $grade->enrollment_fk = $studentEnrollment->id;
@@ -382,7 +380,7 @@ class GetStudentGradesByDisciplineUsecase
         $indexed = [];
 
         foreach ($grades as $grade) {
-            $unityId = $grade->gradeUnityModality->gradeUnity->id;
+            $unityId = $grade->gradeUnityModalityFk->gradeUnityFk->id;
             $modalityId = $grade->grade_unity_modality_fk;
 
             $indexed[$unityId][$modalityId] = $grade;
