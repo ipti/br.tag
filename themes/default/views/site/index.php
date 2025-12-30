@@ -24,7 +24,9 @@ $this->breadcrumbs = [
 
 $year = Yii::app()->user->year;
 
-$logCount = count(Log::model()->findAll("school_fk = :school", [':school' => Yii::app()->user->school]));
+$logCount = Log::model()->countByAttributes([
+    'school_fk' => Yii::app()->user->school
+]);
 ?>
 
 <div class="main">
