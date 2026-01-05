@@ -6,7 +6,7 @@ $menuItems = [
         'label' => 'Página Inicial',
         'url' => ['/'],
         'icon' => 't-icon-home',
-        'roles' => [TRole::ADMIN, TRole::COORDINATOR,TRole::MANAGER,TRole::INSTRUCTOR,TRole::NUTRITIONIST,TRole::READER, TRole::FOOD_SERVICE_WORKER],
+        'roles' => [TRole::ADMIN, TRole::COORDINATOR, TRole::MANAGER, TRole::INSTRUCTOR, TRole::NUTRITIONIST, TRole::READER, TRole::FOOD_SERVICE_WORKER],
         'feature' => TTask::TASK_HOME,
     ],
     [
@@ -20,7 +20,7 @@ $menuItems = [
     // Escola, Turmas, Alunos, Professores
     [
         'label' => 'Escola',
-        'url' => function() {
+        'url' => function () {
             return (count(Yii::app()->user->usersSchools) == 1)
                 ? ['school/update', ['id' => Yii::app()->user->school]]
                 : ['school/index'];
@@ -45,13 +45,13 @@ $menuItems = [
     ],
     [
         'label' => 'Matrícula Online',
-        'url' =>function() {
-            if(Yii::app()->getAuthManager()->checkAccess('guardian', Yii::app()->user->loginInfos->id)) {
+        'url' => function () {
+            if (Yii::app()->getAuthManager()->checkAccess('guardian', Yii::app()->user->loginInfos->id)) {
                 return ['enrollmentonline/Enrollmentonlinestudentidentification/StudentList'];
             }
-            return ['enrollmentonline/Enrollmentonlinestudentidentification/index'];
+            return ['enrollmentonline/enrollmentOnlinePreEnrollmentEvent/Index'];
         },
-         ['enrollmentonline/Enrollmentonlinestudentidentification/StudentStatus'],
+        ['enrollmentonline/Enrollmentonlinestudentidentification/StudentStatus'],
         'icon' => 't-icon-backpack',
         'roles' => [TRole::GUARDIAN, TRole::ADMIN, TRole::MANAGER, TRole::READER],
         'feature' => TTask::TASK_ONLINE_ENROLLMENT,
@@ -207,7 +207,7 @@ $menuItems = [
         'feature' => TTask::TASK_FOODS_MENU_MANAGE,
     ],
 
-     [
+    [
         'label' => 'Merenda Escolar',
         'url' => ['lunch'],
         'icon' => 't-icon-apple',
@@ -215,7 +215,7 @@ $menuItems = [
         'feature' => TTask::TASK_LUNCH_MENU_MANAGE,
     ],
     // Acompanhamento de Saúde
-     [
+    [
         'label' => 'Acompanhamento de Saúde',
         'url' => ['studentimc/studentimc/studentIndex'],
         'icon' => 't-icon-heart',
@@ -265,7 +265,7 @@ $menuItems = [
 
     [
         'label' => 'Alterar senha',
-        'url' => function() {
+        'url' => function () {
             return ['admin/editPassword', ['id' => Yii::app()->user->loginInfos->id]];
         },
         'roles' => [TRole::ADMIN, TRole::MANAGER, TRole::READER, TRole::INSTRUCTOR, TRole::NUTRITIONIST, TRole::FOOD_SERVICE_WORKER, TRole::GUARDIAN],

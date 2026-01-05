@@ -28,7 +28,7 @@ $this->menu = [
 
     <div class="tag-inner">
 
-        <div class="">
+        <div>
             <?php if (Yii::app()->user->hasFlash('success')): ?>
                 <div class="alert alert-success">
                     <?php echo Yii::app()->user->getFlash('success') ?>
@@ -41,7 +41,7 @@ $this->menu = [
                 <div class="alert no-show"></div>
             <?php endif; ?>
             <div>
-                 <hr class="row t-separator" />
+                <hr class="row t-separator" />
                 <label for="js-filter-enrollment-status">Filtrar pre matrículas</label>
                 <select id="js-filter-enrollment-status" class="select-search-on js-filter-enrollment-status">
                     <option value="1">Aguardando Processamento</option>

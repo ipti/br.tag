@@ -11,7 +11,7 @@ $cs->registerScriptFile($baseScriptUrl . '/validations.js?v=' . TAG_VERSION, CCl
 
 $adminOrManager = !Yii::app()->user->isGuest &&
     (Yii::app()->authManager->checkAccess('admin', Yii::app()->user->loginInfos->id) ||
-     Yii::app()->authManager->checkAccess('manager', Yii::app()->user->loginInfos->id));
+        Yii::app()->authManager->checkAccess('manager', Yii::app()->user->loginInfos->id));
 
 
 ?>
@@ -494,34 +494,34 @@ $adminOrManager = !Yii::app()->user->isGuest &&
                             ?>
                         </div>
                     </div>
-                    <?php if($adminOrManager && !$model->student_fk && !$isRejected):?>
-                    <div class="row show--desktop  js-hide-buttons-enrollment">
-                        <div class="column"></div>
-                        <div class="column">
-                            <div class="row justify-content--end">
-                                <a class="t-button-danger column t-margin-none--right js-rejected-enrollment">
+                    <?php if ($adminOrManager && !$model->student_fk && !$isRejected): ?>
+                        <div class="row show--desktop  js-hide-buttons-enrollment">
+                            <div class="column"></div>
+                            <div class="column">
+                                <div class="row justify-content--end">
+                                    <a class="t-button-danger column t-margin-none--right js-rejected-enrollment">
+                                        Rejeitar Matrícula
+                                    </a>
+                                    <a class="t-button-success column t-margin-none--right  js-confirm-enrollment">
+                                        Confirmar Matrícula
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row show--tablet  js-hide-buttons-enrollment">
+                            <div class="column">
+                                <a class="t-button-danger  t-margin-none--bottom  t-margin-none--right  js-rejected-enrollment">
                                     Rejeitar Matrícula
                                 </a>
-                                <a class="t-button-success column t-margin-none--right  js-confirm-enrollment">
+
+                            </div>
+                            <div class="column">
+                                <a class="t-button-success  t-margin-none--top  t-margin-none--right  js-confirm-enrollment">
                                     Confirmar Matrícula
                                 </a>
                             </div>
                         </div>
-                    </div>
-                    <div class="row show--tablet  js-hide-buttons-enrollment">
-                        <div class="column">
-                            <a class="t-button-danger  t-margin-none--bottom  t-margin-none--right  js-rejected-enrollment">
-                                Rejeitar Matrícula
-                            </a>
-
-                        </div>
-                        <div class="column">
-                            <a class="t-button-success  t-margin-none--top  t-margin-none--right  js-confirm-enrollment">
-                                Confirmar Matrícula
-                            </a>
-                        </div>
-                    </div>
-                    <?php endif;?>
+                    <?php endif; ?>
                 </div>
             </div>
             <div class="row reverse t-margin-large--top reverse show--tablet">
