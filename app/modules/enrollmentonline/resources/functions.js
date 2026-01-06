@@ -8,7 +8,19 @@ $(".js-tel-mask").mask("(00) 00000-0000", {
     placeholder: "(__) _____-____"
 });
 
-$(".js-filiation-select").on("change", () => {
+$(document).ready(function () {
+
+    $("select.js-filiation-select").select2();
+
+    getCitiesByState();
+    hideFiliationFields();
+
+    $("select.js-filiation-select").on("change", hideFiliationFields);
+});
+
+
+
+function hideFiliationFields() {
     if ($(".js-filiation-select").select2("val") === "1") {
         $(".js-hide-filiation").css("display", "flex");
         $('.js-father-name').addClass('js-field-required');
@@ -18,10 +30,14 @@ $(".js-filiation-select").on("change", () => {
         $('.js-father-name').removeClass('js-field-required');
         $('.js-mother-name').removeClass('js-field-required');
     }
-});
+}
 
 $(".js-uf").on("change", () => {
 
+    getCitiesByState();
+})
+
+function getCitiesByState() {
     $.ajax({
         type: "POST",
         url: "?r=enrollmentonline/Enrollmentonlinestudentidentification/getCities",
@@ -33,11 +49,15 @@ $(".js-uf").on("change", () => {
             const data = DOMPurify.sanitize(response);
 
             $("select.js-cities").html(data)
-            $("select.js-cities").select2()
+
+            if (window.location.search.includes("update")) {
+                $('select.js-cities').select2('val', $('#edcenso-city-fk-hidden').val());
+            }
+            $('select.js-cities').select2();
             $("select.js-cities").removeAttr("disabled");
         }
     })
-})
+}
 
 $(".js-stage").on("change", () => {
 
@@ -139,7 +159,7 @@ $(".js-rejected-enrollment").on("click", function () {
                 $("#loading-popup").removeClass("hide").addClass("loading-center");
             },
             success: function (result) {
-                   result = DOMPurify.sanitize(result);
+                result = DOMPurify.sanitize(result);
                 $(".js-alert-enrollment-online").text(result.message);
 
                 if (result.status === "success") {
@@ -195,4 +215,27 @@ $("select.js-filter-enrollment-status").on("change", () => {
             initDatatable();
         }
     });
+});
+
+
+$(".js-pre-enrollment-event").on("change", () => {
+
+    const selectedEvent = $(".js-pre-enrollment-event").select2("val");
+
+    $.ajax({
+        type: "POST",
+        url: "?r=enrollmentonline/EnrollmentOnlinePreEnrollmentEvent/getPreEnrollmentStages",
+        cache: false,
+        data: {
+            id: selectedEvent,
+        },
+        success: function (response) {
+            const data = DOMPurify.sanitize(response);
+            $(".js-stage").html(data);
+            $("select.js-stage").select2();
+            $(".js-stage").removeAttr("disabled");
+        }
+    });
+
+
 });

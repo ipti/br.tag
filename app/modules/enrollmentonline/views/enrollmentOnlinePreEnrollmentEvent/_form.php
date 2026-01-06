@@ -23,6 +23,13 @@
                     <?php echo $title; ?>
                 </h1>
             </div>
+            <div class="column clearfix align-items--center justify-content--end show--desktop">
+                <?php if (!$model->isNewRecord): ?><a class="t-button-secondary"
+                        href="<?= Yii::app()->createUrl('/enrollmentonline/enrollmentonlinestudentidentification/index', ['eventId' => $model->id]) ?>">pré-matriculas</a><?php endif; ?>
+                <button class="t-button-primary " type="submit">
+                    <?= $model->isNewRecord ? Yii::t('default', 'Create') : Yii::t('default', 'Save') ?>
+                </button>
+            </div>
         </div>
         <div class="row">
             <div class="column">
@@ -86,15 +93,21 @@
                         'order' => 'name ASC'
                     ));
 
+                    $selectedStages = CHtml::listData(
+                        $model->enrollmentOnlineEventVsEdcensoStages,
+                        'edcenso_stage_fk',
+                        'edcenso_stage_fk'
+                    );
+
                     echo CHtml::dropDownList(
                         'edcenso_stage_vs_modality_fk[]', // name
-                        $model->enrollmentOnlineEventVsEdcensoStages,                             // selected
+                        $selectedStages,                             // selected
                         CHtml::listData($stages, 'id', 'name'),
                         array(
-                            'id'       => 'edcenso_stage_vs_modality_fk',
-                            'class'    => 't-field-select__input js-stage-select select-search-on t-multiselect multiselect t-margin-none--bottom t-margin-none--top',
+                            'id' => 'edcenso_stage_vs_modality_fk',
+                            'class' => 't-field-select__input js-stage-select select-search-on t-multiselect multiselect t-margin-none--bottom t-margin-none--top',
                             'multiple' => 'multiple',
-                            'style'    => 'width: 100%;'
+                            'style' => 'width: 100%;'
                         )
                     );
                     ?>
@@ -103,21 +116,26 @@
             </div>
 
             <div class="column">
-                <div class="t-field-text">
-                    <?php echo $form->labelEx($model, 'status', ['class' => 't-field-text__label']); ?>
-                    <?php echo $form->textField($model, 'status', ['class' => 't-field-text__input']); ?>
-                    <?php echo $form->error($model, 'status'); ?>
-                </div>
             </div>
         </div>
         <div class="row">
 
 
 
-            <div class="row buttons">
-                <button class="t-button-primary " type="submit">
-                    <?= $model->isNewRecord ? Yii::t('default', 'Create') : Yii::t('default', 'Save') ?>
-                </button>
+            <div class="row reverse t-margin-large--top reverse show--tablet">
+                <div class="t-buttons-container">
+                    <div class="column"></div>
+                    <div class="column"></div>
+                    <div class="column">
+                        <?php if (!$model->isNewRecord): ?><a class="t-button-secondary"
+                                href="<?= Yii::app()->createUrl('/enrollmentonline/enrollmentonlinestudentidentification/index', ['eventId' => $model->id]) ?>">pré-matriculas</a><?php endif; ?>
+                    </div>
+                    <div class="column">
+                        <button class="t-button-primary column" type="submit" style="width:100%;">
+                            <?= $model->isNewRecord ? Yii::t('default', 'Create') : Yii::t('default', 'Save') ?>
+                        </button>
+                    </div>
+                </div>
             </div>
 
 

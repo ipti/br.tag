@@ -30,8 +30,8 @@ class EnrollmentonlinestudentidentificationRepository
 
             if (
                 !$this->saveSolicitations($_POST['school_1']) ||
-                !$this->saveSolicitations($_POST['school_2']) ||
-                !$this->saveSolicitations($_POST['school_3'])
+                ($_POST['school_2'] && !$this->saveSolicitations($_POST['school_2']))  ||
+                ($_POST['school_3'] && !$this->saveSolicitations($_POST['school_3']))
             ) {
                 throw new CException('Falha ao salvar solicitações de matrícula.');
             }

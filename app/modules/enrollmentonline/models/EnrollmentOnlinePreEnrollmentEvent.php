@@ -9,7 +9,6 @@
  * @property string $start_date
  * @property string $end_date
  * @property integer $year
- * @property integer $status
  * @property string $created_at
  * @property string $updated_at
  *
@@ -34,12 +33,12 @@ class EnrollmentOnlinePreEnrollmentEvent extends CActiveRecord
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
-            array('name, start_date, end_date, year, status', 'required'),
-            array('year, status', 'numerical', 'integerOnly' => true),
+            array('name, start_date, end_date, year', 'required'),
+            array('year', 'numerical', 'integerOnly' => true),
             array('name', 'length', 'max' => 255),
             // The following rule is used by search().
             // @todo Please remove those attributes that should not be searched.
-            array('id, name, start_date, end_date, year, status, created_at, updated_at', 'safe', 'on' => 'search'),
+            array('id, name, start_date, end_date, year, created_at, updated_at', 'safe', 'on' => 'search'),
         );
     }
 
@@ -66,7 +65,6 @@ class EnrollmentOnlinePreEnrollmentEvent extends CActiveRecord
             'start_date' => 'Data de início',
             'end_date' => 'Data de término',
             'year' => 'Ano',
-            'status' => 'Status',
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
         );
@@ -95,7 +93,6 @@ class EnrollmentOnlinePreEnrollmentEvent extends CActiveRecord
         $criteria->compare('start_date', $this->start_date, true);
         $criteria->compare('end_date', $this->end_date, true);
         $criteria->compare('year', $this->year);
-        $criteria->compare('status', $this->status);
         $criteria->compare('created_at', $this->created_at, true);
         $criteria->compare('updated_at', $this->updated_at, true);
 

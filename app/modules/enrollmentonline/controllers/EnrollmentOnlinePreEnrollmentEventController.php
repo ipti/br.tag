@@ -1,5 +1,11 @@
 <?php
 
+
+use Sentry\Tracing\TransactionContext;
+use Sentry\SentrySdk;
+use Sentry\State\Hub;
+use Sentry\Event;
+
 class EnrollmentOnlinePreEnrollmentEventController extends Controller
 {
     /**
@@ -29,7 +35,7 @@ class EnrollmentOnlinePreEnrollmentEventController extends Controller
         return array(
             array(
                 'allow',  // allow all users to perform 'index' and 'view' actions
-                'actions' => array('index', 'view'),
+                'actions' => array('index', 'view', 'getPreEnrollmentStages'),
                 'users' => array('*'),
             ),
             array(
@@ -47,6 +53,57 @@ class EnrollmentOnlinePreEnrollmentEventController extends Controller
                 'users' => array('*'),
             ),
         );
+    }
+
+    public function init()
+    {
+        if (!Yii::app()->user->isGuest) {
+
+            $authTimeout = Yii::app()->user->getState("authTimeout", SESSION_MAX_LIFETIME);
+            Yii::app()->user->authTimeout = $authTimeout;
+
+            Yii::app()->sentry->setUserContext([
+                'id' => Yii::app()->user->loginInfos->id,
+                'username' => Yii::app()->user->loginInfos->username,
+                'role' => Yii::app()->authManager->getRoles(Yii::app()->user->loginInfos->id)
+            ]);
+        }
+    }
+
+    public function beforeAction($action)
+    {
+        $publicActions = ['getpreenrollmentstages'];
+
+        if (Yii::app()->user->isGuest && Yii::app()->request->isAjaxRequest && !in_array($action->id, $publicActions)) {
+            // Se a sessão expirou e é uma requisição AJAX
+            header('HTTP/1.1 401 Unauthorized');
+            echo json_encode(['redirect' => Yii::app()->createUrl('site/login')]);
+            Yii::app()->end();
+        }
+
+        $transaction = SentrySdk::getCurrentHub()->startTransaction(new TransactionContext(
+            Yii::app()->controller->id . '/' . $action->id,
+        ));
+
+        SentrySdk::getCurrentHub()->setSpan($transaction);
+
+        if (parent::beforeAction(action: $action)) {
+            // Verifica o timeout com base na última atividade
+            if (isset(Yii::app()->user->authTimeout)) {
+                $lastActivity = Yii::app()->user->getState('last_activity');
+                $timeout = Yii::app()->user->authTimeout;
+
+                if ($lastActivity !== null && (time() - $lastActivity > $timeout)) {
+                    Yii::app()->user->logout();
+                    return false;
+                }
+            }
+
+            // Atualiza a última atividade
+            Yii::app()->user->setState('last_activity', time());
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -252,6 +309,21 @@ class EnrollmentOnlinePreEnrollmentEventController extends Controller
         $this->render('admin', array(
             'model' => $model,
         ));
+    }
+
+    public function actionGetPreEnrollmentStages()
+    {
+        $eventId = Yii::app()->request->getParam('id');
+        $EventVsStages = EnrollmentOnlineEventVsEdcensoStage::model()->findAllByAttributes([
+            'pre_enrollment_event_fk' => $eventId
+        ]);
+
+          echo CHtml::tag('option', ['value' => ''], 'Selecione uma etapa', true);
+        foreach ($EventVsStages as $eventStage) {
+            $stage = $eventStage->edcensoStageFk;
+            echo CHtml::tag('option', ['value' => $stage->id], CHtml::encode($stage->name), true);
+        }
+        Yii::app()->end();
     }
 
     /**

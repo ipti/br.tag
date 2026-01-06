@@ -17,7 +17,6 @@ CREATE TABLE
         start_date DATETIME NOT NULL,
         end_date DATETIME NOT NULL,
         year INT (11) NOT NULL,
-        status SMALLINT (6) NOT NULL,
         created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
         updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
     );
@@ -32,3 +31,14 @@ CREATE TABLE
         CONSTRAINT fk_pre_enrollment_event FOREIGN KEY (pre_enrollment_event_fk) REFERENCES enrollment_online_pre_enrollment_event (id),
         CONSTRAINT fk_edcenso_stage FOREIGN KEY (edcenso_stage_fk) REFERENCES edcenso_stage_vs_modality (id)
     );
+
+
+ALTER TABLE enrollment_online_student_identification
+ADD COLUMN pre_enrollment_event_fk INT(11);
+
+ALTER TABLE enrollment_online_student_identification
+ADD CONSTRAINT fk_student_identification_pre_enrollment_event
+FOREIGN KEY (pre_enrollment_event_fk)
+REFERENCES enrollment_online_pre_enrollment_event(id)
+ON UPDATE CASCADE
+ON DELETE RESTRICT;
