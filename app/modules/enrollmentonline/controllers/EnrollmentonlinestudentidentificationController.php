@@ -122,17 +122,18 @@ class EnrollmentOnlineStudentIdentificationController extends Controller
         if (isset($_POST['EnrollmentOnlineStudentIdentification'])) {
             $model->attributes = $_POST['EnrollmentOnlineStudentIdentification'];
             $model->cpf = preg_replace('/\D/', '', $model->cpf);
+            $model->cep = preg_replace('/\D/', '', $model->cep);
             $model->responsable_cpf = preg_replace('/\D/', '', $model->responsable_cpf);
             $model->responsable_telephone = preg_replace('/\D/', '', $model->responsable_telephone);
             $model->edcenso_nation_fk = $_POST['EnrollmentOnlineStudentIdentification']['edcenso_nation_fk'];
             $repository = new EnrollmentonlinestudentidentificationRepository($model);
             $user = $repository->savePreEnrollment();
             Yii::app()->user->setFlash('success', Yii::t('default', 'Pre-matricula realizada om sucesso! Agora voê pode acompnhar o andamento no com seu login ' . $user->username . ''));
-            $this->render('login');
+            $this->redirect(yii::app()->createUrl('site/login'));
         }
 
         $this->render('create', [
-        'model' => $model,
+            'model' => $model,
         ]);
     }
 
@@ -177,6 +178,7 @@ class EnrollmentOnlineStudentIdentificationController extends Controller
         if (isset($_POST['EnrollmentOnlineStudentIdentification'])) {
             $model->attributes = $_POST['EnrollmentOnlineStudentIdentification'];
             $model->cpf = preg_replace('/\D/', '', $model->cpf);
+            $model->cep = preg_replace('/\D/', '', $model->cep);
             $model->responsable_cpf = preg_replace('/\D/', '', $model->responsable_cpf);
             $model->responsable_telephone = preg_replace('/\D/', '', $model->responsable_telephone);
             if ($model->save()) {
@@ -235,7 +237,7 @@ class EnrollmentOnlineStudentIdentificationController extends Controller
     /**
      * Lists all models.
      */
-    public function actionIndex()
+    public function actionIndex($eventId)
     {
         $schoolInepId = Yii::app()->user->school;
 
@@ -249,11 +251,11 @@ class EnrollmentOnlineStudentIdentificationController extends Controller
                         'joinType' => 'INNER JOIN',
                     ],
                 ],
-                'condition' => " eoes.school_inep_id_fk = :schoolInepId and NOT EXISTS ( SELECT 1 FROM enrollment_online_enrollment_solicitation eoes
+                'condition' => " eoes.school_inep_id_fk = :schoolInepId and eosi.pre_enrollment_event_fk = :eventId and NOT EXISTS ( SELECT 1 FROM enrollment_online_enrollment_solicitation eoes
                                     WHERE eoes.enrollment_online_student_identification_fk = eosi.id
                                     AND eoes.status = 2 ) and NOT EXISTS ( SELECT 1 FROM enrollment_online_enrollment_solicitation eoes
                                     WHERE eoes.enrollment_online_student_identification_fk = eosi.id and eoes.status = 3  and eoes.school_inep_id_fk = :schoolInepId) ",
-                'params' => [':schoolInepId' => $schoolInepId],
+                'params' => [':schoolInepId' => $schoolInepId, ':eventId' => $eventId],
             ],
         ]);
 

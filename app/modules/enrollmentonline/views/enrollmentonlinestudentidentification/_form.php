@@ -11,7 +11,7 @@ $cs->registerScriptFile($baseScriptUrl . '/validations.js?v=' . TAG_VERSION, CCl
 
 $adminOrManager = !Yii::app()->user->isGuest &&
     (Yii::app()->authManager->checkAccess('admin', Yii::app()->user->loginInfos->id) ||
-     Yii::app()->authManager->checkAccess('manager', Yii::app()->user->loginInfos->id));
+        Yii::app()->authManager->checkAccess('manager', Yii::app()->user->loginInfos->id));
 
 
 ?>
@@ -26,9 +26,11 @@ $adminOrManager = !Yii::app()->user->isGuest &&
         // See class documentation of CActiveForm for details on this.
         'enableAjaxValidation' => false,
     ]); ?>
-    <div id="<?= $model->isNewRecord ? 'content' : '' ?>" class="<?= $model->isNewRecord ? 'enrolment-online-content' : '' ?>">
+    <div id="<?= $model->isNewRecord ? 'content' : '' ?>"
+        class="<?= $model->isNewRecord ? 'enrolment-online-content' : '' ?>">
         <div id="loading-popup" class="hide">
-            <img class="js-grades-loading" height="60px" width="60px" src="/themes/default/img/loadingTag.gif" alt="TAG Loading">
+            <img class="js-grades-loading" height="60px" width="60px" src="/themes/default/img/loadingTag.gif"
+                alt="TAG Loading">
         </div>
         <div class="main <?= $model->isNewRecord ? 'form-content' : '' ?>">
             <div class="row">
@@ -99,12 +101,12 @@ $adminOrManager = !Yii::app()->user->isGuest &&
                     <?php echo $form->hiddenField($model, 'id', ['id' => 'online-enrollment-id', 'class' => 'js-online-enrollment-id']); ?>
                     <div class="row">
                         <div class="t-field-text column">
-                            <?php echo $form->labelEx($model, 'name', ['class' => 't-field-text__label']); ?>
+                            <?php echo $form->labelEx($model, 'name', ['class' => 't-field-text__label--required']); ?>
                             <?php echo $form->textField($model, 'name', ['size' => 60, 'maxlength' => 100, 'class' => 't-field-text__input js-field-required', 'placeholder' => 'Digite o Nome de Apresentação']); ?>
                             <?php echo $form->error($model, 'name'); ?>
                         </div>
                         <div class="t-field-text column">
-                            <?php echo $form->labelEx($model, 'birthday', ['class' => 't-field-text__label']); ?>
+                            <?php echo $form->labelEx($model, 'birthday', ['class' => 't-field-text__label--required']); ?>
                             <?php
                             $options = DatePickerWidget::renderDatePicker($model, 'birthday');
                             $options['htmlOptions']['class'] = 'js-field-required';
@@ -122,7 +124,7 @@ $adminOrManager = !Yii::app()->user->isGuest &&
                                     $model,
                                     'nationality',
                                     array(null => "Selecione a nacionalidade", "1" => "Brasileira", "2" => "Brasileira: Nascido no exterior ou Naturalizado", "3" => "Estrangeira"),
-                                    array('class' => 'select-search-off t-field-select__input select2-container js-nationality-select')
+                                    array('class' => 'select-search-off t-field-select__input select2-container js-field-required js-nationality-select')
 
                                 );
                                 ?>
@@ -133,14 +135,14 @@ $adminOrManager = !Yii::app()->user->isGuest &&
                             <div class="t-field-select">
                                 <?php echo $form->label($model, 'edcenso_nation_fk', array('class' => 't-field-select__label--required')); ?>
                                 <?php
-                                echo CHtml::hiddenField('EnrollmentOnlineStudentIdentification[edcenso_nation_fk]', '', [
+                                echo CHtml::hiddenField('EnrollmentOnlineStudentIdentification[edcenso_nation_fk]', $model->edcenso_nation_fk, [
                                     'class' => 'js-edcenso_nation_fk_hidden'
                                 ]);
                                 echo $form->dropDownList(
                                     $model,
                                     'edcenso_nation_fk',
                                     CHtml::listData(EdcensoNation::model()->findAll(array('order' => 'name')), 'id', 'name'),
-                                    array("prompt" => "Selecione uma nação", 'class' => 'select-search-on nationality-sensitive no-br t-field-select__input select2-container js-edcenso_nation_fk', 'disabled' => 'disabled')
+                                    array("prompt" => "Selecione uma nação", 'class' => 'select-search-on js-field-required nationality-sensitive no-br t-field-select__input select2-container js-edcenso_nation_fk', 'disabled' => 'disabled')
                                 );
                                 ?>
                                 <?php echo $form->error($model, 'edcenso_nation_fk'); ?>
@@ -151,12 +153,12 @@ $adminOrManager = !Yii::app()->user->isGuest &&
                     <div class="row">
                         <div class="t-field-text column">
                             <?php echo $form->labelEx($model, 'cpf', ['class' => 't-field-text__label']); ?>
-                            <?php echo $form->textField($model, 'cpf', ['size' => 14, 'maxlength' => 14, 'class' => 't-field-text__input js-cpf-mask js-field-required']); ?>
+                            <?php echo $form->textField($model, 'cpf', ['size' => 14, 'maxlength' => 14, 'class' => 't-field-text__input js-cpf-mask']); ?>
                             <?php echo $form->error($model, 'cpf'); ?>
                         </div>
 
                         <div class="t-field-text column">
-                            <?php echo $form->labelEx($model, 'sex', ['class' => 't-field-text__label']); ?>
+                            <?php echo $form->labelEx($model, 'sex', ['class' => 't-field-text__label--required']); ?>
                             <?php echo $form->DropDownList(
                                 $model,
                                 'sex',
@@ -169,7 +171,7 @@ $adminOrManager = !Yii::app()->user->isGuest &&
 
                     <div class="row">
                         <div class="t-field-text column">
-                            <?php echo $form->labelEx($model, 'color_race', ['class' => 't-field-text__label']); ?>
+                            <?php echo $form->labelEx($model, 'color_race', ['class' => 't-field-text__label--required']); ?>
                             <?php
                             echo $form->DropDownList($model, 'color_race', [
                                 null => 'Selecione a cor/raça',
@@ -195,7 +197,7 @@ $adminOrManager = !Yii::app()->user->isGuest &&
                     <div class="row">
                         <div class="t-field-checkbox column">
                             <?php echo $form->checkBox($model, 'deficiency', ['class' => 't-field-checkbox__input']); ?>
-                            <?php echo $form->labelEx($model, 'deficiency', ['class' => 't-field-text__label']); ?>
+                            <?php echo $form->labelEx($model, 'deficiency', ['class' => 't-field-text__label--required']); ?>
                             <?php echo $form->error($model, 'deficiency'); ?>
                         </div>
                         <div class="column"></div>
@@ -287,13 +289,13 @@ $adminOrManager = !Yii::app()->user->isGuest &&
                     </div>
                     <div class="row">
                         <div class="t-field-text column">
-                            <?php echo $form->labelEx($model, 'responsable_name', ['class' => 't-field-text__label']); ?>
+                            <?php echo $form->labelEx($model, 'responsable_name', ['class' => 't-field-text__label--required']); ?>
                             <?php echo $form->textField($model, 'responsable_name', ['size' => 60, 'maxlength' => 90, 'class' => 't-field-text__input js-field-required', 'placeholder' => 'Digite o Nome do Responsável']); ?>
                             <?php echo $form->error($model, 'responsable_name'); ?>
                         </div>
 
                         <div class="t-field-text column">
-                            <?php echo $form->labelEx($model, 'responsable_cpf', ['class' => 't-field-text__label']); ?>
+                            <?php echo $form->labelEx($model, 'responsable_cpf', ['class' => 't-field-text__label--required']); ?>
                             <?php echo $form->textField($model, 'responsable_cpf', ['size' => 14, 'maxlength' => 14, 'class' => 't-field-text__input  js-cpf-mask js-field-required']); ?>
                             <?php echo $form->error($model, 'responsable_cpf'); ?>
                         </div>
@@ -305,7 +307,7 @@ $adminOrManager = !Yii::app()->user->isGuest &&
 
                     <div class="row">
                         <div class="t-field-text column">
-                            <?php echo $form->labelEx($model, 'responsable_telephone', ['class' => 't-field-text__label']); ?>
+                            <?php echo $form->labelEx($model, 'responsable_telephone', ['class' => 't-field-text__label--required']); ?>
                             <?php echo $form->textField($model, 'responsable_telephone', ['size' => 14, 'maxlength' => 15, 'class' => 't-field-text__input js-tel-mask js-field-required']); ?>
                             <?php echo $form->error($model, 'responsable_telephone'); ?>
                         </div>
@@ -329,13 +331,13 @@ $adminOrManager = !Yii::app()->user->isGuest &&
                     <div class="row js-hide-filiation" style="display:none;">
                         <div class="t-field-text column">
                             <?php echo $form->labelEx($model, 'filiation_1', ['class' => 't-field-text__label']); ?>
-                            <?php echo $form->textField($model, 'filiation_1', ['size' => 60, 'maxlength' => 100, 'class' => 't-field-text__input js-mother-name', 'placeholder' => 'Digite o Nome da Mãe']); ?>
+                            <?php echo $form->textField($model, 'filiation_1', ['size' => 60, 'maxlength' => 100, 'class' => 't-field-text__input js-mother-name js-ignore-validation', 'placeholder' => 'Digite o Nome da Mãe']); ?>
                             <?php echo $form->error($model, 'filiation_1'); ?>
                         </div>
 
                         <div class="t-field-text column">
                             <?php echo $form->labelEx($model, 'filiation_2', ['class' => 't-field-text__label']); ?>
-                            <?php echo $form->textField($model, 'filiation_2', ['size' => 60, 'maxlength' => 100, 'class' => 't-field-text__input js-father-name', 'placeholder' => 'Digite o Nome do Pai']); ?>
+                            <?php echo $form->textField($model, 'filiation_2', ['size' => 60, 'maxlength' => 100, 'class' => 't-field-text__input js-father-name js-ignore-validation', 'placeholder' => 'Digite o Nome do Pai']); ?>
                             <?php echo $form->error($model, 'filiation_2'); ?>
                         </div>
                     </div>
@@ -348,18 +350,18 @@ $adminOrManager = !Yii::app()->user->isGuest &&
                     </div>
                     <div class="row">
                         <div class="t-field-text column">
-                            <?php echo $form->labelEx($model, 'cep', ['class' => 't-field-text__label']); ?>
-                            <?php echo $form->textField($model, 'cep', ['size' => 9, 'maxlength' => 9, 'class' => 't-field-text__input js-cep-mask']); ?>
+                            <?php echo $form->labelEx($model, 'cep', ['class' => 't-field-text__label--required']); ?>
+                            <?php echo $form->textField($model, 'cep', ['size' => 9, 'maxlength' => 9, 'class' => 't-field-text__input js-cep-mask js-field-required']); ?>
                             <?php echo $form->error($model, 'cep'); ?>
                         </div>
                         <div class="t-field-text column">
-                            <?php echo $form->labelEx($model, 'residence_zone', ['class' => 't-field-text__label']); ?>
+                            <?php echo $form->labelEx($model, 'residence_zone', ['class' => 't-field-text__label--required']); ?>
                             <?php
                             echo $form->DropDownList(
                                 $model,
                                 'residence_zone',
                                 [null => 'Selecione uma zona', '1' => 'URBANA', '2' => 'RURAL'],
-                                ['class' => 'select-search-off t-field-select__input select2-container']
+                                ['class' => 'select-search-off t-field-select__input select2-container js-field-required']
                             ); ?>
 
                             <?php echo $form->error($model, 'residence_zone'); ?>
@@ -368,14 +370,14 @@ $adminOrManager = !Yii::app()->user->isGuest &&
 
                     <div class="row">
                         <div class="t-field-text column">
-                            <?php echo $form->labelEx($model, 'address', ['class' => 't-field-text__label']); ?>
-                            <?php echo $form->textField($model, 'address', ['size' => 60, 'maxlength' => 100, 'class' => 't-field-text__input', 'placeholder' => 'Digite o Endereço']); ?>
+                            <?php echo $form->labelEx($model, 'address', ['class' => 't-field-text__label--required']); ?>
+                            <?php echo $form->textField($model, 'address', ['size' => 60, 'maxlength' => 100, 'class' => 't-field-text__input js-field-required', 'placeholder' => 'Digite o Endereço']); ?>
                             <?php echo $form->error($model, 'address'); ?>
                         </div>
 
                         <div class="t-field-text column">
-                            <?php echo $form->labelEx($model, 'number', ['class' => 't-field-text__label']); ?>
-                            <?php echo $form->textField($model, 'number', ['size' => 10, 'maxlength' => 10, 'class' => 't-field-text__input', 'placeholder' => 'Digite o Número']); ?>
+                            <?php echo $form->labelEx($model, 'number', ['class' => 't-field-text__label--required']); ?>
+                            <?php echo $form->textField($model, 'number', ['size' => 10, 'maxlength' => 10, 'class' => 't-field-text__input js-field-required', 'placeholder' => 'Digite o Número']); ?>
                             <?php echo $form->error($model, 'number'); ?>
                         </div>
                     </div>
@@ -388,15 +390,15 @@ $adminOrManager = !Yii::app()->user->isGuest &&
                         </div>
 
                         <div class="t-field-text column">
-                            <?php echo $form->labelEx($model, 'neighborhood', ['class' => 't-field-text__label']); ?>
-                            <?php echo $form->textField($model, 'neighborhood', ['size' => 60, 'maxlength' => 100, 'class' => 't-field-text__input', 'placeholder' => 'Digite o Bairro / Povoado']); ?>
+                            <?php echo $form->labelEx($model, 'neighborhood', ['class' => 't-field-text__label--required']); ?>
+                            <?php echo $form->textField($model, 'neighborhood', ['size' => 60, 'maxlength' => 100, 'class' => 't-field-text__input js-field-required', 'placeholder' => 'Digite o Bairro / Povoado']); ?>
                             <?php echo $form->error($model, 'neighborhood'); ?>
                         </div>
                     </div>
 
                     <div class="row">
                         <div class="t-field-text column">
-                            <?php echo $form->labelEx($model, 'edcenso_uf_fk', ['class' => 't-field-text__label']); ?>
+                            <?php echo $form->labelEx($model, 'edcenso_uf_fk', ['class' => 't-field-text__label--required']); ?>
                             <?php
                             echo $form->dropDownList(
                                 $model,
@@ -404,20 +406,21 @@ $adminOrManager = !Yii::app()->user->isGuest &&
                                 CHtml::listData(EdcensoUf::model()->findAll(['order' => 'name']), 'id', 'name'),
                                 [
                                     'prompt' => 'Selecione um estado',
-                                    'class' => 'select-search-on t-field-select__input select2-container js-uf'
+                                    'class' => 'select-search-on t-field-select__input select2-container js-uf js-field-required'
                                 ]
                             );
                             ?>
                             <?php echo $form->error($model, 'edcenso_uf_fk'); ?>
                         </div>
+                        <?php echo $form->hiddenField($model, 'edcenso_city_fk', ['id' => 'edcenso-city-fk-hidden']); ?>
                         <div class="t-field-text column">
-                            <?php echo $form->labelEx($model, 'edcenso_city_fk', ['class' => 't-field-text__label']); ?>
+                            <?php echo $form->labelEx($model, 'edcenso_city_fk', ['class' => 't-field-text__label--required']); ?>
                             <?php
                             echo $form->dropDownList(
                                 $model,
                                 'edcenso_city_fk',
                                 [],
-                                ['prompt' => 'Selecione uma cidade', 'class' => 'select-search-on t-field-select__input select2-container js-cities', 'disabled' => 'disabled']
+                                ['prompt' => 'Selecione uma cidade', 'class' => 'select-search-on t-field-select__input select2-container js-field-required js-cities', 'disabled' => 'disabled']
                             );
                             ?>
                             <?php echo $form->error($model, 'edcenso_city_fk'); ?>
@@ -431,8 +434,31 @@ $adminOrManager = !Yii::app()->user->isGuest &&
                         </h3>
                     </div>
                     <div class="row">
+                        <div class="column t-field-text">
+                            <?php echo $form->labelEx($model, 'pre_enrollment_event_fk', ['class' => 't-field-text__label--required']); ?>
+                            <?php
+                            echo $form->dropDownList(
+                                $model,
+                                'pre_enrollment_event_fk',
+                                CHtml::listData(
+                                    EnrollmentOnlinePreEnrollmentEvent::model()->findAll([
+                                        // CURDATE() pega a data atual do banco de dados (YYYY-MM-DD)
+                                        'condition' => 'CURDATE() BETWEEN start_date AND end_date',
+                                        'order' => 'name'
+                                    ]),
+                                    'id',
+                                    'name'
+                                ),
+                                [
+                                    'prompt' => 'Selecione um evento de pré-matrícula',
+                                    'class' => 'select-search-on t-field-select__input select2-container js-pre-enrollment-event js-field-required'
+                                ]
+                            );
+                            ?>
+                            <?php echo $form->error($model, 'pre_enrollment_event_fk'); ?>
+                        </div>
                         <div class="t-field-text column">
-                            <?php echo $form->labelEx($model, 'edcenso_stage_vs_modality_fk', ['class' => 't-field-text__label']); ?>
+                            <?php echo $form->labelEx($model, 'edcenso_stage_vs_modality_fk', ['class' => 't-field-text__label--required']); ?>
                             <?php
                             echo $form->dropDownList(
                                 $model,
@@ -440,14 +466,17 @@ $adminOrManager = !Yii::app()->user->isGuest &&
                                 CHtml::listData(EdcensoStageVsModality::model()->findAll(['order' => 'name']), 'id', 'name'),
                                 [
                                     'prompt' => 'Selecione uma etapa',
-                                    'class' => 'select-search-on t-field-select__input select2-container js-stage js-field-required'
+                                    'class' => 'select-search-on t-field-select__input select2-container js-stage js-field-required',
+                                    'disabled' => 'disabled'
                                 ]
                             );
                             ?>
                             <?php echo $form->error($model, 'edcenso_stage_vs_modality_fk'); ?>
                         </div>
+                    </div>
+                    <div class="row">
                         <div class="t-field-text column is-half">
-                            <label for="" class="t-field-text__label">Priemira opção matrícula</label>
+                            <label for="" class="t-field-text__label--required">Priemira opção matrícula</label>
                             <?php
                             echo CHtml::dropDownList(
                                 'school_1',
@@ -461,8 +490,6 @@ $adminOrManager = !Yii::app()->user->isGuest &&
                             );
                             ?>
                         </div>
-                    </div>
-                    <div class="row">
                         <div class="t-field-text column is-half">
                             <label for="" class="t-field-text__label">Segunda opção matrícula</label>
                             <?php
@@ -472,12 +499,14 @@ $adminOrManager = !Yii::app()->user->isGuest &&
                                 $schools,
                                 [
                                     'prompt' => 'Selecione uma opção de matrícula',
-                                    'class' => 'select-search-on t-field-select__input select2-container js-school-2 js-field-required',
+                                    'class' => 'select-search-on t-field-select__input select2-container js-school-2  js-ignore-validation',
                                     'disabled' => 'disabled'
                                 ]
                             );
                             ?>
                         </div>
+                    </div>
+                    <div class="row">
                         <div class="t-field-text column">
                             <label for="" class="t-field-text__label">Terceira opção matrícula</label>
                             <?php
@@ -487,41 +516,44 @@ $adminOrManager = !Yii::app()->user->isGuest &&
                                 $schools,
                                 [
                                     'prompt' => 'Selecione uma opção de matrícula',
-                                    'class' => 'select-search-on t-field-select__input select2-container js-school-3 js-field-required',
+                                    'class' => 'select-search-on t-field-select__input select2-container js-school-3  js-ignore-validation',
                                     'disabled' => 'disabled'
                                 ]
                             );
                             ?>
                         </div>
-                    </div>
-                    <?php if($adminOrManager && !$model->student_fk && !$isRejected):?>
-                    <div class="row show--desktop  js-hide-buttons-enrollment">
                         <div class="column"></div>
-                        <div class="column">
-                            <div class="row justify-content--end">
-                                <a class="t-button-danger column t-margin-none--right js-rejected-enrollment">
+                    </div>
+                    <?php if ($adminOrManager && !$model->student_fk && !$isRejected): ?>
+                        <div class="row show--desktop  js-hide-buttons-enrollment">
+                            <div class="column"></div>
+                            <div class="column">
+                                <div class="row justify-content--end">
+                                    <a class="t-button-danger column t-margin-none--right js-rejected-enrollment">
+                                        Rejeitar Matrícula
+                                    </a>
+                                    <a class="t-button-success column t-margin-none--right  js-confirm-enrollment">
+                                        Confirmar Matrícula
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row show--tablet  js-hide-buttons-enrollment">
+                            <div class="column">
+                                <a
+                                    class="t-button-danger  t-margin-none--bottom  t-margin-none--right  js-rejected-enrollment">
                                     Rejeitar Matrícula
                                 </a>
-                                <a class="t-button-success column t-margin-none--right  js-confirm-enrollment">
+
+                            </div>
+                            <div class="column">
+                                <a
+                                    class="t-button-success  t-margin-none--top  t-margin-none--right  js-confirm-enrollment">
                                     Confirmar Matrícula
                                 </a>
                             </div>
                         </div>
-                    </div>
-                    <div class="row show--tablet  js-hide-buttons-enrollment">
-                        <div class="column">
-                            <a class="t-button-danger  t-margin-none--bottom  t-margin-none--right  js-rejected-enrollment">
-                                Rejeitar Matrícula
-                            </a>
-
-                        </div>
-                        <div class="column">
-                            <a class="t-button-success  t-margin-none--top  t-margin-none--right  js-confirm-enrollment">
-                                Confirmar Matrícula
-                            </a>
-                        </div>
-                    </div>
-                    <?php endif;?>
+                    <?php endif; ?>
                 </div>
             </div>
             <div class="row reverse t-margin-large--top reverse show--tablet">
@@ -550,5 +582,9 @@ $adminOrManager = !Yii::app()->user->isGuest &&
 <style>
     #content.enrolment-online-content {
         margin-top: 80px;
+    }
+
+    span.required {
+        display: none;
     }
 </style>
