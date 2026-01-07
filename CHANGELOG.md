@@ -1,3 +1,6 @@
+## [Versão 3.7.0]
+- Matrícula Online
+
 ## [Versão 3.6.5]
 - Adicionando modo de manutenção
 
