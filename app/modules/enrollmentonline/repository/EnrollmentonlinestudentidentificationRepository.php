@@ -164,6 +164,8 @@ class EnrollmentonlinestudentidentificationRepository
             ON c.school_inep_fk = si.inep_id
         INNER JOIN enrollment_online_student_identification eosi
             ON c.edcenso_stage_vs_modality_fk = eosi.edcenso_stage_vs_modality_fk
+        INNER JOIN enrollment_online_pre_enrollment_event eope
+            ON eosi.pre_enrollment_event_fk = eope.id
         LEFT JOIN student_enrollment se
             ON se.classroom_fk = c.id
     ';
@@ -171,6 +173,7 @@ class EnrollmentonlinestudentidentificationRepository
         $criteria->condition = '
         si.inep_id = :school
         AND c.edcenso_stage_vs_modality_fk = :stage
+        AND eope.year = c.school_year
     ';
 
         $criteria->params = [
@@ -259,12 +262,12 @@ class EnrollmentonlinestudentidentificationRepository
 
             $transaction->commit();
 
-             return $this->jsonSuccess(
-            "O Cadastro de {$studentIdentification->name} foi criado com sucesso!",
-            [
-                "classroomName" => $classroom->name,
-                "classroomId" => $classroom->id
-            ]
+            return $this->jsonSuccess(
+                "O Cadastro de {$studentIdentification->name} foi criado com sucesso!",
+                [
+                    "classroomName" => $classroom->name,
+                    "classroomId" => $classroom->id
+                ]
             );
         } catch (Exception $e) {
             $transaction->rollback();
@@ -335,7 +338,7 @@ class EnrollmentonlinestudentidentificationRepository
     private function jsonSuccess($msg, $data = null)
     {
         header('Content-Type: application/json');
-        echo json_encode(["status" => "success", "message" => $msg, "data" => $data ]);
+        echo json_encode(["status" => "success", "message" => $msg, "data" => $data]);
         Yii::app()->end();
     }
 

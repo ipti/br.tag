@@ -129,11 +129,11 @@ class EnrollmentOnlineStudentIdentificationController extends Controller
             $repository = new EnrollmentonlinestudentidentificationRepository($model);
             $user = $repository->savePreEnrollment();
             Yii::app()->user->setFlash('success', Yii::t('default', 'Pre-matricula realizada om sucesso! Agora voê pode acompnhar o andamento no com seu login ' . $user->username . ''));
-            $this->render('login');
+            $this->redirect(yii::app()->createUrl('site/login'));
         }
 
         $this->render('create', [
-        'model' => $model,
+            'model' => $model,
         ]);
     }
 

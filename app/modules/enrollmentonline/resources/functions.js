@@ -113,23 +113,26 @@ $(".js-confirm-enrollment").on("click", function () {
                 enrollmentId: $('input.js-online-enrollment-id').val(),
             },
             success: function (result) {
-                result = DOMPurify.sanitize(result);
+
+                let mensagem = "";
+                let link = "";
 
                 if (result.status === "error") {
-
                     mensagem = result.message;
                     $(".js-alert-enrollment-online").removeClass("alert-success");
                     $(".js-alert-enrollment-online").addClass("alert-error");
 
                 } else if (result.status === "success") {
+                    let mensagemLimpa = DOMPurify.sanitize(result.message);
+                    let nomeTurma = DOMPurify.sanitize(result.data.classroomName);
 
                     link = "?r=classroom/update&id=" + result.data.classroomId;
-                    mensagem = result.message +
+                    mensagem = mensagemLimpa +
                         " Acesse a turma: " +
                         "<a href='" + link + "' target='_blank' style='text-decoration: underline;'>" +
-                        result.data.classroomName +
+                        nomeTurma +
                         "</a>";
-                    $(".js-alert-enrollment-online").removeClass("alert-err");
+                    $(".js-alert-enrollment-online").removeClass("alert-error");
                     $(".js-alert-enrollment-online").addClass("alert-success");
 
                 }
