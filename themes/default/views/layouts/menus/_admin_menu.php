@@ -49,7 +49,7 @@ $menuItems = [
             if (Yii::app()->getAuthManager()->checkAccess('guardian', Yii::app()->user->loginInfos->id)) {
                 return ['enrollmentonline/Enrollmentonlinestudentidentification/StudentList'];
             }
-            return ['enrollmentonline/enrollmentOnlinePreEnrollmentEvent/Index'];
+            return ['enrollmentonline/Enrollmentonlinepreenrollmenteventonline/Index'];
         },
         ['enrollmentonline/Enrollmentonlinestudentidentification/StudentStatus'],
         'icon' => 't-icon-backpack',

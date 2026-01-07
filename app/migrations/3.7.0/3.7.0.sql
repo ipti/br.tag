@@ -11,7 +11,7 @@ values
     ('TASK_ONLINE_ENROLLMENT', 1);
 
 CREATE TABLE
-    enrollment_online_pre_enrollment_event (
+    enrollment_online_pre_enrollment_event_online (
         id INT (11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
         name VARCHAR(255) NOT NULL,
         start_date DATETIME NOT NULL,
@@ -28,17 +28,11 @@ CREATE TABLE
         edcenso_stage_fk INT (11) NOT NULL,
         created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
         updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-        CONSTRAINT fk_pre_enrollment_event FOREIGN KEY (pre_enrollment_event_fk) REFERENCES enrollment_online_pre_enrollment_event (id),
+        CONSTRAINT fk_pre_enrollment_event FOREIGN KEY (pre_enrollment_event_fk) REFERENCES enrollment_online_pre_enrollment_event_online (id),
         CONSTRAINT fk_edcenso_stage FOREIGN KEY (edcenso_stage_fk) REFERENCES edcenso_stage_vs_modality (id)
     );
 
-
 ALTER TABLE enrollment_online_student_identification
-ADD COLUMN pre_enrollment_event_fk INT(11);
+ADD COLUMN pre_enrollment_event_fk INT (11);
 
-ALTER TABLE enrollment_online_student_identification
-ADD CONSTRAINT fk_student_identification_pre_enrollment_event
-FOREIGN KEY (pre_enrollment_event_fk)
-REFERENCES enrollment_online_pre_enrollment_event(id)
-ON UPDATE CASCADE
-ON DELETE RESTRICT;
+ALTER TABLE enrollment_online_student_identification ADD CONSTRAINT fk_student_identification_pre_enrollment_event FOREIGN KEY (pre_enrollment_event_fk) REFERENCES enrollment_online_pre_enrollment_event_online (id) ON UPDATE CASCADE ON DELETE RESTRICT;

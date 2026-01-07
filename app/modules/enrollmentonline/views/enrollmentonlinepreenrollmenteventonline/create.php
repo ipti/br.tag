@@ -1,6 +1,6 @@
 <?php
-/* @var $this EnrollmentOnlinePreEnrollmentEventController */
-/* @var $model EnrollmentOnlinePreEnrollmentEvent */
+/* @var $this EnrollmentOnlinePreEnrollmentEventOnlineController */
+/* @var $model EnrollmentOnlinePreEnrollmentEventOnline */
 
 $this->breadcrumbs = array(
     'Enrollment Online Pre Enrollment Events' => array('index'),
@@ -8,8 +8,8 @@ $this->breadcrumbs = array(
 );
 
 $this->menu = array(
-    array('label' => 'List EnrollmentOnlinePreEnrollmentEvent', 'url' => array('index')),
-    array('label' => 'Manage EnrollmentOnlinePreEnrollmentEvent', 'url' => array('admin')),
+    array('label' => 'List EnrollmentOnlinePreEnrollmentEventOnline', 'url' => array('index')),
+    array('label' => 'Manage EnrollmentOnlinePreEnrollmentEventOnline', 'url' => array('admin')),
 );
 
 $title = 'Evento de Pre Matrícula';

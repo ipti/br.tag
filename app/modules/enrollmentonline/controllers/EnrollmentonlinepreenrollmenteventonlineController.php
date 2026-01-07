@@ -6,7 +6,7 @@ use Sentry\SentrySdk;
 use Sentry\State\Hub;
 use Sentry\Event;
 
-class EnrollmentOnlinePreEnrollmentEventController extends Controller
+class EnrollmentonlinepreenrollmenteventonlineController extends Controller
 {
     /**
      * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
@@ -123,8 +123,8 @@ class EnrollmentOnlinePreEnrollmentEventController extends Controller
      */
     public function actionCreate()
     {
-        $model = new EnrollmentOnlinePreEnrollmentEvent;
-        $request = Yii::app()->request->getPost('EnrollmentOnlinePreEnrollmentEvent');
+        $model = new EnrollmentOnlinePreEnrollmentEventOnline;
+        $request = Yii::app()->request->getPost('EnrollmentOnlinePreEnrollmentEventOnline');
 
         if ($request) {
 
@@ -191,7 +191,7 @@ class EnrollmentOnlinePreEnrollmentEventController extends Controller
         // Uncomment the following line if AJAX validation is needed
         // $this->performAjaxValidation($model);
 
-        $request = Yii::app()->request->getPost('EnrollmentOnlinePreEnrollmentEvent');
+        $request = Yii::app()->request->getPost('EnrollmentOnlinePreEnrollmentEventOnline');
 
         if ($request) {
 
@@ -290,7 +290,7 @@ class EnrollmentOnlinePreEnrollmentEventController extends Controller
      */
     public function actionIndex()
     {
-        $dataProvider = new CActiveDataProvider('EnrollmentOnlinePreEnrollmentEvent');
+        $dataProvider = new CActiveDataProvider('EnrollmentOnlinePreEnrollmentEventOnline');
         $this->render('index', array(
             'dataProvider' => $dataProvider,
         ));
@@ -301,10 +301,10 @@ class EnrollmentOnlinePreEnrollmentEventController extends Controller
      */
     public function actionAdmin()
     {
-        $model = new EnrollmentOnlinePreEnrollmentEvent('search');
+        $model = new EnrollmentOnlinePreEnrollmentEventOnline('search');
         $model->unsetAttributes();  // clear any default values
-        if (isset($_GET['EnrollmentOnlinePreEnrollmentEvent']))
-            $model->attributes = $_GET['EnrollmentOnlinePreEnrollmentEvent'];
+        if (isset($_GET['EnrollmentOnlinePreEnrollmentEventOnline']))
+            $model->attributes = $_GET['EnrollmentOnlinePreEnrollmentEventOnline'];
 
         $this->render('admin', array(
             'model' => $model,
@@ -318,7 +318,7 @@ class EnrollmentOnlinePreEnrollmentEventController extends Controller
             'pre_enrollment_event_fk' => $eventId
         ]);
 
-          echo CHtml::tag('option', ['value' => ''], 'Selecione uma etapa', true);
+        echo CHtml::tag('option', ['value' => ''], 'Selecione uma etapa', true);
         foreach ($EventVsStages as $eventStage) {
             $stage = $eventStage->edcensoStageFk;
             echo CHtml::tag('option', ['value' => $stage->id], CHtml::encode($stage->name), true);
@@ -330,12 +330,12 @@ class EnrollmentOnlinePreEnrollmentEventController extends Controller
      * Returns the data model based on the primary key given in the GET variable.
      * If the data model is not found, an HTTP exception will be raised.
      * @param integer $id the ID of the model to be loaded
-     * @return EnrollmentOnlinePreEnrollmentEvent the loaded model
+     * @return EnrollmentOnlinePreEnrollmentEventOnline the loaded model
      * @throws CHttpException
      */
     public function loadModel($id)
     {
-        $model = EnrollmentOnlinePreEnrollmentEvent::model()->findByPk($id);
+        $model = EnrollmentOnlinePreEnrollmentEventOnline::model()->findByPk($id);
         if ($model === null)
             throw new CHttpException(404, 'The requested page does not exist.');
         return $model;
@@ -343,7 +343,7 @@ class EnrollmentOnlinePreEnrollmentEventController extends Controller
 
     /**
      * Performs the AJAX validation.
-     * @param EnrollmentOnlinePreEnrollmentEvent $model the model to be validated
+     * @param EnrollmentOnlinePreEnrollmentEventOnline $model the model to be validated
      */
     protected function performAjaxValidation($model)
     {

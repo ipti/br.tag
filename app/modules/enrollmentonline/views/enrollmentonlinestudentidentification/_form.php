@@ -441,7 +441,7 @@ $adminOrManager = !Yii::app()->user->isGuest &&
                                 $model,
                                 'pre_enrollment_event_fk',
                                 CHtml::listData(
-                                    EnrollmentOnlinePreEnrollmentEvent::model()->findAll([
+                                    EnrollmentOnlinePreEnrollmentEventOnline::model()->findAll([
                                         // CURDATE() pega a data atual do banco de dados (YYYY-MM-DD)
                                         'condition' => 'CURDATE() BETWEEN start_date AND end_date',
                                         'order' => 'name'

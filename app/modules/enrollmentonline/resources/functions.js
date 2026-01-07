@@ -227,7 +227,7 @@ $(".js-pre-enrollment-event").on("change", () => {
 
     $.ajax({
         type: "POST",
-        url: "?r=enrollmentonline/EnrollmentOnlinePreEnrollmentEvent/getPreEnrollmentStages",
+        url: "?r=enrollmentonline/EnrollmentOnlinePreEnrollmentEventOnline/getPreEnrollmentStages",
         cache: false,
         data: {
             id: selectedEvent,

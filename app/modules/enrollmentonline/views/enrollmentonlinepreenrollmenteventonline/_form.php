@@ -1,6 +1,6 @@
 <?php
-/* @var $this EnrollmentOnlinePreEnrollmentEventController */
-/* @var $model EnrollmentOnlinePreEnrollmentEvent */
+/* @var $this EnrollmentOnlinePreEnrollmentEventOnlineController */
+/* @var $model EnrollmentOnlinePreEnrollmentEventOnline */
 /* @var $form CActiveForm */
 ?>
 

@@ -56,7 +56,7 @@
  * @property EdcensoStageVsModality $edcensoStageVsModalityFk
  * @property StudentIdentification $studentFk
  * @property Users $userFk
- * @property EnrollmentOnlinePreEnrollmentEvent $preEnrollmentEventFk
+ * @property EnrollmentOnlinePreEnrollmentEventOnline $preEnrollmentEventFk
  */
 class EnrollmentOnlineStudentIdentification extends CActiveRecord
 {
@@ -105,7 +105,7 @@ class EnrollmentOnlineStudentIdentification extends CActiveRecord
             'edcensoStageVsModalityFk' => array(self::BELONGS_TO, 'EdcensoStageVsModality', 'edcenso_stage_vs_modality_fk'),
             'studentFk' => array(self::BELONGS_TO, 'StudentIdentification', 'student_fk'),
             'userFk' => array(self::BELONGS_TO, 'Users', 'user_fk'),
-            'preEnrollmentEventFk' => array(self::BELONGS_TO, 'EnrollmentOnlinePreEnrollmentEvent', 'pre_enrollment_event_fk'),
+            'preEnrollmentEventFk' => array(self::BELONGS_TO, 'EnrollmentOnlinePreEnrollmentEventOnline', 'pre_enrollment_event_fk'),
         );
     }
 

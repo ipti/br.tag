@@ -1,5 +1,5 @@
 <?php
-/* @var $this EnrollmentOnlinePreEnrollmentEventController */
+/* @var $this EnrollmentOnlinePreEnrollmentEventOnlineController */
 /* @var $dataProvider CActiveDataProvider */
 
 $this->breadcrumbs = array(
@@ -7,8 +7,8 @@ $this->breadcrumbs = array(
 );
 
 $this->menu = array(
-    array('label' => 'Create EnrollmentOnlinePreEnrollmentEvent', 'url' => array('create')),
-    array('label' => 'Manage EnrollmentOnlinePreEnrollmentEvent', 'url' => array('admin')),
+    array('label' => 'Create EnrollmentOnlinePreEnrollmentEventOnline', 'url' => array('create')),
+    array('label' => 'Manage EnrollmentOnlinePreEnrollmentEventOnline', 'url' => array('admin')),
 );
 ?>
 
@@ -26,7 +26,7 @@ $this->menu = array(
     <div class="row-fluid box-instructor">
         <div class="span12">
             <div class="t-buttons-container">
-                <a class="t-button-primary" href="<?php echo Yii::app()->createUrl('enrollmentonline/enrollmentOnlinePreEnrollmentEvent/create') ?>">Adicionar evento de pré-matrícula</a>
+                <a class="t-button-primary" href="<?php echo Yii::app()->createUrl('enrollmentonline/EnrollmentOnlinePreEnrollmentEventOnline/create') ?>">Adicionar evento de pré-matrícula</a>
             </div>
         </div>
     </div>
@@ -54,7 +54,7 @@ $this->menu = array(
                     array(
                         'name' => 'name',
                         'type' => 'raw',
-                        'value' => ' CHtml::link($data->name,Yii::app()->createUrl("enrollmentonline/enrollmentOnlinePreEnrollmentEvent/update",array("id"=>$data->id)))',
+                        'value' => ' CHtml::link($data->name,Yii::app()->createUrl("enrollmentonline/EnrollmentOnlinePreEnrollmentEventOnline/update",array("id"=>$data->id)))',
                         'htmlOptions' => array('width' => '300px', 'class' => 'link-update-grid-view'),
                     )
                 );

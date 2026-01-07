@@ -12,7 +12,7 @@
  *
  * The followings are the available model relations:
  * @property EdcensoStageVsModality $edcensoStageFk
- * @property EnrollmentOnlinePreEnrollmentEvent $preEnrollmentEventFk
+ * @property EnrollmentOnlinePreEnrollmentEventOnlineOnline $preEnrollmentEventFk
  */
 class EnrollmentOnlineEventVsEdcensoStage extends CActiveRecord
 {
@@ -49,7 +49,7 @@ class EnrollmentOnlineEventVsEdcensoStage extends CActiveRecord
         // class name for the relations automatically generated below.
         return array(
             'edcensoStageFk' => array(self::BELONGS_TO, 'EdcensoStageVsModality', 'edcenso_stage_fk'),
-            'preEnrollmentEventFk' => array(self::BELONGS_TO, 'EnrollmentOnlinePreEnrollmentEvent', 'pre_enrollment_event_fk'),
+            'preEnrollmentEventFk' => array(self::BELONGS_TO, 'EnrollmentOnlinePreEnrollmentEventOnline', 'pre_enrollment_event_fk'),
         );
     }
 
