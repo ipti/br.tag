@@ -20,12 +20,9 @@ RUN composer update \
     && composer update --no-plugins \
     && composer install
 
-# Conctruir arquivos css do sass
-# RUN vendor/scssphp/scssphp/bin/pscss --no-source-map --style=compressed sass/scss:sass/css
-
 # Ajustar permissões para o usuário www-data
 RUN chown -R www-data:www-data /app/app/runtime \
-    && mkdir -p /app/assets && chown -R www-data:www-data /app/assets \
+    && mkdir -p /app/public/assets && chown -R www-data:www-data /app/public/assets \
     && chown -R www-data:www-data /app/app/export \
     && chown -R www-data:www-data /app/app/import
 

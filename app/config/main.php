@@ -118,6 +118,8 @@ return [
             'class' => 'application.components.FeaturesComponent'
         ],
         'assetManager' => [
+            'basePath' => dirname(__DIR__, 2) . '/public/assets',
+            'baseUrl'  => '/assets',
             'forceCopy' => YII_DEBUG
         ],
         'user' => [
@@ -178,14 +180,6 @@ return [
                 'profissional/<action:\w+>/<id:\d+>' => 'professional/default/<action>'
             ],
         ],
-        'db2' => [
-            'connectionString' => 'mysql:host=mariadb-s6vhx-mariadb.mariadb-s6vhx.svc.cluster.local;dbname=com.escola10',
-            'emulatePrepare' => true,
-            'username' => 'admin',
-            'password' => '123456',
-            'charset' => 'utf8',
-            'class' => 'CDbConnection'
-        ],
         'db' => unserialize(DBCONFIG),
         'authManager' => [
             'class' => 'CDbAuthManager',
@@ -225,6 +219,6 @@ return [
         'log' => $log_config
     ],
     'params' => [
-        'adminEmail' => 'webmaster@tag.lo',
+        'adminEmail' => 'coord.ti@ipti.org.br',
     ],
 ];
