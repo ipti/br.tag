@@ -16,4 +16,4 @@ $title = 'Pre Matrícula';
 $this->pageTitle = 'TAG - Pré-Matrícula';
 ?>
 
-<?php $this->renderPartial('_form', ['model' => $model, 'title' => $title, 'isRejected' => null ]); ?>
+<?php $this->renderPartial('_form', ['model' => $model, 'title' => $title, 'isRejected' => null]); ?>

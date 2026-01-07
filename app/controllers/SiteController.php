@@ -47,7 +47,6 @@ class SiteController extends Controller
         }
 
         $this->render('index', ['htmlLogs' => $this->loadLogsHtml(8)]);
-
     }
 
     /**
@@ -328,7 +327,7 @@ class SiteController extends Controller
             ]);
         } else {
             $html = '';
-            $count = min([$limit, count($warns)]) ;
+            $count = min([$limit, count($warns)]);
             for ($i = 0; $i < $count; $i++) {
                 $html .= $warns[$i];
             }

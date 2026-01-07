@@ -12,6 +12,7 @@ services:
     networks:
       - tag-v3-network
     environment:
+      MAINTENANCE_MODE: 1
       HOST_DB_TAG: 'mysql'
       USER_DB_TAG: 'root'
       PWD_DB_TAG: 'root'

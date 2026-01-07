@@ -302,7 +302,6 @@ $adminOrManager = !Yii::app()->user->isGuest &&
                     </div>
 
                     <div class="row">
-
                     </div>
 
                     <div class="row">

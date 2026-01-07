@@ -10,16 +10,34 @@ class FormsController extends Controller
     public function accessRules()
     {
         return [
-            ['allow', // allow authenticated user to perform 'create' and 'update' actions
-                'actions' => ['index', 'EnrollmentGradesReport', 'StudentsFileReport', 'EnrollmentDeclarationReport',
-                    'EnrollmentGradesReportBoquim', 'EnrollmentGradesReportBoquimCiclo', 'StudentIMCHistoryReport',
-                    'GetEnrollmentDeclarationInformation', 'TransferRequirement', 'GetTransferRequirementInformation',
-                    'EnrollmentNotification', 'GetEnrollmentNotificationInformation', 'StudentsDeclarationReport',
-                    'GetStudentsFileInformation', 'AtaSchoolPerformance', 'StudentFileForm',
-                    'TransferForm', 'GetTransferFormInformation', 'StudentStatementAttended', 'IndividualRecord'],
+            [
+                'allow', // allow authenticated user to perform 'create' and 'update' actions
+                'actions' => [
+                    'index',
+                    'EnrollmentGradesReport',
+                    'StudentsFileReport',
+                    'EnrollmentDeclarationReport',
+                    'EnrollmentGradesReportBoquim',
+                    'EnrollmentGradesReportBoquimCiclo',
+                    'StudentIMCHistoryReport',
+                    'GetEnrollmentDeclarationInformation',
+                    'TransferRequirement',
+                    'GetTransferRequirementInformation',
+                    'EnrollmentNotification',
+                    'GetEnrollmentNotificationInformation',
+                    'StudentsDeclarationReport',
+                    'GetStudentsFileInformation',
+                    'AtaSchoolPerformance',
+                    'StudentFileForm',
+                    'TransferForm',
+                    'GetTransferFormInformation',
+                    'StudentStatementAttended',
+                    'IndividualRecord'
+                ],
                 'users' => ['@'],
             ],
-            ['deny', // deny all users
+            [
+                'deny', // deny all users
                 'users' => ['*'],
             ],
         ];
@@ -78,6 +96,7 @@ class FormsController extends Controller
         $this->layout = 'reports';
         $repository = new FormsRepository();
         $query = $repository->getEnrollmentDeclaration($enrollmentId);
+        $query['enrollmentId'] = $enrollmentId;
         $this->render('EnrollmentDeclarationReport', $query);
     }
 

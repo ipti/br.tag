@@ -751,7 +751,7 @@ class StudentController extends Controller implements AuthenticateSEDTokenInterf
             $availableSeats = $class->capacity - $class->activeEnrollmentsCount;
             $seatsLabel = $availableSeats == 1 ? 'Vaga' : 'Vagas';
             if ($class->school_year == Yii::app()->user->year && $class->capacity > $class->activeEnrollmentsCount) {
-                echo "<option value='" . htmlspecialchars($class->id) . "'>" . htmlspecialchars($class->name) . ' (+' . ($availableSeats) . ' ' . htmlspecialchars($seatsLabel). ')</option>';
+                echo "<option value='" . htmlspecialchars($class->id) . "'>" . htmlspecialchars($class->name) . ' (+' . ($availableSeats) . ' ' . htmlspecialchars($seatsLabel) . ')</option>';
             }
         }
     }
@@ -885,7 +885,7 @@ class StudentController extends Controller implements AuthenticateSEDTokenInterf
                         'target' => '_blank',
                         'href' => yii::app()->createUrl(
                             '/forms/StudentFileForm',
-                            ['type' => $type, 'enrollment_id' => $enrollmentId]
+                            ['type' => $type, 'enrollmentId' => $enrollmentId]
                         ),
                         'class' => 'btn btn-primary btn-icon glyphicons notes_2',
                         'style' => 'margin-top: 5px; width: 110px'

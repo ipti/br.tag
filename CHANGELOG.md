@@ -1,3 +1,15 @@
+## [Versão 3.6.5]
+- Adicionando modo de manutenção
+
+## [Versão 3.6.4]
+- Corrigido stauts do estudante quando ele esta reprovado por falta
+
+## [Versão 3.6.3]
+- Corrigido fluxo de criação do diário de classe
+
+## [Versão 3.6.2]
+- Corrigida a visualização do relatório de notas por aluno para as disciplinas que não requerem prova
+
 ## [Versão 3.6.1]
 - Refatoração de código para redução de débito técnico
 

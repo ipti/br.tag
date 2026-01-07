@@ -155,7 +155,7 @@ $("#classroom").on("change", function () {
 });
 
 $("#student").on("change", function () {
-    if($("#classroom > option:selected").attr("isMultiStage") === "1") {
+    if ($("#classroom > option:selected").attr("isMultiStage") === "1") {
         $.ajax({
             type: "POST",
             url: "?r=reports/getStagesMulti",
@@ -178,17 +178,17 @@ $("#student").on("change", function () {
     }
 })
 
-$("#stage").on("change", function(e) {
+$("#stage").on("change", function (e) {
 
     const isMulti = $("#classroom > option:selected").attr("isMultiStage") === "1";
     const isClassroomStage = $("#stage option:selected").attr("data-classroom-stage");
     const stage = $("#stage").val();
     let alert = ""
-     if(isMulti == "1" && stage !== ""){
+    if (isMulti == "1" && stage !== "") {
         alert = isClassroomStage == "1" ?
-        "<h4><b>Turma Multiseriada</b></h4>Foi selecionada a etapa vinculada à TURMA<br>contudo, também existe a possibilidade de utilizar as etapas vinculadas diretamente ao ALUNOS."
-        :
-        "<h4><b>Turma Multiseriada</b></h4>Foi selecionada uma etapa vinculada ao ALUNO<br>contudo, também existe a possibilidade de utilizar a etapas vinculadas diretamente a TURMA."
+            "<h4><b>Turma Multiseriada</b></h4>Foi selecionada a etapa vinculada à TURMA<br>contudo, também existe a possibilidade de utilizar as etapas vinculadas diretamente ao ALUNOS."
+            :
+            "<h4><b>Turma Multiseriada</b></h4>Foi selecionada uma etapa vinculada ao ALUNO<br>contudo, também existe a possibilidade de utilizar a etapas vinculadas diretamente a TURMA."
         $(".js-alert").html(alert).show()
     }
 })
@@ -204,7 +204,7 @@ $(document).on("click", "#loadreport", function () {
             }
             break;
         case "gradesByStudent":
-            var isMulti =  $("#classroom > option:selected").attr("isMultiStage") === "1";
+            var isMulti = $("#classroom > option:selected").attr("isMultiStage") === "1";
             if ($("#classroom").val() !== "" && (!isMulti || $("#stage").val() !== "") && $("#student").val() !== "") {
                 valid = true;
             }
@@ -228,7 +228,7 @@ function loadReport() {
             fundamentalMaior: $("#classroom option:selected").attr("fundamentalmaior"),
             isMultiStage: $("#classroom option:selected").attr("isMultiStage"),
             discipline: $("#discipline").val(),
-            stage:  $("#stage").val(),
+            stage: $("#stage").val(),
             initialDate: $(".initial-date").val(),
             finalDate: $(".final-date").val(),
             student: $("#student").val()
@@ -260,9 +260,9 @@ function loadReport() {
                         faultDaysContainer += faultDays + (j < Object.keys(student.faults).length - 1 ? "; " : "");
                     });
                     if (student.infoClassroom === null || student.infoClassroom === false) {
-                        html += "<tr><td>" + student.name  + "</td><td>" + student.total + "</td><td>" + Object.keys(student.faults).length + "</td><td>" + student.frequency + "</td><td>" + faultDaysContainer + "</td></tr>";
+                        html += "<tr><td>" + student.name + "</td><td>" + student.total + "</td><td>" + Object.keys(student.faults).length + "</td><td>" + student.frequency + "</td><td>" + faultDaysContainer + "</td></tr>";
                     } else {
-                        html += "<tr><td>" + student.name +"  |  " + student.infoClassroom + "</td><td>" + student.total + "</td><td>" + Object.keys(student.faults).length + "</td><td>" + student.frequency + "</td><td>" + faultDaysContainer + "</td></tr>";
+                        html += "<tr><td>" + student.name + "  |  " + student.infoClassroom + "</td><td>" + student.total + "</td><td>" + Object.keys(student.faults).length + "</td><td>" + student.frequency + "</td><td>" + faultDaysContainer + "</td></tr>";
                     }
 
                 });
@@ -299,16 +299,22 @@ function loadReport() {
                         html += "<tr><td>" + this.disciplineName + "</td>";
                         $.each(this.grades, function () {
 
-                            if (this.unityGrade == "") {
-                                valueUnityGrade = "";
-                            } else {
-                                valueUnityGrade = data.isUnityConcept ? this.unityGrade : parseFloat(this.unityGrade).toFixed(1);
-                            }
+                            if (isNaN(this.unityGrade)) {
 
-                            if (this.unityRecoverGrade == "") {
-                                valueunityRecoverGrade = "";
-                            } else {
-                                valueunityRecoverGrade = parseFloat(this.unityRecoverGrade).toFixed(1);
+                                    valueUnityGrade = this.unityGrade;
+                                } else {
+
+                                if (this.unityGrade == "") {
+                                    valueUnityGrade = "";
+                                } else {
+                                    valueUnityGrade = data.isUnityConcept ? this.unityGrade : parseFloat(this.unityGrade).toFixed(1);
+                                }
+
+                                if (this.unityRecoverGrade == "") {
+                                    valueunityRecoverGrade = "";
+                                } else {
+                                    valueunityRecoverGrade = parseFloat(this.unityRecoverGrade).toFixed(1);
+                                }
                             }
 
 
@@ -318,7 +324,7 @@ function loadReport() {
                         if (this.finalMedia == "") {
                             valueFinalMedia = "";
                         } else {
-                            valueFinalMedia = parseFloat(this.finalMedia).toFixed(1);
+                            valueFinalMedia = !isNaN(this.finalMedia) ? parseFloat(this.finalMedia).toFixed(1) : this.finalMedia;
                         }
 
                         html += !data.isUnityConcept ? "<td class='center'>" + valueFinalMedia + "</td>" : "";
