@@ -136,7 +136,7 @@ $(".js-confirm-enrollment").on("click", function () {
                     $(".js-alert-enrollment-online").addClass("alert-success");
 
                 }
-                $(".js-alert-enrollment-online").html(mensagem);
+                $(".js-alert-enrollment-online").html(DOMPurify.sanitize(mensagem));
 
 
                 $(".js-hide-buttons-enrollment").hide();
