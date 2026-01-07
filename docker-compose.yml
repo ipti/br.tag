@@ -12,7 +12,8 @@ services:
     networks:
       - tag-v3-network
     environment:
-      HOST_DB_TAG: 'mysql84'
+      MAINTENANCE_MODE: 0
+      HOST_DB_TAG: 'mysql'
       USER_DB_TAG: 'root'
       PWD_DB_TAG: 'root'
       TOKEN_FIREBASE: ''

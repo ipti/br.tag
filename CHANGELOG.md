@@ -1,3 +1,6 @@
+## [Versão 3.7.4]
+- Adicionando modo de manutenção
+
 ## [Versão 3.6.4]
 - Corrigido stauts do estudante quando ele esta reprovado por falta
 
