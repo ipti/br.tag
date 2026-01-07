@@ -1,4 +1,7 @@
-## [Versão 3.7.4]
+## [Versão 3.7.0]
+- Matrícula Online
+
+## [Versão 3.6.5]
 - Adicionando modo de manutenção
 
 ## [Versão 3.6.4]
@@ -6,6 +9,7 @@
 
 ## [Versão 3.6.3]
 - Corrigido fluxo de criação do diário de classe
+
 ## [Versão 3.6.2]
 - Corrigida a visualização do relatório de notas por aluno para as disciplinas que não requerem prova
 

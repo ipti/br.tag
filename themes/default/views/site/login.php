@@ -42,6 +42,11 @@ $form = $this->beginWidget('CActiveForm', array(
             <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/tag-title.png" style="padding: 20px 20px;position: absolute;top: 0;left: 0;" />
             <div class="login-form">
                 <div class="form-signin">
+                    <?php if (Yii::app()->user->hasFlash('success')): ?>
+                        <div class="alert alert-success">
+                            <?= Yii::app()->user->getFlash('success') ?>
+                        </div>
+                    <?php endif; ?>
                     <form method="post" action="index.html?lang=en&amp;layout_type=fluid&amp;menu_position=menu-left&amp;style=style-light">
                         <h4 class="strong login-title"><?php echo INSTANCE ?></h4>
                         <p>Entre com as suas credenciais</p>

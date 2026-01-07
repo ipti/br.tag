@@ -4,7 +4,7 @@ $("form").on("submit", function (event) {
     let mensage = "";
 
     $(".js-field-required").each(function () {
-        if ($(this).is("input, select, textarea") && !$(this).val()) {
+        if ($(this).is("input, select, textarea") && !$(this).val() && $(this).hasClass("js-ignore-validation") === false) {
             isValid = false;
 
             let labelText = $(this).closest(".t-field-text").find("label").text().trim();

@@ -28,17 +28,17 @@ $this->setPageTitle('TAG - Estrutura de Unidades e Avaliações');
     );
     ?>
 
-<div class="row">
-    <div class="column">
+    <div class="row">
         <div class="column">
-            <h1>Estrutura de Unidades e Avaliações</h1>
-        </div>
-        <div class="buttons row grades-buttons">
-            <!-- <a class='t-button-primary save-and-reply'>Salvar e Replicar</a> -->
-            <a class='t-button-primary save' style="margin-right: 2.5em;">Salvar</a>
+            <div class="column">
+                <h1>Estrutura de Unidades e Avaliações</h1>
+            </div>
+            <div class="buttons row grades-buttons">
+                <!-- <a class='t-button-primary save-and-reply'>Salvar e Replicar</a> -->
+                <a class='t-button-primary save' style="margin-right: 2.5em;">Salvar</a>
+            </div>
         </div>
     </div>
-</div>
     <div class="column js-grades-container">
         <?php if (Yii::app()->user->hasFlash('success')): ?>
             <div class="alert alert-success">
@@ -60,21 +60,21 @@ $this->setPageTitle('TAG - Estrutura de Unidades e Avaliações');
                 <div class="t-field-select column is-three-fifths clearfix">
 
                     <?php echo CHtml::label(yii::t('default', 'Etapas'), 'modality_fk', array('class' => 't-field-select__label--required', 'style' => 'width: 54px;')); ?>
-                        <?php
-                        echo $form->dropDownList(
-                            $gradeUnity,
-                            'edcenso_stage_vs_modality_fk',
-                            CHtml::listData($stages, 'id', 'name'),
-                            array(
-                                'key' => 'id',
-                                'class' => ' t-field-select__input js-stage-select select-search-on select2-container t-multiselect multiselect',
-                                'multiple' => 'multiple',
-                                'prompt' => 'Selecione o estágio...',
-                                'style' => 'width: 100%;'
+                    <?php
+                    echo $form->dropDownList(
+                        $gradeUnity,
+                        'edcenso_stage_vs_modality_fk',
+                        CHtml::listData($stages, 'id', 'name'),
+                        array(
+                            'key' => 'id',
+                            'class' => ' t-field-select__input js-stage-select select-search-on select2-container t-multiselect multiselect',
+                            'multiple' => 'multiple',
+                            'prompt' => 'Selecione o estágio...',
+                            'style' => 'width: 100%;'
 
-                            )
-                        );
-                        ?>
+                        )
+                    );
+                    ?>
 
                 </div>
             </div>
@@ -97,13 +97,13 @@ $this->setPageTitle('TAG - Estrutura de Unidades e Avaliações');
                     <?php foreach ($formulas as $formula):
 
                         if ($formula->name != "Subistituir Menor Nota"):
-                        ?>
-                        <option value="<?= $formula->id ?>">
-                            <?= $formula->name ?>
-                        </option>
+                    ?>
+                            <option value="<?= $formula->id ?>">
+                                <?= $formula->name ?>
+                            </option>
                     <?php
-                          endif;
-                          endforeach;
+                        endif;
+                    endforeach;
                     ?>
                 </select>
             </div>
@@ -135,8 +135,7 @@ $this->setPageTitle('TAG - Estrutura de Unidades e Avaliações');
             </p>
         </div>
         <div id="accordion js-grades-rules-container"
-            class="grades-structure-container t-accordeon-quaternary js-grades-structure-container accordion"
-           >
+            class="grades-structure-container t-accordeon-quaternary js-grades-structure-container accordion">
         </div>
         <div class="js-alert-save-unities-first no-show alert"></div>
         <div class="column js-grades-rules-container js-partial-recoveries-header" style="display: none;">
@@ -181,12 +180,12 @@ $this->setPageTitle('TAG - Estrutura de Unidades e Avaliações');
                     <?php foreach ($formulas as $formula):
                         if ($formula->name != "Subistituir Menor Nota"):   ?>
 
-                        <option value="<?= $formula->id ?>">
-                            <?= $formula->name ?>
-                        </option>
+                            <option value="<?= $formula->id ?>">
+                                <?= $formula->name ?>
+                            </option>
                     <?php
                         endif;
-                          endforeach;
+                    endforeach;
                     ?>
                 </select>
             </div>

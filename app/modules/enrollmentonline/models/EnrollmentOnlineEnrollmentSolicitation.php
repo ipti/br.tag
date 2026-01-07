@@ -15,6 +15,10 @@
  */
 class EnrollmentOnlineEnrollmentSolicitation extends CActiveRecord
 {
+
+    public const IN_PROCESSING = 1;
+    public const ACCEPTED = 2;
+    public const REJECTED = 3;
     /**
      * @return string the associated database table name
      */

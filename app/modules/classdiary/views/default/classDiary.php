@@ -1,4 +1,5 @@
 <?php
+
 /** @var DefaultController $this DefaultController */
 $this->setPageTitle('TAG - ' . Yii::t('default', 'Diário de Classe'));
 $this->breadcrumbs = [

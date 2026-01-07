@@ -751,7 +751,7 @@ class StudentController extends Controller implements AuthenticateSEDTokenInterf
             $availableSeats = $class->capacity - $class->activeEnrollmentsCount;
             $seatsLabel = $availableSeats == 1 ? 'Vaga' : 'Vagas';
             if ($class->school_year == Yii::app()->user->year && $class->capacity > $class->activeEnrollmentsCount) {
-                echo "<option value='" . htmlspecialchars($class->id) . "'>" . htmlspecialchars($class->name) . ' (+' . ($availableSeats) . ' ' . htmlspecialchars($seatsLabel). ')</option>';
+                echo "<option value='" . htmlspecialchars($class->id) . "'>" . htmlspecialchars($class->name) . ' (+' . ($availableSeats) . ' ' . htmlspecialchars($seatsLabel) . ')</option>';
             }
         }
     }

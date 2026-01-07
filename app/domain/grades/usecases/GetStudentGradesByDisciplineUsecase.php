@@ -229,14 +229,14 @@ class GetStudentGradesByDisciplineUsecase
      * @return StudentGradesResult
      */
     private function getStudentGradeByDicipline(
-        $studentEnrollment, 
-        $discipline, 
-        $unitiesByDiscipline, 
-        $unityOrder, 
-        $type, 
-        $semester, 
+        $studentEnrollment,
+        $discipline,
+        $unitiesByDiscipline,
+        $unityOrder,
+        $type,
+        $semester,
         $showSemAvarageColumn
-    ){
+    ) {
         $studentGradeResult = new StudentGradesResult(
             $studentEnrollment->studentFk->name,
             $studentEnrollment->id,
@@ -272,14 +272,14 @@ class GetStudentGradesByDisciplineUsecase
 
         foreach ($unitiesByDiscipline as $unity) {
             /** @var GradeUnity $unit */
-            
+
             $allGrades = $this->getStudentGradesFromUnity(
                 $studentEnrollment->id,
                 $discipline
             );
 
             $gradesByUnity = $this->indexGradesByUnity($allGrades);
-            $unityGrades = $gradesByUnity[$unity->id] ?? []; 
+            $unityGrades = $gradesByUnity[$unity->id] ?? [];
             $unityResult = new GradeUnityResult($unity->name, $unity->gradeCalculationFk->name);
 
             if ($unity->type == GradeUnity::TYPE_UNITY || $unity->type == GradeUnity::TYPE_UNITY_WITH_RECOVERY) {

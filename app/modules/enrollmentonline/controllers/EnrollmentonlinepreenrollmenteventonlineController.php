@@ -1,0 +1,351 @@
+<?php
+
+
+use Sentry\Tracing\TransactionContext;
+use Sentry\SentrySdk;
+use Sentry\State\Hub;
+use Sentry\Event;
+
+class EnrollmentonlinepreenrollmenteventonlineController extends Controller
+{
+    /**
+     * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
+     * using two-column layout. See 'protected/views/layouts/column2.php'.
+     */
+    public $layout = '//layouts/column2';
+
+    /**
+     * @return array action filters
+     */
+    public function filters()
+    {
+        return array(
+            'accessControl', // perform access control for CRUD operations
+            'postOnly + delete', // we only allow deletion via POST request
+        );
+    }
+
+    /**
+     * Specifies the access control rules.
+     * This method is used by the 'accessControl' filter.
+     * @return array access control rules
+     */
+    public function accessRules()
+    {
+        return array(
+            array(
+                'allow',  // allow all users to perform 'index' and 'view' actions
+                'actions' => array('index', 'view', 'getPreEnrollmentStages'),
+                'users' => array('*'),
+            ),
+            array(
+                'allow', // allow authenticated user to perform 'create' and 'update' actions
+                'actions' => array('create', 'update'),
+                'users' => array('@'),
+            ),
+            array(
+                'allow', // allow admin user to perform 'admin' and 'delete' actions
+                'actions' => array('admin', 'delete'),
+                'users' => array('admin'),
+            ),
+            array(
+                'deny',  // deny all users
+                'users' => array('*'),
+            ),
+        );
+    }
+
+    public function init()
+    {
+        if (!Yii::app()->user->isGuest) {
+
+            $authTimeout = Yii::app()->user->getState("authTimeout", SESSION_MAX_LIFETIME);
+            Yii::app()->user->authTimeout = $authTimeout;
+
+            Yii::app()->sentry->setUserContext([
+                'id' => Yii::app()->user->loginInfos->id,
+                'username' => Yii::app()->user->loginInfos->username,
+                'role' => Yii::app()->authManager->getRoles(Yii::app()->user->loginInfos->id)
+            ]);
+        }
+    }
+
+    public function beforeAction($action)
+    {
+        $publicActions = ['getpreenrollmentstages'];
+
+        if (Yii::app()->user->isGuest && Yii::app()->request->isAjaxRequest && !in_array($action->id, $publicActions)) {
+            // Se a sessão expirou e é uma requisição AJAX
+            header('HTTP/1.1 401 Unauthorized');
+            echo json_encode(['redirect' => Yii::app()->createUrl('site/login')]);
+            Yii::app()->end();
+        }
+
+        $transaction = SentrySdk::getCurrentHub()->startTransaction(new TransactionContext(
+            Yii::app()->controller->id . '/' . $action->id,
+        ));
+
+        SentrySdk::getCurrentHub()->setSpan($transaction);
+
+        if (parent::beforeAction(action: $action)) {
+            // Verifica o timeout com base na última atividade
+            if (isset(Yii::app()->user->authTimeout)) {
+                $lastActivity = Yii::app()->user->getState('last_activity');
+                $timeout = Yii::app()->user->authTimeout;
+
+                if ($lastActivity !== null && (time() - $lastActivity > $timeout)) {
+                    Yii::app()->user->logout();
+                    return false;
+                }
+            }
+
+            // Atualiza a última atividade
+            Yii::app()->user->setState('last_activity', time());
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Displays a particular model.
+     * @param integer $id the ID of the model to be displayed
+     */
+    public function actionView($id)
+    {
+        $this->render('view', array(
+            'model' => $this->loadModel($id),
+        ));
+    }
+
+    /**
+     * Creates a new model.
+     * If creation is successful, the browser will be redirected to the 'view' page.
+     */
+    public function actionCreate()
+    {
+        $model = new EnrollmentOnlinePreEnrollmentEventOnline;
+        $request = Yii::app()->request->getPost('EnrollmentOnlinePreEnrollmentEventOnline');
+
+        if ($request) {
+
+            $transaction = Yii::app()->db->beginTransaction();
+
+            try {
+                $model->attributes = $request;
+                $model->name = $request['name'];
+                $model->start_date = DateTime::createFromFormat('d/m/Y', $request['start_date'])->format('Y-m-d');
+
+                $model->end_date = DateTime::createFromFormat('d/m/Y', $request['end_date'])->format('Y-m-d');
+
+                if (!$model->save()) {
+                    throw new Exception('Erro ao salvar o evento de pré-matrícula.');
+                }
+
+                $stages = Yii::app()->request->getPost(
+                    'edcenso_stage_vs_modality_fk',
+                    []
+                );
+
+                foreach ($stages as $stageId) {
+                    $modelEventVsEdcensoStageNew = new EnrollmentOnlineEventVsEdcensoStage();
+                    $modelEventVsEdcensoStageNew->edcenso_stage_fk = $stageId;
+                    $modelEventVsEdcensoStageNew->pre_enrollment_event_fk = $model->id;
+
+
+                    if (!$modelEventVsEdcensoStageNew->save()) {
+                        throw new Exception('Erro ao salvar vínculo com etapa.');
+                    }
+                }
+
+                $transaction->commit();
+
+                $this->redirect(array('index'));
+            } catch (Exception $e) {
+
+                $transaction->rollback();
+
+                Yii::log($e->getMessage(), CLogger::LEVEL_ERROR);
+
+                Yii::app()->user->setFlash(
+                    'error',
+                    'Ocorreu um erro ao salvar o registro.'
+                );
+            }
+        }
+
+        $this->render('create', array(
+            'model' => $model,
+        ));
+    }
+
+
+    /**
+     * Updates a particular model.
+     * If update is successful, the browser will be redirected to the 'view' page.
+     * @param integer $id the ID of the model to be updated
+     */
+    public function actionUpdate($id)
+    {
+        $model = $this->loadModel($id);
+
+        // Uncomment the following line if AJAX validation is needed
+        // $this->performAjaxValidation($model);
+
+        $request = Yii::app()->request->getPost('EnrollmentOnlinePreEnrollmentEventOnline');
+
+        if ($request) {
+
+            $transaction = Yii::app()->db->beginTransaction();
+
+            try {
+                $model->attributes = $request;
+                $model->name = $request['name'];
+                $model->start_date = DateTime::createFromFormat('d/m/Y', $request['start_date'])->format('Y-m-d');
+
+                $model->end_date = DateTime::createFromFormat('d/m/Y', $request['end_date'])->format('Y-m-d');
+
+                if (!$model->save()) {
+                    throw new Exception('Erro ao salvar o evento de pré-matrícula.');
+                }
+
+                EnrollmentOnlineEventVsEdcensoStage::model()->deleteAll(
+                    'pre_enrollment_event_fk = :eventId',
+                    [':eventId' => $model->id]
+                );
+
+                $stages = Yii::app()->request->getPost(
+                    'edcenso_stage_vs_modality_fk',
+                    []
+                );
+
+                foreach ($stages as $stageId) {
+                    $modelEventVsEdcensoStageNew = new EnrollmentOnlineEventVsEdcensoStage();
+                    $modelEventVsEdcensoStageNew->edcenso_stage_fk = $stageId;
+                    $modelEventVsEdcensoStageNew->pre_enrollment_event_fk = $model->id;
+                    if (!$modelEventVsEdcensoStageNew->save()) {
+                        throw new Exception('Erro ao salvar vínculo com etapa.');
+                    }
+                }
+                $transaction->commit();
+                $this->redirect(array('index'));
+            } catch (Exception $e) {
+                $transaction->rollback();
+
+                Yii::log($e->getMessage(), CLogger::LEVEL_ERROR);
+
+                Yii::app()->user->setFlash(
+                    'error',
+                    'Ocorreu um erro ao salvar o registro.'
+                );
+            }
+        }
+
+        $model->start_date = (new DateTime($model->start_date))->format('d/m/Y');
+        $model->end_date = (new DateTime($model->end_date))->format('d/m/Y');
+
+        $this->render('update', array(
+            'model' => $model
+        ));
+    }
+
+    /**
+     * Deletes a particular model.
+     * If deletion is successful, the browser will be redirected to the 'admin' page.
+     * @param integer $id the ID of the model to be deleted
+     */
+    public function actionDelete($id)
+    {
+        $event = $this->loadModel($id);
+
+        $transaction = Yii::app()->db->beginTransaction();
+
+        try {
+            // Deleting related records in EnrollmentOnlineEventVsEdcensoStage
+            EnrollmentOnlineEventVsEdcensoStage::model()->deleteAll(
+                'pre_enrollment_event_fk = :eventId',
+                [':eventId' => $event->id]
+            );
+
+            $event->delete();
+
+            $transaction->commit();
+        } catch (Exception $e) {
+            $transaction->rollback();
+
+            Yii::log($e->getMessage(), CLogger::LEVEL_ERROR);
+
+            Yii::app()->user->setFlash(
+                'error',
+                'Ocorreu um erro ao deletar o registro.'
+            );
+        }
+    }
+
+    /**
+     * Lists all models.
+     */
+    public function actionIndex()
+    {
+        $dataProvider = new CActiveDataProvider('EnrollmentOnlinePreEnrollmentEventOnline');
+        $this->render('index', array(
+            'dataProvider' => $dataProvider,
+        ));
+    }
+
+    /**
+     * Manages all models.
+     */
+    public function actionAdmin()
+    {
+        $model = new EnrollmentOnlinePreEnrollmentEventOnline('search');
+        $model->unsetAttributes();  // clear any default values
+        if (isset($_GET['EnrollmentOnlinePreEnrollmentEventOnline']))
+            $model->attributes = $_GET['EnrollmentOnlinePreEnrollmentEventOnline'];
+
+        $this->render('admin', array(
+            'model' => $model,
+        ));
+    }
+
+    public function actionGetPreEnrollmentStages()
+    {
+        $eventId = Yii::app()->request->getParam('id');
+        $EventVsStages = EnrollmentOnlineEventVsEdcensoStage::model()->findAllByAttributes([
+            'pre_enrollment_event_fk' => $eventId
+        ]);
+
+        echo CHtml::tag('option', ['value' => ''], 'Selecione uma etapa', true);
+        foreach ($EventVsStages as $eventStage) {
+            $stage = $eventStage->edcensoStageFk;
+            echo CHtml::tag('option', ['value' => $stage->id], CHtml::encode($stage->name), true);
+        }
+        Yii::app()->end();
+    }
+
+    /**
+     * Returns the data model based on the primary key given in the GET variable.
+     * If the data model is not found, an HTTP exception will be raised.
+     * @param integer $id the ID of the model to be loaded
+     * @return EnrollmentOnlinePreEnrollmentEventOnline the loaded model
+     * @throws CHttpException
+     */
+    public function loadModel($id)
+    {
+        $model = EnrollmentOnlinePreEnrollmentEventOnline::model()->findByPk($id);
+        if ($model === null)
+            throw new CHttpException(404, 'The requested page does not exist.');
+        return $model;
+    }
+
+    /**
+     * Performs the AJAX validation.
+     * @param EnrollmentOnlinePreEnrollmentEventOnline $model the model to be validated
+     */
+    protected function performAjaxValidation($model)
+    {
+        if (isset($_POST['ajax']) && $_POST['ajax'] === 'enrollment-online-pre-enrollment-event-form') {
+            echo CActiveForm::validate($model);
+            Yii::app()->end();
+        }
+    }
+}

@@ -10,15 +10,22 @@
     border-radius: $borderRadiusLarge;
     width: fit-content;
     margin: 0 $SizeXXXSmall;
-}
 
-.t-tag-primary {
-    @extend .t-tag;
-    color: $colorsBaseProductLogo;
-    background-color: $colorsBaseProductLightActive;
-}
-.t-tag-secundary {
-    @extend .t-tag;
-    color: $colorsAlertInfoText;
-    background-color: $colorsAlertInfoBackground;
+    &-primary {
+        @extend .t-tag;
+        color: $colorsBaseProductLogo;
+        background-color: $colorsBaseProductLightActive;
+    }
+
+    &-secundary {
+        @extend .t-tag;
+        color: $colorsAlertInfoText;
+        background-color: $colorsAlertInfoBackground;
+    }
+
+    &-success {
+        @extend .t-tag;
+        color: $colorsAlertSuccessBackground;
+        background-color: $colorsAlertSuccessText;
+    }
 }
