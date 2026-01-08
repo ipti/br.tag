@@ -142,7 +142,7 @@ class EnrollmentonlinestudentidentificationController  extends Controller
         $model = new EnrollmentOnlineStudentIdentification();
         $repository = new EnrollmentonlinestudentidentificationRepository($model);
         $studentList = $repository->getStudentList();
-        $this->render('studentList', [
+        $this->render('studentlist', [
             'studentList' => $studentList,
         ]);
     }
