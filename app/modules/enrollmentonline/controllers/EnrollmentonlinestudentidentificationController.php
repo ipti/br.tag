@@ -6,7 +6,7 @@ use Sentry\State\Hub;
 use Sentry\Event;
 
 Yii::import('application.modules.enrollmentonline.repository.*');
-class EnrollmentOnlineStudentIdentificationController extends Controller
+class EnrollmentonlinestudentidentificationController  extends Controller
 {
     /**
      * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
