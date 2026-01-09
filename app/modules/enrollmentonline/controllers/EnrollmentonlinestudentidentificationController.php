@@ -186,7 +186,7 @@ class EnrollmentonlinestudentidentificationController extends Controller
                     Yii::app()->getAuthManager()->checkAccess('admin', Yii::app()->user->loginInfos->id) ||
                     Yii::app()->getAuthManager()->checkAccess('manager', Yii::app()->user->loginInfos->id)
                 ) {
-                    $this->redirect(['index']);
+                    $this->redirect(['index', 'eventId' => $model->pre_enrollment_event_fk]);
                 } else {
                     $this->redirect(['StudentList']);
                 }
