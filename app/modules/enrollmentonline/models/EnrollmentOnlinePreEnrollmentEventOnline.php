@@ -1,9 +1,9 @@
 <?php
 
 /**
- * This is the model class for table "enrollment_online_pre_enrollment_event".
+ * This is the model class for table "enrollment_online_pre_enrollment_event_online".
  *
- * The followings are the available columns in table 'enrollment_online_pre_enrollment_event':
+ * The followings are the available columns in table 'enrollment_online_pre_enrollment_event_online':
  * @property integer $id
  * @property string $name
  * @property string $start_date

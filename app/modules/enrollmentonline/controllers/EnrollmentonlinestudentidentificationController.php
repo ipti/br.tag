@@ -6,7 +6,7 @@ use Sentry\State\Hub;
 use Sentry\Event;
 
 Yii::import('application.modules.enrollmentonline.repository.*');
-class EnrollmentonlinestudentidentificationController  extends Controller
+class EnrollmentonlinestudentidentificationController extends Controller
 {
     /**
      * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
@@ -186,7 +186,7 @@ class EnrollmentonlinestudentidentificationController  extends Controller
                     Yii::app()->getAuthManager()->checkAccess('admin', Yii::app()->user->loginInfos->id) ||
                     Yii::app()->getAuthManager()->checkAccess('manager', Yii::app()->user->loginInfos->id)
                 ) {
-                    $this->redirect(['index']);
+                    $this->redirect(['index', 'eventId' => $model->pre_enrollment_event_fk]);
                 } else {
                     $this->redirect(['StudentList']);
                 }

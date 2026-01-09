@@ -302,9 +302,6 @@ $adminOrManager = !Yii::app()->user->isGuest &&
                     </div>
 
                     <div class="row">
-                    </div>
-
-                    <div class="row">
                         <div class="t-field-text column">
                             <?php echo $form->labelEx($model, 'responsable_telephone', ['class' => 't-field-text__label--required']); ?>
                             <?php echo $form->textField($model, 'responsable_telephone', ['size' => 14, 'maxlength' => 15, 'class' => 't-field-text__input js-tel-mask js-field-required']); ?>
@@ -340,6 +337,44 @@ $adminOrManager = !Yii::app()->user->isGuest &&
                             <?php echo $form->error($model, 'filiation_2'); ?>
                         </div>
                     </div>
+                    <?php if ($model->isNewRecord): ?>
+                        <div class="row">
+                            <h3 class="column">
+                                Senha de acesso
+                            </h3>
+                        </div>
+                        <div class="row">
+                            <div class="t-field-text column">
+                                <label for="password" class="t-field-text__label--required">
+                                    <?php echo Yii::t('default', 'Password'); ?>
+                                </label>
+                                <div class="t-field-text__password">
+                                    <?php echo CHtml::passwordField('password', '', array(
+                                        'size' => 32,
+                                        'maxlength' => 32,
+                                        'class' => 't-field-text__input js-field-required password-input',
+                                        'id' => 'password'
+                                    )); ?>
+                                    <span class="t-icon-eye show-password-icon" id="showPassword"></span>
+                                </div>
+                            </div>
+
+                            <div class="t-field-text column">
+                                <label for="Confirm" class="t-field-text__label--required">
+                                    <?php echo Yii::t('default', 'Confirm'); ?>
+                                </label>
+                                <div class="t-field-text__password">
+                                    <?php echo CHtml::passwordField('Confirm', '', array(
+                                        'size' => 32,
+                                        'maxlength' => 32,
+                                        'class' => 't-field-text__input js-field-required password-input',
+                                        'id' => 'Confirm'
+                                    )); ?>
+                                    <span class="t-icon-eye show-password-icon" id="showPasswordConfirm"></span>
+                                </div>
+                            </div>
+                        </div>
+                    <?php endif; ?>
                 </div>
                 <div class="tab-pane" id="student-address">
                     <div class="row">
@@ -523,7 +558,7 @@ $adminOrManager = !Yii::app()->user->isGuest &&
                         </div>
                         <div class="column"></div>
                     </div>
-                    <?php if ($adminOrManager && !$model->student_fk && !$isRejected): ?>
+                    <?php if ($adminOrManager && !$model->student_fk && !$isRejected && !$model->isNewRecord): ?>
                         <div class="row show--desktop  js-hide-buttons-enrollment">
                             <div class="column"></div>
                             <div class="column">
@@ -585,5 +620,13 @@ $adminOrManager = !Yii::app()->user->isGuest &&
 
     span.required {
         display: none;
+    }
+
+    .t-field-text .show-password-icon {
+        position: inherit;
+    }
+
+    .t-field-text__password {
+        display: flex;
     }
 </style>
