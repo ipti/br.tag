@@ -72,7 +72,7 @@ class EnrollmentonlinestudentidentificationRepository
         }
         $user = new Users();
         $passwordHasher = new PasswordHasher();
-        $password = $passwordHasher->bcriptHash(str_replace('/', '', $this->studentIdentification->responsable_cpf));
+        $password = $passwordHasher->bcriptHash(str_replace('/', '', $_POST['password']));
         $user->password = $password;
         $user->name = $this->studentIdentification->responsable_name;
         $user->active = 1;
@@ -164,7 +164,7 @@ class EnrollmentonlinestudentidentificationRepository
             ON c.school_inep_fk = si.inep_id
         INNER JOIN enrollment_online_student_identification eosi
             ON c.edcenso_stage_vs_modality_fk = eosi.edcenso_stage_vs_modality_fk
-        INNER JOIN enrollment_online_pre_enrollment_event eope
+        INNER JOIN enrollment_online_pre_enrollment_event_online eope
             ON eosi.pre_enrollment_event_fk = eope.id
         LEFT JOIN student_enrollment se
             ON se.classroom_fk = c.id

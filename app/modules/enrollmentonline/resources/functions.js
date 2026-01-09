@@ -134,12 +134,12 @@ $(".js-confirm-enrollment").on("click", function () {
                         "</a>";
                     $(".js-alert-enrollment-online").removeClass("alert-error");
                     $(".js-alert-enrollment-online").addClass("alert-success");
-
+                    $(".js-hide-buttons-enrollment").hide();
                 }
                 $(".js-alert-enrollment-online").html(DOMPurify.sanitize(mensagem));
 
 
-                $(".js-hide-buttons-enrollment").hide();
+
 
                 $(".js-alert-enrollment-online").show();
             }
@@ -162,17 +162,17 @@ $(".js-rejected-enrollment").on("click", function () {
                 $("#loading-popup").removeClass("hide").addClass("loading-center");
             },
             success: function (result) {
-                result = DOMPurify.sanitize(result);
-                $(".js-alert-enrollment-online").text(result.message);
+
+                $(".js-alert-enrollment-online").text(DOMPurify.sanitize(result.message));
 
                 if (result.status === "success") {
                     $(".js-alert-enrollment-online").removeClass("alert-error");
                     $(".js-alert-enrollment-online").addClass("alert-success");
+                    $(".js-hide-buttons-enrollment").hide();
                 } else {
                     $(".js-alert-enrollment-online").removeClass("alert-success");
                     $(".js-alert-enrollment-online").addClass("alert-error");
                 }
-                $(".js-hide-buttons-enrollment").hide();
                 $(".js-alert-enrollment-online").show();
                 $("#loading-popup").removeClass("loading-center").addClass("hide");
 
