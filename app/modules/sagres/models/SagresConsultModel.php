@@ -1620,7 +1620,7 @@ class SagresConsultModel
 
     private function getAcceptedEnrollmentStatus(): array
     {
-        if (Yii::app()->features->isEnable(TFeature::FEAT_INTEGRATIONS_SAGRES_STATUS_ENROLL)) {
+        if (Yii::app()->features->isEnable(\TFeature::FEAT_INTEGRATIONS_SAGRES_STATUS_ENROLL)) {
             return [
                 \StudentEnrollment::getStatusId(\StudentEnrollment::STATUS_ACTIVE),
                 //    \StudentEnrollment::getStatusId(\StudentEnrollment::STATUS_TRANSFERRED),
