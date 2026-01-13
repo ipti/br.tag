@@ -556,7 +556,28 @@ $adminOrManager = !Yii::app()->user->isGuest &&
                             );
                             ?>
                         </div>
+                        <?php if(!$model->isNewRecord && $adminOrManager):?>
+                        <div class="t-field-text column">
+                            <?php echo $form->labelEx($model, 'classroom_fk', ['class' => 't-field-text__label--required']); ?>
+                            <?php
+                                echo CHtml::dropDownList(
+                                    'classroom_fk',
+                                    $model->classroom_fk,
+                                    CHtml::listData($classrooms, 'id', 'name'),
+                                [
+                                        'prompt' => 'Selecione uma opção de matrícula',
+                                        'class' => 'select-search-on t-field-select__input select2-container',
+                                    ]
+                                );
+                            ?>
+                        </div>
+                        <?php
+                            else:
+                        ?>
                         <div class="column"></div>
+                        <?php
+                            endif;
+                        ?>
                     </div>
                     <?php if ($adminOrManager && !$model->student_fk && !$isRejected && !$model->isNewRecord): ?>
                         <div class="row show--desktop  js-hide-buttons-enrollment">
