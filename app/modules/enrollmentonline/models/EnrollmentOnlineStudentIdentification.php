@@ -116,7 +116,7 @@ class EnrollmentOnlineStudentIdentification extends CActiveRecord
     {
         return array(
             'classroom_inep_id' => 'Classroom Inep',
-            'classroom_fk' => 'Classroom Fk',
+            'classroom_fk' => 'Turma',
             'id' => 'ID',
             'name' => 'Nome',
             'birthday' => 'Data de Nascimento',
