@@ -566,7 +566,7 @@ $adminOrManager = !Yii::app()->user->isGuest &&
                                     CHtml::listData($classrooms, 'id', 'name'),
                                 [
                                         'prompt' => 'Selecione uma opção de matrícula',
-                                        'class' => 'select-search-on t-field-select__input select2-container',
+                                        'class' => 'select-search-on t-field-select__input js-online-classroom-id select2-container',
                                     ]
                                 );
                             ?>

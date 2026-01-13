@@ -151,6 +151,7 @@ class EnrollmentonlinestudentidentificationController extends Controller
 
         $id = Yii::app()->request->getPost('enrollmentId');
         $model = $this->loadModel($id);
+        $model->classroom_fk = Yii::app()->request->getPost('classroom_fk');
         $repository = new EnrollmentonlinestudentidentificationRepository($model);
         echo $repository->confirmEnrollment();
     }
