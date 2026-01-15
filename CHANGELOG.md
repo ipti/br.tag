@@ -1,3 +1,6 @@
+## [Versão 3.7.1]
+- Adicionado campo no formulário de pré-matrícula para o gestor escolher para qual turma o aluno será matriculado
+
 ## [Versão 3.7.0]
 - Matrícula Online
 

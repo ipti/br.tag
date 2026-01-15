@@ -139,11 +139,7 @@ class EnrollmentonlinestudentidentificationRepository
     {
 
 
-        $classroom = $this->findAvailableClassroom();
-
-        if (!$classroom) {
-            return $this->jsonError("Não há vagas disponíveis para esta etapa/modalidade.");
-        }
+        $classroom = Classroom::model()->findByPk($this->studentIdentification->classroom_fk);
 
         $existingStudent = $this->findExistingStudent();
 
@@ -154,39 +150,6 @@ class EnrollmentonlinestudentidentificationRepository
         return $this->createEnrollmentForExistingStudent($existingStudent, $classroom);
     }
 
-    private function findAvailableClassroom()
-    {
-        $criteria = new CDbCriteria();
-        $criteria->alias = 'c';
-
-        $criteria->join = '
-        INNER JOIN school_identification si
-            ON c.school_inep_fk = si.inep_id
-        INNER JOIN enrollment_online_student_identification eosi
-            ON c.edcenso_stage_vs_modality_fk = eosi.edcenso_stage_vs_modality_fk
-        INNER JOIN enrollment_online_pre_enrollment_event_online eope
-            ON eosi.pre_enrollment_event_fk = eope.id
-        LEFT JOIN student_enrollment se
-            ON se.classroom_fk = c.id
-    ';
-
-        $criteria->condition = '
-        si.inep_id = :school
-        AND c.edcenso_stage_vs_modality_fk = :stage
-        AND eope.year = c.school_year
-    ';
-
-        $criteria->params = [
-            ':school' => Yii::app()->user->school,
-            ':stage' => $this->studentIdentification->edcenso_stage_vs_modality_fk
-        ];
-
-        $criteria->addCondition('(se.status IN (1,2,6,7,8,9,10) OR se.status IS NULL)');
-        $criteria->group = 'c.id';
-        $criteria->having = 'COUNT(DISTINCT se.id) < c.capacity';
-
-        return Classroom::model()->find($criteria);
-    }
 
     private function findExistingStudent()
     {

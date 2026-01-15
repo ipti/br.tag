@@ -103,6 +103,7 @@ $("select.js-school-1, select.js-school-2, select.js-school-3").on("change", fun
 
 
 $(".js-confirm-enrollment").on("click", function () {
+
     if (confirm("Tem certeza que deseja confirmar a matrícula?")) {
         $.ajax({
             type: "POST",
@@ -111,6 +112,7 @@ $(".js-confirm-enrollment").on("click", function () {
             cache: false,
             data: {
                 enrollmentId: $('input.js-online-enrollment-id').val(),
+                classroom_fk: $('select.js-online-classroom-id').val(),
             },
             success: function (result) {
 
