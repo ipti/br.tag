@@ -1095,6 +1095,7 @@ class FormsRepository
                 si.id AS student_id,
                 ed.name AS discipline_name,
                 ed.id AS discipline_id,
+                gr.grade_concept_1,
                 gr.final_media,
                 gr.rec_final,
                 gr.situation,
@@ -1170,7 +1171,7 @@ class FormsRepository
                 foreach ($result as $r) {
                     if ($r['discipline_id'] == $d['discipline_id'] && $r['student_id'] == $s['student_fk']) {
                       $finalMedia = max($r['final_media'], $r['rec_final'] ?? 0);
-                        if ($isMinorStage) {
+                        if ($isMinorStage && $r['grade_concept_1'] != null && $r['grade_concept_1'] != '') {
                             $finalMedia = $this->checkConceptGradeRange($finalMedia, $concepts);
                         }
                         $r['situation'] = mb_strtoupper($r['situation']);
