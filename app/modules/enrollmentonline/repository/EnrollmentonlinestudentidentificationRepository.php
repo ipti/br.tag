@@ -244,7 +244,32 @@ class EnrollmentonlinestudentidentificationRepository
         $transaction = Yii::app()->db->beginTransaction();
 
         try {
-            $studentEnrollment = new StudentEnrollment();
+
+            $criteria = new CDbCriteria;
+            $criteria->alias = 'se';
+            $criteria->join = 'JOIN classroom ON classroom.id = se.classroom_fk';
+
+            // O compare cria o parâmetro :ycp0 automaticamente
+            $criteria->compare('se.student_fk', $existingStudent->id);
+
+            // Passe os valores como o segundo argumento
+            $criteria->addCondition('se.status = :active', 'AND');
+            $criteria->addCondition('classroom.aee = :isAee', 'AND');
+
+            $criteria->params[':active'] = 1;
+            $criteria->params[':isAee'] = 0;
+
+            $studentEnrollment = StudentEnrollment::model()->find($criteria);
+
+            if ($studentEnrollment) {
+                $transaction->rollback();
+                return $this->jsonError("Aluno já possui matrícula ativa em alguma turma.");
+            }
+
+            if (!$studentEnrollment) {
+
+                $studentEnrollment = new StudentEnrollment();
+            }
 
             // Criar matrícula
             $this->saveEnrollment($studentEnrollment, $existingStudent->id, $classroom);
