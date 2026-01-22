@@ -2602,7 +2602,7 @@ class CensoController extends Controller
         $fileDir = Yii::app()->basePath . '/export/' . date('Y_') . Yii::app()->user->school . '.TXT';
 
         Yii::import('ext.FileManager.fileManager');
-        $fm = new fileManager();
+        $fm = new FileManager();
         $result = $fm->write($fileDir, $export);
 
         if ($result) {
@@ -2625,7 +2625,7 @@ class CensoController extends Controller
         $fileDir = Yii::app()->basePath . '/export/' . date('Y_') . Yii::app()->user->school . '_IDENTIFICACAO.TXT';
 
         Yii::import('ext.FileManager.fileManager');
-        $fm = new fileManager();
+        $fm = new FileManager();
         $result = $fm->write($fileDir, $export);
 
         if ($result) {
