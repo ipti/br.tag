@@ -13,13 +13,13 @@ class IMC
 
     public function imcSituation($imc)
     {
-        if($imc < 19) {
+        if ($imc < 19) {
             return IMC::DESNUTRICAO;
-        } elseif($imc >= 19 && $imc < 24.9) {
+        } elseif ($imc >= 19 && $imc < 24.9) {
             return IMC::NORMAL;
-        } elseif($imc >= 25 && $imc < 29.9) {
+        } elseif ($imc >= 25 && $imc < 29.9) {
             return IMC::SOBREPESO;
-        } elseif($imc >= 30) {
+        } elseif ($imc >= 30) {
             return IMC::OBESIDADE;
         } else {
             return null;

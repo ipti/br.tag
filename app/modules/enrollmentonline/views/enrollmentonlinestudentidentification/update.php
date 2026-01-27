@@ -14,8 +14,10 @@ $this->menu = [
     ['label' => 'View EnrollmentOnlineStudentIdentification', 'url' => ['view', 'id' => $model->id]],
     ['label' => 'Manage EnrollmentOnlineStudentIdentification', 'url' => ['admin']],
 ];
+
+$title = 'Pre Matrícula';
+$this->pageTitle = 'TAG - Pré-Matrícula';
 ?>
 
-<h1>Update EnrollmentOnlineStudentIdentification <?php echo $model->id; ?></h1>
 
-<?php $this->renderPartial('_form', ['model' => $model]); ?>
+<?php $this->renderPartial('_form', ['model' => $model, 'title' => $title, 'classrooms' => $classrooms, 'studentSolicitations' => $studentSolicitations, 'schools' => $schools, 'isRejected' => $isRejected]); ?>

@@ -813,7 +813,7 @@ $form = $this->beginWidget(
                                     </div>
                                     <div class="reports_cards">
                                         <a class="t-button-secondary" rel="noopener" target="_blank"
-                                            href="<?= Yii::app()->createUrl('forms/StudentsFileForm', array('classroom_id' => $modelClassroom->id, 'type' => 1)) ?>">
+                                            href="<?= Yii::app()->createUrl('forms/StudentsFileForm', array('classroomId' => $modelClassroom->id, 'type' => 1)) ?>">
                                             <!-- <img alt="impressora" src="<?= Yii::app()->theme->baseUrl; ?>/img/Impressora.svg" class="img_cards" /> -->
                                             <span class="t-icon-printer"></span>
                                             <?= Yii::t('default', 'Fichas de Matrícula') ?>
@@ -880,7 +880,7 @@ $form = $this->beginWidget(
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="<?= Yii::app()->createUrl('forms/StudentsFileForm', array('classroom_id' => $modelClassroom->id, 'type' => 1)) ?>"
+                                    <a href="<?= Yii::app()->createUrl('forms/StudentsFileForm', array('classroomId' => $modelClassroom->id, 'type' => 1)) ?>"
                                         target="blank" class="hidden-print"><i></i>
                                         <?= Yii::t('default', 'Fichas de Matrícula') ?>
                                     </a>

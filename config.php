@@ -8,7 +8,7 @@ defined('YII_DEBUG') or define('YII_DEBUG', $debug ?? false);
 // Sessão (1h por padrão)
 defined('SESSION_MAX_LIFETIME') or define('SESSION_MAX_LIFETIME', 3600);
 
-define("TAG_VERSION", '3.6.3');
+define("TAG_VERSION", '3.7.3');
 
 
 define("YII_VERSION", Yii::getVersion());
@@ -22,7 +22,6 @@ if (YII_DEBUG) {
     defined('YII_ENABLE_ERROR_HANDLER') or define('YII_ENABLE_ERROR_HANDLER', true);
     defined('YII_ENABLE_EXCEPTION_HANDLER') or define('YII_ENABLE_EXCEPTION_HANDLER', true);
     error_reporting(E_ALL & ~E_WARNING & ~E_NOTICE & ~E_DEPRECATED);
-
 } else {
     // Produção: não mostrar, mas LOGAR
     ini_set('display_errors', '0');

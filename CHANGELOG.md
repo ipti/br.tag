@@ -1,5 +1,24 @@
+##  [Versão 3.7.3]
+- Corrigido erro de duplicidade de matrícula na matrícula online
+
+## [Versão 3.7.2]
+- Corrigido erro na exibição da média final no relatório de ata de notas para turmas do Ensino Fundamental I
+
+## [Versão 3.7.1]
+- Adicionado campo no formulário de pré-matrícula para o gestor escolher para qual turma o aluno será matriculado
+
+## [Versão 3.7.0]
+- Matrícula Online
+
+## [Versão 3.6.5]
+- Adicionando modo de manutenção
+
+## [Versão 3.6.4]
+- Corrigido stauts do estudante quando ele esta reprovado por falta
+
 ## [Versão 3.6.3]
 - Corrigido fluxo de criação do diário de classe
+
 ## [Versão 3.6.2]
 - Corrigida a visualização do relatório de notas por aluno para as disciplinas que não requerem prova
 
