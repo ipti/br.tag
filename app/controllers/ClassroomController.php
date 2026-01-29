@@ -469,7 +469,7 @@ class ClassroomController extends Controller
         }
         $this->render('batchupdatetotal', [
             'modelClassroom' => $modelClassroom,
-            'options_stage' => $optionsStage
+            'optionsStage' => $optionsStage
         ]);
     }
 
