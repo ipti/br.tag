@@ -277,7 +277,7 @@ class FormsRepository
 
                     array_push($result, [
                         "discipline_id" => $gradeResult->disciplineFk->id,
-                        "final_media" => $gradeResult->final_concpt,
+                        "final_media" => $gradeResult->final_media,
                         "grade_result" => $gradeResult,
                         "partial_recoveries" => $partialRecoveries,
                         "total_number_of_classes" => $totalContentsPerDiscipline,
@@ -331,7 +331,8 @@ class FormsRepository
             "faults" => $faultsPerUnity,
             "workload" => $workloadPerUnity,
             "isMinorEducation" => $isMinorEducation,
-            "disciplines" => $disciplines
+            "disciplines" => $disciplines,
+            "isConceptGrade" => $gradeRules->rule_type === "C"
         );
 
         return $response;
