@@ -32,9 +32,9 @@ $form = $this->beginWidget('CActiveForm', array(
     <!-- Wrapper -->
 
     <?php
-    if ((bool)getenv('MAINTENANCE_MODE')):
+   /*  if ((bool)getenv('MAINTENANCE_MODE')):
         $this->renderPartial("_maintenance_mode");
-    else:
+    else: */
     ?>
         <div id="login">
             <!-- <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/tag-title.png" style="padding: 20px 20px;position: absolute;top: 0;right: 0;" /> -->
@@ -116,7 +116,7 @@ $form = $this->beginWidget('CActiveForm', array(
             <span>Uma tecnologia desenvolvida pelo</span>
             <br> -->
         </div>
-    <?php endif; ?>
+    <?php// endif; ?>
 
 
 </body>

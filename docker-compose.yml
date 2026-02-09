@@ -34,7 +34,7 @@ services:
       # - ./docker/php/conf.d/error_reporting.ini:/usr/local/etc/php/conf.d/error_reporting.ini
 
   mysql:
-    image: mysql:5.7
+    image: mysql:8.0
     container_name: mysql
     restart: always
     command: mysqld --sql_mode="" --max_allowed_packet=32505856

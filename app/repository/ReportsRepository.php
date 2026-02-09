@@ -2339,7 +2339,7 @@ class ReportsRepository
                 $commonModalitiesName = '';
                 $firstCommonModality = false;
                 foreach ($gradeUnity->gradeUnityModalities as $gradeUnityModality) {
-                    if ($gradeUnityModality->type == 'C') {
+                    if ($gradeUnityModality->type == 'C' || $gradeUnityModality->type == 'FC') {
                         if (!$firstCommonModality) {
                             $commonModalitiesName .= $gradeUnityModality->name;
                             $firstCommonModality = true;
@@ -2414,6 +2414,15 @@ class ReportsRepository
                                 break;
                             }
                             $grade['unityGrade'] = $gradeResult['grade_concept_' . ($gradeIndex + 1)] != null ? $gradeResult['grade_concept_' . ($gradeIndex + 1)] : '';
+                            $gradeIndex++;
+                            break;
+                        case 'FC':
+                            if ($edcensoDiscipline->requires_exam == 0) {
+                                $grade['unityGrade'] = $edcensoDiscipline->report_text;
+                                break;
+                            }
+                            $finalConcept = GradeConcept::model()->findByPk($gradeResult['final_concept']);
+                            $grade['unityGrade'] = $finalConcept ? $finalConcept->acronym : '';
                             $gradeIndex++;
                             break;
                         default:

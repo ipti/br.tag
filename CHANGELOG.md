@@ -1,4 +1,7 @@
-##  [Versão 3.7.3]
+## [Versão 3.7.4]
+- Corrigido conceito final para os relatórios de Ata de Notas, Ficha de Notas e Diário Eletrônico
+
+## [Versão 3.7.3]
 - Corrigido erro de duplicidade de matrícula na matrícula online
 
 ## [Versão 3.7.2]
