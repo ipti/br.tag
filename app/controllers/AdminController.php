@@ -774,6 +774,51 @@ SELECT
             );
             $gradeRules = $usecase->exec();
 
+            if($gradeRules->rule_type === 'C') {
+
+            $gradeUnityFinalConcept = GradeUnity::model()->findAllByAttributes(
+                ['grade_rules_fk' => $gradeRules->id, 'type' => GradeUnity::TYPE_FINAL_CONCEPT]);
+
+                    if(!$gradeUnityFinalConcept){
+                        $gradeUnityFinalConcept = new GradeUnity();
+                        $gradeUnityFinalConcept->name = 'CONCEITO FINAL';
+                        $gradeUnityFinalConcept->type = GradeUnity::TYPE_FINAL_CONCEPT;
+                        $gradeUnityFinalConcept->grade_calculation_fk = 2;
+                        $gradeUnityFinalConcept->grade_rules_fk = $gradeRules->id;
+                        if (!$gradeUnityFinalConcept->validate()) {
+                            $validationMessage = Yii::app()->utils->stringfyValidationErrors($gradeUnityFinalConcept);
+                            throw new CHttpException(400, "Não foi possivel salvar dados do conceito final: \n" . $validationMessage, 1);
+                        }
+                        $gradeUnityFinalConcept->save();
+
+                        $gradeUnityModalityFinalConcept = new GradeUnityModality();
+                        $gradeUnityModalityFinalConcept->name = 'AVALIAÇÃO';
+                        $gradeUnityModalityFinalConcept->type = GradeUnityModality::TYPE_FINAL_CONCEPT;
+                        $gradeUnityModalityFinalConcept->weight = null;
+                        $gradeUnityModalityFinalConcept->grade_unity_fk = $gradeUnityFinalConcept->id;
+                        if (!$gradeUnityModalityFinalConcept->validate()) {
+                            throw new CantSaveGradeUnityModalityException($gradeUnityModalityFinalConcept);
+                        }
+                        $gradeUnityModalityFinalConcept->save();
+                    }
+            } else if ($gradeRules->rule_type === 'N') {
+                $gradeUnityFinalConcept = GradeUnity::model()->findAllByAttributes(
+                    ['grade_rules_fk' => $gradeRules->id, 'type' => GradeUnity::TYPE_FINAL_CONCEPT]);
+
+                if($gradeUnityFinalConcept){
+                    foreach($gradeUnityFinalConcept as $concept){
+                        $modalityModel = GradeUnityModality::model()->findByAttributes(['grade_unity_fk' => $concept->id]);
+                        if ($modalityModel != null) {
+                            Grade::model()->deleteAllByAttributes([
+                                'grade_unity_modality_fk' => $modalityModel->id
+                            ]);
+                            $modalityModel->delete();
+                        }
+                        $concept->delete();
+                    }
+                }
+            }
+
             if ($hasFinalRecovery === true) {
                 $recoveryUnity = GradeUnity::model()->findByPk($finalRecovery['id']);
 
