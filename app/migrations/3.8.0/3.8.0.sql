@@ -3,7 +3,7 @@
 -- Create school_room table for physical classroom spaces
 CREATE TABLE school_room (
     id INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    school_inep_fk VARCHAR(8) NOT NULL,
+    school_inep_fk VARCHAR(8) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
     name VARCHAR(100) NOT NULL,
     capacity INT(11) NULL,
     created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -12,7 +12,7 @@ CREATE TABLE school_room (
         REFERENCES school_identification (inep_id) 
         ON UPDATE CASCADE 
         ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- Add room_fk to classroom table to associate turmas with physical rooms
 ALTER TABLE classroom 

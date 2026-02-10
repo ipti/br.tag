@@ -49,11 +49,13 @@
                 </div>
             </div>
             
-            <div class="modal-footer">
-                <button type="button" class="t-button-secondary" data-dismiss="modal">Cancelar</button>
-                <button type="submit" class="t-button-primary">
-                    <?= $model->isNewRecord ? 'Adicionar' : 'Salvar' ?>
-                </button>
+            <div class="row">
+                <div class="column t-buttons-container justify-content--center">
+                    <button type="button" class="t-button-secondary" data-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="t-button-primary">
+                        <?= $model->isNewRecord ? 'Adicionar' : 'Salvar' ?>
+                    </button>
+                </div>
             </div>
             
             <?php $this->endWidget(); ?>
