@@ -275,7 +275,18 @@ $form = $this->beginWidget(
                                     <label class="t-field-checkbox" for="Classroom_ignore_on_sagres">
                                         <?= Yii::t("default",  Classroom::model()->attributeLabels()['ignore_on_sagres']) ?>
                                     </label>
+                                </div>
+                            </div>
 
+                            <div class="t-field-checkbox-group" id="prosic-container" style="<?= (isset($modelClassroom->edcensoStageVsModalityFk) && TagUtils::isMultiStage($modelClassroom->edcensoStageVsModalityFk->edcenso_associated_stage_id)) ? '' : 'display:none;' ?>">
+                                <label class="t-field-checkbox__label">
+                                    <?= Yii::t("default", "Educação Conectada") ?>
+                                </label>
+                                <div class="t-field-checkbox">
+                                    <?= $form->checkBox($modelClassroom, 'is_prosic', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                    <label class="t-field-checkbox" for="Classroom_is_prosic">
+                                        <?= Yii::t("default",  Classroom::model()->attributeLabels()['is_prosic']) ?>
+                                    </label>
                                 </div>
                             </div>
 
@@ -1198,5 +1209,29 @@ if (isset($_GET['censo']) && isset($_GET['id'])) {
 
     $("#print").on('click', function() {
         window.print();
+    });
+</script>
+
+<?php
+$multiGradeIds = [];
+foreach ($edcensoStageVsModalities as $modality) {
+    if (TagUtils::isMultiStage($modality->edcenso_associated_stage_id)) {
+        $multiGradeIds[] = (string)$modality->id;
+    }
+}
+?>
+<script>
+    $(document).ready(function() {
+        var multiStages = <?= json_encode($multiGradeIds) ?>;
+        
+        $('#Classroom_edcenso_stage_vs_modality_fk').on('change', function() {
+            var selectedStage = $(this).val();
+            if (multiStages.indexOf(selectedStage) !== -1) {
+                $('#prosic-container').show();
+            } else {
+                $('#prosic-container').hide();
+                $('#Classroom_is_prosic').prop('checked', false);
+            }
+        });
     });
 </script>

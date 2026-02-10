@@ -37,6 +37,17 @@
                     )); ?>
                     <?= $form->error($model, 'name'); ?>
                 </div>
+
+                <div class="t-field-text">
+                    <?= $form->label($model, 'number', array('class' => 't-field-text__label')); ?>
+                    <?= $form->textField($model, 'number', array(
+                        'size' => 60,
+                        'maxlength' => 45,
+                        'class' => 't-field-text__input',
+                        'placeholder' => 'Ex: 1, 10-A, etc.'
+                    )); ?>
+                    <?= $form->error($model, 'number'); ?>
+                </div>
                 
                 <div class="t-field-text">
                     <?= $form->label($model, 'capacity', array('class' => 't-field-text__label')); ?>

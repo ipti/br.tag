@@ -4410,7 +4410,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                             'columns' => array(
                                                 array(
                                                     'name' => 'name',
-                                                    'header' => 'Nome/Número da Sala',
+                                                    'header' => 'Nome da Sala',
                                                     'type' => 'raw',
                                                     'value' => function($data) {
                                                         return CHtml::link(
@@ -4419,6 +4419,11 @@ $form = $this->beginWidget('CActiveForm', array(
                                                             array('class' => 'open-room-modal')
                                                         );
                                                     },
+                                                ),
+                                                array(
+                                                    'name' => 'number',
+                                                    'header' => 'Número',
+                                                    'value' => '$data->number ? $data->number : "-"',
                                                 ),
                                                 array(
                                                     'name' => 'capacity',
