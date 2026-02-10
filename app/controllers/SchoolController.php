@@ -47,7 +47,10 @@ class SchoolController extends Controller
                     'updateufdependencies',
                     'updatecitydependencies',
                     'displayLogo',
-                    'RemoveLogo'
+                    'RemoveLogo',
+                    'createRoom',
+                    'updateRoom',
+                    'deleteRoom'
                 ],
                 'users' => ['@'],
             ],
@@ -579,6 +582,70 @@ class SchoolController extends Controller
                 'title' => $title
             ]
         );
+    }
+
+    /**
+     * Creates a new room for a school.
+     */
+    public function actionCreateRoom()
+    {
+        $model = new SchoolRoom();
+
+        if (isset($_POST['SchoolRoom'])) {
+            $model->attributes = $_POST['SchoolRoom'];
+            if ($model->save()) {
+                Yii::app()->user->setFlash('success', 'Sala adicionada com sucesso!');
+                $this->redirect(['update', 'id' => $model->school_inep_fk]);
+            }
+        }
+
+        $this->renderPartial('_roomForm', ['model' => $model], false, true);
+    }
+
+    /**
+     * Updates an existing room.
+     * @param integer $id the ID of the room to be updated
+     */
+    public function actionUpdateRoom($id)
+    {
+        $model = SchoolRoom::model()->findByPk($id);
+        
+        if (!$model) {
+            throw new CHttpException(404, 'A sala requisitada não existe.');
+        }
+
+        if (isset($_POST['SchoolRoom'])) {
+            $model->attributes = $_POST['SchoolRoom'];
+            if ($model->save()) {
+                Yii::app()->user->setFlash('success', 'Sala atualizada com sucesso!');
+                $this->redirect(['update', 'id' => $model->school_inep_fk]);
+            }
+        }
+
+        $this->renderPartial('_roomForm', ['model' => $model], false, true);
+    }
+
+    /**
+     * Deletes a room.
+     * @param integer $id the ID of the room to be deleted
+     */
+    public function actionDeleteRoom($id)
+    {
+        $model = SchoolRoom::model()->findByPk($id);
+        
+        if (!$model) {
+            throw new CHttpException(404, 'A sala requisitada não existe.');
+        }
+
+        $schoolId = $model->school_inep_fk;
+        
+        if ($model->delete()) {
+            Yii::app()->user->setFlash('success', 'Sala excluída com sucesso!');
+        } else {
+            Yii::app()->user->setFlash('error', 'Erro ao excluir sala.');
+        }
+        
+        $this->redirect(['update', 'id' => $schoolId]);
     }
 
     /**

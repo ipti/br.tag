@@ -242,6 +242,30 @@ $form = $this->beginWidget(
                                 <?= $form->error($modelClassroom, 'capacity'); ?>
                             </div>
 
+                            <!-- Sala de Aula (Espaço Físico) -->
+                            <div class="t-field-select">
+                                <?= $form->label($modelClassroom, 'room_fk', array('class' => 't-field-select__label')); ?>
+                                <?php 
+                                $rooms = CHtml::listData(
+                                    SchoolRoom::model()->findAllByAttributes(
+                                        array('school_inep_fk' => $modelClassroom->school_inep_fk)
+                                    ), 
+                                    'id', 
+                                    'name'
+                                );
+                                echo $form->dropDownList(
+                                    $modelClassroom, 
+                                    'room_fk', 
+                                    $rooms,
+                                    array(
+                                        'prompt' => 'Selecione uma sala',
+                                        'class' => 'select-search-on t-field-select__input select2-container'
+                                    )
+                                ); 
+                                ?>
+                                <?= $form->error($modelClassroom, 'room_fk'); ?>
+                            </div>
+
                             <div class="t-field-checkbox-group">
                                 <label class="t-field-checkbox__label">
                                     <?= Yii::t("default", "Configuração do Sagres") ?>

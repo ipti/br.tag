@@ -89,10 +89,17 @@ $form = $this->beginWidget('CActiveForm', array(
                     <?php endif ?>
                 </li>
                 <?php if (!$modelSchoolIdentification->isNewRecord): ?>
+                    <li id="tab-school-rooms" class="t-tabs__item">
+                        <a class="t-tabs__link" href="#school-rooms" data-toggle="tab">
+                            <span class="t-tabs__numeration">7</span>
+                            <?php echo Yii::t('default', 'Salas de Aula') ?>
+                        </a>
+                        <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/seta-tabs.svg" alt="seta">
+                    </li>
                     <li id="tab-school-reports" class="t-tabs__item hide-responsive">
 
                         <a class="t-tabs__link" href="#school-reports" data-toggle="tab">
-                            <span class="t-tabs__numeration">7</span>
+                            <span class="t-tabs__numeration">8</span>
                             <?php echo Yii::t('default', 'Relatórios') ?>
                         </a>
 
@@ -4362,6 +4369,77 @@ $form = $this->beginWidget('CActiveForm', array(
                                 <?php echo $form->dropDownList($modelSchoolStructure, 'stages', CHtml::listData(EdcensoStageVsModality::model()->findAll(array('order' => 'name')), 'id', 'name'), array('multiple' => true, 'prompt' => 'Selecione o estágio vs modalidade', 'class' => 'select-search-on t-multiselect control-input multiselect')); ?>
                                 <?php echo $form->error($modelSchoolStructure, 'stages'); ?>
                             </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane" id="school-rooms">
+                    <div>
+                        <h3>Salas de Aula (Espaços Físicos)</h3>
+                    </div>
+                    <div class="row">
+                        <div class="column">
+                            <a href="<?= Yii::app()->createUrl('school/createRoom', array('school_id' => $modelSchoolIdentification->inep_id)); ?>" class="t-button-primary" data-toggle="modal" data-target="#roomModal">
+                                <span class="t-icon-add"></span>
+                                Adicionar Sala
+                            </a>
+                        </div>
+                    </div>
+                    <div class="separator"></div>
+                    <div class="row">
+                        <div class="column">
+                            <?php
+                            if (!$modelSchoolIdentification->isNewRecord) {
+                                $dataProvider = new CActiveDataProvider('SchoolRoom', array(
+                                    'criteria' => array(
+                                        'condition' => 'school_inep_fk = :school_id',
+                                        'params' => array(':school_id' => $modelSchoolIdentification->inep_id),
+                                        'order' => 'name ASC',
+                                    ),
+                                    'pagination' => false,
+                                ));
+
+                                $this->widget('zii.widgets.grid.CGridView', array(
+                                    'dataProvider' => $dataProvider,
+                                    'enableSorting' => true,
+                                    'ajaxUpdate' => false,
+                                    'itemsCssClass' => 'js-tag-table tag-table-primary table table-condensed table-striped table-hover table-primary table-vertical-center checkboxs',
+                                    'columns' => array(
+                                        array(
+                                            'name' => 'name',
+                                            'header' => 'Nome/Número da Sala',
+                                            'type' => 'raw',
+                                            'value' => function($data) {
+                                                return CHtml::link(
+                                                    CHtml::encode($data->name),
+                                                    Yii::app()->createUrl('school/updateRoom', array('id' => $data->id)),
+                                                    array('data-toggle' => 'modal', 'data-target' => '#roomModal')
+                                                );
+                                            },
+                                        ),
+                                        array(
+                                            'name' => 'capacity',
+                                            'header' => 'Capacidade',
+                                            'value' => '$data->capacity ? $data->capacity : "-"',
+                                        ),
+                                        array(
+                                            'header' => 'Ações',
+                                            'type' => 'raw',
+                                            'value' => function($data) {
+                                                $updateUrl = Yii::app()->createUrl('school/updateRoom', array('id' => $data->id));
+                                                $deleteUrl = Yii::app()->createUrl('school/deleteRoom', array('id' => $data->id));
+                                                
+                                                return '<a href="' . $updateUrl . '" data-toggle="modal" data-target="#roomModal" class="t-button-icon" title="Editar">' .
+                                                       '<span class="t-icon-edit"></span>' .
+                                                       '</a> ' .
+                                                       '<a href="' . $deleteUrl . '" class="t-button-icon delete-room" title="Excluir" onclick="return confirm(\'Tem certeza que deseja excluir esta sala?\');">' .
+                                                       '<span class="t-icon-delete"></span>' .
+                                                       '</a>';
+                                            },
+                                        ),
+                                    ),
+                                ));
+                            }
+                            ?>
                         </div>
                     </div>
                 </div>
