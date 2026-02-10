@@ -2304,17 +2304,17 @@ class SagresConsultModel
             $inconsistencyModel->insert();
         }
 
-        if ($this->dataMax($studentType->getDataNascimento())) {
-            $inconsistencyModel = new ValidationSagresModel();
-            $inconsistencyModel->enrollment = STUDENT_STRONG;
-            $inconsistencyModel->school = $schoolName;
-            $inconsistencyModel->description = INCONSISTENCY_BIRTH_AFTER_LIMIT;
-            $inconsistencyModel->action = 'Adicione uma data válida para o estudante: <strong>' . $studentType->getNome() . '</strong>';
-            $inconsistencyModel->identifier = '9';
-            $inconsistencyModel->idStudent = $enrollment['student_fk'];
-            $inconsistencyModel->idClass = $classId;
-            $inconsistencyModel->insert();
-        }
+        // if ($this->dataMax($studentType->getDataNascimento())) {
+        //     $inconsistencyModel = new ValidationSagresModel();
+        //     $inconsistencyModel->enrollment = STUDENT_STRONG;
+        //     $inconsistencyModel->school = $schoolName;
+        //     $inconsistencyModel->description = INCONSISTENCY_BIRTH_AFTER_LIMIT;
+        //     $inconsistencyModel->action = 'Adicione uma data válida para o estudante: <strong>' . $studentType->getNome() . '</strong>';
+        //     $inconsistencyModel->identifier = '9';
+        //     $inconsistencyModel->idStudent = $enrollment['student_fk'];
+        //     $inconsistencyModel->idClass = $classId;
+        //     $inconsistencyModel->insert();
+        // }
 
         if ($this->dataMin($studentType->getDataNascimento())) {
             $inconsistencyModel = new ValidationSagresModel();
@@ -2877,7 +2877,7 @@ class SagresConsultModel
      */
     private function dataMax(DateTime $data): bool
     {
-        $dataMaxima = new DateTime('2024-08-30');
+        $dataMaxima = new DateTime('2025-08-30');
 
         return $data > $dataMaxima;
     }
