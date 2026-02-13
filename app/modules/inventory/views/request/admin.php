@@ -7,19 +7,6 @@ $this->breadcrumbs=array(
 	'Almoxarifado' => array('movement/index'),
 	'Gerenciar Solicitações',
 );
-
-Yii::app()->clientScript->registerScript('search', "
-$('.search-button').click(function(){
-	$('.search-form').toggle();
-	return false;
-});
-$('.search-form form').submit(function(){
-	$('#inventory-request-grid').yiiGridView('update', {
-		data: $(this).serialize()
-	});
-	return false;
-});
-");
 ?>
 
 <style>
@@ -41,15 +28,15 @@ $('.search-form form').submit(function(){
         <div class="column is-full">
             <div class="widget clearmargin">
                 <div class="widget-body">
-                    <?php $this->widget('zii.widgets.grid.CGridView', array(
-                        'id'=>'inventory-request-grid',
-                        'dataProvider'=>$model->search(),
-                        'filter'=>$model,
-                        'htmlOptions' => array('style' => 'width: 100%'),
-                        'itemsCssClass' => 'tag-table-primary table table-condensed table-striped table-hover table-primary table-vertical-center checkboxs',
-                        'enableSorting' => false,
-                        'afterAjaxUpdate' => 'js:function(id, data){ initDatatable(); }',
-                        'columns'=>array(
+                    <?php DataTableGridView::show(
+                        $this,
+                        array(
+                            'id'=>'inventory-request-grid',
+                            'dataProvider'=>$model->search(false),
+                            'filter'=>$model,
+                            'htmlOptions' => array('style' => 'width: 100%'),
+                            'enableSorting' => false,
+                            'columns'=>array(
                             array(
                                 'name' => 'school_inep_fk',
                                 'header' => 'Escola',

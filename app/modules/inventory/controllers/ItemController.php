@@ -2,8 +2,8 @@
 
 class ItemController extends Controller
 {
-    public $layout = 'webroot.themes.default.views.layouts.fullmenu';
 
+    
     public function filters()
     {
         return [
@@ -28,9 +28,14 @@ class ItemController extends Controller
 
     public function actionIndex()
     {
-        $dataProvider = new CActiveDataProvider('InventoryItem');
+        $model = new InventoryItem('search');
+        $model->unsetAttributes();  // clear any default values
+        if (isset($_GET['InventoryItem'])) {
+            $model->attributes = $_GET['InventoryItem'];
+        }
+
         $this->render('index', [
-            'dataProvider' => $dataProvider,
+            'model' => $model,
         ]);
     }
 

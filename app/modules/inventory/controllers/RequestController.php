@@ -2,8 +2,7 @@
 
 class RequestController extends Controller
 {
-    public $layout = 'webroot.themes.default.views.layouts.fullmenu';
-
+ 
     public function filters()
     {
         return [
@@ -86,13 +85,18 @@ class RequestController extends Controller
     public function actionIndex()
     {
         $criteria = new CDbCriteria();
-        if (Yii::app()->user->checkAccess('manager')) {
-            $criteria->compare('school_inep_fk', Yii::app()->user->school);
+        
+        // Filter by selected school from the dropdown (stored in session)
+        $selectedSchool = Yii::app()->user->school;
+        if ($selectedSchool) {
+            $criteria->compare('school_inep_fk', $selectedSchool);
         }
+        
         $criteria->order = 'requested_at DESC';
 
         $dataProvider = new CActiveDataProvider('InventoryRequest', [
             'criteria' => $criteria,
+            'pagination' => false,
         ]);
 
         $this->render('index', [

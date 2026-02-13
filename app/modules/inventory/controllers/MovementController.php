@@ -2,7 +2,6 @@
 
 class MovementController extends Controller
 {
-    public $layout = 'webroot.themes.default.views.layouts.fullmenu';
 
     public function filters()
     {
@@ -37,6 +36,7 @@ class MovementController extends Controller
 
         $dataProvider = new CActiveDataProvider('InventoryStock', [
             'criteria' => $criteria,
+            'pagination' => false,
         ]);
 
         // Alertas de estoque baixo
@@ -50,6 +50,7 @@ class MovementController extends Controller
 
         $lowStockProvider = new CActiveDataProvider('InventoryStock', [
             'criteria' => $lowStockCriteria,
+            'pagination' => false,
         ]);
 
         $this->render('index', [
@@ -211,18 +212,15 @@ class MovementController extends Controller
 
     public function actionHistory()
     {
-        $criteria = new CDbCriteria();
-        if (Yii::app()->user->checkAccess('manager')) {
-            $criteria->compare('school_inep_fk', Yii::app()->user->school);
+        $model = new InventoryMovement('search');
+        $model->unsetAttributes();
+        
+        if (isset($_GET['InventoryMovement'])) {
+            $model->attributes = $_GET['InventoryMovement'];
         }
-        $criteria->order = 'created_at DESC';
-
-        $dataProvider = new CActiveDataProvider('InventoryMovement', [
-            'criteria' => $criteria,
-        ]);
 
         $this->render('history', [
-            'dataProvider' => $dataProvider,
+            'model' => $model,
         ]);
     }
 

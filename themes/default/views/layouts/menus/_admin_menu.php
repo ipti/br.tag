@@ -242,7 +242,7 @@ $menuItems = [
                 'feature' => TTask::TASK_INVENTORY_HISTORY,
             ],
             [
-                'label' => 'Minhas Solicitações',
+                'label' => 'Solicitações da Escola',
                 'url' => ['inventory/request/index'],
                 'icon' => 't-icon-shopping-cart',
                 'feature' => TTask::TASK_INVENTORY_REQUEST,

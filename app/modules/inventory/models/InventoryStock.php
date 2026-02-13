@@ -75,4 +75,28 @@ class InventoryStock extends CActiveRecord
     {
         return parent::model($className);
     }
+    /**
+     * Retrieves a list of models based on the current search/filter conditions.
+     * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
+     */
+    public function search($pagination = true)
+    {
+        $criteria = new CDbCriteria;
+
+        $criteria->compare('id', $this->id);
+        $criteria->compare('item_id', $this->item_id);
+        $criteria->compare('school_inep_fk', $this->school_inep_fk);
+        $criteria->compare('quantity', $this->quantity);
+
+        // School filter
+        if (Yii::app()->user->checkAccess('manager')) {
+            $criteria->compare('school_inep_fk', Yii::app()->user->school);
+        }
+
+        return new CActiveDataProvider($this, [
+            'criteria' => $criteria,
+            'pagination' => $pagination ? ['pageSize' => 100] : false,
+        ]);
+    }
+
 }

@@ -49,12 +49,10 @@ $isAdmin = TagUtils::isAdmin();
             <h2 class="t-title-small">Estoque Atual</h2>
             <div class="widget clearmargin">
                 <div class="widget-body">
-                    <?php $this->widget('zii.widgets.grid.CGridView', array(
+                    <?php DataTableGridView::show($this, array(
                         'id'=>'inventory-stock-grid',
                         'dataProvider'=>$dataProvider,
-                        'itemsCssClass' => 'js-tag-table tag-table-primary table table-condensed table-striped table-hover table-primary table-vertical-center checkboxs',
                         'enableSorting' => false,
-                        'afterAjaxUpdate' => 'js:function(id, data){ initDatatable(); }',
                         'columns'=>array(
                             array(
                                 'name' => 'item_id',
@@ -73,9 +71,13 @@ $isAdmin = TagUtils::isAdmin();
                                 'value' => '$data->quantity . " " . $data->item->unit',
                             ),
                             array(
-                                'name' => 'updated_at',
-                                'header' => 'Última Atualização',
-                                'value' => 'date("d/m/Y H:i", strtotime($data->updated_at))',
+                                'class'=>'CButtonColumn',
+                                'template'=>'{view}',
+                                'buttons'=>array(
+                                    'view' => array(
+                                        'url'=>'Yii::app()->createUrl("inventory/movement/history", array("item_id"=>$data->item_id))',
+                                    ),
+                                ),
                             ),
                         ),
                     )); ?>

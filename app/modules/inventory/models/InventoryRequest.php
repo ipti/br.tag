@@ -114,7 +114,7 @@ class InventoryRequest extends CActiveRecord
      * Retrieves a list of models based on the current search/filter conditions.
      * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
      */
-    public function search()
+    public function search($pagination = true)
     {
         $criteria = new CDbCriteria;
 
@@ -128,6 +128,7 @@ class InventoryRequest extends CActiveRecord
 
         return new CActiveDataProvider($this, array(
             'criteria' => $criteria,
+            'pagination' => $pagination ? array('pageSize' => 20) : false,
             'sort' => array(
                 'defaultOrder' => 'requested_at DESC',
             ),

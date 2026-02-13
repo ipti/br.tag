@@ -25,7 +25,7 @@ $isAdmin = TagUtils::isAdmin();
             <?php echo CHtml::link('Voltar ao Gerenciamento', array('admin'), array('class'=>'t-button-secondary')); ?>
             <?php echo CHtml::link('Editar Solicitação', array('update', 'id'=>$model->id), array('class'=>'t-button-primary')); ?>
         <?php else: ?>
-            <?php echo CHtml::link('Minhas Solicitações', array('index'), array('class'=>'t-button-secondary')); ?>
+            <?php echo CHtml::link('Solicitações da Escola', array('index'), array('class'=>'t-button-secondary')); ?>
             <?php if ($model->status == InventoryRequest::STATUS_PENDING): ?>
                 <?php echo CHtml::link('Editar Solicitação', array('update', 'id'=>$model->id), array('class'=>'t-button-primary')); ?>
             <?php endif; ?>

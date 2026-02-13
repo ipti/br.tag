@@ -80,6 +80,44 @@ class InventoryMovement extends CActiveRecord
     }
 
     /**
+     * Retrieves a list of models based on the current search/filter conditions.
+     * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
+     */
+    public function search($pagination = true)
+    {
+        $criteria = new CDbCriteria();
+
+        $criteria->compare('id', $this->id);
+        $criteria->compare('item_id', $this->item_id);
+        $criteria->compare('t.school_inep_fk', $this->school_inep_fk);
+        $criteria->compare('user_id', $this->user_id);
+        $criteria->compare('type', $this->type);
+        $criteria->compare('quantity', $this->quantity);
+        $criteria->compare('destination', $this->destination, true);
+        
+        // Convert date from d/m/Y to Y-m-d for search
+        if ($this->date && strpos($this->date, '/') !== false) {
+            $date = DateTime::createFromFormat('d/m/Y', $this->date);
+            if ($date) {
+                $this->date = $date->format('Y-m-d');
+            }
+        }
+        $criteria->compare('date', $this->date, true);
+
+        // Apply school filter for managers
+        if (Yii::app()->user->checkAccess('manager')) {
+            $criteria->compare('t.school_inep_fk', Yii::app()->user->school);
+        }
+
+        $criteria->order = 'created_at DESC';
+
+        return new CActiveDataProvider($this, [
+            'criteria' => $criteria,
+            'pagination' => $pagination ? ['pageSize' => 50] : false,
+        ]);
+    }
+
+    /**
      * Returns the static model of the specified AR class.
      * @param string $className active record class name.
      * @return InventoryMovement the static model class

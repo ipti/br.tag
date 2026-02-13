@@ -72,4 +72,23 @@ class InventoryItem extends CActiveRecord
     {
         return parent::model($className);
     }
+    /**
+     * Retrieves a list of models based on the current search/filter conditions.
+     * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
+     */
+    public function search($pagination = true)
+    {
+        $criteria = new CDbCriteria;
+
+        $criteria->compare('id', $this->id);
+        $criteria->compare('name', $this->name, true);
+        $criteria->compare('unit', $this->unit, true);
+        $criteria->compare('description', $this->description, true);
+
+        return new CActiveDataProvider($this, [
+            'criteria' => $criteria,
+            'pagination' => $pagination ? ['pageSize' => 20] : false,
+        ]);
+    }
+
 }

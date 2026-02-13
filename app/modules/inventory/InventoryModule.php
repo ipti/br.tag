@@ -3,6 +3,7 @@
 class InventoryModule extends CWebModule
 {
     public $defaultController = 'movement';
+    public $layout = 'webroot.themes.default.views.layouts.fullmenu';
 
     public function init()
     {
@@ -20,7 +21,7 @@ class InventoryModule extends CWebModule
         if (parent::beforeControllerAction($controller, $action)) {
             // this method is called before any module controller action is performed
             // you may place customized code here
-            $controller->layout = 'webroot.themes.default.views.layouts.fullmenu';
+            $controller->layout = $this->layout;
             return true;
         } else {
             return false;

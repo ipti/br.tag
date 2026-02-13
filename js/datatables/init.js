@@ -183,6 +183,27 @@ function initDatatable() {
                             columnDefs: [isMobile ? { "className": "none", "targets": columnsIndex } : { orderable: false, targets: indexActionButtons }],
                         });
                     }
+                } else if (action.includes("inventory")) {
+                    // Special handling for inventory tables with CGridView filters
+                    const hasFilters = $table.find('thead tr').length > 1;
+
+                    const datatableConfig = {
+                        language: getLanguagePtbr(),
+                        responsive: true,
+                        select: { items: 'cell' },
+                        columnDefs: [
+                            isMobile ? { "className": "none", "targets": columnsIndex } : { orderable: false, targets: indexActionButtons }
+                        ],
+                    };
+
+                    // If table has filters (CGridView), configure DataTables to skip filter row
+                    if (hasFilters) {
+                        datatableConfig.orderCellsTop = true; // Use top row for ordering
+                        datatableConfig.searching = true; // Enable global search
+                        datatableConfig.paging = true; // Enable pagination
+                    }
+
+                    $table.dataTable(datatableConfig);
                 } else {
                     $table.dataTable({
                         language: getLanguagePtbr(),
@@ -194,22 +215,35 @@ function initDatatable() {
                 $table.addClass('initialized');
             });
 
-            //Definido placeholder para cada módulo
-            if (action.includes("school")) $('.dataTables_filter input[type="search"]').attr('placeholder', '  Pesquisar escola')
-            else if (action.includes("activeDisableUser")) $('.dataTables_filter input[type="search"]').attr('placeholder', '  Pesquisar usuário')
-            else if (action.includes("enrollmentonline")) $('.dataTables_filter input[type="search"]').attr('placeholder', '  Pesquisar pre-matrícula')
-            else if (action.includes("classroom")) $('.dataTables_filter input[type="search"]').attr('placeholder', '  Pesquisar turma')
-            else if (action.includes("instructor")) $('.dataTables_filter input[type="search"]').attr('placeholder', '  Pesquisar professor')
-            else if (action.includes("manageUsers")) $('.dataTables_filter input[type="search"]').attr('placeholder', '  Pesquisar usuário')
-            else if (action.includes("student")) $('.dataTables_filter input[type="search"]').attr('placeholder', '  Pesquisar aluno')
-            else if (action.includes("curricularmatrix")) $('.dataTables_filter input[type="search"]').attr('placeholder', '  Pesquisar matriz')
-            else if (action.includes("courseplan")) $('.dataTables_filter input[type="search"]').attr('placeholder', '  Pesquisar plano de aula')
-            else if (action.includes("professional")) $('.dataTables_filter input[type="search"]').attr('placeholder', '  Pesquisar profissional')
-            else if (action.includes("curricularcomponents")) $('.dataTables_filter input[type="search"]').attr('placeholder', ' Pesquisar componente')
-            else if (action.includes("stock")) {
-                $('.stock-container .dataTables_filter input[type="search"]').attr('placeholder', '  Pesquisar Itens')
-                $('.transactions-container .dataTables_filter input[type="search"]').attr('placeholder', '  Pesquisar Movimentações')
-            } else if (action.includes("lunch/index")) $('.dataTables_filter input[type="search"]').attr('placeholder', '  Pesquisar cardápios')
+
+            // Search placeholder configuration map
+            const searchPlaceholders = {
+                'school': '  Pesquisar escola',
+                'activeDisableUser': '  Pesquisar usuário',
+                'enrollmentonline': '  Pesquisar pre-matrícula',
+                'classroom': '  Pesquisar turma',
+                'instructor': '  Pesquisar professor',
+                'manageUsers': '  Pesquisar usuário',
+                'student': '  Pesquisar aluno',
+                'curricularmatrix': '  Pesquisar matriz',
+                'courseplan': '  Pesquisar plano de aula',
+                'professional': '  Pesquisar profissional',
+                'curricularcomponents': ' Pesquisar componente',
+                'inventory': '  Pesquisar registros',
+                'lunch/index': '  Pesquisar cardápios',
+            };
+
+            // Special handling for stock (multiple containers)
+            if (action.includes("stock")) {
+                $('.stock-container .dataTables_filter input[type="search"]').attr('placeholder', '  Pesquisar Itens');
+                $('.transactions-container .dataTables_filter input[type="search"]').attr('placeholder', '  Pesquisar Movimentações');
+            } else {
+                // Find matching placeholder
+                const matchedKey = Object.keys(searchPlaceholders).find(key => action.includes(key));
+                if (matchedKey) {
+                    $('.dataTables_filter input[type="search"]').attr('placeholder', searchPlaceholders[matchedKey]);
+                }
+            }
 
             //Remove o texto da label original do datatable
             $(".dataTables_filter label").contents().filter(function () {

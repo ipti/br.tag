@@ -58,6 +58,7 @@ return [
         'application.models.*',
         'application.controllers.*',
         'application.components.*',
+        'application.components.widgets.*',
         'application.modules.wizard.models.*',
         'application.modules.tag.models.*',
         'application.modules.tag.components.interfaces.*',

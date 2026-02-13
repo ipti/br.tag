@@ -2,36 +2,29 @@
 /* @var $this RequestController */
 /* @var $dataProvider CActiveDataProvider */
 
-$this->setPageTitle('TAG - Minhas Solicitações');
+$this->setPageTitle('TAG - Solicitações da Escola');
 $this->breadcrumbs=array(
 	'Almoxarifado' => array('movement/index'),
 	'Solicitações',
 );
 ?>
 
-<div id="mainPage" class="main">
-    <div class="mobile-row">
-        <div class="column clearleft">
-            <h1 class="clear-padding--bottom">Minhas Solicitações</h1>
-            <p>Acompanhe o status dos seus pedidos para a Secretaria.</p>
-        </div>
-    </div>
+<h1>Solicitações da Escola</h1>
 
-    <div class="row t-buttons-container">
-        <?php echo CHtml::link('Nova Solicitação', array('create'), array('class'=>'t-button-primary')); ?>
-        <?php echo CHtml::link('Voltar ao Estoque', array('movement/index'), array('class'=>'t-button-secondary')); ?>
-    </div>
+<div class="row t-buttons-container">
+    <?php echo CHtml::link('Nova Solicitação', array('create'), array('class'=>'t-button-primary')); ?>
+</div>
 
-    <div class="row">
-        <div class="column is-full">
-            <div class="widget clearmargin">
-                <div class="widget-body">
-                    <?php $this->widget('zii.widgets.grid.CGridView', array(
+<div class="row">
+    <div class="column is-full">
+        <div class="widget clearmargin">
+            <div class="widget-body">
+                <?php DataTableGridView::show(
+                    $this,
+                    array(
                         'id'=>'inventory-request-grid',
                         'dataProvider'=>$dataProvider,
-                        'itemsCssClass' => 'js-tag-table tag-table-primary table table-condensed table-striped table-hover table-primary table-vertical-center checkboxs',
                         'enableSorting' => false,
-                        'afterAjaxUpdate' => 'js:function(id, data){ initDatatable(); }',
                         'columns'=>array(
                             array(
                                 'header' => 'Item',
