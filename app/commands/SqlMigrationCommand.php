@@ -63,6 +63,13 @@ class SqlMigrationCommand extends CConsoleCommand
 
         $sqlFile = $args[0];
         $dryRun = in_array('--dry-run', $args);
+        
+        $dbFilter = null;
+        foreach ($args as $arg) {
+            if (strpos($arg, '--db-filter=') === 0) {
+                $dbFilter = substr($arg, 12);
+            }
+        }
 
         // Validate SQL file exists
         if (!file_exists($sqlFile)) {
@@ -81,18 +88,25 @@ class SqlMigrationCommand extends CConsoleCommand
         echo "SQL Migration Tool\n";
         echo "=================================================\n";
         echo "SQL File: $sqlFile\n";
-        echo "Mode: " . ($dryRun ? "DRY RUN (no changes will be made)" : "EXECUTION") . "\n";
+        echo "Mode: " . ($dryRun ? "DRY RUN" : "EXECUTION") . "\n";
+        if ($dbFilter) echo "Filter: $dbFilter\n";
         echo "=================================================\n\n";
 
         // Get list of databases matching pattern
         $databases = $this->getTagDatabases();
         
+        if ($dbFilter) {
+            $databases = array_filter($databases, function($db) use ($dbFilter) {
+                return strpos($db, $dbFilter) !== false;
+            });
+        }
+        
         if (empty($databases)) {
-            echo "No databases matching pattern '*.tag.ong.br' found.\n";
+            echo "No databases matching pattern found.\n";
             return 1;
         }
 
-        echo "Found " . count($databases) . " database(s) matching pattern '*.tag.ong.br'\n\n";
+        echo "Found " . count($databases) . " database(s) to process\n\n";
 
         $successCount = 0;
         $failureCount = 0;
@@ -206,24 +220,23 @@ class SqlMigrationCommand extends CConsoleCommand
     {
         return <<<EOD
 USAGE
-  yiic sqlmigration run <sql-file> [--dry-run]
+  yiic sqlmigration run <sql-file> [--dry-run] [--db-filter=<name>]
 
 DESCRIPTION
-  This command executes a SQL file across all databases matching the pattern '*.tag.ong.br'.
+  This command executes a SQL file across databases matching the pattern '*.tag.ong.br'.
   
-  It will:
-  1. Discover all databases with names ending in '.tag.ong.br'
-  2. Execute the SQL file against each database
-  3. Report success/failure for each database
-
 PARAMETERS
   * sql-file: required, path to the SQL file to execute
   * --dry-run: optional, list databases without executing SQL
+  * --db-filter: optional, process only databases containing this string
 
 EXAMPLES
   * Execute migration on all TAG databases:
     yiic sqlmigration run app/migrations/inventory_complete.sql
     
+  * Target only the training database:
+    yiic sqlmigration run app/migrations/inventory_complete.sql --db-filter=treinamento
+
   * Preview which databases would be affected (dry run):
     yiic sqlmigration run app/migrations/inventory_complete.sql --dry-run
 

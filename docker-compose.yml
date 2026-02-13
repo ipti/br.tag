@@ -13,9 +13,9 @@ services:
       - tag-v3-network
     environment:
       MAINTENANCE_MODE: 0
-      HOST_DB_TAG: 'br-thp-mysql80-prod.mysql.database.azure.com'
-      USER_DB_TAG: 'docker'
-      PWD_DB_TAG: 'p@s4docker'
+      HOST_DB_TAG: 'mysql'
+      USER_DB_TAG: 'root'
+      PWD_DB_TAG: 'root'
       TOKEN_FIREBASE: ''
       PWD_FIREBASE: ''
       YII_DEBUG: 1
