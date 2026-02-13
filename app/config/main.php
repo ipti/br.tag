@@ -108,7 +108,8 @@ return [
         'enrollmentonline',
         'gestaopresente',
         'systemadmin',
-        'studentimc'
+        'studentimc',
+        'inventory'
     ],
     'components' => [
         'utils' => [
@@ -175,7 +176,14 @@ return [
                 'gestao-resultados/escola/<action:\w+>' => 'resultsmanagement/managementschool/<action>',
                 'gestao-resultados/escola/<action:\w+>/<sid:\d+>' => 'resultsmanagement/managementschool/<action>',
 
-                'profissional/<action:\w+>/<id:\d+>' => 'professional/default/<action>'
+                'profissional/<action:\w+>/<id:\d+>' => 'professional/default/<action>',
+
+                'almoxarifado/' => 'inventory/',
+                'almoxarifado/itens' => 'inventory/item/',
+                'almoxarifado/itens/<action:\w+>' => 'inventory/item/<action>',
+                'almoxarifado/itens/<action:\w+>/<id:\d+>' => 'inventory/item/<action>',
+                'almoxarifado/movimentacoes' => 'inventory/movement/history',
+                'almoxarifado/<action:\w+>' => 'inventory/movement/<action>',
             ],
         ],
         'db2' => [

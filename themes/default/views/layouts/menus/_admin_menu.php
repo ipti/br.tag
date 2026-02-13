@@ -214,6 +214,48 @@ $menuItems = [
         'roles' => [TRole::NUTRITIONIST, TRole::ADMIN, TRole::MANAGER, TRole::READER],
         'feature' => TTask::TASK_LUNCH_MENU_MANAGE,
     ],
+    [
+        'menu_id' => 'menu-invetory',
+        'submenu_id' => 'submenu-invetory',
+        'label' => 'Almoxarifado',
+        'url' => ['inventory'],
+        'icon' => 't-icon-box',
+        'roles' => [TRole::ADMIN, TRole::MANAGER, TRole::READER],
+        'feature' => TFeature::FEAT_INVENTORY,
+        'submenu' => [
+            [
+                'label' => 'Painel de Estoque',
+                'url' => ['inventory/movement/index'],
+                'icon' => 't-icon-home',
+                'feature' => TTask::TASK_INVENTORY_DASHBOARD,
+            ],
+            [
+                'label' => 'Gerenciar Catálogo',
+                'url' => ['inventory/item/index'],
+                'icon' => 't-icon-list',
+                'feature' => TTask::TASK_INVENTORY_CATALOG,
+            ],
+            [
+                'label' => 'Histórico',
+                'url' => ['inventory/movement/history'],
+                'icon' => 't-icon-history',
+                'feature' => TTask::TASK_INVENTORY_HISTORY,
+            ],
+            [
+                'label' => 'Minhas Solicitações',
+                'url' => ['inventory/request/index'],
+                'icon' => 't-icon-shopping-cart',
+                'feature' => TTask::TASK_INVENTORY_REQUEST,
+            ],
+            [
+                'label' => 'Gerenciar Solicitações',
+                'url' => ['inventory/request/admin'],
+                'icon' => 't-icon-check',
+                'roles' => [TRole::ADMIN],
+                'feature' => TTask::TASK_INVENTORY_ADMIN,
+            ],
+        ],
+    ],
     // Acompanhamento de Saúde
     [
         'label' => 'Acompanhamento de Saúde',

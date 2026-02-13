@@ -128,106 +128,91 @@ function initDatatable() {
     }
 
     if ($(".js-tag-table").length) {
-        const isMobile = window.innerWidth <= 768;
-        const numColumns = $(".js-tag-table th").length;
-        const columnsIndex = new Array(numColumns - 1).fill(1).map((_, i) => i + 1);
-
-
         $.getScript('themes/default/js/datatablesptbr.js', function () {
-            let indexActionButtons;
-            if (action.includes("school")
-                || action.includes("activeDisableUser")) {
-                indexActionButtons = [2];
-            }
-            if (action.includes("instructor")
-                || action.includes("indexGradesStructure")
-                || action.includes("courseplan")
-                || action.includes("manageUsers")) {
-                indexActionButtons = [3];
-            }
-            if (action.includes("classroom")
-                || action.includes("student")
-                || action.includes("curricularmatrix")
-                || action.includes("professional")) {
-                indexActionButtons = [4];
-            }
-            if (action.includes("student") && !action.includes("studentimc") && !action.includes("enrollmentonline")) {
-                $(".js-tag-table").DataTable({
-                    language: getLanguagePtbr(),
-                    serverSide: true,
-                    responsive: true,
-                    ajax: $.fn.dataTable.pipeline({
-                        url: `?r=student/getstudentajax`,
-                        pages: 5, // number of pages to cache
-                        method: "POST", // Ajax HTTP method
-                        data: function (d) {
-                            d.page = parseInt(d.start / d.length) + 1;
-                            d.perPage = d.length;
-                            d.search = { value: $('input[type="search"]').val() };
-                            return d;
-                        }
-                    }),
-                    select: {
-                        items: 'cell'
-                    },
-                    // "bLengthChange": false,
-                    columnDefs: [isMobile ? { "className": "none", "targets": columnsIndex } : { orderable: false, targets: [6] }],
-                    searching: true,
-                });
-            }else if ((action.includes("stock"))){
-                $(".stock-items-table").dataTable({
-                    language: getLanguagePtbr(),
-                    responsive: true,
-                    // pageLength: 20,
-                    select: {
-                        items: 'cell'
-                    },
-                    ordering: false,
-                    // "bLengthChange": false,
-                    columnDefs: [isMobile ? { "className": "none", "targets": columnsIndex } : { orderable: false, targets: indexActionButtons }],
-                });
-                $(".transactions-table").dataTable({
-                    language: getLanguagePtbr(),
-                    responsive: true,
-                    // pageLength: 10,
-                    select: {
-                        items: 'cell'
-                    },
-                    ordering: false,
-                    // "bLengthChange": false,
-                    columnDefs: [isMobile ? { "className": "none", "targets": columnsIndex } : { orderable: false, targets: indexActionButtons }],
-                });
-            }else {
-                $(".js-tag-table").dataTable({
-                    language: getLanguagePtbr(),
-                    responsive: true,
-                    select: {
-                        items: 'cell'
-                    },
-                    // "bLengthChange":     ,
-                    columnDefs: [isMobile ? { "className": "none", "targets": columnsIndex } : { orderable: false, targets: indexActionButtons }],
-                });
-            }
+            $(".js-tag-table").each(function () {
+                const $table = $(this);
+                if ($table.hasClass('dataTable') || $table.hasClass('initialized')) {
+                    return;
+                }
+
+                const isMobile = window.innerWidth <= 768;
+                const numColumns = $table.find("th").length;
+                const columnsIndex = new Array(numColumns - 1).fill(1).map((_, i) => i + 1);
+
+                let indexActionButtons;
+                if (action.includes("school") || action.includes("activeDisableUser")) {
+                    indexActionButtons = [2];
+                } else if (action.includes("instructor") || action.includes("indexGradesStructure") || action.includes("courseplan") || action.includes("manageUsers")) {
+                    indexActionButtons = [3];
+                } else if (action.includes("classroom") || action.includes("student") || action.includes("curricularmatrix") || action.includes("professional")) {
+                    indexActionButtons = [4];
+                } else if (action.includes("inventory")) {
+                    indexActionButtons = [numColumns - 1];
+                } else {
+                    indexActionButtons = [numColumns - 1]; // Default to last column
+                }
+
+                if (action.includes("student") && !action.includes("studentimc") && !action.includes("enrollmentonline")) {
+                    $table.DataTable({
+                        language: getLanguagePtbr(),
+                        serverSide: true,
+                        responsive: true,
+                        ajax: $.fn.dataTable.pipeline({
+                            url: `?r=student/getstudentajax`,
+                            pages: 5,
+                            method: "POST",
+                            data: function (d) {
+                                d.page = parseInt(d.start / d.length) + 1;
+                                d.perPage = d.length;
+                                d.search = { value: $('input[type="search"]').val() };
+                                return d;
+                            }
+                        }),
+                        select: { items: 'cell' },
+                        columnDefs: [isMobile ? { "className": "none", "targets": columnsIndex } : { orderable: false, targets: [6] }],
+                        searching: true,
+                    });
+                } else if (action.includes("stock")) {
+                    // Specific handling for stock items table should match its classes
+                    if ($table.hasClass("stock-items-table") || $table.hasClass("transactions-table") || $table.hasClass("js-tag-table")) {
+                        $table.dataTable({
+                            language: getLanguagePtbr(),
+                            responsive: true,
+                            select: { items: 'cell' },
+                            ordering: false,
+                            columnDefs: [isMobile ? { "className": "none", "targets": columnsIndex } : { orderable: false, targets: indexActionButtons }],
+                        });
+                    }
+                } else {
+                    $table.dataTable({
+                        language: getLanguagePtbr(),
+                        responsive: true,
+                        select: { items: 'cell' },
+                        columnDefs: [isMobile ? { "className": "none", "targets": columnsIndex } : { orderable: false, targets: indexActionButtons }],
+                    });
+                }
+                $table.addClass('initialized');
+            });
 
             //Definido placeholder para cada módulo
-            if(action.includes("school")) $('.dataTables_filter input[type="search"]').attr('placeholder', '  Pesquisar escola')
-            else if(action.includes("activeDisableUser")) $('.dataTables_filter input[type="search"]').attr('placeholder', '  Pesquisar usuário')
-            else if(action.includes("enrollmentonline")) $('.dataTables_filter input[type="search"]').attr('placeholder', '  Pesquisar pre-matrícula')
-            else if(action.includes("classroom")) $('.dataTables_filter input[type="search"]').attr('placeholder', '  Pesquisar turma')
-            else if(action.includes("instructor")) $('.dataTables_filter input[type="search"]').attr('placeholder', '  Pesquisar professor')
-            else if(action.includes("manageUsers")) $('.dataTables_filter input[type="search"]').attr('placeholder', '  Pesquisar usuário')
-            else if(action.includes("student")) $('.dataTables_filter input[type="search"]').attr('placeholder', '  Pesquisar aluno')
-            else if(action.includes("curricularmatrix")) $('.dataTables_filter input[type="search"]').attr('placeholder', '  Pesquisar matriz')
-            else if(action.includes("courseplan")) $('.dataTables_filter input[type="search"]').attr('placeholder', '  Pesquisar plano de aula')
-            else if(action.includes("professional")) $('.dataTables_filter input[type="search"]').attr('placeholder', '  Pesquisar profissional')
-            else if(action.includes("curricularcomponents")) $('.dataTables_filter input[type="search"]').attr('placeholder', ' Pesquisar componente')
-            else if(action.includes("stock")) {
+            if (action.includes("school")) $('.dataTables_filter input[type="search"]').attr('placeholder', '  Pesquisar escola')
+            else if (action.includes("activeDisableUser")) $('.dataTables_filter input[type="search"]').attr('placeholder', '  Pesquisar usuário')
+            else if (action.includes("enrollmentonline")) $('.dataTables_filter input[type="search"]').attr('placeholder', '  Pesquisar pre-matrícula')
+            else if (action.includes("classroom")) $('.dataTables_filter input[type="search"]').attr('placeholder', '  Pesquisar turma')
+            else if (action.includes("instructor")) $('.dataTables_filter input[type="search"]').attr('placeholder', '  Pesquisar professor')
+            else if (action.includes("manageUsers")) $('.dataTables_filter input[type="search"]').attr('placeholder', '  Pesquisar usuário')
+            else if (action.includes("student")) $('.dataTables_filter input[type="search"]').attr('placeholder', '  Pesquisar aluno')
+            else if (action.includes("curricularmatrix")) $('.dataTables_filter input[type="search"]').attr('placeholder', '  Pesquisar matriz')
+            else if (action.includes("courseplan")) $('.dataTables_filter input[type="search"]').attr('placeholder', '  Pesquisar plano de aula')
+            else if (action.includes("professional")) $('.dataTables_filter input[type="search"]').attr('placeholder', '  Pesquisar profissional')
+            else if (action.includes("curricularcomponents")) $('.dataTables_filter input[type="search"]').attr('placeholder', ' Pesquisar componente')
+            else if (action.includes("stock")) {
                 $('.stock-container .dataTables_filter input[type="search"]').attr('placeholder', '  Pesquisar Itens')
                 $('.transactions-container .dataTables_filter input[type="search"]').attr('placeholder', '  Pesquisar Movimentações')
-            }else if(action.includes("lunch/index")) $('.dataTables_filter input[type="search"]').attr('placeholder', '  Pesquisar cardápios')
+            } else if (action.includes("lunch/index")) $('.dataTables_filter input[type="search"]').attr('placeholder', '  Pesquisar cardápios')
 
             //Remove o texto da label original do datatable
-            $(".dataTables_filter label").contents().filter(function() {
+            $(".dataTables_filter label").contents().filter(function () {
                 return this.nodeType === 3;
             }).remove();
 
