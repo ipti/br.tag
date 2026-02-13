@@ -187,8 +187,16 @@ class SqlMigrationCommand extends CConsoleCommand
         );
         $connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-        // Execute SQL (handle multiple statements)
-        $connection->exec($sqlContent);
+        // Split SQL by semicolon, but ignore semicolons inside single or double quotes
+        // This regex splits by ; only if it's not followed by an odd number of quotes
+        $statements = preg_split('/;(?=(?:[^\'"]*([\'"])[^\'"]*\1)*[^\'"]*$)/', $sqlContent);
+        
+        foreach ($statements as $statement) {
+            $statement = trim($statement);
+            if (!empty($statement)) {
+                $connection->exec($statement);
+            }
+        }
     }
 
     /**
