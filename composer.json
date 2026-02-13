@@ -32,7 +32,9 @@
         "mess": "./vendor/bin/phpmd",
         "sass": "./vendor/bin/pscss",
         "test": "./vendor/bin/codecept run acceptance --steps",
-        "sagres-gen": "./vendor/bin/xsd2php convert app/modules/sagres/config.yml app/modules/sagres/soap/Educacao.xsd"
+        "sagres-gen": "./vendor/bin/xsd2php convert app/modules/sagres/config.yml app/modules/sagres/soap/Educacao.xsd",
+        "migrate": "docker exec tag-app php /app/app/yiic sqlmigration run",
+        "migrate:dry": "docker exec tag-app php /app/app/yiic sqlmigration run"
     },
     "config": {
         "allow-plugins": {

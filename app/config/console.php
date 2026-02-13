@@ -1,15 +1,15 @@
 <?php
 
 define('DBNAME', 'demo.tag.ong.br');
-$HOST = 'mysql';
-$USER = 'root';
-$SECRET = 'root';
+$HOST = getenv("HOST_DB_TAG");
+$USER = getenv("USER_DB_TAG");
+$PWD = getenv("PWD_DB_TAG");
 
 define('DBCONFIG', serialize([
-    'connectionString' => "mysql:host=$HOST;dbname=demo.tag.ong.br",
+    'connectionString' => "mysql:host=$HOST",
     'emulatePrepare' => true,
     'username' => $USER,
-    'password' => $SECRET,
+    'password' => $PWD,
     'charset' => 'utf8',
 ]));
 
@@ -28,16 +28,14 @@ return [
         'application.modules.calendar.models.*',
         'application.modules.quiz.models.*',
     ],
-    // application components
-    'components' => [
-        'db2' => [
-            'connectionString' => 'mysql:host=51.81.125.135:31160;dbname=com.escola10',
-            'emulatePrepare' => true,
-            'username' => 'admin',
-            'password' => '123456',
-            'charset' => 'utf8',
-            'class' => 'CDbConnection'
+    // Custom console commands
+    'commandMap' => [
+        'sqlmigration' => [
+            'class' => 'application.commands.SqlMigrationCommand',
         ],
+    ],
+    // application components
+    'components' => [        
         'db' => unserialize(DBCONFIG),
         'authManager' => [
             'class' => 'CDbAuthManager',

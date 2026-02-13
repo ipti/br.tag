@@ -1,3 +1,13 @@
+## [Versão 3.9.0]
+- Implementado módulo de Almoxarifado (Gestão de Estoque)
+- Adicionado suporte para Almoxarifado Central (Secretaria de Educação)
+- Criado sistema de solicitações de materiais entre escolas
+- Implementado histórico completo de movimentações com colorização (verde para entradas, vermelho para saídas)
+- Integrado sistema de Feature Flags para controle de acesso ao módulo
+
+## [Versão 3.8.0]
+- Implementado Sagres 2026
+
 ## [Versão 3.7.4]
 - Corrigido conceito final para os relatórios de Ata de Notas, Ficha de Notas e Diário Eletrônico
 
