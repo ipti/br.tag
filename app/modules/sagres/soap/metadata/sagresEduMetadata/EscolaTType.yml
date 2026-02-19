@@ -52,3 +52,14 @@ SagresEdu\EscolaTType:
                 entry_name: cardapio
                 namespace: 'http://www.tce.se.gov.br/sagres2025/xml/sagresEdu'
             type: array<SagresEdu\CardapioTType>
+        qtdSalas:
+            expose: true
+            access_type: public_method
+            serialized_name: qtdSalas
+            xml_element:
+                cdata: false
+                namespace: 'http://www.tce.se.gov.br/sagres2025/xml/sagresEdu'
+            accessor:
+                getter: getQtdSalas
+                setter: setQtdSalas
+            type: int

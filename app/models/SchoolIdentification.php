@@ -136,6 +136,7 @@ class SchoolIdentification extends AltActiveRecord
             'studentEnrollments' => [self::HAS_MANY, 'StudentEnrollment', 'school_inep_id_fk'],
             'studentIdentifications' => [self::HAS_MANY, 'StudentIdentification', 'school_inep_id_fk'],
             'structure' => [self::HAS_ONE, 'SchoolStructure', 'school_inep_id_fk'],
+            'schoolRooms' => [self::HAS_MANY, 'SchoolRoom', 'school_inep_fk'],
         ];
     }
 
