@@ -85,3 +85,25 @@ SagresEdu\TurmaTType:
                 getter: getMultiseriada
                 setter: setMultiseriada
             type: bool
+        nrSala:
+            expose: true
+            access_type: public_method
+            serialized_name: nrSala
+            xml_element:
+                cdata: false
+                namespace: 'http://www.tce.se.gov.br/sagres2025/xml/sagresEdu'
+            accessor:
+                getter: getNrSala
+                setter: setNrSala
+            type: int
+        prosic:
+            expose: true
+            access_type: public_method
+            serialized_name: prosic
+            xml_element:
+                cdata: false
+                namespace: 'http://www.tce.se.gov.br/sagres2025/xml/sagresEdu'
+            accessor:
+                getter: getProsic
+                setter: setProsic
+            type: bool

@@ -12,7 +12,7 @@ use JMS\Serializer\Annotation as Serializer;
  */
 
 #[Serializer\XmlRoot(name: 'edu:educacao')]
-#[Serializer\XmlNamespace(uri: 'http://www.tce.se.gov.br/sagres2025/xml/sagresEdu', prefix: 'edu')]
+#[Serializer\XmlNamespace(uri: 'http://www.tce.se.gov.br/sagres2026/xml/sagresEdu', prefix: 'edu')]
 class EducacaoTType
 {
     #[Serializer\SerializedName('edu:PrestacaoContas')]

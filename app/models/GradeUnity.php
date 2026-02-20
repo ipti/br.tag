@@ -27,6 +27,7 @@ class GradeUnity extends TagModel
     public const TYPE_UNITY_WITH_RECOVERY = 'UR';
     public const TYPE_SEMIANUAL_RECOVERY = 'RS';
     public const TYPE_FINAL_RECOVERY = 'RF';
+    public const TYPE_FINAL_CONCEPT = 'FC';
 
     /**
      * @return string the associated database table name

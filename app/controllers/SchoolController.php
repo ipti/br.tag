@@ -47,7 +47,10 @@ class SchoolController extends Controller
                     'updateufdependencies',
                     'updatecitydependencies',
                     'displayLogo',
-                    'RemoveLogo'
+                    'RemoveLogo',
+                    'createRoom',
+                    'updateRoom',
+                    'deleteRoom'
                 ],
                 'users' => ['@'],
             ],
@@ -579,6 +582,99 @@ class SchoolController extends Controller
                 'title' => $title
             ]
         );
+    }
+
+    /**
+     * Creates a new room for a school.
+     */
+    public function actionCreateRoom()
+    {
+        $model = new SchoolRoom();
+        
+        if (isset($_GET['school_id'])) {
+            $model->school_inep_fk = $_GET['school_id'];
+        }
+
+        if (isset($_POST['SchoolRoom'])) {
+            $model->attributes = $_POST['SchoolRoom'];
+            if ($model->save()) {
+                if (Yii::app()->request->isAjaxRequest) {
+                    echo CJSON::encode(['status' => 'success', 'message' => 'Sala adicionada com sucesso!']);
+                    Yii::app()->end();
+                }
+                Yii::app()->user->setFlash('success', 'Sala adicionada com sucesso!');
+                $this->redirect(['update', 'id' => $model->school_inep_fk]);
+            }
+        }
+
+        if (Yii::app()->request->isAjaxRequest) {
+            $this->renderPartial('_roomForm', ['model' => $model], false, true);
+            Yii::app()->end();
+        }
+
+        $this->renderPartial('_roomForm', ['model' => $model], false, true);
+    }
+
+    /**
+     * Updates an existing room.
+     * @param integer $id the ID of the room to be updated
+     */
+    public function actionUpdateRoom($id)
+    {
+        $model = SchoolRoom::model()->findByPk($id);
+        
+        if (!$model) {
+            throw new CHttpException(404, 'A sala requisitada não existe.');
+        }
+
+        if (isset($_POST['SchoolRoom'])) {
+            $model->attributes = $_POST['SchoolRoom'];
+            if ($model->save()) {
+                if (Yii::app()->request->isAjaxRequest) {
+                    echo CJSON::encode(['status' => 'success', 'message' => 'Sala atualizada com sucesso!']);
+                    Yii::app()->end();
+                }
+                Yii::app()->user->setFlash('success', 'Sala atualizada com sucesso!');
+                $this->redirect(['update', 'id' => $model->school_inep_fk]);
+            }
+        }
+        
+        if (Yii::app()->request->isAjaxRequest) {
+            $this->renderPartial('_roomForm', ['model' => $model], false, true);
+            Yii::app()->end();
+        }
+
+        $this->renderPartial('_roomForm', ['model' => $model], false, true);
+    }
+
+    /**
+     * Deletes a room.
+     * @param integer $id the ID of the room to be deleted
+     */
+    public function actionDeleteRoom($id)
+    {
+        $model = SchoolRoom::model()->findByPk($id);
+        
+        if (!$model) {
+            throw new CHttpException(404, 'A sala requisitada não existe.');
+        }
+
+        $schoolId = $model->school_inep_fk;
+        
+        if ($model->delete()) {
+            if (Yii::app()->request->isAjaxRequest) {
+                echo CJSON::encode(['status' => 'success', 'message' => 'Sala excluída com sucesso!']);
+                Yii::app()->end();
+            }
+            Yii::app()->user->setFlash('success', 'Sala excluída com sucesso!');
+        } else {
+            if (Yii::app()->request->isAjaxRequest) {
+                throw new CHttpException(500, 'Erro ao excluir sala.');
+            }
+            Yii::app()->user->setFlash('error', 'Erro ao excluir sala.');
+        }
+        
+        $this->redirect(['update', 'id' => $schoolId]);
     }
 
     /**

@@ -18,6 +18,7 @@ class GradeUnityModality extends TagModel
 {
     public const TYPE_COMMON = 'C';
     public const TYPE_RECOVERY = 'R';
+    public const TYPE_FINAL_CONCEPT = 'FC';
 
     /**
      * @return string the associated database table name

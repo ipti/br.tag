@@ -12,7 +12,7 @@ services:
     networks:
       - tag-v3-network
     environment:
-      MAINTENANCE_MODE: 1
+      MAINTENANCE_MODE: 0
       HOST_DB_TAG: 'mysql'
       USER_DB_TAG: 'root'
       PWD_DB_TAG: 'root'
@@ -34,7 +34,7 @@ services:
       # - ./docker/php/conf.d/error_reporting.ini:/usr/local/etc/php/conf.d/error_reporting.ini
 
   mysql:
-    image: mysql:5.7
+    image: mysql:8.0
     container_name: mysql
     restart: always
     command: mysqld --sql_mode="" --max_allowed_packet=32505856
@@ -43,13 +43,13 @@ services:
     expose:
       - 3306
     deploy:
-        resources:
-            limits:
-              cpus: '2'
-              memory: 1024M
-            reservations:
-              cpus: '1'
-              memory: 1GB
+      resources:
+        limits:
+          cpus: '2'
+          memory: 1024M
+        reservations:
+          cpus: '1'
+          memory: 1GB
     environment:
       MYSQL_ROOT_PASSWORD: root
       # MYSQL_DATABASE: tag
@@ -76,7 +76,7 @@ services:
     volumes:
       - ./sass/scss:/sass
       - ./sass/css:/css
-    entrypoint: ["/opt/dart-sass/sass", "--watch", "--no-source-map" ,"--style=compressed", "/sass:/css"]
+    entrypoint: [ "/opt/dart-sass/sass", "--watch", "--no-source-map", "--style=compressed", "/sass:/css" ]
 
   bytebase:
     image: bytebase/bytebase
@@ -89,6 +89,7 @@ services:
 
 networks:
   tag-v3-network:
+
 
 volumes:
   db-volume:

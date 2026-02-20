@@ -82,6 +82,22 @@ class CalculateConceptGradeUsecase
             $hasAllGrades = false;
         }
 
+        $criteria = new CDbCriteria();
+        $criteria->alias = 'g';
+        $criteria->join = 'INNER JOIN grade_unity_modality gum ON gum.id = g.grade_unity_modality_fk ';
+        $criteria->join .= 'INNER JOIN grade_unity gu ON gu.id = gum.grade_unity_fk ';
+        $criteria->condition = 'g.enrollment_fk = :enrollmentId
+        and g.discipline_fk = :disciplineId
+        and gum.type = :modalityType and gu.type = :unityType';
+        $criteria->params = [
+            ':enrollmentId' => $studentEnrollment->id,
+            ':disciplineId' => $disciplineId,
+            ':modalityType' => GradeUnityModality::TYPE_FINAL_CONCEPT,
+            ':unityType' => GradeUnity::TYPE_FINAL_CONCEPT
+        ];
+
+        $fianlConcept = Grade::model()->find($criteria)->grade_concept_fk;
+        $gradeResult->final_concept = $fianlConcept ? $fianlConcept : null;
         $gradeResult->final_media = $conceptGradeValues / $numUnities;
         $gradeResult->situation = StudentEnrollment::STATUS_ACTIVE;
 
