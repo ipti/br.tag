@@ -11,7 +11,7 @@
 $themeUrl = Yii::app()->theme->baseUrl;
 $cs = Yii::app()->getClientScript();
 
-$cs->registerScriptFile($baseScriptUrl . '/common/js/professional.js?v=1.1', CClientScript::POS_END);
+$cs->registerScriptFile($baseScriptUrl . '/common/js/professional.js?v='.TAG_VERSION, CClientScript::POS_END);
 
 $form = $this->beginWidget(
     'CActiveForm',
@@ -21,8 +21,8 @@ $form = $this->beginWidget(
     ]
 );
 ?>
-	<div class="row-fluid hidden-print">
-		<div class="span12">
+	<div class="row hidden-print">
+		<div class="column">
 			<h1>
 				<?php echo $title; ?>
 			</h1>
@@ -43,160 +43,182 @@ $form = $this->beginWidget(
 		<div class="widget widget-tabs border-bottom-none">
 			<?php echo $form->errorSummary($modelProfessional); ?>
 			<div class="alert alert-error professional-error no-show"></div>
+			<div class="t-tabs">
+				<ul class="t-tabs__list">
+					<li id="tab-professional-identify" class="active t-tabs__item">
+						<a href="#professional-identify" data-toggle="tab" class="t-tabs__link">
+							<span class="t-tabs__numeration">1</span>
+							Dados de Identificação
+						</a>
+						<img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/seta-tabs.svg" alt="seta">
+					</li>
+					<?php if (!$modelProfessional->isNewRecord): ?>
+						<li id="tab-professional-attendance" class="t-tabs__item">
+							<a href="#professional-attendance" data-toggle="tab" class="t-tabs__link">
+								<span class="t-tabs__numeration">2</span>
+								Atendimentos
+							</a>
+							<img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/seta-tabs.svg" alt="seta">
+						</li>
+						<li id="tab-professional-allocation" class="t-tabs__item">
+							<a href="#professional-allocation" data-toggle="tab" class="t-tabs__link">
+								<span class="t-tabs__numeration">3</span>
+								Lotação
+							</a>
+						</li>
+					<?php endif; ?>
+				</ul>
+			</div>
 			<div class="widget-body">
 				<div class="tab-content">
 					<div class="tab-pane active" id="professional-identify">
 						<div>
-							<h3>Dados Básicos</h3>
+							<h3>Dados de Identificação</h3>
 						</div>
 						<div class="full">
 							<div class="row">
-								<div class="control-group column clearleft">
-                                    <div class="hide" id="id_professional"><?php echo $modelProfessional->id_professional; ?></div>
-									<div class="control-group column clearleft">
-										<div class="controls">
-											<?php echo $form->label($modelProfessional, 'name', ['class' => 'control-label']); ?>
-										</div>
-										<div class="controls">
-											<?php echo $form->textField($modelProfessional, 'name', ['size' => 100, 'maxlength' => 100]); ?>
-											<?php echo $form->error($modelProfessional, 'name'); ?>
-										</div>
+								<div class="column is-half clearleft">
+									<div class="hide" id="id_professional"><?php echo $modelProfessional->id_professional; ?></div>
+									<div class="t-field-text">
+										<?php echo $form->label($modelProfessional, 'name', ['class' => 't-field-text__label']); ?>
+										<?php echo $form->textField($modelProfessional, 'name', ['class' => 't-field-text__input', 'maxlength' => 100]); ?>
+										<?php echo $form->error($modelProfessional, 'name'); ?>
 									</div>
-									<div class="control-group column clearleft">
-										<div class="controls">
-											<?php echo $form->label($modelProfessional, 'cpf_professional', ['class' => 'control-label']); ?>
-										</div>
-										<div class="controls">
-											<?php echo $form->textField($modelProfessional, 'cpf_professional', ['size' => 100, 'maxlength' => 100, 'class' => 'cpf-input']); ?>
-											<?php echo $form->error($modelProfessional, 'cpf_professional'); ?>
-										</div>
+									<div class="t-field-text">
+										<?php echo $form->label($modelProfessional, 'cpf_professional', ['class' => 't-field-text__label']); ?>
+										<?php echo $form->textField($modelProfessional, 'cpf_professional', ['class' => 't-field-text__input cpf-input', 'maxlength' => 100]); ?>
+										<?php echo $form->error($modelProfessional, 'cpf_professional'); ?>
 									</div>
-                                </div>
-                                <div class="control-group column clearleft">
-                                    <div class="control-group column clearleft">
-                                        <div class="controls">
-                                            <?php echo $form->label($modelProfessional, 'speciality', ['class' => 'control-label']); ?>
-                                        </div>
-                                        <div class="controls">
-                                            <?php echo $form->textField($modelProfessional, 'speciality', ['size' => 50]); ?>
-                                            <?php echo $form->error($modelProfessional, 'speciality'); ?>
-                                        </div>
-                                    </div>
-                                    <div class="control-group column clearleft">
-                                        <div class="controls">
-                                            <?php echo $form->label($modelProfessional, 'fundeb', ['class' => 'control-label', 'style' => 'width: 70px;']); ?>
-                                            <?php echo $form->checkBox($modelProfessional, 'fundeb', ['value' => 1, 'uncheckValue' => 0]); ?>
-                                        </div>
-                                        <div class="controls">
-                                            <?php echo $form->error($modelProfessional, 'fundeb'); ?>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+								</div>
+								<div class="column is-half">
+									<div class="t-field-text">
+										<?php echo $form->label($modelProfessional, 'speciality', ['class' => 't-field-text__label']); ?>
+										<?php echo $form->textField($modelProfessional, 'speciality', ['class' => 't-field-text__input', 'size' => 50]); ?>
+										<?php echo $form->error($modelProfessional, 'speciality'); ?>
+									</div>
+									<div class="t-field-checkbox" style="margin-top: 20px;">
+										<?php echo $form->checkBox($modelProfessional, 'fundeb', ['value' => 1, 'uncheckValue' => 0]); ?>
+										<?php echo $form->label($modelProfessional, 'fundeb', ['class' => 'control-label', 'style' => 'display: inline; margin-left: 5px;']); ?>
+										<?php echo $form->error($modelProfessional, 'fundeb'); ?>
+									</div>
+								</div>
 							</div>
-							<?php if (!$modelProfessional->isNewRecord) {?>
-							<div class="span6 column clearleft">
-								<div class="control-group column clearleft">
-                                    <div class="controls">
-                                        <a href="#" class="t-button-primary new-attendance-button" id="new-attendance-button">Adicionar Atendimento</a>
-                                    </div>
+						</div>
+
+						<?php if (!$modelProfessional->isNewRecord): ?>
+						<div class="row t-margin-large--top">
+							<div class="column clearleft">
+								<h3>Resumo</h3>
+								<div class="t-stat-cards">
+									<div class="t-stat-card t-stat-card--info">
+										<div class="t-stat-card__value"><?php echo $totalAttendancesMonth; ?></div>
+										<div class="t-stat-card__label">Atendimentos este mês</div>
+									</div>
+									<div class="t-stat-card t-stat-card--success">
+										<div class="t-stat-card__value"><?php echo $totalAllocations; ?></div>
+										<div class="t-stat-card__label">Lotações registradas</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<?php endif; ?>
+
+					</div>
+					<?php if (!$modelProfessional->isNewRecord): ?>
+						<div class="tab-pane" id="professional-attendance">
+							<div class="tag-inner">
+								<div class="tag-buttons-container buttons" style="margin-bottom: 20px;">
+									<a href="#" class="t-button-primary new-attendance-button" id="new-attendance-button">Adicionar Atendimento</a>
 								</div>
 								<div class="attendance-container">
-									<div class="form-attendance" style="display: none;">
-										<div>
-											<h3>Atendimento</h3>
-										</div>
-										<div class="control-group">
-											<div><?php echo '<strong>* Se a data não for escolhida, mas o local do atendimento for informado, a data registrada será a atual.</strong>' ?></div>
-											
-											<div class="controls">
-												<?php echo $form->label($modelAttendance, 'date', ['class' => 'control-label']); ?>
+									<div class="form-attendance" style="display: none; background: #f9f9f9; padding: 20px; border-radius: 8px; margin-bottom: 20px;">
+										<div><h3>Atendimento</h3></div>
+										<p style="font-size: 12px; color: #666; margin-bottom: 15px;">* Se a data não for escolhida, mas o local do atendimento for informado, a data registrada será a atual.</p>
+										<div class="row">
+											<div class="column is-one-quarter clearleft">
+												<div class="t-field-text">
+													<?php echo $form->label($modelAttendance, 'date', ['class' => 't-field-text__label']); ?>
+													<?php
+													$this->widget('zii.widgets.jui.CJuiDatePicker', [
+														'model' => $modelAttendance,
+														'attribute' => 'date',
+														'options' => [
+															'dateFormat' => 'dd/mm/yy',
+															'changeYear' => true,
+															'changeMonth' => true,
+															'yearRange' => '2000:' . date('Y'),
+															'showOn' => 'focus',
+															'maxDate' => 0
+														],
+														'htmlOptions' => [
+															'readonly' => 'readonly',
+															'class' => 't-field-text__input',
+															'style' => 'cursor: pointer;',
+															'placeholder' => 'Escolha a data'
+														],
+													]);
+													?>
+													<?php echo CHtml::link('Limpar', '#', [
+														'style' => 'font-size: 12px; margin-top: 4px; display: block;',
+														'onclick' => '$("#' . CHtml::activeId($modelAttendance, 'date') . '").datepicker("setDate", null); return false;',
+													]); ?>
+													<?php echo $form->error($modelAttendance, 'date'); ?>
+												</div>
 											</div>
-											<div class="controls">
-												<?php
-                                                $this->widget('zii.widgets.jui.CJuiDatePicker', [
-                                                    'model' => $modelAttendance,
-                                                    'attribute' => 'date',
-                                                    'options' => [
-                                                        'dateFormat' => 'dd/mm/yy',
-                                                        'changeYear' => true,
-                                                        'changeMonth' => true,
-                                                        'yearRange' => '2000:' . date('Y'),
-                                                        'showOn' => 'focus',
-                                                        'maxDate' => 0
-                                                    ],
-                                                    'htmlOptions' => [
-                                                        'readonly' => 'readonly',
-                                                        'style' => 'cursor: pointer;',
-                                                        'placeholder' => 'Clique aqui para escolher a data'
-                                                    ],
-                                                ]);
-
-							    echo CHtml::link('	Limpar', '#', [
-							        'onclick' => '$("#' . CHtml::activeId($modelAttendance, 'date') . '").datepicker("setDate", null); return false;',
-							    ]);
-
-							    echo $form->error($modelAttendance, 'date');
-							    ?>
-											</div>
-										</div>
-										<div class="control-group">
-											<div class="controls">
-												<?php echo $form->label($modelAttendance, 'local', ['class' => 'control-label']); ?>
-											</div>
-											<div class="controls">
-												<?php echo $form->textField($modelAttendance, 'local', ['size' => 60, 'maxlength' => 100, 'placeholder' => 'Informe o local do atendimento']); ?>
-												<?php echo $form->error($modelAttendance, 'local'); ?>
+											<div class="column is-three-quarters">
+												<div class="t-field-text">
+													<?php echo $form->label($modelAttendance, 'local', ['class' => 't-field-text__label']); ?>
+													<?php echo $form->textField($modelAttendance, 'local', ['class' => 't-field-text__input', 'placeholder' => 'Informe o local do atendimento']); ?>
+													<?php echo $form->error($modelAttendance, 'local'); ?>
+												</div>
 											</div>
 										</div>
 									</div>
 									<div id="attendances" class="widget widget-scroll margin-bottom-none table-responsive">
-										<h3>
-											Atendimentos
-										</h3>
-										<div style="" class="full">
-											<table class="tag-table-secondary table-bordered table-striped align-start"
-												aria-describedby="tabela de atendimentos">
-												<thead>
-													<tr>
-														<th style="min-width: 100px;border: none">Data</th>
-														<th style="min-width: 200px;border: none">Local</th>
-                                                        <th style="text-align: right; min-width: 50px;border: none"></th>
-													</thead>
-												<tbody>
-													<?php
-							        foreach ($modelAttendances as $attendance) {
-							            ?>
-														<tr>
-															<td style="border: none"><?php echo date('d/m/Y', strtotime($attendance->date)) ?></td>
-															<td style="border: none"><?php echo $attendance->local?></td>
-                                                            <td style="border: none">
-                                                                <button
-                                                                    type="button"
-                                                                    class="delete-attendance-bt t-button-content"
-                                                                    style="float:right; margin-right: 14px"
-                                                                    value="<?php echo $attendance->id_attendance?>"
-                                                                    onclick="deleteAttendance(this)">
-                                                                        <!-- <div class="t-icon-trash"></div> -->
-                                                                        <img src="<?php echo Yii::app()->theme->baseUrl . '/img/deletar.svg'; ?>" alt='Excluir'></img>
-                                                                </button>
-                                                            </td>
-														</tr>
-													<?php
-							        }
-							    ?>
-												</tbody>
-											</table>
-                                            <div>
-                                                <p>Atendimentos encontrados: <?php echo count($modelAttendances); ?></p>
-                                            </div>
-										</div>
+										<h3>Atendimentos</h3>
+										<?php
+										DataTableGridView::show($this, [
+											'id' => 'professional-attendance-grid',
+											'dataProvider' => $attendanceProvider,
+											'columns' => [
+												[
+													'name' => 'date',
+													'value' => 'date("d/m/Y", strtotime($data->date))',
+													'headerHtmlOptions' => ['style' => 'min-width: 100px;'],
+												],
+												[
+													'name' => 'local',
+													'headerHtmlOptions' => ['style' => 'min-width: 200px;'],
+												],
+												[
+													'header' => 'Ações',
+													'type' => 'raw',
+													'value' => 'CHtml::tag("button", [
+														"type" => "button",
+														"class" => "t-button-content",
+														"value" => $data->id_attendance,
+														"onclick" => "deleteAttendance(this)",
+														"title" => "Excluir"
+													], CHtml::image(Yii::app()->theme->baseUrl . "/img/deletar.svg", "Excluir", ["style" => "width: 16px;"]))',
+													'headerHtmlOptions' => ['style' => 'text-align: center; width: 80px;'],
+													'htmlOptions' => ['style' => 'text-align: center;'],
+												],
+											],
+										]);
+										?>
 									</div>
 								</div>
 							</div>
 						</div>
-						<?php }?>
-					</div>
+						<div class="tab-pane" id="professional-allocation">
+							<?php echo $this->renderPartial('_allocation', [
+								'modelProfessional' => $modelProfessional,
+								'allocationProvider' => $allocationProvider,
+								'allocationModel'    => $allocationModel,
+								'schools'            => $schools,
+							]); ?>
+						</div>
+					<?php endif; ?>
 				</div>
 			</div>
 		</div>

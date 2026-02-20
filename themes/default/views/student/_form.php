@@ -106,7 +106,7 @@ $form = $this->beginWidget(
           </a>
           <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/seta-tabs.svg" alt="seta">
         </li>
-        <li id="tab-student-affiliation" class="t-tabs__item ">
+        <li id="tab-student-affiliation" class="t-tabs__item">
           <a class="t-tabs__link" href="#student-affiliation" data-toggle="tab">
             <span class="t-tabs__numeration">2</span>
             <?php echo Yii::t('default', 'Affiliation') ?>

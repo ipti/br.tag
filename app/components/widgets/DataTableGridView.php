@@ -40,6 +40,10 @@ class DataTableGridView extends CGridView
             // Use js-tag-table class to trigger init.js initialization
             $defaultClasses = 'js-tag-table tag-table-primary table table-condensed table-striped table-hover table-primary table-vertical-center checkboxs';
             
+            if (!isset($this->htmlOptions['width'])) {
+                $this->htmlOptions['width'] = '100%';
+            }
+
             if (!isset($this->itemsCssClass)) {
                 $this->itemsCssClass = $defaultClasses;
             } else {

@@ -114,6 +114,7 @@ class RbacSeeder
                 [TFeature::FEAT_INTEGRATIONS_SAGRES_STATUS_ENROLL, 'Sagres: Status da Matrícula'],
                 [TFeature::FEAT_INTEGRATIONS_GESTAOPRESENTE,     'Integração Gestão Presente'],
                 [TFeature::FEAT_INTEGRATIONS_SEDSP,              'Integração SEDSP'],
+                [TFeature::FEAT_PROFESSIONAL_LIST,               'Lotação de Profissionais'],
             ];
 
             foreach ($ops as [$feat, $desc]) {
@@ -141,6 +142,7 @@ class RbacSeeder
                 TTask::TASK_MANAGEMENT_PERFORMANCE->value => 'Gestão de resultados (módulo interno)',
                 TTask::TASK_MANAGEMENT_PERFORMANCE_BI->value => 'Gestão de resultados via BI/PowerBI',
                 TTask::TASK_QUIZ_ACCESS->value => 'Módulo de questionários e pesquisas',
+                TTask::TASK_PROFESSIONAL_MANAGE->value => 'Gestão de lotação de profissionais não docentes',
             ];
 
             $tasks = [
@@ -241,6 +243,10 @@ class RbacSeeder
                 TTask::TASK_QUIZ_ACCESS->value => [
                     TFeature::FEAT_QUIZ_ACCESS->value,
                 ],
+                // Profissionais
+                TTask::TASK_PROFESSIONAL_MANAGE->value => [
+                    TFeature::FEAT_PROFESSIONAL_LIST->value,
+                ],
             ];
 
             $tasks = array_merge($tasks, array_reduce(TTask::cases(), function ($carry, $task) {
@@ -272,12 +278,14 @@ class RbacSeeder
                     TTask::TASK_REPORTS_ACCESS->value,
                     TTask::TASK_MANAGEMENT_PERFORMANCE->value,
                     TTask::TASK_INTEGRATIONS_ACCESS->value,
+                    TTask::TASK_PROFESSIONAL_MANAGE->value,
                 ],
 
                 TRole::READER->value => [
                     TTask::TASK_CURRICULUM_ACCESS->value,
                     TTask::TASK_REPORTS_ACCESS->value,
                     TTask::TASK_MANAGEMENT_PERFORMANCE->value,
+                    TTask::TASK_PROFESSIONAL_MANAGE->value,
                 ],
 
                 TRole::COORDINATOR->value => [

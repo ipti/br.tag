@@ -152,6 +152,11 @@ function initDatatable() {
                     indexActionButtons = [numColumns - 1]; // Default to last column
                 }
 
+                // Safety check: if indexActionButtons targets a non-existent column, default to last
+                if (indexActionButtons && indexActionButtons.length > 0 && indexActionButtons[0] >= numColumns) {
+                    indexActionButtons = [numColumns - 1];
+                }
+
                 if (action.includes("student") && !action.includes("studentimc") && !action.includes("enrollmentonline")) {
                     $table.DataTable({
                         language: getLanguagePtbr(),

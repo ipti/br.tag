@@ -18,10 +18,10 @@ $(document).on("click", ".info-list", function () {
                     .find(".t-info_positive")
                     .html(
                         "<i></i>" +
-                            changeNameLength(
-                                $(this).find(".t-info_positive").text(),
-                                100
-                            )
+                        changeNameLength(
+                            $(this).find(".t-info_positive").text(),
+                            100
+                        )
                     );
             });
         },
@@ -40,7 +40,7 @@ $(function () {
             .find(".glyphicons")
             .html(
                 "<i></i>" +
-                    changeNameLength($(this).find(".glyphicons").text(), 100)
+                changeNameLength($(this).find(".glyphicons").text(), 100)
             );
     });
 
@@ -63,6 +63,7 @@ $(function () {
     }
 
     getWarnsHtml();
+    getSchoolSummary();
 
     // loadLineChart(new Date().getFullYear());
     // loadCylinderChart(new Date().getFullYear());
@@ -340,6 +341,27 @@ function getWarnsHtml({ limit = 8 } = {}) {
             console.error(
                 "Erro ao carregar dados de warnings da página principal!"
             );
+        },
+    });
+}
+
+function getSchoolSummary() {
+    $.ajax({
+        url: loadSchoolSummary,
+        type: "GET",
+        dataType: "json",
+        success: function (response) {
+            if (response.success) {
+                $("#enrolled-count").text(response.enrolledCount);
+                $("#class-count").text(response.classCount);
+                $("#instructor-count").text(response.instructorCount);
+                $("#allocated-professionals-count").text(response.allocatedProfessionalsCount);
+
+                $("#school-summary-panel").removeClass("hide").fadeIn();
+            }
+        },
+        error: function () {
+            console.error("Erro ao carregar o resumo da escola.");
         },
     });
 }

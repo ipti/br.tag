@@ -36,7 +36,8 @@
         "test": "./vendor/bin/codecept run acceptance --steps",
         "sagres-gen": "./vendor/bin/xsd2php convert app/modules/sagres/config.yml app/modules/sagres/soap/Educacao.xsd",
         "migrate": "docker exec tag-app php /app/app/yiic sqlmigration run",
-        "migrate:dry": "docker exec tag-app php /app/app/yiic sqlmigration run"
+        "migrate:dry": "docker exec tag-app php /app/app/yiic sqlmigration run",
+        "clear-assets": "docker exec tag-app sh -c \"find /app/assets -mindepth 1 -delete\""
     },
     "config": {
         "allow-plugins": {

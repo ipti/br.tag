@@ -53,6 +53,7 @@ class Professional extends TagModel
         return [
             'attendances' => [self::HAS_MANY, 'Attendance', 'professional_fk'],
             'inepIdFk' => [self::BELONGS_TO, 'SchoolIdentification', 'inep_id_fk'],
+            'allocations' => [self::HAS_MANY, 'ProfessionalAllocation', 'professional_fk'],
         ];
     }
 

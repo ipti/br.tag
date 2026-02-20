@@ -15,7 +15,7 @@ class SiteController extends Controller
         return [
             [
                 'allow', // allow authenticated user to perform 'create' and 'update' actions
-                'actions' => ['changeschool', 'changeyear', 'loadMoreLogs', 'loadMoreWarns'],
+                'actions' => ['changeschool', 'changeyear', 'loadMoreLogs', 'loadMoreWarns', 'loadSchoolSummary', 'loadLineChartData', 'loadCylinderChartData', 'loadPieChartData'],
                 'users' => ['@'],
             ],
         ];
@@ -501,5 +501,50 @@ class SiteController extends Controller
         header('Expires: 0');
         readfile($arquivo);
         flush();
+    }
+    /**
+     * Loads school summary data (active enrollments, total classes) via AJAX
+     */
+    public function actionLoadSchoolSummary()
+    {
+        Yii::import('application.modules.inventory.models.*');
+        Yii::import('application.modules.professional.models.*');
+        $schoolId = Yii::app()->user->school;
+        $year = Yii::app()->user->year;
+
+        if (!$schoolId || !$year) {
+            echo CJSON::encode(['success' => false, 'error' => 'No school or year selected']);
+            Yii::app()->end();
+        }
+
+        // Active Enrollments: statuses 1, 5, 6, 8, 10 or NULL, filtered by school and year
+        $criteriaEnrollment = new CDbCriteria();
+        $criteriaEnrollment->with = ['classroomFk'];
+        $criteriaEnrollment->compare('t.school_inep_id_fk', $schoolId);
+        $criteriaEnrollment->compare('classroomFk.school_year', $year);
+        $criteriaEnrollment->addCondition("(t.status IN ('1', '5', '6', '8', '10') OR t.status IS NULL)");
+        
+        $enrolledCount = StudentEnrollment::model()->count($criteriaEnrollment);
+
+        $criteriaClassroom = new CDbCriteria();
+        $criteriaClassroom->compare('school_inep_fk', $schoolId);
+        $criteriaClassroom->compare('school_year', $year);
+        $classCount = Classroom::model()->count($criteriaClassroom);
+
+        $instructorCount = InstructorIdentification::model()->countByAttributes(['school_inep_id_fk' => $schoolId]);
+        
+        $allocatedProfessionalsCount = ProfessionalAllocation::model()->countByAttributes([
+            'school_inep_fk' => $schoolId,
+            'school_year' => $year
+        ]);
+
+        echo CJSON::encode([
+            'success' => true,
+            'enrolledCount' => (int)$enrolledCount,
+            'classCount' => (int)$classCount,
+            'instructorCount' => (int)$instructorCount,
+            'allocatedProfessionalsCount' => (int)$allocatedProfessionalsCount,
+        ]);
+        Yii::app()->end();
     }
 }

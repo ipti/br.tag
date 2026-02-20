@@ -1,3 +1,10 @@
+## [Versão 3.10.0]
+- Implementado módulo de Lotação de Profissionais não docentes
+- Adicionado suporte para gestão de cargos, tipos de contrato e carga horária
+- Implementado histórico de atendimentos individuais para profissionais
+- Integrado sistema de controle de acesso (RBAC) para gestão de lotação
+- Refatorado layout das telas de profissionais para utilizar sistema nativo de grid SASS e componentes de campo
+
 ## [Versão 3.9.0]
 - Implementado módulo de Almoxarifado (Gestão de Estoque)
 - Adicionado suporte para Almoxarifado Central (Secretaria de Educação)
