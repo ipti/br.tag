@@ -3,6 +3,21 @@ $(function () {
     loadStructure();
 });
 
+/**
+ * Escapes a string for safe insertion into HTML to prevent XSS.
+ * @param {*} value
+ * @returns {string}
+ */
+function escapeHtml(value) {
+    if (value === null || value === undefined) return '';
+    return String(value)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+}
+
 
 function hasUnitiesSaved() {
     if ($("input[type='hidden'].unity-id[value]").length > 0) {
@@ -32,7 +47,7 @@ $(document).on(
 
 $(document).on("keyup", ".unity-name", function (e) {
     const unity = $(this).closest(".unity");
-    unity.find(".unity-title").html($(this).val());
+    unity.find(".unity-title").text($(this).val());
 });
 
 $(document).on("click", ".js-new-unity", function (e) {
@@ -887,7 +902,7 @@ function loadStructure() {
                     } else {
                         unity.find(".unity-weight-container").hide();
                     }
-                    unity.find(".unity-title").html(this.name);
+                    unity.find(".unity-title").text(this.name);
                     unity.find(".unity-id").val(this.id);
                     unity
                         .find("select.js-semester")
@@ -911,7 +926,7 @@ function loadStructure() {
                         modality.find(".modality-name").attr("modalitytype", this.type);
                         if (this.type == 'R') {
                             modality.find("label")
-                                .html("Recuperação: ")
+                                .text("Recuperação: ")
                                 .css("width", "206px");
                             modality.find('.remove-button').remove()
                         }
@@ -1000,7 +1015,7 @@ function addAccordion(id, name) {
         lastAccordion = Number($("#accordion-partial-recovery .partial-recovery:last").attr("data-index"));
         partialRecovery = lastAccordion + 1
     }
-    const titleAccordion = name === "" ? "Recuperação Parcial:" : name
+    const titleAccordion = name === "" ? "Recuperação Parcial:" : escapeHtml(name)
     const collapse = partialRecovery == 0 ? "in" : "";
     const unityOptions = getUnityOptions();
     return template`
@@ -1056,7 +1071,7 @@ function getUnityOptions() {
     let name = '';
     unities.each(function (index, element) {
         value = $(element).find("input[type='hidden'].unity-id").val();
-        name = $(element).find("input.unity-name").val();
+        name = escapeHtml($(element).find("input.unity-name").val());
         unityOptions += template`
             <option value="${value}">${name}</option>
         `
@@ -1121,7 +1136,7 @@ function deletePartialRecovery(partialRecovery) {
 }
 $(document).on("keyup", ".partial-recovery-name", function (e) {
     const partialRecovery = $(this).closest(".partial-recovery-container");
-    partialRecovery.find(".partial-recovery-title").html($(this).val());
+    partialRecovery.find(".partial-recovery-title").text($(this).val());
 });
 
 $(document).on("change", "select.calculation-final-media", function (e) {
