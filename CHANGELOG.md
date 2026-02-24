@@ -1,3 +1,9 @@
+## [Versão 3.10.0]
+- Agora é possível **copiar uma estrutura de avaliação** para outro ano letivo diretamente da listagem, sem precisar recadastrá-la do zero
+- A listagem de estruturas de avaliação exibe o **ano de referência** e as **etapas de ensino** vinculadas a cada estrutura
+- Estruturas antigas (sem ano definido) continuam aparecendo normalmente para anos anteriores a 2026
+- A tela de gestão de estruturas de avaliação foi reorganizada e melhorada visualmente
+
 ## [Versão 3.9.0]
 - Implementado módulo de Almoxarifado (Gestão de Estoque)
 - Adicionado suporte para Almoxarifado Central (Secretaria de Educação)

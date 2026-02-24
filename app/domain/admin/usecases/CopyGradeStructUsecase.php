@@ -64,7 +64,7 @@ class CopyGradeStructUsecase
     private function cloneGradeRules(GradeRules $source): GradeRules
     {
         $new                      = new GradeRules();
-        $new->name                = $source->name . ' (Cópia)';
+        $new->name                = $source->name . ' ('. $this->schoolYear . ')';
         $new->school_year         = $this->schoolYear ?? $source->school_year;
         $new->approvation_media   = $source->approvation_media;
         $new->final_recover_media = $source->final_recover_media;

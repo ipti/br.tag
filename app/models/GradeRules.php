@@ -50,12 +50,28 @@ class GradeRules extends TagModel
      */
     public function relations()
     {
-        // NOTE: you may need to adjust the relation name and the related
-        // class name for the relations automatically generated below.
         return [
-            'gradeCalculationFk' => [self::BELONGS_TO, 'GradeCalculation', 'grade_calculation_fk'],
+            'gradeCalculationFk'   => [self::BELONGS_TO, 'GradeCalculation', 'grade_calculation_fk'],
             'edcensoStageVsModalityFk' => [self::BELONGS_TO, 'EdcensoStageVsModality', 'edcenso_stage_vs_modality_fk'],
+            'gradeRulesStages'     => [self::HAS_MANY, 'GradeRulesVsEdcensoStageVsModality', 'grade_rules_fk'],
         ];
+    }
+
+    /**
+     * Returns a comma-separated string with the names of all stages
+     * linked to this grade rule via the junction table.
+     *
+     * @return string e.g. "1º Ano – Ensino Fundamental, 2º Ano – Ensino Fundamental"
+     */
+    public function getStageNames(): string
+    {
+        $names = [];
+        foreach ($this->gradeRulesStages as $pivot) {
+            if ($pivot->edcensoStageVsModalityFk !== null) {
+                $names[] = $pivot->edcensoStageVsModalityFk->name;
+            }
+        }
+        return implode(', ', $names);
     }
 
     /**

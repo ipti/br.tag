@@ -53,14 +53,14 @@ $this->pageTitle = 'TAG - ' . Yii::t('default', 'Estrutura de Unidades');
                             'value' => 'CHtml::link($data->name, Yii::app()->createUrl("gradesStructure/create", array("id" => $data->id)))',
                         ),
                         array(
-                            'name'  => 'Ano de Vigência',
+                            'name'  => 'Ano',
                             'type'  => 'raw',
                             'value' => '$data->school_year',
                         ),
                         array(
                             'name'  => 'etapa',
                             'type'  => 'raw',
-                            'value' => '$data->edcensoStageVsModalityFk->name',
+                            'value' => '$data->getStageNames()',
                         ),
                         array(
                             'header'     => 'Ações',
@@ -87,35 +87,36 @@ $this->pageTitle = 'TAG - ' . Yii::t('default', 'Estrutura de Unidades');
 <!-- ============================================================
      Modal – Copiar Estrutura
      ============================================================ -->
-<div id="modal-copy-structure" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="modalCopyLabel" aria-hidden="true">
-    <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h3 id="modalCopyLabel">Copiar Estrutura</h3>
-    </div>
-    <form id="form-copy-structure" method="GET" action="/">
-        <input type="hidden" name="r" value="gradesStructure/copy">
-        <input type="hidden" id="copy-structure-id" name="id" value="">
-        <div class="modal-body">
-            <p id="copy-structure-name" style="font-weight: bold; margin-bottom: 12px;"></p>
-            <div class="control-group">
-                <label class="control-label" for="copy-target-year">Ano de destino</label>
-                <div class="controls">
+<div id="modal-copy-structure" class="modal fade t-modal-container" tabindex="-1" role="dialog" aria-labelledby="modalCopyLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="t-modal__header">
+            <h4 class="t-title" id="modalCopyLabel">Copiar Estrutura</h4>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+                <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/Close.svg" alt="Fechar">
+            </button>
+        </div>
+        <form id="form-copy-structure" method="GET" action="/">
+            <input type="hidden" name="r" value="gradesStructure/copy">
+            <input type="hidden" id="copy-structure-id" name="id" value="">
+            <div class="t-modal__body">
+                <p id="copy-structure-name" style="font-weight: 600; margin-bottom: 16px; color: #252A31;"></p>
+                <div class="t-field-text">
+                    <label class="t-field-text__label" for="copy-target-year">Ano de destino</label>
                     <input type="number"
                            id="copy-target-year"
                            name="year"
-                           class="input-small"
                            min="2000"
                            max="2100"
                            value="<?php echo (int) Yii::app()->user->year; ?>"
                            required>
                 </div>
             </div>
-        </div>
-        <div class="modal-footer">
-            <button type="button" class="btn" data-dismiss="modal">Cancelar</button>
-            <button type="submit" class="btn btn-primary">Copiar</button>
-        </div>
-    </form>
+            <div class="t-modal__footer mobile-row">
+                <button type="button" class="t-button-secondary" data-dismiss="modal">Cancelar</button>
+                <button type="submit" class="t-button-primary">Copiar</button>
+            </div>
+        </form>
+    </div>
 </div>
 
 <script>
