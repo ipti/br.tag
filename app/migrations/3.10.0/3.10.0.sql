@@ -133,3 +133,6 @@ AND id_professional NOT IN (
 
 
 ALTER TABLE professional_allocation ADD COLUMN status TINYINT(1) NOT NULL DEFAULT 1;
+
+-- Add school_year column to grade_rules table
+ALTER TABLE grade_rules ADD COLUMN school_year INT(4) NULL AFTER name;
