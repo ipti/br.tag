@@ -7,7 +7,6 @@
  */
 class GradesStructureController extends Controller
 {
-    // public $layout = '//layouts/column1';
     public $layout = 'fullmenu';
 
     /**
@@ -259,36 +258,38 @@ class GradesStructureController extends Controller
         $result['partialRecoveries'] = [];
         $gPartialRecoveries = GradePartialRecovery::model()->findAllByAttributes(['grade_rules_fk' => $gradeRules->id]);
         foreach ($gPartialRecoveries as $partialRecovery) {
-            $resultPartialRecovery                        = [];
-            $resultPartialRecovery['id']                  = $partialRecovery->id;
-            $resultPartialRecovery['hasGrades']           = $this->recoveryHasGrade($partialRecovery);
-            $resultPartialRecovery['name']                = $partialRecovery->name;
-            $resultPartialRecovery['order']               = $partialRecovery->order_partial_recovery;
-            $resultPartialRecovery['grade_calculation_fk'] = $partialRecovery->grade_calculation_fk;
-            $resultPartialRecovery['semester']            = $partialRecovery->semester;
-            $resultPartialRecovery['weights']             = [];
-
-            if ($partialRecovery->gradeCalculationFk->name == 'Peso') {
-                $gradeRecoveryWeights = GradePartialRecoveryWeights::model()->findAllByAttributes(['partial_recovery_fk' => $partialRecovery->id]);
-                foreach ($gradeRecoveryWeights as $weight) {
-                    array_push(
-                        $resultPartialRecovery['weights'],
-                        [
-                            'id'      => $weight['id'],
-                            'unity_fk' => $weight['unity_fk'],
-                            'weight'  => $weight['weight'],
-                            'name'    => $weight['unity_fk'] !== null ? $weight->unityFk->name : 'recuperação',
-                        ]
-                    );
-                }
-            }
-
-            $unities                         = GradeUnity::model()->findAllByAttributes(['parcial_recovery_fk' => $partialRecovery->id]);
-            $resultPartialRecovery['unities'] = $unities;
-            array_push($result['partialRecoveries'], $resultPartialRecovery);
+            $result['partialRecoveries'][] = $this->buildPartialRecoveryResult($partialRecovery);
         }
 
         echo CJSON::encode($result);
+    }
+
+    private function buildPartialRecoveryResult($partialRecovery): array
+    {
+        $entry = [
+            'id'                  => $partialRecovery->id,
+            'hasGrades'           => $this->recoveryHasGrade($partialRecovery),
+            'name'                => $partialRecovery->name,
+            'order'               => $partialRecovery->order_partial_recovery,
+            'grade_calculation_fk' => $partialRecovery->grade_calculation_fk,
+            'semester'            => $partialRecovery->semester,
+            'weights'             => [],
+        ];
+
+        if ($partialRecovery->gradeCalculationFk->name == 'Peso') {
+            $gradeRecoveryWeights = GradePartialRecoveryWeights::model()->findAllByAttributes(['partial_recovery_fk' => $partialRecovery->id]);
+            foreach ($gradeRecoveryWeights as $weight) {
+                $entry['weights'][] = [
+                    'id'      => $weight['id'],
+                    'unity_fk' => $weight['unity_fk'],
+                    'weight'  => $weight['weight'],
+                    'name'    => $weight['unity_fk'] !== null ? $weight->unityFk->name : 'recuperação',
+                ];
+            }
+        }
+
+        $entry['unities'] = GradeUnity::model()->findAllByAttributes(['parcial_recovery_fk' => $partialRecovery->id]);
+        return $entry;
     }
 
     private function unityHasGrade($unity)
@@ -357,83 +358,10 @@ class GradesStructureController extends Controller
                 $gradeRules->save(false);
             }
 
-            if ($gradeRules->rule_type === 'C') {
-                $gradeUnityFinalConcept = GradeUnity::model()->findAllByAttributes(
-                    ['grade_rules_fk' => $gradeRules->id, 'type' => GradeUnity::TYPE_FINAL_CONCEPT]
-                );
-                if (!$gradeUnityFinalConcept) {
-                    $gradeUnityFinalConcept = new GradeUnity();
-                    $gradeUnityFinalConcept->name               = 'CONCEITO FINAL';
-                    $gradeUnityFinalConcept->type               = GradeUnity::TYPE_FINAL_CONCEPT;
-                    $gradeUnityFinalConcept->grade_calculation_fk = 2;
-                    $gradeUnityFinalConcept->grade_rules_fk     = $gradeRules->id;
-                    if (!$gradeUnityFinalConcept->validate()) {
-                        $validationMessage = Yii::app()->utils->stringfyValidationErrors($gradeUnityFinalConcept);
-                        throw new CHttpException(400, "Não foi possivel salvar dados do conceito final: \n" . $validationMessage, 1);
-                    }
-                    $gradeUnityFinalConcept->save();
-
-                    $gradeUnityModalityFinalConcept = new GradeUnityModality();
-                    $gradeUnityModalityFinalConcept->name          = 'AVALIAÇÃO';
-                    $gradeUnityModalityFinalConcept->type          = GradeUnityModality::TYPE_FINAL_CONCEPT;
-                    $gradeUnityModalityFinalConcept->weight        = null;
-                    $gradeUnityModalityFinalConcept->grade_unity_fk = $gradeUnityFinalConcept->id;
-                    if (!$gradeUnityModalityFinalConcept->validate()) {
-                        throw new CantSaveGradeUnityModalityException($gradeUnityModalityFinalConcept);
-                    }
-                    $gradeUnityModalityFinalConcept->save();
-                }
-            } elseif ($gradeRules->rule_type === 'N') {
-                $gradeUnityFinalConcept = GradeUnity::model()->findAllByAttributes(
-                    ['grade_rules_fk' => $gradeRules->id, 'type' => GradeUnity::TYPE_FINAL_CONCEPT]
-                );
-                if ($gradeUnityFinalConcept) {
-                    foreach ($gradeUnityFinalConcept as $concept) {
-                        $modalityModel = GradeUnityModality::model()->findByAttributes(['grade_unity_fk' => $concept->id]);
-                        if ($modalityModel != null) {
-                            Grade::model()->deleteAllByAttributes(['grade_unity_modality_fk' => $modalityModel->id]);
-                            $modalityModel->delete();
-                        }
-                        $concept->delete();
-                    }
-                }
-            }
+            $this->handleFinalConcept($gradeRules);
 
             if ($hasFinalRecovery === true) {
-                $recoveryUnity = GradeUnity::model()->findByPk($finalRecovery['id']);
-                if ($recoveryUnity === null) {
-                    $recoveryUnity = new GradeUnity();
-                }
-                $recoveryUnity->name                        = $finalRecovery['name'];
-                $recoveryUnity->type                        = 'RF';
-                $recoveryUnity->grade_calculation_fk        = $finalRecovery['grade_calculation_fk'];
-                $recoveryUnity->grade_rules_fk              = $gradeRulesId;
-                $recoveryUnity->final_recovery_avarage_formula = $finalRecovery['final_recovery_avarage_formula'];
-
-                $gradeCalculation = GradeCalculation::model()->findByPk($finalRecovery['grade_calculation_fk']);
-                if ($gradeCalculation->name === 'Peso') {
-                    $recoveryUnity->weight_final_media     = $finalRecovery['WeightfinalMedia'];
-                    $recoveryUnity->weight_final_recovery  = $finalRecovery['WeightfinalRecovery'];
-                }
-                if (!$recoveryUnity->validate()) {
-                    $validationMessage = Yii::app()->utils->stringfyValidationErrors($recoveryUnity);
-                    throw new CHttpException(400, "Não foi possivel salvar dados da recuperação final: \n" . $validationMessage, 1);
-                }
-                $recoveryUnity->save();
-
-                $modalityModel = GradeUnityModality::model()->findByAttributes(['grade_unity_fk' => $recoveryUnity->id]);
-                if ($modalityModel == null) {
-                    $modalityModel = new GradeUnityModality();
-                }
-                $modalityModel->name          = 'Avaliação/Prova';
-                $modalityModel->type          = 'R';
-                $modalityModel->weight        = null;
-                $modalityModel->grade_unity_fk = $recoveryUnity->id;
-                if (!$modalityModel->validate()) {
-                    throw new CantSaveGradeUnityModalityException($modalityModel);
-                }
-                $modalityModel->save();
-
+                $this->handleFinalRecovery($gradeRulesId, $finalRecovery, true);
             } elseif ($hasFinalRecovery === false && $finalRecovery['operation'] === 'delete' && $gradeRules->rule_type === 'N') {
                 $recoveryUnity = GradeUnity::model()->findByPk((int) $finalRecovery['id']);
                 $recoveryUnity?->delete();
@@ -449,16 +377,98 @@ class GradesStructureController extends Controller
         }
     }
 
+    private function handleFinalConcept($gradeRules): void
+    {
+        if ($gradeRules->rule_type === 'C') {
+            $existing = GradeUnity::model()->findAllByAttributes(
+                ['grade_rules_fk' => $gradeRules->id, 'type' => GradeUnity::TYPE_FINAL_CONCEPT]
+            );
+            if (!$existing) {
+                $unity = new GradeUnity();
+                $unity->name               = 'CONCEITO FINAL';
+                $unity->type               = GradeUnity::TYPE_FINAL_CONCEPT;
+                $unity->grade_calculation_fk = 2;
+                $unity->grade_rules_fk     = $gradeRules->id;
+                if (!$unity->validate()) {
+                    $msg = Yii::app()->utils->stringfyValidationErrors($unity);
+                    throw new CHttpException(400, "Não foi possivel salvar dados do conceito final: \n" . $msg, 1);
+                }
+                $unity->save();
+
+                $modality = new GradeUnityModality();
+                $modality->name          = 'AVALIAÇÃO';
+                $modality->type          = GradeUnityModality::TYPE_FINAL_CONCEPT;
+                $modality->weight        = null;
+                $modality->grade_unity_fk = $unity->id;
+                if (!$modality->validate()) {
+                    throw new CantSaveGradeUnityModalityException($modality);
+                }
+                $modality->save();
+            }
+        } elseif ($gradeRules->rule_type === 'N') {
+            $concepts = GradeUnity::model()->findAllByAttributes(
+                ['grade_rules_fk' => $gradeRules->id, 'type' => GradeUnity::TYPE_FINAL_CONCEPT]
+            );
+            if ($concepts) {
+                foreach ($concepts as $concept) {
+                    $modalityModel = GradeUnityModality::model()->findByAttributes(['grade_unity_fk' => $concept->id]);
+                    if ($modalityModel != null) {
+                        Grade::model()->deleteAllByAttributes(['grade_unity_modality_fk' => $modalityModel->id]);
+                        $modalityModel->delete();
+                    }
+                    $concept->delete();
+                }
+            }
+        }
+    }
+
+    private function handleFinalRecovery($gradeRulesId, $finalRecovery, $hasFinalRecovery): void
+    {
+        $recoveryUnity = GradeUnity::model()->findByPk($finalRecovery['id']);
+        if ($recoveryUnity === null) {
+            $recoveryUnity = new GradeUnity();
+        }
+        $recoveryUnity->name                        = $finalRecovery['name'];
+        $recoveryUnity->type                        = 'RF';
+        $recoveryUnity->grade_calculation_fk        = $finalRecovery['grade_calculation_fk'];
+        $recoveryUnity->grade_rules_fk              = $gradeRulesId;
+        $recoveryUnity->final_recovery_avarage_formula = $finalRecovery['final_recovery_avarage_formula'];
+
+        $gradeCalculation = GradeCalculation::model()->findByPk($finalRecovery['grade_calculation_fk']);
+        if ($gradeCalculation->name === 'Peso') {
+            $recoveryUnity->weight_final_media     = $finalRecovery['WeightfinalMedia'];
+            $recoveryUnity->weight_final_recovery  = $finalRecovery['WeightfinalRecovery'];
+        }
+        if (!$recoveryUnity->validate()) {
+            $msg = Yii::app()->utils->stringfyValidationErrors($recoveryUnity);
+            throw new CHttpException(400, "Não foi possivel salvar dados da recuperação final: \n" . $msg, 1);
+        }
+        $recoveryUnity->save();
+
+        $modalityModel = GradeUnityModality::model()->findByAttributes(['grade_unity_fk' => $recoveryUnity->id]);
+        if ($modalityModel == null) {
+            $modalityModel = new GradeUnityModality();
+        }
+        $modalityModel->name          = 'Avaliação/Prova';
+        $modalityModel->type          = 'R';
+        $modalityModel->weight        = null;
+        $modalityModel->grade_unity_fk = $recoveryUnity->id;
+        if (!$modalityModel->validate()) {
+            throw new CantSaveGradeUnityModalityException($modalityModel);
+        }
+        $modalityModel->save();
+    }
+
     // -------------------------------------------------------
     // Copy a grade structure (including units, modalities, recoveries)
     // -------------------------------------------------------
 
     public function actionCopy($id, $year)
     {
-        $year = (int) Yii::app()->request->getParam('year', Yii::app()->user->year);
+        $effectiveYear = (int) Yii::app()->request->getParam('year', Yii::app()->user->year);
 
         try {
-            $usecase = new CopyGradeStructUsecase($id, $year);
+            $usecase = new CopyGradeStructUsecase($id, $effectiveYear);
             $usecase->exec();
             Yii::app()->user->setFlash('notice', 'Estrutura copiada com sucesso!');
         } catch (CHttpException $e) {

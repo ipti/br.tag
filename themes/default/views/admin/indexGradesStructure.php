@@ -87,8 +87,8 @@ $this->pageTitle = 'TAG - ' . Yii::t('default', 'Estrutura de Unidades');
 <!-- ============================================================
      Modal – Copiar Estrutura
      ============================================================ -->
-<div id="modal-copy-structure" class="modal fade t-modal-container" tabindex="-1" role="dialog" aria-labelledby="modalCopyLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
+<div id="modal-copy-structure" class="modal fade t-modal-container" tabindex="-1" aria-labelledby="modalCopyLabel" aria-hidden="true">
+    <div class="modal-dialog">
         <div class="t-modal__header">
             <h4 class="t-title" id="modalCopyLabel">Copiar Estrutura</h4>
             <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
