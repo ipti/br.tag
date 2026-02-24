@@ -25,6 +25,10 @@ class EscolaTType
     #[Serializer\XmlList(inline: true, entry: 'edu:cardapio')]
     private array $cardapio = [];
 
+    #[Serializer\SerializedName('edu:qtdSalas')]
+    #[Serializer\XmlElement(cdata: false)]
+    private ?int $qtdSalas = null;
+
     /**
      * Gets as idEscola
      *
@@ -178,6 +182,28 @@ class EscolaTType
     public function setCardapio(?array $cardapio): self
     {
         $this->cardapio = $cardapio;
+        return $this;
+    }
+
+    /**
+     * Gets as qtdSalas
+     *
+     * @return int
+     */
+    public function getQtdSalas(): ?int
+    {
+        return $this->qtdSalas;
+    }
+
+    /**
+     * Sets a new qtdSalas
+     *
+     * @param int $qtdSalas
+     * @return self
+     */
+    public function setQtdSalas(?int $qtdSalas): self
+    {
+        $this->qtdSalas = $qtdSalas;
         return $this;
     }
 }

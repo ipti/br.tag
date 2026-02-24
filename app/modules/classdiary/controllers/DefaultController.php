@@ -79,8 +79,8 @@ class DefaultController extends Controller
         $abilities = $getAbilities->exec($disciplineFk, $stageFk);
 
         $this->render('classDiary', [
-            'discipline_name' => $disciplineName,
-            'classroom_name' => $classroomName,
+            'disciplineName' => $disciplineName,
+            'classroomName' => $classroomName,
             'coursePlans' => $coursePlans,
             'abilities' => $abilities,
             'date' => $date,
@@ -90,8 +90,8 @@ class DefaultController extends Controller
     public function actionclassDays($disciplineName, $classroomName)
     {
         $this->render('classDays', [
-            'discipline_name' => $disciplineName,
-            'classroom_name' => $classroomName
+            'disciplineName' => $disciplineName,
+            'classroomName' => $classroomName
         ]);
     }
 
@@ -193,10 +193,10 @@ class DefaultController extends Controller
 
     public function actionSaveClassContents()
     {
-        $stageFk = Yii::app()->request->getPost('stage_fk');
+        $stageFk = Yii::app()->request->getPost('stageFk');
         $date = Yii::app()->request->getPost('date');
-        $disciplineFk = Yii::app()->request->getPost('discipline_fk');
-        $classroomFk = Yii::app()->request->getPost('classroom_fk');
+        $disciplineFk = Yii::app()->request->getPost('disciplineFk');
+        $classroomFk = Yii::app()->request->getPost('classroomFk');
         $classContent = Yii::app()->request->getPost('classContent');
         $hasNewClassContent = Yii::app()->request->getPost('hasNewClassContent');
         $content = Yii::app()->request->getPost('content');
@@ -230,7 +230,7 @@ class DefaultController extends Controller
     {
         $getFrequency = new GetFrequency();
         $frequency = $getFrequency->exec($classroomFk, $stageFk, $disciplineFk, $date);
-        $this->renderPartial('_frequencyElementMobile', ['frequency' => $frequency, 'date' => $date,  'discipline_fk' => $disciplineFk, 'stage_fk' => $stageFk, 'classroom_fk' => $classroomFk]);
+        $this->renderPartial('_frequencyElementMobile', ['frequency' => $frequency, 'date' => $date, 'disciplineFk' => $disciplineFk, 'stageFk' => $stageFk, 'classroomFk' => $classroomFk]);
     }
 
     public function actionRenderFrequencyElementDesktop($classroomFk, $stageFk, $disciplineFk, $date)
@@ -243,7 +243,7 @@ class DefaultController extends Controller
     public function actionSaveFresquency()
     {
         $saveFrequency = new SaveFrequency();
-        $saveFrequency->exec($_POST['schedule'], $_POST['studentId'], $_POST['fault'], $_POST['stage_fk'], $_POST['date'], $_POST['classroom_id']);
+        $saveFrequency->exec($_POST['schedule'], $_POST['studentId'], $_POST['fault'], $_POST['stageFk'], $_POST['date'], $_POST['classroom_id']);
     }
 
     public function actionStudentClassDiary($studentId, $stageFk, $classroomId, $schedule, $date, $disciplineFk, $justification)
@@ -271,10 +271,10 @@ class DefaultController extends Controller
             $getDiscipline = new GetDiscipline();
             $discipline = $getDiscipline->exec($disciplineFk)[0]['name'];
             $classroom = Classroom::model()->findByPk($classroomId);
-            $this->redirect(['classDiary', 'classroom_fk' => $classroomId, 'stage_fk' => $stageFk, 'discipline_fk' => $disciplineFk, 'discipline_name' => $discipline, 'classroom_name' => $classroom->name, 'date' => $date]);
+            $this->redirect(['classDiary', 'classroomFk' => $classroomId, 'stageFk' => $stageFk, 'disciplineFk' => $disciplineFk, 'disciplineName' => $discipline, 'classroomName' => $classroom->name, 'date' => $date]);
         }
 
-        $this->render('studentClassDiary', ['student' => $student, 'stage_fk' => $stageFk, 'classroom_id' => $classroomId, 'schedule' => $schedule, 'date' => $date, 'justification' => $justification, 'studentFault' => $studentFault, 'student_observation' => $studentObservation]);
+        $this->render('studentClassDiary', ['student' => $student, 'stageFk' => $stageFk, 'classroomId' => $classroomId, 'schedule' => $schedule, 'date' => $date, 'justification' => $justification, 'studentFault' => $studentFault, 'studentObservation' => $studentObservation]);
     }
 
     private function checkIsStageMinorEducation($classroom)
@@ -285,8 +285,10 @@ class DefaultController extends Controller
             $enrollments = StudentEnrollment::model()->findAllByAttributes(['classroom_fk' => $classroom->id]);
 
             foreach ($enrollments as $enrollment) {
-                if (!$enrollment->edcenso_stage_vs_modality_fk ||
-                    !TagUtils::isStageMinorEducation($enrollment->edcenso_stage_vs_modality_fk)) {
+                if (
+                    !$enrollment->edcenso_stage_vs_modality_fk ||
+                    !TagUtils::isStageMinorEducation($enrollment->edcenso_stage_vs_modality_fk)
+                ) {
                     return false;
                 }
             }

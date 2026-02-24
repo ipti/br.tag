@@ -331,7 +331,8 @@ class FormsRepository
             "faults" => $faultsPerUnity,
             "workload" => $workloadPerUnity,
             "isMinorEducation" => $isMinorEducation,
-            "disciplines" => $disciplines
+            "disciplines" => $disciplines,
+            "isConceptGrade" => $gradeRules->rule_type === "C"
         );
 
         return $response;
@@ -1095,7 +1096,10 @@ class FormsRepository
                 si.id AS student_id,
                 ed.name AS discipline_name,
                 ed.id AS discipline_id,
+                gr.grade_concept_1,
                 gr.final_media,
+                gr.rec_final,
+                gr.final_concept,
                 gr.situation,
                 se.status
                     FROM classroom c
@@ -1168,9 +1172,10 @@ class FormsRepository
 
                 foreach ($result as $r) {
                     if ($r['discipline_id'] == $d['discipline_id'] && $r['student_id'] == $s['student_fk']) {
-                        $finalMedia = $r['final_media'];
-                        if ($isMinorStage) {
-                            $finalMedia = $this->checkConceptGradeRange($finalMedia, $concepts);
+                      $finalMedia = max($r['final_media'], $r['rec_final'] ?? 0);
+                        if ($r['grade_concept_1'] != null && $r['grade_concept_1'] != '') {
+                            $finalconcept = GradeConcept::model()->findByPk($r['final_concept']);
+                            $finalMedia = $finalconcept ?  $finalconcept->name : $this->checkConceptGradeRange($finalMedia, $concepts);
                         }
                         $r['situation'] = mb_strtoupper($r['situation']);
                         if ($s->getCurrentStatus() == 'DEIXOU DE FREQUENTAR') {

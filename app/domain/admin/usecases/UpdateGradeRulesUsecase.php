@@ -65,6 +65,7 @@ class UpdateGradeRulesUsecase
             Yii::log(TagUtils::stringfyValidationErrors($gradeRules), CLogger::LEVEL_ERROR);
             throw new CantSaveGradeRulesException();
         }
+        $gradeRules->save();
 
         $gradeRulesVsStage = GradeRulesVsEdcensoStageVsModality::model()->findAllByAttributes(['grade_rules_fk' => $gradeRules->id]);
 

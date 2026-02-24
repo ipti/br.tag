@@ -89,10 +89,17 @@ $form = $this->beginWidget('CActiveForm', array(
                     <?php endif ?>
                 </li>
                 <?php if (!$modelSchoolIdentification->isNewRecord): ?>
+                    <li id="tab-school-rooms" class="t-tabs__item">
+                        <a class="t-tabs__link" href="#school-rooms" data-toggle="tab">
+                            <span class="t-tabs__numeration">7</span>
+                            <?php echo Yii::t('default', 'Salas de Aula') ?>
+                        </a>
+                        <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/seta-tabs.svg" alt="seta">
+                    </li>
                     <li id="tab-school-reports" class="t-tabs__item hide-responsive">
 
                         <a class="t-tabs__link" href="#school-reports" data-toggle="tab">
-                            <span class="t-tabs__numeration">7</span>
+                            <span class="t-tabs__numeration">8</span>
                             <?php echo Yii::t('default', 'Relatórios') ?>
                         </a>
 
@@ -4365,6 +4372,94 @@ $form = $this->beginWidget('CActiveForm', array(
                         </div>
                     </div>
                 </div>
+                <div class="tab-pane" id="school-rooms">
+                    <div>
+                        <h3>Salas de Aula (Espaços Físicos)</h3>
+                    </div>
+                    <div class="row">
+                        <div class="column">
+                            <div class="t-buttons-container">
+                                <a href="<?= Yii::app()->createUrl('school/createRoom', array('school_id' => $modelSchoolIdentification->inep_id)); ?>" class="t-button-primary open-room-modal">
+                                    <span class="t-icon-add"></span>
+                                    Adicionar Sala
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="separator"></div>
+                    <div class="row">
+                        <div class="column">
+                            <div class="widget clearmargin">
+                                <div class="widget-body">
+                                    <?php
+                                    if (!$modelSchoolIdentification->isNewRecord) {
+                                        $dataProvider = new CActiveDataProvider('SchoolRoom', array(
+                                            'criteria' => array(
+                                                'condition' => 'school_inep_fk = :school_id',
+                                                'params' => array(':school_id' => $modelSchoolIdentification->inep_id),
+                                                'order' => 'name ASC',
+                                            ),
+                                            'pagination' => false,
+                                        ));
+
+                                        $this->widget('zii.widgets.grid.CGridView', array(
+                                            'dataProvider' => $dataProvider,
+                                            'enableSorting' => true,
+                                            'ajaxUpdate' => false,
+                                            'itemsCssClass' => 'js-tag-table tag-table-primary table table-condensed table-striped table-hover table-primary table-vertical-center checkboxs',
+                                            'columns' => array(
+                                                array(
+                                                    'name' => 'name',
+                                                    'header' => 'Nome da Sala',
+                                                    'type' => 'raw',
+                                                    'value' => function($data) {
+                                                        return CHtml::link(
+                                                            CHtml::encode($data->name),
+                                                            Yii::app()->createUrl('school/updateRoom', array('id' => $data->id)),
+                                                            array('class' => 'open-room-modal')
+                                                        );
+                                                    },
+                                                ),
+                                                array(
+                                                    'name' => 'number',
+                                                    'header' => 'Número',
+                                                    'value' => '$data->number ? $data->number : "-"',
+                                                ),
+                                                array(
+                                                    'name' => 'capacity',
+                                                    'header' => 'Capacidade',
+                                                    'value' => '$data->capacity ? $data->capacity : "-"',
+                                                ),
+                                                array(
+                                                    'header' => 'Ações',
+                                                    'class' => 'CButtonColumn',
+                                                    'template' => '{update}{delete}',
+                                                    'buttons' => array(
+                                                        'update' => array(
+                                                            'imageUrl' => Yii::app()->theme->baseUrl.'/img/editar.svg',
+                                                            'url' => 'Yii::app()->createUrl("school/updateRoom", array("id"=>$data->id))',
+                                                            'options' => array('class' => 'open-room-modal', 'style' => 'margin-right: 20px;', 'title' => 'Editar'),
+                                                        ),
+                                                        'delete' => array(
+                                                            'imageUrl' => Yii::app()->theme->baseUrl.'/img/deletar.svg',
+                                                            'url' => 'Yii::app()->createUrl("school/deleteRoom", array("id"=>$data->id))',
+                                                            'options' => array('title' => 'Excluir'),
+                                                        ),
+                                                    ),                                                                                                        
+                                                    'htmlOptions' => array('width' => '100px', 'style' => 'text-align: center'),
+                                                ),
+                                            ),
+                                        ));
+                                    }
+                                    ?>
+                                </div>
+                            </div>
+                            <style>
+                                #school-rooms .js-tag-table { width: 100% !important; }
+                            </style>
+                        </div>
+                    </div>
+                </div>
                 <div class="tab-pane" id="school-reports">
                     <container>
                         <row class="reports">
@@ -4466,4 +4561,52 @@ if (isset($_GET['censo']) && isset($_GET['id'])) {
     var actual_year = date.getFullYear();
     var initial_date;
     var final_date;
+</script>
+
+<!-- Room Modal Container -->
+<div id="room-modal-container"></div>
+
+<script type="text/javascript">
+    jQuery(document).ready(function($) {
+        // Handle room modal opening via AJAX
+        $(document).on('click', '.open-room-modal', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            var url = $(this).attr('href');
+            if (url && url.indexOf('#') !== 0) {
+                $('#room-modal-container').load(url, function() {
+                    $('#roomModal').modal('show');
+                });
+            }
+            return false;
+        });
+
+        // Handle room form submission via AJAX
+        $(document).on('submit', '#room-form', function(e) {
+            e.preventDefault();
+            var form = $(this);
+            $.ajax({
+                url: form.attr('action'),
+                type: 'POST',
+                data: form.serialize(),
+                success: function(response) {
+                    try {
+                        var json = JSON.parse(response);
+                        if (json.status === 'success') {
+                            $('#roomModal').modal('hide');
+                            location.reload(); 
+                        }
+                    } catch (e) {
+                        // If response is not JSON, it's HTML (validation errors)
+                        $('#room-modal-container').html(response);
+                        $('#roomModal').modal('show');
+                    }
+                },
+                error: function(xhr) {
+                     alert('Erro ao processar requisição.');
+                }
+            });
+            return false;
+        });
+    });
 </script>

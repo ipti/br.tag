@@ -56,7 +56,6 @@ class CalculateFinalMediaUsecase
             }
 
             $finalMedia = $this->applyCalculation($this->gradeRule->gradeCalculationFk, $grades, $weights);
-
         } else {
 
             $grades = $this->extractGrades($this->gradesResult, $this->countUnities);
@@ -82,8 +81,8 @@ class CalculateFinalMediaUsecase
                 $semRecPartial1 = is_numeric($this->gradesResult["sem_rec_partial_1"]) ? $this->gradesResult["sem_rec_partial_1"] : 0;
                 $semRecPartial2 = is_numeric($this->gradesResult["sem_rec_partial_2"]) ? $this->gradesResult["sem_rec_partial_2"] : 0;
 
-            $gradesSemAvarage1 = max($this->gradesResult['sem_avarage_1'], $semRecPartial1);
-            $gradesSemAvarage2 = max($this->gradesResult['sem_avarage_2'], $semRecPartial2);
+                $gradesSemAvarage1 = max($this->gradesResult['sem_avarage_1'], $semRecPartial1);
+                $gradesSemAvarage2 = max($this->gradesResult['sem_avarage_2'], $semRecPartial2);
 
                 $gradesFinalRecovery = [];
 
@@ -94,7 +93,6 @@ class CalculateFinalMediaUsecase
                 if ($gradesSemAvarage2 !== null) {
                     $gradesFinalRecovery[] = $gradesSemAvarage2;
                 }
-
             } else {
                 $gradesFinalRecovery[] = $finalMedia;
             }
@@ -230,9 +228,19 @@ class CalculateFinalMediaUsecase
             $otherGrade = $gradesResult->attributes["grade_" . ($j + 1)];
             $otherWeight = $this->gradesStudent[$j]->weight ?? null;
 
-            // Se há outra nota menor ou igual com peso maior, não é a menor
+            // Regra: Se existe outra nota menor -> não é a menor
+            if ($otherGrade < $grade) {
+                return false;
+            }
+
+            // Se as notas forem iguais mas a outra NÃO tem peso -> ela deve ser considerara menor
+            if ($otherGrade == $grade && $otherWeight === null) {
+                return false;
+            }
+
+            // Se as notas forem iguais e outro peso é maior -> não é a menor
             if (
-                $otherGrade <= $grade &&
+                $otherGrade == $grade &&
                 $otherWeight !== null &&
                 $otherWeight > $studentGrade->weight
             ) {
@@ -242,5 +250,4 @@ class CalculateFinalMediaUsecase
 
         return true;
     }
-
 }

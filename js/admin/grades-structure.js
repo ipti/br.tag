@@ -1,42 +1,57 @@
 $(function () {
+
     loadStructure();
 });
 
-var recoveryUnity;
-var lastAccordion;
-var newAccordion;
+/**
+ * Escapes a string for safe insertion into HTML to prevent XSS.
+ * @param {*} value
+ * @returns {string}
+ */
+function escapeHtml(value) {
+    if (value === null || value === undefined) return '';
+    return String(value)
+        .replaceAll('&', '&amp;')
+        .replaceAll('<', '&lt;')
+        .replaceAll('>', '&gt;')
+        .replaceAll('"', '&quot;')
+        .replaceAll("'", '&#39;');
+}
+
 
 function hasUnitiesSaved() {
     if ($("input[type='hidden'].unity-id[value]").length > 0) {
         $(".js-new-partial-recovery").removeClass("disabled");
-        return;
+        return
     }
     $(".js-new-partial-recovery").addClass("disabled");
 }
-$(document).on("change", ".final-recovery-unity-calculation", function () {
-    if (
-        $(".final-recovery-unity-calculation").select2("data").text.trim() ==
-        "Média Semestral"
-    ) {
-        $(".js-final-recovery-fomula").show();
-    } else {
-        $(".js-final-recovery-fomula").hide();
-    }
+$(document).on(
+    "change",
+    ".final-recovery-unity-calculation",
+    function () {
 
-    if ($(this).find(":selected").text().trim() == "Peso") {
-        $(".weights-final-recovery").removeClass("hide");
-    } else {
-        $(".weights-final-recovery").addClass("hide");
+        if ($('.final-recovery-unity-calculation').select2('data').text.trim() == "Média Semestral") {
+            $('.js-final-recovery-fomula').show()
+        } else {
+            $('.js-final-recovery-fomula').hide()
+        }
+
+        if ($(this).find(':selected').text().trim() == "Peso") {
+            $(".weights-final-recovery").removeClass("hide")
+        } else {
+            $(".weights-final-recovery").addClass("hide")
+        }
     }
-});
+);
 
 $(document).on("keyup", ".unity-name", function (e) {
     const unity = $(this).closest(".unity");
-    unity.find(".unity-title").html($(this).val());
+    unity.find(".unity-title").text($(this).val());
 });
 
 $(document).on("click", ".js-new-unity", function (e) {
-    if (!$(".js-new-unity").hasClass("disabled")) {
+    if (!$('.js-new-unity').hasClass('disabled')) {
         const options = $(".formulas > option").toArray();
 
         const filteredOptions = options.reduce((accumulator, option) => {
@@ -56,9 +71,7 @@ $(document).on("click", ".js-new-unity", function (e) {
                     </a>
                     <span class="remove-button js-remove-unity t-button-icon-danger t-icon-trash  js-change-cursor" style='margin-top:0px'></span>
                 </div>
-                <div id="collaps-${unities}"class=" collapse ${
-            unities == 0 ? "in" : ""
-        } js-unity-body">
+                <div id="collaps-${unities}"class=" collapse ${unities == 0 ? "in" : ""} js-unity-body">
                     <input type='hidden' class="unity-id">
                     <input type="hidden" class="unity-operation" value="create">
                     <div class="t-field-text" style="margin-top: 16px">
@@ -71,7 +84,7 @@ $(document).on("click", ".js-new-unity", function (e) {
                         <input type='text' class='t-field-text__input unity-weight-input' placeholder='Insira o peso da unidade'>
                     </div>
 
-                    <div class="t-field-select js-mester-container ${isUnityConcept ? "hide": ""}">
+                    <div class="t-field-select js-mester-container ${isUnityConcept ? "hide" : ""}">
                         <label class='t-field-select__label--required'>Semestre: </label>
                        <select class='t-field-select__input js-semester select-search-on'>
                             <option value="">Selecione um semestre</option>
@@ -82,17 +95,15 @@ $(document).on("click", ".js-new-unity", function (e) {
                     <div class="t-field-select">
                         <label class='t-field-select__label--required'>Modelo: </label>
                         <select class='t-field-select__input js-type-select select-search-on control-input'>
-                            ${
-                                isUnityConcept
-                                    ? `<option value='UC'>Unidade por conceito</option>`
-                                    : `<option value='U'>Unidade</option>
+                            ${isUnityConcept
+                ? `<option value='UC'>Unidade por conceito</option>`
+                : `<option value='U'>Unidade</option>
                                     <option value='UR'>Unidade com recuperação</option>`
-                            }
+            }
                         </select>
                     </div>
-                    <div class="t-field-select js-calculation ${
-                        isUnityConcept ? "hide" : "show"
-                    }" >
+                    <div class="t-field-select js-calculation ${isUnityConcept ? "hide" : "show"
+            }" >
                         <label class='t-field-select__label--required'>Forma de cálculo:  </label>
                         <select class='t-field-select__input js-formula-select select-search-on control-input'>
                             ${filteredOptions}
@@ -118,15 +129,10 @@ $(document).on("click", ".js-new-unity", function (e) {
             $(".js-new-modality").last().trigger("click").hide();
             $(".remove-modality").last().hide();
         }
-        $(".unity")
-            .last()
-            .find(".js-type-select, .js-formula-select, .js-semester")
-            .select2();
+        $(".unity").last().find(".js-type-select, .js-formula-select, .js-semester").select2();
         if (!$(".js-new-partial-recovery").hasClass("disabled")) {
-            $(".js-alert-save-unities-first")
-                .text(
-                    "Para cadastrar novas recuperações, conclua o cadastro da unidade"
-                )
+            $('.js-alert-save-unities-first')
+                .text("Para cadastrar novas recuperações, conclua o cadastro da unidade")
                 .show();
             $(".js-new-partial-recovery").addClass("disabled");
         }
@@ -187,47 +193,26 @@ $(document).on("change", ".js-rule-type", function (e) {
 });
 
 $(document).on("change", ".js-partial-recovery-unities", function (e) {
-    const $accordionBody = $(this).closest(".partial-recovery-accordion-body");
-    const calculateName = $accordionBody
-        .find(".js-formula-select")
-        .select2("data").text;
+    const $accordionBody = $(this).closest('.partial-recovery-accordion-body');
+    const calculateName = $accordionBody.find('.js-formula-select').select2("data").text;
 
     if (calculateName === "Peso") {
-        let inputsWeight = "";
-        const $recoveryWeight = $accordionBody.find(
-            ".InputWeight input[data-unity-id='']"
-        );
-        const recoveryWeightValue =
-            $recoveryWeight.length > 0 ? $recoveryWeight.val() : "";
+        let inputsWeight = '';
+        const $recoveryWeight = $accordionBody.find(".InputWeight input[data-unity-id='']");
+        const recoveryWeightValue = $recoveryWeight.length > 0 ? $recoveryWeight.val() : '';
 
-        inputsWeight += createInputWeight(
-            $recoveryWeight.attr("data-weight-id"),
-            "",
-            "Recuperação",
-            recoveryWeightValue
-        );
+        inputsWeight += createInputWeight($recoveryWeight.attr('data-weight-id'), '', 'Recuperação', recoveryWeightValue);
 
         const selectedValues = e.val;
-        selectedValues.forEach((element) => {
+        selectedValues.forEach(element => {
             const nameUnity = $(this).find(`option[value="${element}"]`).text();
-            const $oldInputWeight = $accordionBody.find(
-                `.InputWeight input[data-unity-id="${element}"]`
-            );
-            const oldInputWeightValue =
-                $oldInputWeight.length > 0 ? $oldInputWeight.val() : "";
-            const oldInputWeightID =
-                $oldInputWeight.length > 0
-                    ? $oldInputWeight.attr("data-weight-id")
-                    : "";
-            inputsWeight += createInputWeight(
-                oldInputWeightID,
-                element,
-                nameUnity,
-                oldInputWeightValue
-            );
+            const $oldInputWeight = $accordionBody.find(`.InputWeight input[data-unity-id="${element}"]`);
+            const oldInputWeightValue = $oldInputWeight.length > 0 ? $oldInputWeight.val() : '';
+            const oldInputWeightID = $oldInputWeight.length > 0 ? $oldInputWeight.attr('data-weight-id') : '';
+            inputsWeight += createInputWeight(oldInputWeightID, element, nameUnity, oldInputWeightValue);
         });
 
-        $accordionBody.find(".InputWeight-container").html(inputsWeight);
+        $accordionBody.find('.InputWeight-container').html(inputsWeight);
     }
 });
 
@@ -258,41 +243,28 @@ $(document).on("change", ".js-formula-select", function (e) {
                 .css("width", "calc(100% - 140px)");
         }
     } else {
-        const $accordionBody = $(this).closest(
-            ".partial-recovery-accordion-body"
-        );
-        const unities = $accordionBody.find(
-            "select.js-partial-recovery-unities"
-        );
+        const $accordionBody = $(this).closest('.partial-recovery-accordion-body');
+        const unities = $accordionBody.find("select.js-partial-recovery-unities");
         if (selectedValue === "Peso") {
-            let inputsWeight = "";
-            const $recoveryWeight = $accordionBody.find(
-                ".InputWeight input[data-unity-id='']"
-            );
-            const recoveryWeightValue =
-                $recoveryWeight.length > 0 ? $recoveryWeight.val() : "";
-            inputsWeight += createInputWeight(
-                "",
-                "",
-                "Recuperação",
-                recoveryWeightValue
-            );
+            let inputsWeight = '';
+            const $recoveryWeight = $accordionBody.find(".InputWeight input[data-unity-id='']");
+            const recoveryWeightValue = $recoveryWeight.length > 0 ? $recoveryWeight.val() : '';
+            inputsWeight += createInputWeight('', '', 'Recuperação', recoveryWeightValue);
 
-            unities.val().forEach((element) => {
-                const unityText = unities
-                    .find(`option[value="${element}"]`)
-                    .text();
-                inputsWeight += createInputWeight("", element, unityText, "");
+            unities.val().forEach(element => {
+                const unityText = unities.find(`option[value="${element}"]`).text();
+                inputsWeight += createInputWeight('', element, unityText, '');
             });
 
-            $accordionBody.find(".InputWeight-container").html(inputsWeight);
+            $accordionBody.find('.InputWeight-container').html(inputsWeight);
         } else {
-            $accordionBody.find(".InputWeight-container").html("");
+            $accordionBody.find('.InputWeight-container').html('');
         }
         if (selectedValue === "Média Semestral") {
-            $accordionBody.find(".js-semester-container").show();
+            $accordionBody.find('.js-semester-container').show()
         } else {
-            $accordionBody.find(".js-semester-container").hide();
+            $accordionBody.find('.js-semester-container').hide()
+
         }
     }
 });
@@ -301,11 +273,9 @@ function createInputWeight(id, unityId, unityName, inputVal) {
     return template`
         <div class="InputWeight">
             <label class="t-field-text__label--required">${unityName}</label>
-            <input type="text" placeholder='Peso' data-weight-id="${id}" data-unity-id="${
-        unityId == null ? "" : unityId
-    }" value='${inputVal}'>
+            <input type="text" placeholder='Peso' data-weight-id="${id}" data-unity-id="${unityId == null ? "" : unityId}" value='${inputVal}'>
         </div>
-    `;
+    `
 }
 
 $(document).on("keyup", ".weight", function (e) {
@@ -326,10 +296,7 @@ $(document).on("keyup", ".weight", function (e) {
 });
 
 function orderModalities(unity) {
-    recoveryUnity = unity
-        .find(".modality")
-        .has('input[modalitytype="R"]')
-        .last();
+    recoveryUnity = unity.find(".modality").has('input[modalitytype="R"]').last();
     if (recoveryUnity) {
         recoveryUnity.appendTo(unity.find(".modality").parent());
     }
@@ -349,15 +316,14 @@ $(document).on("click", ".js-new-modality", function (e) {
                 <div class="t-field-text">
                     <label class='t-field-text__label--required'>Nome da modalidade avaliativa: </label>
                     <input type='text' class='modality-name t-field-text__input' modalitytype='C' placeholder='Prova, Avaliação, Trabalho, etc.' style='width: calc(100% - 222px);'>
-                    ${
-                        formula === "Peso"
-                            ? template`
+                    ${formula === "Peso"
+            ? template`
                                 <div class="t-field-text">
                                     <label class='t-field-text__label--required'>Peso:</span></label>
                                     <input type='text' class='t-field-text__input weight form-control' placeholder='Peso'>
                                 </div>`
-                            : ""
-                    }
+            : ""
+        }
                 </div>
                 <span class="remove-modality remove-button t-button-icon-danger t-icon-trash"></span>
             </div>
@@ -374,11 +340,11 @@ $(document).on("click", ".js-remove-unity", function (e) {
     if (isNew) {
         unity.remove();
         if ($("input[type='hidden'].unity-id:not([value])").length == 0) {
-            $(".js-alert-save-unities-first").hide();
+            $('.js-alert-save-unities-first').hide();
             $(".js-new-partial-recovery").removeClass("disabled");
         }
     } else {
-        if (unity.attr("hasGrades") == 1) {
+        if (unity.attr('hasGrades') == 1) {
             alert(
                 "Não foi possível concluir a operação, pois já existem notas registradas para esta unidade em alguma turma."
             );
@@ -450,8 +416,9 @@ $(document).on("change", ".js-has-partial-recovery", function (event) {
     if (isChecked) {
         $(".js-new-partial-recovery").removeClass("disabled");
         $(".js-partial-recovery-form").show();
+
     } else {
-        $(".js-new-partial-recovery").addClass("disabled");
+        $(".js-new-partial-recovery").addClass("disabled")
         $(".js-recovery-form").hide();
     }
 });
@@ -467,12 +434,13 @@ function initRuleType(ruleType) {
         $(".js-mester-container").hide();
         $(".js-calculation").hide();
         $(".remove-modality").hide();
-        $(".js-partial-recoveries-header").hide();
+        $('.js-partial-recoveries-header').hide();
         $(".js-alert-save-recovery-first").hide();
         $(".js-new-unity").removeClass("disabled");
-        $(".partial-recovery-container").each((index, e) => {
+        $('.partial-recovery-container').each((index, e) => {
             deletePartialRecovery(e);
-        });
+        })
+
     } else if (ruleType === "N") {
         $(".numeric-fields").show();
         $(".js-has-final-recovery").trigger("change");
@@ -484,15 +452,14 @@ function initRuleType(ruleType) {
         $(".js-mester-container").show();
         $(".js-new-modality").show();
         $(".remove-modality").show();
-        $(".js-partial-recoveries-header").show();
-        let partialRecoveries = $(".partial-recovery-container");
+        $('.js-partial-recoveries-header').show();
+        let partialRecoveries = $('.partial-recovery-container');
         if (partialRecoveries.length > 0) {
+
             partialRecoveries.each((index, partialRecovery) => {
                 $(partialRecovery).show();
-                $(partialRecovery)
-                    .find(".partial-recovery-operation")
-                    .val("create");
-            });
+                $(partialRecovery).find('.partial-recovery-operation').val("create");
+            })
         }
     }
 
@@ -505,14 +472,14 @@ function hasDuplicateUnities(partialRecoveries) {
         if (recovery.unities != null) {
             for (const unity of recovery.unities) {
                 if (seenUnities.has(unity)) {
-                    return true; // Encontrou uma duplicata
+                    return true;  // Encontrou uma duplicata
                 }
                 seenUnities.add(unity);
             }
         }
     }
 
-    return false; // Não encontrou duplicatas
+    return false;  // Não encontrou duplicatas
 }
 function saveUnities(reply) {
     const unities = [];
@@ -543,48 +510,42 @@ function saveUnities(reply) {
         });
     });
     const partialRecoveries = [];
-    $(".partial-recovery-accordion-body").each(function (index, element) {
+    $('.partial-recovery-accordion-body').each(function (index, element) {
+
         partialRecoveries.push({
-            id: $(element).find(".partial-recovery-id").val(),
-            operation: $(element).find(".partial-recovery-operation").val(),
-            name: $(element).find(".partial-recovery-name").val(),
-            semester:
-                $(element).find("select.js-semester").val() == ""
-                    ? null
-                    : $(element).find("select.js-semester").val(),
+            id: $(element).find('.partial-recovery-id').val(),
+            operation: $(element).find('.partial-recovery-operation').val(),
+            name: $(element).find('.partial-recovery-name').val(),
+            semester: $(element).find('select.js-semester').val() == '' ? null : $(element).find('select.js-semester').val(),
             order: index + 1,
-            weights:
-                $(element).find(".InputWeight input").length > 0
-                    ? getInputWeight(element)
-                    : null,
-            mediaCalculation: $(element).find("select.js-formula-select").val(),
-            unities: $(element)
-                .find("select.js-partial-recovery-unities")
-                .val(),
-        });
-    });
+            weights: $(element).find('.InputWeight input').length > 0
+                ? getInputWeight(element)
+                : null,
+            mediaCalculation: $(element).find('select.js-formula-select').val(),
+            unities: $(element).find('select.js-partial-recovery-unities').val()
+
+        })
+    })
     if (hasDuplicateUnities(partialRecoveries)) {
         $(".alert-required-fields")
             .addClass("alert-error")
             .removeClass("alert-success")
-            .text(
-                "Não é possivél salvar uma mesma unidade em recuperações parciais diferentes"
-            )
+            .text("Não é possivél salvar uma mesma unidade em recuperações parciais diferentes")
             .show();
         window.scroll({
             top: 0,
             left: 0,
-            behavior: "smooth", // Para um scroll suave
+            behavior: 'smooth' // Para um scroll suave
         });
-        return;
+        return
     }
     const urlParams = new URLSearchParams(window.location.search);
-    const id = urlParams.get("id");
+    const id = urlParams.get('id');
 
     const name = $(".js-grade-rules-name").val();
     $.ajax({
         type: "POST",
-        url: "?r=admin/saveUnities",
+        url: "?r=gradesStructure/saveunities",
         cache: false,
         data: {
             grade_rules_id: id,
@@ -597,15 +558,13 @@ function saveUnities(reply) {
                 id: $(".final-recovery-unity-id").val(),
                 name: $(".final-recovery-unity-name").val(),
                 type: $(".final-recovery-unity-type").val(),
-                grade_calculation_fk: $(
-                    ".final-recovery-unity-calculation"
-                ).select2("val"),
+                grade_calculation_fk: $(".final-recovery-unity-calculation").select2(
+                    "val"
+                ),
                 operation: $(".final-recovery-unity-operation").val(),
                 WeightfinalRecovery: $(".weight-final-recovery").val(),
                 WeightfinalMedia: $(".weight-final-media").val(),
-                final_recovery_avarage_formula: $(
-                    "select.js-final-recovery-fomula-select"
-                ).val(),
+                final_recovery_avarage_formula: $("select.js-final-recovery-fomula-select").val()
             },
             finalRecoverMedia: $(".final-recover-media").val(),
 
@@ -613,7 +572,7 @@ function saveUnities(reply) {
             reply: reply ? $(".reply-option:checked").val() : "",
             ruleType: $(".js-rule-type").select2("val"),
             hasPartialRecovery: partialRecoveries.length > 0,
-            partialRecoveries: partialRecoveries,
+            partialRecoveries: partialRecoveries
         },
         beforeSend: function (e) {
             $(".alert-media-fields")
@@ -640,11 +599,11 @@ function saveUnities(reply) {
                     .removeClass("alert-error")
                     .text("Estrutura de notas cadastrada com sucesso!")
                     .show();
-                $(".js-alert-save-unities-first").hide();
-                $(".js-alert-save-recovery-first").hide();
+                $('.js-alert-save-unities-first').hide();
+                $('.js-alert-save-recovery-first').hide();
                 const url = new URL(window.location);
-                url.searchParams.set("id", data.gradeRules);
-                window.history.pushState({}, "", url);
+                url.searchParams.set('id', data.gradeRules);
+                window.history.pushState({}, '', url);
                 loadStructure();
             }
         },
@@ -677,19 +636,13 @@ function saveUnities(reply) {
     });
 }
 function getInputWeight(partialRecovery) {
-    return $(partialRecovery)
-        .find(".InputWeight input")
-        .map(function () {
-            return {
-                id:
-                    this.getAttribute("data-weight-id") === ""
-                        ? null
-                        : this.getAttribute("data-weight-id"),
-                unityId: this.getAttribute("data-unity-id"),
-                weight: this.value,
-            };
-        })
-        .get();
+    return $(partialRecovery).find('.InputWeight input').map(function () {
+        return {
+            id: this.getAttribute('data-weight-id') === "" ? null : this.getAttribute('data-weight-id'),
+            unityId: this.getAttribute('data-unity-id'),
+            weight: this.value
+        };
+    }).get();
 }
 function checkValidInputs() {
     $(".alert-required-fields, .alert-media-fields").hide();
@@ -706,13 +659,11 @@ function checkValidInputs() {
     } else if (
         $(".js-rule-type").select2("val") === "N" &&
         $(".js-has-final-recovery").is(":checked") &&
-        Number($(".approval-media").val()) <
-            Number($(".final-recover-media").val())
+        Number($(".approval-media").val()) < Number($(".final-recover-media").val())
     ) {
         valid = false;
-        message =
-            "A média de recuperação final não pode ser superior à de aprovação.";
-    } else if (partialRecoveryValid() === false) {
+        message = "A média de recuperação final não pode ser superior à de aprovação.";
+    } else if (partialRecoveryValid() == false) {
         valid = false;
         message = "Os campos de recuperação parciais são obrigatórios.";
     }
@@ -741,13 +692,10 @@ function checkValidInputs() {
                             return false;
                         }
                     });
-                if (
-                    $(this).find("select.js-semester").val() === "" &&
-                    $(".js-rule-type").select2("val") === "N"
-                ) {
+                if ($(this).find('select.js-semester').val() === "" && $(".js-rule-type").select2("val") === "N") {
                     valid = false;
-                    message = "Preencha o semestre das unidades";
-                    return false;
+                    message = "Preencha o semestre das unidades"
+                    return false
                 }
                 if ($(this).find("select.js-type-select").val() === "UC") {
                     ucCount++;
@@ -826,62 +774,46 @@ function checkValidInputs() {
     return valid;
 }
 function partialRecoveryValid() {
-    let valid = true;
-    $(".partial-recovery-container").each((index, partialRecoveries) => {
-        let name = $(partialRecoveries).find(".partial-recovery-name").val();
-        let formula = $(partialRecoveries)
-            .find("select.js-formula-select")
-            .val();
-        let semester = $(partialRecoveries).find("select.js-semester").val();
-        let unities = $(partialRecoveries)
-            .find("select.js-partial-recovery-unities")
-            .val();
-        let operation = $(partialRecoveries)
-            .find(".partial-recovery-operation")
-            .val();
-        let weights = true;
+    let valid = true
+    $('.partial-recovery-container').each((index, partialRecoveries) => {
+        let name = $(partialRecoveries).find('.partial-recovery-name').val()
+        let formula = $(partialRecoveries).find('select.js-formula-select').val()
+        let semester = $(partialRecoveries).find('select.js-semester').val()
+        let unities = $(partialRecoveries).find('select.js-partial-recovery-unities').val()
+        let operation = $(partialRecoveries).find('.partial-recovery-operation').val()
+        let weights = true
 
-        $(partialRecoveries)
-            .find(".InputWeight input")
-            .each((index, weight) => {
-                if ($(weight).val() == "") {
-                    weights = false;
-                }
-            });
-        if (
-            (name === "" ||
-                formula === "" ||
-                unities === null ||
-                weights === false) &&
-            operation != "delete"
-        ) {
-            valid = false;
+        $(partialRecoveries).find('.InputWeight input').each((index, weight) => {
+            if ($(weight).val() == "") {
+                weights = false
+            }
+        })
+        if ((name === "" || formula === "" || unities === null || weights === false) && operation != 'delete') {
+            valid = false
         }
-        if (
-            $(".partial-recovery-container")
-                .find("select.js-formula-select")
-                .select2("data").text === "Média Semestral" &&
-            semester === ""
-        ) {
-            valid = false;
+        if ($('.partial-recovery-container').find('select.js-formula-select').select2("data").text === "Média Semestral" && semester === "") {
+            valid = false
         }
-    });
+    })
     return valid;
 }
 
 function loadStructure() {
     const urlParams = new URLSearchParams(window.location.search);
-    const id = urlParams.get("id");
+    const id = urlParams.get('id');
 
     $.ajax({
         type: "POST",
-        url: "?r=admin/getUnities",
+        url: "?r=gradesStructure/getunities",
         cache: false,
         data: {
             grade_rules_id: id,
         },
         beforeSend: function (e) {
-            $(".js-grades-structure-loading").css("display", "inline-block");
+            $(".js-grades-structure-loading").css(
+                "display",
+                "inline-block"
+            );
             $(".js-grades-structure-container")
                 .css("pointer-events", "none")
                 .css("opacity", "0.4");
@@ -890,14 +822,18 @@ function loadStructure() {
             data = JSON.parse(data);
             $(".stagemodalityname").text(data.stageName);
             $(".stagename").text(
-                $("#GradeUnity_edcenso_stage_vs_modality_fk").select2("data")
-                    .text
+                $("#GradeUnity_edcenso_stage_vs_modality_fk").select2(
+                    "data"
+                ).text
             );
             $(".js-grade-rules-name").val(data.ruleName);
             $(".js-grades-structure-container").children(".unity").remove();
             $(".approval-media").val(data.approvalMedia);
             $("#has_final_recovery").prop("checked", data.hasFinalRecovery);
-            $(".calculation-final-media").select2("val", data.mediaCalculation);
+            $(".calculation-final-media").select2(
+                "val",
+                data.mediaCalculation
+            );
             $(".js-rule-type").select2("val", data.ruleType);
             $(".final-recover-media").val(data.finalRecoverMedia);
             $(".final-recovery-unity-operation").val(
@@ -906,33 +842,24 @@ function loadStructure() {
             $(".final-recovery-unity-id").val(data.final_recovery.id);
             $(".final-recovery-unity-name").val(data.final_recovery.name);
 
-            const finalRecoveryCalculation = $(
-                ".final-recovery-unity-calculation"
-            ).select2("val", data.final_recovery.grade_calculation_fk);
-            $(".js-stage-select").select2(
+            const finalRecoveryCalculation = $(".final-recovery-unity-calculation").select2(
                 "val",
-                data.edcenso_stage_vs_modality_fk
+                data.final_recovery.grade_calculation_fk
             );
+            $(".js-stage-select").select2("val", data.edcenso_stage_vs_modality_fk);
             $("select.js-stage-select").select2();
 
             if (finalRecoveryCalculation) {
-                const selectedText = finalRecoveryCalculation
-                    .find(":selected")
-                    .text()
-                    .trim();
+                const selectedText = finalRecoveryCalculation.find(':selected').text().trim();
 
-                $(".weight-final-recovery").val(
-                    data.final_recovery.weight_final_recovery
-                );
-                $(".weight-final-media").val(
-                    data.final_recovery.weight_final_media
-                );
+                $(".weight-final-recovery").val(data.final_recovery.weight_final_recovery);
+                $(".weight-final-media").val(data.final_recovery.weight_final_media);
                 $(".weights-final-recovery").addClass("hide");
                 $(".js-final-recovery-fomula").addClass("hide");
 
                 switch (selectedText) {
                     case "Média Semestral":
-                        $(".js-final-recovery-fomula").removeClass("hide");
+                        $('.js-final-recovery-fomula').removeClass("hide");
                         break;
 
                     case "Peso":
@@ -947,7 +874,7 @@ function loadStructure() {
             $("select.js-final-recovery-fomula-select").select2(
                 "val",
                 data.final_recovery.final_recovery_avarage_formula
-            );
+            )
             $(".final-recover-media").val(data.finalRecoverMedia);
 
             if (data.hasFinalRecovery) {
@@ -962,14 +889,20 @@ function loadStructure() {
             if (Object.keys(data.unities).length) {
                 let newUnityButton = $(".js-new-unity");
                 $.each(data.unities, function (e) {
-                    if (newUnityButton.hasClass("disabled")) {
+                    if (newUnityButton.hasClass('disabled')) {
                         newUnityButton.removeClass("disabled");
                     }
                     newUnityButton.trigger("click");
                     const unity = $(".unity").last();
                     unity.attr("hasGrades", this.hasGrades == true ? 1 : 0);
                     unity.find(".unity-name").val(this.name);
-                    unity.find(".unity-title").html(this.name);
+                    if (this.weight != null) {
+                        unity.find(".unity-weight-input").val(this.weight);
+                        unity.find(".unity-weight-container").show();
+                    } else {
+                        unity.find(".unity-weight-container").hide();
+                    }
+                    unity.find(".unity-title").text(this.name);
                     unity.find(".unity-id").val(this.id);
                     unity
                         .find("select.js-semester")
@@ -984,72 +917,26 @@ function loadStructure() {
                         .val(this.type)
                         .trigger("change");
 
-                $("select.js-final-recovery-fomula-select").select2(
-                    "val",
-                    data.final_recovery.final_recovery_avarage_formula
-                )
-                $(".final-recover-media").val(data.finalRecoverMedia);
-
-                if (data.hasFinalRecovery) {
-                    $(".js-recovery-form").show();
-                } else {
-                    $(".js-recovery-form").hide();
-                }
-
-                $(
-                    ".js-grades-structure-container, .js-grades-rules-container"
-                ).show();
-                if (Object.keys(data.unities).length) {
-                    let newUnityButton = $(".js-new-unity");
-                    $.each(data.unities, function (e) {
-                        if (newUnityButton.hasClass('disabled')) {
-                            newUnityButton.removeClass("disabled");
-                        }
-                        newUnityButton.trigger("click");
-                        const unity = $(".unity").last();
-                        unity.attr("hasGrades", this.hasGrades == true ? 1 : 0);
-                        unity.find(".unity-name").val(this.name);
-                        if(this.weight != null) {
-                            unity.find(".unity-weight-input").val(this.weight);
-                            unity.find(".unity-weight-container").show();
-                        } else {
-                            unity.find(".unity-weight-container").hide();
-                        }
-                        unity.find(".unity-title").html(this.name);
-                        unity.find(".unity-id").val(this.id);
-                        unity
-                            .find("select.js-semester")
-                            .val(this.semester)
-                            .trigger("change");
-                        unity
-                            .find("select.js-formula-select")
-                            .val(this.grade_calculation_fk)
-                            .trigger("change");
-                        unity
-                            .find("select.js-type-select")
-                            .val(this.type)
-                            .trigger("change");
-
-                        unity.find(".modality").remove();
-                        $.each(this.modalities, function (e) {
-                            unity.find(".js-new-modality").trigger("click");
-                            let modality = unity.find(".modality").last();
-                            modality.find(".modality-id").val(this.id);
-                            modality.find(".modality-name").val(this.name);
-                            modality.find(".modality-name").attr("modalitytype", this.type);
-                            if(this.type == 'R') {
-                                modality.find("label")
-                                .html("Recuperação: ")
+                    unity.find(".modality").remove();
+                    $.each(this.modalities, function (e) {
+                        unity.find(".js-new-modality").trigger("click");
+                        let modality = unity.find(".modality").last();
+                        modality.find(".modality-id").val(this.id);
+                        modality.find(".modality-name").val(this.name);
+                        modality.find(".modality-name").attr("modalitytype", this.type);
+                        if (this.type == 'R') {
+                            modality.find("label")
+                                .text("Recuperação: ")
                                 .css("width", "206px");
-                            modality.find(".remove-button").remove();
+                            modality.find('.remove-button').remove()
                         }
                         modality.find(".modality-operation").val("update");
                         modality.find(".weight").val(this.weight);
                     });
                 });
-                $(".js-alert-save-unities-first").hide();
+                $('.js-alert-save-unities-first').hide();
             }
-            $("#accordion-partial-recovery").empty();
+            $('#accordion-partial-recovery').empty()
             if (data.partialRecoveries.length > 0) {
                 $.each(data.partialRecoveries, function (index, element) {
                     let unities = element.unities;
@@ -1058,45 +945,28 @@ function loadStructure() {
                         let value = unity.id;
                         unityOptionsSelected.push(value);
                     });
-                    let newAccordion = addAccordion(element.id, element.name);
-                    $("#accordion-partial-recovery").append(newAccordion);
-                    $(".partial-recovery-container")
-                        .last()
-                        .attr("hasGrades", this.hasGrades == true ? 1 : 0);
-                    let calculationSelect = $(
-                        "select.js-formula-select"
-                    ).last();
+                    let newAccordion = addAccordion(element.id, element.name)
+                    $('#accordion-partial-recovery').append(newAccordion)
+                    $('.partial-recovery-container').last().attr("hasGrades", this.hasGrades == true ? 1 : 0);
+                    let calculationSelect = $("select.js-formula-select").last();
                     calculationSelect.select2();
-                    calculationSelect.select2(
-                        "val",
-                        element.grade_calculation_fk
-                    );
+                    calculationSelect.select2("val", element.grade_calculation_fk);
                     let semesterSelect = $("select.js-semester").last();
                     semesterSelect.select2();
                     semesterSelect.select2("val", element.semester);
                     if (calculationSelect.select2("data").text == "Peso") {
-                        let inputsWeight = "";
-                        element.weights.forEach((weight) => {
-                            inputsWeight += createInputWeight(
-                                weight.id,
-                                weight.unity_fk,
-                                weight.name,
-                                weight.weight
-                            );
+                        let inputsWeight = '';
+                        element.weights.forEach(weight => {
+                            inputsWeight += createInputWeight(weight.id, weight.unity_fk, weight.name, weight.weight)
                         });
-                        $(".InputWeight-container").last().html(inputsWeight);
+                        $('.InputWeight-container').last().html(inputsWeight)
                     }
-                    if (
-                        calculationSelect.select2("data").text !=
-                        "Média Semestral"
-                    ) {
-                        semesterSelect.closest(".js-semester-container").hide();
+                    if (calculationSelect.select2("data").text != "Média Semestral") {
+                        semesterSelect.closest('.js-semester-container').hide();
                     }
                     $("select.js-semester").last().select2();
                     $("select.js-partial-recovery-unities").last().select2();
-                    $("select.js-partial-recovery-unities")
-                        .last()
-                        .select2("val", unityOptionsSelected);
+                    $("select.js-partial-recovery-unities").last().select2("val", unityOptionsSelected);
                 });
             }
             $(".grades-buttons").css("display", "flex");
@@ -1142,14 +1012,10 @@ $(document).on("keyup", ".approval-media, .final-recover-media", function (e) {
 function addAccordion(id, name) {
     let partialRecovery = 0;
     if ($(".partial-recovery").length > 0) {
-        lastAccordion = Number(
-            $("#accordion-partial-recovery .partial-recovery:last").attr(
-                "data-index"
-            )
-        );
-        partialRecovery = lastAccordion + 1;
+        lastAccordion = Number($("#accordion-partial-recovery .partial-recovery:last").attr("data-index"));
+        partialRecovery = lastAccordion + 1
     }
-    const titleAccordion = name === "" ? "Recuperação Parcial:" : name;
+    const titleAccordion = name === "" ? "Recuperação Parcial:" : escapeHtml(name)
     const collapse = partialRecovery == 0 ? "in" : "";
     const unityOptions = getUnityOptions();
     return template`
@@ -1199,16 +1065,16 @@ function addAccordion(id, name) {
 }
 
 function getUnityOptions() {
-    const unities = $(".js-unity-body");
-    let unityOptions = "";
-    let value = "";
-    let name = "";
+    const unities = $('.js-unity-body')
+    let unityOptions = '';
+    let value = '';
+    let name = '';
     unities.each(function (index, element) {
         value = $(element).find("input[type='hidden'].unity-id").val();
-        name = $(element).find("input.unity-name").val();
+        name = escapeHtml($(element).find("input.unity-name").val());
         unityOptions += template`
             <option value="${value}">${name}</option>
-        `;
+        `
     });
     return unityOptions;
 }
@@ -1216,36 +1082,25 @@ function getUnityOptions() {
 $(document).on("click", ".js-new-partial-recovery", (e) => {
     if (!$(".js-new-partial-recovery").hasClass("disabled")) {
         $(".js-alert-save-recovery-first")
-            .text(
-                "Para cadastrar novas unidades, conclua o cadastro da recuperação"
-            )
+            .text("Para cadastrar novas unidades, conclua o cadastro da recuperação")
             .show();
-        newAccordion = addAccordion("", "");
-        $("#accordion-partial-recovery").append(newAccordion);
-        $(".partial-recovery-accordion-body")
-            .last()
-            .find(".js-semester-container")
-            .hide();
-        $(".partial-recovery-accordion-body")
-            .last()
-            .find(
-                ".js-formula-select, .js-partial-recovery-unities, .js-semester"
-            )
-            .select2();
-        $(".js-new-unity").addClass("disabled");
+        newAccordion = addAccordion("", "")
+        $('#accordion-partial-recovery').append(newAccordion)
+        $(".partial-recovery-accordion-body").last().find('.js-semester-container').hide();
+        $(".partial-recovery-accordion-body").last().find(".js-formula-select, .js-partial-recovery-unities, .js-semester").select2();
+        $('.js-new-unity').addClass('disabled');
     }
-});
+})
 $(document).on("click", ".js-remove-partial-recovery", function (e) {
     const partialRecovery = $(this).closest(".partial-recovery-container");
-    const isNew =
-        partialRecovery
-            .find("input[type='hidden'].partial-recovery-id")
-            .val() === "";
+    const isNew = partialRecovery.find("input[type='hidden'].partial-recovery-id").val() === ""
+
 
     if (isNew) {
         partialRecovery.remove();
     } else {
-        if (partialRecovery.attr("hasGrades") == 1) {
+
+        if (partialRecovery.attr('hasGrades') == 1) {
             alert(
                 "Não foi possível concluir a operação, pois já existem notas registradas para esta recuperação em alguma turma."
             );
@@ -1255,45 +1110,40 @@ $(document).on("click", ".js-remove-partial-recovery", function (e) {
             );
             if (response) {
                 partialRecovery.hide();
-                $(partialRecovery)
-                    .find(".partial-recovery-operation")
-                    .val("delete");
+                $(partialRecovery).find('.partial-recovery-operation').val("delete");;
             }
         }
     }
 
-    let recoveriesNotSaved = $(
-        "input[type='hidden'].partial-recovery-id"
-    ).filter(function () {
-        return !this.hasAttribute("value") || this.value === "";
-    }).length;
+    let recoveriesNotSaved = $("input[type='hidden'].partial-recovery-id").filter(function () {
+        return !this.hasAttribute('value') || this.value === '';
+    }).length
     if (recoveriesNotSaved == 0) {
         $(".js-alert-save-recovery-first").hide();
         $(".js-new-unity").removeClass("disabled");
     }
+
 });
 function deletePartialRecovery(partialRecovery) {
-    const isNew =
-        $(partialRecovery)
-            .find("input[type='hidden'].partial-recovery-id")
-            .val() === "";
+    const isNew = $(partialRecovery).find("input[type='hidden'].partial-recovery-id").val() === "";
     if (isNew) {
         $(partialRecovery).remove();
     } else {
         $(partialRecovery).hide();
-        $(partialRecovery).find(".partial-recovery-operation").val("delete");
+        $(partialRecovery).find('.partial-recovery-operation').val("delete");
     }
+
 }
 $(document).on("keyup", ".partial-recovery-name", function (e) {
     const partialRecovery = $(this).closest(".partial-recovery-container");
-    partialRecovery.find(".partial-recovery-title").html($(this).val());
+    partialRecovery.find(".partial-recovery-title").text($(this).val());
 });
 
 $(document).on("change", "select.calculation-final-media", function (e) {
     if ($(this).find(':selected').text().trim() === "Peso") {
         $(".unity-weight").removeClass("hide");
 
-    } else  {
+    } else {
         $(".unity-weight").addClass("hide");
     }
 })

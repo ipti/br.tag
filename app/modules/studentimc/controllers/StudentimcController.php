@@ -145,11 +145,9 @@ class StudentIMCController extends Controller
         if ($age <= 18 && $age >= 5) {
 
             $classification = $imc->classificarIMCInfantil($model->IMC, $age, $gender);
-
         } else {
 
-            $classification = $imc->IMCSituation();
-
+            $classification = $imc->imcSituation($model->IMC);
         }
 
         return $classification;
@@ -345,7 +343,7 @@ class StudentIMCController extends Controller
     {
         $model = new StudentIMC('search');
         $model->unsetAttributes();  // clear any default values
-        if (isset($_GET['StudentIMC'])){
+        if (isset($_GET['StudentIMC'])) {
             $model->attributes = $_GET['StudentIMC'];
         }
         $this->render('admin', array(
@@ -363,7 +361,7 @@ class StudentIMCController extends Controller
     public function loadModel($id)
     {
         $model = StudentIMC::model()->findByPk($id);
-        if ($model === null){
+        if ($model === null) {
             throw new CHttpException(404, 'The requested page does not exist.');
         }
         return $model;

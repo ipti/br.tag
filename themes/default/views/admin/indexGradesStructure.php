@@ -1,10 +1,7 @@
 <?php
-/* @var $this AdminController */
+/* @var $this GradesStructureController */
 
-$baseUrl = Yii::app()->baseUrl;
-$cs = Yii::app()->getClientScript();
-$this->pageTitle = 'TAG - ' . Yii::t('defgault', 'Estrutura de Unidades');
-
+$this->pageTitle = 'TAG - ' . Yii::t('default', 'Estrutura de Unidades');
 ?>
 
 <div class="main">
@@ -17,7 +14,7 @@ $this->pageTitle = 'TAG - ' . Yii::t('defgault', 'Estrutura de Unidades');
     <div class="row-fluid">
         <div class="span12">
             <div class="t-buttons-container">
-                <a class="t-button-primary" href="<?php echo Yii::app()->createUrl("admin/gradesStructure") ?>" class="t-button-primary  "> Adicionar Estrutura</a>
+                <a class="t-button-primary" href="<?php echo Yii::app()->createUrl('gradesStructure/create') ?>"> Adicionar Estrutura</a>
             </div>
         </div>
     </div>
@@ -34,49 +31,50 @@ $this->pageTitle = 'TAG - ' . Yii::t('defgault', 'Estrutura de Unidades');
                 <?php echo Yii::app()->user->getFlash('notice') ?>
             </div>
         <?php endif ?>
-    <div class="widget clearmargin">
+
+        <div class="widget clearmargin">
             <div class="widget-body">
                 <?php
                 $this->widget('zii.widgets.grid.CGridView', array(
                     'dataProvider' => $dataProvider,
                     'enablePagination' => false,
-                    'enableSorting' => false,
-                    'ajaxUpdate' => false,
-                    'itemsCssClass' => 'js-tag-table tag-table-primary table  table-striped table-hover table-primary table-vertical-center',
+                    'enableSorting'    => false,
+                    'ajaxUpdate'       => false,
+                    'itemsCssClass'    => 'js-tag-table tag-table-primary table table-striped table-hover table-primary table-vertical-center',
                     'columns' => array(
                         array(
-                            'name' => 'Código',
-                            'type' => 'raw',
+                            'name'  => 'Código',
+                            'type'  => 'raw',
                             'value' => '$data->id',
                         ),
                         array(
-                            'name' => 'nome',
-                            'type' => 'raw',
-                            'value' => 'CHtml::link($data->name,Yii::app()->createUrl("admin/gradesStructure",array("id"=>$data->id)))',
+                            'name'  => 'nome',
+                            'type'  => 'raw',
+                            'value' => 'CHtml::link($data->name, Yii::app()->createUrl("gradesStructure/create", array("id" => $data->id)))',
                         ),
                         array(
-                            'name' => 'etapa',
-                            'type' => 'raw',
-                            'value' => '$data->edcensoStageVsModalityFk->name',
+                            'name'  => 'Ano',
+                            'type'  => 'raw',
+                            'value' => '$data->school_year',
                         ),
                         array(
-                            'header' => 'Ações',
-                            'class' => 'CButtonColumn',
-                            'template' => '{update}{delete}',
-                            'buttons' => array(
-                                'update' => array(
-                                    'imageUrl' => Yii::app()->theme->baseUrl . '/img/editar.svg',
-                                    'url' => 'Yii::app()->createUrl("admin/gradesStructure&id=$data->id")',
-                                ),
-                                'delete' => array(
-                                    'imageUrl' => Yii::app()->theme->baseUrl.'/img/deletar.svg',
-                                    'url' => 'Yii::app()->createUrl("admin/gradesStructureDelete&id=$data->id")',
-                                  //  'visible' => '!empty($data->created_at) && (date("Y", strtotime($data->created_at)) >= 2025)',
-                                )
-                            ),
-                            'updateButtonOptions' => array('style' => 'margin-right: 20px;'),
-                            'deleteButtonOptions' => array('style' => 'cursor: pointer;'),
-                            'htmlOptions' => array('width' => '80px', 'style' => 'text-align: center'),
+                            'name'  => 'etapa',
+                            'type'  => 'raw',
+                            'value' => '$data->getStageNames()',
+                        ),
+                        array(
+                            'header'     => 'Ações',
+                            'type'       => 'raw',
+                            'htmlOptions'=> array('width' => '100px', 'style' => 'text-align: center; white-space: nowrap;'),
+                            'value'      =>
+                                'CHtml::link("", "#", array(' .
+                                    '"class" => "t-button-icon t-icon-copy js-open-copy-modal",' .
+                                    '"title" => "Copiar",' .
+                                    '"data-id"   => $data->id,' .
+                                    '"data-name" => $data->name,' .
+                                ')) . " " .' .
+                                'CHtml::link(CHtml::image(Yii::app()->theme->baseUrl . "/img/editar.svg"), Yii::app()->createUrl("gradesStructure/create", array("id" => $data->id)), array("title" => "Editar")) . " " .' .
+                                'CHtml::link(CHtml::image(Yii::app()->theme->baseUrl . "/img/deletar.svg"), Yii::app()->createUrl("gradesStructure/delete", array("id" => $data->id)), array("title" => "Excluir"))',
                         ),
                     ),
                 ));
@@ -85,3 +83,50 @@ $this->pageTitle = 'TAG - ' . Yii::t('defgault', 'Estrutura de Unidades');
         </div>
     </div>
 </div>
+
+<!-- ============================================================
+     Modal – Copiar Estrutura
+     ============================================================ -->
+<div id="modal-copy-structure" class="modal fade t-modal-container" tabindex="-1" aria-labelledby="modalCopyLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="t-modal__header">
+            <h4 class="t-title" id="modalCopyLabel">Copiar Estrutura</h4>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+                <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/Close.svg" alt="Fechar">
+            </button>
+        </div>
+        <form id="form-copy-structure" method="GET" action="/">
+            <input type="hidden" name="r" value="gradesStructure/copy">
+            <input type="hidden" id="copy-structure-id" name="id" value="">
+            <div class="t-modal__body">
+                <p id="copy-structure-name" style="font-weight: 600; margin-bottom: 16px; color: #252A31;"></p>
+                <div class="t-field-text">
+                    <label class="t-field-text__label" for="copy-target-year">Ano de destino</label>
+                    <input type="number"
+                           id="copy-target-year"
+                           name="year"
+                           min="2000"
+                           max="2100"
+                           value="<?php echo (int) Yii::app()->user->year; ?>"
+                           required>
+                </div>
+            </div>
+            <div class="t-modal__footer mobile-row">
+                <button type="button" class="t-button-secondary" data-dismiss="modal">Cancelar</button>
+                <button type="submit" class="t-button-primary">Copiar</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+$(document).on('click', '.js-open-copy-modal', function (e) {
+    e.preventDefault();
+    var $btn  = $(this);
+    var id    = $btn.data('id');
+    var name  = $btn.data('name');
+    $('#copy-structure-id').val(id);
+    $('#copy-structure-name').text(name);
+    $('#modal-copy-structure').modal('show');
+});
+</script>

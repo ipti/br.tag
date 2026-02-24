@@ -47,7 +47,6 @@ class SiteController extends Controller
         }
 
         $this->render('index', ['htmlLogs' => $this->loadLogsHtml(8)]);
-
     }
 
     /**
@@ -108,7 +107,7 @@ class SiteController extends Controller
                 Yii::app()->features->refreshCache();
                 $this->layout = 'fullmenu';
                 if (isset(Yii::app()->user->loginInfos) && Yii::app()->getAuthManager()->checkAccess('guardian', Yii::app()->user->loginInfos->id)) {
-                    $this->redirect(['enrollmentonline/Enrollmentonlinestudentidentification/StudentStatus']);
+                    $this->redirect(['enrollmentonline/Enrollmentonlinestudentidentification/StudentList']);
                 } else {
                     $this->redirect(Yii::app()->user->returnUrl);
                 }
@@ -328,7 +327,7 @@ class SiteController extends Controller
             ]);
         } else {
             $html = '';
-            $count = min([$limit, count($warns)]) ;
+            $count = min([$limit, count($warns)]);
             for ($i = 0; $i < $count; $i++) {
                 $html .= $warns[$i];
             }

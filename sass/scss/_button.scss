@@ -197,12 +197,14 @@
 
 .t-button-success {
     @extend .t-button;
-    background-color: $colorsAlertSuccessBackground;
+    color: $colorsBaseWhiteNormal;
+    background-color: $colorsTextSuccess;
     border: 0;
 
     &:hover,
     &--active {
-        background-color: $colorsAlertSuccessBorder;
+        background-color: $colorsTextSuccess;
+        color: $colorsBaseWhiteNormal;
     }
 }
 

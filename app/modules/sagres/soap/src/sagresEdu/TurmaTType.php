@@ -44,6 +44,14 @@ class TurmaTType
     #[Serializer\XmlElement(cdata: false)]
     private ?bool $multiseriada = null;
 
+    #[Serializer\SerializedName('edu:nrSala')]
+    #[Serializer\XmlElement(cdata: false)]
+    private ?int $nrSala = null;
+
+    #[Serializer\SerializedName('edu:prosic')]
+    #[Serializer\XmlElement(cdata: false)]
+    private ?bool $prosic = null;
+
     /**
      * Gets as periodo
      *
@@ -263,6 +271,50 @@ class TurmaTType
     public function setMultiseriada(bool $multiseriada): self
     {
         $this->multiseriada = $multiseriada;
+        return $this;
+    }
+
+    /**
+     * Gets as nrSala
+     *
+     * @return int
+     */
+    public function getNrSala(): ?int
+    {
+        return $this->nrSala;
+    }
+
+    /**
+     * Sets a new nrSala
+     *
+     * @param int $nrSala
+     * @return self
+     */
+    public function setNrSala(?int $nrSala): self
+    {
+        $this->nrSala = $nrSala;
+        return $this;
+    }
+
+    /**
+     * Gets as prosic
+     *
+     * @return bool
+     */
+    public function getProsic(): ?bool
+    {
+        return $this->prosic;
+    }
+
+    /**
+     * Sets a new prosic
+     *
+     * @param bool $prosic
+     * @return self
+     */
+    public function setProsic(?bool $prosic): self
+    {
+        $this->prosic = $prosic;
         return $this;
     }
 }

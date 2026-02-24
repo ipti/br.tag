@@ -4,8 +4,7 @@ class TMenu
 {
     public static function renderMenu($menuConfig)
     {
-        $route = Yii::app()->controller->module ? Yii::app()->controller->module->id : Yii::app()->controller->id;
-        $action = Yii::app()->controller->action->id;
+        $currentRoute = Yii::app()->controller->route;
 
         foreach ($menuConfig as $item) {
             // Checagem de permissões
@@ -25,21 +24,27 @@ class TMenu
 
             // URL pode ser string, array [route], ou function
             $urlParams = is_callable($item['url']) ? $item['url']() : $item['url'];
+            
+            // Extract route from array or string
+            $itemRoute = is_array($urlParams) ? trim($urlParams[0], '/') : trim($urlParams, '/');
+            if (empty($itemRoute)) $itemRoute = 'site/index';
+            
+            // Append /index if it's just a controller name
+            if (strpos($itemRoute, '/') === false) {
+                $itemRoute .= '/index';
+            }
 
-            $url = Yii::app()->createUrl($urlParams[0], $urlParams[1]);
-
-            $url = strtolower($url);
-
-            $urlAction = count(explode('/', $url)) == 2 ? $url . '/index' : $url;
-            $isHome = $route === 'site' && $action === 'index' && $url === '/';
-            // Verifica se está ativo
-            $isActive = ($isHome || (strpos($url, $route) !== false && strpos($urlAction, $action) !== false) || (isset($item['submenu']) && self::submenuIsActive($item['submenu'], $route)));
+            // Check if active
+            $isActive = ($currentRoute === $itemRoute);
+            $hasActiveSubmenu = (isset($item['submenu']) && self::submenuIsActive($item['submenu'], $currentRoute));
 
             // Renderiza item simples
             if (!isset($item['submenu'])) {
-                $iconClass = $isActive ? 'active' : '';
+                $activeClass = $isActive ? 'active' : '';
+                $url = Yii::app()->createUrl($itemRoute, is_array($urlParams) && isset($urlParams[1]) ? $urlParams[1] : []);
+
                 echo <<<HTML
-                <li class="t-menu-item  {$iconClass}">
+                <li class="t-menu-item {$activeClass}">
                     <a class="t-menu-item__link" href="{$url}">
                         <span class="{$item['icon']} t-menu-item__icon"></span>
                         <span class="t-menu-item__text">{$item['label']}</span>
@@ -48,11 +53,11 @@ class TMenu
                 HTML;
             } else {
                 // Renderiza grupo com submenu
-                $isActive = (isset($item['submenu']) && self::submenuIsActive($item['submenu'], $route));
-                $collapseClass = $isActive ? 'in' : '';
-                $iconClass = $isActive ? 'active' : '';
+                $activeClass = $hasActiveSubmenu ? 'active' : '';
+                $collapseClass = $hasActiveSubmenu ? 'in' : '';
+                
                 echo <<<HTML
-                <li id="{$item['menu_id']}" class="t-menu-group {$iconClass}">
+                <li id="{$item['menu_id']}" class="t-menu-group {$activeClass}">
                     <i class="submenu-icon fa fa-chevron-right"></i>
                     <i class="submenu-icon fa fa-chevron-down"></i>
                     <a id="{$item['menu_id']}-trigger" class="t-menu-group__link toggle-menu-js" data-toggle="collapse" href="#{$item['submenu_id']}">
@@ -67,14 +72,21 @@ class TMenu
         }
     }
 
-    protected static function submenuIsActive($submenu, $route)
+    protected static function submenuIsActive($submenu, $currentRoute)
     {
         foreach ($submenu as $sub) {
-            $url = is_callable($sub['url']) ? $sub['url']()[0] : (is_array($sub['url']) ? $sub['url'][0] : $sub['url']);
-            if (strpos($url, $route) !== false) {
+            $urlParams = is_callable($sub['url']) ? $sub['url']() : $sub['url'];
+            $subRoute = is_array($urlParams) ? trim($urlParams[0], '/') : trim($urlParams, '/');
+            
+            if (strpos($subRoute, '/') === false) {
+                $subRoute .= '/index';
+            }
+
+            if ($subRoute === $currentRoute) {
                 return true;
             }
-            if (isset($sub['submenu']) && self::submenuIsActive($sub['submenu'], $route)) {
+            
+            if (isset($sub['submenu']) && self::submenuIsActive($sub['submenu'], $currentRoute)) {
                 return true;
             }
         }

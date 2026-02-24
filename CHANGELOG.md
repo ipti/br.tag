@@ -1,3 +1,10 @@
+## [Versão 3.10.0]
+- Agora é possível **copiar uma estrutura de avaliação** para outro ano letivo diretamente da listagem, sem precisar recadastrá-la do zero
+- A listagem de estruturas de avaliação exibe o **ano de referência** e as **etapas de ensino** vinculadas a cada estrutura
+- Estruturas antigas (sem ano definido) continuam aparecendo normalmente para anos anteriores a 2026
+- A tela de gestão de estruturas de avaliação foi reorganizada e melhorada visualmente
+- Agora é possível **alocar profissionais na Secretaria Municipal de Educação**, além de escolas
+
 ## [Versão 3.6.1]
 - Refatoração de código para redução de débito técnico
 
