@@ -57,6 +57,13 @@ $menuItems = [
         'feature' => TTask::TASK_ONLINE_ENROLLMENT,
     ],
     [
+        'label' => 'Profissionais',
+        'url' => ['professional/default/index'],
+        'icon' => 't-icon-profissionais',
+        'roles' => [TRole::ADMIN, TRole::MANAGER, TRole::READER],
+        'feature' => TTask::TASK_PROFESSIONAL_MANAGE,
+    ],
+    [
         'label' => 'Professores',
         'url' => ['instructor'],
         'icon' => 't-icon-book',

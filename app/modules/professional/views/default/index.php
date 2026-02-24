@@ -55,53 +55,49 @@ $cs = Yii::app()->getClientScript();
         <div class="widget clearmargin">
             <div class="widget-body">
                 <?php
-            $this->widget('zii.widgets.grid.CGridView', [
-                'dataProvider' => $dataProvider,
-                'enablePagination' => false,
-                'enableSorting' => false,
-                'itemsCssClass' => 'js-tag-table tag-table-primary table table-condensed table-striped table-hover table-primary table-vertical-center checkboxs',
-                'columns' => [
-                    [
-                        'name' => 'name',
-                        'header' => 'Nome',
-                        'type' => 'raw',
-                        'value' => 'CHtml::link($data->name,Yii::app()->createUrl("professional/default/update",array("id"=>$data->id_professional)))',
-                        'htmlOptions' => ['width' => '400px', 'class' => 'link-update-grid-view'],
-                    ],
-                    [
-                        'name' => 'cpf',
-                        'header' => 'CPF',
-                        'value' => '$data->cpf_professional',
-                    ],
-                    [
-                        'name' => 'speciality',
-                        'header' => 'Especialidade',
-                        'value' => '$data->speciality',
-                    ],
-                    [
-                        'name' => 'fundeb',
-                        'header' => 'Fundeb',
-                        'value' => '$data->fundeb ? "Sim" : "Não"',
-                    ],
-                    [
-                        'header' => 'Ações',
-                        'class' => 'CButtonColumn',
-                        'template' => '{update}{delete}',
-                        'buttons' => [
-                            'update' => [
-                                'imageUrl' => Yii::app()->theme->baseUrl . '/img/editar.svg',
-                            ],
-                            'delete' => [
-                                'imageUrl' => Yii::app()->theme->baseUrl . '/img/deletar.svg',
-                            ]
+                DataTableGridView::show($this, [
+                    'id' => 'professional-grid',
+                    'dataProvider' => $dataProvider,
+                    'columns' => [
+                        [
+                            'name' => 'name',
+                            'header' => 'Nome',
+                            'type' => 'raw',
+                            'value' => 'CHtml::link($data->name, Yii::app()->createUrl("professional/default/update", array("id" => $data->id_professional)))',
+                            'htmlOptions' => ['class' => 'link-update-grid-view'],
                         ],
-                        'updateButtonOptions' => ['style' => 'margin-right: 20px;'],
-                        'deleteButtonOptions' => ['style' => 'cursor: pointer;'],
-                        'htmlOptions' => ['width' => '100px', 'style' => 'text-align: center'],
+                        [
+                            'name' => 'cpf_professional',
+                            'header' => 'CPF',
+                        ],
+                        [
+                            'name' => 'speciality',
+                            'header' => 'Especialidade',
+                        ],
+                        [
+                            'name' => 'fundeb',
+                            'header' => 'Fundeb',
+                            'value' => '$data->fundeb ? "Sim" : "Não"',
+                        ],
+                        [
+                            'header' => 'Ações',
+                            'class' => 'CButtonColumn',
+                            'template' => '{update}{delete}',
+                            'buttons' => [
+                                'update' => [
+                                    'imageUrl' => Yii::app()->theme->baseUrl . '/img/editar.svg',
+                                ],
+                                'delete' => [
+                                    'imageUrl' => Yii::app()->theme->baseUrl . '/img/deletar.svg',
+                                ]
+                            ],
+                            'updateButtonOptions' => ['style' => 'margin-right: 20px;'],
+                            'deleteButtonOptions' => ['style' => 'cursor: pointer;'],
+                            'htmlOptions' => ['width' => '100px', 'style' => 'text-align: center'],
+                        ],
                     ],
-                ],
-            ]);
-?>
+                ]);
+                ?>
             </div>
         </div>
     </div>

@@ -29,9 +29,14 @@ class TMenu
             $itemRoute = is_array($urlParams) ? trim($urlParams[0], '/') : trim($urlParams, '/');
             if (empty($itemRoute)) $itemRoute = 'site/index';
             
-            // Append /index if it's just a controller name
+            // Append /index if it's just a controller or module name
             if (strpos($itemRoute, '/') === false) {
-                $itemRoute .= '/index';
+                $modules = array_keys(Yii::app()->modules);
+                if (in_array($itemRoute, $modules)) {
+                    $itemRoute .= '/default/index';
+                } else {
+                    $itemRoute .= '/index';
+                }
             }
 
             // Check if active
@@ -79,7 +84,8 @@ class TMenu
             $subRoute = is_array($urlParams) ? trim($urlParams[0], '/') : trim($urlParams, '/');
             
             if (strpos($subRoute, '/') === false) {
-                $subRoute .= '/index';
+                $modules = array_keys(Yii::app()->modules);
+                $subRoute .= in_array($subRoute, $modules) ? '/default/index' : '/index';
             }
 
             if ($subRoute === $currentRoute) {

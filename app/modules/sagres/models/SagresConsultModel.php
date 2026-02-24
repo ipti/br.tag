@@ -1813,12 +1813,10 @@ class SagresConsultModel
     }
 
     /**
-     * Summary of ProfissionalTType
-     * @return ProfissionalTType[]
-     */
-    /**
      * Retrieves professionals (teachers/staff) for a given timeframe.
-     * 
+     * Uses `professional_allocation` to determine location (school or secretariat)
+     * and role (mapped to especialidade).
+     *
      * @param string $referenceYear The reference year.
      * @param string $month The reference month.
      * @return ProfissionalTType[]
@@ -1826,32 +1824,47 @@ class SagresConsultModel
     private function getProfessionals($referenceYear, $month)
     {
         $professionalList = [];
+
         $query = 'SELECT DISTINCT
-                    p.id_professional AS id_professional,
-                    p.cpf_professional  AS cpfProfissional,
-                    p.speciality  AS especialidade,
-                    p.inep_id_fk AS idEscola,
-                    fundeb
+                    p.id_professional       AS id_professional,
+                    p.cpf_professional      AS cpfProfissional,
+                    p.fundeb                AS fundeb,
+                    pa.role                 AS role,
+                    pa.contract_type        AS contract_type,
+                    pa.location_type        AS locationType,
+                    pa.school_inep_fk       AS idEscola
                 FROM professional p
-                    JOIN attendance a ON p.id_professional  = a.professional_fk  and MONTH(a.date) <= :currentMonth
+                    JOIN professional_allocation pa ON pa.professional_fk = p.id_professional
+                        AND pa.school_year = :reference_year
+                    JOIN attendance a ON p.id_professional = a.professional_fk
+                        AND MONTH(a.date) <= :currentMonth
                 WHERE
                     YEAR(a.date) = :reference_year';
 
         $command = Yii::app()->db->createCommand($query);
         $command->bindValues([
             ':reference_year' => $referenceYear,
-            ':currentMonth' => $month
+            ':currentMonth'   => $month,
         ]);
 
         $professionals = $command->queryAll();
-        $strMaxLength = 50;
+        $roleOptions   = \ProfessionalAllocation::getRoleOptions();
+        $strMaxLength  = 50;
 
         foreach ($professionals as $professional) {
+            $especialidade = isset($roleOptions[$professional['role']])
+                ? $roleOptions[$professional['role']]
+                : 'Nao informado';
+
+            // idEscola only applies when the professional is allocated to a school
+            $idEscola = ($professional['locationType'] === 'school')
+                ? $professional['idEscola']
+                : null;
+
             $professionalType = new ProfissionalTType();
             $professionalType
                 ->setCpfProfissional(str_replace(['.', '-'], '', $professional['cpfProfissional']))
-                ->setEspecialidade($professional['especialidade'])
-                ->setIdEscola($professional['idEscola'])
+                ->setEspecialidade($especialidade)
                 ->setFundeb($professional['fundeb'])
                 ->setAtendimento(
                     $this->getAttendances(
@@ -1860,33 +1873,68 @@ class SagresConsultModel
                         $month
                     )
                 );
+
+            if ($idEscola !== null) {
+                $professionalType->setIdEscola($idEscola);
+            }
+
             $professionalList[] = $professionalType;
 
-            $sql = 'SELECT name FROM school_identification WHERE inep_id = :inepId';
-            $params = [':inepId' => $professional['idEscola']];
-            $schoolRes = Yii::app()->db->createCommand($sql)->bindValues($params)->queryRow();
+            // Resolve school name for inconsistency messages
+            $schoolName = 'Secretaria de Educacao';
+            if ($idEscola !== null) {
+                $sql = 'SELECT name FROM school_identification WHERE inep_id = :inepId';
+                $schoolRes = Yii::app()->db->createCommand($sql)
+                    ->bindValues([':inepId' => $idEscola])
+                    ->queryRow();
+                $schoolName = $schoolRes['name'] ?? $schoolName;
+            }
 
             if (!$this->validaCPF($professionalType->getCpfProfissional())) {
                 $inconsistencyModel = new ValidationSagresModel();
-                $inconsistencyModel->enrollment = 'PROFISSIONAL';
-                $inconsistencyModel->school = $schoolRes['name'];
-                $inconsistencyModel->description = 'CPF inválido: ' . $professional['cpfProfissional'];
-                $inconsistencyModel->action = 'Informar um CPF válido';
-                $inconsistencyModel->identifier = '2';
+                $inconsistencyModel->enrollment    = 'PROFISSIONAL';
+                $inconsistencyModel->school        = $schoolName;
+                $inconsistencyModel->description   = 'CPF inválido: ' . $professional['cpfProfissional'];
+                $inconsistencyModel->action        = 'Informar um CPF válido';
+                $inconsistencyModel->identifier    = '2';
                 $inconsistencyModel->idProfessional = $professional['id_professional'];
-                $inconsistencyModel->idSchool = $professional['idEscola'];
+                $inconsistencyModel->idSchool      = $idEscola;
                 $inconsistencyModel->insert();
             }
 
-            if (strlen($professionalType->getEspecialidade()) > $strMaxLength) {
+            if (strlen($especialidade) > $strMaxLength) {
                 $inconsistencyModel = new ValidationSagresModel();
-                $inconsistencyModel->enrollment = 'PROFISSIONAL';
-                $inconsistencyModel->school = $schoolRes['name'];
-                $inconsistencyModel->description = 'Especialidade com mais de 50 caracteres';
-                $inconsistencyModel->action = 'Informar uma descrição para a especialidade com até 50 caracteres';
-                $inconsistencyModel->identifier = '2';
+                $inconsistencyModel->enrollment    = 'PROFISSIONAL';
+                $inconsistencyModel->school        = $schoolName;
+                $inconsistencyModel->description   = 'Especialidade com mais de 50 caracteres';
+                $inconsistencyModel->action        = 'Informar uma descrição para a especialidade com até 50 caracteres';
+                $inconsistencyModel->identifier    = '2';
                 $inconsistencyModel->idProfessional = $professional['id_professional'];
-                $inconsistencyModel->idSchool = $professional['idEscola'];
+                $inconsistencyModel->idSchool      = $idEscola;
+                $inconsistencyModel->insert();
+            }
+
+            if ($professional['role'] == \ProfessionalAllocation::ROLE_UNDEFINED) {
+                $inconsistencyModel = new ValidationSagresModel();
+                $inconsistencyModel->enrollment    = 'PROFISSIONAL';
+                $inconsistencyModel->school        = $schoolName;
+                $inconsistencyModel->description   = 'Cargo/Função do profissional não definido (Necessita Correção Manual)';
+                $inconsistencyModel->action        = 'Acesse o cadastro do profissional e atualize a aba "Lotação"';
+                $inconsistencyModel->identifier    = '2';
+                $inconsistencyModel->idProfessional = $professional['id_professional'];
+                $inconsistencyModel->idSchool      = $idEscola;
+                $inconsistencyModel->insert();
+            }
+
+            if ($professional['contract_type'] == \ProfessionalAllocation::CONTRACT_UNDEFINED) {
+                $inconsistencyModel = new ValidationSagresModel();
+                $inconsistencyModel->enrollment    = 'PROFISSIONAL';
+                $inconsistencyModel->school        = $schoolName;
+                $inconsistencyModel->description   = 'Tipo de Contrato do profissional não definido (Necessita Correção Manual)';
+                $inconsistencyModel->action        = 'Acesse o cadastro do profissional e atualize a aba "Lotação"';
+                $inconsistencyModel->identifier    = '2';
+                $inconsistencyModel->idProfessional = $professional['id_professional'];
+                $inconsistencyModel->idSchool      = $idEscola;
                 $inconsistencyModel->insert();
             }
         }

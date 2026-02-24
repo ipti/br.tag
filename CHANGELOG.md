@@ -4,6 +4,45 @@
 - Estruturas antigas (sem ano definido) continuam aparecendo normalmente para anos anteriores a 2026
 - A tela de gestão de estruturas de avaliação foi reorganizada e melhorada visualmente
 - Agora é possível **alocar profissionais na Secretaria Municipal de Educação**, além de escolas
+- Novo módulo de **Lotação de Profissionais**: gerencie cargos, tipos de contrato, carga horária e histórico de atendimentos individuais
+
+## [Versão 3.9.0]
+- Implementado módulo de Almoxarifado (Gestão de Estoque)
+- Adicionado suporte para Almoxarifado Central (Secretaria de Educação)
+- Criado sistema de solicitações de materiais entre escolas
+- Implementado histórico completo de movimentações com colorização (verde para entradas, vermelho para saídas)
+- Integrado sistema de Feature Flags para controle de acesso ao módulo
+
+## [Versão 3.8.0]
+- Implementado Sagres 2026
+
+## [Versão 3.7.4]
+- Corrigido conceito final para os relatórios de Ata de Notas, Ficha de Notas e Diário Eletrônico
+
+## [Versão 3.7.3]
+- Corrigido erro de duplicidade de matrícula na matrícula online
+
+## [Versão 3.7.2]
+- Corrigido erro na exibição da média final no relatório de ata de notas para turmas do Ensino Fundamental I
+
+## [Versão 3.7.1]
+- Adicionado campo no formulário de pré-matrícula para o gestor escolher para qual turma o aluno será matriculado
+
+## [Versão 3.7.0]
+- Matrícula Online
+
+## [Versão 3.6.5]
+- Adicionando modo de manutenção
+
+## [Versão 3.6.4]
+- Corrigido stauts do estudante quando ele esta reprovado por falta
+
+## [Versão 3.6.3]
+- Corrigido fluxo de criação do diário de classe
+
+## [Versão 3.6.2]
+- Corrigida a visualização do relatório de notas por aluno para as disciplinas que não requerem prova
+>>>>>>> origin/feat/new-professional-module
 
 ## [Versão 3.6.1]
 - Refatoração de código para redução de débito técnico

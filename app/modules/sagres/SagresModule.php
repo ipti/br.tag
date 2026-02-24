@@ -12,6 +12,7 @@ class SagresModule extends CWebModule
             'sagres.models.*',
             'sagres.components.*',
             'sagres.soap.src.sagresEdu.*',
+            'application.modules.professional.models.*',
         ]);
     }
 
