@@ -24,16 +24,16 @@ class TMenu
 
             // URL pode ser string, array [route], ou function
             $urlParams = is_callable($item['url']) ? $item['url']() : $item['url'];
-            
+
             // Extract route from array or string
             $itemRoute = is_array($urlParams) ? trim($urlParams[0], '/') : trim($urlParams, '/');
             if (empty($itemRoute)) $itemRoute = 'site/index';
-            
+
             // Append /index if it's just a controller name
-            if (strpos($itemRoute, '/') === false) {
+            /*  if (strpos($itemRoute, '/') === false) {
                 $itemRoute .= '/index';
             }
-
+            */
             // Check if active
             $isActive = ($currentRoute === $itemRoute);
             $hasActiveSubmenu = (isset($item['submenu']) && self::submenuIsActive($item['submenu'], $currentRoute));
@@ -55,7 +55,7 @@ class TMenu
                 // Renderiza grupo com submenu
                 $activeClass = $hasActiveSubmenu ? 'active' : '';
                 $collapseClass = $hasActiveSubmenu ? 'in' : '';
-                
+
                 echo <<<HTML
                 <li id="{$item['menu_id']}" class="t-menu-group {$activeClass}">
                     <i class="submenu-icon fa fa-chevron-right"></i>
@@ -77,7 +77,7 @@ class TMenu
         foreach ($submenu as $sub) {
             $urlParams = is_callable($sub['url']) ? $sub['url']() : $sub['url'];
             $subRoute = is_array($urlParams) ? trim($urlParams[0], '/') : trim($urlParams, '/');
-            
+
             if (strpos($subRoute, '/') === false) {
                 $subRoute .= '/index';
             }
@@ -85,7 +85,7 @@ class TMenu
             if ($subRoute === $currentRoute) {
                 return true;
             }
-            
+
             if (isset($sub['submenu']) && self::submenuIsActive($sub['submenu'], $currentRoute)) {
                 return true;
             }
