@@ -5,7 +5,7 @@ namespace SagresEdu;
 use Datetime;
 use ErrorException;
 use Exception;
-use fileManager;
+use FileManager;
 use JMS\Serializer\Handler\HandlerRegistryInterface;
 use JMS\Serializer\SerializerBuilder;
 use PDOException;
@@ -15,7 +15,6 @@ use GoetasWebservices\Xsd\XsdToPhpRuntime\Jms\Handler\XmlSchemaDateHandler;
 use TagUtils;
 use ValidationSagresModel;
 use Classroom;
-use PeriodOptions;
 use Yii;
 use ZipArchive;
 
@@ -2780,7 +2779,7 @@ class SagresConsultModel
 
         $fileDir = './app/export/SagresEdu/' . $inst . $fileName;
         Yii::import('ext.FileManager.fileManager');
-        $fm = new fileManager();
+        $fm = new FileManager();
         $result = $fm->write($fileDir, $xml);
         if ($result === false) {
             throw new ErrorException('Ocorreu um erro ao exportar o arquivo XML.');
