@@ -117,9 +117,8 @@ class ClassroomController extends Controller
         $criteria->params = [':classroomId' => $classroomId];
         $selectedOptions = GradeRules::model()->findAll($criteria);
 
-        // Todas as opções disponíveis (sem filtros)
-
-        $allOptions = GradeRules::model()->findAll();
+        // All available options filtered by session year
+        $allOptions = GradeRules::model()->findAllByAttributes(['school_year' => Yii::app()->user->year]);
 
         // Gerar JSON com categorias separadas
         $response = [
@@ -635,7 +634,7 @@ class ClassroomController extends Controller
             $gradeRulesStages[$stage->id] = $gradeRulesQuery == null ? '' : $gradeRulesQuery;
         }
 
-        $gradeRules = GradeRules::model()->findAll();
+        $gradeRules = GradeRules::model()->findAllByAttributes(['school_year' => Yii::app()->user->year]);
 
         $this->render('create', [
             'stages' => $stages,
@@ -857,7 +856,7 @@ class ClassroomController extends Controller
             $gradeRulesStages[$stage->id] = $gradeRulesQuery == null ? '' : $gradeRulesQuery;
         }
 
-        $gradeRules = GradeRules::model()->findAll();
+        $gradeRules = GradeRules::model()->findAllByAttributes(['school_year' => Yii::app()->user->year]);
 
         $this->render('update', [
             'stages' => $stages,

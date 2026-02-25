@@ -12,6 +12,7 @@
  * @property integer $has_final_recovery
  * @property integer $has_partial_recovery
  * @property string $rule_type
+ * @property integer $school_year
  *
  * The followings are the available model relations:
  * @property GradeCalculation $gradeCalculationFk
@@ -38,8 +39,9 @@ class GradeRules extends TagModel
             ['approvation_media', 'required', 'on' => 'numericGrade'],
             ['grade_calculation_fk, has_final_recovery, has_partial_recovery', 'numerical', 'integerOnly' => true],
             ['approvation_media, final_recover_media', 'numerical'],
+            ['school_year', 'numerical', 'integerOnly' => true],
             ['rule_type', 'length', 'max' => 1],
-            ['id, edcenso_stage_vs_modality_fk, approvation_media, final_recover_media, grade_calculation_fk, has_final_recovery, has_partial_recovery, rule_type', 'safe', 'on' => 'search'],
+            ['id, edcenso_stage_vs_modality_fk, approvation_media, final_recover_media, grade_calculation_fk, has_final_recovery, has_partial_recovery, rule_type, school_year', 'safe', 'on' => 'search'],
         ];
     }
 
@@ -48,12 +50,28 @@ class GradeRules extends TagModel
      */
     public function relations()
     {
-        // NOTE: you may need to adjust the relation name and the related
-        // class name for the relations automatically generated below.
         return [
-            'gradeCalculationFk' => [self::BELONGS_TO, 'GradeCalculation', 'grade_calculation_fk'],
+            'gradeCalculationFk'   => [self::BELONGS_TO, 'GradeCalculation', 'grade_calculation_fk'],
             'edcensoStageVsModalityFk' => [self::BELONGS_TO, 'EdcensoStageVsModality', 'edcenso_stage_vs_modality_fk'],
+            'gradeRulesStages'     => [self::HAS_MANY, 'GradeRulesVsEdcensoStageVsModality', 'grade_rules_fk'],
         ];
+    }
+
+    /**
+     * Returns a comma-separated string with the names of all stages
+     * linked to this grade rule via the junction table.
+     *
+     * @return string e.g. "1º Ano – Ensino Fundamental, 2º Ano – Ensino Fundamental"
+     */
+    public function getStageNames(): string
+    {
+        $names = [];
+        foreach ($this->gradeRulesStages as $pivot) {
+            if ($pivot->edcensoStageVsModalityFk !== null) {
+                $names[] = $pivot->edcensoStageVsModalityFk->name;
+            }
+        }
+        return implode(', ', $names);
     }
 
     /**
@@ -70,6 +88,7 @@ class GradeRules extends TagModel
             'has_final_recovery' => 'Has Final Recovery',
             'has_partial_recovery' => 'Has Partial Recovery',
             'rule_type' => 'Rule Type',
+            'school_year' => 'Ano de Vigência',
         ];
     }
 
@@ -95,8 +114,9 @@ class GradeRules extends TagModel
         $criteria->compare('final_recover_media', $this->final_recover_media);
         $criteria->compare('grade_calculation_fk', $this->grade_calculation_fk);
         $criteria->compare('has_final_recovery', $this->has_final_recovery);
-        $criteria->compare('has_partil_recovery', $this->has_partial_recovery);
+        $criteria->compare('has_partial_recovery', $this->has_partial_recovery);
         $criteria->compare('rule_type', $this->rule_type, true);
+        $criteria->compare('school_year', $this->school_year);
 
         return new CActiveDataProvider($this, [
             'criteria' => $criteria,
