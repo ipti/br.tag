@@ -29,11 +29,16 @@ class TMenu
             $itemRoute = is_array($urlParams) ? trim($urlParams[0], '/') : trim($urlParams, '/');
             if (empty($itemRoute)) $itemRoute = 'site/index';
 
-            // Append /index if it's just a controller name
-            /*  if (strpos($itemRoute, '/') === false) {
-                $itemRoute .= '/index';
+            // Append controller/index if it's just a module or controller name
+            if (strpos($itemRoute, '/') === false && !empty($itemRoute)) {
+                $modules = array_keys(Yii::app()->modules);
+                if (in_array($itemRoute, $modules)) {
+                    // Usa o mesmo nome do módulo como controller (ex: timesheet/timesheet/index)
+                    $itemRoute .= '/' . $itemRoute . '/index';
+                } else {
+                    $itemRoute .= '/index';
+                }
             }
-            */
             // Check if active
             $isActive = ($currentRoute === $itemRoute);
             $hasActiveSubmenu = (isset($item['submenu']) && self::submenuIsActive($item['submenu'], $currentRoute));
@@ -79,7 +84,12 @@ class TMenu
             $subRoute = is_array($urlParams) ? trim($urlParams[0], '/') : trim($urlParams, '/');
 
             if (strpos($subRoute, '/') === false) {
-                $subRoute .= '/index';
+                $modules = array_keys(Yii::app()->modules);
+                if (in_array($subRoute, $modules)) {
+                    $subRoute .= '/' . $subRoute . '/index';
+                } else {
+                    $subRoute .= '/index';
+                }
             }
 
             if ($subRoute === $currentRoute) {

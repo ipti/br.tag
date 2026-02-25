@@ -1,6 +1,6 @@
 <?php
 
-$LOG_PATH = '/app/app/runtime/' . INSTANCE . '/' . date('Y-m-d');
+$LOG_PATH = dirname(__FILE__) . '/../runtime/' . INSTANCE . '/' . date('Y-m-d');
 
 if (!file_exists($LOG_PATH)) {
     mkdir($LOG_PATH, 0777, true);
@@ -11,8 +11,8 @@ $log_config = [
     'routes' => [
         [
             'class' => 'CFileLogRoute',
-            'levels' => E_ALL,
-            'categories' => 'application',
+            'levels' => 'error,warning,info,trace',
+            'categories' => 'application,system.*',
             'logPath' => $LOG_PATH,
             'maxFileSize' => 10240,
             'maxLogFiles' => 5,
@@ -26,7 +26,7 @@ $log_config = [
         ],
         [
             'class' => \Websupport\YiiSentry\LogRoute::class,
-            'levels' => E_ALL,
+            'levels' => 'error,warning',
             'enabled' => !YII_DEBUG,
         ],
     ],
