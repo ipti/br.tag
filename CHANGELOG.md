@@ -1,3 +1,6 @@
+## [Versão 3.9.1]
+- Corrigido problema de validação de conteúdo ministrado
+
 ## [Versão 3.9.0]
 - Implementado módulo de Almoxarifado (Gestão de Estoque)
 - Adicionado suporte para Almoxarifado Central (Secretaria de Educação)
