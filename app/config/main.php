@@ -112,7 +112,8 @@ return [
         'systemadmin',
         'studentimc',
         'inventory',
-        'notifications'
+        'notifications',
+        'gradesStructure',
     ],
     'components' => [
         'utils' => [
