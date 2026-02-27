@@ -24,7 +24,7 @@ class TMenu
 
             // URL pode ser string, array [route], ou function
             $urlParams = is_callable($item['url']) ? $item['url']() : $item['url'];
-            
+
             // Extract route from array or string
             $itemRoute = is_array($urlParams) ? trim($urlParams[0], '/') : trim($urlParams, '/');
             if (empty($itemRoute)) $itemRoute = 'site/index';
@@ -39,6 +39,16 @@ class TMenu
                 }
             }
 
+            // Append controller/index if it's just a module or controller name
+            if (strpos($itemRoute, '/') === false && !empty($itemRoute)) {
+                $modules = array_keys(Yii::app()->modules);
+                if (in_array($itemRoute, $modules)) {
+                    // Usa o mesmo nome do módulo como controller (ex: timesheet/timesheet/index)
+                    $itemRoute .= '/' . $itemRoute . '/index';
+                } else {
+                    $itemRoute .= '/index';
+                }
+            }
             // Check if active
             $isActive = ($currentRoute === $itemRoute);
             $hasActiveSubmenu = (isset($item['submenu']) && self::submenuIsActive($item['submenu'], $currentRoute));
@@ -60,7 +70,7 @@ class TMenu
                 // Renderiza grupo com submenu
                 $activeClass = $hasActiveSubmenu ? 'active' : '';
                 $collapseClass = $hasActiveSubmenu ? 'in' : '';
-                
+
                 echo <<<HTML
                 <li id="{$item['menu_id']}" class="t-menu-group {$activeClass}">
                     <i class="submenu-icon fa fa-chevron-right"></i>
@@ -82,7 +92,7 @@ class TMenu
         foreach ($submenu as $sub) {
             $urlParams = is_callable($sub['url']) ? $sub['url']() : $sub['url'];
             $subRoute = is_array($urlParams) ? trim($urlParams[0], '/') : trim($urlParams, '/');
-            
+
             if (strpos($subRoute, '/') === false) {
                 $modules = array_keys(Yii::app()->modules);
                 $subRoute .= in_array($subRoute, $modules) ? '/default/index' : '/index';
@@ -91,7 +101,7 @@ class TMenu
             if ($subRoute === $currentRoute) {
                 return true;
             }
-            
+
             if (isset($sub['submenu']) && self::submenuIsActive($sub['submenu'], $currentRoute)) {
                 return true;
             }

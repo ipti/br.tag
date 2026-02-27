@@ -6,6 +6,14 @@
 - Agora é possível **alocar profissionais na Secretaria Municipal de Educação**, além de escolas
 - Novo módulo de **Lotação de Profissionais**: gerencie cargos, tipos de contrato, carga horária e histórico de atendimentos individuais
 
+## [Versão 3.9.1]
+- Implementado módulo de Notificações com inbox pessoal do usuário
+- Adicionado gerenciamento de notificações para administradores
+- Modelos `Notification` e `NotificationRecipient` refatorados para herdar de `TagModel`, padronizando o controle de timestamps via `CTimestampBehavior`
+- Adicionadas colunas `updated_at` em `notification` e `created_at`/`updated_at` em `notification_recipient`
+- Corrigido uso de `user->loginInfos->id` no `InboxController` para identificação correta do usuário
+- Refinada a interface de visualização de notificações: badges de status, hierarquia visual e layout de metadados
+
 ## [Versão 3.9.0]
 - Implementado módulo de Almoxarifado (Gestão de Estoque)
 - Adicionado suporte para Almoxarifado Central (Secretaria de Educação)
@@ -42,7 +50,6 @@
 
 ## [Versão 3.6.2]
 - Corrigida a visualização do relatório de notas por aluno para as disciplinas que não requerem prova
->>>>>>> origin/feat/new-professional-module
 
 ## [Versão 3.6.1]
 - Refatoração de código para redução de débito técnico

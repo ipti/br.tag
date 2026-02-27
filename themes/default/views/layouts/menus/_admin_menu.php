@@ -310,8 +310,14 @@ $menuItems = [
                 'feature' => TFeature::FEAT_INTEGRATIONS_GESTAOPRESENTE,
             ],
         ],
+    ],   
+    [
+        'label' => 'Gerenciar Notificações',
+        'url' => ['notifications/notifications/index'],
+        'icon' => 'fa fa-bell',
+        'roles' => [TRole::ADMIN, TRole::SUPERUSER],
+        'feature' => TFeature::FEAT_NOTIFICATIONS_MANAGE,
     ],
-
     [
         'label' => 'Alterar senha',
         'url' => function () {
