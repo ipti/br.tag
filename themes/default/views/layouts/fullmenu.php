@@ -80,6 +80,7 @@ $cs->registerCssFile($assetUrl . "/css/admin.css?v=" . TAG_VERSION);
 $cs->registerCssFile($assetUrl . "/css/home.css?v=" . TAG_VERSION);
 $cs->registerCssFile(Yii::app()->baseUrl . "/css/form.css?v=" . TAG_VERSION);
 $cs->registerCssFile(Yii::app()->baseUrl . "/sass/css/main.css?v=" . TAG_VERSION);
+$cs->registerCssFile(Yii::app()->baseUrl . "/sass/css/notifications.css?v=" . TAG_VERSION);
 
 ?>
 <!DOCTYPE html>
@@ -198,7 +199,14 @@ $cs->registerCssFile(Yii::app()->baseUrl . "/sass/css/main.css?v=" . TAG_VERSION
                 endif;
                 ?>
                 </li>
-                <li id="menu-logout" class="hide-responsive" style="margin-left: auto">
+                <li id="notification-bell" class="tag-topbar__item hide-responsive" style="margin-left: auto; position: relative;">
+                    <a href="#" id="notification-bell-trigger" class="tag-topbar__notification-trigger">
+                        <i class="fa fa-bell"></i>
+                        <span id="notification-badge" style="display:none">0</span>
+                    </a>
+                    <div id="notification-dropdown"></div>
+                </li>
+                <li id="menu-logout" class="hide-responsive">
                     <a class="t-button-tertiary" href="<?php echo yii::app()->createUrl('site/logout') ?>">
                         <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/sair_branco.svg" />
                         Sair
@@ -303,6 +311,7 @@ $cs->registerCssFile(Yii::app()->baseUrl . "/sass/css/main.css?v=" . TAG_VERSION
     <script src='<?php echo Yii::app()->baseUrl; ?>/js/datatables/init.js?v=<?= TAG_VERSION ?>'></script>
     <script src="<?php echo Yii::app()->theme->baseUrl; ?>/js/datatables.min.js"></script>
     <script src="<?php echo Yii::app()->theme->baseUrl; ?>/js/datatablesptbr.js"></script>
+    <script src="<?php echo Yii::app()->baseUrl; ?>/js/notifications/notifications.js?v=<?= TAG_VERSION ?>"></script>
 </body>
 
 </html>
