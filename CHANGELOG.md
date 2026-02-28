@@ -1,3 +1,6 @@
+## [Versão 3.9.1]
+- Corrigido select de cargo que sempre exibia "Administrador" ao editar um usuário, independente do cargo real
+
 ## [Versão 3.9.0]
 - Implementado módulo de Almoxarifado (Gestão de Estoque)
 - Adicionado suporte para Almoxarifado Central (Secretaria de Educação)
