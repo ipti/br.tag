@@ -1,3 +1,6 @@
+## [Versão 3.9.3]
+- Corrigido lista vazia no select "Componente no EducaCenso" ao adicionar ou atualizar componente curricular
+
 ## [Versão 3.9.2]
 - Corrigido erro 404 no acesso aos módulos de Calendário e Merenda Escolar
 
