@@ -1,4 +1,7 @@
-## [Versão 3.9.1]
+## [Versão 3.9.3]
+- Corrigido lista vazia no select "Componente no EducaCenso" ao adicionar ou atualizar componente curricular
+
+## [Versão 3.9.2]
 - Corrigido problema de validação de conteúdo ministrado
 
 ## [Versão 3.9.0]
