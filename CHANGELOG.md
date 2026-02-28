@@ -1,4 +1,5 @@
 ## [Versão 3.9.1]
+- Corrigido select de cargo que sempre exibia "Administrador" ao editar um usuário, independente do cargo real
 - Corrigido problema de validação de conteúdo ministrado
 
 ## [Versão 3.9.0]
