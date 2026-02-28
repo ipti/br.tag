@@ -1,3 +1,6 @@
+## [Versão 3.9.2]
+- Corrigido erro 404 no acesso aos módulos de Calendário e Merenda Escolar
+
 ## [Versão 3.9.1]
 - Corrigido problema de validação de conteúdo ministrado
 
