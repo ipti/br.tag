@@ -33,11 +33,5 @@ $this->pageTitle = 'TAG - ' . Yii::t('default', 'Changelog');
             if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
         }
         return null;
-    } <<
-    << << < HEAD
-        ===
-        === =
-
-        >>>
-        >>> > main
+    }
 </script>

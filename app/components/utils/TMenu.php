@@ -33,8 +33,11 @@ class TMenu
             if (strpos($itemRoute, '/') === false && !empty($itemRoute)) {
                 $modules = array_keys(Yii::app()->modules);
                 if (in_array($itemRoute, $modules)) {
-                    // Usa o mesmo nome do módulo como controller (ex: timesheet/timesheet/index)
-                    $itemRoute .= '/' . $itemRoute . '/index';
+                    $exceptions = ['calendar', 'lunch', 'foods', 'sagres'];
+                    if (!in_array($itemRoute, $exceptions)) {
+                        // Usa o mesmo nome do módulo como controller (ex: timesheet/timesheet/index)
+                        $itemRoute .= '/' . $itemRoute . '/index';
+                    }
                 } else {
                     $itemRoute .= '/index';
                 }
@@ -86,7 +89,10 @@ class TMenu
             if (strpos($subRoute, '/') === false) {
                 $modules = array_keys(Yii::app()->modules);
                 if (in_array($subRoute, $modules)) {
-                    $subRoute .= '/' . $subRoute . '/index';
+                    $exceptions = ['calendar', 'lunch', 'foods'];
+                    if (!in_array($subRoute, $exceptions)) {
+                        $subRoute .= '/' . $subRoute . '/index';
+                    }
                 } else {
                     $subRoute .= '/index';
                 }
