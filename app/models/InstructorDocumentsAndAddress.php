@@ -62,6 +62,7 @@ class InstructorDocumentsAndAddress extends AltActiveRecord
             ['school_inep_id_fk, cep', 'length', 'max' => 8],
             ['inep_id', 'length', 'max' => 12],
             ['cpf', 'length', 'max' => 11],
+            ['cpf', 'cpfNaoDuplicado'],
             ['address', 'length', 'max' => 100],
             ['address_number', 'length', 'max' => 10],
             ['complement', 'length', 'max' => 20],
@@ -84,6 +85,7 @@ class InstructorDocumentsAndAddress extends AltActiveRecord
             'schoolInepIdFk' => [self::BELONGS_TO, 'SchoolIdentification', 'school_inep_id_fk'],
             'edcensoUfFk' => [self::BELONGS_TO, 'EdcensoUf', 'edcenso_uf_fk'],
             'edcensoCityFk' => [self::BELONGS_TO, 'EdcensoCity', 'edcenso_city_fk'],
+            'instructorIdentification' => [self::BELONGS_TO, 'InstructorIdentification', 'id'],
         ];
     }
 
@@ -138,5 +140,37 @@ class InstructorDocumentsAndAddress extends AltActiveRecord
         return new CActiveDataProvider($this, [
             'criteria' => $criteria,
         ]);
+    }
+
+    /**
+     * Valida que o CPF informado não está cadastrado em outro professor.
+     * Durante a edição, ignora o próprio registro atual (mesmo id).
+     */
+    public function cpfNaoDuplicado($attribute, $params)
+    {
+        $cpf = str_replace(['.', '-', ' '], '', $this->$attribute);
+
+        if (empty($cpf)) {
+            return; // CPF não é obrigatório; validação de obrigatoriedade é feita em outro lugar
+        }
+
+        $criteria = new CDbCriteria();
+        $criteria->condition = 'cpf = :cpf';
+        $criteria->params    = [':cpf' => $cpf];
+
+        // Em edição (update), exclui o próprio registro
+        if (!$this->isNewRecord && !empty($this->id)) {
+            $criteria->condition .= ' AND id != :id';
+            $criteria->params[':id'] = $this->id;
+        }
+
+        $duplicate = self::model()->find($criteria);
+
+        if ($duplicate !== null) {
+            $this->addError(
+                $attribute,
+                'Este CPF já está cadastrado para o(a) professor(a) "' . $duplicate->instructorIdentification->name . '" (Código: ' . $duplicate->id . '). Verifique se não é um cadastro duplicado.'
+            );
+        }
     }
 }

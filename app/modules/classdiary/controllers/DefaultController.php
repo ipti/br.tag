@@ -137,7 +137,7 @@ class DefaultController extends Controller
         $disciplineId = $_POST['discipline'];
         $classroom = Classroom::model()->findByPk($classroomId);
         $discipline = EdcensoDiscipline::model()->findByPk($disciplineId);
-        $isMinor = $classroom->edcensoStageVsModalityFk->unified_frequency == 1 ? true : $this->checkIsStageMinorEducation($classroom);
+        $isMinor = $classroom->edcensoStageVsModalityFk->unified_frequency == 1 ? true : $classroom->checkIsStageMinorEducation();
         $instructorFilter = $this->getInstructorFilter($classroom);
         if ($isMinor === false) {
             $schedules = Schedule::model()->findAll(
@@ -277,27 +277,7 @@ class DefaultController extends Controller
         $this->render('studentClassDiary', ['student' => $student, 'stageFk' => $stageFk, 'classroomId' => $classroomId, 'schedule' => $schedule, 'date' => $date, 'justification' => $justification, 'studentFault' => $studentFault, 'studentObservation' => $studentObservation]);
     }
 
-    private function checkIsStageMinorEducation($classroom)
-    {
-        $isMinor = TagUtils::isStageMinorEducation($classroom->edcenso_stage_vs_modality_fk);
 
-        if (!$isMinor && TagUtils::isMultiStage($classroom->edcenso_stage_vs_modality_fk)) {
-            $enrollments = StudentEnrollment::model()->findAllByAttributes(['classroom_fk' => $classroom->id]);
-
-            foreach ($enrollments as $enrollment) {
-                if (
-                    !$enrollment->edcenso_stage_vs_modality_fk ||
-                    !TagUtils::isStageMinorEducation($enrollment->edcenso_stage_vs_modality_fk)
-                ) {
-                    return false;
-                }
-            }
-
-            $isMinor = true;
-        }
-
-        return $isMinor;
-    }
 
     private function getScheduleDays($schedules)
     {

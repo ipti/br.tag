@@ -69,6 +69,8 @@ class TagUtils extends CApplicationComponent
         return $stages->contains(strval($stage));
     }
 
+
+
     public static function isStageChildishEducation($stage)
     {
         $refMinorStages = [

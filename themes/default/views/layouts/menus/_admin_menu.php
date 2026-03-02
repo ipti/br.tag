@@ -16,6 +16,13 @@ $menuItems = [
         'roles' => [TRole::SUPERUSER],
         'feature' => TTask::TASK_HOME,
     ],
+    [
+        'label' => 'Ferramentas',
+        'url' => ['tools/default/index'],
+        'icon' => 't-icon-settings',
+        'roles' => [TRole::SUPERUSER],
+        'feature' => TTask::TASK_HOME,
+    ],
 
     // Escola, Turmas, Alunos, Professores
     [

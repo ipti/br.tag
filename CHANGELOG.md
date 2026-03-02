@@ -1,3 +1,8 @@
+## [Versão 3.11.0]
+- **Novo Resumo do Ano:** Agora é possível imprimir um resumo completo de todos os vínculos e aulas do professor em um único ano.
+- **Histórico de Vínculos Mais Simples:** No painel e na impressão do histórico do professor, turmas de Ensino Fundamental Menor (Regência) agora aparecem de forma agrupada, sem quebrar a contagem por disciplina.
+- Correção de falha que impedia o brasão de algumas escolas de aparecer corretamente ao imprimir relatórios.
+
 ## [Versão 3.10.0]
 - Agora é possível **copiar uma estrutura de avaliação** para outro ano letivo diretamente da listagem, sem precisar recadastrá-la do zero
 - A listagem de estruturas de avaliação exibe o **ano de referência** e as **etapas de ensino** vinculadas a cada estrutura
