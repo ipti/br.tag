@@ -18,6 +18,10 @@ class TagModel extends CActiveRecord
 
     public function save($runValidation = true, $attributes = null)
     {
+        if (Yii::app() instanceof CConsoleApplication) {
+            return parent::save($runValidation, $attributes);
+        }
+
         if (!Yii::app()->user->isGuest && $this->isReadOnlyUser()) {
             Yii::app()->user->setFlash('error', 'Você não tem permissão para salvar dados.');
             return false;
@@ -28,6 +32,10 @@ class TagModel extends CActiveRecord
 
     public function delete()
     {
+        if (Yii::app() instanceof CConsoleApplication) {
+            return parent::delete();
+        }
+
         if ($this->isReadOnlyUser()) {
             Yii::app()->user->setFlash('error', 'Você não tem permissão para salvar dados.');
             return false;
@@ -38,6 +46,11 @@ class TagModel extends CActiveRecord
 
     private function isReadOnlyUser()
     {
+        // Console commands não têm usuário autenticado nem AuthManager disponível
+        if (Yii::app() instanceof CConsoleApplication) {
+            return false;
+        }
+
         return Yii::app()->getAuthManager()->checkAccess('reader', Yii::app()->user->loginInfos->id);
     }
 }

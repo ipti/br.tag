@@ -16,7 +16,8 @@ if(!isset($school)){
 <div id="header-report">
     <?php
     if(isset($school->logo_file_name)){
-        echo '<img id="logo" src="data:'.$school->logo_file_type.';base64,'.base64_encode($school->logo_file_content).'">';
+        $logoUrl = Yii::app()->createUrl('school/displayLogo', ['id' => $school->inep_id]);
+        echo '<img id="logo" src="'.$logoUrl.'" style="max-width: 120px; max-height: 80px; object-fit: contain;">';
     }
     ?>
     <ul id="info">

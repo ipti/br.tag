@@ -19,7 +19,8 @@
             echo $this->renderPartial('_form', array('modelInstructorIdentification' => $modelInstructorIdentification,
                 'modelInstructorDocumentsAndAddress' => $modelInstructorDocumentsAndAddress
                 , 'modelInstructorVariableData' => $modelInstructorVariableData,
-                'title' => $title, 'error' => $error));
+                'title' => $title, 'error' => $error,
+                'teachingHistory' => $teachingHistory));
             ?>        </div>
         <div class="columntwo">
         </div>

@@ -99,10 +99,17 @@ $isModel = isset($modelInstructorIdentification->id);
 
                 </li>
                 <?= !$modelInstructorIdentification->isNewRecord ?
-                '<li id="tab-instructor-data" class="t-tabs__item">
+                '<li id="tab-instructor-classrooms" class="t-tabs__item">
                     <a href="#instructor-classroom" data-toggle="tab" class="t-tabs__link">
                         <span class="t-tabs__numeration">4</span>'
                         . Yii::t('default', 'Classrooms') .
+                    '</a>
+                    <img src="' . Yii::app()->theme->baseUrl . '/img/seta-tabs.svg" alt="seta">
+                </li>
+                <li id="tab-instructor-history" class="t-tabs__item">
+                    <a href="#instructor-history" data-toggle="tab" class="t-tabs__link">
+                        <span class="t-tabs__numeration">5</span>'
+                        . 'Histórico de Vínculos' .
                     '</a>
                 </li>' : ''
                 ?>
@@ -1970,6 +1977,12 @@ $isModel = isset($modelInstructorIdentification->id);
                             </div>
                         </div>
                     </div>
+                </div>
+                <div class="tab-pane" id="instructor-history">
+                    <?php echo $this->renderPartial('_history', [
+                        'instructor'     => $modelInstructorIdentification,
+                        'teachingHistory' => isset($teachingHistory) ? $teachingHistory : [],
+                    ]); ?>
                 </div>
                 <?php
                     endif;

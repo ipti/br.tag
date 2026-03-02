@@ -114,6 +114,7 @@ return [
         'inventory',
         'notifications',
         'gradesStructure',
+        'tools',
     ],
     'components' => [
         'utils' => [

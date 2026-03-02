@@ -795,7 +795,7 @@ class TimesheetController extends Controller
         }
 
         $classroom = Classroom::model()->findByPk($teachingData->classroom_id_fk);
-        $isMinor = $classroom->edcensoStageVsModalityFk->unified_frequency == 1 ? true : ClassesController::checkIsStageMinorEducation($classroom);
+        $isMinor = $classroom->edcensoStageVsModalityFk->unified_frequency == 1 ? true : $classroom->checkIsStageMinorEducation();
 
         if ($substituteInstructor->save()) {
             if ($isMinor === false) {
@@ -862,7 +862,7 @@ class TimesheetController extends Controller
         );
 
         $classroom = Classroom::model()->findByPk($teachingData->classroom_id_fk);
-        $isMinor = $classroom->edcensoStageVsModalityFk->unified_frequency == 1 ? true : ClassesController::checkIsStageMinorEducation($classroom);
+        $isMinor = $classroom->edcensoStageVsModalityFk->unified_frequency == 1 ? true : $classroom->checkIsStageMinorEducation();
 
         $transaction = Yii::app()->db->beginTransaction();
 
@@ -934,7 +934,7 @@ class TimesheetController extends Controller
 
         $classroom = Classroom::model()->findByPk($classroomId);
 
-        $isMinor = $classroom->edcensoStageVsModalityFk->unified_frequency == 1 ? true : ClassesController::checkIsStageMinorEducation($classroom);
+        $isMinor = $classroom->edcensoStageVsModalityFk->unified_frequency == 1 ? true : $classroom->checkIsStageMinorEducation();
 
         if ($isMinor === false) {
             $schedules = Schedule::model()->findAll(
@@ -989,7 +989,7 @@ class TimesheetController extends Controller
     {
         $classroom = Classroom::model()->findByPk(Yii::app()->request->getPost('classroom'));
 
-        $isMinor = $classroom->edcensoStageVsModalityFk->unified_frequency == 1 ? true : ClassesController::checkIsStageMinorEducation($classroom);
+        $isMinor = $classroom->edcensoStageVsModalityFk->unified_frequency == 1 ? true : $classroom->checkIsStageMinorEducation();
 
         $disciplinesLabels = ClassroomController::classroomDisciplineLabelArray();
 

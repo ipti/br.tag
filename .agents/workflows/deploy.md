@@ -3,7 +3,7 @@ description: Deploy
 ---
 
 using semversion to define the code version:
-- Update de CHANGELOG.md file;
+- Update de CHANGELOG.md file with a simple language to end user;
 - Update TAG_VERSION on config.php;
 - if the currente branch is main, create a new branch;
 - Generate commit push, add upstream if needed;
