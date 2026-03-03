@@ -936,7 +936,7 @@ function loadStructure() {
                 });
                 $('.js-alert-save-unities-first').hide();
             }
-            $('#accordion-partial-recovery').empty()
+            $('#accordion-partial-recovery').empty();
             if (data.partialRecoveries.length > 0) {
                 $.each(data.partialRecoveries, function (index, element) {
                     let unities = element.unities;
