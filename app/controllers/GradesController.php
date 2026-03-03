@@ -91,7 +91,8 @@ class GradesController extends Controller
             $criteria->params = [':school_year' => $year, ':school_inep_fk' => $school, ':users_fk' => Yii::app()->user->loginInfos->id];
 
             $classroom = Classroom::model()->findAll($criteria);
-        } else {
+        }
+        else {
             $classroom = Classroom::model()->findAll('school_year = :school_year and school_inep_fk = :school_inep_fk order by name', ['school_year' => $year, 'school_inep_fk' => $school]);
         }
 
@@ -113,10 +114,10 @@ class GradesController extends Controller
 
         echo CHtml::tag(
             'option',
-            [
-                'value' => $classroomStage->id,
-                'data-classroom-stage' => '1',
-            ],
+        [
+            'value' => $classroomStage->id,
+            'data-classroom-stage' => '1',
+        ],
             CHtml::encode($classroomStage->name),
             true
         );
@@ -147,7 +148,8 @@ class GradesController extends Controller
             foreach ($disciplines as $discipline) {
                 echo htmlspecialchars(CHtml::tag('option', ['value' => $discipline['id']], CHtml::encode($disciplinesLabels[$discipline['id']]), true));
             }
-        } else {
+        }
+        else {
             $classr = Yii::app()->db->createCommand(
                 "select curricular_matrix.discipline_fk
                 from curricular_matrix
@@ -168,7 +170,7 @@ class GradesController extends Controller
     {
         $classroomId = Yii::app()->request->getPost('classroom');
         $stage = Yii::app()->request->getPost('stage');
-        if (isset(($stage)) && $stage !== '') {
+        if (isset($stage) && $stage !== '') {
             $criteria = new CDbCriteria();
             $criteria->alias = 'gu';
             $criteria->join = 'join grade_rules gr on gr.id = gu.grade_rules_fk';
@@ -178,7 +180,8 @@ class GradesController extends Controller
             $criteria->params = [':classroom' => $classroomId, ':stage' => $stage];
 
             $unities = GradeUnity::model()->findAll($criteria);
-        } else {
+        }
+        else {
             $criteria = new CDbCriteria();
             $criteria->alias = 'gu';
             $criteria->join = 'INNER JOIN grade_rules gr ON gr.id = gu.grade_rules_fk';
@@ -215,7 +218,8 @@ class GradesController extends Controller
 
             $classroom = Classroom::model()->findAll($criteria);
             $classroom = CHtml::listData($classroom, 'id', 'name');
-        } else {
+        }
+        else {
             $classroom = Classroom::model()->findAll('school_year = :school_year and school_inep_fk = :school_inep_fk order by name', ['school_year' => $year, 'school_inep_fk' => $school]);
             $classroom = CHtml::listData($classroom, 'id', 'name');
         }
@@ -244,23 +248,26 @@ class GradesController extends Controller
             for ($key = 0; $key < 3; $key++) {
                 $index = $key + 1;
                 if ($rule == 'C') {
-                    $gradeResult->{'grade_concept_' . $index} = $std['grades'][$key]['value'];
+                    $gradeResult->{ 'grade_concept_' . $index} = $std['grades'][$key]['value'];
                     $hasAllValues = $hasAllValues && (isset($gradeResult['grade_concept_' . $index]) && $gradeResult['grade_concept_' . $index] != '');
-                } else {
-                    $gradeResult->{'grade_' . $index} = $std['grades'][$key]['value'];
+                }
+                else {
+                    $gradeResult->{ 'grade_' . $index} = $std['grades'][$key]['value'];
                     $mediaFinal += floatval($gradeResult->attributes['grade_' . $index] * ($index == 3 ? 2 : 1));
                 }
-                $gradeResult->{'grade_faults_' . $index} = $std['grades'][$key]['faults'];
-                $gradeResult->{'given_classes_' . $index} = $std['grades'][$key]['givenClasses'];
+                $gradeResult->{ 'grade_faults_' . $index} = $std['grades'][$key]['faults'];
+                $gradeResult->{ 'given_classes_' . $index} = $std['grades'][$key]['givenClasses'];
             }
 
             if ($rule == 'C') {
                 if ($hasAllValues && (isset($std['finalConcept']) && $std['finalConcept'] != '')) {
                     $gradeResult->situation = 'APROVADO';
-                } else {
+                }
+                else {
                     $gradeResult->situation = '';
                 }
-            } else {
+            }
+            else {
                 $gradeResult->final_media = floor(($mediaFinal / 4) * 10) / 10;
             }
 
@@ -311,23 +318,24 @@ class GradesController extends Controller
             foreach ($std['grades'] as $key => $value) {
                 $index = $key + 1;
                 if ($rule == 'C') {
-                    $gradeResult->{'grade_concept_' . $index} = $std['grades'][$key]['value'];
+                    $gradeResult->{ 'grade_concept_' . $index} = $std['grades'][$key]['value'];
                     $hasAllValues = $hasAllValues && (isset($gradeResult['grade_concept_' . $index]) && $gradeResult['grade_concept_' . $index] != '');
-                } else {
-                    $gradeResult->{'grade_' . $index} = $std['grades'][$key]['value'];
+                }
+                else {
+                    $gradeResult->{ 'grade_' . $index} = $std['grades'][$key]['value'];
                     $hasAllValues = $hasAllValues && (isset($gradeResult['grade_' . $index]) && $gradeResult['grade_' . $index] != '');
                 }
-                $gradeResult->{'grade_faults_' . $index} = $std['grades'][$key]['faults'];
-                $totalFaults += (int) $std['grades'][$key]['faults'];
-                $gradeResult->{'given_classes_' . $index} = $std['grades'][$key]['givenClasses'];
-                $givenClasses += (int) $std['grades'][$key]['givenClasses'];
+                $gradeResult->{ 'grade_faults_' . $index} = $std['grades'][$key]['faults'];
+                $totalFaults += (int)$std['grades'][$key]['faults'];
+                $gradeResult->{ 'given_classes_' . $index} = $std['grades'][$key]['givenClasses'];
+                $givenClasses += (int)$std['grades'][$key]['givenClasses'];
             }
 
             if (!$gradeResult->validate()) {
                 throw new CHttpException(
                     '400',
                     'Não foi possível validar as notas adicionadas: ' . TagUtils::stringfyValidationErrors($gradeResult)
-                );
+                    );
             }
 
             if ($gradeResult->save()) {
@@ -338,7 +346,8 @@ class GradesController extends Controller
 
             if ($givenClasses != 0) {
                 $frequency = round((($givenClasses - $totalFaults) / $givenClasses ?: 1) * 100);
-            } else {
+            }
+            else {
                 $frequency = null;
             }
 
@@ -352,7 +361,7 @@ class GradesController extends Controller
                     $gradeResult,
                     $gradeRules,
                     count($std['grades'])
-                );
+                    );
                 $usecaseFinalMedia->exec();
 
                 if ($gradeResult->enrollmentFk->isActive()) {
@@ -361,10 +370,11 @@ class GradesController extends Controller
                         $gradeRules,
                         count($std['grades']),
                         $frequency
-                    );
+                        );
                     $usecase->exec();
                 }
-            } else {
+            }
+            else {
                 $gradeResult->situation = 'MATRICULADO';
                 $gradeResult->final_media = null;
             }
@@ -402,19 +412,19 @@ class GradesController extends Controller
 
                 $unities = GradeUnity::model()->findAll(
                     'edcenso_stage_vs_modality_fk = :stageId and (type = :type or type = :type2 or type = :type3)',
-                    [
-                        ':stageId' => $studentEnrollment->classroomFk->edcenso_stage_vs_modality_fk,
-                        ':type' => GradeUnity::TYPE_UNITY,
-                        ':type2' => GradeUnity::TYPE_UNITY_WITH_RECOVERY,
-                        ':type3' => GradeUnity::TYPE_UNITY_BY_CONCEPT,
-                    ]
+                [
+                    ':stageId' => $studentEnrollment->classroomFk->edcenso_stage_vs_modality_fk,
+                    ':type' => GradeUnity::TYPE_UNITY,
+                    ':type2' => GradeUnity::TYPE_UNITY_WITH_RECOVERY,
+                    ':type3' => GradeUnity::TYPE_UNITY_BY_CONCEPT,
+                ]
                 );
                 $rules = GradeRules::model()->find(
-                    [
-                        'select' => 'rule_type',
-                        'condition' => 'edcenso_stage_vs_modality_fk = :stageId',
-                        'params' => [':stageId' => $studentEnrollment->classroomFk->edcenso_stage_vs_modality_fk]
-                    ]
+                [
+                    'select' => 'rule_type',
+                    'condition' => 'edcenso_stage_vs_modality_fk = :stageId',
+                    'params' => [':stageId' => $studentEnrollment->classroomFk->edcenso_stage_vs_modality_fk]
+                ]
                 );
                 if ($rules->rule_type == 'C') {
                     $concepts = GradeConcept::model()->findAll();
@@ -432,7 +442,7 @@ class GradesController extends Controller
 
                 $gradeResult = GradeResults::model()->find(
                     'enrollment_fk = :enrollment_fk and discipline_fk = :discipline_fk',
-                    ['enrollment_fk' => $studentEnrollment->id, 'discipline_fk' => $discipline]
+                ['enrollment_fk' => $studentEnrollment->id, 'discipline_fk' => $discipline]
                 );
 
                 for ($key = 0; $key < 3; $key++) {
@@ -460,7 +470,8 @@ class GradesController extends Controller
             }
 
             $result['valid'] = true;
-        } else {
+        }
+        else {
             $result['valid'] = false;
             $result['message'] = 'Não há estudantes matriculados na turma.';
         }
@@ -482,19 +493,19 @@ class GradesController extends Controller
             foreach ($studentEnrollments as $studentEnrollment) {
                 $unities = GradeUnity::model()->findAll(
                     'edcenso_stage_vs_modality_fk = :stageId and (type = :type or type = :type2 or type = :type3)',
-                    [
-                        ':stageId' => $studentEnrollment->classroomFk->edcenso_stage_vs_modality_fk,
-                        ':type' => GradeUnity::TYPE_UNITY,
-                        ':type2' => GradeUnity::TYPE_UNITY_WITH_RECOVERY,
-                        ':type3' => GradeUnity::TYPE_UNITY_BY_CONCEPT,
-                    ]
+                [
+                    ':stageId' => $studentEnrollment->classroomFk->edcenso_stage_vs_modality_fk,
+                    ':type' => GradeUnity::TYPE_UNITY,
+                    ':type2' => GradeUnity::TYPE_UNITY_WITH_RECOVERY,
+                    ':type3' => GradeUnity::TYPE_UNITY_BY_CONCEPT,
+                ]
                 );
                 $rules = GradeRules::model()->find(
-                    [
-                        'select' => 'rule_type, has_final_recovery',
-                        'condition' => 'edcenso_stage_vs_modality_fk = :stageId',
-                        'params' => [':stageId' => $studentEnrollment->classroomFk->edcenso_stage_vs_modality_fk]
-                    ]
+                [
+                    'select' => 'rule_type, has_final_recovery',
+                    'condition' => 'edcenso_stage_vs_modality_fk = :stageId',
+                    'params' => [':stageId' => $studentEnrollment->classroomFk->edcenso_stage_vs_modality_fk]
+                ]
                 );
                 $concepts = GradeConcept::model()->findAll();
                 $result['concepts'] = CHtml::listData($concepts, 'id', 'name');
@@ -510,7 +521,7 @@ class GradesController extends Controller
 
                 $gradeResult = GradeResults::model()->find(
                     'enrollment_fk = :enrollment_fk and discipline_fk = :discipline_fk',
-                    ['enrollment_fk' => $studentEnrollment->id, 'discipline_fk' => $discipline]
+                ['enrollment_fk' => $studentEnrollment->id, 'discipline_fk' => $discipline]
                 );
 
                 foreach ($unities as $key => $value) {
@@ -539,7 +550,8 @@ class GradesController extends Controller
             }
 
             $result['valid'] = true;
-        } else {
+        }
+        else {
             $result['valid'] = false;
             $result['message'] = 'Não há estudantes matriculados na turma.';
         }
@@ -569,7 +581,8 @@ class GradesController extends Controller
         $classroomId,
         $stage,
         $isConcept,
-    ) {
+        )
+    {
         $transaction = Yii::app()->db->beginTransaction();
         try {
             foreach ($students as $student) {
@@ -585,7 +598,8 @@ class GradesController extends Controller
                     if (!$isConcept) {
                         TLog::info('Modo Grades notas selecionado.', ['IsConcept' => $isConcept]);
                         $gradeObject->grade = isset($grade['value']) && $grade['value'] !== '' ? $grade['value'] : 0;
-                    } else {
+                    }
+                    else {
                         TLog::info('Modo Grades conceito selecionado.', ['IsConcept' => $isConcept]);
                         $gradeObject->grade_concept_fk = $grade['concept'];
                     }
@@ -615,11 +629,13 @@ class GradesController extends Controller
             $transaction->commit();
             header('HTTP/1.1 200 OK');
             echo json_encode(['valid' => true]);
-        } catch (UndefinedRuleTypeException $e) {
+        }
+        catch (UndefinedRuleTypeException $e) {
             TLog::error('erro: não possui regra de cáculo definida', ['ExceptionMessage' => $e->getMessage()]);
             $transaction->rollback();
             throw new CHttpException(500, $e->getMessage());
-        } catch (Exception $e) {
+        }
+        catch (Exception $e) {
             TLog::error('Ocorreu algum erro durante a transação de SaveGrades', ['ExceptionMessage' => $e->getMessage()]);
             $transaction->rollback();
             throw new CHttpException(500, 'Erro inesperado ao salvar notas do aluno');
@@ -641,7 +657,7 @@ class GradesController extends Controller
         }
         if ($stageId === '') {
             $classroom = Classroom::model()->with('activeStudentEnrollments.studentFk')->findByPk($classroomId);
-            $stageId = (int) $classroom->edcenso_stage_vs_modality_fk;
+            $stageId = (int)$classroom->edcenso_stage_vs_modality_fk;
         }
         $usecase = new GetStudentGradesByDisciplineUsecase($classroomId, $disciplineId, $unityId, $stageId, $isClassroomStage);
         $result = $usecase->exec();
@@ -656,7 +672,8 @@ class GradesController extends Controller
         $schoolfk = yii::app()->user->school;
         if (!$classroomId) {
             $classrooms = Classroom::model()->findAllByAttributes(['school_inep_fk' => $schoolfk, 'school_year' => $year, 'aee' => 0, 'is_closed' => 0], ['limit' => 10]);
-        } else {
+        }
+        else {
             $classrooms = Classroom::model()->findAllByAttributes(['school_inep_fk' => $schoolfk, 'id' => $classroomId]);
         }
 
@@ -694,7 +711,8 @@ class GradesController extends Controller
                         $isMinorEducation = TagUtils::isStageMinorEducation($classroom->edcensoStageVsModalityFk->edcenso_associated_stage_id);
                         if (!$isMinorEducation) {
                             $frequency = $enrollment->studentEnrolmentFrequencyPerDiscipline($disciplineId);
-                        } else {
+                        }
+                        else {
                             $frequency = $enrollment->totalStudentEnrolmentFrequency();
                         }
 
@@ -761,7 +779,8 @@ class GradesController extends Controller
                         array_push($studentEnrollments, $enrollment);
                     }
                 }
-            } else {
+            }
+            else {
                 $studentEnrollments = $classroom->activeStudentEnrollments;
             }
             foreach ($studentEnrollments as $enrollment) {
@@ -777,7 +796,8 @@ class GradesController extends Controller
                 $isMinorEducation = TagUtils::isStageMinorEducation($classroom->edcensoStageVsModalityFk->edcenso_associated_stage_id);
                 if (!$isMinorEducation) {
                     $frequency = $enrollment->studentEnrolmentFrequencyPerDiscipline($disciplineId);
-                } else {
+                }
+                else {
                     $frequency = $enrollment->totalStudentEnrolmentFrequency();
                 }
 
@@ -787,7 +807,8 @@ class GradesController extends Controller
                 }
             }
             $transaction->commit();
-        } catch (Exception $e) {
+        }
+        catch (Exception $e) {
             $transaction->rollback();
             TLog::error('Erro ao atualizar status da matrícula', ['Exception' => $e]);
         }
@@ -804,7 +825,7 @@ class GradesController extends Controller
             $classroomId,
             $disciplineId,
             $stage
-        );
+            );
         $usecase->exec();
         TLog::info('Finalizado: SaveGradeResults.', [
             'Classroom' => $classroomId,
