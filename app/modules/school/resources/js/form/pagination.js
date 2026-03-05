@@ -1,4 +1,4 @@
-/* 
+/*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
@@ -8,15 +8,15 @@
 
 
 $('.js-tab-school li a').click(function () {
-    var classActive = $('li[class="active"]');
-    var divActive = $('div .active');
-    var li1 = 'tab-school-indentify';
-    var li2 = 'tab-school-addressContact';
-    var li3 = 'tab-school-structure';
-    var li4 = 'tab-school-equipment';
-    var li5 = 'tab-school-manager';
-    var li6 = 'tab-school-education';
-    var tab = '';
+    let classActive = $('li[class="active"]');
+    let divActive = $('div .active');
+    let li1 = 'tab-school-indentify';
+    let li2 = 'tab-school-addressContact';
+    let li3 = 'tab-school-structure';
+    let li4 = 'tab-school-equipment';
+    let li5 = 'tab-school-manager';
+    let li6 = 'tab-school-education';
+    let tab = '';
     switch ($(this).parent().attr('id')) {
         case li1:
             tab = li1;
@@ -58,7 +58,7 @@ $('.js-tab-school li a').click(function () {
 
     classActive.removeClass("active");
     divActive.removeClass("active");
-    var next_content = tab.substring(4);
+    let next_content = tab.substring(4);
     next_content = next_content.toString();
     $('#' + tab).addClass("active");
     $('#' + next_content).addClass("active");
@@ -68,16 +68,16 @@ $('.js-tab-school li a').click(function () {
 })
 
 $('.next').click(function () {
-    var classActive = $('ul.js-tab-school').find('li.active');
-    var divActive = $('div .active');
-    var li1 = 'tab-school-indentify';
-    var li2 = 'tab-school-addressContact';
-    var li3 = 'tab-school-structure';
-    var li4 = 'tab-school-equipment';
-    var li5 = 'tab-school-manager';
-    var li6 = 'tab-school-education';
-    
-    var next = '';
+    let classActive = $('ul.js-tab-school').find('li.active');
+    let divActive = $('div .active');
+    let li1 = 'tab-school-indentify';
+    let li2 = 'tab-school-addressContact';
+    let li3 = 'tab-school-structure';
+    let li4 = 'tab-school-equipment';
+    let li5 = 'tab-school-manager';
+    let li6 = 'tab-school-education';
+
+    let next = '';
 
     switch (classActive.attr('id')) {
         case li1:
@@ -109,7 +109,7 @@ $('.next').click(function () {
 
     classActive.removeClass("active");
     divActive.removeClass("active");
-    var next_content = next.substring(4);
+    let next_content = next.substring(4);
     next_content = next_content.toString();
     $('#' + next).addClass("active");
     $('#' + next_content).addClass("active");
@@ -119,16 +119,16 @@ $('.next').click(function () {
 });
 
 $('.prev').click(function () {
-    var classActive = $('ul.js-tab-school').find('li.active');
-    var divActive = $('div .active');
-    var li1 = 'tab-school-indentify';
-    var li2 = 'tab-school-addressContact';
-    var li3 = 'tab-school-structure';
-    var li4 = 'tab-school-equipment';
-    var li5 = 'tab-school-manager';
-    var li6 = 'tab-school-education';
-    
-    var previous = '';
+    let classActive = $('ul.js-tab-school').find('li.active');
+    let divActive = $('div .active');
+    let li1 = 'tab-school-indentify';
+    let li2 = 'tab-school-addressContact';
+    let li3 = 'tab-school-structure';
+    let li4 = 'tab-school-equipment';
+    let li5 = 'tab-school-manager';
+    let li6 = 'tab-school-education';
+
+    let previous = '';
     switch (classActive.attr('id')) {
         case li1:
             previous = li1;
@@ -155,7 +155,7 @@ $('.prev').click(function () {
 
     classActive.removeClass("active");
     divActive.removeClass("active");
-    var previous_content = previous.substring(4);
+    let previous_content = previous.substring(4);
     previous = previous.toString();
     $('#' + previous).addClass("active");
     $('#' + previous_content).addClass("active");

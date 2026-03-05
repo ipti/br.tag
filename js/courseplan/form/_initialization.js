@@ -10,20 +10,20 @@ $(document).ready(function () {
 // Add event listener for opening and closing details
 $('#course-classes tbody').on('click', 'td.details-control', function () {
 
-    var tr = $(this).closest('tr');
-    var i = $(this).children('img').first();
-    var row = table.row(tr);
+    let tr = $(this).closest('tr');
+    let i = $(this).children('img').first();
+    let row = table.row(tr);
 
     if (!row.child.isShown()) {
         row.child(format(row.data())).show();
         tr.next().find('select.type-select, select.resource-select').select2();
         tr.next().find('select.ability-select').select2({
             formatSelection: function (state) {
-                var textArray = state.text.split("|");
+                let textArray = state.text.split("|");
                 return textArray[0];
             },
             formatResult: function (data) {
-                var textArray = data.text.split("|");
+                let textArray = data.text.split("|");
                 if (textArray.length === 1) {
                     return "<div class='ability-optgroup'><b>" + textArray[0] + "</b></div>";
                 } else {
@@ -58,7 +58,7 @@ $(document).on("click", ".js-remove-course-class", function () {
 });
 
 $(document).on("keyup", ".course-class-objective", function () {
-     var objective = $(this).val();
+    let objective = $(this).val();
     $(this).parents("tr").prev().children(".dt-justify").html(objective);
 });
 
@@ -78,9 +78,9 @@ $(document).on("change", "#CoursePlan_modality_fk", function (evt, loadingData) 
             },
             success: function (data) {
                 data = JSON.parse(data);
-                var option = "<option value=''>Selecione o componente curricular/eixo...</option>";
+                let option = "<option value=''>Selecione o componente curricular/eixo...</option>";
                 $.each(data, function () {
-                    var selectedValue = loadingData !== undefined && $("#CoursePlan_discipline_fk").attr("initval") !== "" && $("#CoursePlan_discipline_fk").attr("initval") === this.id ? "selected" : "";
+                    let selectedValue = loadingData !== undefined && $("#CoursePlan_discipline_fk").attr("initval") !== "" && $("#CoursePlan_discipline_fk").attr("initval") === this.id ? "selected" : "";
                     option += "<option value='" + this.id + "' " + selectedValue + ">" + this.name + "</option>";
                 });
                 $("#CoursePlan_discipline_fk").html(option).trigger("change").show();
@@ -132,11 +132,11 @@ $(document).on("change", "#CoursePlan_discipline_fk", function () {
 });
 
 $(document).on("change", ".ability-structure-select", function () {
-    var container = $(this).closest(".ability-structure-container");
+    let container = $(this).closest(".ability-structure-container");
     container.nextAll().remove();
     $(".js-abilities-panel").children().remove();
 
-    var selectedValue = $(this).val();
+    let selectedValue = $(this).val();
     if ($(this).val() !== "") {
         $.ajax({
             type: "POST",
@@ -176,18 +176,18 @@ $(document).on("click", ".remove-resource", function () {
 
 $(document).on("click", ".add-abilities", function (e) {
     e.preventDefault();
-    var tr = $(this).closest("tr").prev();
-    var row = table.row(tr);
+    let tr = $(this).closest("tr").prev();
+    let row = table.row(tr);
     $(".course-class-index").val(row.data().class);
 
     $(".js-abilities-selected").find(".ability-panel-option").remove();
     $(".js-abilities-panel").find(".ability-panel-option").removeClass("selected");
-    var options = $(this).closest(".courseplan-ability-container").find(".courseplan-abilities-selected").find(".ability-panel-option");
+    let options = $(this).closest(".courseplan-ability-container").find(".courseplan-abilities-selected").find(".ability-panel-option");
     if (options.length) {
-        var selected = options.clone().appendTo(".js-abilities-selected");
+        let selected = options.clone().appendTo(".js-abilities-selected");
         selected.find("i").removeClass("fa-check-square").addClass("fa-minus-square");
-        options.each(function() {
-            var optionIdInPanel = $(".js-abilities-panel").find(".ability-panel-option-id[value=" + $(this).find(".ability-panel-option-id").val() + "]");
+        options.each(function () {
+            let optionIdInPanel = $(".js-abilities-panel").find(".ability-panel-option-id[value=" + $(this).find(".ability-panel-option-id").val() + "]");
             if (optionIdInPanel.length) {
                 optionIdInPanel.closest(".ability-panel-option").addClass("selected");
             }
@@ -200,36 +200,36 @@ $(document).on("click", ".add-abilities", function (e) {
     $("#js-selectAbilities").modal("show");
 });
 
-$(document).on("click", ".add-new-resource", function(e){
+$(document).on("click", ".add-new-resource", function (e) {
     e.preventDefault();
     $('#js-createResource').modal("show");
 })
 
-$(document).on("click", ".remove-new-resource", function(e){
+$(document).on("click", ".remove-new-resource", function (e) {
     e.preventDefault();
     removeNewResource(this);
 })
 
-$(document).on('click', '.confirm-new-resource', function(e){
+$(document).on('click', '.confirm-new-resource', function (e) {
     e.preventDefault();
     addNewResources();
 })
 
-$(document).on('click', '.save-new-resources', function(e){
+$(document).on('click', '.save-new-resources', function (e) {
     e.preventDefault();
     saveNewResources();
 })
 
-$(document).on("click", ".ability-panel-option", function() {
+$(document).on("click", ".ability-panel-option", function () {
     if ($(this).closest(".js-abilities-panel").length) {
         if (!$(this).hasClass("selected")) {
-            var selected = $(this).clone().appendTo(".js-abilities-selected");
+            let selected = $(this).clone().appendTo(".js-abilities-selected");
             selected.find("i").removeClass("fa-plus-square").addClass("fa-minus-square");
             $(this).addClass("selected");
             $(".js-abilities-selected").show();
         }
     } else if ($(this).closest(".js-abilities-selected").length) {
-        var deletedOptionId = $(this).find(".ability-panel-option-id").val();
+        let deletedOptionId = $(this).find(".ability-panel-option-id").val();
         $(this).remove();
         $(".js-abilities-panel").find(".ability-panel-option-id[value=" + deletedOptionId + "]").closest(".ability-panel-option").removeClass("selected");
         if (!$(".js-abilities-selected").find(".ability-panel-option").length) {
@@ -238,11 +238,11 @@ $(document).on("click", ".ability-panel-option", function() {
     }
 });
 
-$(document).on("click", ".js-add-selected-abilities", function() {
-    var div = $(".course-class-" + $(".course-class-index").val());
+$(document).on("click", ".js-add-selected-abilities", function () {
+    let div = $(".course-class-" + $(".course-class-index").val());
     div.find(".courseplan-abilities-selected").html($(".js-abilities-selected").find(".ability-panel-option").clone());
     div.find(".courseplan-abilities-selected").find(".ability-panel-option i").removeClass("fa-minus-square").addClass("fa-check-square");
-    div.find(".ability-panel-option-id").each(function(index) {
+    div.find(".ability-panel-option-id").each(function (index) {
         $(this).attr("name", "course-class[" + $(".course-class-index").val() + "][ability][" + index + "]");
     })
 });
@@ -252,7 +252,7 @@ $("#print").on('click', function () {
 });
 
 $("#save").on('click', function () {
-    var submit = validateSave();
+    let submit = validateSave();
     if (submit) {
         $("#course-plan-form").submit();
     }

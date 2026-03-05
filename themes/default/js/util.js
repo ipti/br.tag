@@ -81,8 +81,8 @@ function validateTime(time) {
 }
 
 function stringToDate(str) {
-    var date = new Object();
-    if (str === undefined){
+    let date = new Object();
+    if (str === undefined) {
         return
     }
     date.day = str.split("/")[0];
@@ -101,7 +101,7 @@ function validateClassroomName(str) {
 }
 
 function numbersNotEqual(num) {
-    var aux = num[0];
+    let aux = num[0];
     for (var i = 1; i < num.length; i++) {
         if (num[i] == aux)
             aux = num[i];
@@ -169,8 +169,8 @@ function anoMinMax(min, max, ano) {
 
 function validateBirthdayPerson(date) {
     if (validateDate(date)) {
-        var fullDate = new Date(date);
-        var year = fullDate.getFullYear();
+        let fullDate = new Date(date);
+        let year = fullDate.getFullYear();
         return anoMinMax(1918, 1999, year);
     } else {
         return false;
@@ -180,8 +180,8 @@ function validateBirthdayPerson(date) {
 function compareSimilarName(name1, name2) {
     name_test_1 = name1.split(' ');
     name_test_2 = name2.split(' ');
-    var score = 0;
-    var response = false;
+    let score = 0;
+    let response = false;
     for (let i = 0; i < name_test_2.length; i++) {
         if (name_test_2.includes(name_test_1[i])) {
             if (i <= 1) score += 2;
@@ -200,10 +200,10 @@ const buscar = (dados, chave, conteudo) => {
 };
 
 function validateNamePerson(personName, callback) {
-    var complete_name = personName.trim().split(' ');
-    var passExp = true;
-    var passSimilarName = [];
-    var ret = new Array();
+    let complete_name = personName.trim().split(' ');
+    let passExp = true;
+    let passSimilarName = [];
+    let ret = new Array();
     for (var i = 0; i < complete_name.length; i++) {
         if (!rule(complete_name[i], stringRules.personName)) {
             passExp = false;
@@ -215,10 +215,10 @@ function validateNamePerson(personName, callback) {
         url: `${origin}${pathname}?r=student/comparestudentname`
     }).success(function (response) {
         const names = $.parseJSON(response);
-        var names_teste = Object.keys(names);
-        var formatSimilares = [];
+        let names_teste = Object.keys(names);
+        let formatSimilares = [];
         const similares = names_teste.filter((name) => compareSimilarName(name, personName));
-        var array_students = []
+        let array_students = []
         for (let index = 0; index < similares.length; index++) {
             student_teste = new Object();
             student_teste.name = similares[index];
@@ -227,7 +227,7 @@ function validateNamePerson(personName, callback) {
         }
 
         for (let index = 0; index < array_students.length; index++) {
-            var similares_text = `<a style="color: #2E33B7; font-size: 13px;" href='${origin}${pathname}?r=student/update&id=${array_students[index].id}' >${array_students[index].name}</a><br>`;
+            let similares_text = `<a style="color: #2E33B7; font-size: 13px;" href='${origin}${pathname}?r=student/update&id=${array_students[index].id}' >${array_students[index].name}</a><br>`;
             formatSimilares.push(similares_text);
         }
         if (passExp) {
@@ -239,8 +239,8 @@ function validateNamePerson(personName, callback) {
                 return
             }
             if (isset(complete_name[1])) {
-                var str4 = null;
-                var until4 = 0;
+                let str4 = null;
+                let until4 = 0;
                 for (var i = 0; i < personName.length; i++) {
                     if (personName[i] != str4) {
                         str4 = personName[i];
@@ -273,8 +273,8 @@ function validateNamePerson(personName, callback) {
 }
 
 function existsStudentWithCPF(cpf, studentId, callback) {
-    var ret = new Array();
-    var passCpf = false;
+    let ret = new Array();
+    let passCpf = false;
     $.ajax({
         url: `${origin}${pathname}?r=student/comparestudentcpf&student_cpf=${cpf}`,
     }).success(function (response) {
@@ -293,8 +293,8 @@ function existsStudentWithCPF(cpf, studentId, callback) {
 
 function validateCpf(cpf) {
     const statusInvalido = {
-            valid: false,
-            message: "Informe um CPF válido. Deve possuir apenas números."
+        valid: false,
+        message: "Informe um CPF válido. Deve possuir apenas números."
     };
 
     const statusValido = {
@@ -311,19 +311,19 @@ function validateCpf(cpf) {
 
         return statusInvalido;
     } else {
-        var soma = 0;
+        let soma = 0;
         for (var i = 0; i < 9; i++) {
             soma += parseInt(cpf.charAt(i)) * (10 - i);
         }
-        var resto = soma % 11;
-        var digito1 = resto < 2 ? 0 : 11 - resto;
+        let resto = soma % 11;
+        let digito1 = resto < 2 ? 0 : 11 - resto;
 
         soma = 0;
         for (var i = 0; i < 10; i++) {
             soma += parseInt(cpf.charAt(i)) * (11 - i);
         }
         resto = soma % 11;
-        var digito2 = resto < 2 ? 0 : 11 - resto;
+        let digito2 = resto < 2 ? 0 : 11 - resto;
 
         if (digito1 !== parseInt(cpf.charAt(9)) || digito2 !== parseInt(cpf.charAt(10))) {
             return statusInvalido;
@@ -334,7 +334,7 @@ function validateCpf(cpf) {
         return statusInvalido;
     }
 
-    if (!rule(cpf, numberRules.cpf)){
+    if (!rule(cpf, numberRules.cpf)) {
         return statusInvalido;
     }
 
@@ -343,8 +343,8 @@ function validateCpf(cpf) {
 }
 
 function validateCivilCertificationTermNumber(term_number, handler) {
-    var ret = new Array();
-    var passTerm = false;
+    let ret = new Array();
+    let passTerm = false;
     $.ajax({
         url: `${origin}${pathname}?r=student/comparestudentcertificate&civil_certification_term_number=${term_number}`,
     }).success(function (response) {
@@ -365,8 +365,8 @@ function validateCivilRegisterEnrollmentNumber(term_number, handler) {
     term_number = term_number.split(/[.-]/);
     term_number = term_number.join('');
     console.log(term_number);
-    var ret = new Array();
-    var passTerm = false;
+    let ret = new Array();
+    let passTerm = false;
     $.ajax({
         url: `${origin}${pathname}?r=student/comparestudentcivilregisterenrollmentnumber&civil_register_enrollment_number=${term_number}`,
     }).success(function (response) {
@@ -483,7 +483,7 @@ function addRequired(id) {
  * @returns {nothing}
  */
 function removeRequired(id) {
-    var text = $(id).text();
+    let text = $(id).text();
     $(id).removeClass('required');
     $(id).text(text.replace('*', ''));
 }
@@ -495,7 +495,7 @@ function removeRequired(id) {
  * @returns {nothing}
  */
 function addRequiredSelect2(id) {
-    var newId = $(id).parent().parent().children("label");
+    let newId = $(id).parent().parent().children("label");
     addRequired(newId);
 }
 
@@ -506,7 +506,7 @@ function addRequiredSelect2(id) {
  * @returns {nothing}
  */
 function removeRequiredSelect2(id) {
-    var newId = $(id).parent().parent().children("label");
+    let newId = $(id).parent().parent().children("label");
     removeRequired(newId);
 }
 
@@ -524,17 +524,17 @@ function registerAndOpenTab(id) {
 }
 
 function decodeHtml(html) {
-    var txt = document.createElement("textarea");
+    let txt = document.createElement("textarea");
     txt.innerHTML = html;
     return txt.value;
 }
 
 function initDateFieldMaskAndValidation(element) {
-    var date = new Date();
-    $(element).mask("00/00/0000", {placeholder: "dd/mm/aaaa"});
+    let date = new Date();
+    $(element).mask("00/00/0000", { placeholder: "dd/mm/aaaa" });
     $(element).focusout(function () {
-        var id = '#' + $(this).attr("id");
-        var dateValue = stringToDate($(element).val());
+        let id = '#' + $(this).attr("id");
+        let dateValue = stringToDate($(element).val());
 
         if ((!validateDate($(element).val()) || !validateYear(dateValue.year)) && ($(id).val() != '')) {
             addError(id, "Informe uma data válida no formato Dia/Mês/Ano.");

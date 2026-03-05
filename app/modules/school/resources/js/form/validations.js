@@ -6,8 +6,8 @@
 
 
 $('#initial_date_picker').change(function () {
-    var id = '#' + $(this).attr("id");
-    var initial_date = stringToDate($(this).val());
+    let id = '#' + $(this).attr("id");
+    let initial_date = stringToDate($(this).val());
 
     if (!validateDate($(this).val()) || !((initial_date.year >= actual_year - 1) && (initial_date.year <= actual_year))) {
         $(this).attr('value', '');
@@ -19,7 +19,7 @@ $('#initial_date_picker').change(function () {
 
 $(formIdentification + 'final_date').mask("99/99/9999");
 $(formIdentification + 'final_date').focusout(function () {
-    var id = '#' + $(this).attr("id");
+    let id = '#' + $(this).attr("id");
     final_date = stringToDate($(formIdentification + 'final_date').val());
     if (!validateDate($(formIdentification + 'final_date').val())
         || !(final_date.year >= actual_year
@@ -33,7 +33,7 @@ $(formIdentification + 'final_date').focusout(function () {
 });
 
 $(formIdentification + 'name').focusout(function () {
-    var id = '#' + $(this).attr("id");
+    let id = '#' + $(this).attr("id");
     $(id).val($(id).val().toUpperCase());
     if (!validateSchoolName($(id).val())) {
         $(id).attr('value', '');
@@ -44,7 +44,7 @@ $(formIdentification + 'name').focusout(function () {
 });
 
 $(formIdentification + 'cep, ' + formIdentification + 'inep_id').focusout(function () {
-    var id = '#' + $(this).attr("id");
+    let id = '#' + $(this).attr("id");
     if (!validateCEP($(id).val())) {
         $(id).attr('value', '');
         addError(id, "Informe um CEP cadastrado nos correios. Apenas números são aceitos. Deve possuir no máximo 8 caracteres.");
@@ -55,7 +55,7 @@ $(formIdentification + 'cep, ' + formIdentification + 'inep_id').focusout(functi
 
 
 $(formIdentification + 'ddd').focusout(function () {
-    var id = '#' + $(this).attr("id");
+    let id = '#' + $(this).attr("id");
     if (!validateDDD($(id).val())) {
         $(id).attr('value', '');
         addError(id, "Apenas números são aceitos. Deve possuir 2 caracteres.");
@@ -65,7 +65,7 @@ $(formIdentification + 'ddd').focusout(function () {
 });
 
 $(formIdentification + 'address').focusout(function () {
-    var id = '#' + $(this).attr("id");
+    let id = '#' + $(this).attr("id");
     $(id).val($(id).val().toUpperCase());
     if (!validateAddress($(id).val(), 100)) {
         $(id).attr('value', '');
@@ -75,7 +75,7 @@ $(formIdentification + 'address').focusout(function () {
     }
 });
 $(formIdentification + 'address_number').focusout(function () {
-    var id = '#' + $(this).attr("id");
+    let id = '#' + $(this).attr("id");
     $(id).val($(id).val().toUpperCase());
     if (!validateAddress($(id).val(), 10)) {
         $(id).attr('value', '');
@@ -85,7 +85,7 @@ $(formIdentification + 'address_number').focusout(function () {
     }
 });
 /*$(formIdentification+'address_complement').focusout(function() {
- var id = '#'+$(this).attr("id");
+ let id = '#'+$(this).attr("id");
  $(id).val($(id).val().toUpperCase());
  if(!validateAddress($(id).val(),20)) {
  $(id).attr('value','');
@@ -95,7 +95,7 @@ $(formIdentification + 'address_number').focusout(function () {
  }
  });*/
 $(formIdentification + 'address_neighborhood').focusout(function () {
-    var id = '#' + $(this).attr("id");
+    let id = '#' + $(this).attr("id");
     $(id).val($(id).val().toUpperCase());
     if (!validateAddress($(id).val(), 50)) {
         $(id).attr('value', '');
@@ -106,7 +106,7 @@ $(formIdentification + 'address_neighborhood').focusout(function () {
 });
 
 $(formIdentification + 'phone_number').focusout(function () {
-    var id = '#' + $(this).attr("id");
+    let id = '#' + $(this).attr("id");
     if (!validatePhone($(id).val(), 9)) {
         $(id).attr('value', '');
         addError(id, "Apenas números são aceitos. Não pode ter todos os algarismos iguais. Deve ter 8 ou 9 números. Se houver 9 números, o primeiro algarismo deve ser o dígito 9.");
@@ -115,7 +115,7 @@ $(formIdentification + 'phone_number').focusout(function () {
     }
 });
 $(formIdentification + 'public_phone_number').focusout(function () {
-    var id = '#' + $(this).attr("id");
+    let id = '#' + $(this).attr("id");
     if (!validatePhone($(id).val(), 8)) {
         $(id).attr('value', '');
         addError(id, "Apenas números são aceitos. Não pode ter todos os algarismos iguais. Deve ter 8 ou 9 números. Se houver 9 números, o primeiro algarismo deve ser o dígito 9.");
@@ -124,7 +124,7 @@ $(formIdentification + 'public_phone_number').focusout(function () {
     }
 });
 $(formIdentification + 'other_phone_number').focusout(function () {
-    var id = '#' + $(this).attr("id");
+    let id = '#' + $(this).attr("id");
     if (!validatePhone($(id).val(), 9)) {
         $(id).attr('value', '');
         addError(id, "Apenas números são aceitos. Não pode ter todos os algarismos iguais. Deve ter 8 ou 9 números. Se houver 9 números, o primeiro algarismo deve ser o dígito 9.");
@@ -134,7 +134,7 @@ $(formIdentification + 'other_phone_number').focusout(function () {
 });
 
 $(formIdentification + 'email').focusout(function () {
-    var id = '#' + $(this).attr("id");
+    let id = '#' + $(this).attr("id");
     $(id).val($(id).val().toUpperCase());
     if (!validateEmail($(id).val())) {
         $(id).attr('value', '');
@@ -147,7 +147,7 @@ $(formIdentification + 'email').focusout(function () {
 initDateFieldMaskAndValidation('#ManagerIdentification_birthday_date');
 
 $('#ManagerIdentification_cpf').focusout(function () {
-    var id = '#' + $(this).attr("id");
+    let id = '#' + $(this).attr("id");
     const validationState = validateCpf($(id).val().replace(/\D/g, ''));
     if (!validationState.valid) {
         addError(id, "Informe um CPF válido. Deve possuir apenas números.");
@@ -157,7 +157,7 @@ $('#ManagerIdentification_cpf').focusout(function () {
 });
 
 $('#ManagerIdentification_name').focusout(function () {
-    var id = '#' + $(this).attr("id");
+    let id = '#' + $(this).attr("id");
     $(id).val($(id).val().toUpperCase());
     validateNamePerson(($(id).val()), function (ret) {
         if (!ret[0]) {
@@ -170,7 +170,7 @@ $('#ManagerIdentification_name').focusout(function () {
 });
 
 $('#ManagerIdentification_email').focusout(function () {
-    var id = '#' + $(this).attr("id");
+    let id = '#' + $(this).attr("id");
     $(id).val($(id).val().toUpperCase());
     if (!validateEmail($(id).val())) {
         $(id).attr('value', '');
@@ -198,7 +198,7 @@ $(formStructure + 'used_classroom_count, '
     + formStructure + 'student_computers_count, '
     + formStructure + 'employees_count '
 ).focusout(function () {
-    var id = '#' + $(this).attr("id");
+    let id = '#' + $(this).attr("id");
     if (!validateCount($(id).val())) {
         $(id).attr('value', '');
         addError(id, "Não pode ser preenchido com zero. Caso a escola não tenha o equipamento, o campo deve vir vazio");
@@ -208,7 +208,7 @@ $(formStructure + 'used_classroom_count, '
 });
 
 $(formStructure + 'operation_location input[type=checkbox]').change(function () {
-    var id = '#' + $(formStructure + 'operation_location').attr("id");
+    let id = '#' + $(formStructure + 'operation_location').attr("id");
     if ($('#SchoolStructure_operation_location input[type=checkbox]:checked').length == 0) {
         addError(id, "Informe ao menos um local de funcionamento.");
     } else {
@@ -217,7 +217,7 @@ $(formStructure + 'operation_location input[type=checkbox]').change(function () 
 });
 
 $(formStructure + 'operation_location').focusout(function () {
-    var id = '#' + $(this).attr("id");
+    let id = '#' + $(this).attr("id");
     if ($('#SchoolStructure_operation_location input[type=checkbox]:checked').length == 0) {
         addError(id, "Informe ao menos um local de funcionamento.");
     } else {
@@ -240,8 +240,8 @@ $(formStructure + 'native_education').change(function () {
 $(formStructure + 'native_education').trigger('change');
 
 $(".save-school-button").click(function () {
-    var error = false;
-    var message = "";
+    let error = false;
+    let message = "";
     if ($("#SchoolIdentification_name").val() === "") {
         error = true;
         message += "Campo <b>Nome</b> é obrigatório.<br>";

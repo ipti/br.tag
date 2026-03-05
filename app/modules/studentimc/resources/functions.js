@@ -1,7 +1,7 @@
 $('.js-height, .js-weight').on('input', function () {
-    var height = parseFloat($('.js-height').val());
-    var weight = parseFloat($('.js-weight').val());
-    var imc = weight / (height * height);
+    let height = parseFloat($('.js-height').val());
+    let weight = parseFloat($('.js-weight').val());
+    let imc = weight / (height * height);
     $('.js-imc').val(isNaN(imc) ? '' : imc.toFixed(2));
 });
 
@@ -12,7 +12,7 @@ $('.js-height, .js-weight').on('input', function () {
 
 function showReportbutton(classroom) {
 
-    var button = `<a class="t-button-secondary" href="?r=forms/studentIMCReport&classroomId=${classroom}">
+    let button = `<a class="t-button-secondary" href="?r=forms/studentIMCReport&classroomId=${classroom}">
                     <span class="t-icon-printer"></span>
                     Relatório de Acompanhamento de Saúde da Turma
                 </a>`
@@ -21,7 +21,7 @@ function showReportbutton(classroom) {
 }
 
 $('.js-classroom').on('change', function () {
-    var classroom = $(this).val();
+    let classroom = $(this).val();
 
     showReportbutton(classroom);
 

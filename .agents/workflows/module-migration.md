@@ -88,7 +88,29 @@ Add the module to `app/config/main.php` in the `modules` array:
 - Identify JS/CSS files specific to this feature in `js/` or `css/` directories
 - Move them to `app/modules/<module_name>/resources/js/` and `resources/css/`
 - Update `<script>` and `<link>` tags in the views to point to the new paths
-- Register assets via `Yii::app()->assetManager->publish()` or use `Yii::app()->clientScript->registerScriptFile()`
+- Register assets using the **two-part pattern** used across all modules:
+
+  **1. In `*Module.php` `init()`** — publish once and store the URL:
+  ```php
+  public $baseScriptUrl;
+
+  public function init()
+  {
+      $this->baseScriptUrl = Yii::app()->getAssetManager()
+          ->publish(Yii::getPathOfAlias('application.modules.<module_name>.resources'));
+
+      $this->setImport(['<module_name>.models.*']);
+  }
+  ```
+
+  **2. In each view** — register only the scripts that view needs:
+  ```php
+  $baseScriptUrl = Yii::app()->controller->module->baseScriptUrl;
+  $cs = Yii::app()->getClientScript();
+  $cs->registerScriptFile($baseScriptUrl . '/my-feature.js?v=' . TAG_VERSION, CClientScript::POS_END);
+  ```
+
+  > Registering in the view (not in `init()`) ensures JS loads only on pages that need it.
 
 ### 8. Find and Replace ALL URL References (CRITICAL)
 This is the most error-prone step. URLs change from `controller/action` to `<module_name>/controller/action`.

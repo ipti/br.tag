@@ -162,7 +162,7 @@ class DefaultController extends Controller implements AuthenticateSEDTokenInterf
                 );
                 if (isset($schoolTestName)) {
                     $msg = 'O Cadastro da Escola ' . $modelSchool->name . " já existe!
-					<a href='" . Yii::app()->createUrl('school/update&id=' . $modelSchool->inep_id) . "' style='color:white;'>
+					<a href='" . Yii::app()->createUrl('school/school/update&id=' . $modelSchool->inep_id) . "' style='color:white;'>
 					Clique aqui para visualizar.</a>";
                     Yii::app()->user->setFlash('error', Yii::t('default', $msg));
                     $this->redirect(['index']);
@@ -173,7 +173,7 @@ class DefaultController extends Controller implements AuthenticateSEDTokenInterf
             && $modelSchool->save() && $modelSchoolStructure->save()
             ) {
                 $msg = 'O Cadastro da Escola ' . $modelSchool->name . " foi criado com sucesso!
-				<a href='" . Yii::app()->createUrl('school/update&id=' . $modelSchool->inep_id) . "' style='color:white;'>
+				<a href='" . Yii::app()->createUrl('school/school/update&id=' . $modelSchool->inep_id) . "' style='color:white;'>
 				Clique aqui para visualizar.</a>";
                 Yii::app()->user->setFlash('success', Yii::t('default', $msg));
                 $this->redirect(['index']);

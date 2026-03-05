@@ -1,5 +1,5 @@
 $('.js-select-school-classroom').change(function () {
-    var school_id = $("#StudentEnrollment_school_inep_id_fk").val();
+    let school_id = $("#StudentEnrollment_school_inep_id_fk").val();
     $.ajax({
         url: "?r=student/student/getTransferClassrooms",
         type: "POST",

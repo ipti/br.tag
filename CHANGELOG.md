@@ -1,3 +1,7 @@
+## [Versão 3.13.0]
+
+- Migração completa do módulo de Escolas (School) para a nova arquitetura de módulos (app/modules/school)
+
 ## [Versão 3.12.0]
 
 - Refatoração completa do módulo de estudantes para melhor arquitetura e desempenho (app/modules/student)

@@ -1,8 +1,8 @@
 function validateSave() {
-    var submit = true;
-    var name = "#CoursePlan_name";
-    var stage = "#CoursePlan_modality_fk";
-    var disciplines = "#CoursePlan_discipline_fk";
+    let submit = true;
+    let name = "#CoursePlan_name";
+    let stage = "#CoursePlan_modality_fk";
+    let disciplines = "#CoursePlan_discipline_fk";
     if ($(name).val() === "" || $(name).val().length < 3) {
         submit = false;
         addError(name, "Campo obrigatório (mínimo de 03 caracteres).");
@@ -22,8 +22,8 @@ function validateSave() {
         removeError(disciplines);
     }
     $.each($(".course-class-objective"), function () {
-        var objective = $(this).attr("id");
-        var tr = $(this).closest("tr");
+        let objective = $(this).attr("id");
+        let tr = $(this).closest("tr");
         if ($(this).val() === "") {
             if (tr.css("display") === "none") {
                 tr.prev().find(".details-control").click();
@@ -40,18 +40,18 @@ function validateSave() {
     return submit;
 }
 
-$(document).on("focusout", ".course-class-objective", function(){
-    var id = $(this).attr("id");
-    if ($(this).val().length >= 3){
-        removeError("#"+id);
+$(document).on("focusout", ".course-class-objective", function () {
+    let id = $(this).attr("id");
+    if ($(this).val().length >= 3) {
+        removeError("#" + id);
     } else {
-        addError("#"+id, "Campo 'Objetivo' precisa ter pelo menos 3 caracteres.");
+        addError("#" + id, "Campo 'Objetivo' precisa ter pelo menos 3 caracteres.");
     }
 });
 
-$(document).on("keyup", ".course-class-objective", function(){
-    var id = $(this).attr("id");
-    if ($(this).val().length >= 3){
-        removeError("#"+id);
+$(document).on("keyup", ".course-class-objective", function () {
+    let id = $(this).attr("id");
+    if ($(this).val().length >= 3) {
+        removeError("#" + id);
     }
 });

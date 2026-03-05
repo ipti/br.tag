@@ -90,6 +90,7 @@ return [
             ],
         ],
         'wizard',
+        'school',
         'lunch',
         'resultsmanagement',
         'schoolreport',

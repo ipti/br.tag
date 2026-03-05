@@ -44,8 +44,8 @@ $(function () {
     });
 
     $(".checkboxs tbody").on("click", "tr.selectable", function (e) {
-        var c = $(this).find(":checkbox");
-        var s = $(e.srcElement);
+        let c = $(this).find(":checkbox");
+        let s = $(e.srcElement);
 
         if (e.srcElement.nodeName == "INPUT") {
             if (c.is(":checked")) $(this).addClass("selected");
@@ -86,7 +86,7 @@ $(function () {
 
     if (
         $(".checkboxs tbody :checked").size() ==
-            $(".checkboxs tbody :checkbox").size() &&
+        $(".checkboxs tbody :checkbox").size() &&
         $(".checkboxs tbody :checked").length
     )
         $(".checkboxs thead :checkbox")
@@ -97,7 +97,7 @@ $(function () {
     if ($(".checkboxs tbody :checked").length) $(".checkboxs_actions").show();
 
     $(".radioboxs tbody tr.selectable").click(function (e) {
-        var c = $(this).find(":radio");
+        let c = $(this).find(":radio");
         if (e.srcElement.nodeName == "INPUT") {
             if (c.is(":checked")) $(this).addClass("selected");
             else $(this).removeClass("selected");
@@ -138,8 +138,8 @@ $(function () {
 
                 ui.placeholder.html(
                     '<td colspan="' +
-                        $(this).find("tbody tr:first td").size() +
-                        '">&nbsp;</td>'
+                    $(this).find("tbody tr:first td").size() +
+                    '">&nbsp;</td>'
                 );
             },
             stop: function () {
@@ -164,7 +164,7 @@ $(document).ready(function () {
         maximumSelectionSize: 13,
     });
     $(".select-school").select2({ dropdownCssClass: "school-dropdown" });
-    $("button[type=submit]").on("click", function () {});
+    $("button[type=submit]").on("click", function () { });
 });
 $(document).bind("ajaxSend", function () {
     $("body").css("cursor", "wait");

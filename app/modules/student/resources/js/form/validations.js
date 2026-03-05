@@ -14,7 +14,7 @@ $(formIdentification + "name").focusout(function () {
                 warningMessage(id, ret[2]);
                 $(id_warn_icon).css("cursor", "pointer");
                 addWarning(id, ret[1], id_caixa, id_warn_icon);
-                $("#similarMessage").append(` ${ret[1]}` );
+                $("#similarMessage").append(` ${ret[1]}`);
             } else {
                 addError(id);
                 $(id_error_icon).css("display", "inline-block");
@@ -186,7 +186,7 @@ $(formIdentification + "filiation_1").focusout(function () {
                 $(formIdentification + "filiation_1").val() !== "" &&
                 $(formIdentification + "filiation_2").val() !== "" &&
                 $(formIdentification + "filiation_1").val() ===
-                    $(formIdentification + "filiation_2").val()
+                $(formIdentification + "filiation_2").val()
             ) {
                 $(formIdentification + "filiation_1").attr("value", "");
                 addError(id, "O campo não deve ser igual à outra filiação.");
@@ -211,7 +211,7 @@ $(formIdentification + "filiation_2").focusout(function () {
                 $(formIdentification + "filiation_1").val() !== "" &&
                 $(formIdentification + "filiation_2").val() !== "" &&
                 $(formIdentification + "filiation_1").val() ===
-                    $(formIdentification + "filiation_2").val()
+                $(formIdentification + "filiation_2").val()
             ) {
                 $(formIdentification + "filiation_2").attr("value", "");
                 addError(id, "O campo não deve ser igual à outra filiação.");
@@ -575,26 +575,26 @@ $(formIdentification + "deficiency_type_disability_hearing").on(
                 .removeAttr("checked", "checked")
                 .attr("disabled", "disabled");
         } else if (
-                !$(formIdentification + "deficiency_type_blindness").is(
+            !$(formIdentification + "deficiency_type_blindness").is(
+                ":checked"
+            )
+        ) {
+            $(formIdentification + "deficiency_type_deafness").removeAttr(
+                "disabled"
+            );
+            if (
+                !$(formIdentification + "deficiency_type_low_vision").is(
                     ":checked"
-                )
+                ) &&
+                !$(
+                    formIdentification + "deficiency_type_monocular_vision"
+                ).is(":checked")
             ) {
-                $(formIdentification + "deficiency_type_deafness").removeAttr(
-                    "disabled"
-                );
-                if (
-                    !$(formIdentification + "deficiency_type_low_vision").is(
-                        ":checked"
-                    ) &&
-                    !$(
-                        formIdentification + "deficiency_type_monocular_vision"
-                    ).is(":checked")
-                ) {
-                    $(
-                        formIdentification + "deficiency_type_deafblindness"
-                    ).removeAttr("disabled");
-                }
+                $(
+                    formIdentification + "deficiency_type_deafblindness"
+                ).removeAttr("disabled");
             }
+        }
     }
 );
 $(formIdentification + "deficiency_type_deafblindness").on(
@@ -721,8 +721,8 @@ $(deficiency).change(function () {
             "change",
             [true]
         );
-         $(".resources-container").show();
-    } else if (!$(this).is(":checked") && !$('.js-disorders-impact-learning').is(":checked")){
+        $(".resources-container").show();
+    } else if (!$(this).is(":checked") && !$('.js-disorders-impact-learning').is(":checked")) {
         $(allDeficiency).attr("disabled", "disabled").removeAttr("checked");
         $("#StudentIdentification_deficiencies")
             .parent(".js-visibility-deficiencies")
@@ -730,7 +730,7 @@ $(deficiency).change(function () {
         $("#StudentIdentification_resource_aid_lector")
             .closest(".js-visibility-dresource")
             .hide();
-         $(".resources-container").hide();
+        $(".resources-container").hide();
         $(".resources-container input[type=checkbox]").prop("checked", false);
     }
 });
@@ -829,7 +829,7 @@ $(formDocumentsAndAddress + "cpf").focusout(function () {
         removeError(id);
     }
 
-    var idStudent = new URLSearchParams(window.location.search).get('id');
+    let idStudent = new URLSearchParams(window.location.search).get('id');
     existsStudentWithCPF($(id).val().replace(/\D/g, ''), idStudent, function (ret) {
         if (!ret[0] && $(id).val() != "") {
             addError(id);
@@ -928,7 +928,7 @@ function checkCivilRegisterEnrollmentNumberValidity(element) {
         }
         if (valid) {
             let year = value.substring(10, 14);
-            var selectedDate = $("#initial_date_picker").val();
+            let selectedDate = $("#initial_date_picker").val();
             let birthday = selectedDate.replace(/\//g, '');
             if (birthday !== "" && birthday.length === 8) {
                 let birthdayYear = birthday.substring(4, 8);
@@ -971,15 +971,15 @@ $(formDocumentsAndAddress + "civil_certification").change(function () {
 
 $(
     formDocumentsAndAddress +
-        "rg_number_expediction_date, " +
-        formDocumentsAndAddress +
-        "civil_certification_date"
+    "rg_number_expediction_date, " +
+    formDocumentsAndAddress +
+    "civil_certification_date"
 ).mask("99/99/9999", { placeholder: "dd/mm/aaaa" });
 $(
     formDocumentsAndAddress +
-        "rg_number_expediction_date, " +
-        formDocumentsAndAddress +
-        "civil_certification_date"
+    "rg_number_expediction_date, " +
+    formDocumentsAndAddress +
+    "civil_certification_date"
 ).focusout(function () {
     let id = "#" + $(this).attr("id");
     let documentDate = stringToDate($(id).val());

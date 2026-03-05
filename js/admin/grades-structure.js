@@ -140,7 +140,7 @@ $(document).on("click", ".js-new-unity", function (e) {
 });
 
 $(document).on("change", ".js-type-select", function (e) {
-    var unity = $(this).closest(".unity");
+    let unity = $(this).closest(".unity");
     if ($(this).val() === "UR") {
         unity.find(".js-new-modality").trigger("click").show();
         unity.find(".js-calculation").show();
@@ -217,7 +217,7 @@ $(document).on("change", ".js-partial-recovery-unities", function (e) {
 });
 
 $(document).on("change", ".js-formula-select", function (e) {
-    var unity = $(this).closest(".unity");
+    let unity = $(this).closest(".unity");
     const selectedValue = $(this).select2("data").text;
 
     if (unity.length > 0) {
@@ -279,12 +279,12 @@ function createInputWeight(id, unityId, unityName, inputVal) {
 }
 
 $(document).on("keyup", ".weight", function (e) {
-    var val = this.value;
+    let val = this.value;
     if (!$.isNumeric(val)) {
         e.preventDefault();
         val = "";
     } else {
-        var weight = /[1-9]|10/;
+        let weight = /[1-9]|10/;
         if (val?.match(weight) === null) {
             val = "";
         }

@@ -79,7 +79,7 @@ $(function () {
 //         },
 //         success: function (data) {
 //             data = $.parseJSON(data);
-//             var chart = AmCharts.makeChart("pieChart", {
+//             let chart = AmCharts.makeChart("pieChart", {
 //                 language: "pt",
 //                 type: "pie",
 //                 theme: "light",
@@ -107,9 +107,9 @@ $(function () {
 //             $(".pie-chart-input")
 //                 .off()
 //                 .on("input change", function () {
-//                     var property = jQuery(this).data("property");
-//                     var target = chart;
-//                     var value = Number(this.value);
+//                     let property = jQuery(this).data("property");
+//                     let target = chart;
+//                     let value = Number(this.value);
 //                     chart.startDuration = 0;
 
 //                     if (property == "innerRadius") {
@@ -132,7 +132,7 @@ $(function () {
 //         },
 //         success: function (data) {
 //             data = $.parseJSON(data);
-//             var chart = AmCharts.makeChart(
+//             let chart = AmCharts.makeChart(
 //                 "cylinderChart",
 //                 {
 //                     theme: "light",
@@ -201,8 +201,8 @@ $(function () {
 //             $(".cylinder-chart-input")
 //                 .off()
 //                 .on("input change", function () {
-//                     var property = jQuery(this).data("property");
-//                     var target = chart;
+//                     let property = jQuery(this).data("property");
+//                     let target = chart;
 //                     chart.startDuration = 0;
 
 //                     if (property == "topRadius") {
@@ -225,7 +225,7 @@ $(function () {
 //         },
 //         success: function (data) {
 //             data = $.parseJSON(data);
-//             var chart = AmCharts.makeChart("lineChart", {
+//             let chart = AmCharts.makeChart("lineChart", {
 //                 language: "pt",
 //                 type: "serial",
 //                 theme: "light",
@@ -316,10 +316,10 @@ $(function () {
 // }
 
 function getCookie(name) {
-    var nameEQ = name + "=";
-    var ca = document.cookie.split(";");
+    let nameEQ = name + "=";
+    let ca = document.cookie.split(";");
     for (var i = 0; i < ca.length; i++) {
-        var c = ca[i];
+        let c = ca[i];
         while (c.charAt(0) == " ") c = c.substring(1, c.length);
         if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
     }

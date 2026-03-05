@@ -1,15 +1,15 @@
 function createTable(data) {
     let urlIsValidate = window.location.href.includes("validateClassContents");
     $('#given-classes').html('<div class="t-badge-info t-margin-none--left"><b>Total de carga horária do mês: </b>' + data.totalClasses + '</div><div class="t-badge-info t-margin-none--left"><b>Total de aulas ministradas do mês: </b>' + data.totalClassContents + '</div>')
-    var monthSplit = $("#month").val().split("-");
+    let monthSplit = $("#month").val().split("-");
     $("#class-contents")
         .attr("classroom", $("#classroom").val())
         .attr("month", monthSplit[1])
         .attr("year", monthSplit[0])
         .attr("discipline", $("#disciplines").val())
         .attr("fundamentalmaior", $("#classroom option:selected")
-        .attr("fundamentalmaior")
-    );
+            .attr("fundamentalmaior")
+        );
     $('#class-contents > thead').html('<tr><th class="center">Dias</th><th style="text-align:left">Conteúdo ministrado em sala de aula</th></tr>');
     $('#class-contents > tbody').html('');
 
@@ -59,7 +59,7 @@ function createTable(data) {
             + '<input type="hidden" class="classroom-diary-of-the-day" value="' + classContent.diary + '">'
             + studentInputs
             + '<span class="t-icon-annotation t-icon classroom-diary-button ' + (!classContent.available ? "disabled" : "") + '" data-toggle="tooltip" title="Diário"></span>'
-            + '<select ' + (urlIsValidate ? 'disabled' : '') +' id="day[' + day + ']" name="day[' + day + '][]" class=" course-classes-select vmiddle" ' + (!classContent.available ? "disabled" : "") + ' multiple="yes">'
+            + '<select ' + (urlIsValidate ? 'disabled' : '') + ' id="day[' + day + ']" name="day[' + day + '][]" class=" course-classes-select vmiddle" ' + (!classContent.available ? "disabled" : "") + ' multiple="yes">'
             + options
             + '</select>'
             + '</td>';
@@ -95,12 +95,12 @@ function createTable(data) {
             }
         },
     });
-    $('[data-toggle="tooltip"]').tooltip({container: "body"});
+    $('[data-toggle="tooltip"]').tooltip({ container: "body" });
     $('#widget-class-contents').show();
     $('#class-contents').show();
 
     $(function () {
-        $( "#accordion" ).accordion({
+        $("#accordion").accordion({
             active: false,
             collapsible: true,
             icons: false,

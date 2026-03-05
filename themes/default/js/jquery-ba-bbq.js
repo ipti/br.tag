@@ -77,11 +77,11 @@
 //         robust test needed to be added.
 // 1.0   - (10/2/2009) Initial release
 
-(function($,window){
+(function ($, window) {
   '$:nomunge'; // Used by YUI compressor.
 
   // Some convenient shortcuts.
-  var undefined,
+  let undefined,
     aps = Array.prototype.slice,
     decode = decodeURIComponent,
 
@@ -115,30 +115,30 @@
 
   // A few commonly used bits, broken out to help reduce minified file size.
 
-  function is_string( arg ) {
+  function is_string(arg) {
     return typeof arg === 'string';
   };
 
   // Why write the same function twice? Let's curry! Mmmm, curry..
 
-  function curry( func ) {
-    var args = aps.call( arguments, 1 );
+  function curry(func) {
+    let args = aps.call(arguments, 1);
 
-    return function() {
-      return func.apply( this, args.concat( aps.call( arguments ) ) );
+    return function () {
+      return func.apply(this, args.concat(aps.call(arguments)));
     };
   };
 
   // Get location.hash (or what you'd expect location.hash to be) sans any
   // leading #. Thanks for making this necessary, Firefox!
-  function get_fragment( url ) {
-    return url.replace( /^[^#]*#?(.*)$/, '$1' );
+  function get_fragment(url) {
+    return url.replace(/^[^#]*#?(.*)$/, '$1');
   };
 
   // Get location.search (or what you'd expect location.search to be) sans any
   // leading #. Thanks for making this necessary, IE6!
-  function get_querystring( url ) {
-    return url.replace( /(?:^[^?#]*\?([^#]*).*$)?.*/, '$1' );
+  function get_querystring(url) {
+    return url.replace(/(?:^[^?#]*\?([^#]*).*$)?.*/, '$1');
   };
 
   // Section: Param (to string)
@@ -241,72 +241,72 @@
   //  (String) Either a params string with urlencoded data or a URL with a
   //    urlencoded fragment (hash) in the format 'a=b&c=d&e=f'.
 
-  function jq_param_sub( is_fragment, get_func, url, params, merge_mode ) {
-    var result,
+  function jq_param_sub(is_fragment, get_func, url, params, merge_mode) {
+    let result,
       qs,
       matches,
       url_params,
       hash;
 
-    if ( params !== undefined ) {
+    if (params !== undefined) {
       // Build URL by merging params into url string.
 
       // matches[1] = url part that precedes params, not including trailing ?/#
       // matches[2] = params, not including leading ?/#
       // matches[3] = if in 'querystring' mode, hash including leading #, otherwise ''
-      matches = url.match( is_fragment ? /^([^#]*)\#?(.*)$/ : /^([^#?]*)\??([^#]*)(#?.*)/ );
+      matches = url.match(is_fragment ? /^([^#]*)\#?(.*)$/ : /^([^#?]*)\??([^#]*)(#?.*)/);
 
       // Get the hash if in 'querystring' mode, and it exists.
       hash = matches[3] || '';
 
-      if ( merge_mode === 2 && is_string( params ) ) {
+      if (merge_mode === 2 && is_string(params)) {
         // If merge_mode is 2 and params is a string, merge the fragment / query
         // string into the URL wholesale, without converting it into an object.
-        qs = params.replace( is_fragment ? re_trim_fragment : re_trim_querystring, '' );
+        qs = params.replace(is_fragment ? re_trim_fragment : re_trim_querystring, '');
 
       } else {
         // Convert relevant params in url to object.
-        url_params = jq_deparam( matches[2] );
+        url_params = jq_deparam(matches[2]);
 
-        params = is_string( params )
+        params = is_string(params)
 
           // Convert passed params string into object.
-          ? jq_deparam[ is_fragment ? str_fragment : str_querystring ]( params )
+          ? jq_deparam[is_fragment ? str_fragment : str_querystring](params)
 
           // Passed params object.
           : params;
 
         qs = merge_mode === 2 ? params                              // passed params replace url params
-          : merge_mode === 1  ? $.extend( {}, params, url_params )  // url params override passed params
-          : $.extend( {}, url_params, params );                     // passed params override url params
+          : merge_mode === 1 ? $.extend({}, params, url_params)  // url params override passed params
+            : $.extend({}, url_params, params);                     // passed params override url params
 
         // Convert params object to a string.
-        qs = jq_param( qs );
+        qs = jq_param(qs);
 
         // Unescape characters specified via $.param.noEscape. Since only hash-
         // history users have requested this feature, it's only enabled for
         // fragment-related params strings.
-        if ( is_fragment ) {
-          qs = qs.replace( re_no_escape, decode );
+        if (is_fragment) {
+          qs = qs.replace(re_no_escape, decode);
         }
       }
 
       // Build URL from the base url, querystring and hash. In 'querystring'
       // mode, ? is only added if a query string exists. In 'fragment' mode, #
       // is always added.
-      result = matches[1] + ( is_fragment ? '#' : qs || !matches[1] ? '?' : '' ) + qs + hash;
+      result = matches[1] + (is_fragment ? '#' : qs || !matches[1] ? '?' : '') + qs + hash;
 
     } else {
       // If URL was passed in, parse params from URL string, otherwise parse
       // params from window.location.
-      result = get_func( url !== undefined ? url : window[ str_location ][ str_href ] );
+      result = get_func(url !== undefined ? url : window[str_location][str_href]);
     }
 
     return result;
   };
 
-  jq_param[ str_querystring ]                  = curry( jq_param_sub, 0, get_querystring );
-  jq_param[ str_fragment ] = jq_param_fragment = curry( jq_param_sub, 1, get_fragment );
+  jq_param[str_querystring] = curry(jq_param_sub, 0, get_querystring);
+  jq_param[str_fragment] = jq_param_fragment = curry(jq_param_sub, 1, get_fragment);
 
   // Method: jQuery.param.fragment.noEscape
   //
@@ -336,15 +336,15 @@
   //
   //  Nothing.
 
-  jq_param_fragment.noEscape = function( chars ) {
+  jq_param_fragment.noEscape = function (chars) {
     chars = chars || '';
-    var arr = $.map( chars.split(''), encodeURIComponent );
-    re_no_escape = new RegExp( arr.join('|'), 'g' );
+    let arr = $.map(chars.split(''), encodeURIComponent);
+    re_no_escape = new RegExp(arr.join('|'), 'g');
   };
 
   // A sensible default. These are the characters people seem to complain about
   // "uglifying up the URL" the most.
-  jq_param_fragment.noEscape( ',/' );
+  jq_param_fragment.noEscape(',/');
 
   // Section: Deparam (from string)
   //
@@ -368,32 +368,32 @@
   //
   //  (Object) An object representing the deserialized params string.
 
-  $.deparam = jq_deparam = function( params, coerce ) {
-    var obj = {},
+  $.deparam = jq_deparam = function (params, coerce) {
+    let obj = {},
       coerce_types = { 'true': !0, 'false': !1, 'null': null };
 
     // Iterate over all name=value pairs.
-    $.each( params.replace( /\+/g, ' ' ).split( '&' ), function(j,v){
-      var param = v.split( '=' ),
-        key = decode( param[0] ),
+    $.each(params.replace(/\+/g, ' ').split('&'), function (j, v) {
+      let param = v.split('='),
+        key = decode(param[0]),
         val,
         cur = obj,
         i = 0,
 
         // If key is more complex than 'foo', like 'a[]' or 'a[b][c]', split it
         // into its component parts.
-        keys = key.split( '][' ),
+        keys = key.split(']['),
         keys_last = keys.length - 1;
 
       // If the first keys part contains [ and the last ends with ], then []
       // are correctly balanced.
-      if ( /\[/.test( keys[0] ) && /\]$/.test( keys[ keys_last ] ) ) {
+      if (/\[/.test(keys[0]) && /\]$/.test(keys[keys_last])) {
         // Remove the trailing ] from the last keys part.
-        keys[ keys_last ] = keys[ keys_last ].replace( /\]$/, '' );
+        keys[keys_last] = keys[keys_last].replace(/\]$/, '');
 
         // Split first keys part into two parts on the [ and add them back onto
         // the beginning of the keys array.
-        keys = keys.shift().split('[').concat( keys );
+        keys = keys.shift().split('[').concat(keys);
 
         keys_last = keys.length - 1;
       } else {
@@ -402,18 +402,18 @@
       }
 
       // Are we dealing with a name=value pair, or just a name?
-      if ( param.length === 2 ) {
-        val = decode( param[1] );
+      if (param.length === 2) {
+        val = decode(param[1]);
 
         // Coerce values.
-        if ( coerce ) {
-          val = val && !isNaN(val)            ? +val              // number
-            : val === 'undefined'             ? undefined         // undefined
-            : coerce_types[val] !== undefined ? coerce_types[val] // true, false, null
-            : val;                                                // string
+        if (coerce) {
+          val = val && !isNaN(val) ? +val              // number
+            : val === 'undefined' ? undefined         // undefined
+              : coerce_types[val] !== undefined ? coerce_types[val] // true, false, null
+                : val;                                                // string
         }
 
-        if ( keys_last ) {
+        if (keys_last) {
           // Complex key, build deep object structure based on a few rules:
           // * The 'cur' pointer starts at the object top-level.
           // * [] = array push (n is set to array length), [n] = array if n is
@@ -423,10 +423,10 @@
           //   object or array based on the type of the next keys part.
           // * Move the 'cur' pointer to the next level.
           // * Rinse & repeat.
-          for ( ; i <= keys_last; i++ ) {
+          for (; i <= keys_last; i++) {
             key = keys[i] === '' ? cur.length : keys[i];
             cur = cur[key] = i < keys_last
-              ? cur[key] || ( keys[i+1] && isNaN( keys[i+1] ) ? {} : [] )
+              ? cur[key] || (keys[i + 1] && isNaN(keys[i + 1]) ? {} : [])
               : val;
           }
 
@@ -434,14 +434,14 @@
           // Simple key, even simpler rules, since only scalars and shallow
           // arrays are allowed.
 
-          if ( $.isArray( obj[key] ) ) {
+          if ($.isArray(obj[key])) {
             // val is already an array, so push on the next value.
-            obj[key].push( val );
+            obj[key].push(val);
 
-          } else if ( obj[key] !== undefined ) {
+          } else if (obj[key] !== undefined) {
             // val isn't an array, but since a second value has been specified,
             // convert val into an array.
-            obj[key] = [ obj[key], val ];
+            obj[key] = [obj[key], val];
 
           } else {
             // val is a scalar.
@@ -449,7 +449,7 @@
           }
         }
 
-      } else if ( key ) {
+      } else if (key) {
         // No value was defined, so set something meaningful.
         obj[key] = coerce
           ? undefined
@@ -504,22 +504,22 @@
   //
   //  (Object) An object representing the deserialized params string.
 
-  function jq_deparam_sub( is_fragment, url_or_params, coerce ) {
-    if ( url_or_params === undefined || typeof url_or_params === 'boolean' ) {
+  function jq_deparam_sub(is_fragment, url_or_params, coerce) {
+    if (url_or_params === undefined || typeof url_or_params === 'boolean') {
       // url_or_params not specified.
       coerce = url_or_params;
-      url_or_params = jq_param[ is_fragment ? str_fragment : str_querystring ]();
+      url_or_params = jq_param[is_fragment ? str_fragment : str_querystring]();
     } else {
-      url_or_params = is_string( url_or_params )
-        ? url_or_params.replace( is_fragment ? re_trim_fragment : re_trim_querystring, '' )
+      url_or_params = is_string(url_or_params)
+        ? url_or_params.replace(is_fragment ? re_trim_fragment : re_trim_querystring, '')
         : url_or_params;
     }
 
-    return jq_deparam( url_or_params, coerce );
+    return jq_deparam(url_or_params, coerce);
   };
 
-  jq_deparam[ str_querystring ]                    = curry( jq_deparam_sub, 0 );
-  jq_deparam[ str_fragment ] = jq_deparam_fragment = curry( jq_deparam_sub, 1 );
+  jq_deparam[str_querystring] = curry(jq_deparam_sub, 0);
+  jq_deparam[str_fragment] = jq_deparam_fragment = curry(jq_deparam_sub, 1);
 
   // Section: Element manipulation
   //
@@ -559,8 +559,8 @@
 
   // Only define function and set defaults if function doesn't already exist, as
   // the urlInternal plugin will provide this method as well.
-  $[ str_elemUrlAttr ] || ($[ str_elemUrlAttr ] = function( obj ) {
-    return $.extend( elemUrlAttr_cache, obj );
+  $[str_elemUrlAttr] || ($[str_elemUrlAttr] = function (obj) {
+    return $.extend(elemUrlAttr_cache, obj);
   })({
     a: str_href,
     base: str_href,
@@ -572,7 +572,7 @@
     script: str_src
   });
 
-  jq_elemUrlAttr = $[ str_elemUrlAttr ];
+  jq_elemUrlAttr = $[str_elemUrlAttr];
 
   // Method: jQuery.fn.querystring
   //
@@ -640,31 +640,31 @@
   //  (jQuery) The initial jQuery collection of elements, but with modified URL
   //  attribute values.
 
-  function jq_fn_sub( mode, force_attr, params, merge_mode ) {
-    if ( !is_string( params ) && typeof params !== 'object' ) {
+  function jq_fn_sub(mode, force_attr, params, merge_mode) {
+    if (!is_string(params) && typeof params !== 'object') {
       // force_attr not specified.
       merge_mode = params;
       params = force_attr;
       force_attr = undefined;
     }
 
-    return this.each(function(){
-      var that = $(this),
+    return this.each(function () {
+      let that = $(this),
 
         // Get attribute specified, or default specified via $.elemUrlAttr.
-        attr = force_attr || jq_elemUrlAttr()[ ( this.nodeName || '' ).toLowerCase() ] || '',
+        attr = force_attr || jq_elemUrlAttr()[(this.nodeName || '').toLowerCase()] || '',
 
         // Get URL value.
-        url = attr && that.attr( attr ) || '';
+        url = attr && that.attr(attr) || '';
 
       // Update attribute with new URL.
-      that.attr( attr, jq_param[ mode ]( url, params, merge_mode ) );
+      that.attr(attr, jq_param[mode](url, params, merge_mode));
     });
 
   };
 
-  $.fn[ str_querystring ] = curry( jq_fn_sub, str_querystring );
-  $.fn[ str_fragment ]    = curry( jq_fn_sub, str_fragment );
+  $.fn[str_querystring] = curry(jq_fn_sub, str_querystring);
+  $.fn[str_fragment] = curry(jq_fn_sub, str_fragment);
 
   // Section: History, hashchange event
   //
@@ -706,22 +706,22 @@
   //  * Unlike the fragment and querystring methods, if a hash string beginning
   //    with # is specified as the params agrument, merge_mode defaults to 2.
 
-  jq_bbq.pushState = jq_bbq_pushState = function( params, merge_mode ) {
-    if ( is_string( params ) && /^#/.test( params ) && merge_mode === undefined ) {
+  jq_bbq.pushState = jq_bbq_pushState = function (params, merge_mode) {
+    if (is_string(params) && /^#/.test(params) && merge_mode === undefined) {
       // Params string begins with # and merge_mode not specified, so completely
       // overwrite window.location.hash.
       merge_mode = 2;
     }
 
-    var has_args = params !== undefined,
+    let has_args = params !== undefined,
       // Merge params into window.location using $.param.fragment.
-      url = jq_param_fragment( window[ str_location ][ str_href ],
-        has_args ? params : {}, has_args ? merge_mode : 2 );
+      url = jq_param_fragment(window[str_location][str_href],
+        has_args ? params : {}, has_args ? merge_mode : 2);
 
     // Set new window.location.href. If hash is empty, use just # to prevent
     // browser from reloading the page. Note that Safari 3 & Chrome barf on
     // location.hash = '#'.
-    window[ str_location ][ str_href ] = url + ( /#/.test( url ) ? '' : '#' );
+    window[str_location][str_href] = url + (/#/.test(url) ? '' : '#');
   };
 
   // Method: jQuery.bbq.getState
@@ -747,10 +747,10 @@
   //    in the location.hash 'state', or undefined. If not, an object
   //    representing the entire 'state' is returned.
 
-  jq_bbq.getState = jq_bbq_getState = function( key, coerce ) {
+  jq_bbq.getState = jq_bbq_getState = function (key, coerce) {
     return key === undefined || typeof key === 'boolean'
-      ? jq_deparam_fragment( key ) // 'key' really means 'coerce' here
-      : jq_deparam_fragment( coerce )[ key ];
+      ? jq_deparam_fragment(key) // 'key' really means 'coerce' here
+      : jq_deparam_fragment(coerce)[key];
   };
 
   // Method: jQuery.bbq.removeState
@@ -782,24 +782,24 @@
   //
   //  * Setting an empty state may cause the browser to scroll.
 
-  jq_bbq.removeState = function( arr ) {
-    var state = {};
+  jq_bbq.removeState = function (arr) {
+    let state = {};
 
     // If one or more arguments is passed..
-    if ( arr !== undefined ) {
+    if (arr !== undefined) {
 
       // Get the current state.
       state = jq_bbq_getState();
 
       // For each passed key, delete the corresponding property from the current
       // state.
-      $.each( $.isArray( arr ) ? arr : arguments, function(i,v){
-        delete state[ v ];
+      $.each($.isArray(arr) ? arr : arguments, function (i, v) {
+        delete state[v];
       });
     }
 
     // Set the state, completely overriding any existing state.
-    jq_bbq_pushState( state, 2 );
+    jq_bbq_pushState(state, 2);
   };
 
   // Event: hashchange event (BBQ)
@@ -823,7 +823,7 @@
   // method.
   //
   // > $(window).bind( 'hashchange', function( event ) {
-  // >   var hash_str = event.fragment,
+  // >   let hash_str = event.fragment,
   // >     param_obj = event.getState(),
   // >     param_val = event.getState( 'param_name' ),
   // >     param_val_coerced = event.getState( 'param_name', true );
@@ -837,7 +837,7 @@
   // parsed using the <jQuery.param.fragment> and <jQuery.bbq.getState> methods.
   //
   // > $(window).bind( 'hashchange', function( event ) {
-  // >   var hash_str = $.param.fragment(),
+  // >   let hash_str = $.param.fragment(),
   // >     param_obj = $.bbq.getState(),
   // >     param_val = $.bbq.getState( 'param_name' ),
   // >     param_val_coerced = $.bbq.getState( 'param_name', true );
@@ -850,33 +850,33 @@
   //   required to enable the augmented event object in jQuery 1.4.2 and newer.
   // * See <jQuery hashchange event> for more detailed information.
 
-  jq_event_special[ str_hashchange ] = $.extend( jq_event_special[ str_hashchange ], {
+  jq_event_special[str_hashchange] = $.extend(jq_event_special[str_hashchange], {
 
     // Augmenting the event object with the .fragment property and .getState
     // method requires jQuery 1.4 or newer. Note: with 1.3.2, everything will
     // work, but the event won't be augmented)
-    add: function( handleObj ) {
-      var old_handler;
+    add: function (handleObj) {
+      let old_handler;
 
       function new_handler(e) {
         // e.fragment is set to the value of location.hash (with any leading #
         // removed) at the time the event is triggered.
-        var hash = e[ str_fragment ] = jq_param_fragment();
+        let hash = e[str_fragment] = jq_param_fragment();
 
         // e.getState() works just like $.bbq.getState(), but uses the
         // e.fragment property stored on the event object.
-        e.getState = function( key, coerce ) {
+        e.getState = function (key, coerce) {
           return key === undefined || typeof key === 'boolean'
-            ? jq_deparam( hash, key ) // 'key' really means 'coerce' here
-            : jq_deparam( hash, coerce )[ key ];
+            ? jq_deparam(hash, key) // 'key' really means 'coerce' here
+            : jq_deparam(hash, coerce)[key];
         };
 
-        old_handler.apply( this, arguments );
+        old_handler.apply(this, arguments);
       };
 
       // This may seem a little complicated, but it normalizes the special event
       // .add method between jQuery 1.4/1.4.1 and 1.4.2+
-      if ( $.isFunction( handleObj ) ) {
+      if ($.isFunction(handleObj)) {
         // 1.4, 1.4.1
         old_handler = handleObj;
         return new_handler;
@@ -889,7 +889,7 @@
 
   });
 
-})(jQuery,this);
+})(jQuery, this);
 
 /*!
  * jQuery hashchange event - v1.2 - 2/11/2010
@@ -961,11 +961,11 @@
 //         extra awesomeness that BBQ provides. This plugin will be included as
 //         part of jQuery BBQ, but also be available separately.
 
-(function($,window,undefined){
+(function ($, window, undefined) {
   '$:nomunge'; // Used by YUI compressor.
 
   // Method / object references.
-  var fake_onhashchange,
+  let fake_onhashchange,
     jq_event_special = $.event.special,
 
     // Reused strings.
@@ -977,7 +977,7 @@
     // support, so let's do a little browser sniffing..
     browser = $.browser,
     mode = document.documentMode,
-    is_old_ie = browser.msie && ( mode === undefined || mode < 8 ),
+    is_old_ie = browser.msie && (mode === undefined || mode < 8),
 
     // Does the browser support window.onhashchange? Test for IE version, since
     // IE8 incorrectly reports this when in "IE7" or "IE8 Compatibility View"!
@@ -985,9 +985,9 @@
 
   // Get location.hash (or what you'd expect location.hash to be) sans any
   // leading #. Thanks for making this necessary, Firefox!
-  function get_fragment( url ) {
-    url = url || window[ str_location ][ str_href ];
-    return url.replace( /^[^#]*#?(.*)$/, '$1' );
+  function get_fragment(url) {
+    url = url || window[str_location][str_href];
+    return url.replace(/^[^#]*#?(.*)$/, '$1');
   };
 
   // Property: jQuery.hashchangeDelay
@@ -995,7 +995,7 @@
   // The numeric interval (in milliseconds) at which the <hashchange event>
   // polling loop executes. Defaults to 100.
 
-  $[ str_hashchange + 'Delay' ] = 100;
+  $[str_hashchange + 'Delay'] = 100;
 
   // Event: hashchange event
   //
@@ -1008,7 +1008,7 @@
   // Usage:
   //
   // > $(window).bind( 'hashchange', function(e) {
-  // >   var hash = location.hash;
+  // >   let hash = location.hash;
   // >   ...
   // > });
   //
@@ -1023,26 +1023,26 @@
   //   before then in IE6/7 (due to the necessary Iframe), recommended usage is
   //   to bind it inside a $(document).ready() callback.
 
-  jq_event_special[ str_hashchange ] = $.extend( jq_event_special[ str_hashchange ], {
+  jq_event_special[str_hashchange] = $.extend(jq_event_special[str_hashchange], {
 
     // Called only when the first 'hashchange' event is bound to window.
-    setup: function() {
+    setup: function () {
       // If window.onhashchange is supported natively, there's nothing to do..
-      if ( supports_onhashchange ) { return false; }
+      if (supports_onhashchange) { return false; }
 
       // Otherwise, we need to create our own. And we don't want to call this
       // until the user binds to the event, just in case they never do, since it
       // will create a polling loop and possibly even a hidden Iframe.
-      $( fake_onhashchange.start );
+      $(fake_onhashchange.start);
     },
 
     // Called only when the last 'hashchange' event is unbound from window.
-    teardown: function() {
+    teardown: function () {
       // If window.onhashchange is supported natively, there's nothing to do..
-      if ( supports_onhashchange ) { return false; }
+      if (supports_onhashchange) { return false; }
 
       // Otherwise, we need to stop ours (if possible).
-      $( fake_onhashchange.stop );
+      $(fake_onhashchange.stop);
     }
 
   });
@@ -1051,52 +1051,52 @@
   // event for browsers that don't natively support it, including creating a
   // polling loop to watch for hash changes and in IE 6/7 creating a hidden
   // Iframe to enable back and forward.
-  fake_onhashchange = (function(){
-    var self = {},
+  fake_onhashchange = (function () {
+    let self = {},
       timeout_id,
       iframe,
       set_history,
       get_history;
 
     // Initialize. In IE 6/7, creates a hidden Iframe for history handling.
-    function init(){
+    function init() {
       // Most browsers don't need special methods here..
-      set_history = get_history = function(val){ return val; };
+      set_history = get_history = function (val) { return val; };
 
       // But IE6/7 do!
-      if ( is_old_ie ) {
+      if (is_old_ie) {
 
         // Create hidden Iframe after the end of the body to prevent initial
         // page load from scrolling unnecessarily.
-        iframe = $('<iframe src="javascript:0"/>').hide().insertAfter( 'body' )[0].contentWindow;
+        iframe = $('<iframe src="javascript:0"/>').hide().insertAfter('body')[0].contentWindow;
 
         // Get history by looking at the hidden Iframe's location.hash.
-        get_history = function() {
-          return get_fragment( iframe.document[ str_location ][ str_href ] );
+        get_history = function () {
+          return get_fragment(iframe.document[str_location][str_href]);
         };
 
         // Set a new history item by opening and then closing the Iframe
         // document, *then* setting its location.hash.
-        set_history = function( hash, history_hash ) {
-          if ( hash !== history_hash ) {
-            var doc = iframe.document;
+        set_history = function (hash, history_hash) {
+          if (hash !== history_hash) {
+            let doc = iframe.document;
             doc.open().close();
-            doc[ str_location ].hash = '#' + hash;
+            doc[str_location].hash = '#' + hash;
           }
         };
 
         // Set initial history.
-        set_history( get_fragment() );
+        set_history(get_fragment());
       }
     };
 
     // Start the polling loop.
-    self.start = function() {
+    self.start = function () {
       // Polling loop is already running!
-      if ( timeout_id ) { return; }
+      if (timeout_id) { return; }
 
       // Remember the initial hash so it doesn't get triggered immediately.
-      var last_hash = get_fragment();
+      let last_hash = get_fragment();
 
       // Initialize if not yet initialized.
       set_history || init();
@@ -1104,29 +1104,29 @@
       // This polling loop checks every $.hashchangeDelay milliseconds to see if
       // location.hash has changed, and triggers the 'hashchange' event on
       // window when necessary.
-      (function loopy(){
-        var hash = get_fragment(),
-          history_hash = get_history( last_hash );
+      (function loopy() {
+        let hash = get_fragment(),
+          history_hash = get_history(last_hash);
 
-        if ( hash !== last_hash ) {
-          set_history( last_hash = hash, history_hash );
+        if (hash !== last_hash) {
+          set_history(last_hash = hash, history_hash);
 
-          $(window).trigger( str_hashchange );
+          $(window).trigger(str_hashchange);
 
-        } else if ( history_hash !== last_hash ) {
-          window[ str_location ][ str_href ] = window[ str_location ][ str_href ].replace( /#.*/, '' ) + '#' + history_hash;
+        } else if (history_hash !== last_hash) {
+          window[str_location][str_href] = window[str_location][str_href].replace(/#.*/, '') + '#' + history_hash;
         }
 
-        timeout_id = setTimeout( loopy, $[ str_hashchange + 'Delay' ] );
+        timeout_id = setTimeout(loopy, $[str_hashchange + 'Delay']);
       })();
     };
 
     // Stop the polling loop, but only if an IE6/7 Iframe wasn't created. In
     // that case, even if there are no longer any bound event handlers, the
     // polling loop is still necessary for back/next to work at all!
-    self.stop = function() {
-      if ( !iframe ) {
-        timeout_id && clearTimeout( timeout_id );
+    self.stop = function () {
+      if (!iframe) {
+        timeout_id && clearTimeout(timeout_id);
         timeout_id = 0;
       }
     };
@@ -1134,4 +1134,4 @@
     return self;
   })();
 
-})(jQuery,this);
+})(jQuery, this);

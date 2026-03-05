@@ -22,7 +22,7 @@ function ini() {
 
 function loadDisciplineInfo(results) {
     ini();
-    var data = $.parseJSON(results);
+    let data = $.parseJSON(results);
     $.each(data.disciplines, function (i, v) {
         disciplines[v.did] = v.discipline;
         if (!($select[v.did] instanceof Array)) $select[v.did] = [];
@@ -30,7 +30,7 @@ function loadDisciplineInfo(results) {
         $.unique($select[v.did]);
     });
 
-    var i = 0;
+    let i = 0;
     $.each($select, function (u) {
         $evolutionDiscipline.append("<option value='" + u + "'>" + disciplines[u] + "</option>");
         i++;
@@ -44,21 +44,21 @@ function loadDisciplineInfo(results) {
 }
 
 $(document).on("change", "#evolution-discipline", function () {
-    var $cid = $evolutionClassroom.val();
-    var $did = $evolutionDiscipline.val();
+    let $cid = $evolutionClassroom.val();
+    let $did = $evolutionDiscipline.val();
     $evolutions.html("");
-    $.getJSON(evolutionDataUrl, {sid: $sid, cid: $cid, did: $did}, function (json) {
+    $.getJSON(evolutionDataUrl, { sid: $sid, cid: $cid, did: $did }, function (json) {
         //json = {'g1': 12.5, 'g2': 10, 'g3': 25, 'g4': 13};
-        var j = 1;
-        var prev = null;
+        let j = 1;
+        let prev = null;
         $.each(json, function (i, v) {
-            var percent = v;
-            var bimester = unitsName[i];
-            var color = percent >= 75 ? "box-green-1" : "box-red-1";
+            let percent = v;
+            let bimester = unitsName[i];
+            let color = percent >= 75 ? "box-green-1" : "box-red-1";
             color = percent < 75 && percent >= 50 ? "box-blue-1" : color;
             color = percent < 50 && percent >= 25 ? "box-yellow-1" : color;
 
-            if (prev){
+            if (prev) {
                 $("#efficiency-" + (j - 1) + " .efficiency-number").append((percent - prev).toFixed(1));
                 $("#efficiency-" + (j - 1) + " .efficiency-number-label").append("pontos percentuais");
             };

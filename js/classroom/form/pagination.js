@@ -3,14 +3,14 @@
 ////////////////////////////////////////////////
 /*
 $('.tab-classroom li a').click(function(){
-    var classActive = $('li[class="active"]');
-    var divActive = $('div .active');
-    var li1 = 'tab-classroom';
-    var li2 = 'tab-instructors';
-    var li3 = 'tab-students';
-    var tab = '';
+    let classActive = $('li[class="active"]');
+    let divActive = $('div .active');
+    let li1 = 'tab-classroom';
+    let li2 = 'tab-instructors';
+    let li3 = 'tab-students';
+    let tab = '';
     switch($(this).parent().attr('id')) {
-        case li1 : tab = li1; 
+        case li1 : tab = li1;
             $('.prev').hide();
             $('.next').show();
             $('.last').hide(); break;
@@ -26,20 +26,20 @@ $('.tab-classroom li a').click(function(){
 
     classActive.removeClass("active");
     divActive.removeClass("active");
-    var next_content = tab.substring(4);
+    let next_content = tab.substring(4);
     next_content = next_content.toString();
     $('#'+tab).addClass("active");
     $('#'+next_content).addClass("active");
     $('html, body').animate({ scrollTop: 0 }, 'fast');
 });
 $('.next').click(function(){
-    var classActive = $('ul.tab-classroom li[class="active"]');
-    var divActive = $('div .active');
-    var li1 = 'tab-classroom';
-    var li2 = 'tab-instructors';
-    var next = '';
+    let classActive = $('ul.tab-classroom li[class="active"]');
+    let divActive = $('div .active');
+    let li1 = 'tab-classroom';
+    let li2 = 'tab-instructors';
+    let next = '';
     switch(classActive.attr('id')) {
-        case li1 : next = li2; 
+        case li1 : next = li2;
             $('.prev').show();
             $('.next').hide();
             $('.last').show(); break;
@@ -48,22 +48,22 @@ $('.next').click(function(){
 
     classActive.removeClass("active");
     divActive.removeClass("active");
-    var next_content = next.substring(4);
+    let next_content = next.substring(4);
     next_content = next_content.toString();
     $('#'+next).addClass("active");
     $('#'+next_content).addClass("active");
     $('html, body').animate({ scrollTop: 0 }, 'fast');
 });
 $('.prev').click(function(){
-    var classActive = $('li[class="active"]');
-    var divActive = $('div .active');
-    var li1 = 'tab-classroom';
-    var li2 = 'tab-instructors';
-    var li3 = 'tab-students';
-    var previous = '';
+    let classActive = $('li[class="active"]');
+    let divActive = $('div .active');
+    let li1 = 'tab-classroom';
+    let li2 = 'tab-instructors';
+    let li3 = 'tab-students';
+    let previous = '';
     switch(classActive.attr('id')) {
         case li1 : previous = li1;  break;
-        case li2 : previous = li1; 
+        case li2 : previous = li1;
             $('.prev').hide();
             $('.last').hide();
             $('.next').show(); break;
@@ -75,7 +75,7 @@ $('.prev').click(function(){
 
     classActive.removeClass("active");
     divActive.removeClass("active");
-    var previous_content = previous.substring(4);
+    let previous_content = previous.substring(4);
     previous = previous.toString();
     $('#'+previous).addClass("active");
     $('#'+previous_content).addClass("active");

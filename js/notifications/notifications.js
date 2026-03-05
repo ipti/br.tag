@@ -8,12 +8,12 @@
 (function ($) {
     'use strict';
 
-    var POLL_INTERVAL = 60000; // 60 segundos
-    var $badge = null;
-    var $dropdown = null;
-    var $bell = null;
-    var isDropdownOpen = false;
-    var pollTimer = null;
+    let POLL_INTERVAL = 60000; // 60 segundos
+    let $badge = null;
+    let $dropdown = null;
+    let $bell = null;
+    let isDropdownOpen = false;
+    let pollTimer = null;
 
     function init() {
         $bell = $('#notification-bell-trigger');
@@ -43,8 +43,8 @@
         // Marcar como lida via AJAX
         $(document).on('click', '.js-notif-mark-read', function (e) {
             e.preventDefault();
-            var $btn = $(this);
-            var id = $btn.data('id');
+            let $btn = $(this);
+            let id = $btn.data('id');
             $.post(
                 '/?r=notifications/inbox/markRead&id=' + id,
                 function () {
@@ -96,7 +96,7 @@
     }
 
     function renderDropdown(data) {
-        var html = '';
+        let html = '';
 
         html += '<div class="notif-dropdown-header">';
         html += '<strong>Notificações</strong>';
@@ -111,7 +111,7 @@
             html += 'Nenhuma notificação';
             html += '</div>';
         } else {
-            var typeColors = {
+            let typeColors = {
                 info: '#3498db',
                 warning: '#f39c12',
                 error: '#e74c3c',
@@ -119,9 +119,9 @@
             };
 
             for (var i = 0; i < data.items.length; i++) {
-                var item = data.items[i];
-                var color = typeColors[item.type] || typeColors.info;
-                var unreadClass = !item.is_read ? 'notif-dropdown-item--unread' : '';
+                let item = data.items[i];
+                let color = typeColors[item.type] || typeColors.info;
+                let unreadClass = !item.is_read ? 'notif-dropdown-item--unread' : '';
 
                 html += '<div class="notif-dropdown-item ' + unreadClass + '" style="border-left-color: ' + color + ';">';
                 html += '<div class="notif-dropdown-item__title">' + escapeHtml(item.title) + '</div>';
@@ -147,9 +147,9 @@
 
     function formatDate(dateStr) {
         if (!dateStr) return '';
-        var now = new Date();
-        var date = new Date(dateStr.replace(' ', 'T'));
-        var diff = Math.floor((now - date) / 1000);
+        let now = new Date();
+        let date = new Date(dateStr.replace(' ', 'T'));
+        let diff = Math.floor((now - date) / 1000);
 
         if (diff < 60) return 'agora';
         if (diff < 3600) return Math.floor(diff / 60) + ' min';
@@ -158,7 +158,7 @@
     }
 
     function escapeHtml(text) {
-        var el = document.createElement('div');
+        let el = document.createElement('div');
         el.textContent = text;
         return el.innerHTML;
     }

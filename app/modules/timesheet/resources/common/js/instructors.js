@@ -1,29 +1,29 @@
-$(document).on("click", ".menu div", function() {
+$(document).on("click", ".menu div", function () {
   $(".menu div").removeClass("selected");
   $("table").hide();
   $("table." + $(this).attr("class")).show();
   $(this).addClass("selected");
 });
 
-$("#instructor_fk").on("change", function() {
+$("#instructor_fk").on("change", function () {
   $.ajax({
     url: getInstructorsDisciplinesURL + "/" + $(this).val(),
     type: "get"
-  }).success(function(data) {
+  }).success(function (data) {
     data = $.parseJSON(data);
     //console.log(data);
   });
 });
 
-$(document).on("click", "#add-instructors-button", function() {
+$(document).on("click", "#add-instructors-button", function () {
   $("#add-instructors-form").submit();
 });
-$(document).on("click", "#add-instructors-unavailability-button", function() {
+$(document).on("click", "#add-instructors-unavailability-button", function () {
   $("#add-instructors-unavailability-form").submit();
 });
 
-$(document).on("click", "#add-unavailability", function() {
-  var html = $("#add-instructors-unavailability-times_0")[0]
+$(document).on("click", "#add-unavailability", function () {
+  let html = $("#add-instructors-unavailability-times_0")[0]
     .outerHTML.replace(
       /_0/g,
       "_" + $(".add-instructors-unavailability-times").length
@@ -33,7 +33,7 @@ $(document).on("click", "#add-unavailability", function() {
       "[" + $(".add-instructors-unavailability-times").length + "]"
     );
 
-  var last = $("#add-instructors-unavailability-times")
+  let last = $("#add-instructors-unavailability-times")
     .children()
     .last();
   $("#add-instructors-unavailability-times")
@@ -47,8 +47,8 @@ $(document).on("click", "#add-unavailability", function() {
   );
 });
 
-$(document).on("click", "#add-discipline", function() {
-  var qtde = $(".add-instructors-disciplines").length;
+$(document).on("click", "#add-discipline", function () {
+  let qtde = $(".add-instructors-disciplines").length;
   /*
     <div class="row-fluid add-instructors-disciplines" id="add-instructors-disciplines_0">
         <div class=" span6">
@@ -63,11 +63,11 @@ $(document).on("click", "#add-discipline", function() {
     </div>
     </div>
 */
-  var stageOptions = $("#add-instructors-disciplines-stage_0")[0].innerHTML;
-  var disciplineOptions = $("#add-instructors-disciplines-discipline_0")[0]
+  let stageOptions = $("#add-instructors-disciplines-stage_0")[0].innerHTML;
+  let disciplineOptions = $("#add-instructors-disciplines-discipline_0")[0]
     .innerHTML;
-  var select;
-  var html =
+  let select;
+  let html =
     '<br><div class="row-fluid add-instructors-disciplines" id="add-instructors-disciplines_' +
     qtde +
     '">' +
@@ -91,7 +91,7 @@ $(document).on("click", "#add-discipline", function() {
     "</div>" +
     "</div>";
 
-  var last = $("#add-instructors-disciplines")
+  let last = $("#add-instructors-disciplines")
     .children()
     .last();
   $("#add-instructors-disciplines")
@@ -108,31 +108,31 @@ $(document).on("click", "#add-discipline", function() {
     .select2();
 });
 
-$("#instructor_school_fk").on("change", function() {
+$("#instructor_school_fk").on("change", function () {
   $.ajax({
     url: loadUnavailability,
     type: "POST",
     data: {
       id: $(this).val()
     }
-  }).success(function(result) {
+  }).success(function (result) {
     result = $.parseJSON(result);
     $(".table-unavailability  td")
       .removeClass("available")
       .removeClass("unavailable");
     if (Object.keys(result).length > 0)
       $(".table-unavailability  td").addClass("available");
-    $.each(result, function(week_day, turns) {
-      $.each(turns, function(turn, schedules) {
-        $.each(schedules, function(k, schedule) {
+    $.each(result, function (week_day, turns) {
+      $.each(turns, function (turn, schedules) {
+        $.each(schedules, function (k, schedule) {
           $(
             ".table" +
-              turn +
-              " #h" +
-              schedule +
-              " td[week_day=" +
-              week_day +
-              "]"
+            turn +
+            " #h" +
+            schedule +
+            " td[week_day=" +
+            week_day +
+            "]"
           )
             .removeClass("available")
             .addClass("unavailable");
