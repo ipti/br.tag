@@ -77,6 +77,9 @@ return [
         'ext.bncc-import.BNCCImport',
         'ext.imc.IMC',
     ],
+    'controllerMap' => [
+        'gradesstructure' => 'GradesStructureController',
+    ],
     'modules' => [
         'gii' => [
             'class' => 'system.gii.GiiModule',
@@ -113,7 +116,6 @@ return [
         'studentimc',
         'inventory',
         'notifications',
-        'gradesStructure',
         'tools',
         'student',
     ],

@@ -480,4 +480,3 @@ class GradesStructureController extends Controller
         $this->redirect(['index']);
     }
 }
-
