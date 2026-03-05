@@ -1,9 +1,9 @@
 /**
  * DataTables Configuration Module
- * 
+ *
  * This module provides a centralized configuration system for DataTables initialization.
  * Each page/module can have its own specific configuration.
- * 
+ *
  * Usage:
  * 1. Add a new configuration in the pageConfigs object
  * 2. Define a match function to identify when to use this config
@@ -30,7 +30,7 @@ function getDatatableConfig(action, $table, isMobile, columnsIndex, indexActionB
                 serverSide: true,
                 responsive: true,
                 ajax: $.fn.dataTable.pipeline({
-                    url: `?r=student/getstudentajax`,
+                    url: `?r=student/student/getstudentajax`,
                     pages: 5,
                     method: "POST",
                     data: function (d) {

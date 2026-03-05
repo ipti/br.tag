@@ -25,7 +25,7 @@ $log_config = [
             ],
         ],
         [
-            'class' => \Websupport\YiiSentry\LogRoute::class,
+            'class' => \Websupport\YiiSentry\LogRoute::class ,
             'levels' => 'error,warning',
             'enabled' => !YII_DEBUG,
         ],
@@ -35,11 +35,11 @@ $log_config = [
 if (YII_DEBUG) {
     array_push(
         $log_config['routes'],
-        [
-            'class' => 'CProfileLogRoute',
-            'showInFireBug' => true,
-            'report' => 'summary',
-        ],
+    [
+        'class' => 'CProfileLogRoute',
+        'showInFireBug' => true,
+        'report' => 'summary',
+    ],
     );
 }
 
@@ -115,6 +115,7 @@ return [
         'notifications',
         'gradesStructure',
         'tools',
+        'student',
     ],
     'components' => [
         'utils' => [
@@ -222,7 +223,7 @@ return [
             'errorAction' => 'site/error',
         ],
         'sentry' => [
-            'class' => \Websupport\YiiSentry\Client::class,
+            'class' => \Websupport\YiiSentry\Client::class ,
             'dsn' => getenv('SENTRY_DSN'),
             'jsDsn' => getenv('SENTRY_DSN'),
             'options' => [
@@ -236,14 +237,15 @@ return [
                 'environment' => INSTANCE,
                 'before_send' => function (\Sentry\Event $event): \Sentry\Event {
                     \Sentry\configureScope(function (\Sentry\State\Scope $scope): void {
-                        $scope->setUser([
-                            'id' => Yii::app()->user->loginInfos->id,
-                            'username' => Yii::app()->user->loginInfos->username,
-                            'role' => Yii::app()->authManager->getRoles(Yii::app()->user->loginInfos->id)
-                        ]);
-                    });
-                    return $event;
-                }
+            $scope->setUser([
+                                'id' => Yii::app()->user->loginInfos->id,
+                                'username' => Yii::app()->user->loginInfos->username,
+                                'role' => Yii::app()->authManager->getRoles(Yii::app()->user->loginInfos->id)
+                            ]);
+        }
+                    );
+        return $event;
+    }
             ]
         ],
         'log' => $log_config

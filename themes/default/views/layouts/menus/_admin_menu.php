@@ -29,8 +29,8 @@ $menuItems = [
         'label' => 'Escola',
         'url' => function () {
             return (count(Yii::app()->user->usersSchools) == 1)
-                ? ['school/update', ['id' => Yii::app()->user->school]]
-                : ['school/index'];
+            ? ['school/update', ['id' => Yii::app()->user->school]]
+            : ['school/index'];
         },
         'icon' => 't-icon-school',
         'roles' => [TRole::ADMIN, TRole::MANAGER, TRole::READER],
@@ -45,7 +45,7 @@ $menuItems = [
     ],
     [
         'label' => 'Alunos',
-        'url' => ['student'],
+        'url' => ['student/student/index'],
         'icon' => 't-icon-pencil',
         'roles' => [TRole::ADMIN, TRole::MANAGER, TRole::READER],
         'feature' => TTask::TASK_STUDENT_MANAGE,
@@ -317,7 +317,7 @@ $menuItems = [
                 'feature' => TFeature::FEAT_INTEGRATIONS_GESTAOPRESENTE,
             ],
         ],
-    ],   
+    ],
     [
         'label' => 'Gerenciar Notificações',
         'url' => ['notifications/notifications/index'],
@@ -346,13 +346,13 @@ $menuItems = [
     [
         'label' => 'Gestão de Resultados',
         'icon' => 't-icon-bar_graph',
-        'url' =>  ['dashboard'],
+        'url' => ['dashboard'],
         'roles' => [TRole::ADMIN, TRole::READER],
         'feature' => TTask::TASK_MANAGEMENT_PERFORMANCE_BI,
     ],
     [
         'label' => 'Gestão de Resultados',
-        'url' =>  ['resultsmanagement'],
+        'url' => ['resultsmanagement'],
         'icon' => 't-icon-bar_graph',
         'roles' => [TRole::ADMIN, TRole::READER],
         'feature' => TTask::TASK_MANAGEMENT_PERFORMANCE,

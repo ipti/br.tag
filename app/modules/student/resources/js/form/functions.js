@@ -1,17 +1,16 @@
 $(document).on("click", ".js-remove-enrollment", function () {
-    let $button = $(this); // Armazena o botão clicado
+    let $button = $(this);
     let enrollmentId = $button.attr("enrollment-id");
 
     $.ajax({
         type: "POST",
-        url: "?r=student/getGradesAndFrequency",
+        url: "?r=student/student/getGradesAndFrequency",
         cache: false,
         data: {
             enrollmentId: enrollmentId
         },
         success: function (data) {
-
-            let response =  JSON.parse(DOMPurify.sanitize(data));
+            let response = JSON.parse(DOMPurify.sanitize(data));
 
             let $alertBox = $(".js-remove-enrollment-alert");
             $alertBox.removeClass("alert-error alert-success").show().html(response.message);
@@ -33,5 +32,3 @@ $(document).on("click", ".js-remove-enrollment", function () {
         }
     });
 });
-
-

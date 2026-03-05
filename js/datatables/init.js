@@ -163,7 +163,7 @@ function initDatatable() {
                         serverSide: true,
                         responsive: true,
                         ajax: $.fn.dataTable.pipeline({
-                            url: `?r=student/getstudentajax`,
+                            url: `?r=student/student/getstudentajax`,
                             pages: 5,
                             method: "POST",
                             data: function (d) {

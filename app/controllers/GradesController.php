@@ -710,7 +710,7 @@ class GradesController extends Controller
 
                         $isMinorEducation = TagUtils::isStageMinorEducation($classroom->edcensoStageVsModalityFk->edcenso_associated_stage_id);
                         if (!$isMinorEducation) {
-                            $frequency = $enrollment->studentEnrolmentFrequencyPerDiscipline($disciplineId);
+                            $frequency = $enrollment->studentEnrolmentFrequencyPerDiscipline($discipline['discipline_fk']);
                         }
                         else {
                             $frequency = $enrollment->totalStudentEnrolmentFrequency();

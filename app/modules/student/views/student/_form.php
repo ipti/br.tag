@@ -11,11 +11,20 @@
 /* @var $modelStudentIdentification /app/models/StudentIdentification */
 $baseUrl = Yii::app()->baseUrl;
 $themeUrl = Yii::app()->theme->baseUrl;
+$modulePath = Yii::app()->getModule('student')->getBasePath();
 $cs = Yii::app()->getClientScript();
-$cs->registerScriptFile($baseUrl . '/js/student/form/_initialization.js?v=' . TAG_VERSION, CClientScript::POS_END);
-$cs->registerScriptFile($baseUrl . '/js/student/form/functions.js?v=' . TAG_VERSION, CClientScript::POS_END);
-$cs->registerScriptFile($baseUrl . '/js/student/form/validations.js?v=' . TAG_VERSION, CClientScript::POS_END);
-$cs->registerScriptFile($baseUrl . '/js/student/form/pagination.js?v=' . TAG_VERSION, CClientScript::POS_END);
+
+$initJs = Yii::app()->getAssetManager()->publish($modulePath . '/resources/js/form/_initialization.js');
+$cs->registerScriptFile($initJs . '?v=' . TAG_VERSION, CClientScript::POS_END);
+
+$functionsJs = Yii::app()->getAssetManager()->publish($modulePath . '/resources/js/form/functions.js');
+$cs->registerScriptFile($functionsJs . '?v=' . TAG_VERSION, CClientScript::POS_END);
+
+$validationsJs = Yii::app()->getAssetManager()->publish($modulePath . '/resources/js/form/validations.js');
+$cs->registerScriptFile($validationsJs . '?v=' . TAG_VERSION, CClientScript::POS_END);
+
+$paginationJs = Yii::app()->getAssetManager()->publish($modulePath . '/resources/js/form/pagination.js');
+$cs->registerScriptFile($paginationJs . '?v=' . TAG_VERSION, CClientScript::POS_END);
 
 $cs->registerScriptFile($baseUrl . '/js/enrollment/form/_initialization.js?v=' . TAG_VERSION, CClientScript::POS_END);
 $cs->registerScriptFile($baseUrl . '/js/enrollment/form/validations.js?v=' . TAG_VERSION, CClientScript::POS_END);
@@ -304,7 +313,7 @@ $form = $this->beginWidget(
                     array(
                       'ajax' => array(
                         'type' => 'POST',
-                        'url' => CController::createUrl('student/getnations'),
+                        'url' => CController::createUrl('student/student/getnations'),
                         'update' => '#StudentIdentification_edcenso_nation_fk'
                       )
                     )
@@ -343,7 +352,7 @@ $form = $this->beginWidget(
                   array(
                     'ajax' => array(
                       'type' => 'POST',
-                      'url' => CController::createUrl('student/getcities', array('rt' => 0)),
+                      'url' => CController::createUrl('student/student/getcities', array('rt' => 0)),
                       'update' => '#StudentIdentification_edcenso_city_fk'
                     ),
                     "prompt" => "Selecione um estado",
@@ -1324,7 +1333,7 @@ $form = $this->beginWidget(
                   array(
                     'ajax' => array(
                       'type' => 'POST',
-                      'url' => CController::createUrl('student/getcities', array('rt' => 1)),
+                      'url' => CController::createUrl('student/student/getcities', array('rt' => 1)),
                       'update' => '#StudentDocumentsAndAddress_notary_office_city_fk'
                     ),
                     "prompt" => "Selecione um estado",
@@ -1350,7 +1359,7 @@ $form = $this->beginWidget(
                   array(
                     'ajax' => array(
                       'type' => 'POST',
-                      'url' => CController::createUrl('student/getnotaryoffice'),
+                      'url' => CController::createUrl('student/student/getnotaryoffice'),
                       'update' => '#StudentDocumentsAndAddress_edcenso_notary_office_fk'
                     ),
                     "prompt" => "Selecione uma cidade",
@@ -1667,7 +1676,7 @@ $form = $this->beginWidget(
                   array(
                     'ajax' => array(
                       'type' => 'POST',
-                      'url' => CController::createUrl('student/getcities', array('rt' => 2)),
+                      'url' => CController::createUrl('student/student/getcities', array('rt' => 2)),
                       'update' => '#StudentDocumentsAndAddress_edcenso_city_fk'
                     ),
                     "prompt" => "Selecione um estado",

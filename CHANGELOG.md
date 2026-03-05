@@ -1,3 +1,10 @@
+## [Versão 3.12.0]
+- Refatoração completa do módulo de estudantes para melhor arquitetura e desempenho (app/modules/student)
+- Ajustes finos no arquivo de layout de menus e superusuários
+- Melhorias na validação de importação de estudantes e integração Sentry
+- Correções para as regras do Educacenso e módulos de frequência
+- Atualizações contínuas de segurança e auditorias do sistema
+
 ## [Versão 3.11.0]
 - **Novo Resumo do Ano:** Agora é possível imprimir um resumo completo de todos os vínculos e aulas do professor em um único ano.
 - **Histórico de Vínculos Mais Simples:** No painel e na impressão do histórico do professor, turmas de Ensino Fundamental Menor (Regência) agora aparecem de forma agrupada, sem quebrar a contagem por disciplina.
