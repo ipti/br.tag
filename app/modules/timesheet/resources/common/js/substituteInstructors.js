@@ -57,9 +57,9 @@ function loadFrequency() {
                 );
             },
             success: function (response) {
-                var data = JSON.parse(response);
+                let data = JSON.parse(response);
                 if (data.valid) {
-                    var html = "";
+                    let html = "";
                     html +=
                         "" +
                         "<table class='t-accordion table-frequency table table-bordered table-striped table-hover'>" +
@@ -68,10 +68,10 @@ function loadFrequency() {
                         (Object.keys(data.response.schedules).length + 1) +
                         "'>" +
                         "Dias de Aula</th></tr>";
-                    var daynameRow = "";
-                    var dayRow = "";
-                    var scheduleRow = "";
-                    var checkboxRow = "";
+                    let daynameRow = "";
+                    let dayRow = "";
+                    let scheduleRow = "";
+                    let checkboxRow = "";
                     const instructorId = data.instructorId;
                     const schedules = data.response.schedules;
                     $.each(schedules, function () {
@@ -128,7 +128,7 @@ function loadFrequency() {
                     html += "</tr></tbody></table>";
                     $("#frequency-container").html(html).show();
                     $(".frequency-checkbox-general").each(function () {
-                        var day = $(this)
+                        let day = $(this)
                             .find(".frequency-checkbox-substitute")
                             .attr("day");
                         $(this)
@@ -137,14 +137,14 @@ function loadFrequency() {
                                 "checked",
                                 $(
                                     ".frequency-checkbox-instructor .frequency-checkbox-substitute[day=" +
-                                        day +
-                                        "]:checked"
+                                    day +
+                                    "]:checked"
                                 ).length ===
-                                    $(
-                                        ".frequency-checkbox-instructor .frequency-checkbox-substitute[day=" +
-                                            day +
-                                            "]"
-                                    ).length
+                                $(
+                                    ".frequency-checkbox-instructor .frequency-checkbox-substitute[day=" +
+                                    day +
+                                    "]"
+                                ).length
                             );
                     });
                     $('[data-toggle="tooltip"]').tooltip({ container: "body" });
@@ -297,10 +297,10 @@ $(document).on("change", ".frequency-checkbox-substitute", function () {
             if ($(checkbox).attr("instructorId") === undefined) {
                 $(
                     ".table-frequency tbody .frequency-checkbox-substitute[day=" +
-                        $(checkbox).attr("day") +
-                        "][schedule=" +
-                        $(checkbox).attr("schedule") +
-                        "]"
+                    $(checkbox).attr("day") +
+                    "][schedule=" +
+                    $(checkbox).attr("schedule") +
+                    "]"
                 ).prop("checked", $(checkbox).is(":checked"));
             }
             $(".loading-frequency").hide();

@@ -40,7 +40,7 @@ $("#InstructorIdentification_edcenso_uf_fk").on("change", function () {
 
 $("#InstructorDocumentsAndAddress_edcenso_uf_fk").on("change", function () {
     $('#InstructorDocumentsAndAddress_edcenso_city_fk option:not(:contains("Selecione uma cidade"))').remove();
-    loadCitiesTo(this,"#InstructorDocumentsAndAddress_edcenso_city_fk");
+    loadCitiesTo(this, "#InstructorDocumentsAndAddress_edcenso_city_fk");
 });
 
 $("#IES").on("change", function () {
@@ -53,7 +53,7 @@ $(function () {
 });
 
 
-function loadCitiesTo(emmiter , citySelector){
+function loadCitiesTo(emmiter, citySelector) {
     $.ajax({
         type: "POST",
         url: "?r=instructor/getCity",
@@ -79,7 +79,7 @@ function loadIES(iesUfDropDown, iesDropDownPath, currentIES) {
             edcenso_uf_fk: $(iesUfDropDown).val(),
         },
         success: function (response) {
-            var options = response.map((item) => {
+            let options = response.map((item) => {
                 return $(`<option value=${item.id} >${item.name}</option>`)
             },
 
@@ -92,10 +92,10 @@ function loadIES(iesUfDropDown, iesDropDownPath, currentIES) {
     });
 }
 
-function renderClasroomsCards(){
+function renderClasroomsCards() {
     let params = new URLSearchParams(document.location.search);
     let instructorId = params.get("id");
-    if(instructorId) {
+    if (instructorId) {
         $.ajax({
             url: "?r=instructor/getclassrooms",
             type: "POST",
@@ -103,9 +103,9 @@ function renderClasroomsCards(){
                 instructorId: instructorId
             }
         }).success(function (response) {
-             const result = JSON.parse(response);
+            const result = JSON.parse(response);
             const classrooms = $(".js-add-classrooms-cards");
-             var cardsClassrooms = result.reduce((acc, element) =>
+            let cardsClassrooms = result.reduce((acc, element) =>
                 acc += `
                 <div class="column clearfix no-grow">
                      <a href="${window.location.host}?r=classroom/update&id=${element["id"]}" class="t-cards">
@@ -119,6 +119,6 @@ function renderClasroomsCards(){
             classrooms.html(DOMPurify.sanitize(cardsClassrooms));
         })
     }
- }
+}
 
- renderClasroomsCards();
+renderClasroomsCards();

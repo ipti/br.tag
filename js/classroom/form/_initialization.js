@@ -1,4 +1,4 @@
-$(document).ready(function() {
+$(document).ready(function () {
     ////////////////////////////////////////////////
     // Ajax Initialization                        //
     ////////////////////////////////////////////////
@@ -9,15 +9,15 @@ $(document).ready(function() {
     //     'data':$(form+'school_inep_fk').parents("form").serialize(),
     //     'success':function(result){
     //         result   = jQuery.parseJSON(result);
-    //         var html = result.html;
-    //         var val  = result.val;
+    //         let html = result.html;
+    //         let val  = result.val;
     //         $(form+"assistance_type").html(html);
     //         $(form+"assistance_type").val(val).trigger('change');
     //     }});
-    $( function() {
+    $(function () {
 
-        $( "#js-t-sortable" ).sortable();
-      } );
+        $("#js-t-sortable").sortable();
+    });
     if ($("#Classroom_complementary_activity").is(":checked")) {
         $("#complementary_activity").show();
     } else {
@@ -69,7 +69,7 @@ $(function () {
 });
 
 //Ao clicar ENTER no formulário adicionar aula
-$('#create-dialog-form, #teachingdata-dialog-form, #update-dialog-form').keypress(function(e) {
+$('#create-dialog-form, #teachingdata-dialog-form, #update-dialog-form').keypress(function (e) {
     if (e.keyCode === $.ui.keyCode.ENTER) {
         e.preventDefault();
     }
@@ -77,21 +77,21 @@ $('#create-dialog-form, #teachingdata-dialog-form, #update-dialog-form').keypres
 
 $('.heading-buttons').css('width', $('#content').width());
 
-$(".update-classroom-from-sedsp").click(function() {
+$(".update-classroom-from-sedsp").click(function () {
     $("#importClassroomFromSEDSP").modal("show");
 });
 
-$(".import-classroom-button").click(function() {
+$(".import-classroom-button").click(function () {
     $("#importClassroomFromSEDSP").find("form").submit();
 });
 
-$('#copy-gov-id').click(function() {
+$('#copy-gov-id').click(function () {
     let govId = $('#Classroom_gov_id').val();
     navigator.clipboard.writeText(govId);
     $('#copy-message').text('Copiado!').fadeIn().delay(1000).fadeOut();
 });
 
-$('#js-alphabetic-order').click(function() {
+$('#js-alphabetic-order').click(function () {
     let orderArray = $('#js-t-sortable').sortable("toArray");
     $.ajax({
         url: `?r=classroom/updateDailyOrder`,

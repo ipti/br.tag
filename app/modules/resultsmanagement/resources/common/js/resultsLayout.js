@@ -1,6 +1,6 @@
 $(document).ready(function () {
     $('div.row-info').each(function () {
-        var color;
+        let color;
         if ($(this).hasClass("water")) {
             color = "blue";
         } else if ($(this).hasClass("electricity")) {
@@ -11,7 +11,7 @@ $(document).ready(function () {
             color = "green";
         }
         $(this).find(".box").each(function () {
-            var percent = $(this).clone().children().remove().end().text().replace("%", "");
+            let percent = $(this).clone().children().remove().end().text().replace("%", "");
             $(this).addClass("box-" + color + "-" + Math.ceil((percent == 0 ? 1 : percent) / 25));
         });
     });

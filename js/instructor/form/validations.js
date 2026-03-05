@@ -1,9 +1,9 @@
 $(formInstructorIdentification + 'name,' + formInstructorIdentification + 'filiation_1,' + formInstructorIdentification + 'filiation_2').on('focusout', function () {
-    var id = '#' + $(this).attr("id");
+    let id = '#' + $(this).attr("id");
 
     $(this).val($(this).val().toUpperCase());
 
-    validateNamePerson(this.value, function(ret){
+    validateNamePerson(this.value, function (ret) {
         if (!ret[0]) {
             $(id).attr('value', '');
             addError(id, ret[1]);
@@ -15,7 +15,7 @@ $(formInstructorIdentification + 'name,' + formInstructorIdentification + 'filia
 
 });
 $(formInstructorIdentification + 'email').on('focusout', function () {
-    var id = '#' + $(this).attr("id");
+    let id = '#' + $(this).attr("id");
 
     $(id).val($(id).val().toUpperCase());
 
@@ -29,10 +29,10 @@ $(formInstructorIdentification + 'email').on('focusout', function () {
 });
 
 var date = new Date();
-$(formInstructorIdentification + 'birthday_date').mask("00/00/0000", {placeholder: "dd/mm/aaaa"});
+$(formInstructorIdentification + 'birthday_date').mask("00/00/0000", { placeholder: "dd/mm/aaaa" });
 $(formInstructorIdentification + 'birthday_date').focusout(function () {
-    var id = '#' + $(this).attr("id");
-    var birthday_date = stringToDate($(formInstructorIdentification + 'birthday_date').val());
+    let id = '#' + $(this).attr("id");
+    let birthday_date = stringToDate($(formInstructorIdentification + 'birthday_date').val());
 
     if ((!validateDate($(formInstructorIdentification + 'birthday_date').val()) || !validateYear(birthday_date.year)) && ($(id).val() != '')) {
         addError(id, "Informe uma data válida no formato Dia/Mês/Ano.");
@@ -42,14 +42,14 @@ $(formInstructorIdentification + 'birthday_date').focusout(function () {
 });
 
 $(formInstructorIdentification + 'nationality').on('change', function () {
-    var nationality = $(this).val();
-    var nation = $(formInstructorIdentification + 'edcenso_nation_fk');
-    var uf = $(formInstructorIdentification + 'edcenso_uf_fk');
-    var city = $(formInstructorIdentification + 'edcenso_city_fk');
+    let nationality = $(this).val();
+    let nation = $(formInstructorIdentification + 'edcenso_nation_fk');
+    let uf = $(formInstructorIdentification + 'edcenso_uf_fk');
+    let city = $(formInstructorIdentification + 'edcenso_city_fk');
 
-    var nationVal = (nationality == 2 || nationality == 1) ? '76' : nation.val();
-    var ufVal = (nationality == 3) ? "" : uf.val();
-    var cityVal = (nationality == 3) ? "" : city.val();
+    let nationVal = (nationality == 2 || nationality == 1) ? '76' : nation.val();
+    let ufVal = (nationality == 3) ? "" : uf.val();
+    let cityVal = (nationality == 3) ? "" : city.val();
 
     nation.val(nationVal).trigger('change')
         .select2('readonly', (nationality == 2 || nationality == 1));
@@ -185,7 +185,7 @@ $(formInstructorIdentification + 'deficiency_type_intelectual_disability').on('c
 });
 
 function checkMultipleDeficiencies() {
-    var length = 0;
+    let length = 0;
     length = $(formInstructorIdentification + 'deficiency_type_blindness').is(':checked') ? length + 1 : length;
     length = $(formInstructorIdentification + 'deficiency_type_low_vision').is(':checked') ? length + 1 : length;
     length = $(formInstructorIdentification + 'deficiency_type_monocular_vision').is(':checked') ? length + 1 : length;
@@ -204,7 +204,7 @@ function checkMultipleDeficiencies() {
 
 var formDocumentsAndAddress = '#InstructorDocumentsAndAddress_';
 
-$(formDocumentsAndAddress + 'cpf').mask("000.000.000-00", {placeholder: "___.___.___-__"});
+$(formDocumentsAndAddress + 'cpf').mask("000.000.000-00", { placeholder: "___.___.___-__" });
 $(formDocumentsAndAddress + 'cpf').on('change', function () {
     const id = '#' + $(this).attr("id");
     const validationState = validateCpf($(id).val().replace(/\D/g, ''));
@@ -216,19 +216,19 @@ $(formDocumentsAndAddress + 'cpf').on('change', function () {
 });
 
 $(formDocumentsAndAddress + 'cep').focusout(function () {
-    var name = $(this).attr("id");
-    var id = '#' + name;
-    var element = $(id);
+    let name = $(this).attr("id");
+    let id = '#' + name;
+    let element = $(id);
 
-    var form = formDocumentsAndAddress.replace('#', '');
+    let form = formDocumentsAndAddress.replace('#', '');
 
-    var address = $("label[for=" + form + "address]");
-    var neighborhood = $("label[for=" + form + "neighborhood]");
-    var edcenso_uf_fk = $("#" + form + "edcenso_uf_fk");
-    var edcenso_city_fk = $("#" + form + "edcenso_city_fk");
+    let address = $("label[for=" + form + "address]");
+    let neighborhood = $("label[for=" + form + "neighborhood]");
+    let edcenso_uf_fk = $("#" + form + "edcenso_uf_fk");
+    let edcenso_city_fk = $("#" + form + "edcenso_city_fk");
 
-    var noError = false;
-    var required = false;
+    let noError = false;
+    let required = false;
 
     element.val(element.val().toUpperCase());
 
@@ -262,7 +262,7 @@ $(formDocumentsAndAddress + 'cep').focusout(function () {
 });
 
 $(formDocumentsAndAddress + 'address').focusout(function () {
-    var id = '#' + $(this).attr("id");
+    let id = '#' + $(this).attr("id");
     $(id).val($(id).val().toUpperCase());
 
     if (!validateInstructorAddress($(id).val())) {
@@ -274,7 +274,7 @@ $(formDocumentsAndAddress + 'address').focusout(function () {
 });
 
 $(formDocumentsAndAddress + 'address_number').focusout(function () {
-    var id = '#' + $(this).attr("id");
+    let id = '#' + $(this).attr("id");
     $(id).val($(id).val().toUpperCase());
 
     if (!validateInstructorAddressNumber($(id).val())) {
@@ -285,7 +285,7 @@ $(formDocumentsAndAddress + 'address_number').focusout(function () {
     }
 });
 $(formDocumentsAndAddress + 'neighborhood').focusout(function () {
-    var id = '#' + $(this).attr("id");
+    let id = '#' + $(this).attr("id");
     $(id).val($(id).val().toUpperCase());
 
     if (!validateInstructorAddressNeighborhood($(this).val())) {
@@ -301,7 +301,7 @@ $('#InstructorVariableData_high_education_initial_year_1, \n\
     #InstructorVariableData_high_education_initial_year_2,\n\
     #InstructorVariableData_high_education_initial_year_3').on('change', function () {
     if (this.value.length == 4) {
-        var data = new Date();
+        let data = new Date();
         if (!anoMinMax(2002, data.getFullYear(), this.value)) {
             $(this).attr('value', '');
         } else {
@@ -313,7 +313,7 @@ $('#InstructorVariableData_high_education_final_year_1,\n\
     #InstructorVariableData_high_education_final_year_2,\n\
     #InstructorVariableData_high_education_final_year_3').on('change', function () {
     if (this.value.length == 4) {
-        var data = new Date();
+        let data = new Date();
         if (!anoMinMax(1941, data.getFullYear(), this.value)) {
             $(this).attr('value', '');
         }
@@ -505,9 +505,9 @@ $(formInstructorvariableData + 'scholarity').on('change', function () {
     $(formInstructorvariableData + 'high_education_situation_3').trigger("change");
 
     $(formInstructorvariableData + 'high_education_course_code_1_fk').on('change', function () {
-        var course = $(formInstructorvariableData + 'high_education_course_code_1_fk option:selected').text();
+        let course = $(formInstructorvariableData + 'high_education_course_code_1_fk option:selected').text();
         course = course.toUpperCase();
-        var beforelicenciatura = course.split('LICENCIATURA')[0];
+        let beforelicenciatura = course.split('LICENCIATURA')[0];
         if (course != beforelicenciatura) {
             // Se é diferente então encontrou a palavra Licenciatura
             $(formInstructorvariableData + 'high_education_formation_1').add().attr('disabled', 'disabled');
@@ -517,9 +517,9 @@ $(formInstructorvariableData + 'scholarity').on('change', function () {
     });
 
     $(formInstructorvariableData + 'high_education_course_code_2_fk').on('change', function () {
-        var course = $(formInstructorvariableData + 'high_education_course_code_2_fk option:selected').text();
+        let course = $(formInstructorvariableData + 'high_education_course_code_2_fk option:selected').text();
         course = course.toUpperCase();
-        var beforelicenciatura = course.split('LICENCIATURA')[0];
+        let beforelicenciatura = course.split('LICENCIATURA')[0];
         if (course != beforelicenciatura) {
             // Se é diferente então encontrou a palavra Licenciatura
             $(formInstructorvariableData + 'high_education_formation_2').add().attr('disabled', 'disabled');
@@ -529,9 +529,9 @@ $(formInstructorvariableData + 'scholarity').on('change', function () {
     });
 
     $(formInstructorvariableData + 'high_education_course_code_3_fk').on('change', function () {
-        var course = $(formInstructorvariableData + 'high_education_course_code_3_fk option:selected').text();
+        let course = $(formInstructorvariableData + 'high_education_course_code_3_fk option:selected').text();
         course = course.toUpperCase();
-        var beforelicenciatura = course.split('LICENCIATURA')[0];
+        let beforelicenciatura = course.split('LICENCIATURA')[0];
         if (course != beforelicenciatura) {
             // Se é diferente então encontrou a palavra Licenciatura
             $(formInstructorvariableData + 'high_education_formation_3').add().attr('disabled', 'disabled');
@@ -540,13 +540,13 @@ $(formInstructorvariableData + 'scholarity').on('change', function () {
         }
     });
 
-    var pgs = formInstructorvariableData + 'post_graduation_specialization';
-    var pgm = formInstructorvariableData + 'post_graduation_master';
-    var pgd = formInstructorvariableData + 'post_graduation_doctorate';
-    var pgn = formInstructorvariableData + 'post_graduation_none';
+    let pgs = formInstructorvariableData + 'post_graduation_specialization';
+    let pgm = formInstructorvariableData + 'post_graduation_master';
+    let pgd = formInstructorvariableData + 'post_graduation_doctorate';
+    let pgn = formInstructorvariableData + 'post_graduation_none';
 
     $(pgs + ',' + pgm + ',' + pgd).on('change', function () {
-        var checked = !($(pgs).is(':checked') || $(pgm).is(':checked') || $(pgd).is(':checked'));
+        let checked = !($(pgs).is(':checked') || $(pgm).is(':checked') || $(pgd).is(':checked'));
         $(pgn).attr('checked', checked);
     });
     $(pgn).on('change', function () {
@@ -555,10 +555,10 @@ $(formInstructorvariableData + 'scholarity').on('change', function () {
         }
     });
 
-    var ocn = formInstructorvariableData + 'other_courses_none';
+    let ocn = formInstructorvariableData + 'other_courses_none';
 
     $('.other_courses').on('change', function () {
-        var checked = $('.other_courses').is(':checked');
+        let checked = $('.other_courses').is(':checked');
         $(ocn).attr('checked', checked);
     });
     $(ocn).on('change', function () {
@@ -569,8 +569,8 @@ $(formInstructorvariableData + 'scholarity').on('change', function () {
 });
 
 $(".save-instructor").click(function () {
-    var error = false;
-    var message = "";
+    let error = false;
+    let message = "";
     if ($("#InstructorIdentification_name").val() === "") {
         error = true;
         message += "Campo <b>Nome</b> é obrigatório.<br>";
@@ -655,7 +655,7 @@ $(".save-instructor").click(function () {
         error = true;
         message += "Quando o campo <b>Filiação</b> é selecionado como 'Declarado', pelo menos um dos campos <b>Nome Completo da Filiação</b> ou <b>Nome Completo do Pai</b> devem ser preenchidos.<br>";
     }
-    var variableData1Filled = false;
+    let variableData1Filled = false;
     if (($("#InstructorVariableData_high_education_situation_1").val() === "1" && ($("#InstructorVariableData_high_education_course_code_1_fk").val() === "" || $("#InstructorVariableData_high_education_final_year_1").val() === "" || $("#InstructorVariableData_high_education_institution_code_1_fk").val() === ""))
         || $("#InstructorVariableData_high_education_situation_1").val() === "2" && ($("#InstructorVariableData_high_education_course_code_1_fk").val() === "" || $("#InstructorVariableData_high_education_initial_year_1").val() === "" || $("#InstructorVariableData_high_education_institution_code_1_fk").val() === "")) {
         error = true;
@@ -678,7 +678,7 @@ $(".save-instructor").click(function () {
         message += "Quando o campo <b>Escolaridade</b> é selecionado como 'Superior', deve-se preencher pelo menos o <b>Curso 1</b>.<br>";
     }
     if (error) {
-        $("html, body").animate({scrollTop: 0}, "fast");
+        $("html, body").animate({ scrollTop: 0 }, "fast");
         $(this).closest("form").find(".instructor-error").html(message).show();
     } else {
         $(this).closest("form").find(".instructor-error").hide();

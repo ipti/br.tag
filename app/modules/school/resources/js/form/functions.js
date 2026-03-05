@@ -5,10 +5,10 @@
  * and open the template in the editor.
  */
 $('#ManagerIdentification_nationality').change(function () {
-    var nationality = ".nationality-sensitive";
-    var br = nationality + ".br";
-    var nobr = nationality + ".no-br";
-    var simple = getUrlVars()['simple'];
+    let nationality = ".nationality-sensitive";
+    let br = nationality + ".br";
+    let nobr = nationality + ".no-br";
+    let simple = getUrlVars()['simple'];
     $(nationality).attr("disabled", "disabled");
     if ($(this).val() == 3) {
         $(nobr).removeAttr("disabled");
@@ -36,7 +36,7 @@ $('#ManagerIdentification_nationality').change(function () {
 });
 
 $('#ManagerIdentification_edcenso_uf_fk').change(function () {
-    var uf = $(this).val();
+    let uf = $(this).val();
     $("#ManagerIdentification_edcenso_city_fk").empty();
     $.ajax({
         type: "POST",
@@ -51,7 +51,7 @@ $('#ManagerIdentification_edcenso_uf_fk').change(function () {
 });
 
 $('#ManagerIdentification_filiation').change(function () {
-    var simple = getUrlVars()['simple'];
+    let simple = getUrlVars()['simple'];
     $('.manager-filiation-container').hide();
     if ($('#ManagerIdentification_filiation').val() == 1) {
         $('.manager-filiation-container').show();

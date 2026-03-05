@@ -21,7 +21,7 @@ function editAllocation(element) {
     // Ou usamos $(element).attr('href') se for um link.
     // O template gerou <a class="btn-edit-allocation" href="ID">...</a>
     debugger;
-    var id = $(element).attr('href');
+    let id = $(element).attr('href');
     if (!id || id === '#') {
         // Fallback para tentar data-id se mudarmos a estratégia
         id = $(element).data('id');
@@ -48,7 +48,7 @@ function editAllocation(element) {
         success: function (response) {
             console.log('View response:', response);
             if (response.success && response.data) {
-                var data = response.data;
+                let data = response.data;
 
                 // Preencher campos
                 $('#ProfessionalAllocation_id').val(data.id);
@@ -144,7 +144,7 @@ $(document).on('click', '.btn-delete-allocation', function (e) {
     e.preventDefault();
     console.log('Delete button clicked via class delegation', this);
     // CButtonColumn gera href com o ID
-    var id = $(this).attr('href');
+    let id = $(this).attr('href');
     if (!id || id === '#') id = $(this).data('id');
 
     deleteAllocation(id);
@@ -152,7 +152,7 @@ $(document).on('click', '.btn-delete-allocation', function (e) {
 
 function saveAllocation() {
     console.log('saveAllocation called');
-    var data = {
+    let data = {
         'ProfessionalAllocation': {
             'id': $('#ProfessionalAllocation_id').val(),
             'professional_fk': $('#ProfessionalAllocation_professional_fk').val(),
@@ -185,7 +185,7 @@ function saveAllocation() {
                 clearAllocationForm();
                 location.reload();
             } else {
-                var errorMsg = '';
+                let errorMsg = '';
                 if (response.errors) {
                     $.each(response.errors, function (k, v) { errorMsg += v + '\n'; });
                 }

@@ -12,25 +12,27 @@ $(document).ready(function () {
         draggable: false,
         resizable: false,
         buttons: [{
-                text: btnCreate,
-                click: function () {
-                    var id = '#Role';
-                    if ((role.val().length !== 0 && instructors.val().length !== 0)
-                            || (role.val().length === 0 && instructors.val().length === 0)) {
-                        addTeachingData();
-                        removeError(id);
-                        $(this).dialog("close");
-                    } else {
-                        addError(id, "Selecione um cargo");
-                    }
-                }},
-            {
-                text: btnCancel,
-                click: function () {
-                    var id = '#Role';
+            text: btnCreate,
+            click: function () {
+                let id = '#Role';
+                if ((role.val().length !== 0 && instructors.val().length !== 0)
+                    || (role.val().length === 0 && instructors.val().length === 0)) {
+                    addTeachingData();
                     removeError(id);
                     $(this).dialog("close");
-                }}
+                } else {
+                    addError(id, "Selecione um cargo");
+                }
+            }
+        },
+        {
+            text: btnCancel,
+            click: function () {
+                let id = '#Role';
+                removeError(id);
+                $(this).dialog("close");
+            }
+        }
 
         ],
     });
@@ -42,4 +44,4 @@ $(document).ready(function () {
 $("#newDiscipline").click(function () {
     $("#teachingdata-dialog-form select").val('').trigger('change');
     $("#teachingdata-dialog-form").dialog('open');
-});    
+});

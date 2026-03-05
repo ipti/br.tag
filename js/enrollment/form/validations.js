@@ -3,10 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-$('#StudentEnrollment_enrollment_date').mask("00/00/0000", {placeholder: "dd/mm/aaaa"});
+$('#StudentEnrollment_enrollment_date').mask("00/00/0000", { placeholder: "dd/mm/aaaa" });
 $('#StudentEnrollment_enrollment_date').focusout(function () {
-    var id = '#' + $(this).attr("id");
-    var enrollment_date = stringToDate($('#StudentEnrollment_enrollment_date').val());
+    let id = '#' + $(this).attr("id");
+    let enrollment_date = stringToDate($('#StudentEnrollment_enrollment_date').val());
 
 
     if ((!validateDate($('#StudentEnrollment_enrollment_date').val()) || !validateYear(enrollment_date.year)) && ($(id).val() != '')) {
@@ -19,7 +19,7 @@ $('#StudentEnrollment_enrollment_date').focusout(function () {
 
 function checkMulticlass() {
 
-    var multi = $(cls + " option:selected").attr('id');
+    let multi = $(cls + " option:selected").attr('id');
     if (multi == 1) {
         $('#multiclass').show();
     } else {
@@ -31,8 +31,8 @@ function checkMulticlass() {
 }
 
 $(".save-enrollment").click(function () {
-    var error = false;
-    var message = "";
+    let error = false;
+    let message = "";
     if ($("#StudentEnrollment_enrollment_date").val() === "") {
         error = true;
         message += "Preencha o campo \"Data de Ingresso na Escola\" <br>";
@@ -70,7 +70,7 @@ $(".save-enrollment").click(function () {
         message += "Não pode marcar todos os seguintes campos: <b>Embarcação - Capacidade de até 5 alunos</b>, <b>Embarcação - Entre 5 a 15 alunos</b>, <b>Embarcação - Entre 15 a 35 alunos</b> e <b>Embarcação - Acima de 35 alunos</b>. Desmarque algumas dessas opções.<br>";
     }
     if (error) {
-        $("html, body").animate({scrollTop: 0}, "fast");
+        $("html, body").animate({ scrollTop: 0 }, "fast");
         $(this).closest("form").find(".enrollment-error").addClass("alert-error").removeClass("alert-warning").html(message).show();
     } else {
         if ($("#StudentEnrollment_classroom_fk") !== "" && $("#StudentEnrollment_classroom_fk option:selected").closest("optgroup").attr("label") !== $("#SchoolIdentification_inep_id option:selected").text()) {
@@ -84,18 +84,18 @@ $(".save-enrollment").click(function () {
     }
 });
 
-$(document).on("click", ".yes-update", function() {
+$(document).on("click", ".yes-update", function () {
     $("#student input").removeAttr("disabled");
     $("#student select").removeAttr("disabled").trigger("change.select2");
     $(this).closest("form").submit();
 });
 
-$(document).on("click", ".no-update", function() {
+$(document).on("click", ".no-update", function () {
     $(this).closest("form").find(".enrollment-error").hide();
 });
 
 
-$('#StudentEnrollment_school_readmission_date').mask("00/00/0000", {placeholder: "dd/mm/aaaa"});
+$('#StudentEnrollment_school_readmission_date').mask("00/00/0000", { placeholder: "dd/mm/aaaa" });
 $('#StudentEnrollment_school_readmission_date').focusout(function () {
     let id = '#' + $(this).attr("id");
     let school_readmission_date = stringToDate($('#StudentEnrollment_school_readmission_date').val());
@@ -108,7 +108,7 @@ $('#StudentEnrollment_school_readmission_date').focusout(function () {
     }
 });
 
-$('#StudentEnrollment_class_transfer_date').mask("00/00/0000", {placeholder: "dd/mm/aaaa"});
+$('#StudentEnrollment_class_transfer_date').mask("00/00/0000", { placeholder: "dd/mm/aaaa" });
 $('#StudentEnrollment_class_transfer_date').focusout(function () {
     let id = '#' + $(this).attr("id");
     let class_transfer_date = stringToDate($('#StudentEnrollment_class_transfer_date').val());

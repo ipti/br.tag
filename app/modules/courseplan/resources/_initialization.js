@@ -12,9 +12,9 @@ $(document).ready(function () {
 // Add event listener for opening and closing details
 $('#course-classes tbody').on('click', 'td.details-control', function () {
 
-    var tr = $(this).closest('tr');
-    var i = $(this).children('img').first();
-    var row = table.row(tr);
+    let tr = $(this).closest('tr');
+    let i = $(this).children('img').first();
+    let row = table.row(tr);
 
     let formatSelectionFunction = (d) => $('#validate-index').length > 0 ? format_validate(d) : format(d);
 
@@ -47,11 +47,11 @@ $('#course-classes tbody').on('click', 'td.details-control', function () {
                 }
             },
             formatSelection: function (state) {
-                var textArray = `(${state.code}) ${state.description}`
+                let textArray = `(${state.code}) ${state.description}`
                 return textArray;
             },
             formatResult: function (data) {
-                var textArray = `(${data.code}) ${data.description}`;
+                let textArray = `(${data.code}) ${data.description}`;
                 return textArray;
             },
             escapeMarkup: function (m) {
@@ -61,11 +61,11 @@ $('#course-classes tbody').on('click', 'td.details-control', function () {
         });
         tr.next().find('select.ability-select').select2({
             formatSelection: function (state) {
-                var textArray = state.text.split("|");
+                let textArray = state.text.split("|");
                 return textArray[0];
             },
             formatResult: function (data) {
-                var textArray = data.text.split("|");
+                let textArray = data.text.split("|");
                 if (textArray.length === 1) {
                     return "<div class='ability-optgroup'><b>" + textArray[0] + "</b></div>";
                 } else {
@@ -100,7 +100,7 @@ $(document).on("click", ".js-remove-course-class", function () {
 });
 
 $(document).on("keyup", ".course-class-content", function () {
-     var content = $(this).val();
+    let content = $(this).val();
     $(this).parents("tr").prev().children(".dt-justify").html(content);
 });
 
@@ -120,9 +120,9 @@ $(document).on("change", "#CoursePlan_modality_fk", function (evt, loadingData) 
             },
             success: function (data) {
                 data = JSON.parse(data);
-                var option = "<option value=''>Selecione o componente curricular/eixo...</option>";
+                let option = "<option value=''>Selecione o componente curricular/eixo...</option>";
                 let isMinorEducation = data[0].isMinorEducation;
-                if(isMinorEducation == true) {
+                if (isMinorEducation == true) {
                     $.each(data, function () {
                         let minorSelectedValue = loadingData !== undefined && $("#minorEducationDisciplines").attr("initval") !== "" && $("#minorEducationDisciplines").attr("initval") == this.id ? "selected" : "";
                         option += "<option value='" + this.id + "' " + minorSelectedValue + ">" + this.name + "</option>";
@@ -132,7 +132,7 @@ $(document).on("change", "#CoursePlan_modality_fk", function (evt, loadingData) 
                     $("#disciplinesContainer").addClass("hide");
                 } else {
                     $.each(data, function () {
-                        var selectedValue = loadingData !== undefined && $("#CoursePlan_discipline_fk").attr("initval") !== "" && $("#CoursePlan_discipline_fk").attr("initval") == this.id ? "selected" : "";
+                        let selectedValue = loadingData !== undefined && $("#CoursePlan_discipline_fk").attr("initval") !== "" && $("#CoursePlan_discipline_fk").attr("initval") == this.id ? "selected" : "";
                         option += "<option value='" + this.id + "' " + selectedValue + ">" + this.name + "</option>";
                     });
                     $("#CoursePlan_discipline_fk").html(option).trigger("change").show();
@@ -187,11 +187,11 @@ $(document).on("change", "#CoursePlan_discipline_fk, #minorEducationDisciplines"
 });
 
 $(document).on("change", ".ability-structure-select", function () {
-    var container = $(this).closest(".ability-structure-container");
+    let container = $(this).closest(".ability-structure-container");
     container.nextAll().remove();
     $(".js-abilities-panel").children().remove();
 
-    var selectedValue = $(this).val();
+    let selectedValue = $(this).val();
     if ($(this).val() !== "") {
         $.ajax({
             type: "POST",
@@ -206,8 +206,8 @@ $(document).on("change", ".ability-structure-select", function () {
             success: function (data) {
                 data = JSON.parse(data);
 
-                let optionsWithCode = {"options":[],  "selectTitle":'HABILIDADES'};
-                let optionsWithoutCode ={"options":[], "selectTitle": data.selectTitle};
+                let optionsWithCode = { "options": [], "selectTitle": 'HABILIDADES' };
+                let optionsWithoutCode = { "options": [], "selectTitle": data.selectTitle };
 
                 data.options.forEach(option => {
                     if (option.code !== null) {
@@ -216,10 +216,10 @@ $(document).on("change", ".ability-structure-select", function () {
                         optionsWithoutCode.options.push(option);
                     }
                 });
-                if(optionsWithoutCode.options.length > 0) {
+                if (optionsWithoutCode.options.length > 0) {
                     $(".js-abilities-parents").append(DOMPurify.sanitize(buildAbilityStructureSelect(optionsWithoutCode)));
                 }
-                if(optionsWithCode.options.length > 0) {
+                if (optionsWithCode.options.length > 0) {
                     $(".js-abilities-panel").html(DOMPurify.sanitize(buildAbilityStructurePanel(optionsWithCode)));
                 }
 
@@ -244,18 +244,18 @@ $(document).on("click", ".remove-resource", function () {
 
 $(document).on("click", ".add-abilities", function (e) {
     e.preventDefault();
-    var tr = $(this).closest("tr").prev();
-    var row = table.row(tr);
+    let tr = $(this).closest("tr").prev();
+    let row = table.row(tr);
     $(".course-class-index").val(row.data().class);
 
     $(".js-abilities-selected").find(".ability-panel-option").remove();
     $(".js-abilities-panel").find(".ability-panel-option").removeClass("selected");
-    var options = $(this).closest(".courseplan-ability-container").find(".courseplan-abilities-selected").find(".ability-panel-option");
+    let options = $(this).closest(".courseplan-ability-container").find(".courseplan-abilities-selected").find(".ability-panel-option");
     if (options.length) {
-        var selected = options.clone().appendTo(".js-abilities-selected");
+        let selected = options.clone().appendTo(".js-abilities-selected");
         selected.find("i").removeClass("fa-check-square").addClass("fa-minus-square");
         options.each(function () {
-            var optionIdInPanel = $(".js-abilities-panel").find(".ability-panel-option-id[value=" + $(this).find(".ability-panel-option-id").val() + "]");
+            let optionIdInPanel = $(".js-abilities-panel").find(".ability-panel-option-id[value=" + $(this).find(".ability-panel-option-id").val() + "]");
             if (optionIdInPanel.length) {
                 optionIdInPanel.closest(".ability-panel-option").addClass("selected");
             }
@@ -291,13 +291,13 @@ $(document).on('click', '.save-new-resources', function (e) {
 $(document).on("click", ".ability-panel-option", function () {
     if ($(this).closest(".js-abilities-panel").length) {
         if (!$(this).hasClass("selected")) {
-            var selected = $(this).clone().appendTo(".js-abilities-selected");
+            let selected = $(this).clone().appendTo(".js-abilities-selected");
             selected.find("i").removeClass("fa-plus-square").addClass("fa-minus-square");
             $(this).addClass("selected");
             $(".js-abilities-selected").show();
         }
     } else if ($(this).closest(".js-abilities-selected").length) {
-        var deletedOptionId = $(this).find(".ability-panel-option-id").val();
+        let deletedOptionId = $(this).find(".ability-panel-option-id").val();
         $(this).remove();
         $(".js-abilities-panel").find(".ability-panel-option-id[value=" + deletedOptionId + "]").closest(".ability-panel-option").removeClass("selected");
         if (!$(".js-abilities-selected").find(".ability-panel-option").length) {
@@ -344,7 +344,7 @@ $("#print").on('click', function () {
 $("#save").on('click', function () {
     $("#js-submit-div").addClass("hide");
     $("#js-loading-div").removeClass("hide");
-    var submit = validateSave();
+    let submit = validateSave();
     if (submit) {
         $("#course-plan-form").submit();
     } else {
@@ -374,12 +374,10 @@ $(document).on('click', '#save-approval', function (e) {
 
 // AJAX Request after change on stage select
 $(document).on('change', '#stage', function () {
-    if($('.courseplan_table_div').length > 0)
-    {
+    if ($('.courseplan_table_div').length > 0) {
         updateCoursePlanTable();
     }
-    if($('.pending_courseplan_table_div').length > 0)
-    {
+    if ($('.pending_courseplan_table_div').length > 0) {
         updatePendingPlanTable()
     }
     $.ajax({
@@ -395,7 +393,7 @@ $(document).on('change', '#stage', function () {
         const htmlElement = data.reduce(
             (acc, discipline) =>
                 concatenateHtmlOptions(acc, discipline),
-                '<option val="default">Selecione a disciplina</option>');
+            '<option val="default">Selecione a disciplina</option>');
         disciplineContainer.html(htmlElement);
         disciplineContainer.select2("val", "");
     })
@@ -408,25 +406,24 @@ $(document).on('change', '#instructor', function () {
 
 $('#discipline').on('change', function () {
 
-    if($('#discipline option:selected').index() != 0)
-    {
+    if ($('#discipline option:selected').index() != 0) {
         // Courseplan table
-        if($('.courseplan_table_div').length > 0)
+        if ($('.courseplan_table_div').length > 0)
             updateCoursePlanTable();
 
         // Pending Courseplan table
-        if($('.pending_courseplan_table_div').length > 0)
+        if ($('.pending_courseplan_table_div').length > 0)
             updatePendingPlanTable();
     }
 })
 
-function concatenateHtmlOptions(htmlElement, discipline){
+function concatenateHtmlOptions(htmlElement, discipline) {
     const optionElement = `<option value="${discipline['id']}">${discipline['name']}</option>`;
     htmlElement += optionElement;
     return htmlElement;
 }
 
-function updatePendingPlanTable(){
+function updatePendingPlanTable() {
     const disciplineValidade = $('#discipline option:selected').index() == 0 || $('#discipline').hasClass('hide');
     $.ajax({
         url: '?r=courseplan/courseplan/pendingPlans',
@@ -442,7 +439,7 @@ function updatePendingPlanTable(){
     })
 }
 
-function updateCoursePlanTable(){
+function updateCoursePlanTable() {
     const disciplineValidade = $('#discipline option:selected').index() == 0 || $('#discipline').hasClass('hide');
     $.ajax({
         url: '?r=courseplan/courseplan/index',
