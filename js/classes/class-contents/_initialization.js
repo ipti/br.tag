@@ -22,9 +22,9 @@ function loadClassContents() {
         success: function (data) {
             data = jQuery.parseJSON(data);
             if (data.valid) {
-                let urlIsValidate = window.location.href.includes("validateclasscontents");
+                let urlIsValidate = window.location.href.toLowerCase().includes("validateclasscontents");
 
-                if(urlIsValidate) {
+                if (urlIsValidate) {
                     createValidateTable(data);
                 } else {
                     createTable(data);
@@ -39,8 +39,8 @@ function loadClassContents() {
             } else {
                 $("#error-badge").html(
                     '<div class="t-badge-info"><span class="t-info_positive t-badge-info__icon"></span>' +
-                        data.error +
-                        "</div>"
+                    data.error +
+                    "</div>"
                 );
                 $("#class-contents > thead").html("");
                 $("#class-contents > tbody").html("");
@@ -232,24 +232,24 @@ $(document).on("click", ".classroom-diary-button", function () {
             .parent()
             .find(
                 ".student-diary-of-the-day[studentid=" +
-                    $(this)
-                        .find(".js-student-classroom-diary")
-                        .attr("studentid") +
-                    "]"
+                $(this)
+                    .find(".js-student-classroom-diary")
+                    .attr("studentid") +
+                "]"
             )
             .val();
         $(this).find(".js-student-classroom-diary").val(value);
         value !== ""
             ? $(this)
-                  .find(".accordion-title")
-                  .find(".fa")
-                  .removeClass("fa-file-o")
-                  .addClass("fa-file-text-o")
+                .find(".accordion-title")
+                .find(".fa")
+                .removeClass("fa-file-o")
+                .addClass("fa-file-text-o")
             : $(this)
-                  .find(".accordion-title")
-                  .find(".fa")
-                  .removeClass("fa-file-text-o")
-                  .addClass("fa-file-o");
+                .find(".accordion-title")
+                .find(".fa")
+                .removeClass("fa-file-text-o")
+                .addClass("fa-file-o");
     });
     $("#js-classroomdiary").modal("show");
 });
@@ -264,8 +264,8 @@ $(document).on("click", ".js-add-classroom-diary", function () {
     $(".js-student-classroom-diary").each(function () {
         tr.find(
             ".student-diary-of-the-day[studentid=" +
-                $(this).attr("studentid") +
-                "]"
+            $(this).attr("studentid") +
+            "]"
         ).val($(this).val());
     });
 });
@@ -284,15 +284,15 @@ $(document).on(
 $(document).on("input", ".js-student-classroom-diary", function () {
     $(this).val() === ""
         ? $(this)
-              .closest(".accordion-group")
-              .find(".accordion-title")
-              .find(".fa")
-              .removeClass("fa-file-text-o")
-              .addClass("fa-file-o")
+            .closest(".accordion-group")
+            .find(".accordion-title")
+            .find(".fa")
+            .removeClass("fa-file-text-o")
+            .addClass("fa-file-o")
         : $(this)
-              .closest(".accordion-group")
-              .find(".accordion-title")
-              .find(".fa")
-              .removeClass("fa-file-o")
-              .addClass("fa-file-text-o");
+            .closest(".accordion-group")
+            .find(".accordion-title")
+            .find(".fa")
+            .removeClass("fa-file-o")
+            .addClass("fa-file-text-o");
 });

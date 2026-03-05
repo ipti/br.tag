@@ -10,7 +10,6 @@ defined('SESSION_MAX_LIFETIME') or define('SESSION_MAX_LIFETIME', 3600);
 
 define("TAG_VERSION", '3.12.0');
 
-
 define("YII_VERSION", Yii::getVersion());
 define("BOARD_MSG", '<div class="alert alert-success">Novas atualizações no TAG. Confira clicando <a class="changelog-link" href="?r=admin/changelog">aqui</a>.</div>');
 

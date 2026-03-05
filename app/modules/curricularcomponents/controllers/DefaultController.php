@@ -67,7 +67,7 @@ class DefaultController extends Controller
 
         $this->render('create', [
             'model' => $model,
-            'edcenso_base_disciplines' => $edcensoBaseDisciplines,
+            'edcensoBaseDisciplines' => $edcensoBaseDisciplines,
         ]);
     }
 
@@ -95,7 +95,7 @@ class DefaultController extends Controller
 
         $this->render('update', [
             'model' => $model,
-            'edcenso_base_disciplines' => $edcensoBaseDisciplines,
+            'edcensoBaseDisciplines' => $edcensoBaseDisciplines,
         ]);
     }
 
