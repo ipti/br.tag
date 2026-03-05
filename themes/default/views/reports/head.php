@@ -1,62 +1,85 @@
 <?php
 /* @var $this ReportsController
-@var $school SchoolIdentification
+ @var $school SchoolIdentification
  */
 
-if(!isset($school)){
+if (!isset($school)) {
     $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
 }
 
 ?>
 <style>
-    #info li {text-align:center;}
-    #addinfo li{text-align: center}
+    #info li {
+        text-align: center;
+    }
+
+    #addinfo li {
+        text-align: center
+    }
 </style>
-<h3 class="heading visible-print"><?php echo @$title ?></h3>
+<h3 class="heading visible-print">
+    <?php echo @$title?>
+</h3>
 <div id="header-report">
     <?php
-    if(isset($school->logo_file_name)){
-        $logoUrl = Yii::app()->createUrl('school/displayLogo', ['id' => $school->inep_id]);
-        echo '<img id="logo" src="'.$logoUrl.'" style="max-width: 120px; max-height: 80px; object-fit: contain;">';
-    }
-    ?>
+if (isset($school->logo_file_name)) {
+    $logoUrl = Yii::app()->createUrl('school/school/displayLogo', ['id' => $school->inep_id]);
+    echo '<img id="logo" src="' . $logoUrl . '" style="max-width: 120px; max-height: 80px; object-fit: contain;">';
+}
+?>
     <ul id="info">
         <?php if (isset($school->act_of_acknowledgement) && !empty($school->act_of_acknowledgement)) { ?>
-            <li><?php echo $school->name ?></li>
-        <?php } else { ?>
-            <li>
-                <?php if (TagUtils::isInstance("POCODANTAS")) { ?>
-                    SECRETÁRIA MUNICIPAL DE EDUCAÇÃO DE POÇO DANTAS
-                <?php } else { ?>
-                    PREFEITURA MUNICIPAL DE <?php echo $school->edcensoCityFk->name ?>
-                <?php } ?>
-            </li>
-            <li><?php echo $school->name ?></li>
-        <?php } ?>
+        <li>
+            <?php echo $school->name?>
+        </li>
+        <?php
+}
+else { ?>
+        <li>
+            <?php if (TagUtils::isInstance("POCODANTAS")) { ?>
+            SECRETÁRIA MUNICIPAL DE EDUCAÇÃO DE POÇO DANTAS
+            <?php
+    }
+    else { ?>
+            PREFEITURA MUNICIPAL DE
+            <?php echo $school->edcensoCityFk->name?>
+            <?php
+    }?>
+        </li>
+        <li>
+            <?php echo $school->name?>
+        </li>
+        <?php
+}?>
     </ul>
 
     <ul id="addinfo">
 
         <?php
-            $cep = $school->cep;
+$cep = $school->cep;
 
-            if (empty($cep)){
-                $fieldCep = '';
-            } elseif (ctype_digit($cep) && strlen($cep) === 8) {
-                $formattedCep = substr($cep, 0, 2) . '.' . substr($cep, 2, 3) . '-' . substr($cep, 5, 3);
-                $fieldCep = ', CEP: '. $formattedCep;
-            } else {
-                $fieldCep = '';
-            }
-        ?>
+if (empty($cep)) {
+    $fieldCep = '';
+}
+elseif (ctype_digit($cep) && strlen($cep) === 8) {
+    $formattedCep = substr($cep, 0, 2) . '.' . substr($cep, 2, 3) . '-' . substr($cep, 5, 3);
+    $fieldCep = ', CEP: ' . $formattedCep;
+}
+else {
+    $fieldCep = '';
+}
+?>
 
         <li>
             <?php
-                echo $school->address.', '.(!empty($school->address_number) ? $school->address_number.', ':'' ).$school->address_neighborhood;
-            ?>,
+echo $school->address . ', ' . (!empty($school->address_number) ? $school->address_number . ', ' : '') . $school->address_neighborhood;
+?>,
             <?php
-            echo $school->edcensoCityFk->name . " - " . $school->edcensoUfFk->acronym . $fieldCep ?> </li>
-        <li><?php echo $school->act_of_acknowledgement ?></li>
+echo $school->edcensoCityFk->name . " - " . $school->edcensoUfFk->acronym . $fieldCep?>
+        </li>
+        <li>
+            <?php echo $school->act_of_acknowledgement?>
+        </li>
     </ul>
     <span class="clear"></span>
 

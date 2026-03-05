@@ -7,8 +7,8 @@ if (Yii::app()->user->isGuest) {
 }
 
 $schoolLogo = $baseUrl . "/img/emblema-escola.svg";
-$urlSchoolLogo = '/?r=school/displayLogo&id=' . Yii::app()->user->school;
-$schoolurl = yii::app()->createUrl('school');
+$urlSchoolLogo = '/?r=school/school/displayLogo&id=' . Yii::app()->user->school;
+$schoolurl = yii::app()->createUrl('school/school/index');
 
 
 $selectSchool = '';
@@ -21,31 +21,33 @@ if (TagUtils::checkAccess(['admin', 'nutritionist', 'reader'])) {
         Chtml::listData(Yii::app()->user->usersSchools, 'inep_id', 'name'),
         array('empty' => 'Selecione a escola', 'class' => 'select-school', 'id2' => 'school', 'options' => array(Yii::app()->user->school => array('selected' => true)))
     );
-} else {
+}
+else {
     if (TagUtils::checkAccess(TRole::GUARDIAN)) {
         $selectSchool = CHtml::activeDropDownList(
             UsersSchool::model(),
             'school_fk',
-            [],
-            [
-                'empty' => 'TAG',
-                'class' => 'select-school',
-                'disabled' => 'disabled',
-                'id2' => 'school',
-                'options' => [Yii::app()->user->school => array('selected' => true)]
-            ]
+        [],
+        [
+            'empty' => 'TAG',
+            'class' => 'select-school',
+            'disabled' => 'disabled',
+            'id2' => 'school',
+            'options' => [Yii::app()->user->school => array('selected' => true)]
+        ]
         );
-    } else {
+    }
+    else {
         $selectSchool = CHtml::activeDropDownList(
             UsersSchool::model(),
             'school_fk',
             Chtml::listData(Yii::app()->user->usersSchools, 'school_fk', 'schoolFk.name'),
-            [
-                'empty' => 'Selecione a escola',
-                'class' => 'select-school',
-                'id2' => 'school',
-                'options' => [Yii::app()->user->school => array('selected' => true)]
-            ]
+        [
+            'empty' => 'Selecione a escola',
+            'class' => 'select-school',
+            'id2' => 'school',
+            'options' => [Yii::app()->user->school => array('selected' => true)]
+        ]
         );
     }
 }
@@ -174,30 +176,30 @@ $cs->registerCssFile(Yii::app()->baseUrl . "/sass/css/notifications.css?v=" . TA
                 <li class="tag-topbar__item">
                     <div class="mobile-row justify-content--start">
                         <div>
-                            <img id="alt-logo" src="<?php echo $schoolLogo ?>" class="tag-topbar__school_logo show" />
-                            <img class="tag-topbar__school_logo hidden" src="<?php echo $urlSchoolLogo ?>"
+                            <img id="alt-logo" src="<?php echo $schoolLogo?>" class="tag-topbar__school_logo show" />
+                            <img class="tag-topbar__school_logo hidden" src="<?php echo $urlSchoolLogo?>"
                                 alt="emblema da escola"
                                 onload="$('#alt-logo').removeClass('show').addClass('hidden'); $(this).removeClass('hidden').addClass('show')" />
                         </div>
                         <div class="column">
                             <form class="school" id2="school"
-                                action="<?php echo yii::app()->createUrl('site/changeschool') ?>" method="Post">
+                                action="<?php echo yii::app()->createUrl('site/changeschool')?>" method="Post">
                                 <?php echo $selectSchool; ?>
                             </form>
-                            <div class="tag-topbar__username"><?= Yii::app()->user->loginInfos->username ?></div>
+                            <div class="tag-topbar__username"><?= Yii::app()->user->loginInfos->username?></div>
                         </div>
                     </div>
                 </li>
 
                 <?php
-                if (!Yii::app()->user->getState("rememberMe")):
-                // $this->beginWidget('zii.widgets.CPortlet', array(
-                //     'title' => '',
-                // ));
-                // echo $this->renderPartial('/layouts/_session_timer', ['sessionTime' => SessionTimer::getSessionTime()]);
-                // $this->endWidget();
-                endif;
-                ?>
+if (!Yii::app()->user->getState("rememberMe")):
+// $this->beginWidget('zii.widgets.CPortlet', array(
+//     'title' => '',
+// ));
+// echo $this->renderPartial('/layouts/_session_timer', ['sessionTime' => SessionTimer::getSessionTime()]);
+// $this->endWidget();
+endif;
+?>
                 </li>
                 <li id="notification-bell" class="tag-topbar__item hide-responsive" style="margin-left: auto; position: relative;">
                     <a href="#" id="notification-bell-trigger" class="tag-topbar__notification-trigger">
@@ -207,7 +209,7 @@ $cs->registerCssFile(Yii::app()->baseUrl . "/sass/css/notifications.css?v=" . TA
                     <div id="notification-dropdown"></div>
                 </li>
                 <li id="menu-logout" class="hide-responsive">
-                    <a class="t-button-tertiary" href="<?php echo yii::app()->createUrl('site/logout') ?>">
+                    <a class="t-button-tertiary" href="<?php echo yii::app()->createUrl('site/logout')?>">
                         <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/sair_branco.svg" />
                         Sair
                     </a>
@@ -265,7 +267,7 @@ $cs->registerCssFile(Yii::app()->baseUrl . "/sass/css/notifications.css?v=" . TA
             </button>
             <h4 class="modal-title" id="myModalLabel">Selecione o ano</h4>
         </div>
-        <form class="form-vertical" id="createCalendar" action="<?php echo yii::app()->createUrl('site/changeYear') ?>"
+        <form class="form-vertical" id="createCalendar" action="<?php echo yii::app()->createUrl('site/changeYear')?>"
             method="post">
             <div class="modal-body">
                 <div class="row-fluid">
@@ -273,12 +275,12 @@ $cs->registerCssFile(Yii::app()->baseUrl . "/sass/css/notifications.css?v=" . TA
                         <?php echo CHtml::label(yii::t('default', 'Year'), 'years', array('class' => 'control-label')); ?>
                         <select name="years" id="years" placeholder="Selecione o ano" style="width:100%">
                             <?php
-                            $years = range(date('Y'), 2014);
-                            echo "<option value='' selected>Selecione o ano</option>";
-                            for ($i = 0; $i < count($years); $i++) {
-                                echo "<option value=" . $years[$i] . ">" . $years[$i] . "</option>";
-                            }
-                            ?>
+$years = range(date('Y'), 2014);
+echo "<option value='' selected>Selecione o ano</option>";
+for ($i = 0; $i < count($years); $i++) {
+    echo "<option value=" . $years[$i] . ">" . $years[$i] . "</option>";
+}
+?>
                         </select>
                     </div>
                 </div>
@@ -298,20 +300,20 @@ $cs->registerCssFile(Yii::app()->baseUrl . "/sass/css/notifications.css?v=" . TA
     <script src="<?php echo Yii::app()->theme->baseUrl; ?>/js/bootstrap.min.js"></script>
     <script src="<?php echo Yii::app()->theme->baseUrl; ?>/js/bootstrap-datepicker.min.js"></script>
     <script src="<?php echo Yii::app()->theme->baseUrl; ?>/js/bootstrap-datepicker.pt-BR.min.js"></script>
-    <script src="<?php echo Yii::app()->theme->baseUrl; ?>/js/common.js?v=<?= TAG_VERSION ?>"></script>
-    <script src="<?php echo Yii::app()->theme->baseUrl; ?>/js/util.js?v=<?= TAG_VERSION ?>"></script>
+    <script src="<?php echo Yii::app()->theme->baseUrl; ?>/js/common.js?v=<?= TAG_VERSION?>"></script>
+    <script src="<?php echo Yii::app()->theme->baseUrl; ?>/js/util.js?v=<?= TAG_VERSION?>"></script>
     <script src="<?php echo Yii::app()->theme->baseUrl; ?>/js/select2.js"></script>
     <script src="<?php echo Yii::app()->theme->baseUrl; ?>/js/select2-locale-pt-BR.js"></script>
     <script src="<?php echo Yii::app()->theme->baseUrl; ?>/js/jquery/jquery.qrcode.min.js"
         type="text/javascript"></script>
     <script
-        src='<?php echo Yii::app()->theme->baseUrl; ?>/js/jquery/fullcalendar/fullcalendar.min.js?v=<?= TAG_VERSION ?>'></script>
+        src='<?php echo Yii::app()->theme->baseUrl; ?>/js/jquery/fullcalendar/fullcalendar.min.js?v=<?= TAG_VERSION?>'></script>
     <script src='<?php echo Yii::app()->theme->baseUrl; ?>/js/purify.min.js'></script>
-    <script src='<?php echo Yii::app()->baseUrl; ?>/js/layout/functions.js?v=<?= TAG_VERSION ?>'></script>
-    <script src='<?php echo Yii::app()->baseUrl; ?>/js/datatables/init.js?v=<?= TAG_VERSION ?>'></script>
+    <script src='<?php echo Yii::app()->baseUrl; ?>/js/layout/functions.js?v=<?= TAG_VERSION?>'></script>
+    <script src='<?php echo Yii::app()->baseUrl; ?>/js/datatables/init.js?v=<?= TAG_VERSION?>'></script>
     <script src="<?php echo Yii::app()->theme->baseUrl; ?>/js/datatables.min.js"></script>
     <script src="<?php echo Yii::app()->theme->baseUrl; ?>/js/datatablesptbr.js"></script>
-    <script src="<?php echo Yii::app()->baseUrl; ?>/js/notifications/notifications.js?v=<?= TAG_VERSION ?>"></script>
+    <script src="<?php echo Yii::app()->baseUrl; ?>/js/notifications/notifications.js?v=<?= TAG_VERSION?>"></script>
 </body>
 
 </html>

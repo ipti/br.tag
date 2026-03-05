@@ -40,7 +40,7 @@ $('#ManagerIdentification_edcenso_uf_fk').change(function () {
     $("#ManagerIdentification_edcenso_city_fk").empty();
     $.ajax({
         type: "POST",
-        url: `?r=school/getmanagercities`,
+        url: `?r=school/school/getmanagercities`,
         data: {
             edcenso_uf_fk: uf
         },

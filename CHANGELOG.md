@@ -1,3 +1,10 @@
+## [Versão 3.13.0]
+
+- Migração completa do módulo de Escolas (School) para a nova arquitetura de módulos (app/modules/school)
+- Organização de controllers, views e assets seguindo o padrão Yii Module
+- Atualização de todas as referências internas e externas para as novas rotas do módulo
+- Remoção de arquivos legados (SchoolController, views e JS antigos)
+
 ## [Versão 3.12.0]
 
 - Refatoração completa do módulo de estudantes para melhor arquitetura e desempenho (app/modules/student)

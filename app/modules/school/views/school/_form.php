@@ -574,7 +574,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                         'class' => 'select-search-on t-field-select__input select2-container',
                                         'ajax' => array(
                                             'type' => 'POST',
-                                            'url' => CController::createUrl('school/updateUfDependencies'),
+                                            'url' => CController::createUrl('school/school/updateUfDependencies'),
                                             'success' => "function(data){
                                         data = jQuery.parseJSON(data);
                                         valR = $('#SchoolIdentification_edcenso_regional_education_organ_fk').val();
@@ -658,7 +658,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                         'class' => 'select-search-on t-field-select__input select2-container',
                                         'ajax' => array(
                                             'type' => 'POST',
-                                            'url' => CController::createUrl('school/updateCityDependencies'),
+                                            'url' => CController::createUrl('school/school/updateCityDependencies'),
                                             'success' => "function(data){
                                         data = jQuery.parseJSON(data);
                                         valD = $('#SchoolIdentification_edcenso_district_fk').val();
@@ -4415,7 +4415,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                                     'value' => function($data) {
                                                         return CHtml::link(
                                                             CHtml::encode($data->name),
-                                                            Yii::app()->createUrl('school/updateRoom', array('id' => $data->id)),
+                                                            Yii::app()->createUrl('school/school/updateRoom', array('id' => $data->id)),
                                                             array('class' => 'open-room-modal')
                                                         );
                                                     },
@@ -4437,7 +4437,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                                     'buttons' => array(
                                                         'update' => array(
                                                             'imageUrl' => Yii::app()->theme->baseUrl.'/img/editar.svg',
-                                                            'url' => 'Yii::app()->createUrl("school/updateRoom", array("id"=>$data->id))',
+                                                            'url' => 'Yii::app()->createUrl("school/school/updateRoom", array("id"=>$data->id))',
                                                             'options' => array('class' => 'open-room-modal', 'style' => 'margin-right: 20px;', 'title' => 'Editar'),
                                                         ),
                                                         'delete' => array(
@@ -4465,7 +4465,7 @@ $form = $this->beginWidget('CActiveForm', array(
                         <row class="reports">
                             <div class="reports_cards">
                                 <a class="t-button-secondary" rel="noopener" target="_blank" href="<?= @Yii::app()->createUrl(
-                                    'school/reportsMonthlyTransaction',
+                                    'school/school/reportsMonthlyTransaction',
                                     array(
                                         'id' => $modelSchoolIdentification->inep_id,
                                         'type' => 1
@@ -4478,7 +4478,7 @@ $form = $this->beginWidget('CActiveForm', array(
                             </div>
                             <div class="reports_cards">
                                 <a class="t-button-secondary" rel="noopener" target="_blank" href="<?= @Yii::app()->createUrl(
-                                    'school/reportsMonthlyTransaction',
+                                    'school/school/reportsMonthlyTransaction',
                                     array('id' => $modelSchoolIdentification->inep_id, 'type' => 2)
                                 ); ?>">
 
@@ -4488,7 +4488,7 @@ $form = $this->beginWidget('CActiveForm', array(
                             </div>
                             <div class="reports_cards">
                                 <a class="t-button-secondary" rel="noopener" target="_blank" href="<?= @Yii::app()->createUrl(
-                                    'school/reportsMonthlyTransaction',
+                                    'school/school/reportsMonthlyTransaction',
                                     array('id' => $modelSchoolIdentification->inep_id, 'type' => 3)
                                 ); ?>">
                                     <span class="t-icon-printer"></span>
@@ -4497,7 +4497,7 @@ $form = $this->beginWidget('CActiveForm', array(
                             </div>
                             <div class="reports_cards">
                                 <a class="t-button-secondary" rel="noopener" target="_blank" href="<?= @Yii::app()->createUrl(
-                                    'school/reports',
+                                    'school/school/reports',
                                     array('id' => $modelSchoolIdentification->inep_id)
                                 ); ?>">
                                     <span class="t-icon-printer"></span>
@@ -4505,7 +4505,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                 </a>
                             </div>
                             <div class="reports_cards">
-                                <a class="t-button-secondary" rel="noopener" target="_blank" href="<?= @Yii::app()->createUrl('school/record', array(
+                                <a class="t-button-secondary" rel="noopener" target="_blank" href="<?= @Yii::app()->createUrl('school/school/record', array(
                                     'id' => $modelSchoolIdentification->inep_id,
                                     'type' => 1
                                 )); ?>">
@@ -4514,7 +4514,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                 </a>
                             </div>
                             <div class="reports_cards">
-                                <a class="t-button-secondary" rel="noopener" target="_blank" href="<?= @Yii::app()->createUrl('school/record', array(
+                                <a class="t-button-secondary" rel="noopener" target="_blank" href="<?= @Yii::app()->createUrl('school/school/record', array(
                                     'id' => $modelSchoolIdentification->inep_id,
                                     'type' => 2
                                 )); ?>">

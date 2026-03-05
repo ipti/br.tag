@@ -29,8 +29,8 @@ $menuItems = [
         'label' => 'Escola',
         'url' => function () {
             return (count(Yii::app()->user->usersSchools) == 1)
-            ? ['school/update', ['id' => Yii::app()->user->school]]
-            : ['school/index'];
+            ? ['school/school/update', ['id' => Yii::app()->user->school]]
+            : ['school/school/index'];
         },
         'icon' => 't-icon-school',
         'roles' => [TRole::ADMIN, TRole::MANAGER, TRole::READER],
