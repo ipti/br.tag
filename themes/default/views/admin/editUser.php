@@ -22,7 +22,7 @@
     echo $this->renderPartial('_form', array(
         'model' => $model,
         'title' => $title,
-        'actual_role' => $actualRole,
+        'actualRole' => $actual_role,
         'userSchools' => $userSchools,
         'instructors' => $instructors,
         'selectedInstructor' => $selectedInstructor

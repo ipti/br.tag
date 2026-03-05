@@ -3,7 +3,7 @@
 /**
  * @var DefaultController $this DefaultController
  * @var EdcensoDiscipline $model EdcensoDiscipline
- * @var EdcensoBaseDisciplines[] $edcenso_base_disciplines EdcensoBaseDiscipline[]
+ * @var EdcensoBaseDisciplines[] $edcensoBaseDisciplines EdcensoBaseDiscipline[]
  * @var CActiveForm $form CActiveForm
  */
 
@@ -61,9 +61,9 @@ if (!$model->isNewRecord) {
                         <?php echo $form->error($model, 'abbreviation'); ?>
                     </div>
 
-                    <div class="t-field-text">
-                        <?php echo $form->label($model, 'edcenso_base_discipline_fk', array('class' => 'control-label t-field-text__label--required')); ?>
-                        <?php echo $form->dropDownList($model, 'edcenso_base_discipline_fk', CHtml::listData($edcenso_base_disciplines, "id", "name"), array('class' => 't-field-text__input', 'disabled' => $cant_change_censo_discipline)); ?>
+                    <div class="t-field-select">
+                        <?php echo $form->label($model, 'edcenso_base_discipline_fk', array('class' => 'control-label t-field-select__label required')); ?>
+                        <?php echo $form->dropDownList($model, 'edcenso_base_discipline_fk', CHtml::listData($edcensoBaseDisciplines, "id", "name"), array('prompt' => 'Selecione um componente...', 'class' => 'select-search-on t-field-select__input select2-container', 'disabled' => $cant_change_censo_discipline)); ?>
                         <?php echo $form->error($model, 'edcenso_base_discipline_fk'); ?>
                     </div>
                     <div class="t-field-checkbox">
