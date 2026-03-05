@@ -1,48 +1,88 @@
-
 <div id="body-students-file-form" class="pageA4V">
   <?php
-    $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
-    $schoolStrcture = SchoolStructure::model()->find('school_inep_id_fk = :school_fk', [":school_fk" => Yii::app()->user->school]);
-    $initialDate = strtotime($school->initial_date);
-    $finalDate =   strtotime($school->final_date);
-    $datediff = $finalDate - $initialDate;
+$school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
+$schoolStrcture = SchoolStructure::model()->find('school_inep_id_fk = :school_fk', [":school_fk" => Yii::app()->user->school]);
+$initialDate = strtotime($school->initial_date);
+$finalDate = strtotime($school->final_date);
+$datediff = $finalDate - $initialDate;
 
-    $totalDays = abs(round($datediff / (60 * 60 * 24)));
-    $this->renderPartial('head');
-  ?>
+$totalDays = abs(round($datediff / (60 * 60 * 24)));
+$this->renderPartial('head');
+?>
 
   <div class='container-report mt-30 text-center'>
     <h3>Movimento Mensal</h3>
-    <h5><?= $title ?></h5>
+    <h5>
+      <?= $title?>
+    </h5>
   </div>
   <div class='container-report mt-30'>
-    <table class="table-border">
+    <table class="table-border" role="presentation">
       <tr>
-        <td colspan="4"><span class="font-bold">Nome da Escola: </span><div><?= $school->name ?></div></td>
+        <td colspan="4"><span class="font-bold">Nome da Escola: </span>
+          <div>
+            <?= $school->name?>
+          </div>
+        </td>
       </tr>
       <tr>
-        <td colspan="2"><span class="font-bold">Lagradouro</>:</span> <div><?= $school->address ?></div></td>
-        <td><span class="font-bold">Nº:</span> <div><?= $school->address_number ?></div></td>
-        <td><span class="font-bold">Bairro:</span> <div><?= $school->address_neighborhood ?></div></td>
+        <td colspan="2"><span class="font-bold">Lagradouro</>:</span>
+          <div>
+            <?= $school->address?>
+          </div>
+        </td>
+        <td><span class="font-bold">Nº:</span>
+          <div>
+            <?= $school->address_number?>
+          </div>
+        </td>
+        <td><span class="font-bold">Bairro:</span>
+          <div>
+            <?= $school->address_neighborhood?>
+          </div>
+        </td>
       </tr>
       <tr>
-        <td><span class="font-bold">Ano:</span> <div><?= date('Y') ?> </div></td>
-        <td><span class="font-bold">Mês:</span><div class="contentEditable no-border" contenteditable="true"> </td>
-        <td><span class="font-bold">Nº de Dias Letivos:</span> <div><?= $totalDays ?></div></td>
-        <td><span class="font-bold">Turno:</span> <div class="contentEditable no-border" contenteditable="true"></div></td>
+        <td><span class="font-bold">Ano:</span>
+          <div>
+            <?= date('Y')?>
+          </div>
+        </td>
+        <td><span class="font-bold">Mês:</span>
+          <div class="contentEditable no-border" contenteditable="true">
+        </td>
+        <td><span class="font-bold">Nº de Dias Letivos:</span>
+          <div>
+            <?= $totalDays?>
+          </div>
+        </td>
+        <td><span class="font-bold">Turno:</span>
+          <div class="contentEditable no-border" contenteditable="true"></div>
+        </td>
       </tr>
       <tr>
         <td>
-          <span class="font-bold">Nº de dependências do prédio:  </span>
+          <span class="font-bold">Nº de dependências do prédio: </span>
           <div class="contentEditable no-border" contenteditable="true"></div>
         </td>
-        <td><span class="font-bold">Nº de salas de aula existentes no prédio: </span> <div><?= $schoolStrcture->classroom_count ?></div></td>
-        <td colspan="2"><span class="font-bold">Nº de salas de aula utilizadas:</span><div><?= $schoolStrcture->used_classroom_count ?></div></td>
+        <td><span class="font-bold">Nº de salas de aula existentes no prédio: </span>
+          <div>
+            <?= $schoolStrcture->classroom_count?>
+          </div>
+        </td>
+        <td colspan="2"><span class="font-bold">Nº de salas de aula utilizadas:</span>
+          <div>
+            <?= $schoolStrcture->used_classroom_count?>
+          </div>
+        </td>
       </tr>
       <tr class="font-bold">
         <td class="no-padding">
-          <table>
-            <tr><td class="no-border-left no-border-top no-border-right text-center" colspan="2">Sala de Recurso Multifuncional:</td></tr>
+          <table role="presentation">
+            <tr>
+              <td class="no-border-left no-border-top no-border-right text-center" colspan="2">Sala de Recurso
+                Multifuncional:</td>
+            </tr>
             <tr>
               <td class="no-border"><span class="respClassrom cicle"></span>Sim</td>
               <td class="no-border"><span class="respClassrom cicle"></span>Não</td>
@@ -50,12 +90,21 @@
           </table>
         </td>
         <td class="no-padding" colspan="3">
-          <table>
-            <tr><td class="no-border-left no-border-top no-border-right text-center" colspan="3">Dependência administrativa do prédio</td></tr>
+          <table role="presentation">
             <tr>
-              <td class="no-border"><span class="cicle <?= $school->administrative_dependence == 2 ? 'background-black' : '' ?>"></span>Estadual</td>
-              <td class="no-border"><span class="cicle <?= $school->administrative_dependence == 3 ? 'background-black' : '' ?>"></span>Municipal</td>
-              <td class="no-border"><span class="cicle <?= $school->administrative_dependence == 4 ? 'background-black' : '' ?>"></span>Particular</td>
+              <td class="no-border-left no-border-top no-border-right text-center" colspan="3">Dependência
+                administrativa do prédio</td>
+            </tr>
+            <tr>
+              <td class="no-border"><span
+                  class="cicle <?= $school->administrative_dependence == 2 ? 'background-black' : ''?>"></span>Estadual
+              </td>
+              <td class="no-border"><span
+                  class="cicle <?= $school->administrative_dependence == 3 ? 'background-black' : ''?>"></span>Municipal
+              </td>
+              <td class="no-border"><span
+                  class="cicle <?= $school->administrative_dependence == 4 ? 'background-black' : ''?>"></span>Particular
+              </td>
             </tr>
           </table>
         </td>
@@ -64,20 +113,20 @@
   </div>
 
   <div class='container-report mt-20'>
-    <?php switch($type){
-        case 1:
-          $this->renderPartial('_initial_year', array());
-        break;
-        case 2:
-          $this->renderPartial('_end_year', array());
-        break;
-        case 3:
-          $this->renderPartial('_child_education', array());
-        break;
-        default:
-          break;
-      }
-    ?>
+    <?php switch ($type) {
+  case 1:
+    $this->renderPartial('_initial_year', array());
+    break;
+  case 2:
+    $this->renderPartial('_end_year', array());
+    break;
+  case 3:
+    $this->renderPartial('_child_education', array());
+    break;
+  default:
+    break;
+}
+?>
   </div>
 
   <div id="box2" class='container-report mt-20'>
@@ -93,14 +142,27 @@
       </tr>
       <? for($i=1; $i <= 20; $i++): ?>
         <tr>
-          <td class="font-bold text-center"><?= $i ?></td>
-          <td><div class="contentEditable no-border" contenteditable="true"></div></td>
-          <td><div class="contentEditable no-border" contenteditable="true"></div></td>
-          <td><div class="contentEditable no-border" contenteditable="true"></div></td>
-          <td><div class="contentEditable no-border" contenteditable="true"></div></td>
-          <td><div class="contentEditable no-border" contenteditable="true"></div></td>
-          <td><div class="contentEditable no-border" contenteditable="true"></div></td>
-        </tr>
+          <td class="font-bold text-center"><?= $i?>
+      </td>
+      <td>
+        <div class="contentEditable no-border" contenteditable="true"></div>
+      </td>
+      <td>
+        <div class="contentEditable no-border" contenteditable="true"></div>
+      </td>
+      <td>
+        <div class="contentEditable no-border" contenteditable="true"></div>
+      </td>
+      <td>
+        <div class="contentEditable no-border" contenteditable="true"></div>
+      </td>
+      <td>
+        <div class="contentEditable no-border" contenteditable="true"></div>
+      </td>
+      <td>
+        <div class="contentEditable no-border" contenteditable="true"></div>
+      </td>
+      </tr>
       <? endfor; ?>
     </table>
   </div>
@@ -121,14 +183,27 @@
       </tr>
       <? for($i=1; $i <= 15; $i++): ?>
         <tr>
-          <td class="font-bold text-center"><?= $i ?></td>
-          <td><div class="contentEditable no-border" contenteditable="true"></div></td>
-          <td><div class="contentEditable no-border" contenteditable="true"></div></td>
-          <td><div class="contentEditable no-border" contenteditable="true"></div></td>
-          <td><div class="contentEditable no-border" contenteditable="true"></div></td>
-          <td><div class="contentEditable no-border" contenteditable="true"></div></td>
-          <td><div class="contentEditable no-border" contenteditable="true"></div></td>
-        </tr>
+          <td class="font-bold text-center"><?= $i?>
+      </td>
+      <td>
+        <div class="contentEditable no-border" contenteditable="true"></div>
+      </td>
+      <td>
+        <div class="contentEditable no-border" contenteditable="true"></div>
+      </td>
+      <td>
+        <div class="contentEditable no-border" contenteditable="true"></div>
+      </td>
+      <td>
+        <div class="contentEditable no-border" contenteditable="true"></div>
+      </td>
+      <td>
+        <div class="contentEditable no-border" contenteditable="true"></div>
+      </td>
+      <td>
+        <div class="contentEditable no-border" contenteditable="true"></div>
+      </td>
+      </tr>
       <? endfor; ?>
     </table>
   </div>
@@ -143,7 +218,7 @@
         <th scope="col" class="">NOME DO(A) SERVIDOR(A)</th>
         <th scope="col" >CARGO</th>
         <th scope="col" >FUNÇÃO</th>
-        <th width="100" class="no-padding" colspan="2" scope="col">
+        <th style="width: 100px;" class="no-padding" colspan="2" scope="col">
           <table>
             <tr><th scope="col" class="no-border-top no-border-left no-border-right" colspan="2">LICENÇA</th></tr>
             <tr>
@@ -155,41 +230,52 @@
       </tr>
       <? for($i=1; $i <= 5; $i++): ?>
         <tr>
-          <td class="font-bold text-center"><?= $i ?></td>
-          <td><div class="contentEditable no-border" contenteditable="true"></div></td>
-          <td><div class="contentEditable no-border" contenteditable="true"></div></td>
-          <td><div class="contentEditable no-border" contenteditable="true"></div></td>
-          <td width="100"><div class="contentEditable no-border" contenteditable="true"></div></td>
-          <td width="100"><div class="contentEditable no-border" contenteditable="true"></div></td>
-        </tr>
+          <td class="font-bold text-center"><?= $i?>
+      </td>
+      <td>
+        <div class="contentEditable no-border" contenteditable="true"></div>
+      </td>
+      <td>
+        <div class="contentEditable no-border" contenteditable="true"></div>
+      </td>
+      <td>
+        <div class="contentEditable no-border" contenteditable="true"></div>
+      </td>
+      <td style="width: 100px;">
+        <div class="contentEditable no-border" contenteditable="true"></div>
+      </td>
+      <td style="width: 100px;">
+        <div class="contentEditable no-border" contenteditable="true"></div>
+      </td>
+      </tr>
       <? endfor; ?>
     </table>
   </div>
   <div id="boxDate"  class="row-grid no-border">
     <div class="col no-border">
       <span class="pull-right">
-        <?= $school->edcensoCityFk->name?>(<?=$school->edcensoUfFk->acronym?>), <?php echo date('d') . " de " . yii::t('default', date('F')) . " de " . date('Y') . "." ?>
+        <?= $school->edcensoCityFk->name?>(<?= $school->edcensoUfFk->acronym?>),
+      <?php echo date('d') . " de " . yii::t('default', date('F')) . " de " . date('Y') . "."?>
       </span>
+  </div>
+</div>
+<div class='container-report mt-40 mb-30 text-center'>
+  <div class="row-grid no-border">
+    <div class="col no-border">
+      <div class="mr-10 no-border-left no-border-right no-border-bottom">Responsável pelo recebimento</div>
+    </div>
+    <div class="col no-border">
+      <div class="mr-10 no-border-left no-border-right no-border-bottom">Secretário(a)</div>
+    </div>
+    <div class="col no-border">
+      <div class="ml-10 no-border-left no-border-right no-border-bottom">Gestor(a)</div>
     </div>
   </div>
-  <div class='container-report mt-40 mb-30 text-center'>
-    <div class="row-grid no-border">
-      <div class="col no-border">
-        <div class="mr-10 no-border-left no-border-right no-border-bottom">Responsável pelo recebimento</div>
-      </div>
-      <div class="col no-border">
-        <div class="mr-10 no-border-left no-border-right no-border-bottom">Secretário(a)</div>
-      </div>
-      <div class="col no-border">
-        <div class="ml-10 no-border-left no-border-right no-border-bottom">Gestor(a)</div>
-      </div>
-    </div>
-  </div>
+</div>
 </div>
 
 
 <style>
-
   .mr-10 {
     margin-right: 10px;
   }
@@ -215,7 +301,8 @@
     clear: both;
   }
 
-  .container-report:before, .container-report:after {
+  .container-report:before,
+  .container-report:after {
     display: table;
     content: "";
     line-height: 0;
@@ -267,7 +354,7 @@
   }
 
   .padding-default {
-     padding: 10px;
+    padding: 10px;
   }
 
   .text-center {
@@ -468,7 +555,10 @@
     margin-top: 100px;
     margin-bottom: 100px;
   }
-  h3,h4,h5 {
+
+  h3,
+  h4,
+  h5 {
     color: #000;
   }
 
@@ -476,25 +566,31 @@
     -webkit-print-color-adjust: exact !important;
   }
 
-  .table-border, th, td {
+  .table-border,
+  th,
+  td {
     border: 1px solid black;
     border-collapse: collapse;
   }
 
-  td, th {
+  td,
+  th {
     padding: 5px;
   }
 
   table {
     width: 100%;
-    page-break-inside:auto
+    page-break-inside: auto
   }
 
   .no-padding table {
     border: none !important;
   }
 
-  tr { page-break-inside:avoid; page-break-after:auto }
+  tr {
+    page-break-inside: avoid;
+    page-break-after: auto
+  }
 
   .cicle {
     width: 10px;
@@ -535,42 +631,70 @@
     width: 69px;
   }
 
-  @media screen{
-    .pageA4V{width:980px; height:1400px; margin:0 auto;}
-    .pageA4H{width:1400px; height:810px; margin:0 auto;}
-    #header-report ul#info, #header-report ul#addinfo {
-        width: 100%;
-        margin: 0;
-        display: block;
-        overflow: hidden;
+  @media screen {
+    .pageA4V {
+      width: 980px;
+      height: 1400px;
+      margin: 0 auto;
+    }
+
+    .pageA4H {
+      width: 1400px;
+      height: 810px;
+      margin: 0 auto;
+    }
+
+    #header-report ul#info,
+    #header-report ul#addinfo {
+      width: 100%;
+      margin: 0;
+      display: block;
+      overflow: hidden;
     }
   }
 
-  @media print{
-    .pageA4V{width:960px; height:1200px; margin:0 auto; font-size: 15px; }
-    .pageA4H{width:1122px; height:810px; margin:0 auto; font-size: 15px;}
-    .padding-5{
-        padding: 5px 0 0 0;
+  @media print {
+    .pageA4V {
+      width: 960px;
+      height: 1200px;
+      margin: 0 auto;
+      font-size: 15px;
     }
 
-    #header-report ul#info, #header-report ul#addinfo {
-      width:100%;
+    .pageA4H {
+      width: 1122px;
+      height: 810px;
+      margin: 0 auto;
+      font-size: 15px;
+    }
+
+    .padding-5 {
+      padding: 5px 0 0 0;
+    }
+
+    #header-report ul#info,
+    #header-report ul#addinfo {
+      width: 100%;
       margin: auto;
       display: block;
       text-align: center;
     }
 
-    .margin-15{
-        margin-top: 8px;
-        margin-bottom: 7px;
+    .margin-15 {
+      margin-top: 8px;
+      margin-bottom: 7px;
     }
 
-    table, td, tr, th {
-        border-color: black !important;
+    table,
+    td,
+    tr,
+    th {
+      border-color: black !important;
     }
+
     .report-table-empty td {
-        padding-top: 0 !important;
-        padding-bottom: 0 !important;
+      padding-top: 0 !important;
+      padding-bottom: 0 !important;
     }
 
     .blue-background {
@@ -611,13 +735,16 @@
       page-break-after: always;
     }
 
-    table, #box1 { font-size: 80%; }
+    table,
+    #box1 {
+      font-size: 80%;
+    }
   }
 </style>
 
 <script>
-  $(function(){
-    $('.respClassrom').click(function(){
+  $(function () {
+    $('.respClassrom').click(function () {
       $('.respClassrom').removeClass('background-black');
       $(this).addClass('background-black');
     });

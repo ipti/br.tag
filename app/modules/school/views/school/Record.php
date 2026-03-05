@@ -1,65 +1,97 @@
-
 <div id="body-students-file-form" class="pageA4V">
   <?php
-    $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
-    $schoolStrcture = SchoolStructure::model()->find('school_inep_id_fk = :schoolId', [':schoolId' => Yii::app()->user->school]);
-    $initialDate = strtotime($school->initial_date);
-    $finalDate =   strtotime($school->final_date);
-    $datediff = $finalDate - $initialDate;
+$school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
+$schoolStrcture = SchoolStructure::model()->find('school_inep_id_fk = :schoolId', [':schoolId' => Yii::app()->user->school]);
+$initialDate = strtotime($school->initial_date);
+$finalDate = strtotime($school->final_date);
+$datediff = $finalDate - $initialDate;
 
-    $totalDays = abs(round($datediff / (60 * 60 * 24)));
-    $this->renderPartial('head');
-  ?>
-  <div class='container-report <?= $type == 1 ? 'mt-40' : 'mt-30' ?> text-center'>
-    <h3><?= $title ?></h3>
+$totalDays = abs(round($datediff / (60 * 60 * 24)));
+$this->renderPartial('head');
+?>
+  <div class='container-report <?= $type == 1 ? ' mt-40' : 'mt-30'?> text-center'>
+    <h3>
+      <?= $title?>
+    </h3>
   </div>
   <div class='container-report mt-30'>
-    <table class="table-border head-table font-size-10">
+    <table class="table-border head-table font-size-10" role="presentation">
       <tr>
-        <td colspan="4"><span class="font-bold">Nome da Escola: </span><div><?= $school->name ?></div></td>
+        <td colspan="4"><span class="font-bold">Nome da Escola: </span>
+          <div>
+            <?= $school->name?>
+          </div>
+        </td>
       </tr>
       <tr>
-        <td colspan="2"><span class="font-bold">Endereço</>:</span> <div><?= $school->address ?></div></td>
-        <td><span class="font-bold">Nº:</span> <div><?= $school->address_number ?></div></td>
-        <td><span class="font-bold">Bairro:</span> <div><?= $school->address_neighborhood ?></div></td>
+        <td colspan="2"><span class="font-bold">Endereço</>:</span>
+          <div>
+            <?= $school->address?>
+          </div>
+        </td>
+        <td><span class="font-bold">Nº:</span>
+          <div>
+            <?= $school->address_number?>
+          </div>
+        </td>
+        <td><span class="font-bold">Bairro:</span>
+          <div>
+            <?= $school->address_neighborhood?>
+          </div>
+        </td>
       </tr>
       <tr>
-        <td colspan="4"><span class="font-bold">Resolução de Reconhecimento do Curso:</span> <div class="contentEditable no-border" contenteditable="true">  </div></td>
+        <td colspan="4"><span class="font-bold">Resolução de Reconhecimento do Curso:</span>
+          <div class="contentEditable no-border" contenteditable="true"> </div>
+        </td>
       </tr>
       <tr>
-        <td colspan="4"><span class="font-bold">Aluno(a):</span> <div class="contentEditable no-border" contenteditable="true">  </div></td>
+        <td colspan="4"><span class="font-bold">Aluno(a):</span>
+          <div class="contentEditable no-border" contenteditable="true"> </div>
+        </td>
       </tr>
       <tr>
-        <td><span class="font-bold">Data de Nascimento:</span> <div class="contentEditable no-border" contenteditable="true">  </div></td>
-        <td colspan="2"><span class="font-bold">Nacionalidade:</span> <div class="contentEditable no-border" contenteditable="true">  </div></td>
-        <td><span class="font-bold">Naturalidade:</span> <div class="contentEditable no-border" contenteditable="true">  </div></td>
+        <td><span class="font-bold">Data de Nascimento:</span>
+          <div class="contentEditable no-border" contenteditable="true"> </div>
+        </td>
+        <td colspan="2"><span class="font-bold">Nacionalidade:</span>
+          <div class="contentEditable no-border" contenteditable="true"> </div>
+        </td>
+        <td><span class="font-bold">Naturalidade:</span>
+          <div class="contentEditable no-border" contenteditable="true"> </div>
+        </td>
       </tr>
       <tr>
-        <td colspan="4"><span class="font-bold">Filiação:</span> <div class="contentEditable no-border" contenteditable="true">  </div></td>
+        <td colspan="4"><span class="font-bold">Filiação:</span>
+          <div class="contentEditable no-border" contenteditable="true"> </div>
+        </td>
       </tr>
       <tr>
-        <td colspan="4"><span class="font-bold">Observação:</span> <div class="contentEditable no-border" contenteditable="true">  </div></td>
+        <td colspan="4"><span class="font-bold">Observação:</span>
+          <div class="contentEditable no-border" contenteditable="true"> </div>
+        </td>
       </tr>
     </table>
   </div>
 
-  <?php switch($type){
-      case 1:
-        $this->renderPartial('_regular_education', array());
-      break;
-      case 2:
-        $this->renderPartial('_education_eja', array());
-      break;
-      default:
-        break;
-     }
-  ?>
+  <?php switch ($type) {
+  case 1:
+    $this->renderPartial('_regular_education', array());
+    break;
+  case 2:
+    $this->renderPartial('_education_eja', array());
+    break;
+  default:
+    break;
+}
+?>
 
 
-  <div id="boxDate"  class="row-grid no-border mb-30 mt-40">
+  <div id="boxDate" class="row-grid no-border mb-30 mt-40">
     <div class="col no-border">
       <span class="pull-right">
-        <?= $school->edcensoCityFk->name?>(<?=$school->edcensoUfFk->acronym?>), <?php echo date('d') . " de " . yii::t('default', date('F')) . " de " . date('Y') . "." ?>
+        <?= $school->edcensoCityFk->name?>(<?= $school->edcensoUfFk->acronym?>),
+        <?php echo date('d') . " de " . yii::t('default', date('F')) . " de " . date('Y') . "."?>
       </span>
     </div>
   </div>
@@ -90,7 +122,8 @@
     clear: both;
   }
 
-  .container-report:before, .container-report:after {
+  .container-report:before,
+  .container-report:after {
     display: table;
     content: "";
     line-height: 0;
@@ -303,7 +336,10 @@
     margin-top: 50px;
     margin-bottom: 50px;
   }
-  h2,h4, h3 {
+
+  h2,
+  h4,
+  h3 {
     color: #000;
   }
 
@@ -311,25 +347,31 @@
     -webkit-print-color-adjust: exact !important;
   }
 
-  .table-border, th, td {
+  .table-border,
+  th,
+  td {
     border: 1px solid black;
     border-collapse: collapse;
   }
 
-  td, th {
+  td,
+  th {
     padding: 5px;
   }
 
   table {
     width: 100%;
-    page-break-inside:auto
+    page-break-inside: auto
   }
 
   .no-padding table {
     border: none !important;
   }
 
-  tr { page-break-inside:avoid; page-break-after:auto }
+  tr {
+    page-break-inside: avoid;
+    page-break-after: auto
+  }
 
   .cicle {
     width: 10px;
@@ -378,7 +420,7 @@
     font-size: 10px;
   }
 
-  .font-size-12{
+  .font-size-12 {
     font-size: 12px;
   }
 
@@ -402,34 +444,58 @@
     font-weight: normal;
   }
 
-  @media screen{
-    .pageA4V{width:980px; height:1400px; margin:0 auto;}
-    .pageA4H{width:1400px; height:810px; margin:0 auto;}
-    #header-report ul#info, #header-report ul#addinfo {
-        width: 100%;
-        margin: 0;
-        display: block;
-        overflow: hidden;
+  @media screen {
+    .pageA4V {
+      width: 980px;
+      height: 1400px;
+      margin: 0 auto;
+    }
+
+    .pageA4H {
+      width: 1400px;
+      height: 810px;
+      margin: 0 auto;
+    }
+
+    #header-report ul#info,
+    #header-report ul#addinfo {
+      width: 100%;
+      margin: 0;
+      display: block;
+      overflow: hidden;
     }
   }
 
-  @media print{
-    .pageA4V{width:960px; height:1200px; margin:0 auto; font-size: 15px; }
-    .pageA4H{width:1122px; height:810px; margin:0 auto; font-size: 15px;}
-    .padding-5{
-        padding: 5px 0 0 0;
+  @media print {
+    .pageA4V {
+      width: 960px;
+      height: 1200px;
+      margin: 0 auto;
+      font-size: 15px;
     }
 
-    #header-report ul#info, #header-report ul#addinfo {
-      width:100%;
+    .pageA4H {
+      width: 1122px;
+      height: 810px;
+      margin: 0 auto;
+      font-size: 15px;
+    }
+
+    .padding-5 {
+      padding: 5px 0 0 0;
+    }
+
+    #header-report ul#info,
+    #header-report ul#addinfo {
+      width: 100%;
       margin: auto;
       display: block;
       text-align: center;
     }
 
-    .margin-15{
-        margin-top: 8px;
-        margin-bottom: 7px;
+    .margin-15 {
+      margin-top: 8px;
+      margin-bottom: 7px;
     }
 
     /* #header-report{
@@ -439,12 +505,16 @@
     /* #container-header {
         width: 425px !important;
     } */
-    table, td, tr, th {
-        border-color: black !important;
+    table,
+    td,
+    tr,
+    th {
+      border-color: black !important;
     }
+
     .report-table-empty td {
-        padding-top: 0 !important;
-        padding-bottom: 0 !important;
+      padding-top: 0 !important;
+      padding-bottom: 0 !important;
     }
 
     .blue-background {
@@ -493,7 +563,9 @@
       width: 65px !important;
     }
 
-    table { font-size: 95%; }
+    table {
+      font-size: 95%;
+    }
 
     .font-data-student {
       font-size: 90% !important;
@@ -516,7 +588,8 @@
       margin-bottom: 25px;
     }
 
-    .head-table td, .head-table th {
+    .head-table td,
+    .head-table th {
       padding: 3px !important;
     }
   }
