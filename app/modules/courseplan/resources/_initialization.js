@@ -307,19 +307,19 @@ $(document).on("click", ".ability-panel-option", function () {
 });
 
 $(document).on("change", "input.ability-search-select", function () {
-    const selectedOption = $(this).select2("data");
+    const selectedOptionData = $(this).select2("data");
     const value = $(this).val();
     const tr = $(this).closest("tr").prev();
     const row = table.row(tr);
     const index = row.data().class;
 
-    if (!value) return;
+    if (!value || !selectedOptionData) return;
 
     let abilityPaneOption = $(`
         <div class='ability-panel-option'>
             <input type="hidden" class="ability-panel-option-id" value=${value} name="course-class[${index}][ability][${value}]">
             <i class="fa fa-check-square"></i>
-            <span><b>(${selectedOption.code})</b> ${selectedOption.description}</span>
+            <span><b>(${selectedOptionData.code})</b> ${selectedOptionData.description}</span>
         </div>
     `);
 

@@ -31,7 +31,8 @@ $(document).on(
     ".final-recovery-unity-calculation",
     function () {
 
-        if ($('.final-recovery-unity-calculation').select2('data').text.trim() == "Média Semestral") {
+        const calculationData = $('.final-recovery-unity-calculation').select2('data');
+        if (calculationData && calculationData.text.trim() == "Média Semestral") {
             $('.js-final-recovery-fomula').show()
         } else {
             $('.js-final-recovery-fomula').hide()
@@ -62,7 +63,8 @@ $(document).on("click", ".js-new-unity", function (e) {
         }, "");
         const unities = $(".unity").length;
         const isUnityConcept = $(".js-rule-type").select2("val") === "C";
-        const isCalculationWeight = $('.calculation-final-media').select2("data").text.trim() === "Peso";
+        const calculationFinalMediaData = !isUnityConcept ? $(".calculation-final-media").select2("data") : null;
+        const isCalculationWeight = calculationFinalMediaData && calculationFinalMediaData.text.trim() === "Peso";
         const unityHtml = template`
             <div class='unity column is-three-fifths' hasGrades='0'>
                 <div class='row unity-heading ui-accordion-header'>
@@ -194,7 +196,8 @@ $(document).on("change", ".js-rule-type", function (e) {
 
 $(document).on("change", ".js-partial-recovery-unities", function (e) {
     const $accordionBody = $(this).closest('.partial-recovery-accordion-body');
-    const calculateName = $accordionBody.find('.js-formula-select').select2("data").text;
+    const formulaSelectData = $accordionBody.find('.js-formula-select').select2("data");
+    const calculateName = formulaSelectData ? formulaSelectData.text : "";
 
     if (calculateName === "Peso") {
         let inputsWeight = '';
@@ -218,7 +221,8 @@ $(document).on("change", ".js-partial-recovery-unities", function (e) {
 
 $(document).on("change", ".js-formula-select", function (e) {
     let unity = $(this).closest(".unity");
-    const selectedValue = $(this).select2("data").text;
+    const formulaSelectData = $(this).select2("data");
+    const selectedValue = formulaSelectData ? formulaSelectData.text : "";
 
     if (unity.length > 0) {
         if (selectedValue === "Peso") {
@@ -305,9 +309,8 @@ function orderModalities(unity) {
 $(document).on("click", ".js-new-modality", function (e) {
     e.preventDefault();
     const unityElement = $(this).closest(".unity");
-    const formula = unityElement
-        .find(".js-formula-select")
-        .select2("data").text;
+    const formulaSelectData = unityElement.find(".js-formula-select").select2("data");
+    const formula = formulaSelectData ? formulaSelectData.text : "";
     const modalityHtml = template`
         <div class='modality' concept='0'>
             <input type="hidden" class="modality-id">
@@ -558,9 +561,7 @@ function saveUnities(reply) {
                 id: $(".final-recovery-unity-id").val(),
                 name: $(".final-recovery-unity-name").val(),
                 type: $(".final-recovery-unity-type").val(),
-                grade_calculation_fk: $(".final-recovery-unity-calculation").select2(
-                    "val"
-                ),
+                grade_calculation_fk: $(".final-recovery-unity-calculation").select2("val"),
                 operation: $(".final-recovery-unity-operation").val(),
                 WeightfinalRecovery: $(".weight-final-recovery").val(),
                 WeightfinalMedia: $(".weight-final-media").val(),
@@ -791,7 +792,8 @@ function partialRecoveryValid() {
         if ((name === "" || formula === "" || unities === null || weights === false) && operation != 'delete') {
             valid = false
         }
-        if ($('.partial-recovery-container').find('select.js-formula-select').select2("data").text === "Média Semestral" && semester === "") {
+        const formulaSelectData = $('.partial-recovery-container').find('select.js-formula-select').select2("data");
+        if (formulaSelectData && formulaSelectData.text === "Média Semestral" && semester === "") {
             valid = false
         }
     })
@@ -954,14 +956,15 @@ function loadStructure() {
                     let semesterSelect = $("select.js-semester").last();
                     semesterSelect.select2();
                     semesterSelect.select2("val", element.semester);
-                    if (calculationSelect.select2("data").text == "Peso") {
+                    const calculationSelectData = calculationSelect.select2("data");
+                    if (calculationSelectData && calculationSelectData.text == "Peso") {
                         let inputsWeight = '';
                         element.weights.forEach(weight => {
                             inputsWeight += createInputWeight(weight.id, weight.unity_fk, weight.name, weight.weight)
                         });
                         $('.InputWeight-container').last().html(inputsWeight)
                     }
-                    if (calculationSelect.select2("data").text != "Média Semestral") {
+                    if (calculationSelectData && calculationSelectData.text != "Média Semestral") {
                         semesterSelect.closest('.js-semester-container').hide();
                     }
                     $("select.js-semester").last().select2();
