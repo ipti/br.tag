@@ -38,17 +38,17 @@ class EdcensoDiscipline extends TagModel
      * @return array validation rules for model attributes.
      */
     public function rules()
-	{
-		// NOTE: you should only define rules for those attributes that
-		// will receive user inputs.
-		return array(
-			array('name, edcenso_base_discipline_fk', 'required'),
-			array('edcenso_base_discipline_fk, requires_exam', 'numerical', 'integerOnly'=>true),
-			array('name', 'length', 'max'=>100),
-			array('abbreviation', 'length', 'max'=>15),
-			array('id, name, edcenso_base_discipline_fk, abbreviation, requires_exam, report_text', 'safe', 'on'=>'search'),
-		);
-	}
+    {
+        // NOTE: you should only define rules for those attributes that
+        // will receive user inputs.
+        return [
+            ['name, edcenso_base_discipline_fk', 'required'],
+            ['edcenso_base_discipline_fk, requires_exam', 'numerical', 'integerOnly' => true],
+            ['name', 'length', 'max' => 100],
+            ['abbreviation', 'length', 'max' => 15],
+            ['id, name, edcenso_base_discipline_fk, abbreviation, requires_exam, report_text', 'safe', 'on' => 'search'],
+        ];
+    }
 
     /**
      * @return array relational rules.
@@ -72,10 +72,9 @@ class EdcensoDiscipline extends TagModel
         ];
     }
 
-	/**
-	 * @return array validation rules for model attributes.
-	 */
-
+    /**
+     * @return array validation rules for model attributes.
+     */
 
     /**
      * @return array customized attribute labels (name=>label)
@@ -88,7 +87,7 @@ class EdcensoDiscipline extends TagModel
             'edcenso_base_discipline_fk' => 'Componente no EducaCenso',
             'abbreviation' => 'Abreviação do componente curricular/eixo',
             'requires_exam' => 'Requer prova',
-			'report_text' => 'Texto exibido no Relatório',
+            'report_text' => 'Texto exibido no Relatório',
         ];
     }
 

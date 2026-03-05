@@ -590,7 +590,7 @@ class SchoolController extends Controller
     public function actionCreateRoom()
     {
         $model = new SchoolRoom();
-        
+
         if (isset($_GET['school_id'])) {
             $model->school_inep_fk = $_GET['school_id'];
         }
@@ -622,7 +622,7 @@ class SchoolController extends Controller
     public function actionUpdateRoom($id)
     {
         $model = SchoolRoom::model()->findByPk($id);
-        
+
         if (!$model) {
             throw new CHttpException(404, 'A sala requisitada não existe.');
         }
@@ -638,7 +638,7 @@ class SchoolController extends Controller
                 $this->redirect(['update', 'id' => $model->school_inep_fk]);
             }
         }
-        
+
         if (Yii::app()->request->isAjaxRequest) {
             $this->renderPartial('_roomForm', ['model' => $model], false, true);
             Yii::app()->end();
@@ -654,13 +654,13 @@ class SchoolController extends Controller
     public function actionDeleteRoom($id)
     {
         $model = SchoolRoom::model()->findByPk($id);
-        
+
         if (!$model) {
             throw new CHttpException(404, 'A sala requisitada não existe.');
         }
 
         $schoolId = $model->school_inep_fk;
-        
+
         if ($model->delete()) {
             if (Yii::app()->request->isAjaxRequest) {
                 echo CJSON::encode(['status' => 'success', 'message' => 'Sala excluída com sucesso!']);
@@ -673,7 +673,7 @@ class SchoolController extends Controller
             }
             Yii::app()->user->setFlash('error', 'Erro ao excluir sala.');
         }
-        
+
         $this->redirect(['update', 'id' => $schoolId]);
     }
 

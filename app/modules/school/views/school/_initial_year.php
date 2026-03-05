@@ -11,22 +11,22 @@
       </table>
       <table role="presentation">
         <tr>
-          <? for ($i = 1; $i <= 6; $i++): ?>
+          <?php for ($i = 1; $i <= 6; $i++): ?>
             <td class="<?= $i == 1 ? 'no-border-left' : ''?>
           <?= $i == 6 ? 'no-border-right' : ''?>" colspan="2">
           <?= $i != 6 ? $i . 'º Ano' : 'Total'?>
     </td>
-    <?
-endfor; ?>
+    <?php
+          endfor; ?>
         </tr>
         <tr>
-          <? for ($i = 1; $i <= 6; $i++): ?>
+          <?php for ($i = 1; $i <= 6; $i++): ?>
             <td class="width-1 <?= $i == 1 ? 'no-border-left' : ''?>
     <?= $i == 6 ? 'no-border-right' : ''?> no-border-bottom">M</td>
     <td class="width-1 <?= $i == 1 ? 'no-border-left' : ''?> <?= $i == 6 ? 'no-border-right' : ''?> no-border-bottom">
       F</td>
-    <?
-endfor; ?>
+    <?php
+          endfor; ?>
         </tr>
       </table>
     </td>
@@ -41,7 +41,7 @@ endfor; ?>
     <td class="no-padding">
       <table role="presentation">
         <tr>
-          <? for ($j = 1; $j <= 6; $j++): ?>
+          <?php for ($j = 1; $j <= 6; $j++): ?>
             <td class="width-1 <?= $j == 1 ? 'no-border-left' : ''?>
     <?= $j == 6 ? 'no-border-right' : ''?> no-border-bottom no-border-top">
     <div class="contentEditable no-border" contenteditable="true"></div>
@@ -50,8 +50,8 @@ endfor; ?>
       class="width-1 <?= $j == 1 ? 'no-border-left' : ''?> <?= $j == 6 ? 'no-border-right' : ''?> no-border-bottom no-border-top">
       <div class="contentEditable no-border" contenteditable="true"></div>
     </td>
-    <?
-endfor; ?>
+    <?php
+          endfor; ?>
         </tr>
       </table>
     </td>
@@ -66,7 +66,7 @@ endfor; ?>
     <td class="no-padding">
       <table role="presentation">
         <tr>
-          <? for ($j = 1; $j <= 6; $j++): ?>
+          <?php for ($j = 1; $j <= 6; $j++): ?>
             <td class="width-1 <?= $j == 1 ? 'no-border-left' : ''?>
     <?= $j == 6 ? 'no-border-right' : ''?> no-border-bottom no-border-top">
     <div class="contentEditable no-border" contenteditable="true"></div>
@@ -75,8 +75,8 @@ endfor; ?>
       class="width-1 <?= $j == 1 ? 'no-border-left' : ''?> <?= $j == 6 ? 'no-border-right' : ''?> no-border-bottom no-border-top">
       <div class="contentEditable no-border" contenteditable="true"></div>
     </td>
-    <?
-endfor; ?>
+    <?php
+          endfor; ?>
         </tr>
       </table>
     </td>
@@ -99,9 +99,9 @@ endfor; ?>
     </td>
     <td class="no-padding">
       <table role="presentation">
-        <? for ($i = 1; $i <= 3; $i++): ?>
+        <?php for ($i = 1; $i <= 3; $i++): ?>
           <tr>
-            <? for ($j = 1; $j <= 6; $j++): ?>
+            <?php for ($j = 1; $j <= 6; $j++): ?>
               <td class="width-1 <?= $i == 3 ? 'no-border-bottom' : ''?>
     <?= $j == 1 ? 'no-border-left' : ''?>
     <?= $j == 6 ? 'no-border-right' : ''?> no-border-top">
@@ -111,23 +111,23 @@ endfor; ?>
       class="width-1 <?= $i == 3 ? 'no-border-bottom' : ''?> <?= $j == 1 ? 'no-border-left' : ''?> <?= $j == 6 ? 'no-border-right' : ''?> no-border-top">
       <div class="contentEditable no-border" contenteditable="true"></div>
     </td>
-    <?
-  endfor; ?>
+    <?php
+            endfor; ?>
           </tr>
-        <?
-endfor; ?>
+        <?php
+        endfor; ?>
       </table>
     </td>
     <td class="no-padding">
       <table role="presentation">
-        <? for ($i = 1; $i <= 3; $i++): ?>
+        <?php for ($i = 1; $i <= 3; $i++): ?>
           <tr>
             <td class="no-border-left no-border-right no-border-top <?= $i == 3 ? 'no-border-bottom' : ''?>">
     <div class="contentEditable no-border" contenteditable="true"></div>
     </td>
   </tr>
-  <?
-endfor; ?>
+  <?php
+        endfor; ?>
       </table>
     </td>
   </tr>
@@ -140,7 +140,7 @@ endfor; ?>
     <td class="no-padding">
       <table role="presentation">
         <tr>
-          <? for ($j = 1; $j <= 6; $j++): ?>
+          <?php for ($j = 1; $j <= 6; $j++): ?>
             <td class="width-1 <?= $j == 1 ? 'no-border-left' : ''?>
   <?= $j == 6 ? 'no-border-right' : ''?> no-border-bottom no-border-top">
   <div class="contentEditable no-border" contenteditable="true"></div>
@@ -149,8 +149,8 @@ endfor; ?>
     class="width-1 <?= $j == 1 ? 'no-border-left' : ''?> <?= $j == 6 ? 'no-border-right' : ''?> no-border-bottom no-border-top">
     <div class="contentEditable no-border" contenteditable="true"></div>
   </td>
-  <?
-endfor; ?>
+  <?php
+          endfor; ?>
         </tr>
       </table>
     </td>
@@ -172,9 +172,9 @@ endfor; ?>
     </td>
     <td class="no-padding">
       <table role="presentation">
-        <? for ($i = 1; $i <= 2; $i++): ?>
+        <?php for ($i = 1; $i <= 2; $i++): ?>
           <tr>
-            <? for ($j = 1; $j <= 6; $j++): ?>
+            <?php for ($j = 1; $j <= 6; $j++): ?>
               <td class="width-1 <?= $i == 2 ? 'no-border-bottom' : ''?>
   <?= $j == 1 ? 'no-border-left' : ''?>
   <?= $j == 6 ? 'no-border-right' : ''?> no-border-top">
@@ -184,23 +184,23 @@ endfor; ?>
     class="width-1 <?= $i == 2 ? 'no-border-bottom' : ''?> <?= $j == 1 ? 'no-border-left' : ''?> <?= $j == 6 ? 'no-border-right' : ''?> no-border-top">
     <div class="contentEditable no-border" contenteditable="true"></div>
   </td>
-  <?
-  endfor; ?>
+  <?php
+            endfor; ?>
           </tr>
-        <?
-endfor; ?>
+        <?php
+        endfor; ?>
       </table>
     </td>
     <td class="no-padding">
       <table role="presentation">
-        <? for ($i = 1; $i <= 2; $i++): ?>
+        <?php for ($i = 1; $i <= 2; $i++): ?>
           <tr>
             <td class="no-border-left no-border-right no-border-top <?= $i == 2 ? 'no-border-bottom' : ''?>">
   <div class="contentEditable no-border" contenteditable="true"></div>
   </td>
   </tr>
-  <?
-endfor; ?>
+  <?php
+        endfor; ?>
       </table>
     </td>
   </tr>
@@ -213,13 +213,13 @@ endfor; ?>
     <td class="no-padding">
       <table role="presentation">
         <tr>
-          <? for ($j = 1; $j <= 6; $j++): ?>
+          <?php for ($j = 1; $j <= 6; $j++): ?>
             <td class="width-2 <?= $j == 1 ? 'no-border-left' : ''?>
   <?= $j == 6 ? 'no-border-right' : ''?> no-border-bottom no-border-top">
   <div class="contentEditable no-border" contenteditable="true"></div>
   </td>
-  <?
-endfor; ?>
+  <?php
+          endfor; ?>
         </tr>
       </table>
     </td>

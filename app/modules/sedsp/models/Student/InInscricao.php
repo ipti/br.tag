@@ -233,7 +233,7 @@ class InInscricao
 
     public function setInFlInteresseCentroIdiomas(?string $inFlInteresseCentroIdiomas): self
     {
-        $this->inFlInteresseCentroIdiomas  = $inFlInteresseCentroIdiomas ;
+        $this->inFlInteresseCentroIdiomas = $inFlInteresseCentroIdiomas ;
         return $this;
     }
 

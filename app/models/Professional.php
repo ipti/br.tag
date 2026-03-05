@@ -86,7 +86,6 @@ class Professional extends TagModel
      */
     public function search()
     {
-
         $criteria = new CDbCriteria();
 
         $criteria->compare('id_professional', $this->id_professional);

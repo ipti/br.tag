@@ -2,11 +2,11 @@
 
 /**
  * Console command to execute SQL files across multiple TAG databases.
- * 
+ *
  * Usage:
  *   php yiic sqlmigration run /path/to/file.sql
  *   php yiic sqlmigration run /path/to/file.sql --dry-run
- * 
+ *
  * This command will:
  * 1. Discover all databases matching the pattern *.tag.ong.br
  * 2. Execute the specified SQL file against each database
@@ -18,12 +18,12 @@ class SqlMigrationCommand extends CConsoleCommand
      * @var string Database host
      */
     private $host;
-    
+
     /**
      * @var string Database username
      */
     private $username;
-    
+
     /**
      * @var string Database password
      */
@@ -35,22 +35,22 @@ class SqlMigrationCommand extends CConsoleCommand
     public function init()
     {
         parent::init();
-        
+
         // Extract connection details from the main database configuration
         $dbConfig = Yii::app()->db;
-        
+
         // Parse DSN to get host
         if (preg_match('/host=([^;]+)/', $dbConfig->connectionString, $matches)) {
             $this->host = $matches[1];
         }
-        
+
         $this->username = $dbConfig->username;
         $this->password = $dbConfig->password;
     }
 
     /**
      * Execute SQL file across all TAG databases
-     * 
+     *
      * @param array $args Command arguments [0] = SQL file path
      */
     public function actionRun($args)
@@ -63,7 +63,7 @@ class SqlMigrationCommand extends CConsoleCommand
 
         $sqlFile = $args[0];
         $dryRun = in_array('--dry-run', $args);
-        
+
         $dbFilter = null;
         foreach ($args as $arg) {
             if (strpos($arg, '--db-filter=') === 0) {
@@ -88,25 +88,27 @@ class SqlMigrationCommand extends CConsoleCommand
         echo "SQL Migration Tool\n";
         echo "=================================================\n";
         echo "SQL File: $sqlFile\n";
-        echo "Mode: " . ($dryRun ? "DRY RUN" : "EXECUTION") . "\n";
-        if ($dbFilter) echo "Filter: $dbFilter\n";
+        echo 'Mode: ' . ($dryRun ? 'DRY RUN' : 'EXECUTION') . "\n";
+        if ($dbFilter) {
+            echo "Filter: $dbFilter\n";
+        }
         echo "=================================================\n\n";
 
         // Get list of databases matching pattern
         $databases = $this->getTagDatabases();
-        
+
         if ($dbFilter) {
-            $databases = array_filter($databases, function($db) use ($dbFilter) {
+            $databases = array_filter($databases, function ($db) use ($dbFilter) {
                 return strpos($db, $dbFilter) !== false;
             });
         }
-        
+
         if (empty($databases)) {
             echo "No databases matching pattern found.\n";
             return 1;
         }
 
-        echo "Found " . count($databases) . " database(s) to process\n\n";
+        echo 'Found ' . count($databases) . " database(s) to process\n\n";
 
         $successCount = 0;
         $failureCount = 0;
@@ -114,7 +116,7 @@ class SqlMigrationCommand extends CConsoleCommand
 
         foreach ($databases as $database) {
             echo "Processing: $database ... ";
-            
+
             if ($dryRun) {
                 echo "[DRY RUN - SKIPPED]\n";
                 $results[] = ['database' => $database, 'status' => 'skipped'];
@@ -128,7 +130,7 @@ class SqlMigrationCommand extends CConsoleCommand
                 $results[] = ['database' => $database, 'status' => 'success'];
             } catch (Exception $e) {
                 echo "[FAILED]\n";
-                echo "  Error: " . $e->getMessage() . "\n";
+                echo '  Error: ' . $e->getMessage() . "\n";
                 $failureCount++;
                 $results[] = ['database' => $database, 'status' => 'failed', 'error' => $e->getMessage()];
             }
@@ -138,12 +140,12 @@ class SqlMigrationCommand extends CConsoleCommand
         echo "\n=================================================\n";
         echo "Migration Summary\n";
         echo "=================================================\n";
-        echo "Total databases: " . count($databases) . "\n";
-        
+        echo 'Total databases: ' . count($databases) . "\n";
+
         if (!$dryRun) {
             echo "Successful: $successCount\n";
             echo "Failed: $failureCount\n";
-            
+
             if ($failureCount > 0) {
                 echo "\nFailed databases:\n";
                 foreach ($results as $result) {
@@ -162,7 +164,7 @@ class SqlMigrationCommand extends CConsoleCommand
 
     /**
      * Get list of databases matching the pattern *.tag.ong.br
-     * 
+     *
      * @return array List of database names
      */
     private function getTagDatabases()
@@ -180,14 +182,14 @@ class SqlMigrationCommand extends CConsoleCommand
 
             return $databases;
         } catch (PDOException $e) {
-            echo "Error connecting to database server: " . $e->getMessage() . "\n";
+            echo 'Error connecting to database server: ' . $e->getMessage() . "\n";
             return [];
         }
     }
 
     /**
      * Execute SQL content on a specific database
-     * 
+     *
      * @param string $database Database name
      * @param string $sqlContent SQL content to execute
      * @throws Exception if execution fails
@@ -204,7 +206,7 @@ class SqlMigrationCommand extends CConsoleCommand
         // Split SQL by semicolon, but ignore semicolons inside single or double quotes
         // This regex splits by ; only if it's not followed by an odd number of quotes
         $statements = preg_split('/;(?=(?:[^\'"]*([\'"])[^\'"]*\1)*[^\'"]*$)/', $sqlContent);
-        
+
         foreach ($statements as $statement) {
             $statement = trim($statement);
             if (!empty($statement)) {

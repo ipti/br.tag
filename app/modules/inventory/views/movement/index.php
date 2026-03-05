@@ -3,9 +3,9 @@
 /* @var $dataProvider CActiveDataProvider */
 
 $this->setPageTitle('TAG - Almoxarifado');
-$this->breadcrumbs=array(
-	'Almoxarifado',
-);
+$this->breadcrumbs = [
+    'Almoxarifado',
+];
 
 $isAdmin = TagUtils::isAdmin();
 ?>
@@ -20,12 +20,12 @@ $isAdmin = TagUtils::isAdmin();
 
     <div class="row t-buttons-container">
         <?php if ($isAdmin): ?>
-            <?php echo CHtml::link('Lançar Entrada', array('createEntry'), array('class'=>'t-button-primary')); ?>
-            <?php echo CHtml::link('Distribuir Itens', array('transfer'), array('class'=>'t-button-primary')); ?>
-            <?php echo CHtml::link('Gerenciar Catálogo', array('item/index'), array('class'=>'t-button-secondary')); ?>
+            <?php echo CHtml::link('Lançar Entrada', ['createEntry'], ['class' => 't-button-primary']); ?>
+            <?php echo CHtml::link('Distribuir Itens', ['transfer'], ['class' => 't-button-primary']); ?>
+            <?php echo CHtml::link('Gerenciar Catálogo', ['item/index'], ['class' => 't-button-secondary']); ?>
         <?php endif; ?>
-        <?php echo CHtml::link('Lançar Saída', array('createExit'), array('class'=>'t-button-primary')); ?>
-        <?php echo CHtml::link('Histórico de Movimentos', array('history'), array('class'=>'t-button-secondary')); ?>
+        <?php echo CHtml::link('Lançar Saída', ['createExit'], ['class' => 't-button-primary']); ?>
+        <?php echo CHtml::link('Histórico de Movimentos', ['history'], ['class' => 't-button-secondary']); ?>
     </div>
 
     <div class="row">
@@ -39,7 +39,7 @@ $isAdmin = TagUtils::isAdmin();
                                 <strong><?php echo CHtml::encode($stock->item->name); ?></strong>: 
                                 <?php echo $stock->quantity; ?> <?php echo $stock->item->unit; ?> 
                                 (Mínimo: <?php echo $stock->item->minimum_stock; ?>)
-                                <?php if ($isAdmin): ?> - <em><?php echo $stock->school_inep_fk ? CHtml::encode($stock->school->name) : "Almoxarifado Central"; ?></em><?php endif; ?>
+                                <?php if ($isAdmin): ?> - <em><?php echo $stock->school_inep_fk ? CHtml::encode($stock->school->name) : 'Almoxarifado Central'; ?></em><?php endif; ?>
                             </li>
                         <?php endforeach; ?>
                     </ul>
@@ -49,38 +49,38 @@ $isAdmin = TagUtils::isAdmin();
             <h2 class="t-title-small">Estoque Atual</h2>
             <div class="widget clearmargin">
                 <div class="widget-body">
-                    <?php DataTableGridView::show($this, array(
-                        'id'=>'inventory-stock-grid',
-                        'dataProvider'=>$dataProvider,
+                    <?php DataTableGridView::show($this, [
+                        'id' => 'inventory-stock-grid',
+                        'dataProvider' => $dataProvider,
                         'enableSorting' => false,
-                        'columns'=>array(
-                            array(
+                        'columns' => [
+                            [
                                 'name' => 'item_id',
                                 'header' => 'Item',
                                 'value' => '$data->item->name',
-                            ),
-                            array(
+                            ],
+                            [
                                 'name' => 'school_inep_fk',
                                 'header' => 'Escola',
                                 'value' => '$data->school_inep_fk ? $data->school->name : "Almoxarifado Central"',
                                 'visible' => $isAdmin,
-                            ),
-                            array(
+                            ],
+                            [
                                 'name' => 'quantity',
                                 'header' => 'Quantidade',
                                 'value' => '$data->quantity . " " . $data->item->unit',
-                            ),
-                            array(
-                                'class'=>'CButtonColumn',
-                                'template'=>'{view}',
-                                'buttons'=>array(
-                                    'view' => array(
-                                        'url'=>'Yii::app()->createUrl("inventory/movement/history", array("item_id"=>$data->item_id))',
-                                    ),
-                                ),
-                            ),
-                        ),
-                    )); ?>
+                            ],
+                            [
+                                'class' => 'CButtonColumn',
+                                'template' => '{view}',
+                                'buttons' => [
+                                    'view' => [
+                                        'url' => 'Yii::app()->createUrl("inventory/movement/history", array("item_id"=>$data->item_id))',
+                                    ],
+                                ],
+                            ],
+                        ],
+                    ]); ?>
                 </div>
             </div>
         </div>

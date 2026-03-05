@@ -277,8 +277,6 @@ class DefaultController extends Controller
         $this->render('studentClassDiary', ['student' => $student, 'stageFk' => $stageFk, 'classroomId' => $classroomId, 'schedule' => $schedule, 'date' => $date, 'justification' => $justification, 'studentFault' => $studentFault, 'studentObservation' => $studentObservation]);
     }
 
-
-
     private function getScheduleDays($schedules)
     {
         $result = [];

@@ -1,6 +1,7 @@
 <?php
 
     yii::import('application.modules.classdiary.services.*');
+
     /**
      * @property SaveStudentDiary $SaveStudentDiary
      */
@@ -17,6 +18,5 @@
         public function exec($stageFk, $classroomId, $date, $disciplineFk, $studentId, $studentObservation)
         {
             return $this->studentService->saveStudentDiary($stageFk, $classroomId, $date, $disciplineFk, $studentId, $studentObservation);
-
         }
     }

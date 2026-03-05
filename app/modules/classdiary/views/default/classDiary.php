@@ -27,16 +27,16 @@ $cs->registerScriptFile($baseScriptUrl . '/classDiary/functions.js?v=' . TAG_VER
                 <div
                     class="column is-two-fifths t-multiselect clearfix js-hide-is-not-valid  t-margin-none--top t-margin-none--bottom">
                     <?php echo CHtml::dropDownList(
-                        'coursePlan',
-                        '',
-                        [],
-                        [
-                            'multiple' => 'multiple',
-                            'class' => 'select-search-on t-margin-none--top t-multiselect multiselect',
-                            'id' => 'coursePlan',
-                            'style' => 'width: 100%;'
-                        ]
-                    ); ?>
+    'coursePlan',
+    '',
+    [],
+    [
+        'multiple' => 'multiple',
+        'class' => 'select-search-on t-margin-none--top t-multiselect multiselect',
+        'id' => 'coursePlan',
+        'style' => 'width: 100%;'
+    ]
+); ?>
                 </div>
             </div>
             <div class="row">
@@ -51,16 +51,16 @@ $cs->registerScriptFile($baseScriptUrl . '/classDiary/functions.js?v=' . TAG_VER
                     <div class="column is-two-fifths clearfix t-field-select">
                         <label for="" class="t-field-select__label--required">Plano de aula</label>
                         <?php echo CHtml::dropDownList(
-                            'coursePlans',
-                            '',
-                            $coursePlans,
-                            [
-                                'class' => 'select-search-on t-margin-none--top js-course-plan-id t-field-select__input',
-                                'prompt' => 'Selecione um plano',
-                                'id' => 'coursePlan',
-                                'style' => 'width: 100%;'
-                            ]
-                        ); ?>
+                        'coursePlans',
+                        '',
+                        $coursePlans,
+                        [
+                            'class' => 'select-search-on t-margin-none--top js-course-plan-id t-field-select__input',
+                            'prompt' => 'Selecione um plano',
+                            'id' => 'coursePlan',
+                            'style' => 'width: 100%;'
+                        ]
+                    ); ?>
                     </div>
                 </div>
                 <div class="row t-field-text">

@@ -97,7 +97,7 @@ $cs = Yii::app()->getClientScript();
                         ],
                     ],
                 ]);
-                ?>
+?>
             </div>
         </div>
     </div>

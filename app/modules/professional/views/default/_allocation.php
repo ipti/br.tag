@@ -18,11 +18,11 @@
                                     <div class="t-field-select">
                                         <?php echo CHtml::activeLabelEx($allocationModel, 'location_type', ['class' => 't-field-select__label']); ?>
                                         <?php echo CHtml::activeDropDownList(
-                                            $allocationModel, 
-                                            'location_type', 
-                                            ProfessionalAllocation::getLocationTypeOptions(), 
-                                            ['class' => 't-field-select__input', 'id' => 'location-type-select']
-                                        ); ?>
+    $allocationModel,
+    'location_type',
+    ProfessionalAllocation::getLocationTypeOptions(),
+    ['class' => 't-field-select__input', 'id' => 'location-type-select']
+); ?>
                                         <?php echo CHtml::error($allocationModel, 'location_type'); ?>
                                     </div>
                                 </div>
@@ -43,8 +43,8 @@
                                     <div class="t-field-text">
                                         <?php echo CHtml::activeLabelEx($allocationModel, 'location_name', ['class' => 't-field-text__label']); ?>
                                         <?php echo CHtml::activeTextField(
-                                            $allocationModel, 
-                                            'location_name', 
+                                            $allocationModel,
+                                            'location_name',
                                             ['class' => 't-field-text__input', 'placeholder' => 'Ex: Secretaria Municipal de Educação']
                                         ); ?>
                                         <?php echo CHtml::error($allocationModel, 'location_name'); ?>
@@ -109,9 +109,9 @@
     </div>
     <script>
         var ProfessionalAllocationConfig = {
-            saveUrl: '<?php echo Yii::app()->createUrl("professional/default/saveAllocation"); ?>',
-            deleteUrl: '<?php echo Yii::app()->createUrl("professional/default/deleteAllocation"); ?>',
-            viewUrl: '<?php echo Yii::app()->createUrl("professional/default/viewAllocation"); ?>'
+            saveUrl: '<?php echo Yii::app()->createUrl('professional/default/saveAllocation'); ?>',
+            deleteUrl: '<?php echo Yii::app()->createUrl('professional/default/deleteAllocation'); ?>',
+            viewUrl: '<?php echo Yii::app()->createUrl('professional/default/viewAllocation'); ?>'
         };
     </script>
     <div class="table-responsive" style="width: 100%;">
@@ -170,6 +170,6 @@
                 ],
             ],
         ]);
-        ?>
+    ?>
     </div>
 </div>

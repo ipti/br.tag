@@ -1,18 +1,19 @@
 <?php
 
 use PHPUnit\Extensions\Selenium2TestCase\ElementCommand\Value;
+
 /* @var $this StudentIMCController */
 /* @var $dataProvider CActiveDataProvider */
 
-$this->breadcrumbs = array(
+$this->breadcrumbs = [
     'Student Imcs',
-);
+];
 $this->setPageTitle('TAG - ' . Yii::t('default', 'Alunos'));
 
-$this->menu = array(
-    array('label' => 'Create StudentIMC', 'url' => array('create')),
-    array('label' => 'Manage StudentIMC', 'url' => array('admin')),
-);
+$this->menu = [
+    ['label' => 'Create StudentIMC', 'url' => ['create']],
+    ['label' => 'Manage StudentIMC', 'url' => ['admin']],
+];
 $baseScriptUrl = Yii::app()->controller->module->baseScriptUrl;
 $cs = Yii::app()->getClientScript();
 $cs->registerScriptFile($baseScriptUrl . '/functions.js', CClientScript::POS_END);
@@ -21,7 +22,7 @@ $cs->registerScriptFile($baseScriptUrl . '/functions.js', CClientScript::POS_END
 
     <h1>Alunos</h1>
     <div class="row justify-content--end">
-        <a class="t-button-primary" href="<?php echo Yii::app()->createUrl('student/create', array('simple' => 1)) ?>">Adicionar Aluno</a>
+        <a class="t-button-primary" href="<?php echo Yii::app()->createUrl('student/create', ['simple' => 1]) ?>">Adicionar Aluno</a>
         <div class="js-report-button hide">
 
         </div>
@@ -31,7 +32,7 @@ $cs->registerScriptFile($baseScriptUrl . '/functions.js', CClientScript::POS_END
         <div class="column clearleft justify-content-- is-one-third  row wrap">
             <div class="column clearleft">
                 <div class="t-field-select">
-                    <?php echo CHtml::label(yii::t('default', 'Filtrar por Turma'), 'classroom', array('class' => 't-field-select__label no-wrap')); ?>
+                    <?php echo CHtml::label(yii::t('default', 'Filtrar por Turma'), 'classroom', ['class' => 't-field-select__label no-wrap']); ?>
                     <select name="classroom" id="classroom" class="select-search-on t-field-select__input select2-container js-classroom">
                         <option value="" selected>Selecione...</option>
                         <?php foreach ($classrooms as $classroom): ?>
@@ -44,6 +45,6 @@ $cs->registerScriptFile($baseScriptUrl . '/functions.js', CClientScript::POS_END
     </div>
     <hr class="row t-separator" />
     <div class="js-studentTable">
-        <?php $this->renderPartial('_studentTable', array('dataProvider' => $dataProvider)); ?>
+        <?php $this->renderPartial('_studentTable', ['dataProvider' => $dataProvider]); ?>
     </div>
 </div>

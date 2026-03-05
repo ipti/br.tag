@@ -31,7 +31,7 @@ $cs = Yii::app()->getClientScript();
         $dName = $f['name'];
         $months = $f['months'];
         echo "<tr did='$did'>"
-                . "<td class='left aligned'>$dName</td>";
+                    . "<td class='left aligned'>$dName</td>";
         foreach ($months as $month => $m) {
             $color = '';
             if (isset($m['faults'], $m['classes'])) {

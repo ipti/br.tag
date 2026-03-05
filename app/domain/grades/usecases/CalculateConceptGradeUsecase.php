@@ -33,6 +33,7 @@ class CalculateConceptGradeUsecase
             $this->calculateConceptGrades($studentEnrollment, $this->discipline);
         }
     }
+
     /**
      * @param int $studentEnrollmentId
      * @param int $studentEnrollmentId
@@ -122,7 +123,7 @@ class CalculateConceptGradeUsecase
     private function getStudentGrades($enrollmentId, $discipline)
     {
         $gradesIds = array_column(Yii::app()->db->createCommand(
-               "SELECT
+            "SELECT
                 g.id
                 FROM grade g
                 join grade_unity_modality gum on g.grade_unity_modality_fk = gum.id

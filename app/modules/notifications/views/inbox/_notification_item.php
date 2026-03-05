@@ -4,27 +4,27 @@
  * @var Notification $n
  */
 $typeColors = [
-    'info'    => '#3498db',
+    'info' => '#3498db',
     'warning' => '#f39c12',
-    'error'   => '#e74c3c',
+    'error' => '#e74c3c',
     'success' => '#2ecc71',
 ];
 $typeIcons = [
-    'info'    => 'fa-info-circle',
+    'info' => 'fa-info-circle',
     'warning' => 'fa-exclamation-triangle',
-    'error'   => 'fa-times-circle',
+    'error' => 'fa-times-circle',
     'success' => 'fa-check-circle',
 ];
 $typeBadges = [
-    'info'    => 't-badge-info',
+    'info' => 't-badge-info',
     'warning' => 't-badge-warning',
-    'error'   => 't-badge-critical',
+    'error' => 't-badge-critical',
     'success' => 't-badge-success',
 ];
-$color      = $typeColors[$n->type] ?? $typeColors['info'];
-$icon       = $typeIcons[$n->type] ?? $typeIcons['info'];
+$color = $typeColors[$n->type] ?? $typeColors['info'];
+$icon = $typeIcons[$n->type] ?? $typeIcons['info'];
 $badgeClass = $typeBadges[$n->type] ?? 't-badge-info';
-$isUnread   = !$nr->is_read;
+$isUnread = !$nr->is_read;
 ?>
 
 <div class="notification-item <?= $isUnread ? 'notification-item--unread' : '' ?>"
@@ -56,11 +56,16 @@ $isUnread   = !$nr->is_read;
                 <span class="text-color--ink" style="font-size: 12px;">
                     <?php
                     $diff = time() - strtotime($n->created_at);
-                    if ($diff < 60) echo '<i class="fa fa-clock-o"></i> agora';
-                    elseif ($diff < 3600) echo '<i class="fa fa-clock-o"></i> ' . floor($diff / 60) . ' min';
-                    elseif ($diff < 86400) echo '<i class="fa fa-clock-o"></i> ' . floor($diff / 3600) . 'h';
-                    else echo '<i class="fa fa-calendar"></i> ' . date('d/m/Y', strtotime($n->created_at));
-                    ?>
+if ($diff < 60) {
+    echo '<i class="fa fa-clock-o"></i> agora';
+} elseif ($diff < 3600) {
+    echo '<i class="fa fa-clock-o"></i> ' . floor($diff / 60) . ' min';
+} elseif ($diff < 86400) {
+    echo '<i class="fa fa-clock-o"></i> ' . floor($diff / 3600) . 'h';
+} else {
+    echo '<i class="fa fa-calendar"></i> ' . date('d/m/Y', strtotime($n->created_at));
+}
+?>
                 </span>
             </div>
         </div>

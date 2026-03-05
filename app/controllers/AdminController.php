@@ -6,6 +6,7 @@ class AdminController extends Controller
 {
     public $layout = 'fullmenu';
     private $idEqualsIdNumber = 'id = :id';
+
     public function accessRules()
     {
         return [
@@ -368,7 +369,7 @@ SELECT
     {
         $directoryPath = dirname($filePath);
 
-        if (!is_dir($directoryPath)&&!mkdir($directoryPath, 0777, true)) {
+        if (!is_dir($directoryPath) && !mkdir($directoryPath, 0777, true)) {
             throw new Exception("Falha ao criar diretórios: $directoryPath");
         }
     }
@@ -488,7 +489,6 @@ SELECT
 
         $this->render('activeDisableUser', ['users' => $users]);
     }
-
 
     public function actionPHPConfig()
     {

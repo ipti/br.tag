@@ -21,27 +21,27 @@ $this->pageTitle = 'Notificação: ' . $notification->title;
                         <div class="column no-grow">
                             <?php
                             $typeBadges = [
-                                'info'    => 't-badge-info',
+                                'info' => 't-badge-info',
                                 'warning' => 't-badge-warning',
-                                'error'   => 't-badge-critical',
+                                'error' => 't-badge-critical',
                                 'success' => 't-badge-success',
                             ];
-                            $typeLabels = [
-                                'info'    => 'Informação',
-                                'warning' => 'Aviso',
-                                'error'   => 'Urgente',
-                                'success' => 'Sucesso',
-                            ];
-                            $typeIcons = [
-                                'info'    => 'fa-info-circle',
-                                'warning' => 'fa-exclamation-triangle',
-                                'error'   => 'fa-times-circle',
-                                'success' => 'fa-check-circle',
-                            ];
-                            $badgeClass = $typeBadges[$notification->type] ?? 't-badge-info';
-                            $typeLabel  = $typeLabels[$notification->type] ?? 'Info';
-                            $typeIcon   = $typeIcons[$notification->type] ?? 'fa-info-circle';
-                            ?>
+$typeLabels = [
+    'info' => 'Informação',
+    'warning' => 'Aviso',
+    'error' => 'Urgente',
+    'success' => 'Sucesso',
+];
+$typeIcons = [
+    'info' => 'fa-info-circle',
+    'warning' => 'fa-exclamation-triangle',
+    'error' => 'fa-times-circle',
+    'success' => 'fa-check-circle',
+];
+$badgeClass = $typeBadges[$notification->type] ?? 't-badge-info';
+$typeLabel = $typeLabels[$notification->type] ?? 'Info';
+$typeIcon = $typeIcons[$notification->type] ?? 'fa-info-circle';
+?>
                             <span class="<?= $badgeClass ?>" style="margin-left: 0;">
                                 <i class="fa <?= $typeIcon ?>"></i>
                                 <?= $typeLabel ?>

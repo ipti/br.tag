@@ -51,9 +51,9 @@ class GradeRules extends TagModel
     public function relations()
     {
         return [
-            'gradeCalculationFk'   => [self::BELONGS_TO, 'GradeCalculation', 'grade_calculation_fk'],
+            'gradeCalculationFk' => [self::BELONGS_TO, 'GradeCalculation', 'grade_calculation_fk'],
             'edcensoStageVsModalityFk' => [self::BELONGS_TO, 'EdcensoStageVsModality', 'edcenso_stage_vs_modality_fk'],
-            'gradeRulesStages'     => [self::HAS_MANY, 'GradeRulesVsEdcensoStageVsModality', 'grade_rules_fk'],
+            'gradeRulesStages' => [self::HAS_MANY, 'GradeRulesVsEdcensoStageVsModality', 'grade_rules_fk'],
         ];
     }
 

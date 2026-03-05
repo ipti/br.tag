@@ -17,27 +17,27 @@ class DefaultController extends Controller
      */
     private $whitelist = [
         'deduplicateinstructors' => [
-            'label'       => 'Deduplicar Professores',
+            'label' => 'Deduplicar Professores',
             'description' => 'Remove cadastros duplicados de professores com o mesmo CPF, mantendo o mais antigo e mesclando os dados.',
-            'icon'        => 'fa-users',
-            'args'        => [
-                ''         => 'Dry-run (preview — não altera nada)',
+            'icon' => 'fa-users',
+            'args' => [
+                '' => 'Dry-run (preview — não altera nada)',
                 '--commit' => 'Commit (aplica as alterações no banco)',
             ],
         ],
         'purgenotifications' => [
-            'label'       => 'Limpar Notificações Expiradas',
+            'label' => 'Limpar Notificações Expiradas',
             'description' => 'Remove do banco todas as notificações cuja data de expiração já passou.',
-            'icon'        => 'fa-bell-slash',
-            'args'        => [
+            'icon' => 'fa-bell-slash',
+            'args' => [
                 '' => 'Executar',
             ],
         ],
         'sqlmigration' => [
-            'label'       => 'Executar Migrations SQL',
+            'label' => 'Executar Migrations SQL',
             'description' => 'Executa os arquivos SQL pendentes na pasta de migrations.',
-            'icon'        => 'fa-database',
-            'args'        => [
+            'icon' => 'fa-database',
+            'args' => [
                 'run' => 'Executar migrations pendentes',
             ],
         ],
@@ -80,7 +80,7 @@ class DefaultController extends Controller
         }
 
         $commandName = Yii::app()->request->getPost('command');
-        $arg         = Yii::app()->request->getPost('arg', '');
+        $arg = Yii::app()->request->getPost('arg', '');
 
         // Valida command na whitelist
         if (!array_key_exists($commandName, $this->whitelist)) {
@@ -94,7 +94,7 @@ class DefaultController extends Controller
         }
 
         $yiicPath = Yii::getPathOfAlias('application') . '/yiic';
-        $fullCmd  = escapeshellcmd("php {$yiicPath} {$commandName}");
+        $fullCmd = escapeshellcmd("php {$yiicPath} {$commandName}");
 
         if (!empty($arg)) {
             $fullCmd .= ' ' . escapeshellarg($arg);
@@ -109,16 +109,16 @@ class DefaultController extends Controller
             'application.tools'
         );
 
-        $output   = [];
+        $output = [];
         $exitCode = 0;
         exec($fullCmd, $output, $exitCode);
 
         header('Content-Type: application/json');
         echo CJSON::encode([
-            'success'  => $exitCode === 0,
+            'success' => $exitCode === 0,
             'exitCode' => $exitCode,
-            'output'   => implode("\n", $output),
-            'command'  => "{$commandName} {$arg}",
+            'output' => implode("\n", $output),
+            'command' => "{$commandName} {$arg}",
         ]);
         Yii::app()->end();
     }

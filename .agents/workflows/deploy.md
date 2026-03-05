@@ -13,7 +13,10 @@ All steps use semver versioning. The version must match `TAG_VERSION` in `config
    - Note any `.sql` migration files created for this release (matches PR template `✨ Migrations Utilizadas`).
 4. **Create Branch** *(if on main)*:
    - If the current branch is `main` or `dev`, create a new feature/release/fix branch.
-5. **Commit and Push**:
+5. **Code Quality**:
+// turbo
+   - Run `composer run lint:fix` to ensure code style compliance.
+6. **Commit and Push**:
 // turbo
    - Generate commit, push, and add upstream if needed.
 6. **Open Pull Request**:

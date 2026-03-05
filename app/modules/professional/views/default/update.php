@@ -18,15 +18,15 @@ Yii::app()->clientScript->registerScriptFile($moduleUrl . '/common/js/allocation
 ?>
     <?php
 echo $this->renderPartial('_form', [
-    'modelProfessional'     => $modelProfessional,
-    'modelAttendance'       => $modelAttendance,
-    'attendanceProvider'    => $attendanceProvider,
-    'allocationProvider'    => $allocationProvider,
-    'allocationModel'       => $allocationModel,
-    'schools'               => $schools,
+    'modelProfessional' => $modelProfessional,
+    'modelAttendance' => $modelAttendance,
+    'attendanceProvider' => $attendanceProvider,
+    'allocationProvider' => $allocationProvider,
+    'allocationModel' => $allocationModel,
+    'schools' => $schools,
     'totalAttendancesMonth' => $totalAttendancesMonth,
-    'totalAllocations'      => $totalAllocations,
-    'title'                 => $title
+    'totalAllocations' => $totalAllocations,
+    'title' => $title
 ]);
 ?> 
 </div>

@@ -24,14 +24,13 @@ class ChangeEnrollmentStatusUsecase
         $disciplines = $this->getDisciplines($this->enrollment->id);
 
         foreach ($disciplines as $discipline) {
-
             if ($discipline->situation == 'REPROVADO') {
                 $isApprovedInAllGrades = false;
             }
         }
 
         if ($isRegistered) {
-            $this->enrollment->status = $isApprovedInAllGrades?6:8;
+            $this->enrollment->status = $isApprovedInAllGrades ? 6 : 8;
         }
 
         if ($this->enrollment->save()) {
@@ -58,8 +57,8 @@ class ChangeEnrollmentStatusUsecase
         );
         $result = [];
         foreach ($allGradesResults as $gradesResult) {
-            $disipline =  EdcensoDiscipline::model()->findByPk($gradesResult->discipline_fk);
-            if($disipline->requires_exam == 1) {
+            $disipline = EdcensoDiscipline::model()->findByPk($gradesResult->discipline_fk);
+            if ($disipline->requires_exam == 1) {
                 array_push($result, $gradesResult);
             }
         }

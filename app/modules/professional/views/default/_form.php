@@ -11,7 +11,7 @@
 $themeUrl = Yii::app()->theme->baseUrl;
 $cs = Yii::app()->getClientScript();
 
-$cs->registerScriptFile($baseScriptUrl . '/common/js/professional.js?v='.TAG_VERSION, CClientScript::POS_END);
+$cs->registerScriptFile($baseScriptUrl . '/common/js/professional.js?v=' . TAG_VERSION, CClientScript::POS_END);
 
 $form = $this->beginWidget(
     'CActiveForm',
@@ -139,28 +139,28 @@ $form = $this->beginWidget(
 												<div class="t-field-text">
 													<?php echo $form->label($modelAttendance, 'date', ['class' => 't-field-text__label']); ?>
 													<?php
-													$this->widget('zii.widgets.jui.CJuiDatePicker', [
-														'model' => $modelAttendance,
-														'attribute' => 'date',
-														'options' => [
-															'dateFormat' => 'dd/mm/yy',
-															'changeYear' => true,
-															'changeMonth' => true,
-															'yearRange' => '2000:' . date('Y'),
-															'showOn' => 'focus',
-															'maxDate' => 0
-														],
-														'htmlOptions' => [
-															'readonly' => 'readonly',
-															'class' => 't-field-text__input',
-															'style' => 'cursor: pointer;',
-															'placeholder' => 'Escolha a data'
-														],
-													]);
-													?>
+                                                    $this->widget('zii.widgets.jui.CJuiDatePicker', [
+                                                        'model' => $modelAttendance,
+                                                        'attribute' => 'date',
+                                                        'options' => [
+                                                            'dateFormat' => 'dd/mm/yy',
+                                                            'changeYear' => true,
+                                                            'changeMonth' => true,
+                                                            'yearRange' => '2000:' . date('Y'),
+                                                            'showOn' => 'focus',
+                                                            'maxDate' => 0
+                                                        ],
+                                                        'htmlOptions' => [
+                                                            'readonly' => 'readonly',
+                                                            'class' => 't-field-text__input',
+                                                            'style' => 'cursor: pointer;',
+                                                            'placeholder' => 'Escolha a data'
+                                                        ],
+                                                    ]);
+					    ?>
 													<?php echo CHtml::link('Limpar', '#', [
-														'style' => 'font-size: 12px; margin-top: 4px; display: block;',
-														'onclick' => '$("#' . CHtml::activeId($modelAttendance, 'date') . '").datepicker("setDate", null); return false;',
+													    'style' => 'font-size: 12px; margin-top: 4px; display: block;',
+													    'onclick' => '$("#' . CHtml::activeId($modelAttendance, 'date') . '").datepicker("setDate", null); return false;',
 													]); ?>
 													<?php echo $form->error($modelAttendance, 'date'); ?>
 												</div>
@@ -177,45 +177,45 @@ $form = $this->beginWidget(
 									<div id="attendances" class="widget widget-scroll margin-bottom-none table-responsive">
 										<h3>Atendimentos</h3>
 										<?php
-										DataTableGridView::show($this, [
-											'id' => 'professional-attendance-grid',
-											'dataProvider' => $attendanceProvider,
-											'columns' => [
-												[
-													'name' => 'date',
-													'value' => 'date("d/m/Y", strtotime($data->date))',
-													'headerHtmlOptions' => ['style' => 'min-width: 100px;'],
-												],
-												[
-													'name' => 'local',
-													'headerHtmlOptions' => ['style' => 'min-width: 200px;'],
-												],
-												[
-													'header' => 'Ações',
-													'type' => 'raw',
-													'value' => 'CHtml::tag("button", [
+                                        DataTableGridView::show($this, [
+                                            'id' => 'professional-attendance-grid',
+                                            'dataProvider' => $attendanceProvider,
+                                            'columns' => [
+                                                [
+                                                    'name' => 'date',
+                                                    'value' => 'date("d/m/Y", strtotime($data->date))',
+                                                    'headerHtmlOptions' => ['style' => 'min-width: 100px;'],
+                                                ],
+                                                [
+                                                    'name' => 'local',
+                                                    'headerHtmlOptions' => ['style' => 'min-width: 200px;'],
+                                                ],
+                                                [
+                                                    'header' => 'Ações',
+                                                    'type' => 'raw',
+                                                    'value' => 'CHtml::tag("button", [
 														"type" => "button",
 														"class" => "t-button-content",
 														"value" => $data->id_attendance,
 														"onclick" => "deleteAttendance(this)",
 														"title" => "Excluir"
 													], CHtml::image(Yii::app()->theme->baseUrl . "/img/deletar.svg", "Excluir", ["style" => "width: 16px;"]))',
-													'headerHtmlOptions' => ['style' => 'text-align: center; width: 80px;'],
-													'htmlOptions' => ['style' => 'text-align: center;'],
-												],
-											],
-										]);
-										?>
+                                                    'headerHtmlOptions' => ['style' => 'text-align: center; width: 80px;'],
+                                                    'htmlOptions' => ['style' => 'text-align: center;'],
+                                                ],
+                                            ],
+                                        ]);
+					    ?>
 									</div>
 								</div>
 							</div>
 						</div>
 						<div class="tab-pane" id="professional-allocation">
 							<?php echo $this->renderPartial('_allocation', [
-								'modelProfessional' => $modelProfessional,
-								'allocationProvider' => $allocationProvider,
-								'allocationModel'    => $allocationModel,
-								'schools'            => $schools,
+							    'modelProfessional' => $modelProfessional,
+							    'allocationProvider' => $allocationProvider,
+							    'allocationModel' => $allocationModel,
+							    'schools' => $schools,
 							]); ?>
 						</div>
 					<?php endif; ?>

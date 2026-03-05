@@ -27,8 +27,10 @@ class TMenu
 
             // Extract route from array or string
             $itemRoute = is_array($urlParams) ? trim($urlParams[0], '/') : trim($urlParams, '/');
-            if (empty($itemRoute)) $itemRoute = 'site/index';
-            
+            if (empty($itemRoute)) {
+                $itemRoute = 'site/index';
+            }
+
             // Append /index if it's just a controller or module name
             if (strpos($itemRoute, '/') === false) {
                 $modules = array_keys(Yii::app()->modules);

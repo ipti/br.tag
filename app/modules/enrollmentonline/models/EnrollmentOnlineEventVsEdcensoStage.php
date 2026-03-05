@@ -31,13 +31,13 @@ class EnrollmentOnlineEventVsEdcensoStage extends CActiveRecord
     {
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
-        return array(
-            array('pre_enrollment_event_fk, edcenso_stage_fk', 'required'),
-            array('pre_enrollment_event_fk, edcenso_stage_fk', 'numerical', 'integerOnly' => true),
+        return [
+            ['pre_enrollment_event_fk, edcenso_stage_fk', 'required'],
+            ['pre_enrollment_event_fk, edcenso_stage_fk', 'numerical', 'integerOnly' => true],
             // The following rule is used by search().
             // @todo Please remove those attributes that should not be searched.
-            array('id, pre_enrollment_event_fk, edcenso_stage_fk, created_at, updated_at', 'safe', 'on' => 'search'),
-        );
+            ['id, pre_enrollment_event_fk, edcenso_stage_fk, created_at, updated_at', 'safe', 'on' => 'search'],
+        ];
     }
 
     /**
@@ -47,10 +47,10 @@ class EnrollmentOnlineEventVsEdcensoStage extends CActiveRecord
     {
         // NOTE: you may need to adjust the relation name and the related
         // class name for the relations automatically generated below.
-        return array(
-            'edcensoStageFk' => array(self::BELONGS_TO, 'EdcensoStageVsModality', 'edcenso_stage_fk'),
-            'preEnrollmentEventFk' => array(self::BELONGS_TO, 'EnrollmentOnlinePreEnrollmentEventOnline', 'pre_enrollment_event_fk'),
-        );
+        return [
+            'edcensoStageFk' => [self::BELONGS_TO, 'EdcensoStageVsModality', 'edcenso_stage_fk'],
+            'preEnrollmentEventFk' => [self::BELONGS_TO, 'EnrollmentOnlinePreEnrollmentEventOnline', 'pre_enrollment_event_fk'],
+        ];
     }
 
     /**
@@ -58,13 +58,13 @@ class EnrollmentOnlineEventVsEdcensoStage extends CActiveRecord
      */
     public function attributeLabels()
     {
-        return array(
+        return [
             'id' => 'ID',
             'pre_enrollment_event_fk' => 'Pre Enrollment Event Fk',
             'edcenso_stage_fk' => 'Edcenso Stage Fk',
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
-        );
+        ];
     }
 
     /**
@@ -83,7 +83,7 @@ class EnrollmentOnlineEventVsEdcensoStage extends CActiveRecord
     {
         // @todo Please modify the following code to remove attributes that should not be searched.
 
-        $criteria = new CDbCriteria;
+        $criteria = new CDbCriteria();
 
         $criteria->compare('id', $this->id);
         $criteria->compare('pre_enrollment_event_fk', $this->pre_enrollment_event_fk);
@@ -91,9 +91,9 @@ class EnrollmentOnlineEventVsEdcensoStage extends CActiveRecord
         $criteria->compare('created_at', $this->created_at, true);
         $criteria->compare('updated_at', $this->updated_at, true);
 
-        return new CActiveDataProvider($this, array(
+        return new CActiveDataProvider($this, [
             'criteria' => $criteria,
-        ));
+        ]);
     }
 
     /**

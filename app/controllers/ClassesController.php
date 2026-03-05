@@ -6,21 +6,20 @@ Yii::import('application.modules.timesheet.models.TimesheetInstructor', true);
 Yii::import('application.modules.timesheet.models.InstructorSchool', true);
 Yii::import('application.modules.timesheet.models.Unavailability', true);
 
-
-define('SCHOOL_YEAR_FILTER','school_year = :school_year and school_inep_fk = :school_inep_fk order by name');
-define('INSTRUCTOR_TEACHING_JOIN',' join instructor_teaching_data on instructor_teaching_data.classroom_id_fk = c.id ');
-define('INSTRUCTOR_IDENTIFICATION_JOIN',' join instructor_identification on instructor_teaching_data.instructor_fk = instructor_identification.id ');
-define('INSTRUCTOR_FILTER','c.school_year = :school_year and c.school_inep_fk = :school_inep_fk and instructor_identification.users_fk = :users_fk');
-define('SCHOOL_YEAR',':school_year');
-define('SCHOOL_INEP_FK',':school_inep_fk');
-define('MODALITY_FK',':modality_fk');
-define('DISCIPLINE_FK',':discipline_fk');
-define('USERS_FK',':users_fk');
-define('YEAR',':year');
-define('CLASSROOM',':classroom');
-define('MONTH',':month');
-define('GROUP_ORDER_BY_DAY',' group by day order by day, schedule');
-define('SCHEDULE_STUDENT_FILTER','schedule_fk = :schedule_fk and student_fk = :student_fk');
+define('SCHOOL_YEAR_FILTER', 'school_year = :school_year and school_inep_fk = :school_inep_fk order by name');
+define('INSTRUCTOR_TEACHING_JOIN', ' join instructor_teaching_data on instructor_teaching_data.classroom_id_fk = c.id ');
+define('INSTRUCTOR_IDENTIFICATION_JOIN', ' join instructor_identification on instructor_teaching_data.instructor_fk = instructor_identification.id ');
+define('INSTRUCTOR_FILTER', 'c.school_year = :school_year and c.school_inep_fk = :school_inep_fk and instructor_identification.users_fk = :users_fk');
+define('SCHOOL_YEAR', ':school_year');
+define('SCHOOL_INEP_FK', ':school_inep_fk');
+define('MODALITY_FK', ':modality_fk');
+define('DISCIPLINE_FK', ':discipline_fk');
+define('USERS_FK', ':users_fk');
+define('YEAR', ':year');
+define('CLASSROOM', ':classroom');
+define('MONTH', ':month');
+define('GROUP_ORDER_BY_DAY', ' group by day order by day, schedule');
+define('SCHEDULE_STUDENT_FILTER', 'schedule_fk = :schedule_fk and student_fk = :student_fk');
 
 class ClassesController extends Controller
 {
@@ -919,8 +918,6 @@ class ClassesController extends Controller
         $result['isMinor'] = $isMinor;
         echo json_encode($result);
     }
-
-
 
     /**
      * Get all disciplines by classroom

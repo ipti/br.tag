@@ -156,7 +156,7 @@ class InstructorDocumentsAndAddress extends AltActiveRecord
 
         $criteria = new CDbCriteria();
         $criteria->condition = 'cpf = :cpf';
-        $criteria->params    = [':cpf' => $cpf];
+        $criteria->params = [':cpf' => $cpf];
 
         // Em edição (update), exclui o próprio registro
         if (!$this->isNewRecord && !empty($this->id)) {

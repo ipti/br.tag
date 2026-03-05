@@ -42,9 +42,9 @@ if (Yii::app()->user->hasFlash('success')) {
     </div>
 
     <?php $form = $this->beginWidget('CActiveForm', [
-    'id' => 'transfer-form',
-    'enableAjaxValidation' => false,
-]); ?>
+        'id' => 'transfer-form',
+        'enableAjaxValidation' => false,
+    ]); ?>
 
     <div class="row">
         <div class="column is-two-fifths">
@@ -54,10 +54,10 @@ if (Yii::app()->user->hasFlash('success')) {
     $modelEnrollment,
     'school_inep_id_fk',
     CHtml::listData($modelSchool, 'inep_id', 'name'),
-[
-    'prompt' => 'Selecione a Escola de Destino',
-    'class' => 'select-search-on t-field-select__input select2-container',
-]
+    [
+        'prompt' => 'Selecione a Escola de Destino',
+        'class' => 'select-search-on t-field-select__input select2-container',
+    ]
 ); ?>
                 <?php echo $form->error($modelEnrollment, 'school_inep_id_fk'); ?>
             </div>
@@ -67,15 +67,15 @@ if (Yii::app()->user->hasFlash('success')) {
             <div class="t-field-select">
                 <?php echo $form->label($modelEnrollment, 'classroom_fk', ['class' => 't-field-select__label']); ?>
                 <?php echo $form->dropDownList(
-    $modelEnrollment,
-    'classroom_fk',
-[],
-[
-    'prompt' => 'Selecione a Turma de Destino',
-    'class' => 'select-search-on t-field-select__input select2-container',
-    'disabled' => true,
-]
-); ?>
+                    $modelEnrollment,
+                    'classroom_fk',
+                    [],
+                    [
+                        'prompt' => 'Selecione a Turma de Destino',
+                        'class' => 'select-search-on t-field-select__input select2-container',
+                        'disabled' => true,
+                    ]
+                ); ?>
                 <?php echo $form->error($modelEnrollment, 'classroom_fk'); ?>
             </div>
         </div>
@@ -86,10 +86,10 @@ if (Yii::app()->user->hasFlash('success')) {
             <div class="t-field-text">
                 <?php echo $form->label($modelEnrollment, 'transfer_date', ['class' => 't-field-text__label']); ?>
                 <?php echo $form->textField($modelEnrollment, 'transfer_date', [
-    'class' => 't-field-text__input',
-    'placeholder' => 'dd/mm/aaaa',
-    'maxlength' => 10,
-]); ?>
+                    'class' => 't-field-text__input',
+                    'placeholder' => 'dd/mm/aaaa',
+                    'maxlength' => 10,
+                ]); ?>
                 <?php echo $form->error($modelEnrollment, 'transfer_date'); ?>
             </div>
         </div>

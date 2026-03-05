@@ -297,10 +297,8 @@ class Register20
                         true
                     );
 
-                    if ($clearCoders->contains($edcensoAlias->corder) || $edcensoAlias->corder >= self::REGISTER_ATTR_QUIMICA && $edcensoAlias->corder <= self::REGISTER_ATTR_OUTRAS_DISCIPLINAS &&($attributes['aee'] == '1' || ($attributes['complementary_activity'] == '1' && $attributes['schooling'] == '0'))) {
-
+                    if ($clearCoders->contains($edcensoAlias->corder) || $edcensoAlias->corder >= self::REGISTER_ATTR_QUIMICA && $edcensoAlias->corder <= self::REGISTER_ATTR_OUTRAS_DISCIPLINAS && ($attributes['aee'] == '1' || ($attributes['complementary_activity'] == '1' && $attributes['schooling'] == '0'))) {
                         $register[$edcensoAlias->corder] = '';
-
                     }
 
                     if (in_array($edcensoAlias->corder, [7, 8, 9, 10, 11, 12, 13])) {

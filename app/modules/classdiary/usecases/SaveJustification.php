@@ -1,6 +1,7 @@
 <?php
 
     yii::import('application.modules.classdiary.services.*');
+
     /**
      * @property SaveJustification $SaveJustification
      */

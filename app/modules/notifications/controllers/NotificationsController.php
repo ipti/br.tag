@@ -72,7 +72,7 @@ class NotificationsController extends Controller
                 $notification = Yii::app()->notifier->broadcast($title, $body, $options);
             } else {
                 // Se nenhum role selecionado, broadcast para todos
-                $options['targetRoles'] = array_map(fn($r) => $r->value, TRole::cases());
+                $options['targetRoles'] = array_map(fn ($r) => $r->value, TRole::cases());
                 $notification = Yii::app()->notifier->broadcast($title, $body, $options);
             }
 

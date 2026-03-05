@@ -426,7 +426,7 @@ class SiteController extends Controller
     {
         $school = Yii::app()->user->school;
         $year = $_POST['year'];
-        $sql = strval("select 1 as schools, ") .
+        $sql = strval('select 1 as schools, ') .
             "(select count(*) from classroom where school_inep_fk = $school and school_year = $year) as classrooms, " .
             "(select count(*) from instructor_identification where school_inep_id_fk = $school) as instructors, " .
             "(select count(*) from student_identification where school_inep_id_fk = $school) as students";
@@ -502,6 +502,7 @@ class SiteController extends Controller
         readfile($arquivo);
         flush();
     }
+
     /**
      * Loads school summary data (active enrollments, total classes) via AJAX
      */
@@ -523,7 +524,7 @@ class SiteController extends Controller
         $criteriaEnrollment->compare('t.school_inep_id_fk', $schoolId);
         $criteriaEnrollment->compare('classroomFk.school_year', $year);
         $criteriaEnrollment->addCondition("(t.status IN ('1', '5', '6', '8', '10') OR t.status IS NULL)");
-        
+
         $enrolledCount = StudentEnrollment::model()->count($criteriaEnrollment);
 
         $criteriaClassroom = new CDbCriteria();
@@ -532,7 +533,7 @@ class SiteController extends Controller
         $classCount = Classroom::model()->count($criteriaClassroom);
 
         $instructorCount = InstructorIdentification::model()->countByAttributes(['school_inep_id_fk' => $schoolId]);
-        
+
         $allocatedProfessionalsCount = ProfessionalAllocation::model()->countByAttributes([
             'school_inep_fk' => $schoolId,
             'school_year' => $year

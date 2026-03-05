@@ -42,7 +42,9 @@ $this->pageTitle = 'Minhas Notificações';
 
                 <?php foreach ($notifications as $nr): ?>
                     <?php $n = $nr->notification; ?>
-                    <?php if (!$n) continue; ?>
+                    <?php if (!$n) {
+                        continue;
+                    } ?>
                     <?php $this->renderPartial('_notification_item', ['nr' => $nr, 'n' => $n]); ?>
                 <?php endforeach; ?>
             </div>

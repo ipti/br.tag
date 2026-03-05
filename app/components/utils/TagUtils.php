@@ -12,7 +12,6 @@ class TagUtils extends CApplicationComponent
         return (bool) Yii::app()->getAuthManager()->checkAccess(TRole::SUPERUSER->value, Yii::app()->user->loginInfos->id);
     }
 
-
     public static function isAdmin()
     {
         return (bool) Yii::app()->getAuthManager()->checkAccess(TRole::ADMIN->value, Yii::app()->user->loginInfos->id);
@@ -68,8 +67,6 @@ class TagUtils extends CApplicationComponent
         $stages = new CList($refMinorStages, true);
         return $stages->contains(strval($stage));
     }
-
-
 
     public static function isStageChildishEducation($stage)
     {

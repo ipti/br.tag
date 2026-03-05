@@ -23,33 +23,33 @@
 class ProfessionalAllocation extends TagModel
 {
     // Professional Roles
-    const ROLE_GARDEN_PLANTING = 1;
-    const ROLE_ADMIN_ASSISTANT = 2;
-    const ROLE_SERVICE_ASSISTANT = 3;
-    const ROLE_LIBRARIAN = 4;
-    const ROLE_FIREFIGHTER = 5;
-    const ROLE_COORDINATOR_SHIFT = 6;
-    const ROLE_SPEECH_THERAPIST = 7;
-    const ROLE_NUTRITIONIST = 8;
-    const ROLE_PSYCHOLOGIST = 9;
-    const ROLE_COOKER = 10;
-    const ROLE_SUPPORT_PROFESSIONAL = 11;
-    const ROLE_SCHOOL_SECRETARY = 12;
-    const ROLE_SECURITY_GUARD = 13;
-    const ROLE_MONITOR = 14;
-    const ROLE_BRAILLE_ASSISTANT = 15;
-    const ROLE_UNDEFINED = 9999;
+    public const ROLE_GARDEN_PLANTING = 1;
+    public const ROLE_ADMIN_ASSISTANT = 2;
+    public const ROLE_SERVICE_ASSISTANT = 3;
+    public const ROLE_LIBRARIAN = 4;
+    public const ROLE_FIREFIGHTER = 5;
+    public const ROLE_COORDINATOR_SHIFT = 6;
+    public const ROLE_SPEECH_THERAPIST = 7;
+    public const ROLE_NUTRITIONIST = 8;
+    public const ROLE_PSYCHOLOGIST = 9;
+    public const ROLE_COOKER = 10;
+    public const ROLE_SUPPORT_PROFESSIONAL = 11;
+    public const ROLE_SCHOOL_SECRETARY = 12;
+    public const ROLE_SECURITY_GUARD = 13;
+    public const ROLE_MONITOR = 14;
+    public const ROLE_BRAILLE_ASSISTANT = 15;
+    public const ROLE_UNDEFINED = 9999;
 
     // Contract Types
-    const CONTRACT_EFETIVO = 1;
-    const CONTRACT_TEMPORARIO = 2;
-    const CONTRACT_CLT = 3;
-    const CONTRACT_TERCEIRIZADO = 4;
-    const CONTRACT_UNDEFINED = 99;
+    public const CONTRACT_EFETIVO = 1;
+    public const CONTRACT_TEMPORARIO = 2;
+    public const CONTRACT_CLT = 3;
+    public const CONTRACT_TERCEIRIZADO = 4;
+    public const CONTRACT_UNDEFINED = 99;
 
     // Status
-    const STATUS_ACTIVE = 1;
-    const STATUS_INACTIVE = 0;
+    public const STATUS_ACTIVE = 1;
+    public const STATUS_INACTIVE = 0;
 
     /**
      * @return string the associated database table name

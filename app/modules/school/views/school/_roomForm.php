@@ -16,11 +16,11 @@
                 <h4 class="modal-title"><?= $model->isNewRecord ? 'Adicionar Sala' : 'Editar Sala' ?></h4>
             </div>
             
-            <?php $form = $this->beginWidget('CActiveForm', array(
+            <?php $form = $this->beginWidget('CActiveForm', [
                 'id' => 'room-form',
                 'enableAjaxValidation' => false,
-                'htmlOptions' => array('class' => 'form-horizontal'),
-            )); ?>
+                'htmlOptions' => ['class' => 'form-horizontal'],
+            ]); ?>
             
             <div class="modal-body">
                 <?= $form->errorSummary($model); ?>
@@ -28,34 +28,34 @@
                 <?= $form->hiddenField($model, 'school_inep_fk'); ?>
                 
                 <div class="t-field-text">
-                    <?= $form->label($model, 'name', array('class' => 't-field-text__label--required')); ?>
-                    <?= $form->textField($model, 'name', array(
+                    <?= $form->label($model, 'name', ['class' => 't-field-text__label--required']); ?>
+                    <?= $form->textField($model, 'name', [
                         'size' => 60,
                         'maxlength' => 100,
                         'class' => 't-field-text__input',
                         'placeholder' => 'Ex: Sala 101, Laboratório de Informática, etc.'
-                    )); ?>
+                    ]); ?>
                     <?= $form->error($model, 'name'); ?>
                 </div>
 
                 <div class="t-field-text">
-                    <?= $form->label($model, 'number', array('class' => 't-field-text__label')); ?>
-                    <?= $form->textField($model, 'number', array(
+                    <?= $form->label($model, 'number', ['class' => 't-field-text__label']); ?>
+                    <?= $form->textField($model, 'number', [
                         'size' => 60,
                         'maxlength' => 45,
                         'class' => 't-field-text__input',
                         'placeholder' => 'Ex: 1, 10-A, etc.'
-                    )); ?>
+                    ]); ?>
                     <?= $form->error($model, 'number'); ?>
                 </div>
                 
                 <div class="t-field-text">
-                    <?= $form->label($model, 'capacity', array('class' => 't-field-text__label')); ?>
-                    <?= $form->numberField($model, 'capacity', array(
+                    <?= $form->label($model, 'capacity', ['class' => 't-field-text__label']); ?>
+                    <?= $form->numberField($model, 'capacity', [
                         'min' => 1,
                         'class' => 't-field-text__input',
                         'placeholder' => 'Capacidade máxima da sala'
-                    )); ?>
+                    ]); ?>
                     <?= $form->error($model, 'capacity'); ?>
                 </div>
             </div>

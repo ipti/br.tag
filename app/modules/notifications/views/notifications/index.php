@@ -57,8 +57,8 @@ $this->pageTitle = 'Notificações';
                                     'error' => '<i class="fa fa-times-circle" style="color:#e74c3c"></i>',
                                     'success' => '<i class="fa fa-check-circle" style="color:#2ecc71"></i>',
                                 ];
-                                echo $typeIcons[$n->type] ?? $typeIcons['info'];
-                                ?>
+                        echo $typeIcons[$n->type] ?? $typeIcons['info'];
+                        ?>
                             </td>
                             <td>
                                 <a href="<?= Yii::app()->createUrl('notifications/notifications/view', ['id' => $n->id]) ?>" class="text-bold">
@@ -71,8 +71,8 @@ $this->pageTitle = 'Notificações';
                             <td><?= date('d/m/Y H:i', strtotime($n->created_at)) ?></td>
                             <td>
                                 <?= $n->expires_at
-                                    ? date('d/m/Y H:i', strtotime($n->expires_at))
-                                    : '<span class="text-color--ink">Nunca</span>' ?>
+                            ? date('d/m/Y H:i', strtotime($n->expires_at))
+                            : '<span class="text-color--ink">Nunca</span>' ?>
                             </td>
                             <td class="align-items--center">
                                 <a href="<?= Yii::app()->createUrl('notifications/notifications/view', ['id' => $n->id]) ?>"

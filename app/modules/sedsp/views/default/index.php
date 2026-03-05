@@ -229,7 +229,7 @@ $cs->registerScriptFile($baseScriptUrl . '/common/js/functions.js?v=1.1', CClien
                         </thead>
                         <tbody>
                             <?php
-                            $inepId = Yii::app()->user->school;
+                                        $inepId = Yii::app()->user->school;
 $classes = Classroom::model()->findAllByAttributes(
     ['school_inep_fk' => $inepId],
     'gov_id IS NOT NULL'

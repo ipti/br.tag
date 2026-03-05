@@ -148,9 +148,9 @@ class InstructorTeachingData extends AltActiveRecord
      */
     public function getGivenClassesByDiscipline($isMinorStage = false)
     {
-        $countExpression = $isMinorStage 
-            ? "COUNT(DISTINCT CONCAT(sc.`month`, '-', sc.`day`))" 
-            : "COUNT(cc.id)";
+        $countExpression = $isMinorStage
+            ? "COUNT(DISTINCT CONCAT(sc.`month`, '-', sc.`day`))"
+            : 'COUNT(cc.id)';
 
         return Yii::app()->db->createCommand("
             SELECT
@@ -175,7 +175,7 @@ class InstructorTeachingData extends AltActiveRecord
             ORDER BY ed.name ASC
         ")->queryAll(true, [
             ':classroom' => $this->classroom_id_fk,
-            ':itd_id'    => $this->id,
+            ':itd_id' => $this->id,
         ]);
     }
 
@@ -195,7 +195,7 @@ class InstructorTeachingData extends AltActiveRecord
             WHERE sc.classroom_fk = :classroom AND sc.unavailable = 0
         ")->queryScalar([
             ':classroom' => $this->classroom_id_fk,
-            ':itd_id'    => $this->id,
+            ':itd_id' => $this->id,
         ]);
     }
 
@@ -208,9 +208,9 @@ class InstructorTeachingData extends AltActiveRecord
      */
     public function getTotalSchedulesAssigned($isMinorStage = false)
     {
-        $select = $isMinorStage 
-            ? "COUNT(DISTINCT CONCAT(sc.`month`, '-', sc.`day`))" 
-            : "COUNT(*)";
+        $select = $isMinorStage
+            ? "COUNT(DISTINCT CONCAT(sc.`month`, '-', sc.`day`))"
+            : 'COUNT(*)';
 
         return (int)Yii::app()->db->createCommand("
             SELECT {$select}
@@ -225,7 +225,7 @@ class InstructorTeachingData extends AltActiveRecord
               )
         ")->queryScalar([
             ':classroom' => $this->classroom_id_fk,
-            ':itd_id'    => $this->id,
+            ':itd_id' => $this->id,
         ]);
     }
 

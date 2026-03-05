@@ -289,5 +289,4 @@ class StudentDocumentsAndAddress extends AltActiveRecord
             'criteria' => $criteria,
         ]);
     }
-
 }

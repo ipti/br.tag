@@ -54,7 +54,7 @@ class DeduplicateInstructorsCommand extends CConsoleCommand
         $totalResolved = 0;
 
         foreach ($groups as $group) {
-            $cpf      = $group['cpf'];
+            $cpf = $group['cpf'];
             $keeperId = (int) $group['keeper_id'];
 
             // Busca todos os duplicados (não-keepers) do grupo
@@ -63,7 +63,7 @@ class DeduplicateInstructorsCommand extends CConsoleCommand
                 [':cpf' => $cpf, ':keeper_id' => $keeperId]
             );
 
-            $keeper    = InstructorIdentification::model()->findByPk($keeperId);
+            $keeper = InstructorIdentification::model()->findByPk($keeperId);
             $keeperDoc = InstructorDocumentsAndAddress::model()->findByPk($keeperId);
 
             $this->log(sprintf(
@@ -94,7 +94,7 @@ class DeduplicateInstructorsCommand extends CConsoleCommand
 
                         // 3. Mescla instructor_variable_data
                         $keeperVd = InstructorVariableData::model()->findByPk($keeperId);
-                        $dupVd    = InstructorVariableData::model()->findByPk($dupDoc->id);
+                        $dupVd = InstructorVariableData::model()->findByPk($dupDoc->id);
                         if ($keeperVd && $dupVd) {
                             $this->mergeVariableData($keeperVd, $dupVd);
                         }
@@ -155,22 +155,21 @@ class DeduplicateInstructorsCommand extends CConsoleCommand
 
                         $txn->commit();
                         $this->log("     ✓ Migração concluída com sucesso\n");
-
                     } catch (Exception $e) {
                         $txn->rollback();
-                        $this->log("     ✗ ERRO: " . $e->getMessage() . "\n");
+                        $this->log('     ✗ ERRO: ' . $e->getMessage() . "\n");
                         $this->log("       Transação revertida. Continuando com próximo grupo...\n");
                     }
                 } else {
                     // Dry-run: mostra contagens sem alterar nada
-                    $counts = Yii::app()->db->createCommand("
+                    $counts = Yii::app()->db->createCommand('
                         SELECT
                             (SELECT COUNT(*) FROM instructor_teaching_data WHERE instructor_fk = :dup) AS teaching_data,
                             (SELECT COUNT(*) FROM instructor_faults        WHERE instructor_fk = :dup) AS faults,
                             (SELECT COUNT(*) FROM schedule                 WHERE instructor_fk = :dup) AS schedule,
                             (SELECT COUNT(*) FROM class_board              WHERE instructor_fk = :dup) AS class_board,
                             (SELECT COUNT(*) FROM substitute_instructor    WHERE instructor_fk = :dup) AS substitute
-                    ")->queryRow(true, [':dup' => $dupDoc->id]);
+                    ')->queryRow(true, [':dup' => $dupDoc->id]);
 
                     $this->log("     [preview] instructor_teaching_data: {$counts['teaching_data']} vínculo(s) a migrar\n");
                     $this->log("     [preview] instructor_faults:         {$counts['faults']} registro(s) a migrar\n");
@@ -200,7 +199,9 @@ class DeduplicateInstructorsCommand extends CConsoleCommand
      */
     private function mergeIdentification($keeper, $dup)
     {
-        if (!$keeper || !$dup) return;
+        if (!$keeper || !$dup) {
+            return;
+        }
 
         $fields = ['civil_name', 'email', 'nis', 'inep_id', 'filiation_1', 'filiation_2', 'id_indigenous_people'];
         $changed = false;
@@ -233,7 +234,7 @@ class DeduplicateInstructorsCommand extends CConsoleCommand
      */
     private function mergeDocuments($keeper, $dup)
     {
-        $fields  = ['cep', 'address', 'address_number', 'complement', 'neighborhood'];
+        $fields = ['cep', 'address', 'address_number', 'complement', 'neighborhood'];
         $changed = false;
 
         foreach ($fields as $field) {
@@ -295,8 +296,8 @@ class DeduplicateInstructorsCommand extends CConsoleCommand
         foreach ($dupTeachings as $td) {
             // Verifica se o keeper já tem vínculo com essa turma
             $exists = InstructorTeachingData::model()->findByAttributes([
-                'instructor_fk'    => $keeperId,
-                'classroom_id_fk'  => $td->classroom_id_fk,
+                'instructor_fk' => $keeperId,
+                'classroom_id_fk' => $td->classroom_id_fk,
             ]);
 
             if ($exists) {

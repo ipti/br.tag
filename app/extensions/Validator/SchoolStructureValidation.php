@@ -158,7 +158,7 @@ class SchoolStructureValidation extends Register
     public function bandwidth($collun, $value)
     {
         if ($collun == 1 && !($value == '0' || $value == '1')) {
-                return ['status' => false, 'erro' => "valor $value não permitido"];
+            return ['status' => false, 'erro' => "valor $value não permitido"];
         }
         return ['status' => true, 'erro' => ''];
     }
@@ -183,7 +183,7 @@ class SchoolStructureValidation extends Register
         $areThereInstructorsByModalitie
     ) {
         if (($collun90 != 2 && $collun91 != 2) && !($collun90 == 1 && $collun91 == 1)) {
-           $result = $this->atLeastOne($modalities);
+            $result = $this->atLeastOne($modalities);
             if (!$result['status']) {
                 return ['status' => false, 'erro' => $result['erro']];
             }
@@ -335,7 +335,6 @@ class SchoolStructureValidation extends Register
         }
 
         if ($numberOfClassrooms == 0 && ($value != 0)) {
-
             $value = $this->ifNull($value);
             return ['status' => false, 'erro' => "Valor $value não permitido"];
         }

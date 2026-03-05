@@ -363,7 +363,7 @@ preenchidos';
         }
 
         //====================================
-        $teachingHistory = Yii::app()->db->createCommand("
+        $teachingHistory = Yii::app()->db->createCommand('
             SELECT
                 itd.id,
                 itd.school_inep_id_fk,
@@ -379,14 +379,14 @@ preenchidos';
             LEFT JOIN classroom c             ON c.id = itd.classroom_id_fk
             WHERE itd.instructor_fk = :id
             ORDER BY c.school_year DESC, s.name ASC, c.name ASC
-        ")->queryAll(true, [':id' => $id]);
+        ')->queryAll(true, [':id' => $id]);
 
         $this->render('update', [
-            'modelInstructorIdentification'    => $modelInstructorIdentification,
+            'modelInstructorIdentification' => $modelInstructorIdentification,
             'modelInstructorDocumentsAndAddress' => $modelInstructorDocumentsAndAddress,
-            'modelInstructorVariableData'      => $modelInstructorVariableData,
-            'error'                            => $error,
-            'teachingHistory'                  => $teachingHistory,
+            'modelInstructorVariableData' => $modelInstructorVariableData,
+            'error' => $error,
+            'teachingHistory' => $teachingHistory,
         ]);
     }
 
@@ -794,7 +794,7 @@ preenchidos';
      */
     public function actionPrintHistory($id, $teaching_id = null)
     {
-        $instructor  = $this->loadModel($id, $this->instructorIdentification);
+        $instructor = $this->loadModel($id, $this->instructorIdentification);
         $instructorDoc = $this->loadModel($id, $this->instructorDocumentsAndAddress);
 
         // Filtra vínculo específico se teaching_id for informado
@@ -828,13 +828,13 @@ preenchidos';
         // Para cada vínculo, busca aulas dadas (por disciplina via Diário de Classe) e faltas
         foreach ($teachingHistory as &$link) {
             $classroomId = $link['classroom_id_fk'];
-            $itdId       = $link['itd_id']; // instructor_teaching_data.id
+            $itdId = $link['itd_id']; // instructor_teaching_data.id
 
             // Aulas ministradas por disciplina
             // Filtra pelas disciplinas do vínculo via:
             //   itd → teaching_matrixes → curricular_matrix → discipline_fk
             // (mesmo padrão usado no InstructorController::actionGetClassrooms)
-            
+
             // Instancia o vínculo para usar os métodos encapsulados
             $itdModel = InstructorTeachingData::model()->findByPk($itdId);
             $classroom = Classroom::model()->findByPk($classroomId);
@@ -859,15 +859,15 @@ preenchidos';
                 $totalSchedules = $itdModel->getTotalSchedulesAssigned(false);
             }
 
-            $link['is_minor_stage']        = $isMinorStage;
+            $link['is_minor_stage'] = $isMinorStage;
 
             $link['classes_by_discipline'] = $classesByDiscipline;
-            $link['classes_given']         = $totalGiven;
-            $link['total_schedules']       = $totalSchedules;
+            $link['classes_given'] = $totalGiven;
+            $link['total_schedules'] = $totalSchedules;
 
             // Faltas do professor: instructor_faults.instructor_fk → instructor_teaching_data.id
             // Filtra pelo itd_id do vínculo + turma via schedule
-            $faults = Yii::app()->db->createCommand("
+            $faults = Yii::app()->db->createCommand('
                 SELECT
                     f.id,
                     f.justification,
@@ -879,20 +879,20 @@ preenchidos';
                 WHERE itd.id        = :itd_id
                   AND s.classroom_fk = :classroom
                 ORDER BY s.year ASC, s.month ASC, s.day ASC
-            ")->queryAll(true, [
-                ':itd_id'    => $itdId,
+            ')->queryAll(true, [
+                ':itd_id' => $itdId,
                 ':classroom' => $classroomId,
             ]);
 
-            $link['faults']       = $faults;
+            $link['faults'] = $faults;
             $link['faults_count'] = count($faults);
         }
         unset($link);
 
         $this->layout = 'reports';
         $this->render('printHistory', [
-            'instructor'     => $instructor,
-            'instructorDoc'  => $instructorDoc,
+            'instructor' => $instructor,
+            'instructorDoc' => $instructorDoc,
             'teachingHistory' => $teachingHistory,
         ]);
     }
@@ -904,11 +904,11 @@ preenchidos';
      */
     public function actionPrintYearHistory($id, $year)
     {
-        $instructor  = $this->loadModel($id, $this->instructorIdentification);
+        $instructor = $this->loadModel($id, $this->instructorIdentification);
         $instructorDoc = $this->loadModel($id, $this->instructorDocumentsAndAddress);
 
         // Carrega cada vínculo com dados da escola, turma e etapa apenas do ano selecionado
-        $teachingHistory = Yii::app()->db->createCommand("
+        $teachingHistory = Yii::app()->db->createCommand('
             SELECT
                 itd.id          AS itd_id,
                 itd.school_inep_id_fk,
@@ -927,7 +927,7 @@ preenchidos';
             WHERE itd.instructor_fk = :id 
               AND c.school_year = :year
             ORDER BY s.name ASC, c.name ASC
-        ")->queryAll(true, [
+        ')->queryAll(true, [
             ':id' => $id,
             ':year' => $year
         ]);
@@ -935,7 +935,7 @@ preenchidos';
         // Para cada vínculo, busca aulas dadas (por disciplina via Diário de Classe) e faltas
         foreach ($teachingHistory as &$link) {
             $classroomId = $link['classroom_id_fk'];
-            $itdId       = $link['itd_id']; 
+            $itdId = $link['itd_id'];
 
             // Instancia o vínculo para usar os métodos encapsulados
             $itdModel = InstructorTeachingData::model()->findByPk($itdId);
@@ -961,13 +961,13 @@ preenchidos';
                 $totalSchedules = $itdModel->getTotalSchedulesAssigned(false);
             }
 
-            $link['is_minor_stage']        = $isMinorStage;
+            $link['is_minor_stage'] = $isMinorStage;
             $link['classes_by_discipline'] = $classesByDiscipline;
-            $link['classes_given']         = $totalGiven;
-            $link['total_schedules']       = $totalSchedules;
+            $link['classes_given'] = $totalGiven;
+            $link['total_schedules'] = $totalSchedules;
 
             // Faltas do professor
-            $faults = Yii::app()->db->createCommand("
+            $faults = Yii::app()->db->createCommand('
                 SELECT
                     f.id,
                     f.justification,
@@ -979,8 +979,8 @@ preenchidos';
                 WHERE itd.id        = :itd_id
                   AND s.classroom_fk = :classroom
                 ORDER BY s.month ASC, s.day ASC
-            ")->queryAll(true, [
-                ':itd_id'    => $itdId,
+            ')->queryAll(true, [
+                ':itd_id' => $itdId,
                 ':classroom' => $classroomId,
             ]);
 
@@ -990,10 +990,10 @@ preenchidos';
 
         $this->layout = 'reports';
         $this->render('printYearHistory', [
-            'instructor'      => $instructor,
-            'instructorDoc'   => $instructorDoc,
+            'instructor' => $instructor,
+            'instructorDoc' => $instructorDoc,
             'teachingHistory' => $teachingHistory,
-            'year'            => $year,
+            'year' => $year,
         ]);
     }
 }

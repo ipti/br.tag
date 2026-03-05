@@ -82,12 +82,12 @@ class DefaultController extends Controller
     {
         $criteria = new CDbCriteria();
         $criteria->condition = 'professional_fk = ' . $id;
-        $criteria->addCondition("YEAR(date) = " . Yii::app()->user->year);
+        $criteria->addCondition('YEAR(date) = ' . Yii::app()->user->year);
         $criteria->order = 'date desc';
 
         $modelProfessional = Professional::model()->findByPk($id);
         $modelAttendance = new Attendance();
-        
+
         $attendanceProvider = new CActiveDataProvider('Attendance', [
             'criteria' => $criteria,
             'pagination' => false,
@@ -95,7 +95,7 @@ class DefaultController extends Controller
 
         $allocationCriteria = new CDbCriteria();
         $allocationCriteria->condition = 'professional_fk = ' . $id;
-        $allocationCriteria->addCondition("school_year = " . Yii::app()->user->year);
+        $allocationCriteria->addCondition('school_year = ' . Yii::app()->user->year);
         $allocationCriteria->order = 'id DESC';
 
         $allocationProvider = new CActiveDataProvider('ProfessionalAllocation', [
@@ -133,7 +133,7 @@ class DefaultController extends Controller
         }
 
         $currentMonth = date('n');
-        $currentYear  = date('Y');
+        $currentYear = date('Y');
 
         $totalAttendancesMonth = Yii::app()->db->createCommand(
             'SELECT COUNT(*) FROM attendance
@@ -141,9 +141,9 @@ class DefaultController extends Controller
                 AND MONTH(date) = :month
                 AND YEAR(date)  = :year'
         )->bindValues([
-            ':pid'   => $id,
+            ':pid' => $id,
             ':month' => $currentMonth,
-            ':year'  => $currentYear,
+            ':year' => $currentYear,
         ])->queryScalar();
 
         $totalAllocations = Yii::app()->db->createCommand(
@@ -151,13 +151,13 @@ class DefaultController extends Controller
               WHERE professional_fk = :pid
                 AND school_year = :year'
         )->bindValues([
-            ':pid'  => $id,
+            ':pid' => $id,
             ':year' => Yii::app()->user->year,
         ])->queryScalar();
 
         $allocationModel = new ProfessionalAllocation();
         $allocationModel->professional_fk = $id;
-        $allocationModel->school_year     = Yii::app()->user->year;
+        $allocationModel->school_year = Yii::app()->user->year;
 
         $schools = CHtml::listData(
             SchoolIdentification::model()->findAll(['order' => 'name']),
@@ -166,14 +166,14 @@ class DefaultController extends Controller
         );
 
         $this->render('update', [
-            'modelProfessional'      => $modelProfessional,
-            'attendanceProvider'     => $attendanceProvider,
-            'allocationProvider'     => $allocationProvider,
-            'modelAttendance'        => $modelAttendance,
-            'totalAttendancesMonth'  => $totalAttendancesMonth,
-            'totalAllocations'       => $totalAllocations,
-            'allocationModel'        => $allocationModel,
-            'schools'                => $schools,
+            'modelProfessional' => $modelProfessional,
+            'attendanceProvider' => $attendanceProvider,
+            'allocationProvider' => $allocationProvider,
+            'modelAttendance' => $modelAttendance,
+            'totalAttendancesMonth' => $totalAttendancesMonth,
+            'totalAllocations' => $totalAllocations,
+            'allocationModel' => $allocationModel,
+            'schools' => $schools,
         ]);
     }
 
@@ -205,11 +205,11 @@ class DefaultController extends Controller
         $criteria = new CDbCriteria();
         $criteria->with = ['allocations'];
         $criteria->together = true;
-        
+
         $criteria->compare('allocations.school_inep_fk', Yii::app()->user->school);
         $criteria->compare('allocations.school_year', Yii::app()->user->year);
         $criteria->compare('allocations.location_type', 'school');
-        
+
         $criteria->order = 't.name ASC';
         $criteria->group = 't.id_professional';
 
@@ -298,14 +298,14 @@ class DefaultController extends Controller
     public function actionViewAllocation($id)
     {
         header('Content-Type: application/json');
-        
+
         if (!TagUtils::isAdmin()) {
             echo CJSON::encode(['success' => false, 'message' => 'Acesso negado']);
             Yii::app()->end();
         }
 
         $model = ProfessionalAllocation::model()->findByPk($id);
-        
+
         if ($model) {
             echo CJSON::encode([
                 'success' => true,
@@ -316,6 +316,7 @@ class DefaultController extends Controller
             Yii::app()->end();
         }
     }
+
     /**
      * Helper method to generate allocation grid actions
      * @param ProfessionalAllocation $data
@@ -324,26 +325,26 @@ class DefaultController extends Controller
     public function getAllocationActions($data)
     {
         if (!TagUtils::isAdmin()) {
-            return "";
+            return '';
         }
 
         $editBtn = CHtml::link(
-            CHtml::image(Yii::app()->theme->baseUrl . "/img/editar.svg", "Editar", ["style" => "width: 16px; margin-right: 10px;"]),
-            "javascript:void(0)",
+            CHtml::image(Yii::app()->theme->baseUrl . '/img/editar.svg', 'Editar', ['style' => 'width: 16px; margin-right: 10px;']),
+            'javascript:void(0)',
             [
-                "class" => "btn-edit-allocation", 
-                "title" => "Editar",
-                "data-allocation" => CJSON::encode($data->attributes)
+                'class' => 'btn-edit-allocation',
+                'title' => 'Editar',
+                'data-allocation' => CJSON::encode($data->attributes)
             ]
         );
 
         $deleteBtn = CHtml::link(
-            CHtml::image(Yii::app()->theme->baseUrl . "/img/deletar.svg", "Excluir", ["style" => "width: 16px;"]),
-            "javascript:void(0)",
+            CHtml::image(Yii::app()->theme->baseUrl . '/img/deletar.svg', 'Excluir', ['style' => 'width: 16px;']),
+            'javascript:void(0)',
             [
-                "class" => "btn-delete-allocation",
-                "title" => "Excluir",
-                "data-id" => $data->id
+                'class' => 'btn-delete-allocation',
+                'title' => 'Excluir',
+                'data-id' => $data->id
             ]
         );
 

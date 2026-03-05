@@ -12,28 +12,28 @@
 enum TNotificationEvent: string
 {
     // MATRÍCULAS
-    case ENROLLMENT_CREATED   = 'enrollment.created';
-    case ENROLLMENT_APPROVED  = 'enrollment.approved';
-    case ENROLLMENT_REJECTED  = 'enrollment.rejected';
-    case ENROLLMENT_TRANSFER  = 'enrollment.transfer';
+    case ENROLLMENT_CREATED = 'enrollment.created';
+    case ENROLLMENT_APPROVED = 'enrollment.approved';
+    case ENROLLMENT_REJECTED = 'enrollment.rejected';
+    case ENROLLMENT_TRANSFER = 'enrollment.transfer';
 
     // TURMAS
-    case CLASSROOM_CREATED    = 'classroom.created';
-    case CLASSROOM_UPDATED    = 'classroom.updated';
+    case CLASSROOM_CREATED = 'classroom.created';
+    case CLASSROOM_UPDATED = 'classroom.updated';
 
     // ALMOXARIFADO
-    case INVENTORY_REQUEST    = 'inventory.request';
-    case INVENTORY_TRANSFER   = 'inventory.transfer';
-    case INVENTORY_LOW_STOCK  = 'inventory.low_stock';
+    case INVENTORY_REQUEST = 'inventory.request';
+    case INVENTORY_TRANSFER = 'inventory.transfer';
+    case INVENTORY_LOW_STOCK = 'inventory.low_stock';
 
     // MERENDA
     case FOODS_MENU_PUBLISHED = 'foods.menu_published';
 
     // PROFISSIONAIS
-    case PROFESSIONAL_ALLOCATED   = 'professional.allocated';
+    case PROFESSIONAL_ALLOCATED = 'professional.allocated';
     case PROFESSIONAL_DEALLOCATED = 'professional.deallocated';
 
     // SISTEMA
-    case SYSTEM_MAINTENANCE   = 'system.maintenance';
-    case SYSTEM_UPDATE        = 'system.update';
+    case SYSTEM_MAINTENANCE = 'system.maintenance';
+    case SYSTEM_UPDATE = 'system.update';
 }

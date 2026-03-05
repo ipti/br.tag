@@ -37,6 +37,7 @@
         "sagres-gen": "./vendor/bin/xsd2php convert app/modules/sagres/config.yml app/modules/sagres/soap/Educacao.xsd",
         "migrate": "docker exec tag-app php /app/app/yiic sqlmigration run",
         "migrate:dry": "docker exec tag-app php /app/app/yiic sqlmigration run",
+        "lint:fix": "docker exec -u root -e PHP_CS_FIXER_IGNORE_ENV=1 tag-app ./vendor/bin/php-cs-fixer fix",
         "clear-assets": "docker exec tag-app sh -c \"find /app/assets -mindepth 1 -delete\"",
         "dedup:instructors": "docker exec tag-app php /app/app/yiic deduplicateinstructors",
         "dedup:instructors:commit": "docker exec tag-app php /app/app/yiic deduplicateinstructors --commit"

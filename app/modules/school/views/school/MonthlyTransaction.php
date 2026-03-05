@@ -1,14 +1,14 @@
 <div id="body-students-file-form" class="pageA4V">
   <?php
 $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
-$schoolStrcture = SchoolStructure::model()->find('school_inep_id_fk = :school_fk', [":school_fk" => Yii::app()->user->school]);
-$initialDate = strtotime($school->initial_date);
-$finalDate = strtotime($school->final_date);
-$datediff = $finalDate - $initialDate;
+  $schoolStrcture = SchoolStructure::model()->find('school_inep_id_fk = :school_fk', [':school_fk' => Yii::app()->user->school]);
+  $initialDate = strtotime($school->initial_date);
+  $finalDate = strtotime($school->final_date);
+  $datediff = $finalDate - $initialDate;
 
-$totalDays = abs(round($datediff / (60 * 60 * 24)));
-$this->renderPartial('head');
-?>
+  $totalDays = abs(round($datediff / (60 * 60 * 24)));
+  $this->renderPartial('head');
+  ?>
 
   <div class='container-report mt-30 text-center'>
     <h3>Movimento Mensal</h3>
@@ -114,19 +114,19 @@ $this->renderPartial('head');
 
   <div class='container-report mt-20'>
     <?php switch ($type) {
-  case 1:
-    $this->renderPartial('_initial_year', array());
-    break;
-  case 2:
-    $this->renderPartial('_end_year', array());
-    break;
-  case 3:
-    $this->renderPartial('_child_education', array());
-    break;
-  default:
-    break;
-}
-?>
+        case 1:
+            $this->renderPartial('_initial_year', []);
+            break;
+        case 2:
+            $this->renderPartial('_end_year', []);
+            break;
+        case 3:
+            $this->renderPartial('_child_education', []);
+            break;
+        default:
+            break;
+    }
+  ?>
   </div>
 
   <div id="box2" class='container-report mt-20'>
@@ -140,7 +140,7 @@ $this->renderPartial('head');
         <th>TURMA</th>
         <th>C.H</th>
       </tr>
-      <? for($i=1; $i <= 20; $i++): ?>
+      <?php for ($i = 1; $i <= 20; $i++): ?>
         <tr>
           <td class="font-bold text-center"><?= $i?>
       </td>
@@ -163,7 +163,7 @@ $this->renderPartial('head');
         <div class="contentEditable no-border" contenteditable="true"></div>
       </td>
       </tr>
-      <? endfor; ?>
+      <?php endfor; ?>
     </table>
   </div>
 
@@ -181,7 +181,7 @@ $this->renderPartial('head');
         <th scope="col" >VÍNCULO</th>
         <th scope="col" >C.H</th>
       </tr>
-      <? for($i=1; $i <= 15; $i++): ?>
+      <?php for ($i = 1; $i <= 15; $i++): ?>
         <tr>
           <td class="font-bold text-center"><?= $i?>
       </td>
@@ -204,7 +204,7 @@ $this->renderPartial('head');
         <div class="contentEditable no-border" contenteditable="true"></div>
       </td>
       </tr>
-      <? endfor; ?>
+      <?php endfor; ?>
     </table>
   </div>
 
@@ -228,7 +228,7 @@ $this->renderPartial('head');
           </table>
         </th>
       </tr>
-      <? for($i=1; $i <= 5; $i++): ?>
+      <?php for ($i = 1; $i <= 5; $i++): ?>
         <tr>
           <td class="font-bold text-center"><?= $i?>
       </td>
@@ -248,14 +248,14 @@ $this->renderPartial('head');
         <div class="contentEditable no-border" contenteditable="true"></div>
       </td>
       </tr>
-      <? endfor; ?>
+      <?php endfor; ?>
     </table>
   </div>
   <div id="boxDate"  class="row-grid no-border">
     <div class="col no-border">
       <span class="pull-right">
         <?= $school->edcensoCityFk->name?>(<?= $school->edcensoUfFk->acronym?>),
-      <?php echo date('d') . " de " . yii::t('default', date('F')) . " de " . date('Y') . "."?>
+      <?php echo date('d') . ' de ' . yii::t('default', date('F')) . ' de ' . date('Y') . '.'?>
       </span>
   </div>
 </div>
