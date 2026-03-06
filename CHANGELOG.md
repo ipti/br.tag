@@ -1,10 +1,10 @@
 ## [Versão 3.13.0]
 
-- Migração completa do módulo de Escolas (School) para a nova arquitetura de módulos (app/modules/school)
-
-## [Versão 3.12.0]
+#### Refatorações internas
 
 - Refatoração completa do módulo de estudantes para melhor arquitetura e desempenho (app/modules/student)
+
+- Migração completa do módulo de Escolas (School) para a nova arquitetura de módulos (app/modules/school)
 
 #### Ficha de vinculo do professor
 - **Novo Resumo do Ano:** Agora é possível imprimir um resumo completo de todos os vínculos e aulas do professor em um único ano.
