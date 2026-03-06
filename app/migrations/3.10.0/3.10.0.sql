@@ -16,27 +16,27 @@ CREATE TABLE IF NOT EXISTS `professional_allocation` (
   KEY `fk_professional_allocation_professional` (`professional_fk`),
   KEY `fk_professional_allocation_school` (`school_inep_fk`),
   CONSTRAINT `fk_professional_allocation_professional` FOREIGN KEY (`professional_fk`) REFERENCES `professional` (`id_professional`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `fk_professional_allocation_school` FOREIGN KEY (`school_inep_fk`) REFERENCES `school_identification` (`inep`) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT `fk_professional_allocation_school` FOREIGN KEY (`school_inep_fk`) REFERENCES `school_identification` (`inep_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- 2. Permissões e Feature Flags
 -- Add to AuthItem
 -- TYPE_OPERATION = 0, TYPE_TASK = 1
-INSERT IGNORE INTO `auth_item` (`name`, `type`, `description`, `bizrule`, `data`) VALUES 
+INSERT IGNORE INTO `auth_item` (`name`, `type`, `description`, `bizrule`, `data`) VALUES
 ('FEAT_PROFESSIONAL_LIST', 0, 'Lotação de Profissionais', NULL, 'N;'),
 ('TASK_PROFESSIONAL_MANAGE', 1, 'Gestão de lotação de profissionais não docentes', NULL, 'N;');
 
 -- Vincular Task à Feature (auth_item_child)
-INSERT IGNORE INTO `auth_item_child` (`parent`, `child`) VALUES 
+INSERT IGNORE INTO `auth_item_child` (`parent`, `child`) VALUES
 ('TASK_PROFESSIONAL_MANAGE', 'FEAT_PROFESSIONAL_LIST');
 
 -- Add to Feature Flags
-INSERT IGNORE INTO `feature_flags` (`feature_name`, `active`, `updated_at`) VALUES 
+INSERT IGNORE INTO `feature_flags` (`feature_name`, `active`, `updated_at`) VALUES
 ('FEAT_PROFESSIONAL_LIST', 1, NOW()),
 ('TASK_PROFESSIONAL_MANAGE', 1, NOW());
 
 -- 3. Atribuição de permissões básicas para papéis (AuthItemChild)
-INSERT IGNORE INTO `auth_item_child` (`parent`, `child`) VALUES 
+INSERT IGNORE INTO `auth_item_child` (`parent`, `child`) VALUES
 ('admin', 'TASK_PROFESSIONAL_MANAGE'),
 ('manager', 'TASK_PROFESSIONAL_MANAGE'),
 ('reader', 'TASK_PROFESSIONAL_MANAGE');
@@ -47,60 +47,54 @@ INSERT IGNORE INTO `auth_item_child` (`parent`, `child`) VALUES
 -- Adiciona suporte para lotação de profissionais na Secretaria Municipal de Educação
 
 -- 1. Adicionar campo para tipo de local
-ALTER TABLE `professional_allocation` 
+ALTER TABLE `professional_allocation`
 ADD COLUMN `location_type` ENUM('school', 'secretariat', 'other') NOT NULL DEFAULT 'school' AFTER `professional_fk`;
 
 -- 2. Adicionar campo para nome do local (quando não for escola)
-ALTER TABLE `professional_allocation` 
+ALTER TABLE `professional_allocation`
 ADD COLUMN `location_name` VARCHAR(255) NULL AFTER `location_type`;
 
 -- 3. Remover constraint de foreign key existente
-ALTER TABLE `professional_allocation` 
+ALTER TABLE `professional_allocation`
 DROP FOREIGN KEY `fk_professional_allocation_school`;
 
 -- 4. Tornar school_inep_fk opcional (permitir NULL)
-ALTER TABLE `professional_allocation` 
+ALTER TABLE `professional_allocation`
 MODIFY COLUMN `school_inep_fk` VARCHAR(8) NULL;
 
 -- 5. Recriar constraint permitindo NULL
-ALTER TABLE `professional_allocation` 
-ADD CONSTRAINT `fk_professional_allocation_school` 
-FOREIGN KEY (`school_inep_fk`) 
-REFERENCES `school_identification` (`inep`) 
-ON DELETE SET NULL 
+ALTER TABLE `professional_allocation`
+ADD CONSTRAINT `fk_professional_allocation_school`
+FOREIGN KEY (`school_inep_fk`)
+REFERENCES `school_identification` (`inep_id`)
+ON DELETE SET NULL
 ON UPDATE CASCADE;
 
--- 6. Adicionar constraint de validação
--- Garante que se location_type = 'school', school_inep_fk deve estar preenchido
--- E se location_type IN ('secretariat', 'other'), location_name deve estar preenchido
-ALTER TABLE `professional_allocation` 
-ADD CONSTRAINT `chk_location_valid` 
-CHECK (
-  (location_type = 'school' AND school_inep_fk IS NOT NULL) OR
-  (location_type IN ('secretariat', 'other') AND location_name IS NOT NULL)
-);
+-- 6. Adicionar constraint de validação (Removido)
+-- A validação (location_type = 'school' AND school_inep_fk IS NOT NULL) agora deve ser feita no nível da aplicação (model/ProfessionalAllocation),
+-- pois o MySQL não permite usar colunas de CHECK constraints em ações referenciais de foreign key (ON DELETE SET NULL).
 
 
 -- Migração de profissionais para alocação com mapeamento de especialidade
 -- Mapeia o campo 'speciality' da tabela professional para o 'role' da tabela professional_allocation
 
 INSERT INTO professional_allocation (
-    professional_fk, 
-    school_inep_fk, 
-    school_year, 
-    location_type, 
-    role, 
-    contract_type, 
-    workload, 
-    created_at, 
+    professional_fk,
+    school_inep_fk,
+    school_year,
+    location_type,
+    role,
+    contract_type,
+    workload,
+    created_at,
     updated_at
 )
-SELECT 
-    id_professional, 
-    inep_id_fk, 
-    YEAR(NOW()), 
+SELECT
+    id_professional,
+    inep_id_fk,
+    YEAR(NOW()),
     'school',
-    CASE 
+    CASE
         WHEN speciality LIKE '%Horta%' OR speciality LIKE '%Plantio%' OR speciality LIKE '%Agricultura%' THEN 1
         WHEN speciality LIKE '%Administrativo%' OR speciality LIKE '%Auxiliar Adm%' THEN 2
         WHEN speciality LIKE '%Serviços Gerais%' OR speciality LIKE '%ASG%' OR speciality LIKE '%Zelador%' OR speciality LIKE '%Limpeza%' THEN 3
@@ -120,14 +114,14 @@ SELECT
     END as role_mapped,
     99,  -- Contrato padrão (CONTRACT_UNDEFINED) - força correção
     40, -- Carga horária padrão
-    NOW(), 
+    NOW(),
     NOW()
-FROM professional 
+FROM professional
 WHERE inep_id_fk IS NOT NULL AND inep_id_fk != ''
 -- Evita duplicatas se rodar mais de uma vez no mesmo ano
 AND id_professional NOT IN (
-    SELECT professional_fk 
-    FROM professional_allocation 
+    SELECT professional_fk
+    FROM professional_allocation
     WHERE school_year = YEAR(NOW())
 );
 
