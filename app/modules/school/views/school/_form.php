@@ -22,11 +22,14 @@ $form = $this->beginWidget('CActiveForm', [
 
 <div class="mobile-row ">
     <div class="column clearleft">
-        <h1><?php echo $title; ?></h1>
+        <h1>
+            <?php echo $title; ?>
+        </h1>
     </div>
     <div class="column clearfix align-items--center justify-content--end show--desktop">
-        <a data-toggle="tab" class='hide-responsive t-button-secondary prev'
-            style="display:none;"><?php echo Yii::t('default', 'Previous')?><i></i></a>
+        <a data-toggle="tab" class='hide-responsive t-button-secondary prev' style="display:none;">
+            <?php echo Yii::t('default', 'Previous')?><i></i>
+        </a>
         <?= $modelSchoolIdentification->isNewRecord ? "<a data-toggle='tab' class='t-button-primary  next'>" . Yii::t('default', 'Next') . '</a>' : ''?>
         <button class="t-button-primary  last save-school-button" type="button">
             <?= $modelSchoolIdentification->isNewRecord ?Yii::t('default', 'Create') : Yii::t('default', 'Save')?>
@@ -87,26 +90,26 @@ $form = $this->beginWidget('CActiveForm', [
                         <?php echo Yii::t('default', 'Educational Data')?>
                     </a>
                     <?php if (!$modelSchoolIdentification->isNewRecord): ?>
-                        <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/seta-tabs.svg" alt="seta">
+                    <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/seta-tabs.svg" alt="seta">
                     <?php
 endif ?>
                 </li>
                 <?php if (!$modelSchoolIdentification->isNewRecord): ?>
-                    <li id="tab-school-rooms" class="t-tabs__item">
-                        <a class="t-tabs__link" href="#school-rooms" data-toggle="tab">
-                            <span class="t-tabs__numeration">7</span>
-                            <?php echo Yii::t('default', 'Salas de Aula')?>
-                        </a>
-                        <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/seta-tabs.svg" alt="seta">
-                    </li>
-                    <li id="tab-school-reports" class="t-tabs__item hide-responsive">
+                <li id="tab-school-rooms" class="t-tabs__item">
+                    <a class="t-tabs__link" href="#school-rooms" data-toggle="tab">
+                        <span class="t-tabs__numeration">7</span>
+                        <?php echo Yii::t('default', 'Salas de Aula')?>
+                    </a>
+                    <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/seta-tabs.svg" alt="seta">
+                </li>
+                <li id="tab-school-reports" class="t-tabs__item hide-responsive">
 
-                        <a class="t-tabs__link" href="#school-reports" data-toggle="tab">
-                            <span class="t-tabs__numeration">8</span>
-                            <?php echo Yii::t('default', 'Relatórios')?>
-                        </a>
+                    <a class="t-tabs__link" href="#school-reports" data-toggle="tab">
+                        <span class="t-tabs__numeration">8</span>
+                        <?php echo Yii::t('default', 'Relatórios')?>
+                    </a>
 
-                    </li>
+                </li>
                 <?php
 endif ?>
             </ul>
@@ -332,8 +335,8 @@ echo $form->error($modelSchoolIdentification, 'final_date');
                                 <button class="btn btn-icon glyphicons upload upload-logo-button" type="button">
                                     <i></i>Anexar
                                 </button>
-                                <span
-                                    class="uploaded-logo-name"><?php echo $modelSchoolIdentification->logo_file_name !== null ? 
+                                <span class="uploaded-logo-name">
+                                    <?php echo $modelSchoolIdentification->logo_file_name !== null ? 
     $modelSchoolIdentification->logo_file_name . '<a href="' . Yii::app()->controller->createUrl('school/removeLogo', ['id' => $modelSchoolIdentification->inep_id]) . '" class="deleteTeachingData" title="Excluir"></a>' : ''?>
                                 </span>
                                 <?php echo $form->fileField(
@@ -2060,7 +2063,9 @@ echo $form->dropDownList(
                                     </label>
                                 </div>
                             </div>
-                            <label class="control-label"><?php echo Yii::t('default', 'Potable Water'); ?></label>
+                            <label class="control-label">
+                                <?php echo Yii::t('default', 'Potable Water'); ?>
+                            </label>
                             <div class="t-field-checkbox">
                                 <?php echo $form->checkBox(
     $modelSchoolStructure,
@@ -3634,8 +3639,8 @@ echo $form->dropDownList(
                     <div class="row">
                         <div class="column is-two-fifths clearleft">
                             <div class="t-field-checkbox-group equipments-material-container">
-                                <label
-                                    class="t-field-checkbox-group__label--required"><?php echo Yii::t('default', 'Material, sociocultural and/or pedagogical instruments in use at school for the development of teaching and learning activities'); ?>
+                                <label class="t-field-checkbox-group__label--required">
+                                    <?php echo Yii::t('default', 'Material, sociocultural and/or pedagogical instruments in use at school for the development of teaching and learning activities'); ?>
                                 </label>
                                 <div class="t-field-checkbox">
                                     <?php echo $form->checkBox(
@@ -3811,8 +3816,9 @@ echo $form->dropDownList(
                         </div>
                         <div class="column clearleft--on-mobile is-two-fifths">
                             <div class="t-field-checkbox-group">
-                                <label
-                                    class="t-field-checkbox-group__label"><?php echo Yii::t('default', 'Internet Access Connected Devices'); ?></label>
+                                <label class="t-field-checkbox-group__label">
+                                    <?php echo Yii::t('default', 'Internet Access Connected Devices'); ?>
+                                </label>
                                 <div class="t-field-checkbox">
                                     <?php echo $form->checkBox(
     $modelSchoolStructure,
@@ -4287,8 +4293,9 @@ echo CHtml::activeHiddenField(
                             </div>
 
                             <div class="t-field-checkbox-group">
-                                <label
-                                    class="t-field-checkbox-group__label"><?php echo Yii::t('default', 'Selection Exam'); ?></label>
+                                <label class="t-field-checkbox-group__label">
+                                    <?php echo Yii::t('default', 'Selection Exam'); ?>
+                                </label>
                                 <div class="t-field-checkbox">
                                     <?php echo $form->checkBox(
     $modelSchoolStructure,
@@ -4302,8 +4309,9 @@ echo CHtml::activeHiddenField(
                             </div>
 
                             <div class="t-field-checkbox-group booking-container">
-                                <label
-                                    class="t-field-checkbox-group__label"><?php echo Yii::t('default', 'Reservation by Quota System'); ?></label>
+                                <label class="t-field-checkbox-group__label">
+                                    <?php echo Yii::t('default', 'Reservation by Quota System'); ?>
+                                </label>
                                 <div class="t-field-checkbox">
                                     <?php echo $form->checkBox(
     $modelSchoolStructure,
@@ -4381,7 +4389,8 @@ echo CHtml::activeHiddenField(
                     <div class="row">
                         <div class="column">
                             <div class="t-buttons-container">
-                                <a href="<?= Yii::app()->createUrl('school/createRoom', ['school_id' => $modelSchoolIdentification->inep_id]); ?>" class="t-button-primary open-room-modal">
+                                <a href="<?= Yii::app()->createUrl('school/school/createRoom', ['school_id' => $modelSchoolIdentification->inep_id]); ?>"
+                                    class="t-button-primary open-room-modal">
                                     <span class="t-icon-add"></span>
                                     Adicionar Sala
                                 </a>
@@ -4444,7 +4453,7 @@ if (!$modelSchoolIdentification->isNewRecord) {
                     ],
                     'delete' => [
                         'imageUrl' => Yii::app()->theme->baseUrl . '/img/deletar.svg',
-                        'url' => 'Yii::app()->createUrl("school/deleteRoom", array("id"=>$data->id))',
+                        'url' => 'Yii::app()->createUrl("school/school/deleteRoom", array("id"=>$data->id))',
                         'options' => ['title' => 'Excluir'],
                     ],
                 ],
@@ -4457,7 +4466,9 @@ if (!$modelSchoolIdentification->isNewRecord) {
                                 </div>
                             </div>
                             <style>
-                                #school-rooms .js-tag-table { width: 100% !important; }
+                                #school-rooms .js-tag-table {
+                                    width: 100% !important;
+                                }
                             </style>
                         </div>
                     </div>
@@ -4536,7 +4547,8 @@ if (!$modelSchoolIdentification->isNewRecord) {
                 <div class="column clearfix">
                     <a data-toggle="tab" class='t-button-secondary prev' style="display:none;">
                         <?php echo Yii::t('default', 'Previous')?>
-                        <i></i></a>
+                        <i></i>
+                    </a>
                 </div>
                 <div class="column clearfix">
                     <?= $modelSchoolIdentification->isNewRecord ? "<a data-toggle='tab' class='t-button-primary nofloat next'>" . Yii::t('default', 'Next') . '</a>' : ''?>
@@ -4569,14 +4581,14 @@ if (isset($_GET['censo']) && isset($_GET['id'])) {
 <div id="room-modal-container"></div>
 
 <script type="text/javascript">
-    jQuery(document).ready(function($) {
+    jQuery(document).ready(function ($) {
         // Handle room modal opening via AJAX
-        $(document).on('click', '.open-room-modal', function(e) {
+        $(document).on('click', 'a.open-room-modal', function (e) {
             e.preventDefault();
-            e.stopPropagation();
+            e.stopImmediatePropagation();
             var url = $(this).attr('href');
             if (url && url.indexOf('#') !== 0) {
-                $('#room-modal-container').load(url, function() {
+                $('#room-modal-container').load(url, function () {
                     $('#roomModal').modal('show');
                 });
             }
@@ -4584,14 +4596,14 @@ if (isset($_GET['censo']) && isset($_GET['id'])) {
         });
 
         // Handle room form submission via AJAX
-        $(document).on('submit', '#room-form', function(e) {
+        $(document).on('submit', '#room-form', function (e) {
             e.preventDefault();
             var form = $(this);
             $.ajax({
                 url: form.attr('action'),
                 type: 'POST',
                 data: form.serialize(),
-                success: function(response) {
+                success: function (response) {
                     try {
                         var json = JSON.parse(response);
                         if (json.status === 'success') {
@@ -4604,8 +4616,8 @@ if (isset($_GET['censo']) && isset($_GET['id'])) {
                         $('#roomModal').modal('show');
                     }
                 },
-                error: function(xhr) {
-                     alert('Erro ao processar requisição.');
+                error: function (xhr) {
+                    alert('Erro ao processar requisição.');
                 }
             });
             return false;
