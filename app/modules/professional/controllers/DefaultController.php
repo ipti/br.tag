@@ -31,7 +31,7 @@ class DefaultController extends Controller
                 'actions' => ['index', 'create', 'update', 'delete', 'deleteAttendance', 'saveAllocation', 'deleteAllocation', 'viewAllocation'],
                 'users' => ['@'],
             ],
-            ['deny',  // deny all users
+            ['deny', // deny all users
                 'users' => ['*'],
             ],
         ];
@@ -62,7 +62,8 @@ class DefaultController extends Controller
                         $this->redirect(['index']);
                     }
                 }
-            } else {
+            }
+            else {
                 Yii::app()->user->setFlash('error', Yii::t('default', 'Profissional já cadastrado para esta escola!'));
                 $this->redirect(['index']);
             }
@@ -126,7 +127,8 @@ class DefaultController extends Controller
             if ($modelProfessional->save()) {
                 Yii::app()->user->setFlash('success', Yii::t('default', 'Profissional atualizado com sucesso!'));
                 $this->redirect(['index']);
-            } else {
+            }
+            else {
                 Yii::app()->user->setFlash('error', Yii::t('default', 'Não foi possível atualizar o profissional!'));
                 $this->redirect(['index']);
             }
@@ -203,12 +205,24 @@ class DefaultController extends Controller
     public function actionIndex()
     {
         $criteria = new CDbCriteria();
-        $criteria->with = ['allocations'];
+        $criteria->with = [
+            'allocations' => [
+                'joinType' => 'LEFT JOIN',
+            ]
+        ];
         $criteria->together = true;
 
-        $criteria->compare('allocations.school_inep_fk', Yii::app()->user->school);
-        $criteria->compare('allocations.school_year', Yii::app()->user->year);
-        $criteria->compare('allocations.location_type', 'school');
+        $school = Yii::app()->user->school;
+        $year = Yii::app()->user->year;
+
+        $criteria->addCondition(
+            't.inep_id_fk = :school OR ' .
+            '(allocations.school_inep_fk = :school AND allocations.school_year = :year AND allocations.location_type = "school")'
+        );
+        $criteria->params = [
+            ':school' => $school,
+            ':year' => $year,
+        ];
 
         $criteria->order = 't.name ASC';
         $criteria->group = 't.id_professional';
@@ -259,17 +273,20 @@ class DefaultController extends Controller
             if ($model->location_type === 'school') {
                 $model->scenario = 'school_location';
                 $model->location_name = null; // Clear location_name when school is selected
-            } else {
+            }
+            else {
                 $model->scenario = 'other_location';
                 $model->school_inep_fk = null; // Clear school when secretariat/other is selected
             }
 
             if ($model->save()) {
                 echo json_encode(['success' => true]);
-            } else {
+            }
+            else {
                 echo json_encode(['success' => false, 'errors' => $model->errors]);
             }
-        } else {
+        }
+        else {
             echo json_encode(['success' => false, 'message' => 'Dados não recebidos']);
         }
 
@@ -289,7 +306,8 @@ class DefaultController extends Controller
         if ($model && $model->delete()) {
             echo CJSON::encode(['success' => true]);
             Yii::app()->end();
-        } else {
+        }
+        else {
             echo CJSON::encode(['success' => false]);
             Yii::app()->end();
         }
@@ -311,7 +329,8 @@ class DefaultController extends Controller
                 'success' => true,
                 'data' => $model->attributes
             ]);
-        } else {
+        }
+        else {
             echo CJSON::encode(['success' => false, 'message' => 'Lotação não encontrada']);
             Yii::app()->end();
         }
@@ -331,21 +350,21 @@ class DefaultController extends Controller
         $editBtn = CHtml::link(
             CHtml::image(Yii::app()->theme->baseUrl . '/img/editar.svg', 'Editar', ['style' => 'width: 16px; margin-right: 10px;']),
             'javascript:void(0)',
-            [
-                'class' => 'btn-edit-allocation',
-                'title' => 'Editar',
-                'data-allocation' => CJSON::encode($data->attributes)
-            ]
+        [
+            'class' => 'btn-edit-allocation',
+            'title' => 'Editar',
+            'data-allocation' => CJSON::encode($data->attributes)
+        ]
         );
 
         $deleteBtn = CHtml::link(
             CHtml::image(Yii::app()->theme->baseUrl . '/img/deletar.svg', 'Excluir', ['style' => 'width: 16px;']),
             'javascript:void(0)',
-            [
-                'class' => 'btn-delete-allocation',
-                'title' => 'Excluir',
-                'data-id' => $data->id
-            ]
+        [
+            'class' => 'btn-delete-allocation',
+            'title' => 'Excluir',
+            'data-id' => $data->id
+        ]
         );
 
         return $editBtn . $deleteBtn;

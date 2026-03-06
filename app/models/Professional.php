@@ -54,6 +54,8 @@ class Professional extends TagModel
             'attendances' => [self::HAS_MANY, 'Attendance', 'professional_fk'],
             'inepIdFk' => [self::BELONGS_TO, 'SchoolIdentification', 'inep_id_fk'],
             'allocations' => [self::HAS_MANY, 'ProfessionalAllocation', 'professional_fk'],
+            'allocationsCount' => [self::STAT, 'ProfessionalAllocation', 'professional_fk', 'condition' => 'school_year = ' . Yii::app()->user->year],
+            'attendancesCount' => [self::STAT, 'Attendance', 'professional_fk', 'condition' => 'MONTH(date) = ' . date('n') . ' AND YEAR(date) = ' . Yii::app()->user->year],
         ];
     }
 
