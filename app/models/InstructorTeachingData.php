@@ -139,6 +139,97 @@ class InstructorTeachingData extends AltActiveRecord
     }
 
     /**
+     * Calcula as aulas ministradas agrupadas por disciplina.
+     * Para Fundamental Menor / Infantil ($isMinorStage = true), a contagem é por dias distintos.
+     * Para Fundamental Maior / Médio ($isMinorStage = false), a contagem é pelo total de ocorrências.
+     * Inclui a carga horária prevista na matriz curricular.
+     * @param bool $isMinorStage
+     * @return array
+     */
+    public function getGivenClassesByDiscipline($isMinorStage = false)
+    {
+        $countExpression = $isMinorStage
+            ? "COUNT(DISTINCT CONCAT(sc.`month`, '-', sc.`day`))"
+            : 'COUNT(cc.id)';
+
+        return Yii::app()->db->createCommand("
+            SELECT
+                ed.name          AS discipline_name,
+                {$countExpression} AS classes_given,
+                MAX(cm.workload) AS workload_planned
+            FROM class_contents cc
+            JOIN schedule sc           ON sc.id  = cc.schedule_fk
+            JOIN edcenso_discipline ed ON ed.id  = sc.discipline_fk
+            JOIN teaching_matrixes tm  ON tm.teaching_data_fk = :itd_id
+            JOIN curricular_matrix cm  ON cm.id  = tm.curricular_matrix_fk
+                                      AND cm.discipline_fk = sc.discipline_fk
+            WHERE sc.classroom_fk = :classroom
+              AND sc.unavailable  = 0
+              AND sc.discipline_fk IN (
+                  SELECT cm2.discipline_fk
+                  FROM teaching_matrixes tm2
+                  JOIN curricular_matrix cm2 ON cm2.id = tm2.curricular_matrix_fk
+                  WHERE tm2.teaching_data_fk = :itd_id
+              )
+            GROUP BY ed.id, ed.name
+            ORDER BY ed.name ASC
+        ")->queryAll(true, [
+            ':classroom' => $this->classroom_id_fk,
+            ':itd_id' => $this->id,
+        ]);
+    }
+
+    /**
+     * Conta dias distintos trabalhados (para Fundamental Menor / Infantil).
+     * @return int
+     */
+    public function getTotalGivenMinorStage()
+    {
+        return (int)Yii::app()->db->createCommand("
+            SELECT COUNT(DISTINCT CONCAT(sc.`month`, '-', sc.`day`)) 
+            FROM class_contents cc
+            JOIN schedule sc ON sc.id = cc.schedule_fk
+            JOIN teaching_matrixes tm ON tm.teaching_data_fk = :itd_id
+            JOIN curricular_matrix cm ON cm.id = tm.curricular_matrix_fk 
+                                      AND cm.discipline_fk = sc.discipline_fk
+            WHERE sc.classroom_fk = :classroom AND sc.unavailable = 0
+        ")->queryScalar([
+            ':classroom' => $this->classroom_id_fk,
+            ':itd_id' => $this->id,
+        ]);
+    }
+
+    /**
+     * Total de horários previstos na turma filtrados pelas disciplinas do professor.
+     * Se for etapa menor (isMinor = true), conta dias distintos vinculados à matriz do professor.
+     * Em etapas regulares, conta slots (cada horário).
+     * @param bool $isMinorStage
+     * @return int
+     */
+    public function getTotalSchedulesAssigned($isMinorStage = false)
+    {
+        $select = $isMinorStage
+            ? "COUNT(DISTINCT CONCAT(sc.`month`, '-', sc.`day`))"
+            : 'COUNT(*)';
+
+        return (int)Yii::app()->db->createCommand("
+            SELECT {$select}
+            FROM schedule sc
+            WHERE sc.classroom_fk = :classroom
+              AND sc.unavailable  = 0
+              AND sc.discipline_fk IN (
+                  SELECT cm.discipline_fk
+                  FROM teaching_matrixes tm
+                  JOIN curricular_matrix cm ON cm.id = tm.curricular_matrix_fk
+                  WHERE tm.teaching_data_fk = :itd_id
+              )
+        ")->queryScalar([
+            ':classroom' => $this->classroom_id_fk,
+            ':itd_id' => $this->id,
+        ]);
+    }
+
+    /**
      * Retrieves a list of models based on the current search/filter conditions.
      * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
      */

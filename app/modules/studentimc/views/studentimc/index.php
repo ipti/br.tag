@@ -2,14 +2,14 @@
 /* @var $this StudentIMCController */
 /* @var $dataProvider CActiveDataProvider */
 
-$this->breadcrumbs = array(
+$this->breadcrumbs = [
     'Student Imcs',
-);
+];
 
-$this->menu = array(
-    array('label' => 'Create StudentIMC', 'url' => array('create')),
-    array('label' => 'Manage StudentIMC', 'url' => array('admin')),
-);
+$this->menu = [
+    ['label' => 'Create StudentIMC', 'url' => ['create']],
+    ['label' => 'Manage StudentIMC', 'url' => ['admin']],
+];
 
 $this->setPageTitle('TAG - ' . Yii::t('default', 'Acompanhamento de Saúde'));
 ?>
@@ -22,10 +22,10 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Acompanhamento de Saúde'));
         <div class="row-fluid">
             <div class="span12">
                 <div class="t-buttons-container">
-                    <a class="t-button-primary" href="<?= Yii::app()->createUrl("studentimc/studentimc/create", array("studentId" => $student->id)) ?>">
+                    <a class="t-button-primary" href="<?= Yii::app()->createUrl('studentimc/studentimc/create', ['studentId' => $student->id]) ?>">
                         Nova Coleta
                     </a>
-                     <a class="t-button-secondary" href="<?php echo Yii::app()->createUrl('forms/studentIMCHistoryReport', array("studentId" => $student->id)) ?>">Histórico de coleta</a>
+                     <a class="t-button-secondary" href="<?php echo Yii::app()->createUrl('forms/studentIMCHistoryReport', ['studentId' => $student->id]) ?>">Histórico de coleta</a>
                 </div>
             </div>
         </div>
@@ -46,63 +46,63 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Acompanhamento de Saúde'));
         <div class="widget clearmargin">
             <div class="widget-body">
                 <?php
-                $this->widget('zii.widgets.grid.CGridView', array(
+                $this->widget('zii.widgets.grid.CGridView', [
                     'dataProvider' => $dataProvider,
                     'enablePagination' => false,
                     'enableSorting' => false,
                     'ajaxUpdate' => false,
                     'itemsCssClass' => 'js-tag-table tag-table-primary table table-condensed table-striped table-hover table-primary table-vertical-center checkboxs',
-                    'columns' => array(
-                        array(
+                    'columns' => [
+                        [
                             'name' => 'id',
                             'type' => 'raw',
                             'value' => '$data->id',
-                        ),
-                        array(
+                        ],
+                        [
                             'name' => 'IMC',
                             'type' => 'raw',
                             'value' => 'CHtml::link(number_format((float) $data->IMC, 2, ".", ""),Yii::app()->createUrl("studentimc/studentimc/update",array("id"=>$data->id)))',
-                            'htmlOptions' => array('width' => '400px', 'class' => 'link-update-grid-view'),
-                        ),
-                        array(
+                            'htmlOptions' => ['width' => '400px', 'class' => 'link-update-grid-view'],
+                        ],
+                        [
                             'name' => 'Classificação',
                             'type' => 'raw',
                             'value' => '$data->studentImcClassificationFk->classification',
-                        ),
-                        array(
+                        ],
+                        [
                             'name' => 'height',
                             'type' => 'raw',
                             'value' => 'number_format((float) $data->height, 2, ".", "")',
-                        ),
-                        array(
+                        ],
+                        [
                             'name' => 'weight',
                             'type' => 'raw',
                             'value' => 'number_format((float) $data->weight, 2, ".", "")',
-                        ),
-                        array(
+                        ],
+                        [
                             'name' => 'created_at',
                             'filter' => false,
                             'value' => 'Yii::app()->dateFormatter->format("dd/MM/yyyy", $data->created_at)',
-                        ),
-                        array(
+                        ],
+                        [
                             'header' => 'Ações',
                             'class' => 'CButtonColumn',
                             'template' => '{update}{delete}',
-                            'buttons' => array(
-                                'update' => array(
+                            'buttons' => [
+                                'update' => [
                                     'imageUrl' => Yii::app()->theme->baseUrl . '/img/editar.svg',
-                                ),
-                                'delete' => array(
+                                ],
+                                'delete' => [
                                     'imageUrl' => Yii::app()->theme->baseUrl . '/img/deletar.svg',
-                                )
-                            ),
-                            'updateButtonOptions' => array('style' => 'margin-right: 20px;'),
-                            'deleteButtonOptions' => array('style' => 'cursor: pointer;'),
-                            'htmlOptions' => array('width' => '100px', 'style' => 'text-align: center'),
-                        ),
-                    ),
-                ));
-                ?>
+                                ]
+                            ],
+                            'updateButtonOptions' => ['style' => 'margin-right: 20px;'],
+                            'deleteButtonOptions' => ['style' => 'cursor: pointer;'],
+                            'htmlOptions' => ['width' => '100px', 'style' => 'text-align: center'],
+                        ],
+                    ],
+                ]);
+?>
             </div>
         </div>
     </div>

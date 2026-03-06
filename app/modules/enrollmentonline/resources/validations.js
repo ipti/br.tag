@@ -43,8 +43,8 @@ $("form").on("submit", function (event) {
 
 $(document).ready(function () {
     $("#showPassword").click(function () {
-        var senhaInput = document.querySelector("#password");
-        var senhaInputType = senhaInput.type;
+        let senhaInput = document.querySelector("#password");
+        let senhaInputType = senhaInput.type;
         if (senhaInputType === 'password') {
             senhaInput.type = "text"
         } else {
@@ -60,8 +60,8 @@ $(document).ready(function () {
     });
 
     $("#showPasswordConfirm").click(function () {
-        var senhaInputConfirm = document.querySelector("#Confirm");
-        var senhaInputTypeConfirm = senhaInputConfirm.type;
+        let senhaInputConfirm = document.querySelector("#Confirm");
+        let senhaInputTypeConfirm = senhaInputConfirm.type;
         if (senhaInputTypeConfirm === 'password') {
             senhaInputConfirm.type = "text"
         } else {
@@ -77,7 +77,7 @@ $(document).ready(function () {
 
 $(form + 'password').focusout(function () {
     console.log($(this).attr("id"))
-    var id = '#' + $(this).attr("id");
+    let id = '#' + $(this).attr("id");
     if (!validatePassword($(id).val())) {
         addError(id, "O campo deve possuir no mínimo 6 caracteres.");
     } else {
@@ -86,8 +86,8 @@ $(form + 'password').focusout(function () {
 });
 
 $('#Confirm').focusout(function () {
-    var id = '#' + $(this).attr("id");
-    var passId = form + 'password';
+    let id = '#' + $(this).attr("id");
+    let passId = form + 'password';
 
     if ($(id).val() != $(passId).val()) {
         $(id).attr('value', '');

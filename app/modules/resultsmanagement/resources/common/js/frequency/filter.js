@@ -1,10 +1,10 @@
 var months = ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"];
 var units = ["1º Bimestre", "2º Bimestre", "3º Bimestre", "4º Bimestre",
-            "1ª Recuperação", "2ª Recuperação","3ª Recuperação", "4ª Recuperação", "Recuperação Final"];
+    "1ª Recuperação", "2ª Recuperação", "3ª Recuperação", "4ª Recuperação", "Recuperação Final"];
 var disciplines = [];
 var $select = {};
 
-function ini(){
+function ini() {
     $chart.hide();
     $("#month").html("");
     $select = {};
@@ -13,16 +13,16 @@ function ini(){
 
 function loadClassroomInfos(results) {
     ini();
-    var data = $.parseJSON(results);
-    $.each(data, function(i, v) {
+    let data = $.parseJSON(results);
+    $.each(data, function (i, v) {
         disciplines[v.did] = v.discipline;
         if (!($select[v.month] instanceof Array)) $select[v.month] = [];
         $select[v.month].push(v.did);
         $.unique($select[v.month]);
     });
 
-    var i = 0;
-    $.each($select, function(m) {
+    let i = 0;
+    $.each($select, function (m) {
         $("#month").append("<option value='" + m + "'>" + months[m] + "</option>");
         i++;
     });
@@ -31,21 +31,21 @@ function loadClassroomInfos(results) {
 
     $("#month").attr("data-placeholder", "Selecione um mês").val("").change().select2();
 }
-$(document).ready(function() {
+$(document).ready(function () {
     $('.filter-select').select2();
 
-    $('#month').change(function() {
+    $('#month').change(function () {
         $chart.hide();
         $("#discipline").html("");
-        var month = $(this).val();
+        let month = $(this).val();
         if (month != null && month != "") {
-            var disc =[];
-            if(month == "all"){
-                $.each($select, function(m, d) {
+            let disc = [];
+            if (month == "all") {
+                $.each($select, function (m, d) {
                     disc = disc.concat(d);
                 });
                 $.unique(disc);
-            }else {
+            } else {
                 disc = $select[month];
             }
             $.each(disc, function (j, d) {
@@ -58,18 +58,18 @@ $(document).ready(function() {
         }
     });
 
-    $('#discipline').change(function() {
+    $('#discipline').change(function () {
         $chart.hide();
-        var $cid = $("#classroom").val();
-        var $mid = $("#month").val();
-        var $did = $("#discipline").val();
+        let $cid = $("#classroom").val();
+        let $mid = $("#month").val();
+        let $did = $("#discipline").val();
         if ($did != null && $did != "") {
-            configChart(chartDataUrl,$sid,$cid,$mid,$did);
+            configChart(chartDataUrl, $sid, $cid, $mid, $did);
         }
     });
 });
 
-$(window).load(function() {
+$(window).load(function () {
     $("#classroom").attr("data-placeholder", "Selecione uma turma").val("").change().select2();
     $("#month").attr("data-placeholder", "Selecione um mês").select2();
     $("#discipline").attr("data-placeholder", "Selecione uma disciplina").select2();

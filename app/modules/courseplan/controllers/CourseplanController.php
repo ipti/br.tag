@@ -389,7 +389,6 @@ class CourseplanController extends Controller
 
             header('HTTP/1.1 200 OK');
         } catch (Exception $e) {
-
             throw new CHttpException(500, $e->getMessage());
         }
     }
@@ -477,7 +476,6 @@ class CourseplanController extends Controller
 
             try {
                 $coursePlan->delete();
-
             } catch (Exception $e) {
                 TLog::error('Error ao excluir plano de aula', ['id' => $id, 'error' => $e->getMessage()]);
 
@@ -731,14 +729,14 @@ class CourseplanController extends Controller
      * @throws CHttpException
      */
     public function loadModel(
-            $id
-        ) {
-            $model = CoursePlan::model()->findByPk($id);
-            if ($model === null) {
-                throw new CHttpException(404, 'The requested page does not exist.');
-            }
-            return $model;
+        $id
+    ) {
+        $model = CoursePlan::model()->findByPk($id);
+        if ($model === null) {
+            throw new CHttpException(404, 'The requested page does not exist.');
         }
+        return $model;
+    }
 
     /**
      * Performs the AJAX validation.

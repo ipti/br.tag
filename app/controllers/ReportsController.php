@@ -473,7 +473,7 @@ class ReportsController extends Controller
         )
         ->bindParam(':classroom_fk', $classroomId)
         ->queryAll();
-        $isMinorEducation = $classroom->edcensoStageVsModalityFk->unified_frequency == 1 ? true : Classroom::model()->checkIsStageMinorEducation($classroom);
+        $isMinorEducation = $classroom->edcensoStageVsModalityFk->unified_frequency == 1 ? true : $classroom->checkIsStageMinorEducation();
         $totalClasses = ClassContents::model()->getTotalClassesByMonth($classroomId, $month, $year, $disciplineId);
         $totalClassContents = ClassContents::model()->getTotalClassContentsByMonth($classroomId, $month, $year, $disciplineId);
 

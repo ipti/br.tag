@@ -483,8 +483,6 @@ class ClassroomValidation extends Register
                 return ['status' => false, 'erro' => 'Não se pode preencher componentes curriculares/eixos de Educação Fundamental quando a etapa for de Educação Infantil'];
             }
         }
-
-
     }
 
     public function replaceCodeModalities($msg)

@@ -32,14 +32,14 @@ class EnrollmentOnlinePreEnrollmentEventOnline extends CActiveRecord
     {
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
-        return array(
-            array('name, start_date, end_date, year', 'required'),
-            array('year', 'numerical', 'integerOnly' => true),
-            array('name', 'length', 'max' => 255),
+        return [
+            ['name, start_date, end_date, year', 'required'],
+            ['year', 'numerical', 'integerOnly' => true],
+            ['name', 'length', 'max' => 255],
             // The following rule is used by search().
             // @todo Please remove those attributes that should not be searched.
-            array('id, name, start_date, end_date, year, created_at, updated_at', 'safe', 'on' => 'search'),
-        );
+            ['id, name, start_date, end_date, year, created_at, updated_at', 'safe', 'on' => 'search'],
+        ];
     }
 
     /**
@@ -49,9 +49,9 @@ class EnrollmentOnlinePreEnrollmentEventOnline extends CActiveRecord
     {
         // NOTE: you may need to adjust the relation name and the related
         // class name for the relations automatically generated below.
-        return array(
-            'enrollmentOnlineEventVsEdcensoStages' => array(self::HAS_MANY, 'EnrollmentOnlineEventVsEdcensoStage', 'pre_enrollment_event_fk'),
-        );
+        return [
+            'enrollmentOnlineEventVsEdcensoStages' => [self::HAS_MANY, 'EnrollmentOnlineEventVsEdcensoStage', 'pre_enrollment_event_fk'],
+        ];
     }
 
     /**
@@ -59,7 +59,7 @@ class EnrollmentOnlinePreEnrollmentEventOnline extends CActiveRecord
      */
     public function attributeLabels()
     {
-        return array(
+        return [
             'id' => 'ID',
             'name' => 'Nome do evento',
             'start_date' => 'Data de início',
@@ -67,7 +67,7 @@ class EnrollmentOnlinePreEnrollmentEventOnline extends CActiveRecord
             'year' => 'Ano',
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
-        );
+        ];
     }
 
     /**
@@ -86,7 +86,7 @@ class EnrollmentOnlinePreEnrollmentEventOnline extends CActiveRecord
     {
         // @todo Please modify the following code to remove attributes that should not be searched.
 
-        $criteria = new CDbCriteria;
+        $criteria = new CDbCriteria();
 
         $criteria->compare('id', $this->id);
         $criteria->compare('name', $this->name, true);
@@ -96,9 +96,9 @@ class EnrollmentOnlinePreEnrollmentEventOnline extends CActiveRecord
         $criteria->compare('created_at', $this->created_at, true);
         $criteria->compare('updated_at', $this->updated_at, true);
 
-        return new CActiveDataProvider($this, array(
+        return new CActiveDataProvider($this, [
             'criteria' => $criteria,
-        ));
+        ]);
     }
 
     /**

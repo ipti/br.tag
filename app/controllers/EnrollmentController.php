@@ -13,7 +13,6 @@ Yii::import('application.repository.FormsRepository');
 
 class EnrollmentController extends Controller implements AuthenticateSEDTokenInterface
 {
-
     /**
      * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
      * using two-column layout. See 'protected/views/layouts/column2.php'.
@@ -108,8 +107,6 @@ class EnrollmentController extends Controller implements AuthenticateSEDTokenInt
 
     public function actionUpdateDependencies()
     {
-
-
         $classrooms = Classroom::model()->findAllByAttributes(['school_year' => Yii::app()->user->year, 'school_inep_fk' => Yii::app()->user->school]);
         $class = new Classroom();
         $result['Classrooms'] = CHtml::tag('option', ['value' => 0], 'Selecione uma Turma', true);
@@ -227,8 +224,7 @@ class EnrollmentController extends Controller implements AuthenticateSEDTokenInt
             );
         }
 
-        if (isset($_POST['StudentEnrollment'])  && $model->validate()) {
-
+        if (isset($_POST['StudentEnrollment']) && $model->validate()) {
             $model->attributes = $_POST['StudentEnrollment'];
             $model->enrollment_date = DateTime::createFromFormat('d/m/Y', $model->enrollment_date);
             $model->enrollment_date = $model->enrollment_date->format('Y-m-d');
@@ -262,9 +258,8 @@ class EnrollmentController extends Controller implements AuthenticateSEDTokenInt
                         }
 
                         if ($model->status === '2' || $model->status === '5') {
-
                             $classroomMapper = new ClassroomMapper();
-                            $ensino = (object) $classroomMapper->convertStageToTipoEnsino($class->edcenso_stage_vs_modality_fk);
+                            $ensino = (object)$classroomMapper->convertStageToTipoEnsino($class->edcenso_stage_vs_modality_fk);
 
                             $inDataMovimento = date('d/m/Y');
                             $inNumAluno = '00';
@@ -280,7 +275,6 @@ class EnrollmentController extends Controller implements AuthenticateSEDTokenInt
                             $trocarAlunoEntreClassesUseCase = new TrocarAlunoEntreClassesUseCase();
                             $result = $trocarAlunoEntreClassesUseCase->exec($inTrocarAlunoEntreClasses);
                         } elseif ($model->status === '3' || $model->status === '11') {
-
                             $class = Classroom::model()->findByPk($model->classroom_fk);
                             $inNumClasse = $class->gov_id === null ? $class->inep_id : $class->gov_id;
 
@@ -289,7 +283,6 @@ class EnrollmentController extends Controller implements AuthenticateSEDTokenInt
                             $deleteEnrollmentUseCase = new DeleteEnrollmentUseCase();
                             $result = $deleteEnrollmentUseCase->exec($inExcluirMatricula);
                         } elseif ($model->status === '4') {
-
                             $inTipoBaixa = $_POST['reason'];
                             if ($inTipoBaixa == '1') {
                                 $inMotivoBaixa = $_POST['secondReason'];
@@ -322,7 +315,6 @@ class EnrollmentController extends Controller implements AuthenticateSEDTokenInt
                     Yii::app()->user->setFlash($flash, $message);
                 }
             }
-
         }
 
         $this->render(
@@ -348,7 +340,7 @@ class EnrollmentController extends Controller implements AuthenticateSEDTokenInt
         if ($model->delete()) {
             Log::model()->saveAction('enrollment', $model->id, 'D', $model->studentFk->name . '|' . $model->classroomFk->name);
             Yii::app()->user->setFlash('success', Yii::t('default', 'A Matrícula de ' . $model->studentFk->name . ' foi excluída com sucesso!'));
-            $this->redirect(['student/index']);
+            $this->redirect(['student/student/index']);
         } else {
             throw new CHttpException(404, 'The requested page does not exist.');
         }
@@ -467,7 +459,7 @@ class EnrollmentController extends Controller implements AuthenticateSEDTokenInt
                 $usecase = new ChageStudentStatusByGradeUsecase(
                     $enrollment->id,
                     $disciplineId,
-                    (int) $numUnities,
+                    (int)$numUnities,
                     $frequency
                 );
                 $usecase->exec();
@@ -563,9 +555,9 @@ class EnrollmentController extends Controller implements AuthenticateSEDTokenInt
             foreach ($std['grades'] as $key => $value) {
                 $index = $key + 1;
                 $hasAllValues = $hasAllValues && (isset($gradeResult['grade_' . $index]) && $gradeResult['grade_' . $index] != '');
-                $gradeResult->{'grade_' . $index} = $std['grades'][$key]['value'];
-                $gradeResult->{'grade_faults_' . $index} = $std['grades'][$key]['faults'];
-                $gradeResult->{'given_classes_' . $index} = $std['grades'][$key]['givenClasses'];
+                $gradeResult->{ 'grade_' . $index} = $std['grades'][$key]['value'];
+                $gradeResult->{ 'grade_faults_' . $index} = $std['grades'][$key]['faults'];
+                $gradeResult->{ 'given_classes_' . $index} = $std['grades'][$key]['givenClasses'];
             }
 
             if (!$gradeResult->validate()) {
@@ -681,7 +673,9 @@ class EnrollmentController extends Controller implements AuthenticateSEDTokenInt
         }
         echo json_encode($result);
     }
-    private function checkGradesSituation($situation){
+
+    private function checkGradesSituation($situation)
+    {
         return $situation != null ? $situation : '';
     }
 

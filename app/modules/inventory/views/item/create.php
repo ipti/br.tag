@@ -3,11 +3,11 @@
 /* @var $model InventoryItem */
 
 $this->setPageTitle('TAG - Criar Item');
-$this->breadcrumbs=array(
-	'Almoxarifado'=>array('movement/index'),
-	'Itens'=>array('index'),
-	'Criar',
-);
+$this->breadcrumbs = [
+    'Almoxarifado' => ['movement/index'],
+    'Itens' => ['index'],
+    'Criar',
+];
 ?>
 
 <div id="mainPage" class="main">
@@ -18,5 +18,5 @@ $this->breadcrumbs=array(
         </div>
     </div>
 
-    <?php $this->renderPartial('_form', array('model'=>$model)); ?>
+    <?php $this->renderPartial('_form', ['model' => $model]); ?>
 </div>

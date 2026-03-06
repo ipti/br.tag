@@ -1,9 +1,11 @@
 <?php
 
     yii::import('application.modules.classdiary.services.*');
+
     /**
      * @property ClassesService $classesService
      */
+
     class SaveNewClassContent
     {
         private $classesService;
@@ -16,6 +18,5 @@
         public function exec($coursePlanId, $content, $methodology, $abilities)
         {
             return $this->classesService->saveNewClassContent($coursePlanId, $content, $methodology, $abilities);
-
         }
     }

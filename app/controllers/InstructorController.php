@@ -42,7 +42,7 @@ class InstructorController extends Controller
                     'index', 'view', 'create', 'update', 'updateEmails', 'frequency',
                     'saveEmails', 'getCity', 'getCityByCep', 'getInstitutions', 'getInstitution',
                     'getCourses', 'delete', 'getFrequency', 'getFrequencyDisciplines', 'getFrequencyClassroom',
-                    'saveFrequency', 'saveJustification', 'getClassrooms'
+                    'saveFrequency', 'saveJustification', 'getClassrooms', 'printHistory', 'printYearHistory'
                 ], 'users' => ['@'],
             ], [
                 'allow', // allow admin user to perform 'admin' and 'delete' actions
@@ -106,6 +106,7 @@ class InstructorController extends Controller
             $saveInstructor = true;
 
             //=== MODEL DocumentsAndAddress
+            $modelInstructorDocumentsAndAddress->cpf = str_replace(['.', '-'], '', $modelInstructorDocumentsAndAddress->cpf);
             if (isset($modelInstructorDocumentsAndAddress->cep) && !empty($modelInstructorDocumentsAndAddress->cep)) {
                 //Então o endereço, uf e cidade são obrigatórios
                 if (isset($modelInstructorDocumentsAndAddress->address) &&
@@ -362,10 +363,30 @@ preenchidos';
         }
 
         //====================================
+        $teachingHistory = Yii::app()->db->createCommand('
+            SELECT
+                itd.id,
+                itd.school_inep_id_fk,
+                itd.classroom_id_fk,
+                itd.role,
+                itd.contract_type,
+                s.name        AS school_name,
+                c.name        AS classroom_name,
+                c.school_year AS classroom_year,
+                c.period      AS classroom_period
+            FROM instructor_teaching_data itd
+            LEFT JOIN school_identification s ON s.inep_id = itd.school_inep_id_fk
+            LEFT JOIN classroom c             ON c.id = itd.classroom_id_fk
+            WHERE itd.instructor_fk = :id
+            ORDER BY c.school_year DESC, s.name ASC, c.name ASC
+        ')->queryAll(true, [':id' => $id]);
+
         $this->render('update', [
             'modelInstructorIdentification' => $modelInstructorIdentification,
             'modelInstructorDocumentsAndAddress' => $modelInstructorDocumentsAndAddress,
-            'modelInstructorVariableData' => $modelInstructorVariableData, 'error' => $error,
+            'modelInstructorVariableData' => $modelInstructorVariableData,
+            'error' => $error,
+            'teachingHistory' => $teachingHistory,
         ]);
     }
 
@@ -765,5 +786,214 @@ preenchidos';
         $classrooms = $command->queryAll();
 
         echo json_encode($classrooms);
+    }
+
+    /**
+     * Renders a printable ficha of all teaching links for a given instructor.
+     * @param int $id Instructor ID
+     */
+    public function actionPrintHistory($id, $teaching_id = null)
+    {
+        $instructor = $this->loadModel($id, $this->instructorIdentification);
+        $instructorDoc = $this->loadModel($id, $this->instructorDocumentsAndAddress);
+
+        // Filtra vínculo específico se teaching_id for informado
+        $teachingFilter = $teaching_id ? ' AND itd.id = :teaching_id' : '';
+        $params = [':id' => $id];
+        if ($teaching_id) {
+            $params[':teaching_id'] = (int)$teaching_id;
+        }
+
+        // Carrega cada vínculo com dados da escola, turma e etapa
+        $teachingHistory = Yii::app()->db->createCommand("
+            SELECT
+                itd.id          AS itd_id,
+                itd.school_inep_id_fk,
+                itd.classroom_id_fk,
+                itd.role,
+                itd.contract_type,
+                s.name          AS school_name,
+                c.name          AS classroom_name,
+                c.school_year   AS classroom_year,
+                c.period        AS classroom_period,
+                esm.name        AS stage_name
+            FROM instructor_teaching_data itd
+            LEFT JOIN school_identification s      ON s.inep_id = itd.school_inep_id_fk
+            LEFT JOIN classroom c                  ON c.id = itd.classroom_id_fk
+            LEFT JOIN edcenso_stage_vs_modality esm ON esm.id = c.edcenso_stage_vs_modality_fk
+            WHERE itd.instructor_fk = :id {$teachingFilter}
+            ORDER BY c.school_year DESC, s.name ASC, c.name ASC
+        ")->queryAll(true, $params);
+
+        // Para cada vínculo, busca aulas dadas (por disciplina via Diário de Classe) e faltas
+        foreach ($teachingHistory as &$link) {
+            $classroomId = $link['classroom_id_fk'];
+            $itdId = $link['itd_id']; // instructor_teaching_data.id
+
+            // Aulas ministradas por disciplina
+            // Filtra pelas disciplinas do vínculo via:
+            //   itd → teaching_matrixes → curricular_matrix → discipline_fk
+            // (mesmo padrão usado no InstructorController::actionGetClassrooms)
+
+            // Instancia o vínculo para usar os métodos encapsulados
+            $itdModel = InstructorTeachingData::model()->findByPk($itdId);
+            $classroom = Classroom::model()->findByPk($classroomId);
+
+            // Verifica se a turma é de Fundamental Menor / Infantil (regência por dia)
+            $isMinorStage = $classroom ? $classroom->checkIsStageMinorEducation() : false;
+
+            // Obtém as aulas por disciplina (Para MinorStage, conta os dias únicos. Para Regulares, conta aulas totais)
+            $classesByDiscipline = $itdModel->getGivenClassesByDiscipline($isMinorStage);
+
+            if ($isMinorStage) {
+                // Total ministrado: dias distintos da matriz do professor
+                $totalGiven = $itdModel->getTotalGivenMinorStage();
+
+                // Total previsto no horário (dias distintos previstos)
+                $totalSchedules = $itdModel->getTotalSchedulesAssigned(true);
+            } else {
+                // Total geral de aulas ministradas somando a matriz regular
+                $totalGiven = array_sum(array_column($classesByDiscipline, 'classes_given'));
+
+                // Total de aulas previstas no horário (slots totais)
+                $totalSchedules = $itdModel->getTotalSchedulesAssigned(false);
+            }
+
+            $link['is_minor_stage'] = $isMinorStage;
+
+            $link['classes_by_discipline'] = $classesByDiscipline;
+            $link['classes_given'] = $totalGiven;
+            $link['total_schedules'] = $totalSchedules;
+
+            // Faltas do professor: instructor_faults.instructor_fk → instructor_teaching_data.id
+            // Filtra pelo itd_id do vínculo + turma via schedule
+            $faults = Yii::app()->db->createCommand('
+                SELECT
+                    f.id,
+                    f.justification,
+                    s.day, s.month, s.year
+                FROM instructor_faults f
+                JOIN schedule s ON s.id = f.schedule_fk
+                JOIN instructor_teaching_data itd
+                    ON itd.id = f.instructor_fk
+                WHERE itd.id        = :itd_id
+                  AND s.classroom_fk = :classroom
+                ORDER BY s.year ASC, s.month ASC, s.day ASC
+            ')->queryAll(true, [
+                ':itd_id' => $itdId,
+                ':classroom' => $classroomId,
+            ]);
+
+            $link['faults'] = $faults;
+            $link['faults_count'] = count($faults);
+        }
+        unset($link);
+
+        $this->layout = 'reports';
+        $this->render('printHistory', [
+            'instructor' => $instructor,
+            'instructorDoc' => $instructorDoc,
+            'teachingHistory' => $teachingHistory,
+        ]);
+    }
+
+    /**
+     * Renders a printable consolidated ficha of all teaching links for a given instructor in a specific year.
+     * @param int $id Instructor ID
+     * @param int $year Academic Year
+     */
+    public function actionPrintYearHistory($id, $year)
+    {
+        $instructor = $this->loadModel($id, $this->instructorIdentification);
+        $instructorDoc = $this->loadModel($id, $this->instructorDocumentsAndAddress);
+
+        // Carrega cada vínculo com dados da escola, turma e etapa apenas do ano selecionado
+        $teachingHistory = Yii::app()->db->createCommand('
+            SELECT
+                itd.id          AS itd_id,
+                itd.school_inep_id_fk,
+                itd.classroom_id_fk,
+                itd.role,
+                itd.contract_type,
+                s.name          AS school_name,
+                c.name          AS classroom_name,
+                c.school_year   AS classroom_year,
+                c.period        AS classroom_period,
+                esm.name        AS stage_name
+            FROM instructor_teaching_data itd
+            LEFT JOIN school_identification s      ON s.inep_id = itd.school_inep_id_fk
+            LEFT JOIN classroom c                  ON c.id = itd.classroom_id_fk
+            LEFT JOIN edcenso_stage_vs_modality esm ON esm.id = c.edcenso_stage_vs_modality_fk
+            WHERE itd.instructor_fk = :id 
+              AND c.school_year = :year
+            ORDER BY s.name ASC, c.name ASC
+        ')->queryAll(true, [
+            ':id' => $id,
+            ':year' => $year
+        ]);
+
+        // Para cada vínculo, busca aulas dadas (por disciplina via Diário de Classe) e faltas
+        foreach ($teachingHistory as &$link) {
+            $classroomId = $link['classroom_id_fk'];
+            $itdId = $link['itd_id'];
+
+            // Instancia o vínculo para usar os métodos encapsulados
+            $itdModel = InstructorTeachingData::model()->findByPk($itdId);
+            $classroom = Classroom::model()->findByPk($classroomId);
+
+            // Verifica se a turma é de Fundamental Menor / Infantil (regência por dia)
+            $isMinorStage = $classroom ? $classroom->checkIsStageMinorEducation() : false;
+
+            // Obtém as aulas por disciplina (Para MinorStage, conta os dias únicos. Para Regulares, conta aulas totais)
+            $classesByDiscipline = $itdModel->getGivenClassesByDiscipline($isMinorStage);
+
+            if ($isMinorStage) {
+                // Total ministrado: dias distintos da matriz do professor
+                $totalGiven = $itdModel->getTotalGivenMinorStage();
+
+                // Total previsto no horário (dias distintos previstos)
+                $totalSchedules = $itdModel->getTotalSchedulesAssigned(true);
+            } else {
+                // Total geral de aulas ministradas somando a matriz regular
+                $totalGiven = array_sum(array_column($classesByDiscipline, 'classes_given'));
+
+                // Total de aulas previstas no horário (slots totais)
+                $totalSchedules = $itdModel->getTotalSchedulesAssigned(false);
+            }
+
+            $link['is_minor_stage'] = $isMinorStage;
+            $link['classes_by_discipline'] = $classesByDiscipline;
+            $link['classes_given'] = $totalGiven;
+            $link['total_schedules'] = $totalSchedules;
+
+            // Faltas do professor
+            $faults = Yii::app()->db->createCommand('
+                SELECT
+                    f.id,
+                    f.justification,
+                    s.day, s.month, s.year
+                FROM instructor_faults f
+                JOIN schedule s ON s.id = f.schedule_fk
+                JOIN instructor_teaching_data itd
+                    ON itd.id = f.instructor_fk
+                WHERE itd.id        = :itd_id
+                  AND s.classroom_fk = :classroom
+                ORDER BY s.month ASC, s.day ASC
+            ')->queryAll(true, [
+                ':itd_id' => $itdId,
+                ':classroom' => $classroomId,
+            ]);
+
+            $link['faults_count'] = count($faults);
+        }
+        unset($link);
+
+        $this->layout = 'reports';
+        $this->render('printYearHistory', [
+            'instructor' => $instructor,
+            'instructorDoc' => $instructorDoc,
+            'teachingHistory' => $teachingHistory,
+            'year' => $year,
+        ]);
     }
 }

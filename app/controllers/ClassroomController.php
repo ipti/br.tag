@@ -12,7 +12,6 @@ Yii::import('application.modules.sedsp.mappers.*');
 Yii::import('application.modules.sedsp.usecases.*');
 Yii::import('application.modules.sedsp.usecases.Enrollment.*');
 
-
 //-----------------------------------------CLASSE VALIDADA ATÉ A SEQUENCIA 35!!------------------------
 class ClassroomController extends Controller
 {
@@ -117,9 +116,8 @@ class ClassroomController extends Controller
         $criteria->params = [':classroomId' => $classroomId];
         $selectedOptions = GradeRules::model()->findAll($criteria);
 
-        // Todas as opções disponíveis (sem filtros)
-
-        $allOptions = GradeRules::model()->findAll();
+        // All available options filtered by session year
+        $allOptions = GradeRules::model()->findAllByAttributes(['school_year' => Yii::app()->user->year]);
 
         // Gerar JSON com categorias separadas
         $response = [
@@ -279,36 +277,37 @@ class ClassroomController extends Controller
         $stage = $modelClassroom->edcenso_stage_vs_modality_fk;
         $putNull = ($type == 4 || $type == 5) || ($stage == 1 || $stage == 2 || $stage == 3 || $stage == 65);
 
-        $modelClassroom->discipline_chemistry = $this->verifyDiscipline($putNull,$discipline[1]);
-        $modelClassroom->discipline_physics = $this->verifyDiscipline($putNull,$discipline[2]);
-        $modelClassroom->discipline_mathematics = $this->verifyDiscipline($putNull,$discipline[3]);
-        $modelClassroom->discipline_biology = $this->verifyDiscipline($putNull,$discipline[4]);
-        $modelClassroom->discipline_science = $this->verifyDiscipline($putNull,$discipline[5]);
-        $modelClassroom->discipline_language_portuguese_literature = $this->verifyDiscipline($putNull,$discipline[6]);
-        $modelClassroom->discipline_foreign_language_english = $this->verifyDiscipline($putNull,$discipline[7]);
-        $modelClassroom->discipline_foreign_language_spanish = $this->verifyDiscipline($putNull,$discipline[8]);
-        $modelClassroom->discipline_foreign_language_other = $this->verifyDiscipline($putNull,$discipline[9]);
-        $modelClassroom->discipline_arts = $this->verifyDiscipline($putNull,$discipline[10]);
-        $modelClassroom->discipline_physical_education = $this->verifyDiscipline($putNull,$discipline[11]);
-        $modelClassroom->discipline_history = $this->verifyDiscipline($putNull,$discipline[12]);
-        $modelClassroom->discipline_geography = $this->verifyDiscipline($putNull,$discipline[13]);
-        $modelClassroom->discipline_philosophy = $this->verifyDiscipline($putNull,$discipline[14]);
-        $modelClassroom->discipline_informatics = $this->verifyDiscipline($putNull,$discipline[16]);
-        $modelClassroom->discipline_professional_disciplines = $this->verifyDiscipline($putNull,$discipline[17]);
-        $modelClassroom->discipline_special_education_and_inclusive_practices = $this->verifyDiscipline($putNull,$discipline[20]);
-        $modelClassroom->discipline_sociocultural_diversity = $this->verifyDiscipline($putNull,$discipline[21]);
-        $modelClassroom->discipline_libras = $this->verifyDiscipline($putNull,$discipline[23]);
-        $modelClassroom->discipline_pedagogical = $this->verifyDiscipline($putNull,$discipline[25]);
-        $modelClassroom->discipline_religious = $this->verifyDiscipline($putNull,$discipline[26]);
-        $modelClassroom->discipline_native_language = $this->verifyDiscipline($putNull,$discipline[27]);
-        $modelClassroom->discipline_social_study = $this->verifyDiscipline($putNull,$discipline[28]);
-        $modelClassroom->discipline_sociology = $this->verifyDiscipline($putNull,$discipline[29]);
-        $modelClassroom->discipline_foreign_language_franch = $this->verifyDiscipline($putNull,$discipline[30]);
-        $modelClassroom->discipline_others = $this->verifyDiscipline($putNull,$discipline[99]);
+        $modelClassroom->discipline_chemistry = $this->verifyDiscipline($putNull, $discipline[1]);
+        $modelClassroom->discipline_physics = $this->verifyDiscipline($putNull, $discipline[2]);
+        $modelClassroom->discipline_mathematics = $this->verifyDiscipline($putNull, $discipline[3]);
+        $modelClassroom->discipline_biology = $this->verifyDiscipline($putNull, $discipline[4]);
+        $modelClassroom->discipline_science = $this->verifyDiscipline($putNull, $discipline[5]);
+        $modelClassroom->discipline_language_portuguese_literature = $this->verifyDiscipline($putNull, $discipline[6]);
+        $modelClassroom->discipline_foreign_language_english = $this->verifyDiscipline($putNull, $discipline[7]);
+        $modelClassroom->discipline_foreign_language_spanish = $this->verifyDiscipline($putNull, $discipline[8]);
+        $modelClassroom->discipline_foreign_language_other = $this->verifyDiscipline($putNull, $discipline[9]);
+        $modelClassroom->discipline_arts = $this->verifyDiscipline($putNull, $discipline[10]);
+        $modelClassroom->discipline_physical_education = $this->verifyDiscipline($putNull, $discipline[11]);
+        $modelClassroom->discipline_history = $this->verifyDiscipline($putNull, $discipline[12]);
+        $modelClassroom->discipline_geography = $this->verifyDiscipline($putNull, $discipline[13]);
+        $modelClassroom->discipline_philosophy = $this->verifyDiscipline($putNull, $discipline[14]);
+        $modelClassroom->discipline_informatics = $this->verifyDiscipline($putNull, $discipline[16]);
+        $modelClassroom->discipline_professional_disciplines = $this->verifyDiscipline($putNull, $discipline[17]);
+        $modelClassroom->discipline_special_education_and_inclusive_practices = $this->verifyDiscipline($putNull, $discipline[20]);
+        $modelClassroom->discipline_sociocultural_diversity = $this->verifyDiscipline($putNull, $discipline[21]);
+        $modelClassroom->discipline_libras = $this->verifyDiscipline($putNull, $discipline[23]);
+        $modelClassroom->discipline_pedagogical = $this->verifyDiscipline($putNull, $discipline[25]);
+        $modelClassroom->discipline_religious = $this->verifyDiscipline($putNull, $discipline[26]);
+        $modelClassroom->discipline_native_language = $this->verifyDiscipline($putNull, $discipline[27]);
+        $modelClassroom->discipline_social_study = $this->verifyDiscipline($putNull, $discipline[28]);
+        $modelClassroom->discipline_sociology = $this->verifyDiscipline($putNull, $discipline[29]);
+        $modelClassroom->discipline_foreign_language_franch = $this->verifyDiscipline($putNull, $discipline[30]);
+        $modelClassroom->discipline_others = $this->verifyDiscipline($putNull, $discipline[99]);
     }
 
-    private function verifyDiscipline($putNull,$discipline){
-        if($putNull){
+    private function verifyDiscipline($putNull, $discipline)
+    {
+        if ($putNull) {
             return null;
         }
         return $discipline ?? 0;
@@ -625,7 +624,7 @@ class ClassroomController extends Controller
         foreach ($stages as $stage) {
             $criteria = new CDbCriteria();
             $criteria->alias = 'gr';
-            $criteria->select = gr.id;
+            $criteria->select = gr . id;
             $criteria->join = 'INNER JOIN grade_rules_vs_edcenso_stage_vs_modality grvesvm ON grvesvm.grade_rules_fk = gr.id ';
             $criteria->join .= 'INNER JOIN classroom_vs_grade_rules cvgr ON cvgr.grade_rules_fk = gr.id';
             $criteria->condition = 'cvgr.classroom_fk = :classroomId and grvesvm.edcenso_stage_vs_modality_fk = :stageId';
@@ -635,7 +634,7 @@ class ClassroomController extends Controller
             $gradeRulesStages[$stage->id] = $gradeRulesQuery == null ? '' : $gradeRulesQuery;
         }
 
-        $gradeRules = GradeRules::model()->findAll();
+        $gradeRules = GradeRules::model()->findAllByAttributes(['school_year' => Yii::app()->user->year]);
 
         $this->render('create', [
             'stages' => $stages,
@@ -753,8 +752,7 @@ class ClassroomController extends Controller
                     $beforeChangeClassroom->week_days_wednesday != $modelClassroom->week_days_wednesday ||
                     $beforeChangeClassroom->week_days_thursday != $modelClassroom->week_days_thursday ||
                     $beforeChangeClassroom->week_days_friday != $modelClassroom->week_days_friday ||
-                    $beforeChangeClassroom->week_days_saturday != $modelClassroom->week_days_saturday) ) {
-
+                    $beforeChangeClassroom->week_days_saturday != $modelClassroom->week_days_saturday)) {
                 $modelClassroom->sedsp_sync = 0;
             }
 
@@ -847,7 +845,7 @@ class ClassroomController extends Controller
         foreach ($stages as $stage) {
             $criteria = new CDbCriteria();
             $criteria->alias = 'gr';
-            $criteria->select ='gr.id';
+            $criteria->select = 'gr.id';
             $criteria->join = 'INNER JOIN grade_rules_vs_edcenso_stage_vs_modality grvesvm ON grvesvm.grade_rules_fk = gr.id ';
             $criteria->join .= 'INNER JOIN classroom_vs_grade_rules cvgr ON cvgr.grade_rules_fk = gr.id';
             $criteria->condition = 'cvgr.classroom_fk = :classroomId and grvesvm.edcenso_stage_vs_modality_fk = :stageId';
@@ -857,7 +855,7 @@ class ClassroomController extends Controller
             $gradeRulesStages[$stage->id] = $gradeRulesQuery == null ? '' : $gradeRulesQuery;
         }
 
-        $gradeRules = GradeRules::model()->findAll();
+        $gradeRules = GradeRules::model()->findAllByAttributes(['school_year' => Yii::app()->user->year]);
 
         $this->render('update', [
             'stages' => $stages,
@@ -895,7 +893,8 @@ class ClassroomController extends Controller
         }
     }
 
-    private function getAllModalitys($classroomId){
+    private function getAllModalitys($classroomId)
+    {
         $criteria = new CDbCriteria();
         $criteria->alias = 'stages';
         $criteria->select = 'stages.*';
@@ -920,7 +919,6 @@ class ClassroomController extends Controller
         $transaction = Yii::app()->db->beginTransaction();
         $ableToDelete = true;
         if ((Yii::app()->features->isEnable(TFeature::FEAT_INTEGRATIONS_SEDSP)) && ($classroom->gov_id !== null)) {
-
             $loginUseCase = new LoginUseCase();
             $loginUseCase->checkSEDToken();
 
@@ -942,7 +940,6 @@ class ClassroomController extends Controller
                 $ableToDelete = false;
                 $erro = $outConsultaTurmaClasse->outErro;
             }
-
         }
         if ($ableToDelete) {
             try {
@@ -971,8 +968,7 @@ class ClassroomController extends Controller
                     $transaction->rollback();
                 }
                 Yii::log("Exception: {$e->getMessage()}", CLogger::LEVEL_ERROR, 'system.controllers.ClassroomController');
-                echo json_encode(['valid' => false, 'message' => "Falha ao excluir a turma"]);
-
+                echo json_encode(['valid' => false, 'message' => 'Falha ao excluir a turma']);
             }
         } else {
             Yii::log("Exception: {$erro}", CLogger::LEVEL_ERROR, 'system.controllers.ClassroomController');

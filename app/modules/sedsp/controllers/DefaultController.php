@@ -5,7 +5,6 @@ Yii::import('application.modules.sedsp.interfaces.*');
 
 class DefaultController extends Controller implements AuthenticateSEDTokenInterface
 {
-
     public function authenticateSedToken()
     {
         $loginUseCase = new LoginUseCase();
@@ -160,7 +159,7 @@ class DefaultController extends Controller implements AuthenticateSEDTokenInterf
                 );
                 if (isset($schoolTestName)) {
                     $msg = 'O Cadastro da Escola ' . $modelSchool->name . " já existe!
-					<a href='" . Yii::app()->createUrl('school/update&id=' . $modelSchool->inep_id) . "' style='color:white;'>
+					<a href='" . Yii::app()->createUrl('school/school/update&id=' . $modelSchool->inep_id) . "' style='color:white;'>
 					Clique aqui para visualizar.</a>";
                     Yii::app()->user->setFlash('error', Yii::t('default', $msg));
                     $this->redirect(['index']);
@@ -171,7 +170,7 @@ class DefaultController extends Controller implements AuthenticateSEDTokenInterf
                 && $modelSchool->save() && $modelSchoolStructure->save()
             ) {
                 $msg = 'O Cadastro da Escola ' . $modelSchool->name . " foi criado com sucesso!
-				<a href='" . Yii::app()->createUrl('school/update&id=' . $modelSchool->inep_id) . "' style='color:white;'>
+				<a href='" . Yii::app()->createUrl('school/school/update&id=' . $modelSchool->inep_id) . "' style='color:white;'>
 				Clique aqui para visualizar.</a>";
                 Yii::app()->user->setFlash('success', Yii::t('default', $msg));
                 $this->redirect(['index']);
@@ -286,9 +285,9 @@ class DefaultController extends Controller implements AuthenticateSEDTokenInterf
 
             $exibirFicha = new UpdateFichaAlunoInTAGUseCase();
             $statusSave = $exibirFicha->exec($inAluno);
-            $urlId =  Yii::app()->request->getQuery('id');
-            $id = filter_var($urlId,FILTER_VALIDATE_INT);
-            if($id !== false){
+            $urlId = Yii::app()->request->getQuery('id');
+            $id = filter_var($urlId, FILTER_VALIDATE_INT);
+            if ($id !== false) {
                 if ($statusSave === -1) {
                     Yii::app()->user->setFlash('error', 'O estudante foi sincronizado com sucesso, no entanto, a matrícula não foi sincronizada.');
                 }
@@ -306,7 +305,7 @@ class DefaultController extends Controller implements AuthenticateSEDTokenInterf
                 } else {
                     Yii::app()->user->setFlash('error', 'erro ' . $statusSave);
                 }
-                $this->redirect(['/student/update', 'id' => $id]);
+                $this->redirect(['/student/student/update', 'id' => $id]);
             }
         } catch (Exception $e) {
             Yii::app()->user->setFlash('error', 'A escola do aluno não está cadastrada no TAG');
@@ -340,15 +339,14 @@ class DefaultController extends Controller implements AuthenticateSEDTokenInterf
             $statusSave = $classroomUseCase->exec($inConsultaTurmaClasse);
 
             $id = Yii::app()->request->getQuery('id');
-            if(filter_var($id,FILTER_VALIDATE_INT) !== false){
+            if (filter_var($id, FILTER_VALIDATE_INT) !== false) {
                 if ($statusSave) {
-                Yii::app()->user->setFlash('success', 'Turma importada com sucesso!');
+                    Yii::app()->user->setFlash('success', 'Turma importada com sucesso!');
                 } else {
                     Yii::app()->user->setFlash('error', 'Não foi possível importar a turma.');
                 }
                 $this->redirect(['/classroom/update', 'id' => $id]);
             }
-
         } catch (Exception $e) {
             Yii::app()->user->setFlash('error', 'Um erro ocorreu. Tente novamente.');
         }

@@ -152,13 +152,18 @@ function initDatatable() {
                     indexActionButtons = [numColumns - 1]; // Default to last column
                 }
 
+                // Safety check: if indexActionButtons targets a non-existent column, default to last
+                if (indexActionButtons && indexActionButtons.length > 0 && indexActionButtons[0] >= numColumns) {
+                    indexActionButtons = [numColumns - 1];
+                }
+
                 if (action.includes("student") && !action.includes("studentimc") && !action.includes("enrollmentonline")) {
                     $table.DataTable({
                         language: getLanguagePtbr(),
                         serverSide: true,
                         responsive: true,
                         ajax: $.fn.dataTable.pipeline({
-                            url: `?r=student/getstudentajax`,
+                            url: `?r=student/student/getstudentajax`,
                             pages: 5,
                             method: "POST",
                             data: function (d) {

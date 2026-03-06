@@ -3,14 +3,14 @@
 /* @var $model CoursePlan */
 
 $this->breadcrumbs = [
-  'Courseplan' => ['index'],
-  'Update',
+    'Courseplan' => ['index'],
+    'Update',
 ];
 
 $this->setPageTitle('TAG - ' . Yii::t('default', 'Atualizar Plano de Aula'));
 $this->menu = [
-  ['label' => 'Create CoursePlan', 'url' => ['index']],
-  ['label' => 'List ClassPlan', 'url' => ['admin']],
+    ['label' => 'Create CoursePlan', 'url' => ['index']],
+    ['label' => 'List ClassPlan', 'url' => ['admin']],
 ];
 
 $title = $model->description

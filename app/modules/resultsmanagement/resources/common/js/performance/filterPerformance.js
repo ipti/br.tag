@@ -1,6 +1,8 @@
-var unitsName = {"g1": "1º Bimestre", "g2": "2º Bimestre", "g3": "3º Bimestre", "g4": "4º Bimestre",
-            "r1": "1ª Recuperação", "r2": "2ª Recuperação", "r3": "3ª Recuperação", "r4": "4ª Recuperação",
-            "rf": "Recuperação Final"};
+var unitsName = {
+    "g1": "1º Bimestre", "g2": "2º Bimestre", "g3": "3º Bimestre", "g4": "4º Bimestre",
+    "r1": "1ª Recuperação", "r2": "2ª Recuperação", "r3": "3ª Recuperação", "r4": "4ª Recuperação",
+    "rf": "Recuperação Final"
+};
 var disciplines = [];
 var $select = {};
 
@@ -9,7 +11,7 @@ var $classroom = $("#classroom");
 var $unit = $("#unit");
 var $discipline = $("#discipline");
 
-function ini(){
+function ini() {
     $chart.hide();
     $unit.html("");
     $select = {};
@@ -18,16 +20,16 @@ function ini(){
 
 function loadClassroomInfos(results) {
     ini();
-    var data = $.parseJSON(results);
-    $.each(data, function(i, v) {
+    let data = $.parseJSON(results);
+    $.each(data, function (i, v) {
         disciplines[v.did] = v.discipline;
         if (!($select[v.unit] instanceof Array)) $select[v.unit] = [];
         $select[v.unit].push(v.did);
         $.unique($select[v.unit]);
     });
 
-    var i = 0;
-    $.each($select, function(u) {
+    let i = 0;
+    $.each($select, function (u) {
         $unit.append("<option value='" + u + "'>" + unitsName[u] + "</option>");
         i++;
     });
@@ -40,34 +42,34 @@ function loadClassroomInfos(results) {
 
     $unit.attr("data-placeholder", "Selecione um bimestre").val("").change().select2();
 }
-$(document).ready(function() {
+$(document).ready(function () {
     $('.filter-select').select2();
 
-    $unit.change(function() {
+    $unit.change(function () {
         $chart.hide();
         $discipline.html("");
-        var unit = $(this).val();
+        let unit = $(this).val();
         if (unit != null && unit != "") {
-            var disc =[];
-            if(unit == "all"){
-                $.each($select, function(m, d) {
+            let disc = [];
+            if (unit == "all") {
+                $.each($select, function (m, d) {
                     disc = disc.concat(d);
                 });
                 $.unique(disc);
-            }else if(unit == "allG"){
+            } else if (unit == "allG") {
                 disc = disc.concat($select["g1"]);
                 disc = disc.concat($select["g2"]);
                 disc = disc.concat($select["g3"]);
                 disc = disc.concat($select["g4"]);
                 $.unique(disc);
-            }else if(unit == "allR"){
+            } else if (unit == "allR") {
                 disc = disc.concat($select["r1"]);
                 disc = disc.concat($select["r2"]);
                 disc = disc.concat($select["r3"]);
                 disc = disc.concat($select["r4"]);
                 disc = disc.concat($select["rf"]);
                 $.unique(disc);
-            }else {
+            } else {
                 disc = $select[unit];
             }
             $.each(disc, function (j, d) {
@@ -80,22 +82,22 @@ $(document).ready(function() {
         }
     });
 
-    $('#discipline').change(function() {
+    $('#discipline').change(function () {
         $chart.hide();
-        var $cid = $classroom.val();
-        var $bid = $unit.val();
-        var $did = $discipline.val();
+        let $cid = $classroom.val();
+        let $bid = $unit.val();
+        let $did = $discipline.val();
         if ($did != null && $did != "") {
-            if($bid == "allG")  $bid = "'g1', 'g2', 'g3', 'g4'";
-            else if($bid == "allR")  $bid = "'r1', 'r2', 'r3', 'r4', 'rf'";
-            else if($bid == "all")  $bid = "'g1', 'g2', 'g3', 'g4','r1', 'r2', 'r3', 'r4', 'rf'";
-            else $bid = "'"+$bid+"'";
-            configChart(chartDataUrl,$sid,$cid,$bid,$did);
+            if ($bid == "allG") $bid = "'g1', 'g2', 'g3', 'g4'";
+            else if ($bid == "allR") $bid = "'r1', 'r2', 'r3', 'r4', 'rf'";
+            else if ($bid == "all") $bid = "'g1', 'g2', 'g3', 'g4','r1', 'r2', 'r3', 'r4', 'rf'";
+            else $bid = "'" + $bid + "'";
+            configChart(chartDataUrl, $sid, $cid, $bid, $did);
         }
     });
 });
 
-$(window).load(function() {
+$(window).load(function () {
     $classroom.attr("data-placeholder", "Selecione uma turma").val("").change().select2();
     $unit.attr("data-placeholder", "Selecione um bimestre").val("").change().select2();
     $discipline.attr("data-placeholder", "Selecione uma disciplina").val("").change().select2();

@@ -41,8 +41,8 @@ function getFoodInventory() {
 }
 
 $(document).on("change", "#foodStockSelect, #foodStatusFilter", function () {
-    var foodId = $("#foodStockSelect").val();
-    var statusValue = $("#foodStatusFilter").val();
+    let foodId = $("#foodStockSelect").val();
+    let statusValue = $("#foodStatusFilter").val();
 
     let id = foodId === "total" ? undefined : foodId;
     let status = statusValue === "total" ? undefined : statusValue;

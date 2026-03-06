@@ -15,7 +15,7 @@
         <tbody>
 
             <?php foreach ($frequency['students'] as $f):
-            ?>
+                ?>
                     <tr>
                         <td>
                             <label class="t-badge-info t-margin-none--left <?= $f['status'] == '1' || $f['status'] == '' ? 'hide' : ''; ?>">
@@ -27,11 +27,11 @@
                             <?php foreach ($f['schedule'] as $s):
                                 $isDisabled = ((!$s['available'] || !$s['valid']) ? 'disabled' : '');
                                 $urlLink = yii::app()->createUrl('classdiary/default/StudentClassDiary', ['studentId' => $f['studentId'], 'stageFk' => $stageFk, 'classroomId' => $classroomFk, 'schedule' => $s['schedule'], 'date' => $date, 'disciplineFk' => $disciplineFk, 'justification' => $s['justification']]);
-                            ?>
+                                ?>
                                 <a class="<?= 'js-justification ' . $isDisabled ?>" href='<?= $urlLink ?>'><span class="t-icon-annotation t-icon"
                                         style="margin:0px 5px 0px 10px;"></span></a><?php echo  $frequency['isMinorEducation'] ? '' : $s['schedule'] . '°' ?>
                                 <input class='js-frequency-checkbox' id="<?php echo $f['studentId'] ?>" type='checkbox' <?= $isDisabled ?>
-                                    <?php echo ($s['fault'] ? 'checked' : '') ?> data-studentId='<?php echo $f['studentId'] ?>'
+                                    <?php echo($s['fault'] ? 'checked' : '') ?> data-studentId='<?php echo $f['studentId'] ?>'
                                     data-classroom_id='<?php echo $classroomFk ?>' data-stage_fk='<?php echo $stageFk ?>'
                                     data-schedule='<?php echo $s['schedule'] ?>' />
                             <?php endforeach ?>

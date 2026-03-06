@@ -3,12 +3,12 @@
 /* @var $model InventoryItem */
 
 $this->setPageTitle('TAG - Editar Item');
-$this->breadcrumbs=array(
-	'Almoxarifado'=>array('movement/index'),
-	'Itens'=>array('index'),
-	$model->name=>array('view','id'=>$model->id),
-	'Editar',
-);
+$this->breadcrumbs = [
+    'Almoxarifado' => ['movement/index'],
+    'Itens' => ['index'],
+    $model->name => ['view', 'id' => $model->id],
+    'Editar',
+];
 ?>
 
 <div id="mainPage" class="main">
@@ -19,5 +19,5 @@ $this->breadcrumbs=array(
         </div>
     </div>
 
-    <?php $this->renderPartial('_form', array('model'=>$model)); ?>
+    <?php $this->renderPartial('_form', ['model' => $model]); ?>
 </div>

@@ -12,7 +12,6 @@ class TagUtils extends CApplicationComponent
         return (bool) Yii::app()->getAuthManager()->checkAccess(TRole::SUPERUSER->value, Yii::app()->user->loginInfos->id);
     }
 
-
     public static function isAdmin()
     {
         return (bool) Yii::app()->getAuthManager()->checkAccess(TRole::ADMIN->value, Yii::app()->user->loginInfos->id);

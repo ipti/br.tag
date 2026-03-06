@@ -2,7 +2,6 @@
 
 class RequestController extends Controller
 {
- 
     public function filters()
     {
         return [
@@ -43,7 +42,7 @@ class RequestController extends Controller
 
         if (isset($_POST['InventoryRequest'])) {
             $model->attributes = $_POST['InventoryRequest'];
-            
+
             if (!$isAdmin) {
                 // Prevent tampering
                 $model->school_inep_fk = Yii::app()->user->school;
@@ -85,13 +84,13 @@ class RequestController extends Controller
     public function actionIndex()
     {
         $criteria = new CDbCriteria();
-        
+
         // Filter by selected school from the dropdown (stored in session)
         $selectedSchool = Yii::app()->user->school;
         if ($selectedSchool) {
             $criteria->compare('school_inep_fk', $selectedSchool);
         }
-        
+
         $criteria->order = 'requested_at DESC';
 
         $dataProvider = new CActiveDataProvider('InventoryRequest', [
@@ -116,7 +115,7 @@ class RequestController extends Controller
 
         if (isset($_POST['InventoryRequest'])) {
             $model->attributes = $_POST['InventoryRequest'];
-            
+
             // Re-enforce school/user if not admin to prevent tampering
             if (!$isAdmin) {
                 $model->school_inep_fk = Yii::app()->user->school;
@@ -165,7 +164,7 @@ class RequestController extends Controller
             try {
                 $model->status = InventoryRequest::STATUS_APPROVED;
                 $model->observation = $_POST['observation'] ?? '';
-                
+
                 if ($model->save()) {
                     // Create automatic movement (Entry for the school)
                     $movement = new InventoryMovement();
@@ -220,7 +219,7 @@ class RequestController extends Controller
         if ($model->status == InventoryRequest::STATUS_PENDING) {
             $model->status = InventoryRequest::STATUS_REJECTED;
             $model->observation = $_POST['observation'] ?? '';
-            
+
             if ($model->save()) {
                 Yii::app()->user->setFlash('error', 'Solicitação rejeitada.');
             }

@@ -28,7 +28,6 @@ class StudentEnrollmentHistory extends TagModel
 
     public function behaviors()
     {
-
         return [
             'CTimestampBehavior' => [
                 'class' => 'zii.behaviors.CTimestampBehavior',
@@ -58,7 +57,6 @@ class StudentEnrollmentHistory extends TagModel
      */
     public function relations()
     {
-
         return [
             'studentEnrollmentFk' => [self::BELONGS_TO, 'StudentEnrollment', 'student_enrollment_fk'],
         ];
@@ -95,7 +93,6 @@ class StudentEnrollmentHistory extends TagModel
      */
     public function search()
     {
-
         $criteria = new CDbCriteria();
 
         $criteria->compare('id', $this->id);

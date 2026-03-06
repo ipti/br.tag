@@ -218,10 +218,10 @@ class FormsRepository
         $gradesResult = GradeResults::model()->findAllByAttributes(['enrollment_fk' => $enrollmentId]); // medias do aluno na turma
         $classFaults = ClassFaults::model()->findAllByAttributes(['student_fk' => $enrollment->studentFk->id]); // faltas do aluno na turma
         $unities = $this->getUnities($enrollment->classroomFk->id, $enrollment->classroomFk->edcenso_stage_vs_modality_fk); // unidades da turma
-        $curricularMatrix = CurricularMatrix::model()->with("disciplineFk")->findAllByAttributes(["stage_fk" => $enrollment->classroomFk->edcenso_stage_vs_modality_fk, "school_year" => $enrollment->classroomFk->school_year]); // matriz da turma
+        $curricularMatrix = CurricularMatrix::model()->with('disciplineFk')->findAllByAttributes(['stage_fk' => $enrollment->classroomFk->edcenso_stage_vs_modality_fk, 'school_year' => $enrollment->classroomFk->school_year]); // matriz da turma
         $isMinorEducation = TagUtils::isStageMinorEducation($enrollment->classroomFk->edcensoStageVsModalityFk->edcenso_associated_stage_id);
         $gradeRules = GradeRules::model()->findByPK($unities[0]->grade_rules_fk);
-        $partialRecoveries = GradePartialRecovery::model()->findAllByAttributes(["grade_rules_fk" => $gradeRules->id]);
+        $partialRecoveries = GradePartialRecovery::model()->findAllByAttributes(['grade_rules_fk' => $gradeRules->id]);
 
         // Aqui eu separo as disciplinas da BNCC das disciplinas diversas para depois montar o cabeçalho
         foreach ($curricularMatrix as $matrix) {
@@ -268,21 +268,20 @@ class FormsRepository
             foreach ($gradesResult as $gradeResult) {
                 // se existe notas para essa disciplina
                 if ($gradeResult->disciplineFk->id == $discipline) {
-
                     foreach ($partialRecoveries as $partialRecovery) {
-                        if($partialRecovery->gradeCalculationFk->name == "Subistituir Menor Nota") {
+                        if ($partialRecovery->gradeCalculationFk->name == 'Subistituir Menor Nota') {
                             $gradeResult = $this->replaceGrade($gradeResult, $partialRecovery, $gradeRules, $discipline);
                         }
                     }
 
                     array_push($result, [
-                        "discipline_id" => $gradeResult->disciplineFk->id,
-                        "final_media" => $gradeResult->final_media,
-                        "grade_result" => $gradeResult,
-                        "partial_recoveries" => $partialRecoveries,
-                        "total_number_of_classes" => $totalContentsPerDiscipline,
-                        "total_faults" => $totalFaultsPerDicipline,
-                        "frequency_percentage" => $frequency
+                        'discipline_id' => $gradeResult->disciplineFk->id,
+                        'final_media' => $gradeResult->final_media,
+                        'grade_result' => $gradeResult,
+                        'partial_recoveries' => $partialRecoveries,
+                        'total_number_of_classes' => $totalContentsPerDiscipline,
+                        'total_faults' => $totalFaultsPerDicipline,
+                        'frequency_percentage' => $frequency
                     ]);
                     $mediaExists = true;
                     break; // quebro o laço para diminuir a complexidade do algoritmo para O(log n)2
@@ -291,13 +290,13 @@ class FormsRepository
 
             if (!$mediaExists) { // o aluno não tem notas para a disciplina
                 array_push($result, [
-                    "discipline_id" => $discipline,
-                    "final_media" => null,
-                    "grade_result" => null,
-                    "partial_recoveries" => $partialRecoveries,
-                    "total_number_of_classes" => $totalContentsPerDiscipline,
-                    "total_faults" => $totalFaultsPerDicipline,
-                    "frequency_percentage" => $frequency
+                    'discipline_id' => $discipline,
+                    'final_media' => null,
+                    'grade_result' => null,
+                    'partial_recoveries' => $partialRecoveries,
+                    'total_number_of_classes' => $totalContentsPerDiscipline,
+                    'total_faults' => $totalFaultsPerDicipline,
+                    'frequency_percentage' => $frequency
                 ]);
             }
         }
@@ -321,19 +320,19 @@ class FormsRepository
             $disciplines[$d->id] = $d;
         }
 
-        $response = array(
+        $response = [
             'enrollment' => $enrollment,
             'result' => $report,
             'baseDisciplines' => array_unique($baseDisciplines), //função usada para evitar repetição
             'diversifiedDisciplines' => array_unique($diversifiedDisciplines), //função usada para evitar repetição
             'unities' => $unities,
-            "school_days" => $schoolDaysPerUnity,
-            "faults" => $faultsPerUnity,
-            "workload" => $workloadPerUnity,
-            "isMinorEducation" => $isMinorEducation,
-            "disciplines" => $disciplines,
-            "isConceptGrade" => $gradeRules->rule_type === "C"
-        );
+            'school_days' => $schoolDaysPerUnity,
+            'faults' => $faultsPerUnity,
+            'workload' => $workloadPerUnity,
+            'isMinorEducation' => $isMinorEducation,
+            'disciplines' => $disciplines,
+            'isConceptGrade' => $gradeRules->rule_type === 'C'
+        ];
 
         return $response;
     }
@@ -341,7 +340,7 @@ class FormsRepository
     private function replaceGrade($gradeResult, $partialRecovery, $gradeRules, $discipline)
     {
         $unities = GradeUnity::model()->findAllByAttributes([
-            "grade_rules_fk" => $gradeRules->id
+            'grade_rules_fk' => $gradeRules->id
         ]);
 
         if (empty($unities)) {
@@ -356,12 +355,12 @@ class FormsRepository
         $unityToReplace = null;
 
         for ($i = 1; $i <= $unityCount; $i++) {
+            if ($unities[$i - 1]->parcial_recovery_fk == $partialRecovery->id) {
+                if (!isset($gradeResult["grade_{$i}"])) {
+                    continue;
+                }
 
-            if($unities[$i-1]->parcial_recovery_fk == $partialRecovery->id) {
-
-                if (!isset($gradeResult["grade_{$i}"])) continue;
-
-                 if($i == 1) {
+                if ($i == 1) {
                     $smallestGrade = $currentGrade;
                     $unityIndexToReplace = $i;
                     $unityToReplace = $currentUnity;
@@ -371,9 +370,8 @@ class FormsRepository
                 $currentUnity = $unities[$i - 1];
 
                 // PESO → menor nota, e se empatar menor peso
-                if ($gradeRules->gradeCalculationFk->name === "Peso") {
-
-                    if ( $smallestGrade == null ||
+                if ($gradeRules->gradeCalculationFk->name === 'Peso') {
+                    if ($smallestGrade == null ||
                         ($currentGrade < $smallestGrade) ||
                         ($currentGrade == $smallestGrade && $currentUnity->weight > $unityToReplace->weight)
                     ) {
@@ -381,7 +379,6 @@ class FormsRepository
                         $unityIndexToReplace = $i;
                         $unityToReplace = $currentUnity;
                     }
-
                 } else {
                     // Cálculo simples → menor nota apenas
                     if ($currentGrade < $smallestGrade) {
@@ -391,11 +388,10 @@ class FormsRepository
                     }
                 }
             }
-
         }
 
         // Nota da recuperação
-        $recoveryNote = $gradeResult["rec_partial_" . $partialRecovery->order_partial_recovery];
+        $recoveryNote = $gradeResult['rec_partial_' . $partialRecovery->order_partial_recovery];
 
         if ($gradeRules->replace_only_if_greater ?? true) {
             if ($recoveryNote > $smallestGrade) {
@@ -426,14 +422,14 @@ class FormsRepository
         $finalRecoveryUnity = null;
 
         foreach ($unities as $unity) {
-           if($unity->type != 'RF') {
-            $unitiesSorted[] = $unity;
-           } else {
-            $finalRecoveryUnity = $unity;
-           }
+            if ($unity->type != 'RF') {
+                $unitiesSorted[] = $unity;
+            } else {
+                $finalRecoveryUnity = $unity;
+            }
         }
 
-        if($finalRecoveryUnity != null) {
+        if ($finalRecoveryUnity != null) {
             $unitiesSorted[] = $finalRecoveryUnity;
         }
 
@@ -627,17 +623,18 @@ class FormsRepository
         $response = ['enrollment' => $enrollment];
         return $response;
     }
+
     public function getStudnetIMC($classroomid)
     {
-        $response = array();
+        $response = [];
 
         $classroom = Classroom::model()->findByPK($classroomid);
 
-        $response["classroom"] = $classroom;
+        $response['classroom'] = $classroom;
 
         $enrollments = $classroom->activeStudentEnrollments;
 
-        $response["students"] = array();
+        $response['students'] = [];
 
         $overweight = 0;
         $obesity = 0;
@@ -647,10 +644,9 @@ class FormsRepository
         $severeMalnutrition = 0;
 
         foreach ($enrollments as $enrollment) {
+            $student = [];
 
-            $student = array();
-
-            $student["studentEnrollment"] = $enrollment;
+            $student['studentEnrollment'] = $enrollment;
 
             $criteria = new CDbCriteria();
             $criteria->condition = 'student_fk = :studentfk';
@@ -661,35 +657,31 @@ class FormsRepository
             Yii::import('application.modules.studentimc.models.StudentImcClassification');
 
             $criteria->order = 'created_at ASC';
-            $student["studentIMC"] = StudentIMC::model()->findAll($criteria);
+            $student['studentIMC'] = StudentIMC::model()->findAll($criteria);
 
-            if (!empty($student["studentIMC"])) {
-                $lastIMC = end($student["studentIMC"]);
+            if (!empty($student['studentIMC'])) {
+                $lastIMC = end($student['studentIMC']);
 
                 if ($lastIMC->student_imc_classification_fk == 1) {
                     $severeMalnutrition++;
-                } else if ($lastIMC->student_imc_classification_fk == 2) {
+                } elseif ($lastIMC->student_imc_classification_fk == 2) {
                     $moderateMalnutrition++;
-                } else if ($lastIMC->student_imc_classification_fk == 3) {
+                } elseif ($lastIMC->student_imc_classification_fk == 3) {
                     $malnutrition++;
-                } else if ($lastIMC->student_imc_classification_fk == 4) {
+                } elseif ($lastIMC->student_imc_classification_fk == 4) {
                     $normalWeight++;
-                } else if ($lastIMC->student_imc_classification_fk == 5) {
+                } elseif ($lastIMC->student_imc_classification_fk == 5) {
                     $overweight++;
-                } else if ($lastIMC->student_imc_classification_fk == 6) {
+                } elseif ($lastIMC->student_imc_classification_fk == 6) {
                     $obesity++;
                 }
-
             }
 
+            $studentIdentification = StudentIdentification::model()->findByPK($enrollment->student_fk);
+            $student['studentIdentification'] = $studentIdentification;
 
-            $studentIdentification = StudentIdentification::model()->findByPK($enrollment->student_fk); //
-            $student["studentIdentification"] = $studentIdentification;
-
-            $studentDisorder = StudentDisorder::model()->findByAttributes(["student_fk" => $enrollment->student_fk]);
-            $student["studentDisorder"] = $studentDisorder;
-
-
+            $studentDisorder = StudentDisorder::model()->findByAttributes(['student_fk' => $enrollment->student_fk]);
+            $student['studentDisorder'] = $studentDisorder;
 
             if (!empty($studentIdentification->birthday)) {
                 $birthDate = DateTime::createFromFormat('d/m/Y', $studentIdentification->birthday)
@@ -698,54 +690,45 @@ class FormsRepository
                 if ($birthDate) {
                     $today = new DateTime();
                     $age = $today->diff($birthDate)->y;
-                    $student["age"] = $age;
+                    $student['age'] = $age;
                 } else {
-                    $student["age"] = null;
+                    $student['age'] = null;
                 }
             } else {
-                $student["age"] = null;
+                $student['age'] = null;
             }
 
+            $student['variationRate'] = null;
 
-            $student["variationRate"] = null;
-
-            $highest = StudentIMC::model()->find(array(
+            $highest = StudentIMC::model()->find([
                 'condition' => 'student_fk = :student_fk',
-                'params' => array(':student_fk' => $studentIdentification->id),
+                'params' => [':student_fk' => $studentIdentification->id],
                 'order' => 'imc DESC',
                 'limit' => 1,
-            ));
-            $lowest = StudentIMC::model()->find(array(
+            ]);
+            $lowest = StudentIMC::model()->find([
                 'condition' => 'student_fk = :student_fk',
-                'params' => array(':student_fk' => $studentIdentification->id),
+                'params' => [':student_fk' => $studentIdentification->id],
                 'order' => 'imc ASC',
                 'limit' => 1,
-            ));
+            ]);
             if ($lowest != null && $highest != null && $lowest->IMC != 0) {
-
-                $student["variationRate"] = number_format((($highest->IMC - $lowest->IMC) / $lowest->IMC) * 100, 2);
+                $student['variationRate'] = number_format((($highest->IMC - $lowest->IMC) / $lowest->IMC) * 100, 2);
             }
 
-            $response["students"][] = $student;
+            $response['students'][] = $student;
         }
 
-        $response["statistics"] = array(
-            "overweight" => $overweight,
-            "obesity" => $obesity,
-            "normalWeight" => $normalWeight,
-            "malnutrition" => $malnutrition,
-            "moderateMalnutrition" => $moderateMalnutrition,
-            "severeMalnutrition" => $severeMalnutrition
-        );
+        $response['statistics'] = [
+            'overweight' => $overweight,
+            'obesity' => $obesity,
+            'normalWeight' => $normalWeight,
+            'malnutrition' => $malnutrition,
+            'moderateMalnutrition' => $moderateMalnutrition,
+            'severeMalnutrition' => $severeMalnutrition
+        ];
 
-
-
-        $response["school"] = $classroom->schoolInepFk;
-
-
-
-
-
+        $response['school'] = $classroom->schoolInepFk;
 
         return $response;
     }
@@ -789,7 +772,7 @@ class FormsRepository
             'order' => 'created_at ASC',
         ]);
 
-        $student["imcs"] = [];
+        $student['imcs'] = [];
         foreach ($imcRecords as $imc) {
             $history = StudentDisorderHistory::model()->findByAttributes([
                 'student_imc_fk' => $imc->id
@@ -797,7 +780,7 @@ class FormsRepository
 
             $classification = StudentImcClassification::model()->findByPk($imc->student_imc_classification_fk)->classification;
 
-            $student["imcs"][] = [
+            $student['imcs'][] = [
                 'imc' => $imc,
                 'history' => $history,
                 'classification' => $classification,
@@ -805,10 +788,10 @@ class FormsRepository
         }
 
         // 🔹 Dados complementares
-        $student["studentIdentification"] = $studentIdentification;
-        $student["studentEnrollment"] = $lastEnrollment;
-        $student["age"] = $this->calculateAge($studentIdentification->birthday);
-        $student["variationRate"] = $this->calculateVariationRate($studentId);
+        $student['studentIdentification'] = $studentIdentification;
+        $student['studentEnrollment'] = $lastEnrollment;
+        $student['age'] = $this->calculateAge($studentIdentification->birthday);
+        $student['variationRate'] = $this->calculateVariationRate($studentId);
 
         $classroom = $lastEnrollment ? $lastEnrollment->classroomFk : null;
         // 🔹 Monta resposta final
@@ -826,14 +809,16 @@ class FormsRepository
      */
     private function calculateAge($birthday)
     {
-        if (empty($birthday))
+        if (empty($birthday)) {
             return null;
+        }
 
         $birthDate = DateTime::createFromFormat('d/m/Y', $birthday)
             ?: DateTime::createFromFormat('Y-m-d', $birthday);
 
-        if (!$birthDate)
+        if (!$birthDate) {
             return null;
+        }
 
         return (new DateTime())->diff($birthDate)->y;
     }
@@ -857,8 +842,9 @@ class FormsRepository
             'limit' => 1,
         ]);
 
-        if (!$lowest || !$highest || $lowest->IMC == 0)
+        if (!$lowest || !$highest || $lowest->IMC == 0) {
             return null;
+        }
 
         return number_format((($highest->IMC - $lowest->IMC) / $lowest->IMC) * 100, 2);
     }
@@ -1172,10 +1158,10 @@ class FormsRepository
 
                 foreach ($result as $r) {
                     if ($r['discipline_id'] == $d['discipline_id'] && $r['student_id'] == $s['student_fk']) {
-                      $finalMedia = max($r['final_media'], $r['rec_final'] ?? 0);
+                        $finalMedia = max($r['final_media'], $r['rec_final'] ?? 0);
                         if ($r['grade_concept_1'] != null && $r['grade_concept_1'] != '') {
                             $finalconcept = GradeConcept::model()->findByPk($r['final_concept']);
-                            $finalMedia = $finalconcept ?  $finalconcept->name : $this->checkConceptGradeRange($finalMedia, $concepts);
+                            $finalMedia = $finalconcept ? $finalconcept->name : $this->checkConceptGradeRange($finalMedia, $concepts);
                         }
                         $r['situation'] = mb_strtoupper($r['situation']);
                         if ($s->getCurrentStatus() == 'DEIXOU DE FREQUENTAR') {

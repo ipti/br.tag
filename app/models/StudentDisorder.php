@@ -74,13 +74,13 @@ class StudentDisorder extends TagModel
     {
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
-        return array(
-            array('student_fk', 'required'),
-            array('student_fk, tdah, depressao, tab, toc, tag, tod, tcne, disorders_impact_learning, dyscalculia, dysgraphia, dyslalia, dyslexia, tpac, iron_deficiency_anemia, hypovitaminosis_a, rickets, scurvy, iodine_deficiency, protein_energy_malnutrition, overweight, obesity, dyslipidemia, hyperglycemia_prediabetes, type2_diabetes_mellitus, anorexia_nervosa, bulimia_nervosa, binge_eating_disorder, lactose_intolerance, celiac_disease, food_allergies, asthma, chronic_bronchitis, allergic_rhinitis, chronic_sinusitis, diabetes_mellitus, hypothyroidism, hyperthyroidism, dyslipidemia_metabolic, arterial_hypertension, congenital_heart_disease, chronic_gastritis, gastroesophageal_reflux_disease, epilepsy', 'numerical', 'integerOnly' => true),
-            array('others', 'length', 'max' => 200),
-            array('created_at, updated_at', 'safe'),
-            array('id, student_fk, tdah, depressao, tab, toc, tag, tod, tcne, others, created_at, updated_at, disorders_impact_learning, dyscalculia, dysgraphia, dyslalia, dyslexia, tpac, iron_deficiency_anemia, hypovitaminosis_a, rickets, scurvy, iodine_deficiency, protein_energy_malnutrition, overweight, obesity, dyslipidemia, hyperglycemia_prediabetes, type2_diabetes_mellitus, anorexia_nervosa, bulimia_nervosa, binge_eating_disorder, lactose_intolerance, celiac_disease, food_allergies, asthma, chronic_bronchitis, allergic_rhinitis, chronic_sinusitis, diabetes_mellitus, hypothyroidism, hyperthyroidism, dyslipidemia_metabolic, arterial_hypertension, congenital_heart_disease, chronic_gastritis, gastroesophageal_reflux_disease, epilepsy', 'safe', 'on' => 'search'),
-        );
+        return [
+            ['student_fk', 'required'],
+            ['student_fk, tdah, depressao, tab, toc, tag, tod, tcne, disorders_impact_learning, dyscalculia, dysgraphia, dyslalia, dyslexia, tpac, iron_deficiency_anemia, hypovitaminosis_a, rickets, scurvy, iodine_deficiency, protein_energy_malnutrition, overweight, obesity, dyslipidemia, hyperglycemia_prediabetes, type2_diabetes_mellitus, anorexia_nervosa, bulimia_nervosa, binge_eating_disorder, lactose_intolerance, celiac_disease, food_allergies, asthma, chronic_bronchitis, allergic_rhinitis, chronic_sinusitis, diabetes_mellitus, hypothyroidism, hyperthyroidism, dyslipidemia_metabolic, arterial_hypertension, congenital_heart_disease, chronic_gastritis, gastroesophageal_reflux_disease, epilepsy', 'numerical', 'integerOnly' => true],
+            ['others', 'length', 'max' => 200],
+            ['created_at, updated_at', 'safe'],
+            ['id, student_fk, tdah, depressao, tab, toc, tag, tod, tcne, others, created_at, updated_at, disorders_impact_learning, dyscalculia, dysgraphia, dyslalia, dyslexia, tpac, iron_deficiency_anemia, hypovitaminosis_a, rickets, scurvy, iodine_deficiency, protein_energy_malnutrition, overweight, obesity, dyslipidemia, hyperglycemia_prediabetes, type2_diabetes_mellitus, anorexia_nervosa, bulimia_nervosa, binge_eating_disorder, lactose_intolerance, celiac_disease, food_allergies, asthma, chronic_bronchitis, allergic_rhinitis, chronic_sinusitis, diabetes_mellitus, hypothyroidism, hyperthyroidism, dyslipidemia_metabolic, arterial_hypertension, congenital_heart_disease, chronic_gastritis, gastroesophageal_reflux_disease, epilepsy', 'safe', 'on' => 'search'],
+        ];
     }
 
     /**
@@ -90,9 +90,9 @@ class StudentDisorder extends TagModel
     {
         // NOTE: you may need to adjust the relation name and the related
         // class name for the relations automatically generated below.
-        return array(
-            'studentFk' => array(self::BELONGS_TO, 'StudentIdentification', 'student_fk'),
-        );
+        return [
+            'studentFk' => [self::BELONGS_TO, 'StudentIdentification', 'student_fk'],
+        ];
     }
 
     /**
@@ -100,7 +100,7 @@ class StudentDisorder extends TagModel
      */
     public function attributeLabels()
     {
-        return array(
+        return [
             'id' => 'ID',
             'student_fk' => 'Student Fk',
             'tdah' => 'Tdah',
@@ -149,7 +149,7 @@ class StudentDisorder extends TagModel
             'chronic_gastritis' => 'Gastrite crônica',
             'gastroesophageal_reflux_disease' => 'Refluxo gastroesofágico',
             'epilepsy' => 'Epilepsia',
-        );
+        ];
     }
 
     /**
@@ -166,7 +166,7 @@ class StudentDisorder extends TagModel
      */
     public function search()
     {
-        $criteria = new CDbCriteria;
+        $criteria = new CDbCriteria();
 
         $criteria->compare('id', $this->id);
         $criteria->compare('student_fk', $this->student_fk);
@@ -217,9 +217,9 @@ class StudentDisorder extends TagModel
         $criteria->compare('gastroesophageal_reflux_disease', $this->gastroesophageal_reflux_disease);
         $criteria->compare('epilepsy', $this->epilepsy);
 
-        return new CActiveDataProvider($this, array(
+        return new CActiveDataProvider($this, [
             'criteria' => $criteria,
-        ));
+        ]);
     }
 
     /**

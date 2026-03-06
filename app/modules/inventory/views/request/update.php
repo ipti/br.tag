@@ -3,11 +3,11 @@
 /* @var $model InventoryRequest */
 
 $this->setPageTitle('TAG - Editar Solicitação');
-$this->breadcrumbs=array(
-	'Almoxarifado' => array('movement/index'),
-	'Solicitações' => array('index'),
-	'Editar Solicitação',
-);
+$this->breadcrumbs = [
+    'Almoxarifado' => ['movement/index'],
+    'Solicitações' => ['index'],
+    'Editar Solicitação',
+];
 ?>
 
 <div id="mainPage" class="main">
@@ -20,7 +20,7 @@ $this->breadcrumbs=array(
 
     <div class="row">
         <div class="column is-full">
-            <?php $this->renderPartial('_form', array('model'=>$model)); ?>
+            <?php $this->renderPartial('_form', ['model' => $model]); ?>
         </div>
     </div>
 </div>

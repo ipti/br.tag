@@ -215,7 +215,7 @@ class StudentDocumentsAndAddressValidation extends Register
 
                 $idade = $anoAtual - $anoNiver;
 
-                if (($mesAtual < $mesNiver ) || ($mesAtual == $mesNiver && $diaAtual < $diaNiver)) {
+                if (($mesAtual < $mesNiver) || ($mesAtual == $mesNiver && $diaAtual < $diaNiver)) {
                     $idade--;
                 }
                 if ($idade <= 10) {

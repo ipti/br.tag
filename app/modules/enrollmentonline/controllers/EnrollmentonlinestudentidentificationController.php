@@ -19,10 +19,10 @@ class EnrollmentonlinestudentidentificationController extends Controller
      */
     public function filters()
     {
-        return array(
+        return [
             'accessControl', // perform access control for CRUD operations
             'postOnly + delete', // we only allow deletion via POST request
-        );
+        ];
     }
 
     /**
@@ -58,8 +58,7 @@ class EnrollmentonlinestudentidentificationController extends Controller
     public function init()
     {
         if (!Yii::app()->user->isGuest) {
-
-            $authTimeout = Yii::app()->user->getState("authTimeout", SESSION_MAX_LIFETIME);
+            $authTimeout = Yii::app()->user->getState('authTimeout', SESSION_MAX_LIFETIME);
             Yii::app()->user->authTimeout = $authTimeout;
 
             Yii::app()->sentry->setUserContext([
@@ -106,7 +105,6 @@ class EnrollmentonlinestudentidentificationController extends Controller
         return false;
     }
 
-
     /**
      * Creates a new model.
      * If creation is successful, the browser will be redirected to the 'view' page.
@@ -146,18 +144,18 @@ class EnrollmentonlinestudentidentificationController extends Controller
             'studentList' => $studentList,
         ]);
     }
+
     public function actionConfirmEnrollment()
     {
-
         $id = Yii::app()->request->getPost('enrollmentId');
         $model = $this->loadModel($id);
         $model->classroom_fk = Yii::app()->request->getPost('classroom_fk');
         $repository = new EnrollmentonlinestudentidentificationRepository($model);
         echo $repository->confirmEnrollment();
     }
+
     public function actionRejectEnrollment()
     {
-
         $id = Yii::app()->request->getPost('enrollmentId');
         $model = $this->loadModel($id);
         $repository = new EnrollmentonlinestudentidentificationRepository($model);
@@ -222,7 +220,7 @@ class EnrollmentonlinestudentidentificationController extends Controller
         ]);
     }
 
-       private function findAvailableClassroom($stageModality)
+    private function findAvailableClassroom($stageModality)
     {
         $criteria = new CDbCriteria();
         $criteria->alias = 'c';
@@ -287,10 +285,10 @@ class EnrollmentonlinestudentidentificationController extends Controller
                         'joinType' => 'INNER JOIN',
                     ],
                 ],
-                'condition' => " eoes.school_inep_id_fk = :schoolInepId and eosi.pre_enrollment_event_fk = :eventId and NOT EXISTS ( SELECT 1 FROM enrollment_online_enrollment_solicitation eoes
+                'condition' => ' eoes.school_inep_id_fk = :schoolInepId and eosi.pre_enrollment_event_fk = :eventId and NOT EXISTS ( SELECT 1 FROM enrollment_online_enrollment_solicitation eoes
                                     WHERE eoes.enrollment_online_student_identification_fk = eosi.id
                                     AND eoes.status = 2 ) and NOT EXISTS ( SELECT 1 FROM enrollment_online_enrollment_solicitation eoes
-                                    WHERE eoes.enrollment_online_student_identification_fk = eosi.id and eoes.status = 3  and eoes.school_inep_id_fk = :schoolInepId) ",
+                                    WHERE eoes.enrollment_online_student_identification_fk = eosi.id and eoes.status = 3  and eoes.school_inep_id_fk = :schoolInepId) ',
                 'params' => [':schoolInepId' => $schoolInepId, ':eventId' => $eventId],
             ],
         ]);
@@ -299,7 +297,6 @@ class EnrollmentonlinestudentidentificationController extends Controller
             'dataProvider' => $dataProvider,
         ]);
     }
-
 
     /**
      * Manages all models.
@@ -397,9 +394,9 @@ class EnrollmentonlinestudentidentificationController extends Controller
                         'joinType' => 'INNER JOIN',
                     ],
                 ],
-                'condition' => " eoes.school_inep_id_fk = :schoolInepId and eoes.status = :status and NOT EXISTS ( SELECT 1 FROM enrollment_online_enrollment_solicitation eoes
+                'condition' => ' eoes.school_inep_id_fk = :schoolInepId and eoes.status = :status and NOT EXISTS ( SELECT 1 FROM enrollment_online_enrollment_solicitation eoes
                                     WHERE eoes.enrollment_online_student_identification_fk = eosi.id
-                                    AND eoes.status = 2  and eoes.school_inep_id_fk != :schoolInepId) ",
+                                    AND eoes.status = 2  and eoes.school_inep_id_fk != :schoolInepId) ',
                 'params' => [':schoolInepId' => $schoolInepId, ':status' => $status],
             ],
         ]);

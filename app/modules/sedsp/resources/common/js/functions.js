@@ -24,8 +24,8 @@ function generate(element, url) {
 }
 
 function validateFormStudent() {
-    var raInput = $("#ra");
-    var warningDiv = $("#ra-warning");
+    let raInput = $("#ra");
+    let warningDiv = $("#ra-warning");
     if (raInput.val().length < 12) {
         warningDiv.show();
         return false;
@@ -36,8 +36,8 @@ function validateFormStudent() {
 }
 
 function validateFormClass() {
-    var classInput = $("#class");
-    var warningDiv = $("#class-warning");
+    let classInput = $("#class");
+    let warningDiv = $("#class-warning");
     if (classInput.val().length < 9) {
         warningDiv.show();
         return false;
@@ -48,8 +48,8 @@ function validateFormClass() {
 }
 
 function validateRA() {
-    var raInput = $("#ra");
-    var warningDiv = $("#ra-warning");
+    let raInput = $("#ra");
+    let warningDiv = $("#ra-warning");
     if (raInput.val().length < 12) {
         warningDiv.show();
     } else {
@@ -61,8 +61,8 @@ function validateRA() {
 }
 
 function validateClass() {
-    var classInput = $("#class");
-    var warningDiv = $("#class-warning");
+    let classInput = $("#class");
+    let warningDiv = $("#class-warning");
     if (classInput.val().length < 9) {
         warningDiv.show();
     } else {
@@ -101,4 +101,4 @@ $(document).ready(function () {
             event.preventDefault();
         }
     });
-});  
+});

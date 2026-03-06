@@ -130,7 +130,6 @@ class LunchController extends Controller
         $criteria->condition = 'alias_id = t.id';
 
         return Food::model()->findAll($criteria);
-
     }
 
     public function actionGetFoodMeasurement()

@@ -1,6 +1,8 @@
-var unitsName = {"g1": "1º Bimestre", "g2": "2º Bimestre", "g3": "3º Bimestre", "g4": "4º Bimestre",
+var unitsName = {
+    "g1": "1º Bimestre", "g2": "2º Bimestre", "g3": "3º Bimestre", "g4": "4º Bimestre",
     "r1": "1ª Recuperação", "r2": "2ª Recuperação", "r3": "3ª Recuperação", "r4": "4ª Recuperação",
-    "rf": "Recuperação Final"};var disciplines = [];
+    "rf": "Recuperação Final"
+}; var disciplines = [];
 var $select = {};
 
 var $proficiencyClassroom = $("#proficiency-classroom");
@@ -8,7 +10,7 @@ var $proficiencyDiscipline = $("#proficiency-discipline");
 
 var $proficiencies = $("#proficiencies");
 
-function ini(){
+function ini() {
     $proficiencies.html("");
     $proficiencyDiscipline.html("");
     $select = {};
@@ -17,16 +19,16 @@ function ini(){
 
 function loadDisciplineInfoForProficiency(results) {
     ini();
-    var data = $.parseJSON(results);
-    $.each(data.disciplines, function(i, v) {
+    let data = $.parseJSON(results);
+    $.each(data.disciplines, function (i, v) {
         disciplines[v.did] = v.discipline;
         if (!($select[v.did] instanceof Array)) $select[v.did] = [];
         $select[v.did].push(v.did);
         $.unique($select[v.did]);
     });
 
-    var i = 0;
-    $.each($select, function(u) {
+    let i = 0;
+    $.each($select, function (u) {
         $proficiencyDiscipline.append("<option value='" + u + "'>" + disciplines[u] + "</option>");
         i++;
     });
@@ -39,30 +41,30 @@ function loadDisciplineInfoForProficiency(results) {
 }
 
 
-$(document).on("change", "#proficiency-discipline", function(){
-    var $cid = $proficiencyClassroom.val();
-    var $did = $proficiencyDiscipline.val();
-    $.getJSON(proficiencyDataUrl,{sid:$sid,cid:$cid, did:$did},function(json) {
-        var $html = "";
+$(document).on("change", "#proficiency-discipline", function () {
+    let $cid = $proficiencyClassroom.val();
+    let $did = $proficiencyDiscipline.val();
+    $.getJSON(proficiencyDataUrl, { sid: $sid, cid: $cid, did: $did }, function (json) {
+        let $html = "";
 
-        $.each(json, function(i,v){
-            var percent = function (a, b) {
-                return Math.ceil((a/b)*10000)/100;
+        $.each(json, function (i, v) {
+            let percent = function (a, b) {
+                return Math.ceil((a / b) * 10000) / 100;
             }
-            var bimester = unitsName[i];
-            var $proficiency = v;
-            var all = $proficiency.best + $proficiency.good + $proficiency.regular + $proficiency.bad;
-            var bestPercent = percent($proficiency.best, all);
-            var goodPercent = percent($proficiency.good, all);
-            var regularPercent = percent($proficiency.regular, all)
-            var badPercent = percent($proficiency.bad, all);
-            var color = bestPercent >= goodPercent && bestPercent >= regularPercent && bestPercent >= badPercent ? "green" : "red";
-                color = goodPercent > bestPercent && goodPercent >= regularPercent && goodPercent >= badPercent ? "blue" : color;
-                color = regularPercent > bestPercent && regularPercent > goodPercent && regularPercent >= badPercent ? "yellow" : color;
+            let bimester = unitsName[i];
+            let $proficiency = v;
+            let all = $proficiency.best + $proficiency.good + $proficiency.regular + $proficiency.bad;
+            let bestPercent = percent($proficiency.best, all);
+            let goodPercent = percent($proficiency.good, all);
+            let regularPercent = percent($proficiency.regular, all)
+            let badPercent = percent($proficiency.bad, all);
+            let color = bestPercent >= goodPercent && bestPercent >= regularPercent && bestPercent >= badPercent ? "green" : "red";
+            color = goodPercent > bestPercent && goodPercent >= regularPercent && goodPercent >= badPercent ? "blue" : color;
+            color = regularPercent > bestPercent && regularPercent > goodPercent && regularPercent >= badPercent ? "yellow" : color;
 
             $html += "<div class='col-md-4'>"
                 + "<h5>" + bimester + "</h5>"
-                + "   <div class='proficiency-box proficiency-box-"+color+"'>"
+                + "   <div class='proficiency-box proficiency-box-" + color + "'>"
                 + "      <div class='pull-left proficiency-box-percentage'>"
                 + "          <span>" + bestPercent + "%</span>"
                 + "      </div>"
@@ -113,11 +115,11 @@ $(document).on("change", "#proficiency-discipline", function(){
 
 
 
-$(document).ready(function() {
+$(document).ready(function () {
     $('.filter-select').select2();
 });
 
-$(window).load(function() {
+$(window).load(function () {
     $proficiencyClassroom.attr("data-placeholder", "Selecione uma turma").val("").select2();
     $proficiencyDiscipline.attr("data-placeholder", "Selecione uma disciplina").val("").select2();
 });

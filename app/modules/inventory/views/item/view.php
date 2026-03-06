@@ -3,11 +3,11 @@
 /* @var $model InventoryItem */
 
 $this->setPageTitle('TAG - Detalhes do Item');
-$this->breadcrumbs=array(
-	'Almoxarifado'=>array('movement/index'),
-	'Itens'=>array('index'),
-	$model->name,
-);
+$this->breadcrumbs = [
+    'Almoxarifado' => ['movement/index'],
+    'Itens' => ['index'],
+    $model->name,
+];
 ?>
 
 <div id="mainPage" class="main">
@@ -18,23 +18,23 @@ $this->breadcrumbs=array(
     </div>
 
     <div class="row t-buttons-container">
-        <?php echo CHtml::link('Editar', array('update', 'id'=>$model->id), array('class'=>'t-button-secondary')); ?>
-        <?php echo CHtml::link('Voltar', array('index'), array('class'=>'t-button-secondary')); ?>
+        <?php echo CHtml::link('Editar', ['update', 'id' => $model->id], ['class' => 't-button-secondary']); ?>
+        <?php echo CHtml::link('Voltar', ['index'], ['class' => 't-button-secondary']); ?>
     </div>
 
     <div class="row">
         <div class="column is-full">
-            <?php $this->widget('zii.widgets.CDetailView', array(
-                'data'=>$model,
-                'attributes'=>array(
+            <?php $this->widget('zii.widgets.CDetailView', [
+                'data' => $model,
+                'attributes' => [
                     'id',
                     'name',
                     'unit',
                     'description',
                     'created_at',
                     'updated_at',
-                ),
-            )); ?>
+                ],
+            ]); ?>
         </div>
     </div>
 </div>

@@ -102,33 +102,33 @@ function format_validate(d) {
     // Inserindo as informações do plano de aula no formulário
     let div = $(
         '<div id="course-class[' +
-            d.class +
-            ']" class="course-class course-class-' +
-            d.class +
-            ' row"></div>'
+        d.class +
+        ']" class="course-class course-class-' +
+        d.class +
+        ' row"></div>'
     );
     let column1 = $('<div   class="column no-grow"></div>');
     let id = $(
         '<input type="hidden" name="course-class[' +
-            d.class +
-            '][id]" value="' +
-            d.courseClassId +
-            '">'
+        d.class +
+        '][id]" value="' +
+        d.courseClassId +
+        '">'
     );
     let content = $('<div class="t-field-tarea content-input"></div>');
     let contentLabel = $(
         '<label class="t-field-tarea__label" for="course-class[' +
-            d.class +
-            '][content]">Conteúdo *</label>'
+        d.class +
+        '][content]">Conteúdo *</label>'
     );
     let contentInput = $(
         '<textarea readonly="readonly" class="t-field-tarea__input course-class-content" placeholder="Digite o conteúdo do Plano" id="content-' +
-            d.class +
-            '" name="course-class[' +
-            d.class +
-            '][content]">' +
-            d.content +
-            "</textarea>"
+        d.class +
+        '" name="course-class[' +
+        d.class +
+        '][content]">' +
+        d.content +
+        "</textarea>"
     );
 
     let ability = $(
@@ -136,8 +136,8 @@ function format_validate(d) {
     );
     let abilityLabel = $(
         '<label class="" for="course-class[' +
-            d.class +
-            '][ability][]">Habilidade(s)</label>'
+        d.class +
+        '][ability][]">Habilidade(s)</label>'
     );
     let abilitiesContainer = $('<div class="courseplan-abilities-selected">');
 
@@ -146,13 +146,13 @@ function format_validate(d) {
     );
     let methodologyLabel = $(
         '<label class="t-field-text__label" for="course-class[' +
-            d.class +
-            '][methodology][]">Metodologia</label>'
+        d.class +
+        '][methodology][]">Metodologia</label>'
     );
     let methodologyInput = $(
         '<textarea readonly="readonly" class="t-field-tarea__input course-class-methodology" name="course-class[' +
-            d.class +
-            '][methodology]"></textarea>'
+        d.class +
+        '][methodology]"></textarea>'
     );
     methodologyInput.val(d.methodology);
 
@@ -224,33 +224,33 @@ function format_validate(d) {
             );
             let values = $(
                 '<input class="resource-id" type="hidden" name="course-class[' +
-                    d.class +
-                    "][resource][" +
-                    i +
-                    '][id]" value="' +
-                    resourceId +
-                    '"/>' +
-                    '<input class="resource-value" type="hidden" name="course-class[' +
-                    d.class +
-                    "][resource][" +
-                    i +
-                    '][value]" value="' +
-                    resourceValue +
-                    '"/>' +
-                    '<input class="resource-amount" type="hidden" name="course-class[' +
-                    d.class +
-                    "][resource][" +
-                    i +
-                    '][amount]" value="' +
-                    resourceAmount +
-                    '"/>'
+                d.class +
+                "][resource][" +
+                i +
+                '][id]" value="' +
+                resourceId +
+                '"/>' +
+                '<input class="resource-value" type="hidden" name="course-class[' +
+                d.class +
+                "][resource][" +
+                i +
+                '][value]" value="' +
+                resourceValue +
+                '"/>' +
+                '<input class="resource-amount" type="hidden" name="course-class[' +
+                d.class +
+                "][resource][" +
+                i +
+                '][amount]" value="' +
+                resourceAmount +
+                '"/>'
             );
             let label = $(
                 '<span class="row"><span class="resource-amount-text">' +
-                    resourceAmount +
-                    "</span>x - " +
-                    resourceName +
-                    " </span></span>"
+                resourceAmount +
+                "</span>x - " +
+                resourceName +
+                " </span></span>"
             );
             div.append(values);
             div.append(label);
@@ -279,33 +279,33 @@ function format_validate(d) {
 function format(d) {
     let div = $(
         '<div id="course-class[' +
-            d.class +
-            ']" class="course-class course-class-' +
-            d.class +
-            ' row"></div>'
+        d.class +
+        ']" class="course-class course-class-' +
+        d.class +
+        ' row"></div>'
     );
     let column1 = $('<div   class="column no-grow"></div>');
     let id = $(
         '<input type="hidden" name="course-class[' +
-            d.class +
-            '][id]" value="' +
-            d.courseClassId +
-            '">'
+        d.class +
+        '][id]" value="' +
+        d.courseClassId +
+        '">'
     );
     let content = $('<div class="t-field-tarea content-input"></div>');
     let contentLabel = $(
         '<label class="t-field-tarea__label" for="course-class[' +
-            d.class +
-            '][content]">Conteúdo *</label>'
+        d.class +
+        '][content]">Conteúdo *</label>'
     );
     let contentInput = $(
         '<textarea class="t-field-tarea__input course-class-content" placeholder="Digite o conteúdo do Plano" id="-' +
-            d.class +
-            '" name="course-class[' +
-            d.class +
-            '][content]">' +
-            d.content +
-            "</textarea>"
+        d.class +
+        '" name="course-class[' +
+        d.class +
+        '][content]">' +
+        d.content +
+        "</textarea>"
     );
 
     let ability = $(
@@ -313,8 +313,8 @@ function format(d) {
     );
     let abilityLabel = $(
         '<label class="" for="course-class[' +
-            d.class +
-            '][ability][]">Habilidade(s)</label>'
+        d.class +
+        '][ability][]">Habilidade(s)</label>'
     );
     let abilityButton = $(
         '<button class="t-button-primary add-abilities" style="height: 28px;gap: 5px" ><icon class="t-icon-start"></icon>Adicionar habilidades</button>'
@@ -330,13 +330,13 @@ function format(d) {
     );
     let methodologyLabel = $(
         '<label class="t-field-tarea__label" for="course-class[' +
-            d.class +
-            '][methodology][]">Metodologia</label>'
+        d.class +
+        '][methodology][]">Metodologia</label>'
     );
     let methodologyInput = $(
         '<textarea class="t-field-tarea__input course-class-methodology" name="course-class[' +
-            d.class +
-            '][methodology]"></textarea>'
+        d.class +
+        '][methodology]"></textarea>'
     );
     methodologyInput.val(d.methodology);
 
@@ -355,8 +355,8 @@ function format(d) {
     );
     let resourceValue = $(
         '<select id="resource-select" class="resource-select" name="resource"><option value=""></option>' +
-            $(".js-all-resources")[0].innerHTML +
-            "</select>"
+        $(".js-all-resources")[0].innerHTML +
+        "</select>"
     );
     let resourceAmount = $(
         '<input class="resource-amount" style="width:35px; padding: 0px 5px;;margin-left: 5px;" type="number" name="amount" step="1" min="1" value="1" max="999">'
@@ -419,33 +419,33 @@ function format(d) {
             );
             let values = $(
                 '<input class="resource-id" type="hidden" name="course-class[' +
-                    d.class +
-                    "][resource][" +
-                    i +
-                    '][id]" value="' +
-                    resourceId +
-                    '"/>' +
-                    '<input class="resource-value" type="hidden" name="course-class[' +
-                    d.class +
-                    "][resource][" +
-                    i +
-                    '][value]" value="' +
-                    resourceValue +
-                    '"/>' +
-                    '<input class="resource-amount" type="hidden" name="course-class[' +
-                    d.class +
-                    "][resource][" +
-                    i +
-                    '][amount]" value="' +
-                    resourceAmount +
-                    '"/>'
+                d.class +
+                "][resource][" +
+                i +
+                '][id]" value="' +
+                resourceId +
+                '"/>' +
+                '<input class="resource-value" type="hidden" name="course-class[' +
+                d.class +
+                "][resource][" +
+                i +
+                '][value]" value="' +
+                resourceValue +
+                '"/>' +
+                '<input class="resource-amount" type="hidden" name="course-class[' +
+                d.class +
+                "][resource][" +
+                i +
+                '][amount]" value="' +
+                resourceAmount +
+                '"/>'
             );
             let label = $(
                 '<span class="row"><span class="fa fa-times remove-resource"><i></i></span><span><span class="resource-amount-text">' +
-                    resourceAmount +
-                    "</span>x - " +
-                    resourceName +
-                    " </span></span>"
+                resourceAmount +
+                "</span>x - " +
+                resourceName +
+                " </span></span>"
             );
             div.append(values);
             div.append(label);
@@ -593,7 +593,8 @@ function addResource(button) {
         resource.find(".resource-amount").val(resourceAmount);
     } else {
         let resourceValue = div.children("select").val();
-        let resourceName = div.children("select").select2("data").text;
+        let resourceSelectData = div.children("select").select2("data");
+        let resourceName = resourceSelectData ? resourceSelectData.text : "";
         if (
             resourceAmount > 0 &&
             resourceAmount < 1000 &&
@@ -608,31 +609,31 @@ function addResource(button) {
             );
             let values = $(
                 '<input class="resource-id" type="hidden" name="course-class[' +
-                    d.class +
-                    "][resource][" +
-                    count +
-                    '][id]" value=""/>' +
-                    '<input class="resource-value" type="hidden" name="course-class[' +
-                    d.class +
-                    "][resource][" +
-                    count +
-                    '][value]" value="' +
-                    resourceValue +
-                    '"/>' +
-                    '<input class="resource-amount" type="hidden" name="course-class[' +
-                    d.class +
-                    "][resource][" +
-                    count +
-                    '][amount]" value="' +
-                    resourceAmount +
-                    '"/>'
+                d.class +
+                "][resource][" +
+                count +
+                '][id]" value=""/>' +
+                '<input class="resource-value" type="hidden" name="course-class[' +
+                d.class +
+                "][resource][" +
+                count +
+                '][value]" value="' +
+                resourceValue +
+                '"/>' +
+                '<input class="resource-amount" type="hidden" name="course-class[' +
+                d.class +
+                "][resource][" +
+                count +
+                '][amount]" value="' +
+                resourceAmount +
+                '"/>'
             );
             let label = $(
                 '<span class="row"><span class="fa fa-times remove-resource"><i></i></span><span><span class="resource-amount-text">' +
-                    resourceAmount +
-                    "</span>x - " +
-                    resourceName +
-                    " </span></span>"
+                resourceAmount +
+                "</span>x - " +
+                resourceName +
+                " </span></span>"
             );
             divRes.append(values);
             divRes.append(label);

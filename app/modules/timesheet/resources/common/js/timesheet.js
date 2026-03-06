@@ -1,6 +1,6 @@
 $(document).on("change", "#classroom_fk", function () {
     if ($(this).val() !== "") {
-        var select = this;
+        let select = this;
         $(select).attr("disabled", "disabled");
         $.ajax({
             url: getTimesheetURL,
@@ -18,7 +18,7 @@ $(document).on("change", "#classroom_fk", function () {
             getTimesheet(data);
             data = JSON.parse(data);
             if (data.disciplines !== undefined) {
-                var html = "<option>Selecione uma disciplina</option>";
+                let html = "<option>Selecione uma disciplina</option>";
                 $.each(data.disciplines, function () {
                     html += "<option value='" + this.disciplineId + "'>" + this.disciplineName + "</option>";
                 });
@@ -49,7 +49,7 @@ $(document).on("click", ".confirm-timesheet-generation", function () {
 });
 
 function generateTimesheet() {
-    var classroom = $("select.classroom-id").val();
+    let classroom = $("select.classroom-id").val();
     $.ajax({
         url: generateTimesheetURL,
         type: "POST",
@@ -97,7 +97,7 @@ function getTimesheet(data) {
         buildTimesheetStructure(data);
         $(".tables-timesheet tbody").children().remove();
         $(".calendar-icons th").children().remove();
-        var lastMonthWeek = 1;
+        let lastMonthWeek = 1;
         $.each(data.calendarEvents, function () {
             $(".calendar-icons th[icon-year=" + this.year + "][icon-month=" + this.month + "][icon-day=" + this.day + "]").append(
                 '<div class="calendar-timesheet-icon calendar-' + this.color + '">' +
@@ -107,18 +107,18 @@ function getTimesheet(data) {
         });
         $.each(data.daysPerMonth, function (year, yearResult) {
             $.each(yearResult, function (month) {
-                var html = "";
+                let html = "";
 
                 for (var schedule = 1; schedule <= 10; schedule++) {
-                    var weekDayCount = Number($(".table-month[year=" + year + "][month=" + month + "]").attr("first-day-weekday"));
-                    var week = lastMonthWeek;
+                    let weekDayCount = Number($(".table-month[year=" + year + "][month=" + month + "]").attr("first-day-weekday"));
+                    let week = lastMonthWeek;
                     html += "<tr schedule='" + schedule + "'><th>" + schedule + "º</th>";
 
                     for (var day = 1; day <= Number($(".table-month[year=" + year + "][month=" + month + "]").attr("days-count")); day++) {
-                        var hardUnavailableDay = data.hardUnavailableDays[year] !== undefined && data.hardUnavailableDays[year][month] !== undefined && $.inArray(day.toString(), data.hardUnavailableDays[year][month]) !== -1;
-                        var softUnavailableDay = data.softUnavailableDays[year] !== undefined && data.softUnavailableDays[year][month] !== undefined && $.inArray(day.toString(), data.softUnavailableDays[year][month]) !== -1;
+                        let hardUnavailableDay = data.hardUnavailableDays[year] !== undefined && data.hardUnavailableDays[year][month] !== undefined && $.inArray(day.toString(), data.hardUnavailableDays[year][month]) !== -1;
+                        let softUnavailableDay = data.softUnavailableDays[year] !== undefined && data.softUnavailableDays[year][month] !== undefined && $.inArray(day.toString(), data.softUnavailableDays[year][month]) !== -1;
 
-                        var tdClass = "";
+                        let tdClass = "";
                         if (hardUnavailableDay) {
                             tdClass += "hard-unavailable";
                         } else if (softUnavailableDay) {
@@ -126,7 +126,7 @@ function getTimesheet(data) {
                         }
 
                         if (data.schedules[year] !== undefined && data.schedules[year][month] !== undefined && data.schedules[year][month][schedule] !== undefined && data.schedules[year][month][schedule][day] !== undefined) {
-                            var discipline = changeNameLength(data.schedules[year][month][schedule][day].disciplineName, 30);
+                            let discipline = changeNameLength(data.schedules[year][month][schedule][day].disciplineName, 30);
 
                             html += "" +
                                 "<td class='" + tdClass + "' day='" + day + "' week='" + week + "' week_day='" + weekDayCount + "'>" +
@@ -152,7 +152,7 @@ function getTimesheet(data) {
                     html += "</tr>";
                 }
                 $(".tables-timesheet table[year=" + year + "][month=" + month + "] tbody").html(html);
-                $('[data-toggle="tooltip"]').tooltip({container: "body"});
+                $('[data-toggle="tooltip"]').tooltip({ container: "body" });
             });
         });
         calculateWorkload(data.disciplines, false);
@@ -182,8 +182,8 @@ function getTimesheet(data) {
 }
 
 function buildTimesheetStructure(data) {
-    var dayNameFirstLetter = ["D", "S", "T", "Q", "Q", "S", "S"];
-    var timesheetStructureHtml = "";
+    let dayNameFirstLetter = ["D", "S", "T", "Q", "Q", "S", "S"];
+    let timesheetStructureHtml = "";
     $.each(data.daysPerMonth, function (year, yearResult) {
         $.each(yearResult, function (month, monthResult) {
             timesheetStructureHtml += '<div class="table-responsive">';
@@ -200,7 +200,7 @@ function buildTimesheetStructure(data) {
             timesheetStructureHtml += '</tr>';
             timesheetStructureHtml += '<tr class="dayname-row">';
             timesheetStructureHtml += '<th></th>';
-            var weekDayCount = monthResult.weekDayOfTheFirstDay;
+            let weekDayCount = monthResult.weekDayOfTheFirstDay;
             for (var day = 1; day <= monthResult.daysCount; day++) {
                 timesheetStructureHtml += '<th>' + dayNameFirstLetter[weekDayCount] + '</th>';
                 weekDayCount = weekDayCount == 6 ? 0 : ++weekDayCount;
@@ -222,26 +222,26 @@ function buildTimesheetStructure(data) {
 }
 
 function calculateWorkload(disciplines, increment) {
-    var hasOverflow = false;
+    let hasOverflow = false;
     if (!increment) {
         disciplines = sortResults(disciplines, "disciplineName", true);
-        var html = "";
+        let html = "";
         $.each(disciplines, function () {
-            var workloadUsed = Number(this.workloadUsed);
-            var workloadTotal = Number(this.workloadTotal);
+            let workloadUsed = Number(this.workloadUsed);
+            let workloadTotal = Number(this.workloadTotal);
             if (!hasOverflow) {
                 hasOverflow = workloadUsed > workloadTotal;
             }
-            var workloadColor = workloadUsed > workloadTotal ? "workload-red" : (workloadUsed === workloadTotal ? "workload-green" : "");
+            let workloadColor = workloadUsed > workloadTotal ? "workload-red" : (workloadUsed === workloadTotal ? "workload-green" : "");
             html += "<div class='workload " + workloadColor + "' discipline-id='" + this.disciplineId + "'><div class='workload-discipline'>" + this.disciplineName + "</div><div class='workload-numbers'><span class='workload-used'>" + workloadUsed.toFixed(2).replace(/\.00$/, '') + "</span>/<span class='workload-total'>" + workloadTotal + "</span></div><div class='workload-instructor'>" + (this.instructorName === null ? "SEM PROFESSOR" : this.instructorName) + "</div></div>";
         });
         $(".workloads").find(".workload").remove();
         $(".workloads").append(html);
     } else {
         $.each(disciplines, function () {
-            var workload = $(".workload[discipline-id=" + this.disciplineId + "]");
-            var workloadUsed = Number(workload.find(".workload-used").text()) + Number(this.workloadUsed);
-            var workloadTotal = Number(workload.find(".workload-total").text());
+            let workload = $(".workload[discipline-id=" + this.disciplineId + "]");
+            let workloadUsed = Number(workload.find(".workload-used").text()) + Number(this.workloadUsed);
+            let workloadTotal = Number(workload.find(".workload-total").text());
             workloadUsed > workloadTotal
                 ? workload.addClass("workload-red").removeClass("workload-green")
                 : (workloadUsed === workloadTotal ? workload.addClass("workload-green").removeClass("workload-red") : workload.removeClass("workload-red").removeClass("workload-green"));
@@ -280,8 +280,8 @@ $(document).on("click", ".tables-timesheet td", function () {
     } else {
         //Já selecionou algum diferente do primeiro e da mesma semana
         if ($(".tables-timesheet").find(".schedule-selected").length > 0) {
-            var firstSelected = $(".tables-timesheet").find(".schedule-selected");
-            var secondSelected = $(this);
+            let firstSelected = $(".tables-timesheet").find(".schedule-selected");
+            let secondSelected = $(this);
 
             if ((!firstSelected.find(".schedule-block").length && !secondSelected.find(".schedule-block").length)
                 || !secondSelected.hasClass("schedule-highlighted")
@@ -290,14 +290,14 @@ $(document).on("click", ".tables-timesheet td", function () {
                 $(".tables-timesheet").find(".schedule-highlighted").removeClass("schedule-highlighted");
                 $(".schedule-remove, .schedule-add").remove();
             } else {
-                var firstSchedule = {
+                let firstSchedule = {
                     year: firstSelected.closest("table").attr("year"),
                     month: firstSelected.closest("table").attr("month"),
                     day: firstSelected.attr("day"),
                     week_day: firstSelected.attr("week_day"),
                     schedule: firstSelected.closest("tr").attr("schedule")
                 };
-                var secondSchedule = {
+                let secondSchedule = {
                     year: secondSelected.closest("table").attr("year"),
                     month: secondSelected.closest("table").attr("month"),
                     day: secondSelected.attr("day"),
@@ -321,7 +321,7 @@ $(document).on("click", ".tables-timesheet td", function () {
 
 $(document).on("click", ".schedule-remove", function (e) {
     e.stopPropagation();
-    var schedule = {
+    let schedule = {
         year: $(this).closest("table").attr("year"),
         month: $(this).closest("table").attr("month"),
         day: $(this).closest("td").attr("day"),
@@ -417,7 +417,7 @@ $(document).on("click", ".btn-add-schedule", function () {
             data = JSON.parse(data);
             if (data.valid) {
                 $.each(data.adds, function () {
-                    var discipline = changeNameLength(this.disciplineName, 30);
+                    let discipline = changeNameLength(this.disciplineName, 30);
                     $(".table-month[year=" + this.year + "][month=" + this.month + "] tbody").find("tr[schedule=" + this.schedule + "]").find("td[day=" + this.day + "]").html("" +
                         "<div schedule='" + this.id + "' discipline_id='" + this.disciplineId + "' class='schedule-block'>" +
                         "<p class='discipline-name' title='" + this.disciplineName + "'>" + discipline + "</p>" +
@@ -430,7 +430,7 @@ $(document).on("click", ".btn-add-schedule", function () {
             $(".schedule-add").remove();
             $(".schedule-selected").removeClass("schedule-selected");
             $(".schedule-highlighted").removeClass("schedule-highlighted");
-            $('.soft-unavailable .availability-schedule').tooltip({container: "body"}).tooltip({container: "body"});
+            $('.soft-unavailable .availability-schedule').tooltip({ container: "body" }).tooltip({ container: "body" });
         }).complete(function () {
             $(".loading-timesheet").hide();
             $(".table-container").css("opacity", 1).css("pointer-events", "auto");
@@ -467,12 +467,12 @@ function swapSchedule(firstSchedule, secondSchedule) {
         data = JSON.parse(data);
         if (data.valid) {
             $.each(data.changes, function () {
-                var firstScheduleBlock = $("table[year=" + this.firstSchedule.year + "][month=" + this.firstSchedule.month + "] tr[schedule=" + this.firstSchedule.schedule + "] td[day=" + this.firstSchedule.day + "]").children();
-                var secondScheduleBlock = $("table[year=" + this.secondSchedule.year + "][month=" + this.secondSchedule.month + "] tr[schedule=" + this.secondSchedule.schedule + "] td[day=" + this.secondSchedule.day + "]").children();
+                let firstScheduleBlock = $("table[year=" + this.firstSchedule.year + "][month=" + this.firstSchedule.month + "] tr[schedule=" + this.firstSchedule.schedule + "] td[day=" + this.firstSchedule.day + "]").children();
+                let secondScheduleBlock = $("table[year=" + this.secondSchedule.year + "][month=" + this.secondSchedule.month + "] tr[schedule=" + this.secondSchedule.schedule + "] td[day=" + this.secondSchedule.day + "]").children();
                 $("table[year=" + this.firstSchedule.year + "][month=" + this.firstSchedule.month + "] tr[schedule=" + this.firstSchedule.schedule + "] td[day=" + this.firstSchedule.day + "]").html(secondScheduleBlock);
                 $("table[year=" + this.secondSchedule.year + "][month=" + this.secondSchedule.month + "] tr[schedule=" + this.secondSchedule.schedule + "] td[day=" + this.secondSchedule.day + "]").html(firstScheduleBlock);
 
-                var firstScheduleTd = $("table[year=" + this.firstSchedule.year + "][month=" + this.firstSchedule.month + "] tr[schedule=" + this.firstSchedule.schedule + "] td[day=" + this.firstSchedule.day + "]");
+                let firstScheduleTd = $("table[year=" + this.firstSchedule.year + "][month=" + this.firstSchedule.month + "] tr[schedule=" + this.firstSchedule.schedule + "] td[day=" + this.firstSchedule.day + "]");
                 if (!firstScheduleTd.hasClass("hard-unavailable")) {
                     firstScheduleTd.find(".availability-schedule").remove();
                     if (firstScheduleTd.hasClass("soft-unavailable")) {
@@ -482,7 +482,7 @@ function swapSchedule(firstSchedule, secondSchedule) {
                     firstScheduleTd.children().remove();
                 }
 
-                var secondScheduleTd = $("table[year=" + this.secondSchedule.year + "][month=" + this.secondSchedule.month + "] tr[schedule=" + this.secondSchedule.schedule + "] td[day=" + this.secondSchedule.day + "]");
+                let secondScheduleTd = $("table[year=" + this.secondSchedule.year + "][month=" + this.secondSchedule.month + "] tr[schedule=" + this.secondSchedule.schedule + "] td[day=" + this.secondSchedule.day + "]");
                 if (!secondScheduleTd.hasClass("hard-unavailable")) {
                     secondScheduleTd.find(".availability-schedule").remove();
                     if (secondScheduleTd.hasClass("soft-unavailable")) {
@@ -493,7 +493,7 @@ function swapSchedule(firstSchedule, secondSchedule) {
                 }
             });
             calculateWorkload(data.disciplines, false);
-            $('.soft-unavailable .availability-schedule').tooltip({container: "body"});
+            $('.soft-unavailable .availability-schedule').tooltip({ container: "body" });
         } else {
             $(".last-frequency-day").text(data.lastClassFaultDate === "" ? "Nenhum preenchimento" : data.lastClassFaultDate);
             $(".last-classcontent-day").text(data.lastClassContentDate === "" ? "Nenhum preenchimento" : data.lastClassContentDate);
@@ -522,9 +522,9 @@ $(document).on("click", ".workloads-activator", function () {
 
 $(document).on("click", ".availability-schedule", function (e) {
     e.stopPropagation();
-    var icon = this;
+    let icon = this;
     if (!$(icon).closest(".hard-unavailable").length) {
-        var scheduleId = $(icon).closest(".schedule-block").attr("schedule");
+        let scheduleId = $(icon).closest(".schedule-block").attr("schedule");
         $.ajax({
             url: changeUnavailableScheduleURL,
             type: "POST",

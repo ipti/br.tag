@@ -133,7 +133,7 @@ class DefaultController extends Controller
             $returnUrl = isset($_POST['returnUrl']) ? $_POST['returnUrl'] : null;
             if ($returnUrl && preg_match('#^(\/|index\.php\?r=)#', $returnUrl)) {
                 $this->redirect($returnUrl);
-            }else{
+            } else {
                 $this->redirect(['admin']);
             }
         }
