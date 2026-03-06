@@ -93,7 +93,7 @@ $menuItems = [
     ],
     [
         'label' => 'Quadro de Horário',
-        'url' => ['timesheet'],
+        'url' => ['timesheet/timesheet/index'],
         'icon' => 't-icon-blackboard',
         'roles' => [TRole::ADMIN, TRole::MANAGER, TRole::READER],
         'feature' => TTask::TASK_CURRICULUM_ACCESS,
