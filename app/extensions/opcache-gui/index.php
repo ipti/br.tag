@@ -251,7 +251,7 @@ class Service
      */
     public function canInvalidate(): bool
     {
-        return ($this->getOption('allow_invalidate') && function_exists('opcache_invalidate'));
+        return $this->getOption('allow_invalidate') && function_exists('opcache_invalidate');
     }
 
     /**

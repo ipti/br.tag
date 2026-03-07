@@ -7,9 +7,6 @@ require_once dirname(__FILE__) . $DS . 'register.php';
 
 class SchoolStructureValidation extends Register
 {
-    public function __construct()
-    {
-    }
 
     //campo 12
     public function buildingOccupationStatus($collun3, $collun8, $value)
@@ -32,17 +29,13 @@ class SchoolStructureValidation extends Register
     //campo 13
     public function sharedBuildingSchool($collun3, $value)
     {
-        if ($collun3 == 1) {
-            if ($value == 0 || $value == 1) {
-                return ['status' => true, 'erro' => ''];
-            } else {
-                return ['status' => false, 'erro' => "valor $value não permitido"];
-            }
-        } else {
-            if ($value != null) {
-                return ['status' => false, 'erro' => "operation_location_building não é 1. Valor $value deveria ser nulo"];
-            }
+        if ($collun3 == 1  && !($value == 0 || $value == 1)) {
+            return ['status' => false, 'erro' => "valor $value não permitido"];
         }
+        if ($value != null) {
+            return ['status' => false, 'erro' => "operation_location_building não é 1. Valor $value deveria ser nulo"];
+        }
+
         return ['status' => true, 'erro' => ''];
     }
 
@@ -57,13 +50,10 @@ class SchoolStructureValidation extends Register
                         substr($schoolInepId, 0, 2),
                         'Escolas não são do mesmo estado'
                     );
-                    if ($result['status']) {
-                        if ($inepId == $schoolInepId) {
-                            return ['status' => false, 'erro' => 'Não se deve inserir a mesma escola.'];
-                        }
-                    } else {
-                        return ['status' => false, 'erro' => 'Não são do mesmo UF.'];
+                    if ($result['status']  && $inepId == $schoolInepId) {
+                        return ['status' => false, 'erro' => 'Não se deve inserir a mesma escola.'];
                     }
+                    return ['status' => false, 'erro' => 'Não são do mesmo UF.'];
                 }
             }
         }
@@ -191,24 +181,29 @@ class SchoolStructureValidation extends Register
 
         foreach ($modalities as $key => $value) {
             if ($value == '1') {
-                if (!$areThereStudentsByModalitie[$key]) {
-                    return [
-                        'status' => false,
-                        'erro' => "$key é 1 e não há estudantes nessa modalidade"
-                    ];
-                }
-                if (!$areThereInstructorsByModalitie[$key]) {
-                    return [
-                        'status' => false,
-                        'erro' => "$key é 1 e não há instrutores nessa modalidade"
-                    ];
+                $result =  $this->hasStudentsOrInstructorsForModalitie($areThereStudentsByModalitie,$areThereInstructorsByModalitie,$key);
+                if($result){
+                    return $result;
                 }
             }
         }
 
         return ['status' => true, 'erro' => ''];
     }
-
+    private function hasStudentsOrInstructorsForModalitie($areThereStudentsByModalitie,$areThereInstructorsByModalitie,$key){
+        if(!$areThereStudentsByModalitie[$key]){
+            return [
+                'status' => false,
+                'erro' => "$key é 1 e não há estudantes nessa modalidade"
+            ];
+        }
+        if(!$areThereInstructorsByModalitie[$key]){
+            return [
+                'status' => false,
+                'erro' => "$key é 1 e não há instrutores nessa modalidade"
+            ];
+        }
+    }
     //94
 
     public function hasReadingCornerClassroomCount($column90, $column91, $column94)
@@ -247,22 +242,12 @@ class SchoolStructureValidation extends Register
             return ['status' => false, 'erro' => "Valor $value não permitido"];
         }
 
-        if ($collun0029 == 1) {
-            if ($value == 1) {
-                return [
-                    'status' => false,
-                    'erro' => "Valor $value não permitido
-													pois coluna 29 do registro é $collun0029"
-                ];
-            }
-        } elseif ($collun0029 == 2) {
-            if ($value != 1) {
-                return [
-                    'status' => false,
-                    'erro' => "Valor $value não permitido
-													pois coluna 29 do registro é $collun0029"
-                ];
-            }
+        if (($collun0029 == 1 && $value == 1) || ($collun0029 == 2 && $value != 1)) {
+            return [
+                'status' => false,
+                'erro' => "Valor $value não permitido pois coluna 29 do registro é $collun0029"
+            ];
+
         }
 
         return ['status' => true, 'erro' => ''];
@@ -270,21 +255,17 @@ class SchoolStructureValidation extends Register
 
     public function materials($itens)
     {
-        $result = $this->checkRangeOfArray($itens, ['0', '1']);
-        if (!$result['status']) {
-            return ['status' => false, 'erro' => $result['erro']];
-        }
+       $results = [
+            'range' => $this->checkRangeOfArray($itens, ['0', '1']),
+            'atLeastOne' => $this->atLeastOne($itens),
+            'exclusive' => $this->exclusive($itens),
+        ];
 
-        $result = $this->atLeastOne($itens);
-        if (!$result['status']) {
-            return ['status' => false, 'erro' => $result['erro']];
+        foreach ($results as  $res) {
+            if (!$res['status']) {
+               return ['status' => false, 'erro' => $res['erro']];
+            }
         }
-
-        $result = $this->exclusive($itens);
-        if (!$result['status']) {
-            return ['status' => false, 'erro' => $result['erro']];
-        }
-
         return ['status' => true, 'erro' => ''];
     }
 
@@ -315,6 +296,7 @@ class SchoolStructureValidation extends Register
         if ($collun102 != '1' && ($value != null)) {
             return ['status' => false, 'erro' => "Valor deveria ser nulo pois coluna 102 é $collun102"];
         }
+        $array = EdcensoNativeLanguages::model()->findAllByAttributes(['id' => $value]);
         if (empty($array)) {
             $value = $this->ifNull($value);
             return [
