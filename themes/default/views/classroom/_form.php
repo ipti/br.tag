@@ -980,7 +980,7 @@ $form = $this->beginWidget(
                                                 </td>
                                                 <td>
                                                     <a
-                                                        href="<?= Yii::app()->createUrl('student/update', array('id' => $enrollment["studentId"])) ?>">
+                                                        href="<?= Yii::app()->createUrl('student/student/update', array('id' => $enrollment["studentId"])) ?>">
                                                         <?= $enrollment["studentName"] ?>
                                                     </a>
                                                 </td>
