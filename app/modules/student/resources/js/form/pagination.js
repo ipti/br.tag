@@ -1,9 +1,10 @@
-var simple = getUrlVars()['simple'];
+let simple = getUrlVars()['simple'];
+let tabs = [];
 if (simple == '1') {
-    let tabs = ['tab-student-identify', 'tab-student-affiliation', 'tab-student-address', 'tab-student-enrollment', 'tab-student-health'];
+    tabs = ['tab-student-identify', 'tab-student-affiliation', 'tab-student-address', 'tab-student-enrollment', 'tab-student-health'];
     changeTabNumber();
 } else {
-    let tabs = ['tab-student-identify', 'tab-student-affiliation', 'tab-student-documents', 'tab-student-address', 'tab-student-enrollment', 'tab-student-health'];
+    tabs = ['tab-student-identify', 'tab-student-affiliation', 'tab-student-documents', 'tab-student-address', 'tab-student-enrollment', 'tab-student-health'];
 }
 function changeTabNumber() {
     $('.js-change-number-2').html("2");
@@ -12,14 +13,14 @@ function changeTabNumber() {
     $('.js-change-number-5').html("5");
 }
 function changeTab(index) {
-    var activeTab = $('.js-tab-control li.active');
-    var activePane = $('div .active');
-    var size = tabs.length - 1;
+    let activeTab = $('.js-tab-control li.active');
+    let activePane = $('div .active');
+    let size = tabs.length - 1;
 
     if (index == 0) {
         $('.prev').hide();
         $('.next').show();
-        window.location.search.includes("update") ? $('.last').show() : $('.last').hide();
+        globalThis.location.search.includes("update") ? $('.last').show() : $('.last').hide();
     } else if (index == size) {
         $('.prev').show();
         $('.next').hide();
@@ -27,15 +28,15 @@ function changeTab(index) {
     } else {
         $('.prev').show();
         $('.next').show();
-        window.location.search.includes("update") ? $('.last').show() : $('.last').hide();
+        globalThis.location.search.includes("update") ? $('.last').show() : $('.last').hide();
     }
 
-    newTab = tabs[index];
+    let newTab = tabs[index];
 
     activeTab.removeClass("active");
     activePane.removeClass("active");
 
-    newPane = newTab.substring(4).toString();
+    let newPane = newTab.substring(4).toString();
 
     $('#' + newTab).addClass("active");
     $('#' + newPane).addClass("active");
@@ -44,19 +45,19 @@ function changeTab(index) {
 }
 
 function change2nextTab() {
-    var activeTab = $('.js-tab-control li.active');
+    let activeTab = $('.js-tab-control li.active');
     let tab = tabs.indexOf(activeTab.attr("id"));
     changeTab(tab + 1);
 }
 
 function change2prevTab() {
-    var activeTab = $('.js-tab-control li.active');
+    let activeTab = $('.js-tab-control li.active');
     let tab = tabs.indexOf(activeTab.attr("id"));
     changeTab(tab - 1);
 }
 
 function change2clickedTab(clicked) {
-    var clickedTab = clicked.attr('id');
+    let clickedTab = clicked.attr('id');
     let tab = tabs.indexOf(clickedTab);
     changeTab(tab);
 }
