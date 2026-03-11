@@ -215,7 +215,7 @@ $menuItems = [
     // Merenda Escolar
     [
         'label' => 'Merenda Escolar',
-        'url' => ['foods'],
+        'url' => ['foods/FoodMenu/viewlunch'],
         'icon' => 't-icon-apple',
         'roles' => [TRole::NUTRITIONIST, TRole::ADMIN, TRole::MANAGER, TRole::READER, TRole::FOOD_SERVICE_WORKER],
         'feature' => TTask::TASK_FOODS_MENU_MANAGE,
