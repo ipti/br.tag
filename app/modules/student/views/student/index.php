@@ -1,14 +1,14 @@
 <div id="mainPage" class="main">
     <?php
 $this->setPageTitle('TAG - ' . Yii::t('default', 'Student Identifications'));
-$contextDesc = Yii::t('default', 'Available actions that may be taken on StudentIdentification.');
-$this->menu = [
-    ['label' => Yii::t('default', 'Create a new StudentIdentification'), 'url' => ['student/create'], 'description' => Yii::t('default', 'This action create a new StudentIdentification')],
-];
-$themeUrl = Yii::app()->theme->baseUrl;
-$cs = Yii::app()->getClientScript();
+    $contextDesc = Yii::t('default', 'Available actions that may be taken on StudentIdentification.');
+    $this->menu = [
+        ['label' => Yii::t('default', 'Create a new StudentIdentification'), 'url' => ['student/create'], 'description' => Yii::t('default', 'This action create a new StudentIdentification')],
+    ];
+    $themeUrl = Yii::app()->theme->baseUrl;
+    $cs = Yii::app()->getClientScript();
 
-?>
+    ?>
 
     <div class="row-fluid">
         <div class="span12">
@@ -36,24 +36,24 @@ $cs = Yii::app()->getClientScript();
             <?php echo Yii::app()->user->getFlash('error')?>
         </div>
         <?php
-    if (isset($buttons)) {
-        echo $buttons;
-    }
-?>
+        if (isset($buttons)) {
+            echo $buttons;
+        }
+            ?>
         <br />
         <?php
-endif ?>
+        endif ?>
         <?php if (Yii::app()->user->hasFlash('success')): ?>
         <div class="alert alert-success">
             <?php echo Yii::app()->user->getFlash('success')?>
         </div>
         <?php
-    if (isset($buttons)) {
-        echo $buttons;
-    }
-?>
+            if (isset($buttons)) {
+                echo $buttons;
+            }
+            ?>
         <?php
-endif ?>
+        endif ?>
         <div class="widget clearmargin">
             <div class="widget-body">
                 <div class="grid-view">
@@ -73,7 +73,7 @@ endif ?>
                                 <?php if (Yii::app()->features->isEnable(TFeature::FEAT_INTEGRATIONS_SEDSP)): ?>
                                 <th style="width: 1px;text-align: center;">Sincronizado</th>
                                 <?php
-endif; ?>
+                                endif; ?>
                             </tr>
                         </thead>
                     </table>
