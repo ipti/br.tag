@@ -33,6 +33,5 @@ class IdentifyStudentRACode
         $dataNascimento = $studentTag->birthday;
         $nomeMae = $studentTag->filiation_1;
         return $this->studentSEDDataSource->getStudentRA($nome, $dataNascimento, $nomeMae, $force);
-
     }
 }

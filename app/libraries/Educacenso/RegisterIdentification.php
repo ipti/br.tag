@@ -32,8 +32,8 @@ class RegisterIdentification
         if (count($classroom->instructorTeachingDatas) >= 1) {
             foreach ($classroom->studentEnrollments as $enrollment) {
                 if ($enrollment->isActive() && !isset($students[$enrollment->student_fk])) {
-                        $students[$enrollment->student_fk]['identification'] = $enrollment->studentFk->attributes;
-                        $students[$enrollment->student_fk]['documents'] = $enrollment->studentFk->documentsFk->attributes;
+                    $students[$enrollment->student_fk]['identification'] = $enrollment->studentFk->attributes;
+                    $students[$enrollment->student_fk]['documents'] = $enrollment->studentFk->documentsFk->attributes;
                 }
             }
         }

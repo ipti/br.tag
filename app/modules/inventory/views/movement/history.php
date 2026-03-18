@@ -3,10 +3,10 @@
 /* @var $model InventoryMovement */
 
 $this->setPageTitle('TAG - Histórico de Movimentações');
-$this->breadcrumbs=array(
-	'Almoxarifado'=>array('index'),
-	'Histórico',
-);
+$this->breadcrumbs = [
+    'Almoxarifado' => ['index'],
+    'Histórico',
+];
 ?>
 
 <style>
@@ -24,7 +24,7 @@ $this->breadcrumbs=array(
     </div>
 
     <div class="row t-buttons-container">
-        <?php echo CHtml::link('Voltar ao Estoque', array('index'), array('class'=>'t-button-secondary')); ?>
+        <?php echo CHtml::link('Voltar ao Estoque', ['index'], ['class' => 't-button-secondary']); ?>
     </div>
 
     <div class="row">
@@ -51,70 +51,76 @@ $(document).ready(function() {
                     <h3 class="widget-title">Movimentações</h3>
                 </div>
                 <div class="widget-body">
-                    <?php DataTableGridView::show($this, array(
-                        'id'=>'inventory-movement-grid',
-                        'dataProvider'=>$model->search(false),
-                        'filter'=>$model,
-                        'enableHistory'=>false,
-                        'columns'=>array(
-                            array(
+                    <?php DataTableGridView::show($this, [
+                        'id' => 'inventory-movement-grid',
+                        'dataProvider' => $model->search(false),
+                        'filter' => $model,
+                        'enableHistory' => false,
+                        'columns' => [
+                            [
                                 'name' => 'date',
                                 'header' => 'Data',
                                 'value' => 'date("d/m/Y", strtotime($data->date))',
-                                'filter' => CHtml::activeTextField($model, 'date', array('placeholder' => 'dd/mm/aaaa', 'class' => 'form-control date-mask')),
-                            ),
-                            array(
+                                'filter' => CHtml::activeTextField($model, 'date', ['placeholder' => 'dd/mm/aaaa', 'class' => 'form-control date-mask']),
+                            ],
+                            [
                                 'name' => 'type',
                                 'header' => 'Tipo',
                                 'value' => '$data->type == InventoryMovement::TYPE_ENTRY ? "Entrada" : "Saída"',
                                 'cssClassExpression' => '$data->type == InventoryMovement::TYPE_ENTRY ? "text-success font-bold" : "text-danger font-bold"',
-                                'filter' => CHtml::activeDropDownList($model, 'type', array(
+                                'filter' => CHtml::activeDropDownList($model, 'type', [
                                     InventoryMovement::TYPE_ENTRY => 'Entrada',
                                     InventoryMovement::TYPE_EXIT => 'Saída'
-                                ), array('empty' => 'Todos', 'class' => 'form-control')),
-                            ),
-                            array(
+                                ], ['empty' => 'Todos', 'class' => 'form-control']),
+                            ],
+                            [
                                 'name' => 'item_id',
                                 'header' => 'Item',
                                 'value' => '$data->item->name',
-                                'filter' => CHtml::activeDropDownList($model, 'item_id', 
+                                'filter' => CHtml::activeDropDownList(
+                                    $model,
+                                    'item_id',
                                     CHtml::listData(InventoryItem::model()->findAll(), 'id', 'name'),
-                                    array('empty' => 'Todos', 'class' => 'form-control')
+                                    ['empty' => 'Todos', 'class' => 'form-control']
                                 ),
-                            ),
-                            array(
+                            ],
+                            [
                                 'name' => 'quantity',
                                 'header' => 'Qtd',
                                 'value' => '$data->quantity . " " . $data->item->unit',
                                 'cssClassExpression' => '$data->type == InventoryMovement::TYPE_ENTRY ? "text-success font-bold" : "text-danger font-bold"',
                                 'filter' => false,
-                            ),
-                            array(
+                            ],
+                            [
                                 'name' => 'destination',
                                 'header' => 'Origem/Destino',
-                                'filter' => CHtml::activeTextField($model, 'destination', array('class' => 'form-control')),
-                            ),
-                            array(
+                                'filter' => CHtml::activeTextField($model, 'destination', ['class' => 'form-control']),
+                            ],
+                            [
                                 'name' => 'school_inep_fk',
                                 'header' => 'Escola',
                                 'value' => '$data->school_inep_fk ? $data->school->name : "Almoxarifado Central"',
                                 'visible' => $isAdmin,
-                                'filter' => $isAdmin ? CHtml::activeDropDownList($model, 'school_inep_fk',
+                                'filter' => $isAdmin ? CHtml::activeDropDownList(
+                                    $model,
+                                    'school_inep_fk',
                                     CHtml::listData(SchoolIdentification::model()->findAll(), 'inep_id', 'name'),
-                                    array('empty' => 'Todos', 'class' => 'form-control')
+                                    ['empty' => 'Todos', 'class' => 'form-control']
                                 ) : false,
-                            ),
-                            array(
+                            ],
+                            [
                                 'name' => 'user_id',
                                 'header' => 'Usuário',
                                 'value' => '$data->user->name',
-                                'filter' => CHtml::activeDropDownList($model, 'user_id',
+                                'filter' => CHtml::activeDropDownList(
+                                    $model,
+                                    'user_id',
                                     CHtml::listData(Users::model()->findAll(), 'id', 'name'),
-                                    array('empty' => 'Todos', 'class' => 'form-control')
+                                    ['empty' => 'Todos', 'class' => 'form-control']
                                 ),
-                            ),
-                        ),
-                    )); ?>
+                            ],
+                        ],
+                    ]); ?>
                 </div>
             </div>
         </div>

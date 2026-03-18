@@ -1,0 +1,82 @@
+@import '../_tokens.scss';
+
+/**
+ * Stat Card — usado para exibir métricas de resumo (ex: contadores).
+ *
+ * Estrutura:
+ *   .t-stat-cards                → container flex wrapping
+ *     .t-stat-card               → card individual
+ *     .t-stat-card--info         → variante azul (padrão do produto)
+ *     .t-stat-card--success      → variante verde
+ *     .t-stat-card--warning      → variante laranja
+ *       .t-stat-card__value      → número grande
+ *       .t-stat-card__label      → rótulo descritivo
+ */
+
+.t-stat-cards {
+    display: flex;
+    flex-wrap: wrap;
+    gap: $SizeMedium;
+    margin-top: $SizeLarge;
+}
+
+.t-stat-card {
+    border-radius: $borderRadiusLarge;
+    padding: $SizeMedium $SizeLarge;
+    min-width: 180px;
+    flex: 1;
+    /* Distribui espaço igualmente */
+
+    &__value {
+        font-size: $FontSizeIconsTitle2; // 28px
+        font-weight: $fontWeightBold;
+        line-height: 1.2;
+    }
+
+    &__label {
+        font-size: $FontSizeTextSmall;
+        color: $colorsTextSecondary;
+        margin-top: $SizeXXXSmall;
+    }
+
+    // Variante informação (azul produto)
+    &--info {
+        background: $colorsBaseProductLight;
+        border-left: 4px solid $colorsBaseProductNormal;
+
+        .t-stat-card__value {
+            color: $colorsBaseProductNormal;
+        }
+    }
+
+    // Variante sucesso (verde)
+    &--success {
+        background: $colorsAlertSuccessBackground;
+        border-left: 4px solid $colorsAlertSuccessIcon;
+
+        .t-stat-card__value {
+            color: $colorsAlertSuccessIcon;
+        }
+    }
+
+    // Variante alerta (laranja)
+    &--warning {
+        background: $colorsAlertWarningBackground;
+        border-left: 4px solid $colorsAlertWarningIcon;
+
+        .t-stat-card__value {
+            color: $colorsAlertWarningText; // Usando Text ao invés de Icon para melhor contraste se necessário, ou Icon mesmo.
+        }
+    }
+
+    // Variante primary (reusing info for now or distinct?)
+    // Por enquanto mapping primary to info style ou creating distinct if tokens allow
+    &--primary {
+        background: $colorsBaseProductLighter;
+        border-left: 4px solid $colorsBaseProductDark;
+
+        .t-stat-card__value {
+            color: $colorsBaseProductDark;
+        }
+    }
+}

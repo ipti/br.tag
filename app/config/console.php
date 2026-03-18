@@ -1,12 +1,14 @@
 <?php
 
 define('DBNAME', 'demo.tag.ong.br');
-$HOST = getenv("HOST_DB_TAG");
-$USER = getenv("USER_DB_TAG");
-$PWD = getenv("PWD_DB_TAG");
+$HOST = getenv('HOST_DB_TAG');
+$USER = getenv('USER_DB_TAG');
+$PWD = getenv('PWD_DB_TAG');
+
+$newdb = 'demo.tag.ong.br';
 
 define('DBCONFIG', serialize([
-    'connectionString' => "mysql:host=$HOST",
+    'connectionString' => "mysql:host=$HOST;dbname=$newdb",
     'emulatePrepare' => true,
     'username' => $USER,
     'password' => $PWD,
@@ -35,7 +37,7 @@ return [
         ],
     ],
     // application components
-    'components' => [        
+    'components' => [
         'db' => unserialize(DBCONFIG),
         'authManager' => [
             'class' => 'CDbAuthManager',

@@ -17,6 +17,6 @@
 
         public function exec($isInstructor, $discipline)
         {
-            return $isInstructor?$this->classService->getClassroomsInstructor($discipline):$this->classService->getClassrooms();
+            return $isInstructor ? $this->classService->getClassroomsInstructor($discipline) : $this->classService->getClassrooms();
         }
     }

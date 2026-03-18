@@ -84,7 +84,7 @@ function load() {
                     $.each(
                         student.schedules,
                         function (indexSchedule, schedule) {
-                            var justificationContainer = "";
+                            let justificationContainer = "";
                             if (schedule.fault) {
                                 if (schedule.justification !== null) {
                                     justificationContainer +=
@@ -132,21 +132,21 @@ function load() {
                 html += "</tbody></table>";
                 $("#frequency-container").html(html).show();
                 $(".frequency-checkbox-general").each(function () {
-                    var day = $(this).find(".frequency-checkbox").attr("day");
+                    let day = $(this).find(".frequency-checkbox").attr("day");
                     $(this)
                         .find(".frequency-checkbox")
                         .prop(
                             "checked",
                             $(
                                 ".frequency-checkbox-student .frequency-checkbox[day=" +
-                                    day +
-                                    "]:checked"
+                                day +
+                                "]:checked"
                             ).length ===
-                                $(
-                                    ".frequency-checkbox-student .frequency-checkbox[day=" +
-                                        day +
-                                        "]"
-                                ).length
+                            $(
+                                ".frequency-checkbox-student .frequency-checkbox[day=" +
+                                day +
+                                "]"
+                            ).length
                         );
                 });
                 $('[data-toggle="tooltip"]').tooltip({ container: "body" });
@@ -258,7 +258,7 @@ $("#month, #disciplines").on("change", function () {
 });
 
 $(document).on("change", ".frequency-checkbox", function () {
-    var checkbox = this;
+    let checkbox = this;
     $.ajax({
         type: "POST",
         url: "?r=classes/saveFrequency",
@@ -286,18 +286,18 @@ $(document).on("change", ".frequency-checkbox", function () {
             if ($(checkbox).attr("studentId") === undefined) {
                 $(
                     ".table-frequency tbody .frequency-checkbox[day=" +
-                        $(checkbox).attr("day") +
-                        "][schedule=" +
-                        $(checkbox).attr("schedule") +
-                        "]"
+                    $(checkbox).attr("day") +
+                    "][schedule=" +
+                    $(checkbox).attr("schedule") +
+                    "]"
                 ).prop("checked", $(checkbox).is(":checked"));
                 if ($(checkbox).is(":checked")) {
                     $(
                         ".table-frequency tbody .frequency-checkbox[day=" +
-                            $(checkbox).attr("day") +
-                            "][schedule=" +
-                            $(checkbox).attr("schedule") +
-                            "]"
+                        $(checkbox).attr("day") +
+                        "][schedule=" +
+                        $(checkbox).attr("schedule") +
+                        "]"
                     ).each(function () {
                         if (
                             !$(this)
@@ -314,10 +314,10 @@ $(document).on("change", ".frequency-checkbox", function () {
                 } else {
                     $(
                         ".table-frequency tbody .frequency-checkbox[day=" +
-                            $(checkbox).attr("day") +
-                            "][schedule=" +
-                            $(checkbox).attr("schedule") +
-                            "]"
+                        $(checkbox).attr("day") +
+                        "][schedule=" +
+                        $(checkbox).attr("schedule") +
+                        "]"
                     )
                         .parent()
                         .find(".frequency-justification-icon")
@@ -349,7 +349,7 @@ $(document).on("change", ".frequency-checkbox", function () {
 });
 
 $(document).on("click", ".frequency-justification-icon", function () {
-    var checkbox = $(this).parent().find(".frequency-checkbox");
+    let checkbox = $(this).parent().find(".frequency-checkbox");
     $("#justification-classroomid").val(checkbox.attr("classroomid"));
     $("#justification-studentid").val(checkbox.attr("studentid"));
     $("#justification-day").val(checkbox.attr("day"));
@@ -389,16 +389,16 @@ $(document).on("click", ".btn-save-justification", function () {
             $("#save-justification-modal").find(".centered-loading-gif").show();
         },
         success: function (data) {
-            var justification = $(
+            let justification = $(
                 ".table-frequency tbody .frequency-checkbox[studentid=" +
-                    $("#justification-studentid").val() +
-                    "][day=" +
-                    $("#justification-day").val() +
-                    "][month=" +
-                    $("#justification-month").val() +
-                    "][year=" +
-                    $("#justification-year").val() +
-                    "]"
+                $("#justification-studentid").val() +
+                "][day=" +
+                $("#justification-day").val() +
+                "][month=" +
+                $("#justification-month").val() +
+                "][year=" +
+                $("#justification-year").val() +
+                "]"
             )
                 .parent()
                 .find(".frequency-justification-icon");
@@ -438,9 +438,8 @@ $(document).on("keyup", ".justification-text", function (e) {
 });
 
 function buildEnrollmentStatusLabel(status, label) {
-    return `<label class="t-badge-info t-margin-none--left ${
-        status == 1 ? "hide" : ""
-    }">
+    return `<label class="t-badge-info t-margin-none--left ${status == 1 ? "hide" : ""
+        }">
                 ${label}
             </label>`;
 }

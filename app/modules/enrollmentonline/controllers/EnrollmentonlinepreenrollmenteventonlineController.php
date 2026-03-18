@@ -1,6 +1,5 @@
 <?php
 
-
 use Sentry\Tracing\TransactionContext;
 use Sentry\SentrySdk;
 use Sentry\State\Hub;
@@ -19,10 +18,10 @@ class EnrollmentonlinepreenrollmenteventonlineController extends Controller
      */
     public function filters()
     {
-        return array(
+        return [
             'accessControl', // perform access control for CRUD operations
             'postOnly + delete', // we only allow deletion via POST request
-        );
+        ];
     }
 
     /**
@@ -32,34 +31,33 @@ class EnrollmentonlinepreenrollmenteventonlineController extends Controller
      */
     public function accessRules()
     {
-        return array(
-            array(
+        return [
+            [
                 'allow',  // allow all users to perform 'index' and 'view' actions
-                'actions' => array('index', 'view', 'getPreEnrollmentStages'),
-                'users' => array('*'),
-            ),
-            array(
+                'actions' => ['index', 'view', 'getPreEnrollmentStages'],
+                'users' => ['*'],
+            ],
+            [
                 'allow', // allow authenticated user to perform 'create' and 'update' actions
-                'actions' => array('create', 'update'),
-                'users' => array('@'),
-            ),
-            array(
+                'actions' => ['create', 'update'],
+                'users' => ['@'],
+            ],
+            [
                 'allow', // allow admin user to perform 'admin' and 'delete' actions
-                'actions' => array('admin', 'delete'),
-                'users' => array('admin'),
-            ),
-            array(
+                'actions' => ['admin', 'delete'],
+                'users' => ['admin'],
+            ],
+            [
                 'deny',  // deny all users
-                'users' => array('*'),
-            ),
-        );
+                'users' => ['*'],
+            ],
+        ];
     }
 
     public function init()
     {
         if (!Yii::app()->user->isGuest) {
-
-            $authTimeout = Yii::app()->user->getState("authTimeout", SESSION_MAX_LIFETIME);
+            $authTimeout = Yii::app()->user->getState('authTimeout', SESSION_MAX_LIFETIME);
             Yii::app()->user->authTimeout = $authTimeout;
 
             Yii::app()->sentry->setUserContext([
@@ -112,9 +110,9 @@ class EnrollmentonlinepreenrollmenteventonlineController extends Controller
      */
     public function actionView($id)
     {
-        $this->render('view', array(
+        $this->render('view', [
             'model' => $this->loadModel($id),
-        ));
+        ]);
     }
 
     /**
@@ -123,11 +121,10 @@ class EnrollmentonlinepreenrollmenteventonlineController extends Controller
      */
     public function actionCreate()
     {
-        $model = new EnrollmentOnlinePreEnrollmentEventOnline;
+        $model = new EnrollmentOnlinePreEnrollmentEventOnline();
         $request = Yii::app()->request->getPost('EnrollmentOnlinePreEnrollmentEventOnline');
 
         if ($request) {
-
             $transaction = Yii::app()->db->beginTransaction();
 
             try {
@@ -151,7 +148,6 @@ class EnrollmentonlinepreenrollmenteventonlineController extends Controller
                     $modelEventVsEdcensoStageNew->edcenso_stage_fk = $stageId;
                     $modelEventVsEdcensoStageNew->pre_enrollment_event_fk = $model->id;
 
-
                     if (!$modelEventVsEdcensoStageNew->save()) {
                         throw new Exception('Erro ao salvar vínculo com etapa.');
                     }
@@ -159,9 +155,8 @@ class EnrollmentonlinepreenrollmenteventonlineController extends Controller
 
                 $transaction->commit();
 
-                $this->redirect(array('index'));
+                $this->redirect(['index']);
             } catch (Exception $e) {
-
                 $transaction->rollback();
 
                 Yii::log($e->getMessage(), CLogger::LEVEL_ERROR);
@@ -173,11 +168,10 @@ class EnrollmentonlinepreenrollmenteventonlineController extends Controller
             }
         }
 
-        $this->render('create', array(
+        $this->render('create', [
             'model' => $model,
-        ));
+        ]);
     }
-
 
     /**
      * Updates a particular model.
@@ -194,7 +188,6 @@ class EnrollmentonlinepreenrollmenteventonlineController extends Controller
         $request = Yii::app()->request->getPost('EnrollmentOnlinePreEnrollmentEventOnline');
 
         if ($request) {
-
             $transaction = Yii::app()->db->beginTransaction();
 
             try {
@@ -227,7 +220,7 @@ class EnrollmentonlinepreenrollmenteventonlineController extends Controller
                     }
                 }
                 $transaction->commit();
-                $this->redirect(array('index'));
+                $this->redirect(['index']);
             } catch (Exception $e) {
                 $transaction->rollback();
 
@@ -243,9 +236,9 @@ class EnrollmentonlinepreenrollmenteventonlineController extends Controller
         $model->start_date = (new DateTime($model->start_date))->format('d/m/Y');
         $model->end_date = (new DateTime($model->end_date))->format('d/m/Y');
 
-        $this->render('update', array(
+        $this->render('update', [
             'model' => $model
-        ));
+        ]);
     }
 
     /**
@@ -287,9 +280,9 @@ class EnrollmentonlinepreenrollmenteventonlineController extends Controller
     public function actionIndex()
     {
         $dataProvider = new CActiveDataProvider('EnrollmentOnlinePreEnrollmentEventOnline');
-        $this->render('index', array(
+        $this->render('index', [
             'dataProvider' => $dataProvider,
-        ));
+        ]);
     }
 
     /**
@@ -299,12 +292,13 @@ class EnrollmentonlinepreenrollmenteventonlineController extends Controller
     {
         $model = new EnrollmentOnlinePreEnrollmentEventOnline('search');
         $model->unsetAttributes();  // clear any default values
-        if (isset($_GET['EnrollmentOnlinePreEnrollmentEventOnline']))
+        if (isset($_GET['EnrollmentOnlinePreEnrollmentEventOnline'])) {
             $model->attributes = $_GET['EnrollmentOnlinePreEnrollmentEventOnline'];
+        }
 
-        $this->render('admin', array(
+        $this->render('admin', [
             'model' => $model,
-        ));
+        ]);
     }
 
     public function actionGetPreEnrollmentStages()
@@ -332,8 +326,9 @@ class EnrollmentonlinepreenrollmenteventonlineController extends Controller
     public function loadModel($id)
     {
         $model = EnrollmentOnlinePreEnrollmentEventOnline::model()->findByPk($id);
-        if ($model === null)
+        if ($model === null) {
             throw new CHttpException(404, 'The requested page does not exist.');
+        }
         return $model;
     }
 

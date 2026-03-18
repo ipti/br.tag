@@ -19,7 +19,6 @@ use PeriodOptions;
 use Yii;
 use ZipArchive;
 
-
 define('TURMA_STRONG', '<strong>TURMA<strong>');
 define('SERIE_STRONG', '<strong>SÉRIE<strong>');
 define('STUDENT_STRONG', '<strong>ESTUDANTE<strong>');
@@ -52,17 +51,16 @@ define('INCONSISTENCY_ACTION_INVALID_APPROVED_STATUS_VALUE', 'Adicione um valor 
  */
 class SagresConsultModel
 {
-
-    private string $schoolName = "";
-    private string $inepId = "";
-    private string $referenceYear = "";
-    private string $month = "";
-    private string $finalClass = "";
+    private string $schoolName = '';
+    private string $inepId = '';
+    private string $referenceYear = '';
+    private string $month = '';
+    private string $finalClass = '';
     private bool $withoutCpf = true;
 
     /**
      * Cleans up inconsistency records from the database.
-     * 
+     *
      * @throws Error if the deletion fails.
      */
     public function cleanInconsistences()
@@ -75,16 +73,14 @@ class SagresConsultModel
 
             $resetQuery = 'ALTER TABLE inconsistency_sagres AUTO_INCREMENT = 1';
             $connection->createCommand($resetQuery)->execute();
-
         } catch (Exception $e) {
             throw new Error($e->getMessage());
         }
     }
 
-
     /**
      * Main entry point for gathering Sagres education data.
-     * 
+     *
      * @param string $referenceYear The reference year for the data.
      * @param string $month The reference month.
      * @param string $finalClass Flag indicating if it's the final class.
@@ -95,12 +91,11 @@ class SagresConsultModel
      */
     public function getSagresEdu($referenceYear, $month, $finalClass, $noMovement, $withoutCpf): EducacaoTType
     {
-
         $education = new EducacaoTType();
         $managementUnitId = $this->getManagementId();
         $this->referenceYear = $referenceYear;
         $this->month = $month;
-        $this-> finalClass = $finalClass;
+        $this->finalClass = $finalClass;
         $this->withoutCpf = $withoutCpf;
 
         if ($noMovement) {
@@ -109,7 +104,7 @@ class SagresConsultModel
         }
 
         try {
-            $school =  $this->getSchools();
+            $school = $this->getSchools();
             $prestacaoContas = $this->getManagementUnit($managementUnitId, $referenceYear, $month);
             $profissional = $this->getProfessionals($referenceYear, $month);
 
@@ -128,7 +123,7 @@ class SagresConsultModel
 
     /**
      * Retrieves management unit header information.
-     * 
+     *
      * @param int|string $managementUnitId The ID of the management unit.
      * @param string $referenceYear The reference year.
      * @param string $month The reference month.
@@ -216,7 +211,7 @@ class SagresConsultModel
 
     /**
      * Adjusts the final day of the month to be a business day, accounting for holidays.
-     * 
+     *
      * @param string $referenceYear The year.
      * @param string $month The month.
      * @param int $finalDay The initial final day.
@@ -275,16 +270,17 @@ class SagresConsultModel
      * Summary of EscolaTType
      * @return EscolaTType[]
      */
-    private function getSchools(){
+    private function getSchools()
+    {
         $schoolList = [];
 
-        $query = "SELECT inep_id, name FROM school_identification where situation = 1";
+        $query = 'SELECT inep_id, name FROM school_identification where situation = 1';
         $schools = Yii::app()->db->createCommand($query)->queryAll();
 
         foreach ($schools as $school) {
             $schoolType = new EscolaTType();
-            $this->inepId=$school['inep_id'];
-            $this->schoolName=$school['name'];
+            $this->inepId = $school['inep_id'];
+            $this->schoolName = $school['name'];
 
             $turmas = $this->getClasses();
 
@@ -300,14 +296,12 @@ class SagresConsultModel
             $this->getSchoolsValidation($schoolType->getDiretor(), $school);
         }
 
-
-
         return $schoolList;
     }
 
     /**
      * Validates school and director information for Sagres.
-     * 
+     *
      * @param DiretorTType $diretor The director object to validate.
      * @param array $school The school data array.
      */
@@ -374,7 +368,7 @@ class SagresConsultModel
 
     /**
      * Checks for students enrolled simultaneously in regular classes.
-     * 
+     *
      * @param int $year The school year.
      */
     private function enrolledSimultaneouslyInRegularClasses(int $year)
@@ -399,7 +393,7 @@ class SagresConsultModel
 
         foreach ($students as $student) {
             $infoStudent = $this->getStudentInfo($student['student_fk']);
-            $count = $this->getCountOfClassrooms($student,$year);
+            $count = $this->getCountOfClassrooms($student, $year);
             $this->checkStudentEnrollment($student['student_fk'], $year, infoStudent: $infoStudent);
 
             if (!in_array($student['student_fk'], $processedStudents)) {
@@ -411,7 +405,7 @@ class SagresConsultModel
 
     /**
      * Counts the number of regular classrooms a student is enrolled in.
-     * 
+     *
      * @param array $student The student data.
      * @param int $year The school year.
      * @return array Contains 'count' and 'classNames'.
@@ -467,7 +461,7 @@ class SagresConsultModel
 
     /**
      * Checks if a student's enrollment is valid and not duplicated across regular classes.
-     * 
+     *
      * @param int $studentfk The student ID.
      * @param int $year The school year.
      * @param array $infoStudent Student information.
@@ -578,7 +572,7 @@ class SagresConsultModel
 
     /**
      * Retrieves student basic data by ID.
-     * 
+     *
      * @param int $id The student ID.
      * @return array|false
      */
@@ -598,7 +592,7 @@ class SagresConsultModel
 
     /**
      * Retrieves student information including name and CPF.
-     * 
+     *
      * @param int $studentfk The student ID.
      * @return array|false
      */
@@ -615,7 +609,7 @@ class SagresConsultModel
 
     /**
      * Retrieves school name by INEP ID.
-     * 
+     *
      * @param string $inepId The school INEP ID.
      * @return string|false
      */
@@ -630,7 +624,7 @@ class SagresConsultModel
 
     /**
      * Validates student age based on education level.
-     * 
+     *
      * @param int $age The student's age.
      * @param int $educationLevel The level of education.
      * @param array $arrayStudentInfo Array with student and classroom info.
@@ -666,7 +660,7 @@ class SagresConsultModel
 
     /**
      * Creates an inconsistency record for students in multiple regular classes.
-     * 
+     *
      * @param array $student Student enrollment data.
      * @param array $infoStudent Student personal info.
      * @param array $count Count result from getCountOfClassrooms.
@@ -689,7 +683,7 @@ class SagresConsultModel
 
     /**
      * Returns the total count of inconsistencies found.
-     * 
+     *
      * @return int
      */
     public function getInconsistenciesCount()
@@ -717,7 +711,7 @@ class SagresConsultModel
      */
     /**
      * Retrieves classes (turmas) for the current school.
-     * 
+     *
      * @return TurmaTType[]
      */
     private function getClasses()
@@ -754,8 +748,8 @@ class SagresConsultModel
                 $inconsistencyModel->enrollment = TURMA_STRONG;
 
                 $inconsistencyModel->school = $schoolName;
-                $inconsistencyModel->description = 'A turma <strong>' . $turma["classroomName"] . '</strong> é do tipo EJA, mas o perído está selecionado como anual.';
-                $inconsistencyModel->action = 'Altere o periodo para 1º ou 2º semestre: ' . $turma["classroomName"];
+                $inconsistencyModel->description = 'A turma <strong>' . $turma['classroomName'] . '</strong> é do tipo EJA, mas o perído está selecionado como anual.';
+                $inconsistencyModel->action = 'Altere o periodo para 1º ou 2º semestre: ' . $turma['classroomName'];
                 $inconsistencyModel->identifier = '10';
                 $inconsistencyModel->idClass = $classId;
                 $inconsistencyModel->idSchool = $inepId;
@@ -797,7 +791,7 @@ class SagresConsultModel
 
     /**
      * Checks if a class has at least one student registration.
-     * 
+     *
      * @param bool $seriePreenchida Whether the series is populated.
      * @param SerieTType[] $serie The series data.
      * @return bool
@@ -811,9 +805,10 @@ class SagresConsultModel
         }
         return false;
     }
+
     /**
      * Fetches class data from the database.
-     * 
+     *
      * @return array
      */
     private function getTurmasInClasses()
@@ -849,7 +844,7 @@ class SagresConsultModel
 
     /**
      * Validates class (turma) information for Sagres.
-     * 
+     *
      * @param int $count Number of enrollments.
      * @param string $schoolName Name of the school.
      * @param TurmaTType $classType The class object.
@@ -967,27 +962,27 @@ class SagresConsultModel
      */
     /**
      * Retrieves the series (etapas) for a given class for the 2025 export.
-     * 
+     *
      * @param int $classId The class ID.
      * @param bool $isMulti Whether the class is multi-grade.
      * @return SerieTType[]
      */
-    private function getSeries2025($classId,$isMulti)
+    private function getSeries2025($classId, $isMulti)
     {
         $seriesList = [];
 
         $query = $this->getSeriesQuery($isMulti);
-        $series = Yii::app()->db->createCommand($query)->bindValue(":id", $classId)->queryAll();
+        $series = Yii::app()->db->createCommand($query)->bindValue(':id', $classId)->queryAll();
 
-        $seriesList = $this->seriesAssembly($series,$classId,$isMulti);
-        $this->seriesNumberValidation($series,  $classId);
+        $seriesList = $this->seriesAssembly($series, $classId, $isMulti);
+        $this->seriesNumberValidation($series, $classId);
 
         return $seriesList;
     }
 
     /**
      * Assembles the series object with its respective enrollments.
-     * 
+     *
      * @param array $series Array of series data from database.
      * @param int $classId The class ID.
      * @param bool $multiStage Whether it's a multi-stage class.
@@ -1051,7 +1046,7 @@ class SagresConsultModel
 
     /**
      * Checks if a series ID is set and registers an inconsistency if it's missing in a multi-stage context.
-     * 
+     *
      * @param string|null $idSerie The series ID.
      * @param string $schoolName The school name.
      * @param int $classId The class ID.
@@ -1073,16 +1068,17 @@ class SagresConsultModel
         }
         return false;
     }
+
     /**
      * Returns the SQL query for fetching series based on whether it's multi-grade or not.
-     * 
+     *
      * @param bool $isMulti Whether it's a multi-grade class.
      * @return string The SQL query.
      */
     private function getSeriesQuery($isMulti): string
     {
         return $isMulti ?
-        "
+        '
         SELECT
             esvm.edcenso_associated_stage_id as edcensoCode,
             c.edcenso_stage_vs_modality_fk as edcensoCodeOriginal,
@@ -1096,9 +1092,9 @@ class SagresConsultModel
         WHERE
             c.id = :id
         And esvm.edcenso_associated_stage_id is not NULL
-        GROUP by se.edcenso_stage_vs_modality_fk"
+        GROUP by se.edcenso_stage_vs_modality_fk'
         :
-        "
+        '
         SELECT
             esvm.edcenso_associated_stage_id as edcensoCode,
             c.edcenso_stage_vs_modality_fk as edcensoCodeOriginal,
@@ -1111,13 +1107,12 @@ class SagresConsultModel
             esvm.id = c.edcenso_stage_vs_modality_fk
         WHERE
             c.id = :id;
-        ";
-
+        ';
     }
 
     /**
      * Maps database series info to the Sagres series ID (e.g., COM1, AEE1, INF1).
-     * 
+     *
      * @param object $serie The series data object.
      * @param int|string $edcensoCode The Edcenso stage code.
      * @param array $edcensoCodes Map of Edcenso codes to Sagres IDs.
@@ -1136,7 +1131,7 @@ class SagresConsultModel
 
     /**
      * Filters enrollments for a specific series in multi-stage classes.
-     * 
+     *
      * @param bool $multiStage Whether it's multi-stage.
      * @param string $idSerie The series ID.
      * @param array $matriculas Array of enrollments.
@@ -1157,7 +1152,7 @@ class SagresConsultModel
 
     /**
      * Validates if the series is supported and registers inconsistencies.
-     * 
+     *
      * @param SerieTType $serieType The series object.
      * @param string $schoolName The school name.
      * @param int $classId The class ID.
@@ -1189,7 +1184,7 @@ class SagresConsultModel
 
     /**
      * Validates the number of series in a multi-grade class (limit: 3).
-     * 
+     *
      * @param array $series The series found.
      * @param int $idClass The class ID.
      */
@@ -1212,7 +1207,7 @@ class SagresConsultModel
 
     /**
      * Checks if a class is multi-grade based on its stage.
-     * 
+     *
      * @param int $classId The class ID.
      * @return bool
      */
@@ -1231,7 +1226,7 @@ class SagresConsultModel
      */
     /**
      * Retrieves schedules and teacher info for a class.
-     * 
+     *
      * @param array $class Class data array from database.
      * @return HorarioTType[]
      */
@@ -1297,7 +1292,7 @@ class SagresConsultModel
             $inconsistencyModel = new ValidationSagresModel();
             $inconsistencyModel->enrollment = TURMA_STRONG;
             $inconsistencyModel->school = $schoolName;
-            $inconsistencyModel->description = 'Não há professores registrados para a turma: <strong>' . $className. '<strong>';
+            $inconsistencyModel->description = 'Não há professores registrados para a turma: <strong>' . $className . '<strong>';
             $inconsistencyModel->action = 'Adicione os professores juntamente com os seus componentes curriculares';
             $inconsistencyModel->identifier = '10';
             $inconsistencyModel->idClass = $classId;
@@ -1435,7 +1430,7 @@ class SagresConsultModel
 
     /**
      * Checks for inconsistencies in the class schedule (e.g., missing disciplines).
-     * 
+     *
      * @param int $classId The class ID.
      * @param string $referenceMonth The reference month.
      * @param string $schoolName The school name.
@@ -1490,7 +1485,7 @@ class SagresConsultModel
 
     /**
      * Retrieves the role of an instructor in a specific class.
-     * 
+     *
      * @param int $classroomIdFk The class ID.
      * @param int $instructorId The instructor ID.
      * @return string|false The instructor role.
@@ -1511,7 +1506,7 @@ class SagresConsultModel
 
     /**
      * Fetches the timetable for a classroom up to a certain month.
-     * 
+     *
      * @param int $classId The class ID.
      * @param string $month The reference month.
      * @return \Schedule[]
@@ -1528,7 +1523,7 @@ class SagresConsultModel
 
     /**
      * Retrieves curricular components (disciplines) assigned to a teacher in a class.
-     * 
+     *
      * @param int $classId The class ID.
      * @param int $instructorId The instructor ID.
      * @return array
@@ -1556,7 +1551,7 @@ class SagresConsultModel
 
     /**
      * Retrieves all teachers assigned to a specific class.
-     * 
+     *
      * @param int $classId The class ID.
      * @return array
      */
@@ -1634,7 +1629,7 @@ class SagresConsultModel
 
     /**
      * Creates a DateTime object for a specific hour.
-     * 
+     *
      * @param string|int $initialHour The start hour.
      * @return DateTime
      */
@@ -1650,7 +1645,7 @@ class SagresConsultModel
      */
     /**
      * Retrieves the food menu list for a school and timeframe.
-     * 
+     *
      * @param string $schoolId The school INEP ID.
      * @param string $year The reference year.
      * @param string $month The reference month.
@@ -1786,7 +1781,7 @@ class SagresConsultModel
 
     /**
      * Retrieves director information for a school.
-     * 
+     *
      * @param string $idSchool The school INEP ID.
      * @return DiretorTType
      */
@@ -1813,12 +1808,10 @@ class SagresConsultModel
     }
 
     /**
-     * Summary of ProfissionalTType
-     * @return ProfissionalTType[]
-     */
-    /**
      * Retrieves professionals (teachers/staff) for a given timeframe.
-     * 
+     * Uses `professional_allocation` to determine location (school or secretariat)
+     * and role (mapped to especialidade).
+     *
      * @param string $referenceYear The reference year.
      * @param string $month The reference month.
      * @return ProfissionalTType[]
@@ -1826,32 +1819,47 @@ class SagresConsultModel
     private function getProfessionals($referenceYear, $month)
     {
         $professionalList = [];
+
         $query = 'SELECT DISTINCT
-                    p.id_professional AS id_professional,
-                    p.cpf_professional  AS cpfProfissional,
-                    p.speciality  AS especialidade,
-                    p.inep_id_fk AS idEscola,
-                    fundeb
+                    p.id_professional       AS id_professional,
+                    p.cpf_professional      AS cpfProfissional,
+                    p.fundeb                AS fundeb,
+                    pa.role                 AS role,
+                    pa.contract_type        AS contract_type,
+                    pa.location_type        AS locationType,
+                    pa.school_inep_fk       AS idEscola
                 FROM professional p
-                    JOIN attendance a ON p.id_professional  = a.professional_fk  and MONTH(a.date) <= :currentMonth
+                    JOIN professional_allocation pa ON pa.professional_fk = p.id_professional
+                        AND pa.school_year = :reference_year
+                    JOIN attendance a ON p.id_professional = a.professional_fk
+                        AND MONTH(a.date) <= :currentMonth
                 WHERE
                     YEAR(a.date) = :reference_year';
 
         $command = Yii::app()->db->createCommand($query);
         $command->bindValues([
             ':reference_year' => $referenceYear,
-            ':currentMonth' => $month
+            ':currentMonth' => $month,
         ]);
 
         $professionals = $command->queryAll();
+        $roleOptions = \ProfessionalAllocation::getRoleOptions();
         $strMaxLength = 50;
 
         foreach ($professionals as $professional) {
+            $especialidade = isset($roleOptions[$professional['role']])
+                ? $roleOptions[$professional['role']]
+                : 'Nao informado';
+
+            // idEscola only applies when the professional is allocated to a school
+            $idEscola = ($professional['locationType'] === 'school')
+                ? $professional['idEscola']
+                : null;
+
             $professionalType = new ProfissionalTType();
             $professionalType
                 ->setCpfProfissional(str_replace(['.', '-'], '', $professional['cpfProfissional']))
-                ->setEspecialidade($professional['especialidade'])
-                ->setIdEscola($professional['idEscola'])
+                ->setEspecialidade($especialidade)
                 ->setFundeb($professional['fundeb'])
                 ->setAtendimento(
                     $this->getAttendances(
@@ -1860,33 +1868,68 @@ class SagresConsultModel
                         $month
                     )
                 );
+
+            if ($idEscola !== null) {
+                $professionalType->setIdEscola($idEscola);
+            }
+
             $professionalList[] = $professionalType;
 
-            $sql = 'SELECT name FROM school_identification WHERE inep_id = :inepId';
-            $params = [':inepId' => $professional['idEscola']];
-            $schoolRes = Yii::app()->db->createCommand($sql)->bindValues($params)->queryRow();
+            // Resolve school name for inconsistency messages
+            $schoolName = 'Secretaria de Educacao';
+            if ($idEscola !== null) {
+                $sql = 'SELECT name FROM school_identification WHERE inep_id = :inepId';
+                $schoolRes = Yii::app()->db->createCommand($sql)
+                    ->bindValues([':inepId' => $idEscola])
+                    ->queryRow();
+                $schoolName = $schoolRes['name'] ?? $schoolName;
+            }
 
             if (!$this->validaCPF($professionalType->getCpfProfissional())) {
                 $inconsistencyModel = new ValidationSagresModel();
                 $inconsistencyModel->enrollment = 'PROFISSIONAL';
-                $inconsistencyModel->school = $schoolRes['name'];
+                $inconsistencyModel->school = $schoolName;
                 $inconsistencyModel->description = 'CPF inválido: ' . $professional['cpfProfissional'];
                 $inconsistencyModel->action = 'Informar um CPF válido';
                 $inconsistencyModel->identifier = '2';
                 $inconsistencyModel->idProfessional = $professional['id_professional'];
-                $inconsistencyModel->idSchool = $professional['idEscola'];
+                $inconsistencyModel->idSchool = $idEscola;
                 $inconsistencyModel->insert();
             }
 
-            if (strlen($professionalType->getEspecialidade()) > $strMaxLength) {
+            if (strlen($especialidade) > $strMaxLength) {
                 $inconsistencyModel = new ValidationSagresModel();
                 $inconsistencyModel->enrollment = 'PROFISSIONAL';
-                $inconsistencyModel->school = $schoolRes['name'];
+                $inconsistencyModel->school = $schoolName;
                 $inconsistencyModel->description = 'Especialidade com mais de 50 caracteres';
                 $inconsistencyModel->action = 'Informar uma descrição para a especialidade com até 50 caracteres';
                 $inconsistencyModel->identifier = '2';
                 $inconsistencyModel->idProfessional = $professional['id_professional'];
-                $inconsistencyModel->idSchool = $professional['idEscola'];
+                $inconsistencyModel->idSchool = $idEscola;
+                $inconsistencyModel->insert();
+            }
+
+            if ($professional['role'] == \ProfessionalAllocation::ROLE_UNDEFINED) {
+                $inconsistencyModel = new ValidationSagresModel();
+                $inconsistencyModel->enrollment = 'PROFISSIONAL';
+                $inconsistencyModel->school = $schoolName;
+                $inconsistencyModel->description = 'Cargo/Função do profissional não definido (Necessita Correção Manual)';
+                $inconsistencyModel->action = 'Acesse o cadastro do profissional e atualize a aba "Lotação"';
+                $inconsistencyModel->identifier = '2';
+                $inconsistencyModel->idProfessional = $professional['id_professional'];
+                $inconsistencyModel->idSchool = $idEscola;
+                $inconsistencyModel->insert();
+            }
+
+            if ($professional['contract_type'] == \ProfessionalAllocation::CONTRACT_UNDEFINED) {
+                $inconsistencyModel = new ValidationSagresModel();
+                $inconsistencyModel->enrollment = 'PROFISSIONAL';
+                $inconsistencyModel->school = $schoolName;
+                $inconsistencyModel->description = 'Tipo de Contrato do profissional não definido (Necessita Correção Manual)';
+                $inconsistencyModel->action = 'Acesse o cadastro do profissional e atualize a aba "Lotação"';
+                $inconsistencyModel->identifier = '2';
+                $inconsistencyModel->idProfessional = $professional['id_professional'];
+                $inconsistencyModel->idSchool = $idEscola;
                 $inconsistencyModel->insert();
             }
         }
@@ -1896,7 +1939,7 @@ class SagresConsultModel
 
     /**
      * Returns an array of enrollment statuses that are accepted for the export.
-     * 
+     *
      * @return array
      */
     private function getAcceptedEnrollmentStatus(): array
@@ -1916,7 +1959,7 @@ class SagresConsultModel
 
     /**
      * Retrieves professional attendance records.
-     * 
+     *
      * @param int $professionalId The professional's ID.
      * @param string $referenceYear The reference year.
      * @param string $month The reference month.
@@ -1963,7 +2006,7 @@ class SagresConsultModel
      */
     /**
      * Processes enrollments for a specific class.
-     * 
+     *
      * @param int $classId The class ID.
      * @return MatriculaTType[]|null
      */
@@ -1971,7 +2014,7 @@ class SagresConsultModel
     {
         $enrollmentList = [];
         $referenceYear = $this->referenceYear;
-        $finalClass= $this->finalClass;
+        $finalClass = $this->finalClass;
         $inepId = $this->inepId;
         $withoutCpf = $this->withoutCpf;
         $schoolName = $this->schoolName;
@@ -2011,7 +2054,7 @@ class SagresConsultModel
                 ->setAluno($studentType)
                 ->setEnrollmentStage($enrollment['enrollment_stage']);
 
-            $this->matriculaValidation($enrollment, $enrollmentType, $studentType,  $classId, $finalClass);
+            $this->matriculaValidation($enrollment, $enrollmentType, $studentType, $classId, $finalClass);
             $this->checkSingleStudentWithoutCpf($enrollments, $cpf, $classId, $referenceYear);
 
             $enrollmentList[] = $enrollmentType;
@@ -2022,7 +2065,7 @@ class SagresConsultModel
 
     /**
      * Generates a student object based on whether CPF is required/available.
-     * 
+     *
      * @param bool $withoutCpf Flag for CPF exclusion.
      * @param string $convertedBirthdate Formatted birthdate.
      * @param array $enrollment Enrollment data from DB.
@@ -2038,7 +2081,7 @@ class SagresConsultModel
 
     /**
      * Generates a student object when CPF is included.
-     * 
+     *
      * @param array $enrollment Enrollment data.
      * @param string $convertedBirthdate Formatted birthdate.
      * @param string|null $cpf The student's CPF.
@@ -2073,7 +2116,7 @@ class SagresConsultModel
 
     /**
      * Generates a student object when CPF might be excluded.
-     * 
+     *
      * @param string $convertedBirthdate Formatted birthdate.
      * @param array $enrollment Enrollment data.
      * @param string|null $cpf The student's CPF.
@@ -2107,7 +2150,7 @@ class SagresConsultModel
 
     /**
      * Checks student modality and validates age for EJA levels.
-     * 
+     *
      * @param array $enrollment Enrollment data.
      * @param string $birthdate The student's birthdate.
      */
@@ -2129,7 +2172,7 @@ class SagresConsultModel
 
     /**
      * Retrieves student CPF from the documents table.
-     * 
+     *
      * @param array $enrollment Enrollment data contains the student ID.
      * @return string|false
      */
@@ -2143,7 +2186,7 @@ class SagresConsultModel
 
     /**
      * Registers an inconsistency if a student type could not be generated.
-     * 
+     *
      * @param AlunoTType|null $studentType The generated student object.
      * @param string $school The school name.
      * @param array $enrollment Enrollment data.
@@ -2166,7 +2209,7 @@ class SagresConsultModel
 
     /**
      * Fetches enrollment records for a specific class from the database.
-     * 
+     *
      * @param int $classId The class ID.
      * @param string $referenceYear The school year.
      * @return array
@@ -2245,7 +2288,7 @@ class SagresConsultModel
 
     /**
      * Validates student information (name, CPF, birthdate, etc.) for Sagres.
-     * 
+     *
      * @param AlunoTType $studentType The student object.
      * @param string $schoolName The school name.
      * @param string $cpf The student's CPF.
@@ -2379,7 +2422,7 @@ class SagresConsultModel
 
     /**
      * Validates student info specifically when CPF is absent (checks reasons).
-     * 
+     *
      * @param AlunoTType $studentType The student object.
      * @param string $schoolName The school name.
      * @param int|string $cpfReason The reason code for missing CPF.
@@ -2489,7 +2532,7 @@ class SagresConsultModel
 
     /**
      * Validates enrollment-specific data (status, approved flag).
-     * 
+     *
      * @param array $enrollment Enrollment data from DB.
      * @param MatriculaTType $enrollmentType The enrollment object.
      * @param AlunoTType $studentType The student object.
@@ -2547,7 +2590,7 @@ class SagresConsultModel
     /**
      * Checks if a class has only a single student and that student lacks a CPF.
      * Sagres requires students to have a CPF for the enrollment to be valid.
-     * 
+     *
      * @param array $enrollments List of enrollments in the class.
      * @param string|null $cpf The student's CPF.
      * @param int $classId The class ID.
@@ -2574,7 +2617,7 @@ class SagresConsultModel
 
     /**
      * Retrieves the Edcenso stage code from its ID.
-     * 
+     *
      * @param int $id The stage ID.
      * @return string|false
      */
@@ -2588,7 +2631,7 @@ class SagresConsultModel
 
     /**
      * Calculates age from a birthdate string.
-     * 
+     *
      * @param string $birthdate The birthdate.
      * @return int
      */
@@ -2622,7 +2665,7 @@ class SagresConsultModel
 
     /**
      * Retrieves the name of a class.
-     * 
+     *
      * @param int $id The class ID.
      * @param string $year The school year.
      * @return string|false
@@ -2638,7 +2681,7 @@ class SagresConsultModel
 
     /**
      * Normalizes birthdate strings into the system-defined DATE_FORMAT.
-     * 
+     *
      * @param string $birthdate The birthdate string.
      * @return string|false
      */
@@ -2659,7 +2702,7 @@ class SagresConsultModel
 
     /**
      * Maps database student situation codes to boolean approved status.
-     * 
+     *
      * @param int $situation The situation code.
      * @return bool
      */
@@ -2682,7 +2725,7 @@ class SagresConsultModel
 
     /**
      * Serializes the Sagres education object into XML format.
-     * 
+     *
      * @param EducacaoTType $sagresEduObject The data object.
      * @return string The XML string.
      */
@@ -2704,7 +2747,7 @@ class SagresConsultModel
 
     /**
      * Removes special characters from the XML string that might cause parsing issues.
-     * 
+     *
      * @param string $string The raw string.
      * @return string
      */
@@ -2715,7 +2758,7 @@ class SagresConsultModel
 
     /**
      * Exports the XML content to a physical file and creates a ZIP archive.
-     * 
+     *
      * @param string $xml The XML content.
      * @throws ErrorException if write fails.
      */
@@ -2748,7 +2791,7 @@ class SagresConsultModel
 
     /**
      * Validates an object against Sagres XSD rules using YAML metadata.
-     * 
+     *
      * @param object $object The object to validate.
      * @return \Symfony\Component\Validator\ConstraintViolationListInterface
      */
@@ -2793,7 +2836,7 @@ class SagresConsultModel
 
     /**
      * Validates a date against age/time limits for birth and enrollment dates.
-     * 
+     *
      * @param string|DateTime $date The date to validate.
      * @param int $type The validation type (1: Birthdate, 2: Enrollment).
      * @return bool
@@ -2838,7 +2881,7 @@ class SagresConsultModel
 
     /**
      * Validates a CPF (Brazilian Taxpayer ID) string using structural rules.
-     * 
+     *
      * @param string $cpf The CPF string.
      * @return bool
      */
@@ -2871,7 +2914,7 @@ class SagresConsultModel
 
     /**
      * Checks if a date is after the maximum allowed limit.
-     * 
+     *
      * @param DateTime $data The date.
      * @return bool
      */
@@ -2884,7 +2927,7 @@ class SagresConsultModel
 
     /**
      * Checks if a date is before the minimum allowed limit.
-     * 
+     *
      * @param DateTime $data The date.
      * @return bool
      */
@@ -2897,7 +2940,7 @@ class SagresConsultModel
 
     /**
      * Checks if a CPF string has the exact required length of 11 characters.
-     * 
+     *
      * @param string $cpf The CPF string.
      * @return bool
      */

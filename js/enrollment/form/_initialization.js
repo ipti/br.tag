@@ -23,10 +23,10 @@ $(document).on("click", "#delete-enrollment", function () {
             block = response.block;
             message = response.message;
 
-            if(block) {
+            if (block) {
                 alert(message);
-            }else {
-                if(confirm(message)) {
+            } else {
+                if (confirm(message)) {
                     $.ajax({
                         url: `${window.location.host}?r=enrollment/delete&id=${enrollment_id}`,
                         success: function (response) {
@@ -56,8 +56,8 @@ $(document).on('change', '#secondDropdown select', function () {
 });
 
 function checkDropdownValue() {
-    var selectedValue = $('#reasonDropdown select').val();
-    var secondDropdown = $('#secondDropdown');
+    let selectedValue = $('#reasonDropdown select').val();
+    let secondDropdown = $('#secondDropdown');
 
     secondDropdown.hide();
     if (selectedValue === '1') {
@@ -66,5 +66,5 @@ function checkDropdownValue() {
 }
 
 function checkSecondDropdownValue() {
-    var selectedValue = $('#secondDropdown select').val();
+    let selectedValue = $('#secondDropdown select').val();
 }

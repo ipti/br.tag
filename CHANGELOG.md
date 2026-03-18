@@ -1,9 +1,44 @@
+## [Versão 3.13.0]
+
+#### Refatorações internas
+
+- Refatoração completa do módulo de estudantes para melhor arquitetura e desempenho (app/modules/student)
+
+- Migração completa do módulo de Escolas (School) para a nova arquitetura de módulos (app/modules/school)
+
+#### Ficha de vinculo do professor
+- **Novo Resumo do Ano:** Agora é possível imprimir um resumo completo de todos os vínculos e aulas do professor em um único ano.
+- **Histórico de Vínculos Mais Simples:** No painel e na impressão do histórico do professor, turmas de Ensino Fundamental Menor (Regência) agora aparecem de forma agrupada, sem quebrar a contagem por disciplina.
+- Correção de falha que impedia o brasão de algumas escolas de aparecer corretamente ao imprimir relatórios.
+
+#### Estrutura
+
+- Agora é possível **copiar uma estrutura de avaliação** para outro ano letivo diretamente da listagem, sem precisar recadastrá-la do zero
+- A listagem de estruturas de avaliação exibe o **ano de referência** e as **etapas de ensino** vinculadas a cada estrutura
+- Estruturas antigas (sem ano definido) continuam aparecendo normalmente para anos anteriores a 2026
+- A tela de gestão de estruturas de avaliação foi reorganizada e melhorada visualmente
+- Agora é possível **alocar profissionais na Secretaria Municipal de Educação**, além de escolas
+- Novo módulo de **Lotação de Profissionais**: gerencie cargos, tipos de contrato, carga horária e histórico de atendimentos individuais
+
+ #### Notificações
+
+- Implementado módulo de Notificações com inbox pessoal do usuário
+- Adicionado gerenciamento de notificações para administradores
+- Modelos `Notification` e `NotificationRecipient` refatorados para herdar de `TagModel`, padronizando o controle de timestamps via `CTimestampBehavior`
+- Adicionadas colunas `updated_at` em `notification` e `created_at`/`updated_at` em `notification_recipient`
+- Corrigido uso de `user->loginInfos->id` no `InboxController` para identificação correta do usuário
+- Refinada a interface de visualização de notificações: badges de status, hierarquia visual e layout de metadados
+
+## [Versão 3.9.3]
+- Corrigido lista vazia no select "Componente no EducaCenso" ao adicionar ou atualizar componente curricular
+
 ## [Versão 3.9.2]
 - Corrigido erro 404 no acesso aos módulos de Calendário e Merenda Escolar
 
 ## [Versão 3.9.1]
 - Corrigido select de cargo que sempre exibia "Administrador" ao editar um usuário, independente do cargo real
 - Corrigido problema de validação de conteúdo ministrado
+
 
 ## [Versão 3.9.0]
 - Implementado módulo de Almoxarifado (Gestão de Estoque)

@@ -136,12 +136,12 @@ class GradesController extends Controller
         echo CHtml::tag('option', ['value' => ''], CHtml::encode('Selecione...'), true);
         if (Yii::app()->getAuthManager()->checkAccess('instructor', Yii::app()->user->loginInfos->id)) {
             $disciplines = Yii::app()->db->createCommand(
-                "select ed.id from teaching_matrixes tm
+                'select ed.id from teaching_matrixes tm
                 join instructor_teaching_data itd on itd.id = tm.teaching_data_fk
                 join instructor_identification ii on ii.id = itd.instructor_fk
                 join curricular_matrix cm on cm.id = tm.curricular_matrix_fk
                 join edcenso_discipline ed on ed.id = cm.discipline_fk
-                where ii.users_fk = :userid and itd.classroom_id_fk = :crid and ed.requires_exam = 1 order by ed.name"
+                where ii.users_fk = :userid and itd.classroom_id_fk = :crid and ed.requires_exam = 1 order by ed.name'
             )->bindParam(':userid', Yii::app()->user->loginInfos->id)->bindParam(':crid', $classroom->id)->queryAll();
 
             foreach ($disciplines as $discipline) {
@@ -149,10 +149,10 @@ class GradesController extends Controller
             }
         } else {
             $classr = Yii::app()->db->createCommand(
-                "select curricular_matrix.discipline_fk
+                'select curricular_matrix.discipline_fk
                 from curricular_matrix
                     join edcenso_discipline ed on ed.id = curricular_matrix.discipline_fk
-                where stage_fk = :stage_fk and school_year = :year and ed.requires_exam = 1  order by ed.name"
+                where stage_fk = :stage_fk and school_year = :year and ed.requires_exam = 1  order by ed.name'
             )
                 ->bindParam(':stage_fk', $classroom->edcenso_stage_vs_modality_fk)
                 ->bindParam(':year', Yii::app()->user->year)->queryAll();
@@ -168,7 +168,7 @@ class GradesController extends Controller
     {
         $classroomId = Yii::app()->request->getPost('classroom');
         $stage = Yii::app()->request->getPost('stage');
-        if (isset(($stage)) && $stage !== '') {
+        if (isset($stage) && $stage !== '') {
             $criteria = new CDbCriteria();
             $criteria->alias = 'gu';
             $criteria->join = 'join grade_rules gr on gr.id = gu.grade_rules_fk';
@@ -244,14 +244,14 @@ class GradesController extends Controller
             for ($key = 0; $key < 3; $key++) {
                 $index = $key + 1;
                 if ($rule == 'C') {
-                    $gradeResult->{'grade_concept_' . $index} = $std['grades'][$key]['value'];
+                    $gradeResult->{ 'grade_concept_' . $index} = $std['grades'][$key]['value'];
                     $hasAllValues = $hasAllValues && (isset($gradeResult['grade_concept_' . $index]) && $gradeResult['grade_concept_' . $index] != '');
                 } else {
-                    $gradeResult->{'grade_' . $index} = $std['grades'][$key]['value'];
+                    $gradeResult->{ 'grade_' . $index} = $std['grades'][$key]['value'];
                     $mediaFinal += floatval($gradeResult->attributes['grade_' . $index] * ($index == 3 ? 2 : 1));
                 }
-                $gradeResult->{'grade_faults_' . $index} = $std['grades'][$key]['faults'];
-                $gradeResult->{'given_classes_' . $index} = $std['grades'][$key]['givenClasses'];
+                $gradeResult->{ 'grade_faults_' . $index} = $std['grades'][$key]['faults'];
+                $gradeResult->{ 'given_classes_' . $index} = $std['grades'][$key]['givenClasses'];
             }
 
             if ($rule == 'C') {
@@ -311,16 +311,16 @@ class GradesController extends Controller
             foreach ($std['grades'] as $key => $value) {
                 $index = $key + 1;
                 if ($rule == 'C') {
-                    $gradeResult->{'grade_concept_' . $index} = $std['grades'][$key]['value'];
+                    $gradeResult->{ 'grade_concept_' . $index} = $std['grades'][$key]['value'];
                     $hasAllValues = $hasAllValues && (isset($gradeResult['grade_concept_' . $index]) && $gradeResult['grade_concept_' . $index] != '');
                 } else {
-                    $gradeResult->{'grade_' . $index} = $std['grades'][$key]['value'];
+                    $gradeResult->{ 'grade_' . $index} = $std['grades'][$key]['value'];
                     $hasAllValues = $hasAllValues && (isset($gradeResult['grade_' . $index]) && $gradeResult['grade_' . $index] != '');
                 }
-                $gradeResult->{'grade_faults_' . $index} = $std['grades'][$key]['faults'];
-                $totalFaults += (int) $std['grades'][$key]['faults'];
-                $gradeResult->{'given_classes_' . $index} = $std['grades'][$key]['givenClasses'];
-                $givenClasses += (int) $std['grades'][$key]['givenClasses'];
+                $gradeResult->{ 'grade_faults_' . $index} = $std['grades'][$key]['faults'];
+                $totalFaults += (int)$std['grades'][$key]['faults'];
+                $gradeResult->{ 'given_classes_' . $index} = $std['grades'][$key]['givenClasses'];
+                $givenClasses += (int)$std['grades'][$key]['givenClasses'];
             }
 
             if (!$gradeResult->validate()) {
@@ -399,7 +399,6 @@ class GradesController extends Controller
         if ($studentEnrollments != null) {
             $result['students'] = [];
             foreach ($studentEnrollments as $studentEnrollment) {
-
                 $unities = GradeUnity::model()->findAll(
                     'edcenso_stage_vs_modality_fk = :stageId and (type = :type or type = :type2 or type = :type3)',
                     [
@@ -641,7 +640,7 @@ class GradesController extends Controller
         }
         if ($stageId === '') {
             $classroom = Classroom::model()->with('activeStudentEnrollments.studentFk')->findByPk($classroomId);
-            $stageId = (int) $classroom->edcenso_stage_vs_modality_fk;
+            $stageId = (int)$classroom->edcenso_stage_vs_modality_fk;
         }
         $usecase = new GetStudentGradesByDisciplineUsecase($classroomId, $disciplineId, $unityId, $stageId, $isClassroomStage);
         $result = $usecase->exec();
@@ -693,7 +692,7 @@ class GradesController extends Controller
 
                         $isMinorEducation = TagUtils::isStageMinorEducation($classroom->edcensoStageVsModalityFk->edcenso_associated_stage_id);
                         if (!$isMinorEducation) {
-                            $frequency = $enrollment->studentEnrolmentFrequencyPerDiscipline($disciplineId);
+                            $frequency = $enrollment->studentEnrolmentFrequencyPerDiscipline($discipline['discipline_fk']);
                         } else {
                             $frequency = $enrollment->totalStudentEnrolmentFrequency();
                         }

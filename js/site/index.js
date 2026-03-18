@@ -18,10 +18,10 @@ $(document).on("click", ".info-list", function () {
                     .find(".t-info_positive")
                     .html(
                         "<i></i>" +
-                            changeNameLength(
-                                $(this).find(".t-info_positive").text(),
-                                100
-                            )
+                        changeNameLength(
+                            $(this).find(".t-info_positive").text(),
+                            100
+                        )
                     );
             });
         },
@@ -40,7 +40,7 @@ $(function () {
             .find(".glyphicons")
             .html(
                 "<i></i>" +
-                    changeNameLength($(this).find(".glyphicons").text(), 100)
+                changeNameLength($(this).find(".glyphicons").text(), 100)
             );
     });
 
@@ -63,6 +63,7 @@ $(function () {
     }
 
     getWarnsHtml();
+    getSchoolSummary();
 
     // loadLineChart(new Date().getFullYear());
     // loadCylinderChart(new Date().getFullYear());
@@ -78,7 +79,7 @@ $(function () {
 //         },
 //         success: function (data) {
 //             data = $.parseJSON(data);
-//             var chart = AmCharts.makeChart("pieChart", {
+//             let chart = AmCharts.makeChart("pieChart", {
 //                 language: "pt",
 //                 type: "pie",
 //                 theme: "light",
@@ -106,9 +107,9 @@ $(function () {
 //             $(".pie-chart-input")
 //                 .off()
 //                 .on("input change", function () {
-//                     var property = jQuery(this).data("property");
-//                     var target = chart;
-//                     var value = Number(this.value);
+//                     let property = jQuery(this).data("property");
+//                     let target = chart;
+//                     let value = Number(this.value);
 //                     chart.startDuration = 0;
 
 //                     if (property == "innerRadius") {
@@ -131,7 +132,7 @@ $(function () {
 //         },
 //         success: function (data) {
 //             data = $.parseJSON(data);
-//             var chart = AmCharts.makeChart(
+//             let chart = AmCharts.makeChart(
 //                 "cylinderChart",
 //                 {
 //                     theme: "light",
@@ -200,8 +201,8 @@ $(function () {
 //             $(".cylinder-chart-input")
 //                 .off()
 //                 .on("input change", function () {
-//                     var property = jQuery(this).data("property");
-//                     var target = chart;
+//                     let property = jQuery(this).data("property");
+//                     let target = chart;
 //                     chart.startDuration = 0;
 
 //                     if (property == "topRadius") {
@@ -224,7 +225,7 @@ $(function () {
 //         },
 //         success: function (data) {
 //             data = $.parseJSON(data);
-//             var chart = AmCharts.makeChart("lineChart", {
+//             let chart = AmCharts.makeChart("lineChart", {
 //                 language: "pt",
 //                 type: "serial",
 //                 theme: "light",
@@ -315,10 +316,10 @@ $(function () {
 // }
 
 function getCookie(name) {
-    var nameEQ = name + "=";
-    var ca = document.cookie.split(";");
+    let nameEQ = name + "=";
+    let ca = document.cookie.split(";");
     for (var i = 0; i < ca.length; i++) {
-        var c = ca[i];
+        let c = ca[i];
         while (c.charAt(0) == " ") c = c.substring(1, c.length);
         if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
     }
@@ -340,6 +341,27 @@ function getWarnsHtml({ limit = 8 } = {}) {
             console.error(
                 "Erro ao carregar dados de warnings da página principal!"
             );
+        },
+    });
+}
+
+function getSchoolSummary() {
+    $.ajax({
+        url: loadSchoolSummary,
+        type: "GET",
+        dataType: "json",
+        success: function (response) {
+            if (response.success) {
+                $("#enrolled-count").text(response.enrolledCount);
+                $("#class-count").text(response.classCount);
+                $("#instructor-count").text(response.instructorCount);
+                $("#allocated-professionals-count").text(response.allocatedProfessionalsCount);
+
+                $("#school-summary-panel").removeClass("hide").fadeIn();
+            }
+        },
+        error: function () {
+            console.error("Erro ao carregar o resumo da escola.");
         },
     });
 }

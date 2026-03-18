@@ -1,6 +1,7 @@
 <?php
 
     Yii::import('application.modules.classdiary.services.*');
+
     /**
     * @property GetClassContents $GetClassContent
     */

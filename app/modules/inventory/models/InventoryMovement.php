@@ -16,8 +16,8 @@
  */
 class InventoryMovement extends CActiveRecord
 {
-    const TYPE_ENTRY = 1;
-    const TYPE_EXIT = 2;
+    public const TYPE_ENTRY = 1;
+    public const TYPE_EXIT = 2;
 
     /**
      * @return string the associated database table name
@@ -94,7 +94,7 @@ class InventoryMovement extends CActiveRecord
         $criteria->compare('type', $this->type);
         $criteria->compare('quantity', $this->quantity);
         $criteria->compare('destination', $this->destination, true);
-        
+
         // Convert date from d/m/Y to Y-m-d for search
         if ($this->date && strpos($this->date, '/') !== false) {
             $date = DateTime::createFromFormat('d/m/Y', $this->date);

@@ -2,19 +2,19 @@
 /* @var $this EnrollmentOnlinePreEnrollmentEventOnlineController */
 /* @var $model EnrollmentOnlinePreEnrollmentEventOnline */
 
-$this->breadcrumbs = array(
-    'Enrollment Online Pre Enrollment Events' => array('index'),
+$this->breadcrumbs = [
+    'Enrollment Online Pre Enrollment Events' => ['index'],
     'Create',
-);
+];
 
-$this->menu = array(
-    array('label' => 'List EnrollmentOnlinePreEnrollmentEventOnline', 'url' => array('index')),
-    array('label' => 'Manage EnrollmentOnlinePreEnrollmentEventOnline', 'url' => array('admin')),
-);
+$this->menu = [
+    ['label' => 'List EnrollmentOnlinePreEnrollmentEventOnline', 'url' => ['index']],
+    ['label' => 'Manage EnrollmentOnlinePreEnrollmentEventOnline', 'url' => ['admin']],
+];
 
 $title = 'Evento de Pre Matrícula';
 $this->pageTitle = 'TAG - Evento de Pré-Matrícula';
 ?>
 
 
-<?php $this->renderPartial('_form', array('model' => $model, 'title' => $title)); ?>
+<?php $this->renderPartial('_form', ['model' => $model, 'title' => $title]); ?>

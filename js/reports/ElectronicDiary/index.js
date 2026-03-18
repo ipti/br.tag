@@ -17,10 +17,10 @@ $(".initial-date").datepicker({
 }).on('changeDate', function (ev, indirect) {
     if ($(".initial-date").val() !== "" && $(".initial-date").val().length == 10
         && $(".final-date").val() !== "" && $(".final-date").val().length == 10) {
-        var startDateStr = $(".initial-date").val().split("/");
-        var startDate = !indirect ? new Date(ev.date.getFullYear(), ev.date.getMonth(), ev.date.getDate(), 0, 0, 0) : new Date(startDateStr[2], startDateStr[1] - 1, startDateStr[0], 0, 0, 0);
-        var endDateStr = $(".final-date").val().split("/");
-        var endDate = new Date(endDateStr[2], endDateStr[1] - 1, endDateStr[0], 0, 0, 0);
+        let startDateStr = $(".initial-date").val().split("/");
+        let startDate = !indirect ? new Date(ev.date.getFullYear(), ev.date.getMonth(), ev.date.getDate(), 0, 0, 0) : new Date(startDateStr[2], startDateStr[1] - 1, startDateStr[0], 0, 0, 0);
+        let endDateStr = $(".final-date").val().split("/");
+        let endDate = new Date(endDateStr[2], endDateStr[1] - 1, endDateStr[0], 0, 0, 0);
         if (endDate < startDate) {
             correctIntervalDate = false;
         } else {
@@ -49,9 +49,9 @@ $(".final-date").datepicker({
 }).on('changeDate', function (ev) {
     if ($(".initial-date").val() !== "" && $(".initial-date").val().length == 10
         && $(".final-date").val() !== "" && $(".final-date").val().length == 10) {
-        var endDate = new Date(ev.date.getFullYear(), ev.date.getMonth(), ev.date.getDate(), 0, 0, 0);
-        var startDateStr = $(".initial-date").val().split("/");
-        var startDate = new Date(startDateStr[2], startDateStr[1] - 1, startDateStr[0], 0, 0, 0);
+        let endDate = new Date(ev.date.getFullYear(), ev.date.getMonth(), ev.date.getDate(), 0, 0, 0);
+        let startDateStr = $(".initial-date").val().split("/");
+        let startDate = new Date(startDateStr[2], startDateStr[1] - 1, startDateStr[0], 0, 0, 0);
         if (endDate < startDate) {
             correctIntervalDate = false;
         } else {
@@ -195,16 +195,16 @@ $("#stage").on("change", function (e) {
 
 $(document).on("click", "#loadreport", function () {
     $(".alert-report").hide();
-    var valid = false;
+    let valid = false;
     switch ($("#report").val()) {
         case "frequency":
-            var isFundamentalMaior = $("#classroom option:selected").attr("fundamentalmaior") === "1";
+            let isFundamentalMaior = $("#classroom option:selected").attr("fundamentalmaior") === "1";
             if ($("#classroom").val() !== "" && (!isFundamentalMaior || $("#discipline").val() !== "") && correctIntervalDate) {
                 valid = true;
             }
             break;
         case "gradesByStudent":
-            var isMulti = $("#classroom > option:selected").attr("isMultiStage") === "1";
+            let isMulti = $("#classroom > option:selected").attr("isMultiStage") === "1";
             if ($("#classroom").val() !== "" && (!isMulti || $("#stage").val() !== "") && $("#student").val() !== "") {
                 valid = true;
             }
@@ -240,7 +240,7 @@ function loadReport() {
         },
         success: function (data) {
             data = JSON.parse(data);
-            var html = "";
+            let html = "";
             if ($("#report").val() === "frequency") {
                 html += "" +
                     "<table class='frequency-table table table-bordered table-striped table-hover'>" +
@@ -255,7 +255,7 @@ function loadReport() {
                     "</thead>" +
                     "<tbody>";
                 $.each(data.students, function (i, student) {
-                    var faultDaysContainer = "";
+                    let faultDaysContainer = "";
                     $.each(this.faults, function (j, faultDays) {
                         faultDaysContainer += faultDays + (j < Object.keys(student.faults).length - 1 ? "; " : "");
                     });
@@ -274,13 +274,13 @@ function loadReport() {
                     html += "" +
                         "<table class='grades-by-student-table table table-bordered table-striped table-hover'>" +
                         "<thead>";
-                    var totalColSpan = 0;
-                    var unityRow = "";
+                    let totalColSpan = 0;
+                    let unityRow = "";
                     $.each(data.unityNames, function () {
                         totalColSpan += this.colspan;
                         unityRow += "<th class='center' colspan='" + this.colspan + "'>" + this.name + "</th>";
                     });
-                    var subunityRow = "";
+                    let subunityRow = "";
                     $.each(data.subunityNames, function () {
                         subunityRow += "<th class='center'>" + this + "</th>"
                     });
@@ -301,8 +301,8 @@ function loadReport() {
 
                             if (isNaN(this.unityGrade)) {
 
-                                    valueUnityGrade = this.unityGrade;
-                                } else {
+                                valueUnityGrade = this.unityGrade;
+                            } else {
 
                                 if (this.unityGrade == "") {
                                     valueUnityGrade = "";
@@ -347,7 +347,7 @@ function loadReport() {
 }
 
 $(document).on("click", ".print-report", function () {
-    var popup = window.open('', '', 'toolbar=no, menubar=no');
+    let popup = window.open('', '', 'toolbar=no, menubar=no');
     popup.document.writeln('<!DOCTYPE html>');
     popup.document.writeln('<html moznomarginboxes mozdisallowselectionprint><head><title>Relatório</title>');
     popup.document.writeln('<link rel="stylesheet" type="text/css" media="print" href="./css/reports/prints/print-reports.css?v=1.1">');

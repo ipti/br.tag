@@ -16,12 +16,15 @@
 
     //@done S2 - Mensagens de retorno ao executar os scripts.
 
+    define('VALUE_FILTER', ':value');
 
-    define("VALUE_FILTER",':value');
-    define("YEAR_FILTER",':year');
-    define("LIMIT_VALUE_FILTER",' LIMIT 0,1)');
-    define("ON_DUPLICATE_KEY_UPDATE_REGISTER_TYPE",' ON DUPLICATE KEY UPDATE register_type = register_type;');
-    define("SCHOOL_INEP_ID_FK_FILTER",':school_inep_id_fk');
+    define('YEAR_FILTER', ':year');
+
+    define('LIMIT_VALUE_FILTER', ' LIMIT 0,1)');
+
+    define('ON_DUPLICATE_KEY_UPDATE_REGISTER_TYPE', ' ON DUPLICATE KEY UPDATE register_type = register_type;');
+
+    define('SCHOOL_INEP_ID_FK_FILTER', ':school_inep_id_fk');
 
     class AdministratorController extends Controller
     {
@@ -264,9 +267,11 @@
             }
         }
 
-        private function concatContentDisposionFileName($fileName){
-            return 'Content-Disposition: attachment; filename="' . $fileName .  '"';
+        private function concatContentDisposionFileName($fileName)
+        {
+            return 'Content-Disposition: attachment; filename="' . $fileName . '"';
         }
+
         /**
          *
          * @param CActiveRecord $model
@@ -502,7 +507,6 @@
 
             foreach ($dirFiles as $fileName) {
                 if ($fileName != '.' && $fileName != '..' && $fileName != 'readme' && $fileName != '_version' && substr('abcdef', -1) != '~' && ($version != '' && $version < $fileName)) {
-
                     $file = $fm->open($updateDir . $fileName);
                     $sql = '';
 
@@ -523,7 +527,6 @@
                     } else {
                         Yii::app()->user->setFlash('error', Yii::t('default', 'Erro ao atualizar!'));
                     }
-
                 }
             }
             if ($count == 0) {
@@ -803,9 +806,11 @@
             $this->render('index');
         }
 
-        private function concatContentLength($length){
+        private function concatContentLength($length)
+        {
             return 'Content-Length: ' . $length;
         }
+
         public function actionDownloadExportFile()
         {
             $fileDir = Yii::app()->basePath . '/export/' . date('Y_') . Yii::app()->user->school . '.TXT';
@@ -816,7 +821,7 @@
                 header('Expires: 0');
                 header('Cache-Control: must-revalidate');
                 header('Pragma: public');
-                header($this->concatContentLength( filesize($fileDir)));
+                header($this->concatContentLength(filesize($fileDir)));
                 readfile($fileDir);
             } else {
                 Yii::app()->user->setFlash('error', Yii::t('default', 'Arquivo de exportação não encontrado!!! Tente exportar novamente.'));
@@ -1255,9 +1260,9 @@
                 $file = fopen($fileName, 'w');
                 fwrite($file, $sql);
                 fclose($file);
-                header($this->concatContentDisposionFileName( basename($fileName)));
+                header($this->concatContentDisposionFileName(basename($fileName)));
                 header('Content-Type: application/force-download');
-                header($this->concatContentLength( filesize($fileName)));
+                header($this->concatContentLength(filesize($fileName)));
                 header('Connection: close');
 
                 $file = fopen($fileName, 'r');
@@ -1414,7 +1419,7 @@
                     case '5':
                     case '7':
                     case '8':
-                       $sql .= ' (`' . implode('`, `', $keys) . '`, `tag_id`) VALUES';
+                        $sql .= ' (`' . implode('`, `', $keys) . '`, `tag_id`) VALUES';
                         break;
                     case '6':
                         $sql .= ' (`' . implode('`, `', $keys) . '`, `tag_id`,  `classroom_tag_id`) VALUES';
@@ -1499,7 +1504,6 @@
                 fpassthru($file);
                 fclose($file);
                 unlink($fileName);
-
             } else {
                 try {
                     yii::app()->db2->schema->commandBuilder->createSqlCommand($sql)->query();

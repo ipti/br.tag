@@ -3,11 +3,11 @@
  */
 $(document).on("click", "#add-matrix", function (e) {
     e.preventDefault();
-    var stages = $("#stages").val();
-    var disciplines = $("#disciplines").val();
-    var workload = $("#workload").val();
-    var credits = $("#credits").val();
-    var frequencies = $("#frequencies").val();
+    let stages = $("#stages").val();
+    let disciplines = $("#disciplines").val();
+    let workload = $("#workload").val();
+    let credits = $("#credits").val();
+    let frequencies = $("#frequencies").val();
 
     $.ajax({
         type: "POST",
@@ -50,7 +50,7 @@ $(document).on("click", ".confirm-matrix-reuse", function () {
 
 $(".confirm-delete").on("click", function (e) {
     e.preventDefault();
-    var th = this,
+    let th = this,
         afterDelete = function () { };
     jQuery('#matrizgridview').yiiGridView('update', {
         type: 'POST',

@@ -11,7 +11,6 @@ class CalculateNumericGradeUsecase
     private $stage;
     private $discipline;
 
-
     public function __construct($classroom, $discipline, $stage)
     {
         $this->classroomId = $classroom;
@@ -113,13 +112,13 @@ class CalculateNumericGradeUsecase
     {
         foreach ($gradesRecoveries as $gradeRecoveryAndUnities) {
             $partialRecoveryMedia = $this->calculatePartialRecoveryMedia($studentEnrollment, $discipline, $gradeRecoveryAndUnities, $gradeResult);
-            $partialRecovery = $gradeRecoveryAndUnities["partialRecovery"];
+            $partialRecovery = $gradeRecoveryAndUnities['partialRecovery'];
             $calculationName = $partialRecovery->gradeCalculationFk->name;
             if ($partialRecoveryMedia != null) {
                 $partialRecoveryMedia = is_nan($partialRecoveryMedia ?? NAN) ? '' : round($partialRecoveryMedia, 1);
             }
-            if ($gradeRecoveryAndUnities["partialRecovery"]->semester != null && $calculationName != "Subistituir Menor Nota") {
-                $semesterRec = $gradeRecoveryAndUnities["partialRecovery"]->semester;
+            if ($gradeRecoveryAndUnities['partialRecovery']->semester != null && $calculationName != 'Subistituir Menor Nota') {
+                $semesterRec = $gradeRecoveryAndUnities['partialRecovery']->semester;
                 if ($partialRecoveryMedia != null) {
                     $gradeResult['sem_rec_partial_' . $semesterRec] = $partialRecoveryMedia < $gradeResult['sem_avarage_' . $semesterRec] ? $gradeResult['sem_avarage_' . $semesterRec] : $partialRecoveryMedia;
                 } else {
@@ -233,7 +232,7 @@ class CalculateNumericGradeUsecase
         ]);
 
         // Caso especial: Substituir Menor Nota
-        if ($calculationName === "Subistituir Menor Nota") {
+        if ($calculationName === 'Subistituir Menor Nota') {
             return $gradePartialRecovery && $gradePartialRecovery->grade !== null
                 ? $gradePartialRecovery->grade
                 : null;
@@ -242,12 +241,12 @@ class CalculateNumericGradeUsecase
         // Montagem do array de notas
         if ($calculationName === 'Média Semestral') {
             $semester = GradeUnity::model()->findByAttributes([
-                "parcial_recovery_fk" => $partialRecovery->id
+                'parcial_recovery_fk' => $partialRecovery->id
             ])->semester;
 
             $grades[] = $gradeResult['sem_avarage_' . $semester];
         } else {
-            foreach ($gradeRecoveryAndUnities["unities"] as $unity) {
+            foreach ($gradeRecoveryAndUnities['unities'] as $unity) {
                 $grades[] = $gradeResult['grade_' . $unity];
             }
         }
@@ -269,7 +268,6 @@ class CalculateNumericGradeUsecase
         }
 
         return null;
-
     }
 
     /**

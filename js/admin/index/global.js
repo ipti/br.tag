@@ -8,7 +8,7 @@
 //{
 //
 //// Variable to store your file
-//    var files;
+//    let files;
 //// Add events
 //    $('#syncFile').on('change', prepareUpload);
 //    $('#syncImport-file-form').on('submit', uploadFiles);
@@ -23,10 +23,10 @@
 //        event.stopPropagation(); // Stop stuff happening
 //        event.preventDefault(); // Totally stop stuff happening
 //
-//        var url = '?r=admin/synchronizationImport';
-//        var photo = document.getElementById("syncFile");
-//        var file = photo.files[0];
-//        var formData = new FormData();
+//        let url = '?r=admin/synchronizationImport';
+//        let photo = document.getElementById("syncFile");
+//        let file = photo.files[0];
+//        let formData = new FormData();
 //        formData.append("file", file);
 //
 //        $.ajax(
@@ -50,7 +50,7 @@
 //
 //
 
-$(document).on("click", ".collapse-icon", function() {
+$(document).on("click", ".collapse-icon", function () {
     if ($(this).hasClass("fa-plus-square")) {
         $(this).removeClass("fa-plus-square").addClass("fa-minus-square");
         $(this).closest(".conflict-container").find(".conflict-values").show();
@@ -60,12 +60,12 @@ $(document).on("click", ".collapse-icon", function() {
     }
 });
 
-$(document).ready( function () {
+$(document).ready(function () {
     $("#yw0_c3").css('display', 'none');
     $(".filters :nth-child(4)").css('display', 'none');
 })
 
-$(document).ajaxComplete(function(){
+$(document).ajaxComplete(function () {
     $("#yw0_c3").css('display', 'none');
     $(".filters :nth-child(4)").css('display', 'none');
 });

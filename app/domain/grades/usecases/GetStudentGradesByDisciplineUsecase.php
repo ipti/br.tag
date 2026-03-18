@@ -383,6 +383,7 @@ class GetStudentGradesByDisciplineUsecase
 
         return Grade::model()->findAll($criteria);
     }
+
     /**
      * @param Grade[] $grades
      */

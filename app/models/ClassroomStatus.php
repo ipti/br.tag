@@ -25,7 +25,6 @@ class ClassroomStatus extends CActiveRecord
      */
     public function rules()
     {
-
         return [
             ['id, name', 'required'],
             ['id', 'numerical', 'integerOnly' => true],

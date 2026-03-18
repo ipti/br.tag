@@ -2,8 +2,6 @@
 
 class ItemController extends Controller
 {
-
-    
     public function filters()
     {
         return [

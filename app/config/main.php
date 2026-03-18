@@ -73,8 +73,12 @@ return [
         'application.components.auth.TFeature',
         'application.components.auth.TRole',
         'application.components.utils.TLog',
+        'application.components.auth.TNotificationEvent',
         'ext.bncc-import.BNCCImport',
         'ext.imc.IMC',
+    ],
+    'controllerMap' => [
+        'gradesstructure' => 'GradesStructureController',
     ],
     'modules' => [
         'gii' => [
@@ -86,6 +90,7 @@ return [
             ],
         ],
         'wizard',
+        'school',
         'lunch',
         'resultsmanagement',
         'schoolreport',
@@ -110,11 +115,18 @@ return [
         'gestaopresente',
         'systemadmin',
         'studentimc',
-        'inventory'
+        'inventory',
+        'notifications',
+        'tools',
+        'student',
     ],
     'components' => [
         'utils' => [
             'class' => 'application.components.utils.TagUtils'
+        ],
+        'notifier' => [
+            'class' => 'application.components.NotificationService',
+            'defaultExpirationDays' => 30,
         ],
         'features' => [
             'class' => 'application.components.FeaturesComponent'
@@ -185,6 +197,13 @@ return [
                 'almoxarifado/itens/<action:\w+>/<id:\d+>' => 'inventory/item/<action>',
                 'almoxarifado/movimentacoes' => 'inventory/movement/history',
                 'almoxarifado/<action:\w+>' => 'inventory/movement/<action>',
+
+                'notificacoes/' => 'notifications/notifications/index',
+                'notificacoes/<action:\w+>' => 'notifications/notifications/<action>',
+                'notificacoes/<action:\w+>/<id:\d+>' => 'notifications/notifications/<action>',
+                'inbox/' => 'notifications/inbox/index',
+                'inbox/<action:\w+>' => 'notifications/inbox/<action>',
+                'inbox/<action:\w+>/<id:\d+>' => 'notifications/inbox/<action>',
             ],
         ],
         'db2' => [
@@ -220,13 +239,15 @@ return [
                 'release' => 'tag@' . TAG_VERSION,
                 'environment' => INSTANCE,
                 'before_send' => function (\Sentry\Event $event): \Sentry\Event {
-                    \Sentry\configureScope(function (\Sentry\State\Scope $scope): void {
+                    \Sentry\configureScope(
+                        function (\Sentry\State\Scope $scope): void {
                         $scope->setUser([
                             'id' => Yii::app()->user->loginInfos->id,
                             'username' => Yii::app()->user->loginInfos->username,
                             'role' => Yii::app()->authManager->getRoles(Yii::app()->user->loginInfos->id)
                         ]);
-                    });
+                    }
+                    );
                     return $event;
                 }
             ]

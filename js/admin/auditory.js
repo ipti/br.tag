@@ -17,10 +17,10 @@ $(".auditory-initial-date").datepicker({
 }).on('changeDate', function (ev, indirect) {
     if ($(".auditory-initial-date").val() !== "" && $(".auditory-initial-date").val().length == 10
         && $(".auditory-final-date").val() !== "" && $(".auditory-final-date").val().length == 10) {
-        var startDateStr = $(".auditory-initial-date").val().split("/");
-        var startDate = !indirect ? new Date(ev.date.getFullYear(), ev.date.getMonth(), ev.date.getDate(), 0, 0, 0) : new Date(startDateStr[2], startDateStr[1] - 1, startDateStr[0], 0, 0, 0);
-        var endDateStr = $(".auditory-final-date").val().split("/");
-        var endDate = new Date(endDateStr[2], endDateStr[1] - 1, endDateStr[0], 0, 0, 0);
+        let startDateStr = $(".auditory-initial-date").val().split("/");
+        let startDate = !indirect ? new Date(ev.date.getFullYear(), ev.date.getMonth(), ev.date.getDate(), 0, 0, 0) : new Date(startDateStr[2], startDateStr[1] - 1, startDateStr[0], 0, 0, 0);
+        let endDateStr = $(".auditory-final-date").val().split("/");
+        let endDate = new Date(endDateStr[2], endDateStr[1] - 1, endDateStr[0], 0, 0, 0);
         if (endDate < startDate) {
             correctIntervalDate = false;
         } else {
@@ -49,9 +49,9 @@ $(".auditory-final-date").datepicker({
 }).on('changeDate', function (ev) {
     if ($(".auditory-initial-date").val() !== "" && $(".auditory-initial-date").val().length == 10
         && $(".auditory-final-date").val() !== "" && $(".auditory-final-date").val().length == 10) {
-        var endDate = new Date(ev.date.getFullYear(), ev.date.getMonth(), ev.date.getDate(), 0, 0, 0);
-        var startDateStr = $(".auditory-initial-date").val().split("/");
-        var startDate = new Date(startDateStr[2], startDateStr[1] - 1, startDateStr[0], 0, 0, 0);
+        let endDate = new Date(ev.date.getFullYear(), ev.date.getMonth(), ev.date.getDate(), 0, 0, 0);
+        let startDateStr = $(".auditory-initial-date").val().split("/");
+        let startDate = new Date(startDateStr[2], startDateStr[1] - 1, startDateStr[0], 0, 0, 0);
         if (endDate < startDate) {
             correctIntervalDate = false;
         } else {
@@ -111,11 +111,11 @@ function initTable() {
         sorting: [[4, "desc"]],
         fixedColumns: true,
         columns: [
-            {"data": "school"},
-            {"data": "user"},
-            {"data": "action", "bSortable": false},
-            {"data": "event", "bSortable": false},
-            {"data": "date"},
+            { "data": "school" },
+            { "data": "user" },
+            { "data": "action", "bSortable": false },
+            { "data": "event", "bSortable": false },
+            { "data": "date" },
         ],
         language: {
             "sEmptyTable": "Nenhum registro encontrado.",

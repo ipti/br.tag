@@ -339,9 +339,8 @@ class StudentEnrollment extends AltActiveRecord
         $criteriaTotalFaults = new CDbCriteria();
         $criteriaTotalFaults->alias = 'cf';
         $criteriaTotalFaults->join = 'INNER JOIN student_enrollment se ON se.student_fk = cf.student_fk';
-        $criteriaTotalFaults->join .= " INNER JOIN classroom c ON c.id = se.classroom_fk";
-        $criteriaTotalFaults->join .= " INNER JOIN schedule s ON s.id = cf.schedule_fk AND s.classroom_fk = c.id";
-
+        $criteriaTotalFaults->join .= ' INNER JOIN classroom c ON c.id = se.classroom_fk';
+        $criteriaTotalFaults->join .= ' INNER JOIN schedule s ON s.id = cf.schedule_fk AND s.classroom_fk = c.id';
 
         //frequencia em um periodo
         if ($initialMonth != null && $finalMonth != null) {
@@ -359,7 +358,6 @@ class StudentEnrollment extends AltActiveRecord
         }
 
         $totalClasses = Schedule::model()->count($criteriaTotalClasses);
-
 
         $totalFaults = ClassFaults::model()->count($criteriaTotalFaults);
 
@@ -755,7 +753,6 @@ class StudentEnrollment extends AltActiveRecord
             '12' => StudentEnrollment::STATUS_ADVANCED,
             '13' => StudentEnrollment::STATUS_REINTEGRATED
         ];
-
     }
 
     public function getCurrentStatus()

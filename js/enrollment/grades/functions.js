@@ -8,7 +8,7 @@ function initializeGradesMask() {
 
     $("input.grade").on("input", function (e) {
         e.preventDefault();
-        var val = this.value;
+        let val = this.value;
         if (!$.isNumeric(val)) {
             val = val === "" ? "" : lastValidValue;
         } else {

@@ -19,7 +19,7 @@ $this->menu = [
 <div id="mainPage" class="main">
     <?php
     $this->setPageTitle('TAG - ' . Yii::t('default', 'Matricula Online'));
-    ?>
+?>
     <div class="row-fluid">
         <div class="span12">
             <h1><?php echo Yii::t('default', 'Matricula Online') ?></h1>

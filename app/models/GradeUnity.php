@@ -44,14 +44,14 @@ class GradeUnity extends TagModel
     {
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
-        return array(
-            array('name, type, grade_calculation_fk', 'required'),
-            array('edcenso_stage_vs_modality_fk, grade_calculation_fk, parcial_recovery_fk, weight', 'numerical', 'integerOnly' => true),
-            array('name', 'length', 'max' => 50),
-            array('type', 'length', 'max' => 2),
+        return [
+            ['name, type, grade_calculation_fk', 'required'],
+            ['edcenso_stage_vs_modality_fk, grade_calculation_fk, parcial_recovery_fk, weight', 'numerical', 'integerOnly' => true],
+            ['name', 'length', 'max' => 50],
+            ['type', 'length', 'max' => 2],
             // The following rule is used by search().
-            array('id, edcenso_stage_vs_modality_fk, name, type, grade_calculation_fk, parcial_recovery_fk, weight', 'safe', 'on' => 'search'),
-        );
+            ['id, edcenso_stage_vs_modality_fk, name, type, grade_calculation_fk, parcial_recovery_fk, weight', 'safe', 'on' => 'search'],
+        ];
     }
 
     /**
@@ -84,7 +84,7 @@ class GradeUnity extends TagModel
             'grade_calculation_fk' => 'Grade Calculation Fk',
             'parcial_recovery_fk' => 'Parcial Recovery Fk',
             'weight' => 'Weight'
-            ];
+        ];
     }
 
     /**
@@ -108,7 +108,7 @@ class GradeUnity extends TagModel
         $criteria->compare('name', $this->name, true);
         $criteria->compare('type', $this->type, true);
         $criteria->compare('grade_calculation_fk', $this->grade_calculation_fk);
-        $criteria->compare('parcial_recovery_fk',$this->parcial_recovery_fk);
+        $criteria->compare('parcial_recovery_fk', $this->parcial_recovery_fk);
         $criteria->compare('weight', $this->weight);
 
         return new CActiveDataProvider(

@@ -410,12 +410,12 @@ class Classroom extends AltActiveRecord
         return $schedules;
     }
 
-    public function checkIsStageMinorEducation($classroom)
+    public function checkIsStageMinorEducation()
     {
-        $isMinor = TagUtils::isStageMinorEducation($classroom->edcensoStageVsModalityFk->edcenso_associated_stage_id);
+        $isMinor = TagUtils::isStageMinorEducation($this->edcensoStageVsModalityFk->edcenso_associated_stage_id);
 
-        if (!$isMinor && TagUtils::isMultiStage($classroom->edcensoStageVsModalityFk->edcenso_associated_stage_id)) {
-            $enrollments = StudentEnrollment::model()->findAllByAttributes(['classroom_fk' => $classroom->id]);
+        if (!$isMinor && TagUtils::isMultiStage($this->edcensoStageVsModalityFk->edcenso_associated_stage_id)) {
+            $enrollments = StudentEnrollment::model()->findAllByAttributes(['classroom_fk' => $this->id]);
 
             foreach ($enrollments as $enrollment) {
                 if (!$enrollment->edcensoStageVsModalityFk->edcenso_associated_stage_id ||

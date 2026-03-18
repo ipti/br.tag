@@ -3,13 +3,11 @@
 class IMC
 {
     public const DESNUTRICAO_GRAVE = 1;
-    public const DESNUTRICAO_MODERADA  = 2;
+    public const DESNUTRICAO_MODERADA = 2;
     public const DESNUTRICAO = 3;
     public const NORMAL = 4;
     public const SOBREPESO = 5;
     public const OBESIDADE = 6;
-
-
 
     public function imcSituation($imc)
     {

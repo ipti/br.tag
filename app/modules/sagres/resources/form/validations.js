@@ -3,7 +3,7 @@ $(document).ready(function () {
     $('#input_manager_cpf').mask('000.000.000-00', { placeholder: "___.___.___-__" });
 
     $('#input_responsible_cpf, #input_manager_cpf').focusout(function () {
-        var id = '#' + $(this).attr("id");
+        let id = '#' + $(this).attr("id");
         removeError(id);
         const validationState = validateCpf($(this).val().replace(/\D/g, ''));
         if (!validationState.valid) {
