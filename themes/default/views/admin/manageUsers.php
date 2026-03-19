@@ -52,7 +52,7 @@
                                 array(
                                     'name' => 'Cargo',
                                     'type' => 'raw',
-                                    'value' => 'Yii::t("default", $data->role)',
+                                    'value' => 'Yii::t("default", $data->getRole())',
                                 ),
                                 array(
                                     'name' => 'active',
