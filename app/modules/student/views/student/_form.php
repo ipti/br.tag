@@ -1865,7 +1865,7 @@ if (Yii::app()->features->isEnable(TFeature::FEAT_INTEGRATIONS_SEDSP)) {
 ?>
                 <?php
 echo $modelStudentIdentification->isNewRecord ? '' : '<a href=' . @Yii::app()->createUrl(
-    'student/transfer',
+    'student/student/transfer',
     ['id' => $modelStudentIdentification->id]
 ) . ' class="t-button-secondary" id="transfer-student">Transferir Matrícula</a>'
 ?>

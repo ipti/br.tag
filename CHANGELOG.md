@@ -1,3 +1,6 @@
+## [Versão 3.13.1]
+- Corrigido erro 404 de transferência de matrícula do aluno
+
 ## [Versão 3.13.0]
 
 #### Refatorações internas
