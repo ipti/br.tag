@@ -1,5 +1,8 @@
 ## [Versão 3.13.0]
 
+#### Usuários
+- Corrigida a exibição incorreta do cargo na tela de listagem de usuários (agora exibe o cargo real em vez de exibir sempre "USER").
+
 #### Refatorações internas
 
 - Refatoração completa do módulo de estudantes para melhor arquitetura e desempenho (app/modules/student)
