@@ -1,7 +1,13 @@
-## [Versão 3.13.1]
+## [Versão 3.13.2]
 - Correção na exibição de notas por conceito na Ficha de Notas para alunos de turmas multisseriadas.
 
+## [Versão 3.13.1]
+- Corrigido erro 404 de transferência de matrícula do aluno
+
 ## [Versão 3.13.0]
+
+#### Usuários
+- Corrigida a exibição incorreta do cargo na tela de listagem de usuários (agora exibe o cargo real em vez de exibir sempre "USER").
 
 #### Refatorações internas
 

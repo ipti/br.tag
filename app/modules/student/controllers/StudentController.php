@@ -811,7 +811,7 @@ class StudentController extends Controller implements AuthenticateSEDTokenInterf
                 $modelEnrollment->save();
             }
             Yii::app()->user->setFlash('success', Yii::t('default', 'transferred enrollment'));
-            $this->redirect(['student/student/update&id=' . $modelStudentIdentification->id]);
+            $this->redirect(['/student/student/update', 'id' => $modelStudentIdentification->id]);
         } else {
             $this->render('transfer', [
                 'modelStudentIdentification' => $modelStudentIdentification,
