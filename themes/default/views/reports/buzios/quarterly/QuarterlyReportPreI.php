@@ -3,18 +3,21 @@
 /* @var $report mixed */
 $baseUrl = Yii::app()->baseUrl;
 $cs = Yii::app()->getClientScript();
-$cs->registerScriptFile($baseUrl . '/js/reports/QuarterlyReport/_initialization.js?v='.TAG_VERSION, CClientScript::POS_END);
+$cs->registerScriptFile($baseUrl . '/js/reports/QuarterlyReport/_initialization.js?v=' . TAG_VERSION, CClientScript::POS_END);
 
 $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
 
-$turno =  $classroom->turn;
+$turno = $classroom->turn;
 if ($turno == 'M') {
     $turno = "Matutino";
-} else ($turno == 'T') {
+}
+elseif ($turno == 'T') {
     $turno = "Vespertino";
-} else ($turno == 'N') {
+}
+elseif ($turno == 'N') {
     $turno = "Noturno";
-} else ($turno == '' || $turno == null) {
+}
+elseif ($turno == '' || $turno == null) {
     $turno = "______________________";
 }
 
@@ -25,35 +28,53 @@ if ($turno == 'M') {
         <?php $this->renderPartial('buzios/headers/headBuziosIII'); ?>
     </div>
     <h4>
-        <?php echo Yii::t('default', 'Quarterly Report') . ' - ' . $currentYear ?></h3>
+        <?php echo Yii::t('default', 'Quarterly Report') . ' - ' . $currentYear?>
+        </h3>
         <div class="row-fluid hidden-print">
             <div class="span12">
                 <div class="buttons">
-                    <a id="print" onclick="imprimirPagina()" class='btn btn-icon glyphicons print hidden-print' style="padding: 10px;"><img alt="impressora" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/Impressora.svg" class="img_cards" /> <?php echo Yii::t('default', 'Print') ?><i></i></a>
+                    <a id="print" onclick="imprimirPagina()" class='btn btn-icon glyphicons print hidden-print'
+                        style="padding: 10px;"><img alt="impressora"
+                            src="<?php echo Yii::app()->theme->baseUrl; ?>/img/Impressora.svg" class="img_cards" />
+                        <?php echo Yii::t('default', 'Print')?><i></i>
+                    </a>
                 </div>
             </div>
         </div>
         <div class="container-box header-container" style="margin-bottom: 200px;">
-            <p>Unidade Escolar: <?php echo $school->name ?></p>
+            <p>Unidade Escolar:
+                <?php echo $school->name?>
+            </p>
             <?php
-            for ($i = 1; $i <= 2; $i++) {
-                if ($regentTeachers[$i - 1]) {
-                    echo "<p>Professor(a) Regente " . $i . ": " . $regentTeachers[$i - 1]['instructor_name'] . "</p>";
-                } else {
-                    echo "<p>Professor(a) Regente " . $i . ": _________________________________________________________________________________________________________________________________</p>";
-                }
-            }
-            ?>
+for ($i = 1; $i <= 2; $i++) {
+    if ($regentTeachers[$i - 1]) {
+        echo "<p>Professor(a) Regente " . $i . ": " . $regentTeachers[$i - 1]['instructor_name'] . "</p>";
+    }
+    else {
+        echo "<p>Professor(a) Regente " . $i . ": _________________________________________________________________________________________________________________________________</p>";
+    }
+}
+?>
             <p>
-                <span class="pull-left">Etapa: <?php echo $classroomEtapa ? $classroomEtapa->name : '______________________' ?></span>
+                <span class="pull-left">Etapa:
+                    <?php echo $classroomEtapa ? $classroomEtapa->name : '______________________'?>
+                </span>
             <div class="pull-right" style="margin-right: 40px;">
-                <span style="margin-right: 100px;">Turno: <?php echo $turno ?></span>
-                <span>Turma: <?php echo $classroom->name ?></span>
+                <span style="margin-right: 100px;">Turno:
+                    <?php echo $turno?>
+                </span>
+                <span>Turma:
+                    <?php echo $classroom->name?>
+                </span>
             </div>
             </p>
             <p style="margin-top: 60px;">
-                <span class="pull-left">Nome do Aluno (a): <?php echo $studentIdentification->name ?></span>
-                <span class="pull-right" style="margin-right: 40px;">Data de Nascimento: <?php echo $dateFormatCorrect ? $studentIdentification->birthday : date('d/m/Y', strtotime($studentIdentification->birthday)); ?></span>
+                <span class="pull-left">Nome do Aluno (a):
+                    <?php echo $studentIdentification->name?>
+                </span>
+                <span class="pull-right" style="margin-right: 40px;">Data de Nascimento:
+                    <?php echo $dateFormatCorrect ? $studentIdentification->birthday : date('d/m/Y', strtotime($studentIdentification->birthday)); ?>
+                </span>
             </p>
         </div>
         <div class="container-box learning-objectives">
@@ -63,7 +84,8 @@ if ($turno == 'M') {
                     <table aria-labelledby="Pre Table">
                         <thead>
                             <tr>
-                                <th scope="col" style="width: 70%;"><u>Campo de experiências: O Eu, O Outro e O Nós</u></th>
+                                <th scope="col" style="width: 70%;"><u>Campo de experiências: O Eu, O Outro e O Nós</u>
+                                </th>
                                 <th scope="col"><u>1º tri</u></th>
                                 <th scope="col"><u>2º tri</u></th>
                                 <th scope="col"><u>3º tri</u></th>
@@ -77,25 +99,29 @@ if ($turno == 'M') {
                                 <td></td>
                             </tr>
                             <tr>
-                                <td>Interage com outras crianças e adultos adaptando-se ao convívio social e gradativamente respeitando regras básicas nas interações, jogos e brincadeiras.</td>
+                                <td>Interage com outras crianças e adultos adaptando-se ao convívio social e
+                                    gradativamente respeitando regras básicas nas interações, jogos e brincadeiras.</td>
                                 <td></td>
                                 <td></td>
                                 <td></td>
                             </tr>
                             <tr>
-                                <td>Realiza pequenas tarefas do cotidiano que envolvam ações de cooperação, solidariedade e ajuda na relação com o meio ambiente.</td>
+                                <td>Realiza pequenas tarefas do cotidiano que envolvam ações de cooperação,
+                                    solidariedade e ajuda na relação com o meio ambiente.</td>
                                 <td></td>
                                 <td></td>
                                 <td></td>
                             </tr>
                             <tr>
-                                <td>Percebe que as pessoas têm características físicas diferentes, respeitando essas diferenças e demonstrando valorização de suas próprias características</td>
+                                <td>Percebe que as pessoas têm características físicas diferentes, respeitando essas
+                                    diferenças e demonstrando valorização de suas próprias características</td>
                                 <td></td>
                                 <td></td>
                                 <td></td>
                             </tr>
                             <tr>
-                                <td>Compartilha os objetos e espaços ampliando as relações interpessoais com crianças e adultos, desenvolvendo atitudes de participação, conservação e cooperação.</td>
+                                <td>Compartilha os objetos e espaços ampliando as relações interpessoais com crianças e
+                                    adultos, desenvolvendo atitudes de participação, conservação e cooperação.</td>
                                 <td></td>
                                 <td></td>
                                 <td></td>
@@ -107,19 +133,22 @@ if ($turno == 'M') {
                                 <td></td>
                             </tr>
                             <tr>
-                                <td>Demonstra atitudes de cuidado e solidariedade na interação com crianças e adultos, bem como, respeito ao meio ambiente.</td>
+                                <td>Demonstra atitudes de cuidado e solidariedade na interação com crianças e adultos,
+                                    bem como, respeito ao meio ambiente.</td>
                                 <td></td>
                                 <td></td>
                                 <td></td>
                             </tr>
                             <tr>
-                                <td>Desenvolve gradativamente a atenção em momentos de escuta, da argumentação e do posicionamento dos pares.</td>
+                                <td>Desenvolve gradativamente a atenção em momentos de escuta, da argumentação e do
+                                    posicionamento dos pares.</td>
                                 <td></td>
                                 <td></td>
                                 <td></td>
                             </tr>
                             <tr>
-                                <td>Usa estratégias pautadas no respeito mútuo para lidar com conflitos nas interações com crianças e adultos.</td>
+                                <td>Usa estratégias pautadas no respeito mútuo para lidar com conflitos nas interações
+                                    com crianças e adultos.</td>
                                 <td></td>
                                 <td></td>
                                 <td></td>
@@ -129,7 +158,8 @@ if ($turno == 'M') {
                     <table aria-labelledby="Pre Table">
                         <thead>
                             <tr>
-                                <th scope="col" style="width: 70%;"><u>Campo de experiências: Traços, Sons, Cores e Formas</u></th>
+                                <th scope="col" style="width: 70%;"><u>Campo de experiências: Traços, Sons, Cores e
+                                        Formas</u></th>
                                 <th scope="col"><u>1º tri</u></th>
                                 <th scope="col"><u>2º tri</u></th>
                                 <th scope="col"><u>3º tri</u></th>
@@ -137,25 +167,30 @@ if ($turno == 'M') {
                         </thead>
                         <tbody>
                             <tr>
-                                <td>Utiliza materiais variados com possibilidades de manipulação (argila, massa de modelar, entre outros), explorando cores, texturas, superfícies, planos, formas e volumes ao criar objetos tridimensionais.</td>
+                                <td>Utiliza materiais variados com possibilidades de manipulação (argila, massa de
+                                    modelar, entre outros), explorando cores, texturas, superfícies, planos, formas e
+                                    volumes ao criar objetos tridimensionais.</td>
                                 <td></td>
                                 <td></td>
                                 <td></td>
                             </tr>
                             <tr>
-                                <td>Traça marcas gráficas, em diferentes suportes, usando instrumentos riscantes e tintas.</td>
+                                <td>Traça marcas gráficas, em diferentes suportes, usando instrumentos riscantes e
+                                    tintas.</td>
                                 <td></td>
                                 <td></td>
                                 <td></td>
                             </tr>
                             <tr>
-                                <td>Cria sons com materiais, objetos e instrumentos musicais, para acompanhar diversos ritmos de música.</td>
+                                <td>Cria sons com materiais, objetos e instrumentos musicais, para acompanhar diversos
+                                    ritmos de música.</td>
                                 <td></td>
                                 <td></td>
                                 <td></td>
                             </tr>
                             <tr>
-                                <td>Expressa-se livremente por meio de desenho, pintura, colagem, dobradura e escultura, criando produções bidimensionais e tridimensionais.</td>
+                                <td>Expressa-se livremente por meio de desenho, pintura, colagem, dobradura e escultura,
+                                    criando produções bidimensionais e tridimensionais.</td>
                                 <td></td>
                                 <td></td>
                                 <td></td>
@@ -177,7 +212,8 @@ if ($turno == 'M') {
                     <table aria-labelledby="Pre Table">
                         <thead>
                             <tr>
-                                <th scope="col" style="width: 70%;"><u>Campo de experiências: Corpo, Gestos e Movimentos</u></th>
+                                <th scope="col" style="width: 70%;"><u>Campo de experiências: Corpo, Gestos e
+                                        Movimentos</u></th>
                                 <th scope="col"><u>1º tri</u></th>
                                 <th scope="col"><u>2º tri</u></th>
                                 <th scope="col"><u>3º tri</u></th>
@@ -185,7 +221,8 @@ if ($turno == 'M') {
                         </thead>
                         <tbody>
                             <tr>
-                                <td>Utiliza os movimentos de preensão, encaixe e lançamento, ampliando suas possibilidades de manuseio de diferentes materiais e objetos.</td>
+                                <td>Utiliza os movimentos de preensão, encaixe e lançamento, ampliando suas
+                                    possibilidades de manuseio de diferentes materiais e objetos.</td>
                                 <td></td>
                                 <td></td>
                                 <td></td>
@@ -197,7 +234,9 @@ if ($turno == 'M') {
                                 <td></td>
                             </tr>
                             <tr>
-                                <td>Desloca seu corpo no espaço, orientando-se por noções como: em frente, atrás, no alto, embaixo, dentro, fora, entre outros, ao se envolver em brincadeiras e atividades de diferentes naturezas.</td>
+                                <td>Desloca seu corpo no espaço, orientando-se por noções como: em frente, atrás, no
+                                    alto, embaixo, dentro, fora, entre outros, ao se envolver em brincadeiras e
+                                    atividades de diferentes naturezas.</td>
                                 <td></td>
                                 <td></td>
                                 <td></td>
@@ -209,25 +248,29 @@ if ($turno == 'M') {
                                 <td></td>
                             </tr>
                             <tr>
-                                <td>Desenvolve progressivamente as habilidades manuais, adquirindo controle para desenhar, pintar, rasgar, folhear, entre outros.</td>
+                                <td>Desenvolve progressivamente as habilidades manuais, adquirindo controle para
+                                    desenhar, pintar, rasgar, folhear, entre outros.</td>
                                 <td></td>
                                 <td></td>
                                 <td></td>
                             </tr>
                             <tr>
-                                <td>Reelabora as brincadeiras e jogos, incluindo a criação de outros gestos, em substituição e acréscimo aos tradicionais</td>
+                                <td>Reelabora as brincadeiras e jogos, incluindo a criação de outros gestos, em
+                                    substituição e acréscimo aos tradicionais</td>
                                 <td></td>
                                 <td></td>
                                 <td></td>
                             </tr>
                             <tr>
-                                <td>Conhece as partes do corpo de modo a adquirir consciência de suas potencialidades (força, velocidade, resistência, agilidade, equilíbrio e flexibilidade).</td>
+                                <td>Conhece as partes do corpo de modo a adquirir consciência de suas potencialidades
+                                    (força, velocidade, resistência, agilidade, equilíbrio e flexibilidade).</td>
                                 <td></td>
                                 <td></td>
                                 <td></td>
                             </tr>
                             <tr>
-                                <td>Desenvolve gradativamente a coordenação motora fina para manusear objetos de registro, pintura e recorte, tais como: lápis, pincel, tesoura, entre outros</td>
+                                <td>Desenvolve gradativamente a coordenação motora fina para manusear objetos de
+                                    registro, pintura e recorte, tais como: lápis, pincel, tesoura, entre outros</td>
                                 <td></td>
                                 <td></td>
                                 <td></td>
@@ -251,7 +294,9 @@ if ($turno == 'M') {
                                 <td></td>
                             </tr>
                             <tr>
-                                <td>Desloca seu corpo no espaço, orientando-se por noções como: em frente, atrás, no alto, embaixo, dentro, fora, entre outros, ao se envolver em brincadeiras e atividades de diferentes naturezas.</td>
+                                <td>Desloca seu corpo no espaço, orientando-se por noções como: em frente, atrás, no
+                                    alto, embaixo, dentro, fora, entre outros, ao se envolver em brincadeiras e
+                                    atividades de diferentes naturezas.</td>
                                 <td></td>
                                 <td></td>
                                 <td></td>
@@ -261,7 +306,8 @@ if ($turno == 'M') {
                     <table aria-labelledby="Pre Table">
                         <thead>
                             <tr>
-                                <th scope="col" style="width: 70%;"><u>Campo de experiências: Espaços, Tempos, Quantidades, Relações e Transformações</u></th>
+                                <th scope="col" style="width: 70%;"><u>Campo de experiências: Espaços, Tempos,
+                                        Quantidades, Relações e Transformações</u></th>
                                 <th scope="col"><u>1º tri</u></th>
                                 <th scope="col"><u>2º tri</u></th>
                                 <th scope="col"><u>3º tri</u></th>
@@ -269,13 +315,15 @@ if ($turno == 'M') {
                         </thead>
                         <tbody>
                             <tr>
-                                <td>Apresenta noções de orientação espacial por meio de experiências de deslocamento de si e dos objetos, explorando direção e posição no espaço.</td>
+                                <td>Apresenta noções de orientação espacial por meio de experiências de deslocamento de
+                                    si e dos objetos, explorando direção e posição no espaço.</td>
                                 <td></td>
                                 <td></td>
                                 <td></td>
                             </tr>
                             <tr>
-                                <td>Nomeia e identifica conceitos matemáticos de altura, largura, comprimento, tamanho, peso, volume, distância, temperatura e tempo.</td>
+                                <td>Nomeia e identifica conceitos matemáticos de altura, largura, comprimento, tamanho,
+                                    peso, volume, distância, temperatura e tempo.</td>
                                 <td></td>
                                 <td></td>
                                 <td></td>
@@ -293,13 +341,15 @@ if ($turno == 'M') {
                                 <td></td>
                             </tr>
                             <tr>
-                                <td>Classifica e seria três ou mais objetos, posicionando-os do menor para o maior, do mais alto para o mais baixo, do mais largo para o menos largo ou vice-versa.</td>
+                                <td>Classifica e seria três ou mais objetos, posicionando-os do menor para o maior, do
+                                    mais alto para o mais baixo, do mais largo para o menos largo ou vice-versa.</td>
                                 <td></td>
                                 <td></td>
                                 <td></td>
                             </tr>
                             <tr>
-                                <td>Compara e mede diversos objetos, espaços e pessoas utilizando instrumentos de medida não convencionais.</td>
+                                <td>Compara e mede diversos objetos, espaços e pessoas utilizando instrumentos de medida
+                                    não convencionais.</td>
                                 <td></td>
                                 <td></td>
                                 <td></td>
@@ -311,13 +361,15 @@ if ($turno == 'M') {
                                 <td></td>
                             </tr>
                             <tr>
-                                <td>Apresenta conceitos básicos de tempo (agora, antes, durante, depois, ontem, hoje, amanhã, dia e noite).</td>
+                                <td>Apresenta conceitos básicos de tempo (agora, antes, durante, depois, ontem, hoje,
+                                    amanhã, dia e noite).</td>
                                 <td></td>
                                 <td></td>
                                 <td></td>
                             </tr>
                             <tr>
-                                <td>Distingue paisagens naturais de modificadas (pela ação humana ou pela ação da natureza).</td>
+                                <td>Distingue paisagens naturais de modificadas (pela ação humana ou pela ação da
+                                    natureza).</td>
                                 <td></td>
                                 <td></td>
                                 <td></td>
@@ -329,31 +381,36 @@ if ($turno == 'M') {
                                 <td></td>
                             </tr>
                             <tr>
-                                <td>Identifica formas/figuras geométricas no cotidiano (triângulo, retângulo, círculo e quadrado).</td>
+                                <td>Identifica formas/figuras geométricas no cotidiano (triângulo, retângulo, círculo e
+                                    quadrado).</td>
                                 <td></td>
                                 <td></td>
                                 <td></td>
                             </tr>
                             <tr>
-                                <td>Observar, relatar e descrever incidentes do cotidiano e fenômenos naturais (luz solar, vento, chuva, entre outros).</td>
+                                <td>Observar, relatar e descrever incidentes do cotidiano e fenômenos naturais (luz
+                                    solar, vento, chuva, entre outros).</td>
                                 <td></td>
                                 <td></td>
                                 <td></td>
                             </tr>
                             <tr>
-                                <td>Reconhece números nos diferentes contextos em que se encontram, diferenciando-os de outras marcas gráficas.</td>
+                                <td>Reconhece números nos diferentes contextos em que se encontram, diferenciando-os de
+                                    outras marcas gráficas.</td>
                                 <td></td>
                                 <td></td>
                                 <td></td>
                             </tr>
                             <tr>
-                                <td>Explicita e representa espaços, trajetos e localização, utilizando múltiplas linguagens e em diferentes suportes.</td>
+                                <td>Explicita e representa espaços, trajetos e localização, utilizando múltiplas
+                                    linguagens e em diferentes suportes.</td>
                                 <td></td>
                                 <td></td>
                                 <td></td>
                             </tr>
                             <tr>
-                                <td>Identifica e marca a passagem do tempo, destacando datas importantes e eventos por meio da utilização de calendários.</td>
+                                <td>Identifica e marca a passagem do tempo, destacando datas importantes e eventos por
+                                    meio da utilização de calendários.</td>
                                 <td></td>
                                 <td></td>
                                 <td></td>
@@ -365,13 +422,15 @@ if ($turno == 'M') {
                                 <td></td>
                             </tr>
                             <tr>
-                                <td>Identifica e nomeia os números em diferentes portadores de textos da vida cotidiana.</td>
+                                <td>Identifica e nomeia os números em diferentes portadores de textos da vida cotidiana.
+                                </td>
                                 <td></td>
                                 <td></td>
                                 <td></td>
                             </tr>
                             <tr>
-                                <td>Identifica e representa quantidades através da linguagem verbal (objetos, desenhos, entre outros).</td>
+                                <td>Identifica e representa quantidades através da linguagem verbal (objetos, desenhos,
+                                    entre outros).</td>
                                 <td></td>
                                 <td></td>
                                 <td></td>
@@ -383,31 +442,36 @@ if ($turno == 'M') {
                                 <td></td>
                             </tr>
                             <tr>
-                                <td>Percebe o significado das operações de adição envolvendo ideia de juntar e acrescentar e de subtração com ideia de retirar em situações de rotina.</td>
+                                <td>Percebe o significado das operações de adição envolvendo ideia de juntar e
+                                    acrescentar e de subtração com ideia de retirar em situações de rotina.</td>
                                 <td></td>
                                 <td></td>
                                 <td></td>
                             </tr>
                             <tr>
-                                <td>Registra observações, manipulações e medidas usando múltiplas linguagens (desenhos, registro por números ou escrita espontânea).</td>
+                                <td>Registra observações, manipulações e medidas usando múltiplas linguagens (desenhos,
+                                    registro por números ou escrita espontânea).</td>
                                 <td></td>
                                 <td></td>
                                 <td></td>
                             </tr>
                             <tr>
-                                <td>Relaciona o número falado e escrito à quantidade que ele representa, registrando-o</td>
+                                <td>Relaciona o número falado e escrito à quantidade que ele representa, registrando-o
+                                </td>
                                 <td></td>
                                 <td></td>
                                 <td></td>
                             </tr>
                             <tr>
-                                <td>Percebe e identifica os elementos da natureza, tais como: água, luz, solo, ar, entre outros, nomeando-os e relacionando-os aos seres vivos</td>
+                                <td>Percebe e identifica os elementos da natureza, tais como: água, luz, solo, ar, entre
+                                    outros, nomeando-os e relacionando-os aos seres vivos</td>
                                 <td></td>
                                 <td></td>
                                 <td></td>
                             </tr>
                             <tr>
-                                <td>Reconhece a importância dos cuidados necessários com o planeta, plantas e animais.</td>
+                                <td>Reconhece a importância dos cuidados necessários com o planeta, plantas e animais.
+                                </td>
                                 <td></td>
                                 <td></td>
                                 <td></td>
@@ -417,7 +481,8 @@ if ($turno == 'M') {
                     <table aria-labelledby="Pre Table">
                         <thead>
                             <tr>
-                                <th scope="col" style="width: 70%;"><u>Campo de experiências: Escuta, Fala, Pensamento e Imaginação</u></th>
+                                <th scope="col" style="width: 70%;"><u>Campo de experiências: Escuta, Fala, Pensamento e
+                                        Imaginação</u></th>
                                 <th scope="col"><u>1º tri</u></th>
                                 <th scope="col"><u>2º tri</u></th>
                                 <th scope="col"><u>3º tri</u></th>
@@ -431,7 +496,8 @@ if ($turno == 'M') {
                                 <td></td>
                             </tr>
                             <tr>
-                                <td>Desenvolve a capacidade de lembrar e executar ações em passos sequenciais, seguindo instruções verbais desde ordens simples até as mais longas.</td>
+                                <td>Desenvolve a capacidade de lembrar e executar ações em passos sequenciais, seguindo
+                                    instruções verbais desde ordens simples até as mais longas.</td>
                                 <td></td>
                                 <td></td>
                                 <td></td>
@@ -443,7 +509,9 @@ if ($turno == 'M') {
                                 <td></td>
                             </tr>
                             <tr>
-                                <td>Expressa ideias, desejos e sentimentos sobre suas vivências, por meio da linguagem oral e escrita (escrita espontânea), de fotos, desenhos e outras formas de expressão</td>
+                                <td>Expressa ideias, desejos e sentimentos sobre suas vivências, por meio da linguagem
+                                    oral e escrita (escrita espontânea), de fotos, desenhos e outras formas de expressão
+                                </td>
                                 <td></td>
                                 <td></td>
                                 <td></td>
@@ -461,13 +529,15 @@ if ($turno == 'M') {
                                 <td></td>
                             </tr>
                             <tr>
-                                <td>Reconta histórias ouvidas para a produção de texto escrito, onde o professor como escriba.</td>
+                                <td>Reconta histórias ouvidas para a produção de texto escrito, onde o professor como
+                                    escriba.</td>
                                 <td></td>
                                 <td></td>
                                 <td></td>
                             </tr>
                             <tr>
-                                <td>Relata experiências, fatos, acontecidos e histórias ouvidas, em sequência temporal e causal.</td>
+                                <td>Relata experiências, fatos, acontecidos e histórias ouvidas, em sequência temporal e
+                                    causal.</td>
                                 <td></td>
                                 <td></td>
                                 <td></td>
@@ -485,7 +555,8 @@ if ($turno == 'M') {
                                 <td></td>
                             </tr>
                             <tr>
-                                <td>Reconhece a orientação e direção da escrita ocidental (esquerda para direita, cima para baixo).</td>
+                                <td>Reconhece a orientação e direção da escrita ocidental (esquerda para direita, cima
+                                    para baixo).</td>
                                 <td></td>
                                 <td></td>
                                 <td></td>
@@ -497,7 +568,8 @@ if ($turno == 'M') {
                                 <td></td>
                             </tr>
                             <tr>
-                                <td>Participar de interações orais, questionando, sugerindo e respeitando os turnos de fala.</td>
+                                <td>Participar de interações orais, questionando, sugerindo e respeitando os turnos de
+                                    fala.</td>
                                 <td></td>
                                 <td></td>
                                 <td></td>
@@ -534,7 +606,8 @@ if ($turno == 'M') {
                     </table>
                     <div class="container-box student-performance">
                         <p style="margin-top: 0px;"><u>Espaço destinado a descrição do aluno durante o trimestre</u></p>
-                        <p style="margin-top: 40px;margin-bottom:20px;"><span class="pull-left" style="margin-left: 20px;">1º Trimestre</span>
+                        <p style="margin-top: 40px;margin-bottom:20px;"><span class="pull-left"
+                                style="margin-left: 20px;">1º Trimestre</span>
                             <span style="margin-right: 10px;margin-left: 300px">Aulas dadas:___________________</span>
                             <span class="pull-right" style="margin-right: 100px;">Faltas:___________________</span>
                         </p>
@@ -573,7 +646,8 @@ if ($turno == 'M') {
                                 </span>
                             </p>
                         </div>
-                        <p style="margin-top: 10px;margin-bottom:20px;"><span class="pull-left" style="margin-left: 20px;">2º Trimestre</span>
+                        <p style="margin-top: 10px;margin-bottom:20px;"><span class="pull-left"
+                                style="margin-left: 20px;">2º Trimestre</span>
                             <span style="margin-right: 10px;margin-left: 300px">Aulas dadas:___________________</span>
                             <span class="pull-right" style="margin-right: 100px;">Faltas:___________________</span>
                         </p>
@@ -612,7 +686,8 @@ if ($turno == 'M') {
                                 </span>
                             </p>
                         </div>
-                        <p style="margin-top: 10px;margin-bottom:20px;"><span class="pull-left" style="margin-left: 20px;">3º Trimestre</span>
+                        <p style="margin-top: 10px;margin-bottom:20px;"><span class="pull-left"
+                                style="margin-left: 20px;">3º Trimestre</span>
                             <span style="margin-right: 10px;margin-left: 300px">Aulas dadas:___________________</span>
                             <span class="pull-right" style="margin-right: 100px;">Faltas:___________________</span>
                         </p>
@@ -663,10 +738,12 @@ if ($turno == 'M') {
                             .hidden-print {
                                 display: none;
                             }
+
                             @page {
                                 size: portrait;
                             }
                         }
+
                         .signatures-container {
                             margin-top: 80px !important;
                             width: 96%;
@@ -748,8 +825,8 @@ if ($turno == 'M') {
                         }
                     </style>
 
-<script>
-    function imprimirPagina() {
-      window.print();
-    }
-</script>
+                    <script>
+                        function imprimirPagina() {
+                            window.print();
+                        }
+                    </script>

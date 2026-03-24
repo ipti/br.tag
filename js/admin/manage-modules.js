@@ -1,6 +1,6 @@
 $(document).on("click", ".save", function () {
 
-    var configs = [];
+    let configs = [];
     $(".parameter-structure-container").find(".success-configs").hide();
 
     $(".parameter-row").each(function () {

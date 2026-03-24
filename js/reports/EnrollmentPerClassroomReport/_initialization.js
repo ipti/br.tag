@@ -12,11 +12,11 @@
 
 function gerarRelatorio(data) {
     $("#report, #print").show();
-    var enrollments = $.parseJSON(data);
-    $.each(enrollments, function(i){
+    let enrollments = $.parseJSON(data);
+    $.each(enrollments, function (i) {
         $("table").append(
-        '<tr>' +
-            '<td style="text-align: center; font-weight: bold"><span class="student-number">' + (i+1) +'</span></td>' +
+            '<tr>' +
+            '<td style="text-align: center; font-weight: bold"><span class="student-number">' + (i + 1) + '</span></td>' +
             '<td><span class="name">' + enrollments[i].name + '</span></td>' +
             '<td style="text-align: center; font-weight: bold"><span class="male">' + ((enrollments[i].sex == 'M') ? 'X' : '') + '</span></td>' +
             '<td style="text-align: center; font-weight: bold"><span class="female">' + ((enrollments[i].sex == 'F') ? 'X' : '') + '</span></td>' +
@@ -27,13 +27,13 @@ function gerarRelatorio(data) {
             '<td><span class="enrollment-t"></span></td>' +
             '<td><span class="situation-n"></span></td>' +
             '<td><span class="situation-p">'
-                + '</span></td>'
-                    + '<td><span class="address">' + ((enrollments[i].address != '') ? enrollments[i].address : '')
-                    + ((enrollments[i].number != '') ? (', ' + enrollments[i].number) : '')
-                    + ((enrollments[i].complement != '') ? (', ' + enrollments[i].complement) : '')
-                    + ((enrollments[i].neighborhood != '') ? (', ' + enrollments[i].neighborhood) : '')
-                + '</span></td>' +
-        '</tr>'
+            + '</span></td>'
+            + '<td><span class="address">' + ((enrollments[i].address != '') ? enrollments[i].address : '')
+            + ((enrollments[i].number != '') ? (', ' + enrollments[i].number) : '')
+            + ((enrollments[i].complement != '') ? (', ' + enrollments[i].complement) : '')
+            + ((enrollments[i].neighborhood != '') ? (', ' + enrollments[i].neighborhood) : '')
+            + '</span></td>' +
+            '</tr>'
         );
     });
 }

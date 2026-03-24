@@ -11,5 +11,4 @@ Yii::import('application.modules.sedsp.mappers.*');
  */
 class AddStudentToSED
 {
-
 }

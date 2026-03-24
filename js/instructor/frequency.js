@@ -18,17 +18,17 @@ $("#classesSearch").on("click", function () {
                 $("#classroom, #month, #disciplines, #classesSearch").attr("disabled", "disabled");
             },
             success: function (response) {
-                var data = JSON.parse(response);
+                let data = JSON.parse(response);
                 if (data.valid) {
-                    var html = "";
+                    let html = "";
                     html += "" +
                         "<table class='t-accordion table-frequency table table-bordered table-striped table-hover'>" +
                         "<thead class='t-accordion__head'>" +
                         "<tr><th class='table-title' colspan='" + (Object.keys(data.instructors[0].schedules).length + 1) + "'>" + ($('#disciplines').select2('data').text) + "</th></tr>";
-                    var daynameRow = "";
-                    var dayRow = "";
-                    var scheduleRow = "";
-                    var checkboxRow = "";
+                    let daynameRow = "";
+                    let dayRow = "";
+                    let scheduleRow = "";
+                    let checkboxRow = "";
                     $.each(data.instructors[0].schedules, function () {
                         dayRow += "<th>" + (pad(this.day, 2) + "/" + pad($("#month").val(), 2)) + "</th>";
                         daynameRow += "<th>" + this.week_day + "</th>";
@@ -40,7 +40,7 @@ $("#classesSearch").on("click", function () {
                     $.each(data.instructors, function (indexinstructor, instructor) {
                         html += "<tr><td class='instructor-name'>" + instructor.instructorName + "</td>";
                         $.each(instructor.schedules, function (indexSchedule, schedule) {
-                            var justificationContainer = "";
+                            let justificationContainer = "";
                             if (schedule.fault) {
                                 if (schedule.justification !== null) {
                                     justificationContainer += "<a href='javascript:;' data-toggle='tooltip' class='frequency-justification-icon' title='" + schedule.justification + "'><i class='fa fa-file-text-o'></i><i class='fa fa-file-text'></i></a>";
@@ -55,7 +55,7 @@ $("#classesSearch").on("click", function () {
                     html += "</tbody></table>";
                     $("#frequency-container").html(html).show();
                     $(".frequency-checkbox-general").each(function () {
-                        var day = $(this).find(".frequency-checkbox").attr("day");
+                        let day = $(this).find(".frequency-checkbox").attr("day");
                         $(this).find(".frequency-checkbox").prop("checked", $(".frequency-checkbox-instructor .frequency-checkbox[day=" + day + "]:checked").length === $(".frequency-checkbox-instructor .frequency-checkbox[day=" + day + "]").length);
 
                     });
@@ -133,7 +133,7 @@ $("#classrooms").on("change", function () {
 });
 
 $(document).on("change", ".frequency-checkbox", function () {
-    var checkbox = this;
+    let checkbox = this;
     $.ajax({
         type: "POST",
         url: "?r=instructor/saveFrequency",
@@ -179,7 +179,7 @@ $(document).on("change", ".frequency-checkbox", function () {
 });
 
 $(document).on("click", ".frequency-justification-icon", function () {
-    var checkbox = $(this).parent().find(".frequency-checkbox");
+    let checkbox = $(this).parent().find(".frequency-checkbox");
     $("#justification-classroomid").val(checkbox.attr("classroomid"));
     $("#justification-instructorid").val(checkbox.attr("instructorid"));
     $("#justification-day").val(checkbox.attr("day"));
@@ -212,7 +212,7 @@ $(document).on("click", ".btn-save-justification", function () {
             $("#save-justification-modal").find(".centered-loading-gif").show();
         },
         success: function (data) {
-            var justification = $(".table-frequency tbody .frequency-checkbox[instructorid=" + $("#justification-instructorid").val() + "][day=" + $("#justification-day").val() + "][month=" + $("#justification-month").val() + "]").parent().find(".frequency-justification-icon");
+            let justification = $(".table-frequency tbody .frequency-checkbox[instructorid=" + $("#justification-instructorid").val() + "][day=" + $("#justification-day").val() + "][month=" + $("#justification-month").val() + "]").parent().find(".frequency-justification-icon");
             if ($(".justification-text").val() == "") {
                 justification.html("<i class='fa fa-file-o'></i><i class='fa fa-file'></i>");
                 justification.attr("data-original-title", "").tooltip('hide');

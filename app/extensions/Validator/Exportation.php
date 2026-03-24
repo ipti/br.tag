@@ -12,15 +12,15 @@ class Exportation
     public function getTables()
     {
         //Registro 00
-        $sql = "SELECT * FROM school_identification where inep_id='$id' ORDER BY inep_id";
+        $sql = 'SELECT * FROM school_identification where inep_id=:id ORDER BY inep_id';
         $schoolIdentification = self::$db->select($sql);
 
         //Registro 10
-        $sql = "SELECT * FROM school_structure where school_inep_fk='$id' ORDER BY school_inep_id_fk";
+        $sql = 'SELECT * FROM school_structure where school_inep_fk=:id ORDER BY school_inep_id_fk';
         $schoolStructure = self::$db->select($sql);
 
         //Registro 20
-        $sql = "SELECT * FROM classroom where school_inep_fk='$id'";
+        $sql = 'SELECT * FROM classroom where school_inep_fk=:id';
         $classroom = self::$db->select($sql);
 
         //Registro 30
@@ -76,9 +76,9 @@ class Exportation
     }
 
     /*
-        *Checa se há o determinado de grupo de pessoas nas modalidades disponíveis
-        *uxilia campo 92 à 95 no registro 10
-    */
+     *Checa se há o determinado de grupo de pessoas nas modalidades disponíveis
+     *uxilia campo 92 à 95 no registro 10
+     */
     public function areThereByModalitie($sql)
     {
         $peopleByModalitie = self::$db->select($sql);

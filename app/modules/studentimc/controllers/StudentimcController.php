@@ -13,10 +13,10 @@ class StudentIMCController extends Controller
      */
     public function filters()
     {
-        return array(
+        return [
             'accessControl', // perform access control for CRUD operations
             'postOnly + delete', // we only allow deletion via POST request
-        );
+        ];
     }
 
     /**
@@ -26,27 +26,27 @@ class StudentIMCController extends Controller
      */
     public function accessRules()
     {
-        return array(
-            array(
+        return [
+            [
                 'allow',  // allow all users to perform 'index' and 'view' actions
-                'actions' => array('index', 'view', 'studentIndex', 'delete', 'renderStudentTable', 'studentIMCReport'),
-                'users' => array('*'),
-            ),
-            array(
+                'actions' => ['index', 'view', 'studentIndex', 'delete', 'renderStudentTable', 'studentIMCReport'],
+                'users' => ['*'],
+            ],
+            [
                 'allow', // allow authenticated user to perform 'create' and 'update' actions
-                'actions' => array('create', 'update'),
-                'users' => array('@'),
-            ),
-            array(
+                'actions' => ['create', 'update'],
+                'users' => ['@'],
+            ],
+            [
                 'allow', // allow admin user to perform 'admin' and 'delete' actions
-                'actions' => array('admin'),
-                'users' => array('admin'),
-            ),
-            array(
+                'actions' => ['admin'],
+                'users' => ['admin'],
+            ],
+            [
                 'deny',  // deny all users
-                'users' => array('*'),
-            ),
-        );
+                'users' => ['*'],
+            ],
+        ];
     }
 
     /**
@@ -55,9 +55,9 @@ class StudentIMCController extends Controller
      */
     public function actionView($id)
     {
-        $this->render('view', array(
+        $this->render('view', [
             'model' => $this->loadModel($id),
-        ));
+        ]);
     }
 
     /**
@@ -87,8 +87,6 @@ class StudentIMCController extends Controller
 
             $model->student_imc_classification_fk = $classification;
 
-
-
             $modelStudentDisorder->attributes = $_POST['StudentDisorder'];
             $modelStudentIdentification->attributes = $_POST['StudentIdentification'];
 
@@ -98,7 +96,7 @@ class StudentIMCController extends Controller
             $disorderHistory = new StudentDisorderHistory();
             $disorderHistory->student_fk = $studentId;
             $disorderHistory->student_disorder_fk = $modelStudentDisorder->id;
-            $disorderHistory->attributes =  $_POST['StudentDisorder'];
+            $disorderHistory->attributes = $_POST['StudentDisorder'];
 
             $isValid = $model->validate();
             $isValid = $modelStudentDisorder->validate() && $isValid;
@@ -119,7 +117,7 @@ class StudentIMCController extends Controller
                     $this->redirect(['index', 'studentId' => $studentId]);
                 } catch (Exception $e) {
                     $transaction->rollback();
-                    Yii::log("Erro ao salvar IMC: " . $e->getMessage(), CLogger::LEVEL_ERROR);
+                    Yii::log('Erro ao salvar IMC: ' . $e->getMessage(), CLogger::LEVEL_ERROR);
                     Yii::app()->user->setFlash('error', Yii::t('default', 'An error occurred while saving the data.'));
                 }
             }
@@ -132,7 +130,6 @@ class StudentIMCController extends Controller
         ]);
     }
 
-
     private function getclassification($model, $studentIdentification)
     {
         Yii::import('ext.imc.IMC');
@@ -143,16 +140,13 @@ class StudentIMCController extends Controller
         $age = $today->diff($birthDate)->y;
         $gender = $studentIdentification->sex == 1 ? 'masculino' : 'feminino';
         if ($age <= 18 && $age >= 5) {
-
             $classification = $imc->classificarIMCInfantil($model->IMC, $age, $gender);
         } else {
-
             $classification = $imc->imcSituation($model->IMC);
         }
 
         return $classification;
     }
-
 
     /**
      * Updates a particular model.
@@ -217,7 +211,6 @@ class StudentIMCController extends Controller
         ]);
     }
 
-
     /**
      * Deletes a particular model.
      * If deletion is successful, the browser will be redirected to the 'admin' page.
@@ -230,7 +223,7 @@ class StudentIMCController extends Controller
 
         // if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
         if (!isset($_GET['ajax'])) {
-            $this->redirect(array('index', 'studentId' => $studentId));
+            $this->redirect(['index', 'studentId' => $studentId]);
         }
     }
 
@@ -241,58 +234,56 @@ class StudentIMCController extends Controller
     {
         $student = StudentIdentification::model()->findByPk($studentId);
 
-        $dataProvider = new CActiveDataProvider('StudentIMC', array(
-            'criteria' => array(
+        $dataProvider = new CActiveDataProvider('StudentIMC', [
+            'criteria' => [
                 'condition' => 'student_fk = :student_fk',
-                'params' => array(':student_fk' => $studentId),
-            ),
-        ));
+                'params' => [':student_fk' => $studentId],
+            ],
+        ]);
 
-        $highest = StudentIMC::model()->find(array(
+        $highest = StudentIMC::model()->find([
             'condition' => 'student_fk = :student_fk',
-            'params' => array(':student_fk' => $studentId),
+            'params' => [':student_fk' => $studentId],
             'order' => 'imc DESC',
             'limit' => 1,
-        ));
-        $lowest = StudentIMC::model()->find(array(
+        ]);
+        $lowest = StudentIMC::model()->find([
             'condition' => 'student_fk = :student_fk',
-            'params' => array(':student_fk' => $studentId),
+            'params' => [':student_fk' => $studentId],
             'order' => 'imc ASC',
             'limit' => 1,
-        ));
+        ]);
         $variationRate = null;
         if ($lowest != null && $highest != null && $lowest->IMC != 0) {
-
             $variationRate = number_format((($highest->IMC - $lowest->IMC) / $lowest->IMC) * 100, 2);
         }
 
-        $this->render('index', array(
+        $this->render('index', [
             'dataProvider' => $dataProvider,
             'student' => $student,
             'highest' => $highest->IMC,
             'lowest' => $lowest->IMC,
             'variationRate' => $variationRate,
-        ));
+        ]);
     }
 
     public function actionStudentIndex()
     {
-
         $year = Yii::app()->user->year;
         $school = Yii::app()->user->school;
 
         $classrooms = Classroom::model()->findAll('school_year = :school_year and school_inep_fk = :school_inep_fk order by name', ['school_year' => $year, 'school_inep_fk' => $school]);
 
-        $dataProvider = new CActiveDataProvider('StudentIdentification', array(
-            'criteria' => array(
+        $dataProvider = new CActiveDataProvider('StudentIdentification', [
+            'criteria' => [
                 'condition' => 'school_inep_id_fk=' . $school,
-            ),
+            ],
             'pagination' => false
-        ));
-        $this->render('studentIndex', array(
+        ]);
+        $this->render('studentIndex', [
             'dataProvider' => $dataProvider,
             'classrooms' => $classrooms
-        ));
+        ]);
     }
 
     public function actionRenderStudentTable($classroomId)
@@ -301,39 +292,38 @@ class StudentIMCController extends Controller
         if ($classroomId) {
             $criteria = new CDbCriteria();
             $criteria->alias = 'si';
-            $criteria->with = array(
+            $criteria->with = [
                 'lastEnrollment.classroomFk'
-            );
+            ];
             $criteria->together = true;
             $criteria->condition = 'classroomFk.id = :classroomId and si.school_inep_id_fk= :school';
-            $criteria->params = array(':classroomId' => $classroomId, ':school' => $school);
+            $criteria->params = [':classroomId' => $classroomId, ':school' => $school];
 
-            $dataProvider = new CActiveDataProvider('StudentIdentification', array(
+            $dataProvider = new CActiveDataProvider('StudentIdentification', [
                 'criteria' => $criteria,
                 'pagination' => false
-            ));
+            ]);
         } else {
-            $dataProvider = new CActiveDataProvider('StudentIdentification', array(
-                'criteria' => array(
+            $dataProvider = new CActiveDataProvider('StudentIdentification', [
+                'criteria' => [
                     'condition' => 'school_inep_id_fk=' . $school,
-                ),
+                ],
                 'pagination' => false
-            ));
+            ]);
         }
 
-
-        $this->renderPartial('_studentTable', array(
+        $this->renderPartial('_studentTable', [
             'dataProvider' => $dataProvider,
-        ));
+        ]);
     }
 
     public function actionStudentIMCReport($studentId)
     {
-        $studentICM = StudentIMC::model()->findAllByAttributes(["student_fk" => $studentId]);
+        $studentICM = StudentIMC::model()->findAllByAttributes(['student_fk' => $studentId]);
 
-        $this->render('studentIMCReport', array(
+        $this->render('studentIMCReport', [
             'studentICM' => $studentICM,
-        ));
+        ]);
     }
 
     /**
@@ -346,9 +336,9 @@ class StudentIMCController extends Controller
         if (isset($_GET['StudentIMC'])) {
             $model->attributes = $_GET['StudentIMC'];
         }
-        $this->render('admin', array(
+        $this->render('admin', [
             'model' => $model,
-        ));
+        ]);
     }
 
     /**

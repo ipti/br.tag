@@ -3,18 +3,18 @@
 /**
  * @var DefaultController $this DefaultController
  * @var EdcensoDiscipline $model EdcensoDiscipline
- * @var EdcensoBaseDisciplines[] $edcenso_base_disciplines EdcensoBaseDiscipline[]
+ * @var EdcensoBaseDisciplines[] $edcensoBaseDisciplines EdcensoBaseDiscipline[]
  * @var CActiveForm $form CActiveForm
  */
 
-$form = $this->beginWidget('CActiveForm', array(
+$form = $this->beginWidget('CActiveForm', [
     'id' => 'edcenso-discipline-_form-form',
     'enableAjaxValidation' => false,
-));
+]);
 
 $baseScriptUrl = Yii::app()->controller->module->baseScriptUrl;
 $cs = Yii::app()->getClientScript();
-$cs->registerScriptFile($baseScriptUrl . '/_initialization.js?v='.TAG_VERSION, CClientScript::POS_END);
+$cs->registerScriptFile($baseScriptUrl . '/_initialization.js?v=' . TAG_VERSION, CClientScript::POS_END);
 
 if (!$model->isNewRecord) {
     $cant_change_censo_discipline = $model->edcenso_base_discipline_fk < 99;
@@ -61,20 +61,20 @@ if (!$model->isNewRecord) {
                         <?php echo $form->error($model, 'abbreviation'); ?>
                     </div>
 
-                    <div class="t-field-text">
-                        <?php echo $form->label($model, 'edcenso_base_discipline_fk', array('class' => 'control-label t-field-text__label--required')); ?>
-                        <?php echo $form->dropDownList($model, 'edcenso_base_discipline_fk', CHtml::listData($edcenso_base_disciplines, "id", "name"), array('class' => 't-field-text__input', 'disabled' => $cant_change_censo_discipline)); ?>
+                    <div class="t-field-select">
+                        <?php echo $form->label($model, 'edcenso_base_discipline_fk', ['class' => 'control-label t-field-select__label required']); ?>
+                        <?php echo $form->dropDownList($model, 'edcenso_base_discipline_fk', CHtml::listData($edcensoBaseDisciplines, 'id', 'name'), ['prompt' => 'Selecione um componente...', 'class' => 'select-search-on t-field-select__input select2-container', 'disabled' => $cant_change_censo_discipline]); ?>
                         <?php echo $form->error($model, 'edcenso_base_discipline_fk'); ?>
                     </div>
                     <div class="t-field-checkbox">
-                        <?php echo $form->checkBox($model, 'requires_exam', array('value' => 1, 'uncheckValue' => 0, 'class' => 't-field-checkbox__input js-requires_exam')); ?>
-                        <?php echo $form->label($model, 'requires_exam', array('class' => 't-field-checkbox__label')); ?>
+                        <?php echo $form->checkBox($model, 'requires_exam', ['value' => 1, 'uncheckValue' => 0, 'class' => 't-field-checkbox__input js-requires_exam']); ?>
+                        <?php echo $form->label($model, 'requires_exam', ['class' => 't-field-checkbox__label']); ?>
                         <?php echo $form->error($model, 'requires_exam'); ?>
                     </div>
 
                     <div class="t-field-text js-report_text hide">
-                        <?php echo $form->label($model, 'report_text', array('class' => 't-field-text__label control-label')); ?>
-                        <?php echo $form->textField($model, 'report_text', array('class'=> 't-field-text__input')); ?>
+                        <?php echo $form->label($model, 'report_text', ['class' => 't-field-text__label control-label']); ?>
+                        <?php echo $form->textField($model, 'report_text', ['class' => 't-field-text__input']); ?>
                         <?php echo $form->error($model, 'report_text'); ?>
                         <span style="font-size:12px">Esse texto vai aparecer nos relatórios quando o a disciplina não exigir nota</span>
                     </div>

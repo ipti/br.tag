@@ -35,8 +35,7 @@ class UpdateGradeStructUsecase
         $ruleType,
         $hasPartialRecovery,
         $partialRecoveries
-    )
-    {
+    ) {
         $this->gradeRulesId = $gradeRulesId;
         $this->gradeRulesName = $gradeRulesName;
         $this->reply = $reply;

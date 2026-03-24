@@ -378,10 +378,13 @@ class CensoController extends Controller
 
         return $log;
     }
-    private function getInepIds (){
+
+    private function getInepIds()
+    {
         $sql = 'SELECT inep_id FROM school_identification;';
         return Yii::app()->db->createCommand($sql)->queryAll();
     }
+
     public function validateSchoolStructure($collumn, $school)
     {
         $ssv = new SchoolStructureValidation();
@@ -952,16 +955,16 @@ class CensoController extends Controller
 
         if (!empty($collumn['deficiency'])) {
             $result = $iiv->checkDeficiencies($collumn['deficiency'], $deficiencies, $excludingdeficiencies);
-            if(!$result["status"]) {
-                array_push($log, array("deficiencies"=>$result["erro"]));
+            if (!$result['status']) {
+                array_push($log, ['deficiencies' => $result['erro']]);
             }
         }
 
         //campo 26
 
         $result = $iiv->checkMultiple($collumn['deficiency'], $collumn['deficiency_type_multiple_disabilities'], $deficiencies);
-        if(!$result["status"]){
-            array_push($log, array("deficiency_type_multiple_disabilities"=>$result["erro"]));
+        if (!$result['status']) {
+            array_push($log, ['deficiency_type_multiple_disabilities' => $result['erro']]);
         }
 
         $variabelData = InstructorVariableData::model()->findByPk($collumn['id']);
@@ -979,7 +982,6 @@ class CensoController extends Controller
 
         $schoolInepIdFk = $collumn['school_inep_id_fk'];
         $instructorInepId = $collumn['inep_id'];
-
 
         $inepIds = $this->getInepIds();
         foreach ($inepIds as  $value) {
@@ -1027,7 +1029,6 @@ class CensoController extends Controller
 
     public function validateInstructorData($collumn)
     {
-
         $inepIds = $this->getInepIds();
         foreach ($inepIds as  $value) {
             $allowedSchoolInepIds[] = $value['inep_id'];
@@ -1128,7 +1129,6 @@ class CensoController extends Controller
 
     public function validateStudentIdentification($collumn, $studentDocument, $classroom)
     {
-
         $inepIds = $this->getInepIds();
         foreach ($inepIds as  $value) {
             $allowedSchoolInepIds[] = $value['inep_id'];
@@ -1387,7 +1387,6 @@ class CensoController extends Controller
 
     public function validateEnrollment($collumn)
     {
-
         $inepIds = $this->getInepIds();
         foreach ($inepIds as  $value) {
             $allowedSchoolInepIds[] = $value['inep_id'];
@@ -1467,7 +1466,6 @@ class CensoController extends Controller
             if (!$result['status']) {
                 array_push($log, ['transport_responsable_government' => $result['erro']]);
             }
-
         }
 
         //24
@@ -1624,17 +1622,21 @@ class CensoController extends Controller
             header('Expires: 0');
             header('Cache-Control: must-revalidate');
             header('Pragma: public');
-            header($this->concatContentLength( filesize($fileDir)));
+            header($this->concatContentLength(filesize($fileDir)));
             readfile($fileDir);
         }
     }
 
-    private function concatContentDispositionAttachmentFileName($fileName){
+    private function concatContentDispositionAttachmentFileName($fileName)
+    {
         return 'Content-Disposition: attachment; filename="' . $fileName . '"';
     }
-    private function concatContentLength($fileSize){
+
+    private function concatContentLength($fileSize)
+    {
         return 'Content-Length: ' . $fileSize;
     }
+
     public function mountItemExport($itens)
     {
         $linha = '';
@@ -2479,7 +2481,7 @@ class CensoController extends Controller
                 foreach ($attributes as $i => $attr) {
                     $pos = strstr($i, 'discipline');
                     if ($pos && ($attributes[$i] >= 99)) {
-                        $attributes[$i] = $countdisc == 1?99:'';
+                        $attributes[$i] = $countdisc == 1 ? 99 : '';
                         $countdisc++;
                     }
                 }
@@ -2645,7 +2647,7 @@ class CensoController extends Controller
         if (file_exists($fileDir)) {
             header('Content-Description: File Transfer');
             header('Content-Type: application/octet-stream');
-            header($this->concatContentDispositionAttachmentFileName( basename($fileDir)));
+            header($this->concatContentDispositionAttachmentFileName(basename($fileDir)));
             header('Expires: 0');
             header('Cache-Control: must-revalidate');
             header('Pragma: public');
@@ -2663,7 +2665,7 @@ class CensoController extends Controller
         if (file_exists($fileDir)) {
             header('Content-Description: File Transfer');
             header('Content-Type: application/octet-stream');
-            header($this->concatContentDispositionAttachmentFileName( basename($fileDir)));
+            header($this->concatContentDispositionAttachmentFileName(basename($fileDir)));
             header('Expires: 0');
             header('Cache-Control: must-revalidate');
             header('Pragma: public');

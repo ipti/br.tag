@@ -24,7 +24,7 @@ $(document).ready(function () {
 
 function gerarRelatorio(data) {
     $("#report, #print").show();
-    var infos = $.parseJSON(data);
+    let infos = $.parseJSON(data);
     for (var i in infos) {
         if (i == "cc") {
             if (infos[i] == 1) {

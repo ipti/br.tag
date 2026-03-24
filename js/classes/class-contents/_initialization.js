@@ -1,5 +1,5 @@
 function loadClassContents() {
-    var monthSplit = $("#month").val().split("-");
+    let monthSplit = $("#month").val().split("-");
     $.ajax({
         type: "POST",
         url: "?r=classes/getClassContents",

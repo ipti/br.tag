@@ -313,7 +313,7 @@ class Register
     public function validateFiliation($filiation, $filiationMother, $filiationFather)
     {
         $result = $this->isAllowed($filiation, ['0', '1']);
-        $errorMessage = "";
+        $errorMessage = '';
         $errorStatus = true;
 
         if (!$result['status']) {
@@ -328,7 +328,6 @@ class Register
                 $errorMessage = 'As filiações não podem ser idênticas';
                 $errorStatus = false;
             }
-
         } else {
             if (!($filiationMother == null && $filiationFather == null)) {
                 $errorStatus = false;

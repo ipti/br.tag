@@ -15,7 +15,7 @@ $(window).on('load', function () {
     toggleDisabledInputs('#student-enrollment', true)
     $('#StudentEnrollment_classroom_fk').prop("disabled", false)
     $('#StudentEnrollment_classroom_fk').on('change', function (e) {
-        var data = e.val;
+        let data = e.val;
         if (data == "") {
             toggleDisabledInputs('#student-enrollment', true)
             $('#StudentEnrollment_classroom_fk').prop("disabled", false)
@@ -28,7 +28,7 @@ $(window).on('load', function () {
 
 function toggleDisabledInputs(idForm, value) {
     $(idForm + " :input").each(function () {
-        var input = $(this);
+        let input = $(this);
         input.prop("disabled", value)
     });
 }
@@ -37,15 +37,15 @@ $(document).on('change', '#reasonDropdown select', function () {
     checkDropdownValue();
 });
 
-$('#StudentEnrollment_status').change(function(){
+$('#StudentEnrollment_status').change(function () {
     manageTransferedStudentFields();
 })
 
-function manageTransferedStudentFields(){
+function manageTransferedStudentFields() {
     const currentStatus = $('#StudentEnrollment_status').val();
     const transferDiv = $('#transferDiv');
     const readmissionDiv = $('#readmissionDiv');
-    if(currentStatus == '13'){
+    if (currentStatus == '13') {
         transferDiv.removeClass('hide');
         readmissionDiv.removeClass('hide');
         return;

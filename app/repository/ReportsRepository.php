@@ -1345,7 +1345,7 @@ class ReportsRepository
             ->bindParam(':school_year', $this->currentYear)
             ->queryAll();
 
-        return ['report' => $result,];
+        return ['report' => $result, ];
     }
 
     /**
@@ -2201,7 +2201,7 @@ class ReportsRepository
         $finalDate = $arr[2] . '-' . $arr[1] . '-' . $arr[0];
         $students = [];
         $initialMonth = date('m', strtotime($initialDate));
-        $finalMonth   = date('m', strtotime($finalDate));
+        $finalMonth = date('m', strtotime($finalDate));
         if ($fundamentalMaior == '1') {
             $schedules = Schedule::model()
                 ->findAll(
@@ -2251,7 +2251,6 @@ class ReportsRepository
                     }
                 }
                 foreach ($students as &$student) {
-
                     $student['total'] = count($days);
                     //$student['frequency'] = $frequency; //(floor((($student['total'] - count($student['faults'])) / $student['total']) * 100 * 100) / 100) . '%';
                 }
@@ -2438,7 +2437,7 @@ class ReportsRepository
                 }
 
                 $arr['finalMedia'] = $gradeResult != null ? $finalMedia : '';
-                $arr['situation'] = $gradeResult != null ? $findSituation  : '';
+                $arr['situation'] = $gradeResult != null ? $findSituation : '';
                 array_push($result['rows'], $arr);
             }
             $result['valid'] = true;

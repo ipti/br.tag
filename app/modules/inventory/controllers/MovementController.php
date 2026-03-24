@@ -2,7 +2,6 @@
 
 class MovementController extends Controller
 {
-
     public function filters()
     {
         return [
@@ -29,7 +28,7 @@ class MovementController extends Controller
     {
         $schoolId = Yii::app()->user->school;
         $criteria = new CDbCriteria();
-        
+
         if (Yii::app()->user->checkAccess('manager')) {
             $criteria->compare('school_inep_fk', $schoolId);
         }
@@ -62,7 +61,7 @@ class MovementController extends Controller
 
     /**
      * Entry Movement (Admin only usually, but let's allow manager if they receive goods)
-     * The prompt said: "entrada e saida... secretaria de educação (admin) pode enviar... 
+     * The prompt said: "entrada e saida... secretaria de educação (admin) pode enviar...
      * gestor (manager) tem controle da sua escola"
      */
     public function actionCreateEntry()
@@ -101,7 +100,7 @@ class MovementController extends Controller
         $model->type = InventoryMovement::TYPE_EXIT;
         $model->user_id = Yii::app()->user->loginInfos->id;
         $model->date = date('Y-m-d');
-        
+
         if (Yii::app()->user->checkAccess('manager')) {
             $model->school_inep_fk = Yii::app()->user->school;
         }
@@ -111,7 +110,7 @@ class MovementController extends Controller
             if (empty($model->school_inep_fk)) {
                 $model->school_inep_fk = null;
             }
-            
+
             // Check availability
             $stock = InventoryStock::model()->find(
                 'item_id = :item_id AND (school_inep_fk = :school_id OR (school_inep_fk IS NULL AND :school_id IS NULL))',
@@ -178,7 +177,7 @@ class MovementController extends Controller
                     $exit->quantity = $quantity;
                     $exit->date = $data['date'];
                     $exit->destination = 'Transferência para ' . ($targetSchool ? $targetSchool->name : 'unidade desconhecida');
-                    
+
                     if ($exit->save()) {
                         $this->updateStock($exit);
 
@@ -191,7 +190,7 @@ class MovementController extends Controller
                         $entry->quantity = $quantity;
                         $entry->date = $data['date'];
                         $entry->destination = 'Recebido do Almoxarifado Central';
-                        
+
                         if ($entry->save()) {
                             $this->updateStock($entry);
                             $transaction->commit();
@@ -214,7 +213,7 @@ class MovementController extends Controller
     {
         $model = new InventoryMovement('search');
         $model->unsetAttributes();
-        
+
         if (isset($_GET['InventoryMovement'])) {
             $model->attributes = $_GET['InventoryMovement'];
         }

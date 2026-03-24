@@ -1,9 +1,11 @@
 <?php
 
     Yii::import('application.modules.classdiary.services.*');
+
     /**
     * @property GetStudentDiary $GetStudentDiary
     */
+
     class GetStudentDiary
     {
         private $studentService;
@@ -15,6 +17,6 @@
 
         public function exec($stageFk, $classroomFk, $disciplineFk, $date, $studentFk)
         {
-           return $this->studentService->GetStudentDiary($stageFk, $classroomFk, $disciplineFk, $date, $studentFk);
+            return $this->studentService->GetStudentDiary($stageFk, $classroomFk, $disciplineFk, $date, $studentFk);
         }
     }

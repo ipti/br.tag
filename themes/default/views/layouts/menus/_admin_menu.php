@@ -16,14 +16,21 @@ $menuItems = [
         'roles' => [TRole::SUPERUSER],
         'feature' => TTask::TASK_HOME,
     ],
+    [
+        'label' => 'Ferramentas',
+        'url' => ['tools/default/index'],
+        'icon' => 't-icon-settings',
+        'roles' => [TRole::SUPERUSER],
+        'feature' => TTask::TASK_HOME,
+    ],
 
     // Escola, Turmas, Alunos, Professores
     [
         'label' => 'Escola',
         'url' => function () {
             return (count(Yii::app()->user->usersSchools) == 1)
-                ? ['school/update', ['id' => Yii::app()->user->school]]
-                : ['school/index'];
+            ? ['school/school/update', ['id' => Yii::app()->user->school]]
+            : ['school/school/index'];
         },
         'icon' => 't-icon-school',
         'roles' => [TRole::ADMIN, TRole::MANAGER, TRole::READER],
@@ -38,7 +45,7 @@ $menuItems = [
     ],
     [
         'label' => 'Alunos',
-        'url' => ['student'],
+        'url' => ['student/student/index'],
         'icon' => 't-icon-pencil',
         'roles' => [TRole::ADMIN, TRole::MANAGER, TRole::READER],
         'feature' => TTask::TASK_STUDENT_MANAGE,
@@ -57,6 +64,13 @@ $menuItems = [
         'feature' => TTask::TASK_ONLINE_ENROLLMENT,
     ],
     [
+        'label' => 'Profissionais',
+        'url' => ['professional/default/index'],
+        'icon' => 't-icon-profissionais',
+        'roles' => [TRole::ADMIN, TRole::MANAGER, TRole::READER],
+        'feature' => TTask::TASK_PROFESSIONAL_MANAGE,
+    ],
+    [
         'label' => 'Professores',
         'url' => ['instructor'],
         'icon' => 't-icon-book',
@@ -67,19 +81,19 @@ $menuItems = [
         'label' => 'Calendário Escolar',
         'url' => ['calendar'],
         'icon' => 't-icon-calendar',
-        'roles' => [TRole::ADMIN, TRole::MANAGER, TRole::READER, 'instructor'],
+        'roles' => [TRole::ADMIN, TRole::MANAGER, TRole::READER, TRole::INSTRUCTOR],
         'feature' => TTask::TASK_CURRICULUM_ACCESS,
     ],
     [
         'label' => 'Matriz Curricular',
-        'url' => ['curricularmatrix'],
+        'url' => ['curricularmatrix/curricularmatrix/index'],
         'icon' => 't-icon-line_graph',
         'roles' => [TRole::ADMIN, TRole::MANAGER, TRole::READER],
         'feature' => TTask::TASK_CURRICULUM_ACCESS,
     ],
     [
         'label' => 'Quadro de Horário',
-        'url' => ['timesheet'],
+        'url' => ['timesheet/timesheet/index'],
         'icon' => 't-icon-blackboard',
         'roles' => [TRole::ADMIN, TRole::MANAGER, TRole::READER],
         'feature' => TTask::TASK_CURRICULUM_ACCESS,
@@ -201,7 +215,7 @@ $menuItems = [
     // Merenda Escolar
     [
         'label' => 'Merenda Escolar',
-        'url' => ['foods'],
+        'url' => ['foods/FoodMenu/viewlunch'],
         'icon' => 't-icon-apple',
         'roles' => [TRole::NUTRITIONIST, TRole::ADMIN, TRole::MANAGER, TRole::READER, TRole::FOOD_SERVICE_WORKER],
         'feature' => TTask::TASK_FOODS_MENU_MANAGE,
@@ -304,7 +318,13 @@ $menuItems = [
             ],
         ],
     ],
-
+    [
+        'label' => 'Gerenciar Notificações',
+        'url' => ['notifications/notifications/index'],
+        'icon' => 'fa fa-bell',
+        'roles' => [TRole::ADMIN, TRole::SUPERUSER],
+        'feature' => TFeature::FEAT_NOTIFICATIONS_MANAGE,
+    ],
     [
         'label' => 'Alterar senha',
         'url' => function () {
@@ -326,13 +346,13 @@ $menuItems = [
     [
         'label' => 'Gestão de Resultados',
         'icon' => 't-icon-bar_graph',
-        'url' =>  ['dashboard'],
+        'url' => ['dashboard'],
         'roles' => [TRole::ADMIN, TRole::READER],
         'feature' => TTask::TASK_MANAGEMENT_PERFORMANCE_BI,
     ],
     [
         'label' => 'Gestão de Resultados',
-        'url' =>  ['resultsmanagement'],
+        'url' => ['resultsmanagement'],
         'icon' => 't-icon-bar_graph',
         'roles' => [TRole::ADMIN, TRole::READER],
         'feature' => TTask::TASK_MANAGEMENT_PERFORMANCE,

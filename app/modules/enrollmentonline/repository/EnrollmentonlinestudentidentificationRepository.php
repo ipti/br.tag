@@ -30,7 +30,7 @@ class EnrollmentonlinestudentidentificationRepository
 
             if (
                 !$this->saveSolicitations($_POST['school_1']) ||
-                ($_POST['school_2'] && !$this->saveSolicitations($_POST['school_2']))  ||
+                ($_POST['school_2'] && !$this->saveSolicitations($_POST['school_2'])) ||
                 ($_POST['school_3'] && !$this->saveSolicitations($_POST['school_3']))
             ) {
                 throw new CException('Falha ao salvar solicitações de matrícula.');
@@ -92,7 +92,6 @@ class EnrollmentonlinestudentidentificationRepository
 
     public function getStudentList()
     {
-
         $criteria = new CDbCriteria();
         $criteria->condition = 'user_fk = :user_fk';
         $criteria->params = [':user_fk' => Yii::app()->user->loginInfos->id];
@@ -116,7 +115,7 @@ class EnrollmentonlinestudentidentificationRepository
 
             if ($wasAcept) {
                 $reuslt[] = [$student, 'status' => 'Aprovado', 'school' => $wasAcept->schoolInepIdFk->name];
-            } else if ($allRejected) {
+            } elseif ($allRejected) {
                 $reuslt[] = [$student, 'status' => 'Rejeitado'];
             } else {
                 $reuslt[] = [$student, 'status' => 'Em processamento'];
@@ -137,8 +136,6 @@ class EnrollmentonlinestudentidentificationRepository
 
     public function confirmEnrollment()
     {
-
-
         $classroom = Classroom::model()->findByPk($this->studentIdentification->classroom_fk);
 
         $existingStudent = $this->findExistingStudent();
@@ -150,7 +147,6 @@ class EnrollmentonlinestudentidentificationRepository
         return $this->createEnrollmentForExistingStudent($existingStudent, $classroom);
     }
 
-
     private function findExistingStudent()
     {
         $si = $this->studentIdentification;
@@ -160,8 +156,9 @@ class EnrollmentonlinestudentidentificationRepository
             $student = StudentDocumentsAndAddress::model()->findByAttributes([
                 'cpf' => $si->cpf
             ]);
-            if ($student)
+            if ($student) {
                 return StudentIdentification::model()->findByPk($student->student_fk);
+            }
         }
 
         // 2. Buscar pelos demais dados
@@ -197,24 +194,24 @@ class EnrollmentonlinestudentidentificationRepository
 
             // Validar
             if (!$studentIdentification->validate() || !$studentDocuments->validate()) {
-                throw new Exception("Dados inválidos. Verifique o formulário.");
+                throw new Exception('Dados inválidos. Verifique o formulário.');
             }
 
             // Salvar identificação
             if (!$studentIdentification->save()) {
-                throw new Exception("Erro ao salvar identificação.");
+                throw new Exception('Erro ao salvar identificação.');
             }
 
             // Salvar documentos
             $studentDocuments->student_fk = $studentIdentification->id;
             if (!$studentDocuments->save()) {
-                throw new Exception("Erro ao salvar documentos/endereço.");
+                throw new Exception('Erro ao salvar documentos/endereço.');
             }
 
             // Salvar EOSI com referência do estudante
             $si->student_fk = $studentIdentification->id;
             if (!$si->save()) {
-                throw new Exception("Erro ao atualizar identificação com FK do estudante.");
+                throw new Exception('Erro ao atualizar identificação com FK do estudante.');
             }
 
             // Criar matrícula
@@ -228,8 +225,8 @@ class EnrollmentonlinestudentidentificationRepository
             return $this->jsonSuccess(
                 "O Cadastro de {$studentIdentification->name} foi criado com sucesso!",
                 [
-                    "classroomName" => $classroom->name,
-                    "classroomId" => $classroom->id
+                    'classroomName' => $classroom->name,
+                    'classroomId' => $classroom->id
                 ]
             );
         } catch (Exception $e) {
@@ -238,14 +235,12 @@ class EnrollmentonlinestudentidentificationRepository
         }
     }
 
-
     private function createEnrollmentForExistingStudent($existingStudent, $classroom)
     {
         $transaction = Yii::app()->db->beginTransaction();
 
         try {
-
-            $criteria = new CDbCriteria;
+            $criteria = new CDbCriteria();
             $criteria->alias = 'se';
             $criteria->join = 'JOIN classroom ON classroom.id = se.classroom_fk';
 
@@ -263,11 +258,10 @@ class EnrollmentonlinestudentidentificationRepository
 
             if ($studentEnrollment) {
                 $transaction->rollback();
-                return $this->jsonError("Aluno já possui matrícula ativa em alguma turma.");
+                return $this->jsonError('Aluno já possui matrícula ativa em alguma turma.');
             }
 
             if (!$studentEnrollment) {
-
                 $studentEnrollment = new StudentEnrollment();
             }
 
@@ -281,8 +275,8 @@ class EnrollmentonlinestudentidentificationRepository
             return $this->jsonSuccess(
                 "O Cadastro de {$existingStudent->name} foi criado com sucesso!",
                 [
-                    "classroomName" => $classroom->name,
-                    "classroomId" => $classroom->id
+                    'classroomName' => $classroom->name,
+                    'classroomId' => $classroom->id
                 ]
             );
         } catch (Exception $e) {
@@ -302,7 +296,7 @@ class EnrollmentonlinestudentidentificationRepository
         $enrollment->daily_order = $enrollment->getDailyOrder();
 
         if (!$enrollment->save()) {
-            throw new Exception("Erro ao salvar a matrícula.");
+            throw new Exception('Erro ao salvar a matrícula.');
         }
     }
 
@@ -316,24 +310,21 @@ class EnrollmentonlinestudentidentificationRepository
         $solicitation->status = EnrollmentOnlineEnrollmentSolicitation::ACCEPTED;
 
         if (!$solicitation->save()) {
-            throw new Exception("Erro ao atualizar solicitação de matrícula.");
+            throw new Exception('Erro ao atualizar solicitação de matrícula.');
         }
     }
-
-
-
 
     private function jsonSuccess($msg, $data = null)
     {
         header('Content-Type: application/json');
-        echo json_encode(["status" => "success", "message" => $msg, "data" => $data]);
+        echo json_encode(['status' => 'success', 'message' => $msg, 'data' => $data]);
         Yii::app()->end();
     }
 
     private function jsonError($msg)
     {
         header('Content-Type: application/json');
-        echo json_encode(["status" => "error", "message" => $msg]);
+        echo json_encode(['status' => 'error', 'message' => $msg]);
         Yii::app()->end();
     }
 
@@ -347,7 +338,7 @@ class EnrollmentonlinestudentidentificationRepository
 
         // ---------- 7. Salvar matrícula ----------
         if (!$solicitation->save()) {
-            return $this->jsonError("Erro ao atualizar solicitação de matrícula.");
+            return $this->jsonError('Erro ao atualizar solicitação de matrícula.');
         }
 
         return $this->jsonSuccess(

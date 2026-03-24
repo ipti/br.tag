@@ -37,7 +37,7 @@ services:
     image: mysql:8.0
     container_name: mysql
     restart: always
-    command: mysqld --sql_mode="" --max_allowed_packet=32505856
+    command: mysqld --sql_mode="" --max_allowed_packet=536870912
     ports:
       - 3306:3306
     expose:
@@ -68,6 +68,10 @@ services:
     restart: always
     ports:
       - 8088:8080
+    environment:
+      PHP_INI_UPLOAD_MAX_FILESIZE: 1G
+      PHP_INI_POST_MAX_SIZE: 1G
+      PHP_INI_MEMORY_LIMIT: 512M
     networks:
       - tag-v3-network
 

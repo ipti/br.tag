@@ -13,7 +13,8 @@ $cs->registerScript(
     "var loadLineChartData = '" . $this->createUrl("site/loadLineChartData") . "'; " .
     "var loadCylinderChartData = '" . $this->createUrl("site/loadCylinderChartData") . "'; " .
     "var loadPieChartData = '" . $this->createUrl("site/loadPieChartData") . "'; " .
-    "var loadWarns = '" . $this->createUrl("site/loadWarnsHtml") . "';",
+    "var loadWarns = '" . $this->createUrl("site/loadWarnsHtml") . "'; " .
+    "var loadSchoolSummary = '" . $this->createUrl("site/loadSchoolSummary") . "';",
     CClientScript::POS_HEAD
 );
 
@@ -37,6 +38,31 @@ $logCount = Log::model()->countByAttributes([
     </div>
     <div class="tag-inner eggs">
         <div class="board-msg" version="<?php echo TAG_VERSION; ?>"><?php echo BOARD_MSG; ?></div>
+
+        <!-- School Summary Panel (New Design System) -->
+        <div id="school-summary-panel" class="row-fluid t-margin-medium--bottom hide">
+            <div class="span12">
+                <div class="t-stat-cards">
+                    <div class="t-stat-card t-stat-card--info">
+                        <div class="t-stat-card__value" id="enrolled-count">...</div>
+                        <div class="t-stat-card__label">Matrículas Ativas</div>
+                    </div>
+                    <div class="t-stat-card t-stat-card--warning">
+                        <div class="t-stat-card__value" id="class-count">...</div>
+                        <div class="t-stat-card__label">Total de Turmas</div>
+                    </div>
+                    <div class="t-stat-card t-stat-card--success">
+                        <div class="t-stat-card__value" id="instructor-count">...</div>
+                        <div class="t-stat-card__label">Total de Professores</div>
+                    </div>
+                    <div class="t-stat-card t-stat-card--primary"> <!-- Using primary (purple/blue) or distinct color -->
+                        <div class="t-stat-card__value" id="allocated-professionals-count">...</div>
+                        <div class="t-stat-card__label">Profissionais Alocados</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <div class="row-fluid">
             <div class="span12">
                 <div class="widget-scroll margin-bottom-none log-widget" data-toggle="collapse-widget"

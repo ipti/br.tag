@@ -2,7 +2,7 @@
 // Validations                                //
 ////////////////////////////////////////////////
 $(form + 'name').focusout(function () {
-    var id = '#' + $(this).attr("id");
+    let id = '#' + $(this).attr("id");
 
     $(id).val($(id).val().toUpperCase());
 
@@ -15,10 +15,10 @@ $(form + 'name').focusout(function () {
 });
 $(form + 'initial_time').mask("99:99");
 $(form + 'initial_time').focusout(function () {
-    var id = '#' + $(this).attr("id");
+    let id = '#' + $(this).attr("id");
     $(id).val($(id).val().toUpperCase());
-    var hour = form + 'initial_hour';
-    var minute = form + 'initial_minute';
+    let hour = form + 'initial_hour';
+    let minute = form + 'initial_minute';
 
     if (!validateTime($(id).val())) {
         $(id).attr('value', '');
@@ -27,7 +27,7 @@ $(form + 'initial_time').focusout(function () {
         addError(id, "O horário deve ser válido e inferior ao horário final.");
     }
     else {
-        var time = $(id).val().split(":");
+        let time = $(id).val().split(":");
         time[1] = Math.floor(time[1] / 5) * 5;
         $(hour).attr('value', time[0] == '0' ? '00' : time[0]);
         $(minute).attr('value', time[1] == '0' ? '00' : time[1]);
@@ -36,10 +36,10 @@ $(form + 'initial_time').focusout(function () {
 });
 $(form + 'final_time').mask("99:99");
 $(form + 'final_time').focusout(function () {
-    var id = '#' + $(this).attr("id");
+    let id = '#' + $(this).attr("id");
     $(id).val($(id).val().toUpperCase());
-    var hour = form + 'final_hour';
-    var minute = form + 'final_minute';
+    let hour = form + 'final_hour';
+    let minute = form + 'final_minute';
 
     if (!validateTime($(id).val()) || $(form + 'final_time').val() <= $(form + 'initial_time').val()) {
         $(id).attr('value', '');
@@ -48,7 +48,7 @@ $(form + 'final_time').focusout(function () {
         addError(id, "O horário deve ser válido e superior ao horário inicial.");
     }
     else {
-        var time = $(id).val().split(":");
+        let time = $(id).val().split(":");
         time[1] = Math.floor(time[1] / 5) * 5;
         $(hour).attr('value', time[0] == '0' ? '00' : time[0]);
         $(minute).attr('value', time[1] == '0' ? '00' : time[1]);
@@ -56,7 +56,7 @@ $(form + 'final_time').focusout(function () {
     }
 });
 $(form + 'week_days input[type=checkbox]').change(function () {
-    var id = '#' + $(form + 'week_days').attr("id");
+    let id = '#' + $(form + 'week_days').attr("id");
     if ($(form + 'week_days input[type=checkbox]:checked').length == 0) {
         addError(id, "Escolha ao menos um dia.");
     } else {
@@ -64,7 +64,7 @@ $(form + 'week_days input[type=checkbox]').change(function () {
     }
 });
 $(form + 'week_days').focusout(function () {
-    var id = '#' + $(this).attr("id");
+    let id = '#' + $(this).attr("id");
     if ($(form + 'week_days input[type=checkbox]:checked').length == 0) {
         addError(id, "Escolha ao menos um dia.");
     } else {
@@ -73,7 +73,7 @@ $(form + 'week_days').focusout(function () {
 });
 //Validação da disciplina
 $("#discipline").change(function () {
-    var id = '#discipline';
+    let id = '#discipline';
     if ($(id).val().length == 0) {
         addError(id, "Selecione a Disciplina.");
     } else {
@@ -81,8 +81,8 @@ $("#discipline").change(function () {
     }
 });
 $(".save-classroom").click(function () {
-    var error = false;
-    var message = "";
+    let error = false;
+    let message = "";
     if ($("#Classroom_name").val() === "") {
         error = true;
         message += "Campo <b>Nome</b> é obrigatório.<br>";
@@ -144,7 +144,7 @@ $(".save-classroom").click(function () {
         message += "Campo <b>Capacidade Física Máxima</b> é obrigatório, com limite máximo de 99.<br>";
     }
     if (error) {
-        $("html, body").animate({scrollTop: 0}, "fast");
+        $("html, body").animate({ scrollTop: 0 }, "fast");
         $(this).closest("form").find(".classroom-alert").addClass("alert-error").removeClass("alert-warning").removeClass("alert-success").html(message).show();
     } else {
         $(this).closest("form").find(".classroom-alert").hide();

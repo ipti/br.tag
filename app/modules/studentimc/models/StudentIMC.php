@@ -35,14 +35,14 @@ class StudentImc extends CActiveRecord
     {
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
-        return array(
-            array('height, weight, IMC, student_fk', 'required'),
-            array('student_fk, student_imc_classification_fk', 'numerical', 'integerOnly' => true),
-            array('height, weight, IMC', 'numerical'),
-            array('observations', 'length', 'max' => 500),
-            array('created_at, updated_at', 'safe'),
-            array('id, height, weight, IMC, observations, student_fk, created_at, updated_at, student_imc_classification_fk', 'safe', 'on' => 'search'),
-        );
+        return [
+            ['height, weight, IMC, student_fk', 'required'],
+            ['student_fk, student_imc_classification_fk', 'numerical', 'integerOnly' => true],
+            ['height, weight, IMC', 'numerical'],
+            ['observations', 'length', 'max' => 500],
+            ['created_at, updated_at', 'safe'],
+            ['id, height, weight, IMC, observations, student_fk, created_at, updated_at, student_imc_classification_fk', 'safe', 'on' => 'search'],
+        ];
     }
 
     /**
@@ -90,7 +90,7 @@ class StudentImc extends CActiveRecord
      */
     public function search()
     {
-        $criteria = new CDbCriteria;
+        $criteria = new CDbCriteria();
 
         $criteria->compare('id', $this->id);
         $criteria->compare('height', $this->height);

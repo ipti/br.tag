@@ -55,10 +55,10 @@ $("#discipline").change(function (e, triggerEvent) {
             success: function (data) {
                 data = JSON.parse(data);
                 if (data.valid) {
-                    var tableColspan =
+                    let tableColspan =
                         Object.keys(data.modalityColumns).length +
                         (!data.isUnityConcept ? 3 : 2);
-                    var html =
+                    let html =
                         "<table class='grades-table table table-bordered table-striped' concept='" +
                         (data.isUnityConcept ? "1" : "0") +
                         "'><thead><tr><th colspan='" +
@@ -106,7 +106,7 @@ $("#discipline").change(function (e, triggerEvent) {
                                     "<select class='grade-concept' modalityid='" +
                                     this.modalityId +
                                     "'><option value=''></option>";
-                                var concept = this.concept;
+                                let concept = this.concept;
                                 $.each(
                                     data.conceptOptions,
                                     function (index, value) {
@@ -134,8 +134,8 @@ $("#discipline").change(function (e, triggerEvent) {
                         }
                         html += !data.isUnityConcept
                             ? "<td class='final-media'>" +
-                              valueFinalMedia +
-                              "</td>"
+                            valueFinalMedia +
+                            "</td>"
                             : "";
                         html +=
                             "<td class='final-media'>" +
@@ -179,9 +179,9 @@ $("#save").on("click", function (e) {
     e.preventDefault();
     $(".js-grades-alert").hide();
 
-    var students = [];
+    let students = [];
     $(".grades-table tbody tr").each(function () {
-        var grades = [];
+        let grades = [];
         if ($(".grades-table").attr("concept") === "1") {
             $(this)
                 .find(".grade-concept")
@@ -229,7 +229,7 @@ $("#save").on("click", function (e) {
     });
 });
 
-// var lastValidValue = "";
+// let lastValidValue = "";
 
 // $(document).on("focus", "input.grade", function (e) {
 //     lastValidValue = this.value

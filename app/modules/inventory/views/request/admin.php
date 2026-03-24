@@ -3,10 +3,10 @@
 /* @var $model InventoryRequest */
 
 $this->setPageTitle('TAG - Gerenciar Solicitações');
-$this->breadcrumbs=array(
-	'Almoxarifado' => array('movement/index'),
-	'Gerenciar Solicitações',
-);
+$this->breadcrumbs = [
+    'Almoxarifado' => ['movement/index'],
+    'Gerenciar Solicitações',
+];
 ?>
 
 <style>
@@ -29,63 +29,64 @@ $this->breadcrumbs=array(
             <div class="widget clearmargin">
                 <div class="widget-body">
                     <?php DataTableGridView::show(
-                        $this,
-                        array(
-                            'id'=>'inventory-request-grid',
-                            'dataProvider'=>$model->search(false),
-                            'filter'=>$model,
-                            'htmlOptions' => array('style' => 'width: 100%'),
-                            'enableSorting' => false,
-                            'columns'=>array(
-                            array(
-                                'name' => 'school_inep_fk',
-                                'header' => 'Escola',
-                                'value' => '$data->school->name',
-                                'filter' => CHtml::listData(SchoolIdentification::model()->findAll(), 'inep_id', 'name'),
-                            ),
-                            array(
-                                'name' => 'item_id',
-                                'value' => '$data->item->name',
-                                'filter' => CHtml::listData(InventoryItem::model()->findAll(), 'id', 'name'),
-                            ),
-                            array(
-                                'name' => 'quantity',
-                                'value' => '$data->quantity . " " . $data->item->unit',
-                            ),
-                            array(
-                                'name' => 'status',
-                                'value' => '$data->getStatusText()',
-                                'filter' => InventoryRequest::getStatusList(),
-                            ),
-                            array(
-                                'name' => 'requested_at',
-                                'value' => 'date("d/m/Y H:i", strtotime($data->requested_at))',
-                            ),
-                            array(
-                                'header' => 'Ações',
-                                'class' => 'CButtonColumn',
-                                'template' => '{view} {update} {delete} {responder}',
-                                'buttons' => array(
-                                    'view' => array(
-                                        'imageUrl' => Yii::app()->theme->baseUrl.'/img/search-icon.svg',
-                                    ),
-                                    'update' => array(
-                                        'imageUrl' => Yii::app()->theme->baseUrl.'/img/editar.svg',
-                                    ),
-                                    'delete' => array(
-                                        'imageUrl' => Yii::app()->theme->baseUrl.'/img/deletar.svg',
-                                    ),
-                                    'responder' => array(
-                                        'label' => 'Responder',
-                                        'url' => 'Yii::app()->createUrl("inventory/request/view", array("id"=>$data->id))',
-                                        'imageUrl' => Yii::app()->theme->baseUrl.'/img/chevron-right.svg',
-                                        'visible' => '$data->status == InventoryRequest::STATUS_PENDING',
-                                    ),
-                                ),                                
-                                'htmlOptions' => array('width' => '150px', 'style' => 'text-align: center'),
-                            ),
-                        ),
-                    )); ?>
+    $this,
+    [
+        'id' => 'inventory-request-grid',
+        'dataProvider' => $model->search(false),
+        'filter' => $model,
+        'htmlOptions' => ['style' => 'width: 100%'],
+        'enableSorting' => false,
+        'columns' => [
+            [
+                'name' => 'school_inep_fk',
+                'header' => 'Escola',
+                'value' => '$data->school->name',
+                'filter' => CHtml::listData(SchoolIdentification::model()->findAll(), 'inep_id', 'name'),
+            ],
+            [
+                'name' => 'item_id',
+                'value' => '$data->item->name',
+                'filter' => CHtml::listData(InventoryItem::model()->findAll(), 'id', 'name'),
+            ],
+            [
+                'name' => 'quantity',
+                'value' => '$data->quantity . " " . $data->item->unit',
+            ],
+            [
+                'name' => 'status',
+                'value' => '$data->getStatusText()',
+                'filter' => InventoryRequest::getStatusList(),
+            ],
+            [
+                'name' => 'requested_at',
+                'value' => 'date("d/m/Y H:i", strtotime($data->requested_at))',
+            ],
+            [
+                'header' => 'Ações',
+                'class' => 'CButtonColumn',
+                'template' => '{view} {update} {delete} {responder}',
+                'buttons' => [
+                    'view' => [
+                        'imageUrl' => Yii::app()->theme->baseUrl . '/img/search-icon.svg',
+                    ],
+                    'update' => [
+                        'imageUrl' => Yii::app()->theme->baseUrl . '/img/editar.svg',
+                    ],
+                    'delete' => [
+                        'imageUrl' => Yii::app()->theme->baseUrl . '/img/deletar.svg',
+                    ],
+                    'responder' => [
+                        'label' => 'Responder',
+                        'url' => 'Yii::app()->createUrl("inventory/request/view", array("id"=>$data->id))',
+                        'imageUrl' => Yii::app()->theme->baseUrl . '/img/chevron-right.svg',
+                        'visible' => '$data->status == InventoryRequest::STATUS_PENDING',
+                    ],
+                ],
+                'htmlOptions' => ['width' => '150px', 'style' => 'text-align: center'],
+            ],
+        ],
+    ]
+); ?>
                 </div>
             </div>
         </div>

@@ -116,7 +116,7 @@ class InventoryRequest extends CActiveRecord
      */
     public function search($pagination = true)
     {
-        $criteria = new CDbCriteria;
+        $criteria = new CDbCriteria();
 
         $criteria->compare('id', $this->id);
         $criteria->compare('school_inep_fk', $this->school_inep_fk, true);
@@ -126,12 +126,12 @@ class InventoryRequest extends CActiveRecord
         $criteria->compare('status', $this->status);
         $criteria->compare('requested_at', $this->requested_at, true);
 
-        return new CActiveDataProvider($this, array(
+        return new CActiveDataProvider($this, [
             'criteria' => $criteria,
-            'pagination' => $pagination ? array('pageSize' => 20) : false,
-            'sort' => array(
+            'pagination' => $pagination ? ['pageSize' => 20] : false,
+            'sort' => [
                 'defaultOrder' => 'requested_at DESC',
-            ),
-        ));
+            ],
+        ]);
     }
 }
