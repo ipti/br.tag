@@ -1,3 +1,6 @@
+## [Versão 3.13.1]
+- Correção na exibição de notas por conceito na Ficha de Notas para alunos de turmas multisseriadas.
+
 ## [Versão 3.13.0]
 
 #### Refatorações internas
