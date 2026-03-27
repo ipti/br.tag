@@ -1,3 +1,6 @@
+## [Versão 3.13.3]
+- Corrigido problema onde a vaga do aluno não era liberada na turma de origem após a transferência
+
 ## [Versão 3.13.2]
 - Correção na exibição de notas por conceito na Ficha de Notas para alunos de turmas multisseriadas.
 
