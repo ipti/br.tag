@@ -16,6 +16,10 @@ class EscolaTType
     #[Serializer\XmlElement(cdata: false)]
     private ?int $idEscola = null;
 
+    #[Serializer\SerializedName('edu:qtdSalas')]
+    #[Serializer\XmlElement(cdata: false)]
+    private ?int $qtdSalas = null;
+
     #[Serializer\XmlList(inline: true, entry: 'edu:turma')]
     private array $turma = [];
 
@@ -24,10 +28,6 @@ class EscolaTType
 
     #[Serializer\XmlList(inline: true, entry: 'edu:cardapio')]
     private array $cardapio = [];
-
-    #[Serializer\SerializedName('edu:qtdSalas')]
-    #[Serializer\XmlElement(cdata: false)]
-    private ?int $qtdSalas = null;
 
     /**
      * Gets as idEscola
