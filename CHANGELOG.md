@@ -1,3 +1,6 @@
+## [Versão 3.13.4]
+- Corrigido erro na exportação do Sagres onde turmas AEE sem quadro de horários cadastrado geravam XML inválido (`<turma>` sem `<horario>`), causando falha de validação do schema XSD
+
 ## [Versão 3.13.3]
 - Corrigido problema onde a vaga do aluno não era liberada na turma de origem após a transferência
 
