@@ -42,7 +42,7 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
                         foreach ($r['Classes'] as $month => $classes) {
                             setlocale(LC_ALL, NULL);
                             setlocale(LC_ALL, "pt_BR.utf8", "pt_BR", "ptb", "ptb.utf8");
-                            $time = mktime(0, 0, 0, $month);
+                            $time = mktime(0, 0, 0, $month, 1, Yii::app()->user->year);
                             $monthName = strftime("%B", $time);
 
                             $html .= "<tr>"
