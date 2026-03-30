@@ -1,3 +1,6 @@
+## [Versão 3.13.5]
+- Corrigido erro no relatório do bolsa família que não estava exibindo o mês de fevereiro
+
 ## [Versão 3.13.4]
 - Corrigido erro na exportação do Sagres onde turmas AEE sem quadro de horários cadastrado geravam XML inválido (`<turma>` sem `<horario>`), causando falha de validação do schema XSD
 
