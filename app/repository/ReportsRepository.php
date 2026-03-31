@@ -1986,8 +1986,8 @@ class ReportsRepository
     public function getAttendanceForBF(CHttpRequest $request): array
     {
         $month = (int) date('m');
-        $monthI = $month <= 3 ? 1 : $month - 3;
-        $monthF = $month <= 1 ? 1 : $month - 1;
+        $monthI = $month <= 3 ? 1 : $month - 2;
+        $monthF = $month;
         $classroomId = $request->getPost('classroom');
 
         $classroom = Classroom::model()->with('studentEnrollments')->findByPk($classroomId);

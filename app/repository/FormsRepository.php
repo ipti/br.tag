@@ -217,9 +217,13 @@ class FormsRepository
         $enrollment = StudentEnrollment::model()->with(['classFaults', 'classroomFk'])->findByPk($enrollmentId);
         $gradesResult = GradeResults::model()->findAllByAttributes(['enrollment_fk' => $enrollmentId]); // medias do aluno na turma
         $classFaults = ClassFaults::model()->findAllByAttributes(['student_fk' => $enrollment->studentFk->id]); // faltas do aluno na turma
-        $unities = $this->getUnities($enrollment->classroomFk->id, $enrollment->classroomFk->edcenso_stage_vs_modality_fk); // unidades da turma
-        $curricularMatrix = CurricularMatrix::model()->with('disciplineFk')->findAllByAttributes(['stage_fk' => $enrollment->classroomFk->edcenso_stage_vs_modality_fk, 'school_year' => $enrollment->classroomFk->school_year]); // matriz da turma
-        $isMinorEducation = TagUtils::isStageMinorEducation($enrollment->classroomFk->edcensoStageVsModalityFk->edcenso_associated_stage_id);
+        
+        $stageId = !empty($enrollment->edcenso_stage_vs_modality_fk) ? $enrollment->edcenso_stage_vs_modality_fk : $enrollment->classroomFk->edcenso_stage_vs_modality_fk;
+        $stageModel = !empty($enrollment->edcenso_stage_vs_modality_fk) ? $enrollment->edcensoStageVsModalityFk : $enrollment->classroomFk->edcensoStageVsModalityFk;
+        
+        $unities = $this->getUnities($enrollment->classroomFk->id, $stageId); // unidades da turma
+        $curricularMatrix = CurricularMatrix::model()->with('disciplineFk')->findAllByAttributes(['stage_fk' => $stageId, 'school_year' => $enrollment->classroomFk->school_year]); // matriz da turma
+        $isMinorEducation = TagUtils::isStageMinorEducation($stageModel->edcenso_associated_stage_id);
         $gradeRules = GradeRules::model()->findByPK($unities[0]->grade_rules_fk);
         $partialRecoveries = GradePartialRecovery::model()->findAllByAttributes(['grade_rules_fk' => $gradeRules->id]);
 
@@ -257,9 +261,9 @@ class FormsRepository
             $totalFaultsPerDicipline = $enrollment->countFaultsDiscipline($discipline);
 
             $frequency = '';
-            $isMinorEducation = TagUtils::isStageMinorEducation($enrollment->classroomFk->edcenso_stage_vs_modality_fk);
+            $isMinorEducationLoop = TagUtils::isStageMinorEducation($stageId);
 
-            if (!$isMinorEducation) {
+            if (!$isMinorEducationLoop) {
                 $frequency = $enrollment->studentEnrolmentFrequencyPerDiscipline($discipline);
             } else {
                 $frequency = $enrollment->totalStudentEnrolmentFrequency();

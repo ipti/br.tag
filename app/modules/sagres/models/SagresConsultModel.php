@@ -770,7 +770,7 @@ class SagresConsultModel
                 ->setNrSala((int) $turma['nrSala'])
                 ->setProsic(filter_var($turma['prosic'], FILTER_VALIDATE_BOOLEAN));
 
-            $temHorario = $classType->getHorario() !== null;
+            $temHorario = !empty($classType->getHorario());
             $seriePreenchida = !empty($serie);
             $temMatricula = $this->hasAtLeastOneRegistration($seriePreenchida, $serie);
 

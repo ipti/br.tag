@@ -1,3 +1,15 @@
+## [Versão 3.13.5]
+- Corrigido erro no relatório do bolsa família que não estava exibindo o mês de fevereiro
+
+## [Versão 3.13.4]
+- Corrigido erro na exportação do Sagres onde turmas AEE sem quadro de horários cadastrado geravam XML inválido (`<turma>` sem `<horario>`), causando falha de validação do schema XSD
+
+## [Versão 3.13.3]
+- Corrigido problema onde a vaga do aluno não era liberada na turma de origem após a transferência
+
+## [Versão 3.13.2]
+- Correção na exibição de notas por conceito na Ficha de Notas para alunos de turmas multisseriadas.
+
 ## [Versão 3.13.1]
 - Corrigido erro 404 de transferência de matrícula do aluno
 
