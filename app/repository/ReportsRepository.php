@@ -2373,6 +2373,79 @@ class ReportsRepository
                 $gradeResult = GradeResults::model()->find('enrollment_fk = :enrollment_fk and discipline_fk = :discipline_fk', ['enrollment_fk' => $studentId, 'discipline_fk' => $discipline['id']]);
                 $recSemIndex = 0;
                 $gradeIndex = 0;
+
+                // --- CUSTOM SUBSTITUTION LOGIC FOR ELECTRONIC DIARY ---
+                // Pre-calculate effective grades for unit modalities (U, UR, UC)
+                $effectiveGrades = [];
+                $studentUnities = [];
+                foreach ($gradeUnitiesByClassroom as $gu) {
+                    if ($gu->type == 'U' || $gu->type == 'UR' || $gu->type == 'UC') {
+                        $studentUnities[] = $gu;
+                    }
+                }
+                $countUnities = count($studentUnities);
+                
+                $gradeRulesCache = [];
+                for ($i = 0; $i < $countUnities; $i++) {
+                    $gradeVal = $gradeResult['grade_' . ($i + 1)];
+                    $gu = $studentUnities[$i];
+                    $hasRecovery = $gu->parcial_recovery_fk !== null;
+                    
+                    if (!isset($gradeRulesCache[$gu->grade_rules_fk])) {
+                        $gradeRulesCache[$gu->grade_rules_fk] = GradeRules::model()->findByPk($gu->grade_rules_fk);
+                    }
+                    $gradeRule = $gradeRulesCache[$gu->grade_rules_fk];
+                    $calcType = $gradeRule ? $gradeRule->gradeCalculationFk->name : null;
+                    
+                    if ($hasRecovery && $calcType === 'Média Semestral') {
+                        $order = $gu->parcialRecoveryFk->order_partial_recovery;
+                        $recVar = 'rec_partial_' . $order;
+                        $gradePartialRecovery = $gradeResult[$recVar];
+                        
+                        if ($gradePartialRecovery !== null && $gradePartialRecovery > $gradeVal) {
+                            $gradeVal = $gradePartialRecovery;
+                        }
+                    }
+                    
+                    if ($hasRecovery && $calcType === 'Peso') {
+                        $isLowest = true;
+                        $currentSemester = $gu->semester ?? 1;
+                        for ($j = 0; $j < $countUnities; $j++) {
+                            $iterSemester = $studentUnities[$j]->semester ?? 1;
+                            if ($iterSemester != $currentSemester) {
+                                continue;
+                            }
+                            $otherGrade = $gradeResult['grade_' . ($j + 1)];
+                            $otherWeight = $studentUnities[$j]->weight ?? null;
+                            
+                            if ($otherGrade < $gradeVal) {
+                                $isLowest = false;
+                                break;
+                            }
+                            if ($otherGrade == $gradeVal && $otherWeight === null) {
+                                $isLowest = false;
+                                break;
+                            }
+                            if ($otherGrade == $gradeVal && $otherWeight !== null && $otherWeight > $gu->weight) {
+                                $isLowest = false;
+                                break;
+                            }
+                        }
+                        if ($isLowest) {
+                            $order = $gu->parcialRecoveryFk->order_partial_recovery;
+                            $recVar = 'rec_partial_' . $order;
+                            $gradePartialRecovery = $gradeResult[$recVar];
+                            
+                            if ($gradePartialRecovery !== null && $gradePartialRecovery > $gradeVal) {
+                                $gradeVal = $gradePartialRecovery;
+                            }
+                        }
+                    }
+                    
+                    $effectiveGrades[$i] = $gradeVal;
+                }
+                // --- END CUSTOM LOGIC ---
+
                 foreach ($arr['grades'] as &$grade) {
                     switch ($grade['gradeUnityType']) {
                         case 'U':
@@ -2380,7 +2453,7 @@ class ReportsRepository
                                 $grade['unityGrade'] = $edcensoDiscipline->report_text;
                                 break;
                             }
-                            $grade['unityGrade'] = $gradeResult['grade_' . ($gradeIndex + 1)] != null ? $gradeResult['grade_' . ($gradeIndex + 1)] : '';
+                            $grade['unityGrade'] = $effectiveGrades[$gradeIndex] !== null ? $effectiveGrades[$gradeIndex] : '';
                             $gradeIndex++;
                             break;
                         case 'UR':
@@ -2388,7 +2461,7 @@ class ReportsRepository
                                 $grade['unityGrade'] = $edcensoDiscipline->report_text;
                                 break;
                             }
-                            $grade['unityGrade'] = $gradeResult['grade_' . ($gradeIndex + 1)] != null ? $gradeResult['grade_' . ($gradeIndex + 1)] : '';
+                            $grade['unityGrade'] = $effectiveGrades[$gradeIndex] !== null ? $effectiveGrades[$gradeIndex] : '';
                             $grade['unityRecoverGrade'] = $gradeResult['rec_partial_' . ($gradeIndex + 1)] != null ? $gradeResult['rec_partial_' . ($gradeIndex + 1)] : '';
                             $gradeIndex++;
                             break;
