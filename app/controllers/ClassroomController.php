@@ -634,7 +634,7 @@ class ClassroomController extends Controller
             $gradeRulesStages[$stage->id] = $gradeRulesQuery == null ? '' : $gradeRulesQuery;
         }
 
-        $gradeRules = GradeRules::model()->findAllByAttributes(['school_year' => Yii::app()->user->year]);
+        $gradeRules = $this->getGradeRulesByYear();
 
         $this->render('create', [
             'stages' => $stages,
@@ -855,7 +855,7 @@ class ClassroomController extends Controller
             $gradeRulesStages[$stage->id] = $gradeRulesQuery == null ? '' : $gradeRulesQuery;
         }
 
-        $gradeRules = GradeRules::model()->findAllByAttributes(['school_year' => Yii::app()->user->year]);
+        $gradeRules = $this->getGradeRulesByYear();
 
         $this->render('update', [
             'stages' => $stages,
@@ -891,6 +891,19 @@ class ClassroomController extends Controller
                 $classroomVsGradeRule->save();
             }
         }
+    }
+
+    private function getGradeRulesByYear()
+    {
+        $userYear = (int) Yii::app()->user->year;
+        $criteria = new CDbCriteria();
+        if ($userYear >= 2026) {
+            $criteria->condition = 'school_year = :year';
+            $criteria->params = [':year' => $userYear];
+        } else {
+            $criteria->condition = 'school_year <= 2025 || school_year IS NULL';
+        }
+        return GradeRules::model()->findAll($criteria);
     }
 
     private function getAllModalitys($classroomId)
