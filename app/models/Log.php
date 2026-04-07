@@ -229,8 +229,16 @@ class Log extends TagModel
                 $icon = 'merenda';
                 break;
             case 'timesheet':
-                $text = 'Quadro de Horário da turma "' . $log->additional_info . '" foi gerado.';
+                $text = 'Quadro de Horário da turma "' . $log->additional_info . '" foi ' . $crud . '.';
                 $icon = 'quadro_de_horario';
+                break;
+            case 'classroom_calendar':
+                $text = 'Calendário da turma "' . $log->additional_info . '" foi alterado.';
+                $icon = 'turmas';
+                break;
+            case 'classroom_grade_rules':
+                $text = 'Estrutura de avaliação da turma "' . $log->additional_info . '" foi alterada.';
+                $icon = 'turmas';
                 break;
             case 'wizard_classroom':
                 $text = 'Turmas de ' . $log->additional_info . ' foram reaproveitadas.';
