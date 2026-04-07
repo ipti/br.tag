@@ -115,6 +115,7 @@ class CurricularmatrixController extends Controller
             $curricularMatrixCurrentYear->school_year = Yii::app()->user->year;
             $curricularMatrixCurrentYear->save();
         }
+        Log::model()->saveAction('curricular_matrix', Yii::app()->user->year, 'C', Yii::app()->user->year);
         echo json_encode(['valid' => true]);
     }
 
@@ -167,9 +168,12 @@ class CurricularmatrixController extends Controller
         }
 
         try {
+            $stageName = $curricularMatrix->stageFk->name;
+            $disciplineName = $curricularMatrix->disciplineFk->name;
             $result = $curricularMatrix->delete();
 
             if ($result) {
+                Log::model()->saveAction('curricular_matrix', $curricularMatrix->stage_fk . '|' . $curricularMatrix->discipline_fk, 'D', $stageName . '|' . $disciplineName);
                 Yii::app()->user->setFlash('success', Yii::t('default', 'Matriz excluída com sucesso!'));
                 $this->redirect('?r=curricularmatrix');
             }

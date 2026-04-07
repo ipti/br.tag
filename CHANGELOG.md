@@ -1,3 +1,6 @@
+## [Versão 3.13.6]
+- Adicionados logs de auditoria para ações de alto impacto: alteração de calendário, quadro de horário, configurações pedagógicas da turma (calendário e estrutura de avaliação associados/desassociados) e matriz curricular
+
 ## [Versão 3.13.5]
 - Corrigido erro no relatório do bolsa família que não estava exibindo o mês de fevereiro
 
