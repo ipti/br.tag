@@ -770,9 +770,21 @@ class ClassroomController extends Controller
                 $modelClassroom->addError('week_days_sunday', Yii::t('default', 'Week Days') . ' ' . Yii::t('default', 'cannot be blank'));
             }
 
+            $oldCalendarFk = $beforeChangeClassroom->calendar_fk;
+            $oldGradeRule = ClassroomVsGradeRules::model()->findByAttributes(['classroom_fk' => $modelClassroom->id]);
+            $oldGradeRuleFk = $oldGradeRule ? $oldGradeRule->grade_rules_fk : null;
+
             if ($hasWeekDaySelected && $modelClassroom->validate() && $modelClassroom->save()) {
                 $saved = true;
                 $this->saveClassroomVsGradeRules($modelClassroom);
+
+                if ($oldCalendarFk != $modelClassroom->calendar_fk) {
+                    Log::model()->saveAction('classroom_calendar', $modelClassroom->id, 'U', $modelClassroom->name);
+                }
+                if ($oldGradeRuleFk != $_POST['grade_rules']) {
+                    Log::model()->saveAction('classroom_grade_rules', $modelClassroom->id, 'U', $modelClassroom->name);
+                }
+
                 $teachingDataValidated = true;
 
                 $teachingData = json_decode($_POST['teachingData']);
