@@ -19,10 +19,16 @@
     ));
     ?>
 
-    <div class="row-fluid">
+    <div class="row-fluid" style="display:flex; align-items:flex-start; justify-content:space-between; flex-wrap:wrap;">
         <div class="span12">
             <h1><?php echo Yii::t('default', 'Instructor frequency'); ?></h1>
             <h5> Marcar apenas faltas.</h5>
+        </div>
+        <div style="display:flex; align-items:center; padding-top:4px;">
+            <a id="printYearFrequency" class='t-button-secondary mobile-width' style="display:none;" target="_blank">
+                <span class="t-icon-printer"></span>
+                Imprimir Frequência Anual
+            </a>
         </div>
     </div>
     <br>
@@ -147,3 +153,19 @@
                 </form>
         </div>
 </div>
+
+<script>
+    var printYearBaseUrl = '<?php echo Yii::app()->createUrl("instructor/printYearHistory"); ?>';
+    var currentYear = <?php echo (int)Yii::app()->user->year; ?>;
+
+    $('#instructor').on('change', function () {
+        var instructorId = $(this).val();
+        var $btn = $('#printYearFrequency');
+        if (instructorId && !isNaN(instructorId)) {
+            $btn.attr('href', printYearBaseUrl + '&id=' + instructorId + '&year=' + currentYear);
+            $btn.show();
+        } else {
+            $btn.hide();
+        }
+    });
+</script>

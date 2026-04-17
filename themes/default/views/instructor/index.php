@@ -93,7 +93,7 @@
                             ),
                             'updateButtonOptions' => array('style' => 'margin-right: 20px;'),
                             'deleteButtonOptions' => array('style' => 'cursor: pointer;'),
-                            'htmlOptions' => array('width' => '100px', 'style' => 'text-align: center'),
+                            'htmlOptions' => array('width' => '130px', 'style' => 'text-align: center'),
                         ),
                     ),
                 ));
