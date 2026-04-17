@@ -60,15 +60,16 @@ $grandAbsenceRate = $grandTotalGiven > 0
 ?>
 
 <!-- Botões de ação (ocultos na impressão) -->
-<div class="row-fluid hidden-print" style="padding:12px 20px; border-bottom:1px solid #eee; margin-bottom:0;">
-    <a onclick="window.print()" class="btn btn-icon glyphicons print" style="padding:10px;">
-        <img alt="impressora" src="<?= Yii::app()->theme->baseUrl ?>/img/Impressora.svg" class="img_cards" />
-        Imprimir Resumo do Ano <i></i>
+<div class="row-fluid hidden-print" style="padding:12px 20px; border-bottom:1px solid #eee; margin-bottom:0; display:flex; align-items:center; gap:8px;">
+    <a onclick="window.print()" class="t-button-primary" style="display:inline-flex; align-items:center; gap:6px; cursor:pointer;">
+        <img alt="impressora" src="<?= Yii::app()->theme->baseUrl ?>/img/Impressora.svg" style="width:18px; height:18px; filter:brightness(0) invert(1);" />
+        Imprimir
     </a>
-    <a href="javascript:history.back()" class="btn btn-icon glyphicons circle_arrow_left" style="padding:10px; margin-left:8px;">
-        Voltar <i></i>
+    <a href="javascript:history.back()" class="t-button-secondary" style="display:inline-flex; align-items:center; gap:6px;">
+        <i class="fa fa-arrow-left"></i>
+        Voltar
     </a>
-    <span style="margin-left:16px; font-size:12px; color:#888; vertical-align:middle;">
+    <span style="margin-left:8px; font-size:12px; color:#888;">
         <?= count($teachingHistory) ?> vínculo(s) no ano letivo de <?= CHtml::encode($year) ?>
     </span>
 </div>
