@@ -865,8 +865,7 @@ preenchidos';
             $link['classes_given'] = $totalGiven;
             $link['total_schedules'] = $totalSchedules;
 
-            // Faltas do professor: instructor_faults.instructor_fk → instructor_teaching_data.id
-            // Filtra pelo itd_id do vínculo + turma via schedule
+            // Faltas do professor (instructor_faults.instructor_fk = instructor_identification.id)
             $faults = Yii::app()->db->createCommand('
                 SELECT
                     f.id,
@@ -874,14 +873,12 @@ preenchidos';
                     s.day, s.month, s.year
                 FROM instructor_faults f
                 JOIN schedule s ON s.id = f.schedule_fk
-                JOIN instructor_teaching_data itd
-                    ON itd.id = f.instructor_fk
-                WHERE itd.id        = :itd_id
-                  AND s.classroom_fk = :classroom
+                WHERE f.instructor_fk = :instructor_id
+                  AND s.classroom_fk  = :classroom
                 ORDER BY s.year ASC, s.month ASC, s.day ASC
             ')->queryAll(true, [
-                ':itd_id' => $itdId,
-                ':classroom' => $classroomId,
+                ':instructor_id' => $id,
+                ':classroom'     => $classroomId,
             ]);
 
             $link['faults'] = $faults;
@@ -966,7 +963,7 @@ preenchidos';
             $link['classes_given'] = $totalGiven;
             $link['total_schedules'] = $totalSchedules;
 
-            // Faltas do professor
+            // Faltas do professor (instructor_faults.instructor_fk = instructor_identification.id)
             $faults = Yii::app()->db->createCommand('
                 SELECT
                     f.id,
@@ -974,14 +971,12 @@ preenchidos';
                     s.day, s.month, s.year
                 FROM instructor_faults f
                 JOIN schedule s ON s.id = f.schedule_fk
-                JOIN instructor_teaching_data itd
-                    ON itd.id = f.instructor_fk
-                WHERE itd.id        = :itd_id
-                  AND s.classroom_fk = :classroom
+                WHERE f.instructor_fk = :instructor_id
+                  AND s.classroom_fk  = :classroom
                 ORDER BY s.month ASC, s.day ASC
             ')->queryAll(true, [
-                ':itd_id' => $itdId,
-                ':classroom' => $classroomId,
+                ':instructor_id' => $id,
+                ':classroom'     => $classroomId,
             ]);
 
             $link['faults_count'] = count($faults);
