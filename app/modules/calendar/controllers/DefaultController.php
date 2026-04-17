@@ -435,6 +435,7 @@ class DefaultController extends Controller
             if ($error != '') {
                 echo json_encode(['valid' => false, 'error' => $error]);
             } else {
+                Log::model()->saveAction('calendar', $_POST['calendarFk'], 'U', Calendar::model()->findByPk($_POST['calendarFk'])->title);
                 echo json_encode(['valid' => true]);
             }
         } else {

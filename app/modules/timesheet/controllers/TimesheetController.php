@@ -576,6 +576,7 @@ class TimesheetController extends Controller
                 $sanitizedWorkloads[] = $workload;
             }
 
+            Log::model()->saveAction('timesheet', $_POST['classroomId'], 'U', $classroom->name);
             echo CJSON::encode(['valid' => true, 'changes' => $changes, 'disciplines' => $sanitizedWorkloads]);
         } else {
             echo CJSON::encode([
@@ -654,6 +655,7 @@ class TimesheetController extends Controller
                 $schedule->delete();
             }
         }
+        Log::model()->saveAction('timesheet', $_POST['classroomId'], 'U', $classroom->name);
         echo json_encode(['valid' => true, 'removes' => $removes, 'disciplines' => $disciplines]);
     }
 
@@ -731,6 +733,7 @@ class TimesheetController extends Controller
                 }
             }
         }
+        Log::model()->saveAction('timesheet', $_POST['classroomId'], 'U', $classroom->name);
         echo json_encode(['valid' => true, 'adds' => $adds, 'disciplines' => $disciplines]);
     }
 
