@@ -160,6 +160,7 @@ class SiteController extends Controller
     private function loadLogsHtml($limit, $date = null)
     {
         $isInstructor = Yii::app()->getAuthManager()->checkAccess('instructor', Yii::app()->user->loginInfos->id);
+        $isAdmin = Yii::app()->getAuthManager()->checkAccess('admin', Yii::app()->user->loginInfos->id);
         $criteria = new CDbCriteria();
         $criteria->compare('school_fk', Yii::app()->user->school);
         $criteria->order = 'date DESC';
@@ -167,6 +168,10 @@ class SiteController extends Controller
 
         if ($isInstructor) {
             $criteria->compare('user_fk', Yii::app()->user->loginInfos->id);
+        }
+
+        if (!$isAdmin) {
+            $criteria->addNotInCondition('reference', ['classroom_calendar', 'classroom_grade_rules']);
         }
 
         if ($date !== null) {
