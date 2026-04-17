@@ -1,3 +1,7 @@
+## [Versão 3.13.6]
+- Adicionado relatório de frequência anual do professor, acessível pela página de frequência
+- Corrigido bug onde as faltas dos professores não refletiam corretamente no relatório anual
+
 ## [Versão 3.13.5]
 - Corrigido erro no relatório do bolsa família que não estava exibindo o mês de fevereiro
 
