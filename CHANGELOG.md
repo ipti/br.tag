@@ -1,4 +1,6 @@
 ## [Versão 3.13.6]
+- Adicionado relatório de frequência anual do professor, acessível pela página de frequência
+- Corrigido bug onde as faltas dos professores não refletiam corretamente no relatório anual
 - Adicionados logs de auditoria para ações de alto impacto: alteração de calendário, quadro de horário, configurações pedagógicas da turma (calendário e estrutura de avaliação associados/desassociados) e matriz curricular
 
 ## [Versão 3.13.5]
