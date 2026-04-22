@@ -178,7 +178,7 @@ foreach ($log['student'] as $student): ?>
                 <?php echo current($studenterror)?>
             </span>
             <?php echo CHtml::link('- Corrigir', array(
-                'student/update',
+                'student/student/update',
                 'id' => $student['info']['id'],
                 'censo' => 1
             )); ?>
@@ -200,7 +200,7 @@ foreach ($log['student'] as $student): ?>
                 <?php echo current($studenterror)?>
             </span>
             <?php echo CHtml::link('- Corrigir', array(
-                'student/update',
+                'student/student/update',
                 'id' => $student['info']['id'],
                 'censo' => 1
             )); ?>

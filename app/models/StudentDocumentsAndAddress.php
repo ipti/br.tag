@@ -198,6 +198,7 @@ class StudentDocumentsAndAddress extends AltActiveRecord
             'register_type' => Yii::t('default', 'Register Type'),
             'school_inep_id_fk' => Yii::t('default', 'School Inep Id Fk'),
             'student_fk' => Yii::t('default', 'Student Fk'),
+            'inep_id' => Yii::t('default', 'ID INEP do Aluno'),
             'id' => Yii::t('default', 'ID'),
             'rg_number' => Yii::t('default', 'Rg Number'),
             'rg_number_edcenso_organ_id_emitter_fk' => Yii::t('default', 'Rg Number Edcenso Organ Id Emitter Fk'),

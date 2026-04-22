@@ -1340,11 +1340,14 @@ class CensoController extends Controller
         }
 
         //campo 4
-        $sql = "SELECT COUNT(inep_id) AS status FROM student_identification WHERE inep_id = '$studentInepId';";
+        $sql = "SELECT COUNT(inep_id) AS status FROM student_identification WHERE id = '$studentInepId';";
         $check = Yii::app()->db->createCommand($sql)->queryAll();
         $result = $sda->isEqual($check[0]['status'], '1', "Não há tal student_inep_id $studentInepId");
-        if (!$result['status']) {
-            array_push($log, ['student_indentification' => $result['erro']]);
+        if ((int)$check[0]['status'] !== 1) {
+            $inepMsg = empty($studentInepId)
+                ? 'ID INEP do aluno não informado'
+                : 'ID INEP do aluno não encontrado no sistema';
+            array_push($log, ['inep_id' => $inepMsg]);
         }
         //campo 9
         $result = $sda->isAllowed($collumn['civil_certification'], ['1', '2']);
