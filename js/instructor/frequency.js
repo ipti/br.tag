@@ -54,7 +54,7 @@ $("#classesSearch").on("click", function () {
                     });
                     html += "</tr></tbody></table>";
 
-                    $("#frequency-container").html(html).show();
+                    $("#frequency-container").html(DOMPurify.sanitize(html)).show();
                     $('[data-toggle="tooltip"]').tooltip({ container: "body" });
                 } else {
                     $("#frequency-container").hide();
