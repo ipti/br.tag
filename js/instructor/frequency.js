@@ -18,26 +18,27 @@ $("#classesSearch").on("click", function () {
                 let data = JSON.parse(response);
                 if (data.valid) {
                     let instructor = data.instructors[0];
+                    let name = DOMPurify.sanitize(instructor.instructorName);
                     let html = "<table class='t-accordion table-frequency table table-bordered table-striped table-hover'>" +
                         "<thead class='t-accordion__head'>" +
-                        "<tr><th class='table-title' colspan='" + (instructor.schedules.length + 1) + "'>" + instructor.instructorName + "</th></tr>";
+                        "<tr><th class='table-title' colspan='" + (instructor.schedules.length + 1) + "'>" + name + "</th></tr>";
 
                     let dayRow = "";
                     let daynameRow = "";
                     $.each(instructor.schedules, function () {
                         dayRow     += "<th>" + pad(this.day, 2) + "/" + pad($("#month").val(), 2) + "</th>";
-                        daynameRow += "<th>" + this.week_day + "</th>";
+                        daynameRow += "<th>" + DOMPurify.sanitize(this.week_day) + "</th>";
                     });
                     html += "<tr class='day-row'><th></th>" + dayRow + "</tr>" +
                             "<tr class='dayname-row'><th></th>" + daynameRow + "</tr>" +
                             "</thead><tbody class='t-accordion__body'>";
 
-                    html += "<tr><td class='instructor-name'>" + instructor.instructorName + "</td>";
+                    html += "<tr><td class='instructor-name'>" + name + "</td>";
                     $.each(instructor.schedules, function (i, schedule) {
                         let justificationIcon = "";
                         if (schedule.fault) {
                             if (schedule.justification !== null) {
-                                justificationIcon = "<a href='javascript:;' data-toggle='tooltip' class='frequency-justification-icon' title='" + schedule.justification + "'><i class='fa fa-file-text-o'></i><i class='fa fa-file-text'></i></a>";
+                                justificationIcon = "<a href='javascript:;' data-toggle='tooltip' class='frequency-justification-icon' title='" + DOMPurify.sanitize(schedule.justification) + "'><i class='fa fa-file-text-o'></i><i class='fa fa-file-text'></i></a>";
                             } else {
                                 justificationIcon = "<a href='javascript:;' data-toggle='tooltip' class='frequency-justification-icon'><i class='fa fa-file-o'></i><i class='fa fa-file'></i></a>";
                             }
@@ -57,7 +58,7 @@ $("#classesSearch").on("click", function () {
                     $('[data-toggle="tooltip"]').tooltip({ container: "body" });
                 } else {
                     $("#frequency-container").hide();
-                    $(".alert-incomplete-data").html(data.error).show();
+                    $(".alert-incomplete-data").html(DOMPurify.sanitize(data.error)).show();
                 }
             },
             complete: function () {
