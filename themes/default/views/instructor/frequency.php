@@ -6,7 +6,7 @@
     $baseUrl = Yii::app()->baseUrl;
 	$themeUrl = Yii::app()->theme->baseUrl;
 	$cs = Yii::app()->getClientScript();
-	$cs->registerScriptFile($baseUrl . '/js/instructor/frequency.js?v='.TAG_VERSION, CClientScript::POS_END);
+	$cs->registerScriptFile($baseUrl . '/js/instructor/frequency.js?v='.filemtime(Yii::getPathOfAlias('webroot').'/js/instructor/frequency.js'), CClientScript::POS_END);
 
 	$this->setPageTitle('TAG - ' . Yii::t('default', 'Instructor frequency'));
     ?>
@@ -52,29 +52,6 @@
                         <option value="<?= $instructor->id ?>"><?= $instructor->name ?></option>
                     <?php endforeach; ?>
                 </select>
-            </div>
-
-            <!-- turmas -->
-            <div class="classroom-container" style="display: none">
-                <?php echo CHtml::label(yii::t('default', 'Classroom') . " *", 'classroom', array('class' => 'control-label required' ,'style' => 'width: 64px;' )); ?>
-
-                <?php
-                echo CHtml::dropDownList('classrooms', '', array(), array(
-                    'key' => 'id',
-                    'class' => 'select-search-on control-input frequency-input',
-                ));
-                ?>
-            </div>
-
-            <!-- disciplina -->
-            <div class="disciplines-container" style="display: none">
-                <?php echo CHtml::label(yii::t('default', 'Discipline') . " *", 'disciplines', array('class' => 'control-label required','style' => 'width: 185px;')); ?>
-                <?php
-                echo CHtml::dropDownList('disciplines', '', array(), array(
-                    'key' => 'id',
-                    'class' => 'select-search-on control-input frequency-input',
-                ));
-                ?>
             </div>
 
             <div>
@@ -134,12 +111,9 @@
                             <div class="span12">
                                 <?= chtml::label("Justificativa", "title", array('class' => 'control-label')); ?>
                                 <div class="form-control">
-                                    <input type="hidden" id="justification-classroomid">
                                     <input type="hidden" id="justification-instructorid">
                                     <input type="hidden" id="justification-day">
                                     <input type="hidden" id="justification-month">
-                                    <input type="hidden" id="justification-schedule">
-                                    <input type="hidden" id="justification-fundamentalmaior">
                                     <textarea class="justification-text span12"></textarea>
                                 </div>
                             </div>
