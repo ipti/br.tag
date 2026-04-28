@@ -1,3 +1,9 @@
+## [Versão 3.13.7]
+- Frequência de professores agora é registrada por **dia letivo** em vez de por horário: ao marcar falta em um dia, todos os horários do professor naquele dia são marcados automaticamente
+- Filtros de turma e disciplina removidos da tela de frequência — agora basta selecionar o professor e o mês
+- Relatório de frequência atualizado para exibir **dias de falta** e **dias letivos previstos**, com nota indicando que o cálculo é feito por dia letivo
+- Relatório anual consolidado corrigido para não duplicar dias de falta de professores com múltiplos vínculos no mesmo dia
+
 ## [Versão 3.13.6]
 - Adicionado relatório de frequência anual do professor, acessível pela página de frequência
 - Corrigido bug onde as faltas dos professores não refletiam corretamente no relatório anual

@@ -665,43 +665,77 @@ preenchidos';
 
     public function actionGetFrequency()
     {
-        $schedules = Schedule::model()->findAll('classroom_fk = :classroom_fk and month = :month and unavailable = 0 group by day order by day, schedule', ['classroom_fk' => $_POST['classroom'], 'month' => $_POST['month']]);
+        $instructor = (int)$_POST['instructor'];
+        $month      = (int)$_POST['month'];
+        $year       = (int)Yii::app()->user->year;
 
-        $criteria = new CDbCriteria();
-        $criteria->with = ['instructorFk'];
-        $criteria->together = true;
-        $criteria->order = 'name';
-        $enrollments = InstructorTeachingData::model()->findAllByAttributes(['classroom_id_fk' => $_POST['classroom'], 'instructor_fk' => $_POST['instructor']], $criteria);
-        if ($schedules != null) {
-            if ($enrollments != null) {
-                $instructors = [];
-                $dayName = ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'];
-                foreach ($enrollments as $enrollment) {
-                    $array['instructorId'] = $enrollment->instructor_fk;
-                    $array['instructorName'] = $enrollment->instructorFk->name;
-                    $array['schedules'] = [];
-                    foreach ($schedules as $schedule) {
-                        $instructorFault = InstructorFaults::model()->find('schedule_fk = :schedule_fk and instructor_fk = :instructor_fk', ['schedule_fk' => $schedule->id, 'instructor_fk' => $enrollment->instructor_fk]);
-                        $available = date('Y-m-d') >= Yii::app()->user->year . '-' . str_pad($schedule->month, 2, '0', STR_PAD_LEFT) . '-' . str_pad($schedule->day, 2, '0', STR_PAD_LEFT);
-                        array_push($array['schedules'], [
-                            'available' => $available,
-                            'day' => $schedule->day,
-                            'week_day' => $dayName[$schedule->week_day],
-                            'schedule' => $schedule->schedule,
-                            'idSchedule' => $schedule->id,
-                            'fault' => $instructorFault != null,
-                            'justification' => $instructorFault->justification
-                        ]);
-                    }
-                    array_push($instructors, $array);
-                }
-                echo json_encode(['valid' => true, 'instructors' => $instructors]);
-            } else {
-                echo json_encode(['valid' => false, 'error' => 'Cadastre professores nesta turma para trazer o quadro de frequência.']);
-            }
-        } else {
-            echo json_encode(['valid' => false, 'error' => 'No quadro de horário da turma, não existe dia letivo no mês selecionado para este componente curricular/eixo.']);
+        // Dias letivos do professor: passa pelas turmas do professor (instructor_teaching_data)
+        // e usa classroom.school_year para filtrar o ano (schedule.year pode ser NULL em dados antigos)
+        $days = Yii::app()->db->createCommand(
+            'SELECT DISTINCT s.day, s.week_day
+             FROM schedule s
+             JOIN classroom c ON c.id = s.classroom_fk
+             JOIN instructor_teaching_data itd ON itd.classroom_id_fk = c.id
+             WHERE itd.instructor_fk = :instructor
+               AND s.month      = :month
+               AND c.school_year = :year
+               AND s.unavailable = 0
+             ORDER BY s.day'
+        )->queryAll(true, [':instructor' => $instructor, ':month' => $month, ':year' => $year]);
+
+        if (empty($days)) {
+            echo json_encode(['valid' => false, 'error' => 'Nenhum dia letivo encontrado para este professor no mês selecionado.']);
+            return;
         }
+
+        // Busca todas as faltas do professor no mês em uma só query
+        $faultRows = Yii::app()->db->createCommand(
+            'SELECT s.day, f.justification
+             FROM instructor_faults f
+             JOIN schedule s ON s.id = f.schedule_fk
+             JOIN classroom c ON c.id = s.classroom_fk
+             WHERE f.instructor_fk = :instructor
+               AND s.month      = :month
+               AND c.school_year = :year'
+        )->queryAll(true, [':instructor' => $instructor, ':month' => $month, ':year' => $year]);
+
+        $faultMap = [];
+        foreach ($faultRows as $row) {
+            $d = (int)$row['day'];
+            if (!isset($faultMap[$d])) {
+                $faultMap[$d] = ['fault' => true, 'justification' => null];
+            }
+            if ($row['justification'] !== null && $faultMap[$d]['justification'] === null) {
+                $faultMap[$d]['justification'] = $row['justification'];
+            }
+        }
+
+        $instructorModel = InstructorIdentification::model()->findByPk($instructor);
+        $dayNames = ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'];
+        $schedules = [];
+
+        foreach ($days as $day) {
+            $dayNum    = (int)$day['day'];
+            $hasFault  = isset($faultMap[$dayNum]);
+            $available = date('Y-m-d') >= $year . '-' . str_pad($month, 2, '0', STR_PAD_LEFT) . '-' . str_pad($dayNum, 2, '0', STR_PAD_LEFT);
+
+            $schedules[] = [
+                'available'     => $available,
+                'day'           => $dayNum,
+                'week_day'      => $dayNames[(int)$day['week_day']],
+                'fault'         => $hasFault,
+                'justification' => $hasFault ? $faultMap[$dayNum]['justification'] : null,
+            ];
+        }
+
+        echo json_encode([
+            'valid'       => true,
+            'instructors' => [[
+                'instructorId'   => $instructor,
+                'instructorName' => $instructorModel ? $instructorModel->name : '',
+                'schedules'      => $schedules,
+            ]],
+        ]);
     }
 
     public function actionGetFrequencyClassroom()
@@ -743,24 +777,75 @@ preenchidos';
 
     public function actionSaveFrequency()
     {
-        if ($_POST['instructorId'] != null) {
-            if ($_POST['fault'] == '1') {
-                $instructorFault = new InstructorFaults();
-                $instructorFault->instructor_fk = $_POST['instructorId'];
-                $instructorFault->schedule_fk = $_POST['schedule'];
-                $instructorFault->save();
-            } else {
-                InstructorFaults::model()->deleteAll('schedule_fk = :schedule_fk and instructor_fk = :instructor_fk', ['schedule_fk' => $_POST['schedule'], 'instructor_fk' => $_POST['instructorId']]);
+        if (empty($_POST['instructorId'])) return;
+
+        $instructor = (int)$_POST['instructorId'];
+        $day        = (int)$_POST['day'];
+        $month      = (int)$_POST['month'];
+        $year       = (int)Yii::app()->user->year;
+
+        // Busca todos os schedules do professor naquele dia via instructor_teaching_data
+        $scheduleIds = Yii::app()->db->createCommand(
+            'SELECT s.id
+             FROM schedule s
+             JOIN classroom c ON c.id = s.classroom_fk
+             JOIN instructor_teaching_data itd ON itd.classroom_id_fk = c.id
+             WHERE itd.instructor_fk = :instructor
+               AND s.day        = :day
+               AND s.month      = :month
+               AND c.school_year = :year
+               AND s.unavailable = 0'
+        )->queryColumn([':instructor' => $instructor, ':day' => $day, ':month' => $month, ':year' => $year]);
+
+        if ($_POST['fault'] == '1') {
+            foreach ($scheduleIds as $scheduleId) {
+                $exists = InstructorFaults::model()->find(
+                    'schedule_fk = :s AND instructor_fk = :i',
+                    [':s' => (int)$scheduleId, ':i' => $instructor]
+                );
+                if (!$exists) {
+                    $fault = new InstructorFaults();
+                    $fault->instructor_fk = $instructor;
+                    $fault->schedule_fk   = (int)$scheduleId;
+                    $fault->save();
+                }
+            }
+        } else {
+            if (!empty($scheduleIds)) {
+                $ids = implode(',', array_map('intval', $scheduleIds));
+                Yii::app()->db->createCommand(
+                    "DELETE FROM instructor_faults
+                     WHERE instructor_fk = :instructor
+                       AND schedule_fk IN ({$ids})"
+                )->execute([':instructor' => $instructor]);
             }
         }
     }
 
     public function actionSaveJustification()
     {
-        $schedule = Schedule::model()->find('classroom_fk = :classroom_fk and day = :day and month = :month and id = :schedule', ['classroom_fk' => $_POST['classroomId'], 'day' => $_POST['day'], 'month' => $_POST['month'], 'schedule' => $_POST['schedule']]);
-        $instructorFault = InstructorFaults::model()->find('schedule_fk = :schedule_fk and instructor_fk = :instructor_fk', ['schedule_fk' => $schedule->id, 'instructor_fk' => $_POST['instructorId']]);
-        $instructorFault->justification = $_POST['justification'] == '' ? null : $_POST['justification'];
-        $instructorFault->save();
+        $instructor    = (int)$_POST['instructorId'];
+        $day           = (int)$_POST['day'];
+        $month         = (int)$_POST['month'];
+        $year          = (int)Yii::app()->user->year;
+        $justification = $_POST['justification'] === '' ? null : $_POST['justification'];
+
+        Yii::app()->db->createCommand(
+            'UPDATE instructor_faults f
+             JOIN schedule s ON s.id = f.schedule_fk
+             JOIN classroom c ON c.id = s.classroom_fk
+             SET f.justification = :justification
+             WHERE f.instructor_fk = :instructor
+               AND s.day        = :day
+               AND s.month      = :month
+               AND c.school_year = :year'
+        )->execute([
+            ':justification' => $justification,
+            ':instructor'    => $instructor,
+            ':day'           => $day,
+            ':month'         => $month,
+            ':year'          => $year,
+        ]);
     }
 
     public function actionGetClassrooms($instructorId = null)
@@ -865,18 +950,27 @@ preenchidos';
             $link['classes_given'] = $totalGiven;
             $link['total_schedules'] = $totalSchedules;
 
-            // Faltas do professor (instructor_faults.instructor_fk = instructor_identification.id)
-            $faults = Yii::app()->db->createCommand('
-                SELECT
-                    f.id,
-                    f.justification,
-                    s.day, s.month, s.year
-                FROM instructor_faults f
-                JOIN schedule s ON s.id = f.schedule_fk
-                WHERE f.instructor_fk = :instructor_id
-                  AND s.classroom_fk  = :classroom
-                ORDER BY s.year ASC, s.month ASC, s.day ASC
-            ')->queryAll(true, [
+            // Dias letivos previstos para esta turma (contagem por dia distinto)
+            $totalDistinctDays = (int)Yii::app()->db->createCommand(
+                "SELECT COUNT(DISTINCT CONCAT(s.month, '-', s.day))
+                 FROM schedule s
+                 WHERE s.classroom_fk = :classroom
+                   AND s.unavailable  = 0"
+            )->queryScalar([':classroom' => $classroomId]);
+
+            $link['total_distinct_days'] = $totalDistinctDays;
+
+            // Faltas por dia distinto (cálculo por dia, não por horário)
+            $faults = Yii::app()->db->createCommand(
+                'SELECT s.day, s.month, s.year,
+                        MIN(f.justification) AS justification
+                 FROM instructor_faults f
+                 JOIN schedule s ON s.id = f.schedule_fk
+                 WHERE f.instructor_fk = :instructor_id
+                   AND s.classroom_fk  = :classroom
+                 GROUP BY s.year, s.month, s.day
+                 ORDER BY s.year ASC, s.month ASC, s.day ASC'
+            )->queryAll(true, [
                 ':instructor_id' => $id,
                 ':classroom'     => $classroomId,
             ]);
@@ -963,32 +1057,53 @@ preenchidos';
             $link['classes_given'] = $totalGiven;
             $link['total_schedules'] = $totalSchedules;
 
-            // Faltas do professor (instructor_faults.instructor_fk = instructor_identification.id)
-            $faults = Yii::app()->db->createCommand('
-                SELECT
-                    f.id,
-                    f.justification,
-                    s.day, s.month, s.year
-                FROM instructor_faults f
-                JOIN schedule s ON s.id = f.schedule_fk
-                WHERE f.instructor_fk = :instructor_id
-                  AND s.classroom_fk  = :classroom
-                ORDER BY s.month ASC, s.day ASC
-            ')->queryAll(true, [
+            // Dias letivos previstos para esta turma (contagem por dia distinto)
+            $totalDistinctDays = (int)Yii::app()->db->createCommand(
+                "SELECT COUNT(DISTINCT CONCAT(s.month, '-', s.day))
+                 FROM schedule s
+                 WHERE s.classroom_fk = :classroom
+                   AND s.unavailable  = 0"
+            )->queryScalar([':classroom' => $classroomId]);
+
+            $link['total_distinct_days'] = $totalDistinctDays;
+
+            // Faltas por dia distinto (cálculo por dia, não por horário)
+            $faults = Yii::app()->db->createCommand(
+                'SELECT s.day, s.month, s.year,
+                        MIN(f.justification) AS justification
+                 FROM instructor_faults f
+                 JOIN schedule s ON s.id = f.schedule_fk
+                 WHERE f.instructor_fk = :instructor_id
+                   AND s.classroom_fk  = :classroom
+                 GROUP BY s.year, s.month, s.day
+                 ORDER BY s.month ASC, s.day ASC'
+            )->queryAll(true, [
                 ':instructor_id' => $id,
                 ':classroom'     => $classroomId,
             ]);
 
+            $link['faults'] = $faults;
             $link['faults_count'] = count($faults);
         }
         unset($link);
 
+        // Total de dias únicos de falta no ano (sem dupla contagem entre turmas)
+        $totalFaultDays = (int)Yii::app()->db->createCommand(
+            'SELECT COUNT(DISTINCT CONCAT(c.school_year, \'-\', s.month, \'-\', s.day))
+             FROM instructor_faults f
+             JOIN schedule s  ON s.id  = f.schedule_fk
+             JOIN classroom c ON c.id  = s.classroom_fk
+             WHERE f.instructor_fk = :id
+               AND c.school_year   = :year'
+        )->queryScalar([':id' => $id, ':year' => $year]);
+
         $this->layout = 'reports';
         $this->render('printYearHistory', [
-            'instructor' => $instructor,
-            'instructorDoc' => $instructorDoc,
+            'instructor'     => $instructor,
+            'instructorDoc'  => $instructorDoc,
             'teachingHistory' => $teachingHistory,
-            'year' => $year,
+            'year'           => $year,
+            'totalFaultDays' => $totalFaultDays,
         ]);
     }
 }
