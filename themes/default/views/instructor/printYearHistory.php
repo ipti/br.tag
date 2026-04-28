@@ -46,16 +46,15 @@ $months = [
 
 $grandTotalGiven = 0;
 $grandTotalSchedules = 0;
-$grandTotalFaults = 0;
 
 foreach ($teachingHistory as $link) {
-    $grandTotalGiven += $link['classes_given'];
-    $grandTotalSchedules += $link['total_schedules'];
-    $grandTotalFaults += $link['faults_count'];
+    $grandTotalGiven      += $link['classes_given'];
+    $grandTotalSchedules  += $link['total_distinct_days'] ?? $link['total_schedules'];
 }
 
-$grandAbsenceRate = $grandTotalGiven > 0 
-    ? round(($grandTotalFaults / $grandTotalGiven) * 100, 1) 
+// $totalFaultDays vem do controller: dias únicos de falta no ano (sem dupla contagem entre turmas)
+$grandAbsenceRate = $grandTotalGiven > 0
+    ? round(($totalFaultDays / $grandTotalGiven) * 100, 1)
     : 0;
 ?>
 
@@ -120,8 +119,8 @@ $grandAbsenceRate = $grandTotalGiven > 0
                     <th style="width:18%;">Turma (Etapa)</th>
                     <th style="width:15%;">Período / Função</th>
                     <th style="width:15%;">Contrato</th>
-                    <th style="width:10%; text-align:center;">Faltas</th>
-                    <th style="width:20%; text-align:center;">Aulas Ministradas</th>
+                    <th style="width:10%; text-align:center;">Dias de Falta</th>
+                    <th style="width:20%; text-align:center;">Aulas Ministradas / Dias Prev.</th>
                 </tr>
             </thead>
             <tbody>
@@ -149,7 +148,7 @@ $grandAbsenceRate = $grandTotalGiven > 0
                     </td>
                     <td style="text-align:center;">
                         <span style="font-weight:700; color:#3f45ea; font-size:12px;"><?= $link['classes_given'] ?></span>
-                        <span style="color:#888; font-size:10px;">/ <?= $link['total_schedules'] ?> prev.</span>
+                        <span style="color:#888; font-size:10px;">/ <?= $link['total_distinct_days'] ?? $link['total_schedules'] ?> dias prev.</span>
                     </td>
                 </tr>
                 <?php endforeach; ?>
@@ -157,11 +156,12 @@ $grandAbsenceRate = $grandTotalGiven > 0
         </table>
 
         <!-- Resumo Geral de Frequência do Ano -->
-        <table class="table table-bordered" style="font-size:11.5px; margin-bottom:20px; border-left:3px solid #3f45ea;">
+        <table class="table table-bordered" style="font-size:11.5px; margin-bottom:4px; border-left:3px solid #3f45ea;">
             <tbody>
                 <tr style="background:#eaeaf8;">
                     <th colspan="6" style="font-size:10.5px; text-transform:uppercase; letter-spacing:.05em; color:#3f45ea;">
                         Resumo Consolidado do Ano Letivo (Todos os Vínculos)
+                        <span style="font-weight:400; font-size:9.5px; color:#5F738C; margin-left:6px;">* cálculo por dia letivo</span>
                     </th>
                 </tr>
                 <tr style="background:#fafafa; text-align:center;">
@@ -171,16 +171,17 @@ $grandAbsenceRate = $grandTotalGiven > 0
                     <th style="width:18%;">Aulas Ministradas</th>
                     <td style="width:16%; font-size:14px; font-weight:700; color:#3f45ea;"><?= $grandTotalGiven ?></td>
 
-                    <th style="width:16%;">Total de Faltas</th>
-                    <td style="width:18%; font-size:14px; font-weight:700; color:<?= $grandTotalFaults > 0 ? '#c0392b' : '#27ae60' ?>;">
-                        <?= $grandTotalFaults ?>
-                        <?php if ($grandTotalFaults > 0): ?>
+                    <th style="width:16%;">Dias de Falta</th>
+                    <td style="width:18%; font-size:14px; font-weight:700; color:<?= $totalFaultDays > 0 ? '#c0392b' : '#27ae60' ?>;">
+                        <?= $totalFaultDays ?>
+                        <?php if ($totalFaultDays > 0): ?>
                         <span style="font-size:10.5px; font-weight:400; color:#c0392b;">(<?= $grandAbsenceRate ?>%)</span>
                         <?php endif; ?>
                     </td>
                 </tr>
             </tbody>
         </table>
+        <p style="font-size:9px; color:#888; margin:0 0 16px;">* Cada falta corresponde a um dia letivo completo. Dias de falta consolidados sem dupla contagem entre turmas.</p>
         
         <!-- Detalhamento de Faltas (se houver e para todos os vínculos, sumarizado) -->
         <?php 

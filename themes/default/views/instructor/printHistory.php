@@ -206,15 +206,18 @@ krsort($byYear);
     <?php endif; ?>
 
     <!-- Resumo de Frequência -->
-    <table class="table table-bordered" style="font-size:11.5px; margin-bottom:8px;">
+    <table class="table table-bordered" style="font-size:11.5px; margin-bottom:4px;">
         <tbody>
             <tr style="background:#eaeaf8;">
-                <th colspan="4" style="font-size:10px; text-transform:uppercase; letter-spacing:.05em; color:#3f45ea;">Frequência</th>
+                <th colspan="4" style="font-size:10px; text-transform:uppercase; letter-spacing:.05em; color:#3f45ea;">
+                    Frequência
+                    <span style="font-weight:400; font-size:9.5px; color:#5F738C; margin-left:6px;">* cálculo por dia letivo</span>
+                </th>
             </tr>
             <tr>
-                <th style="width:25%; background:#fafafa;">Total no Horário</th>
-                <td style="width:25%; font-size:13px; font-weight:700;"><?= $link['total_schedules'] ?></td>
-                <th style="width:25%; background:#fafafa;">Total de Faltas</th>
+                <th style="width:25%; background:#fafafa;">Dias Letivos Previstos</th>
+                <td style="width:25%; font-size:13px; font-weight:700;"><?= $link['total_distinct_days'] ?></td>
+                <th style="width:25%; background:#fafafa;">Dias de Falta</th>
                 <td style="font-size:13px; font-weight:700; color:<?= $link['faults_count'] > 0 ? '#c0392b' : '#27ae60' ?>;">
                     <?= $link['faults_count'] ?>
                     <?php if ($link['faults_count'] > 0): ?>
@@ -224,6 +227,7 @@ krsort($byYear);
             </tr>
         </tbody>
     </table>
+    <p style="font-size:9px; color:#888; margin:0 0 8px;">* Cada falta corresponde a um dia letivo completo, independente do número de horários.</p>
 
     <!-- Registro de Faltas -->
     <?php if (!empty($link['faults'])): ?>
