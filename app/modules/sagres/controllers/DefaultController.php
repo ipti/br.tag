@@ -87,24 +87,25 @@ class DefaultController extends Controller
 
         if (!$fileDir || !file_exists($fileDir)) {
             Yii::app()->user->setFlash('error', Yii::t('default', 'Arquivo de exportação não encontrado! Tente exportar novamente.'));
-            $this->render('index');
+            $this->redirect(array('index'));
             return;
         }
 
-        // Configura os cabeçalhos para download
+        // Limpa todos os buffers de saída para evitar corrupção do arquivo
+        while (ob_get_level()) {
+            ob_end_clean();
+        }
+
         header('Content-Description: File Transfer');
         header('Content-Type: application/zip');
-        header('Content-Disposition: attachment; filename="' . basename($fileDir) . '"');
+        header('Content-Disposition: attachment; filename="Educacao.zip"');
         header('Expires: 0');
         header('Cache-Control: must-revalidate');
         header('Pragma: public');
         header('Content-Length: ' . filesize($fileDir));
 
-        flush(); // Garante que os buffers estejam limpos
         readfile($fileDir);
-
-        // Remove o arquivo apenas após o envio bem-sucedido
         unlink($fileDir);
-        Yii::app()->end();
+        exit(0);
     }
 }
