@@ -1,3 +1,6 @@
+## [Versão 3.13.11]
+- Corrigido erro de constraint FK ao excluir turmas AEE: registros de `student_aee_record` vinculados à turma agora são removidos antes da exclusão da turma
+
 ## [Versão 3.13.10]
 - Corrigido código morto na exclusão de turmas: o `foreach` que deletava vínculos de professores nunca executava pois estava após um `throw`, sendo removido sem alterar o comportamento
 - Corrigida mensagem de erro genérica na exclusão de turmas: o frontend agora recebe a razão real da falha ("existem alunos matriculados", "professores vinculados", etc.)
