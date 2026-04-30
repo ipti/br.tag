@@ -11,6 +11,7 @@ Yii::import('application.modules.sedsp.datasources.sed.Student.*');
 Yii::import('application.modules.sedsp.mappers.*');
 Yii::import('application.modules.sedsp.usecases.*');
 Yii::import('application.modules.sedsp.usecases.Enrollment.*');
+Yii::import('application.modules.aeerecord.models.*');
 
 //-----------------------------------------CLASSE VALIDADA ATÉ A SEQUENCIA 35!!------------------------
 class ClassroomController extends Controller
