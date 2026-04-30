@@ -508,6 +508,9 @@ class StudentController extends Controller implements AuthenticateSEDTokenInterf
                         $modelEnrollment->create_date = date('Y-m-d');
                         if ($modelEnrollment->status == 1) {
                             $modelEnrollment->enrollment_date = date('Y-m-d');
+                        } else {
+                            $parsedDate = DateTime::createFromFormat('d/m/Y', $modelEnrollment->enrollment_date ?: '');
+                            $modelEnrollment->enrollment_date = $parsedDate ? $parsedDate->format('Y-m-d') : date('Y-m-d');
                         }
                         $modelEnrollment->daily_order = $modelEnrollment->getDailyOrder();
                         $saved = false;

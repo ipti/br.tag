@@ -1,3 +1,7 @@
+## [Versão 3.13.8]
+- Corrigido bug onde a data de ingresso da matrícula podia ser salva no formato errado (dd/mm/aaaa) quando o status era diferente de Matriculado, corrompendo o valor no banco de dados
+- Campo "Data de Ingresso" agora é pré-preenchido com a data atual ao abrir o formulário de nova matrícula, evitando que usuários informem acidentalmente a data de nascimento do aluno
+
 ## [Versão 3.13.7]
 - Frequência de professores agora é registrada por **dia letivo** em vez de por horário: ao marcar falta em um dia, todos os horários do professor naquele dia são marcados automaticamente
 - Filtros de turma e disciplina removidos da tela de frequência — agora basta selecionar o professor e o mês

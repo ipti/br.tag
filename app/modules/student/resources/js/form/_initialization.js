@@ -21,6 +21,13 @@ $(document).ready(function () {
         if ($(".new-enrollment-form").css("display") == "none") {
             $(".new-enrollment-form").show();
             $("#new-enrollment-button").text("Fechar formulário");
+            let $dateField = $("#StudentEnrollment_enrollment_date");
+            if ($dateField.val() === "") {
+                let now = new Date();
+                let d = String(now.getDate()).padStart(2, "0");
+                let m = String(now.getMonth() + 1).padStart(2, "0");
+                $dateField.val(d + "/" + m + "/" + now.getFullYear());
+            }
         } else {
             $(".new-enrollment-form").hide();
             $("#new-enrollment-button").text("Adicionar Matrícula");
