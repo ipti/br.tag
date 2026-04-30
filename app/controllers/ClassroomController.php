@@ -965,6 +965,8 @@ class ClassroomController extends Controller
                     throw new Exception('Não se pode remover turma com professores vinculados.');
                 }
 
+                StudentAeeRecord::model()->deleteAllByAttributes(['classroom_fk' => $classroom->id]);
+
                 if ($classroom->delete()) {
                     Log::model()->saveAction('classroom', $id, 'D', $classroom->name);
                     $transaction->commit();
