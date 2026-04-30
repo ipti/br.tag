@@ -1,3 +1,8 @@
+## [Versão 3.13.10]
+- Corrigido código morto na exclusão de turmas: o `foreach` que deletava vínculos de professores nunca executava pois estava após um `throw`, sendo removido sem alterar o comportamento
+- Corrigida mensagem de erro genérica na exclusão de turmas: o frontend agora recebe a razão real da falha ("existem alunos matriculados", "professores vinculados", etc.)
+- Corrigida transação de banco de dados sem rollback quando a exclusão era rejeitada pelo SEDSP
+
 ## [Versão 3.13.9]
 
 - Corrigido bug onde a data de ingresso da matrícula podia ser salva no formato errado (dd/mm/aaaa) quando o status era diferente de Matriculado, corrompendo o valor no banco de dados

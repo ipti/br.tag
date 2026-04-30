@@ -965,9 +965,6 @@ class ClassroomController extends Controller
                     throw new Exception('Não se pode remover turma com professores vinculados.');
                 }
 
-                foreach ($teachingDatas as $teachingData) {
-                    $teachingData->delete();
-                }
                 if ($classroom->delete()) {
                     Log::model()->saveAction('classroom', $id, 'D', $classroom->name);
                     $transaction->commit();
@@ -980,9 +977,10 @@ class ClassroomController extends Controller
                     $transaction->rollback();
                 }
                 Yii::log("Exception: {$e->getMessage()}", CLogger::LEVEL_ERROR, 'system.controllers.ClassroomController');
-                echo json_encode(['valid' => false, 'message' => 'Falha ao excluir a turma']);
+                echo json_encode(['valid' => false, 'message' => $e->getMessage()]);
             }
         } else {
+            $transaction->rollback();
             Yii::log("Exception: {$erro}", CLogger::LEVEL_ERROR, 'system.controllers.ClassroomController');
             echo json_encode(['valid' => false, 'message' => 'Não foi possível remover a turma no SEDSP.']);
         }
