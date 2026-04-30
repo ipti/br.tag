@@ -14,6 +14,7 @@ $cs->registerCssFile($baseUrl . '/css/sagres.css');
 		</div>
 	</div>
 	<div class="alert alert-error alert-error-export" style="display: none;"></div>
+	<div class="alert alert-success alert-success-export" style="display: none;"></div>
 	<?php if (Yii::app()->user->hasFlash('error')) : ?>
 		<div class="alert alert-error">
 			<?php echo Yii::app()->user->getFlash('error') ?>
@@ -196,49 +197,30 @@ if ($numInconsistencys != 0) {
 		updateExportLink();
 	});
 
-	function downloadFile(url, filename) {
-		const link = document.createElement('a');
-		link.href = url;
-		link.download = filename;
-		document.body.appendChild(link);
-		link.click();
-		document.body.removeChild(link);
-	}
-
 	document.getElementById('exportLink').addEventListener('click', function(e) {
 		e.preventDefault();
-		const exportLink = document.getElementById('exportLink');
-		const href = exportLink.getAttribute('href');
-
-		if (!href) {
-			console.error('O link de exportação não foi definido');
-			return;
-		}
 
 		if (!selectedValue || selectedValue == '0') {
-			$(".alert-error-export").html("Você precisa selecionar um mês antes de exportar os dados.");  // Change append to html to overwrite the content
+			$(".alert-error-export").html("Você precisa selecionar um mês antes de exportar os dados.");
 			$(".alert-error-export").show();
+			$(".alert-success-export").hide();
 			return;
 		}
 
-		downloadFile(href, 'Educacao.xml');
-	});
-
-
-	function downloadFile(url, filename) {
-		$(".alert-error-export").hide();
-		$(".alert-error-export").empty();
-
+		const href = this.getAttribute('href');
+		$(".alert-error-export").hide().empty();
+		$(".alert-success-export").hide();
 		$("#loading-popup").show();
 
-		$.get(url, function(data) {
+		$.get(href, function() {
 			$("#loading-popup").hide();
-					location.reload();
+			$(".alert-success-export")
+				.html('Exportação concluída! <a href="?r=sagres/default/download" class="btn btn-mini" target="_blank"><i class="icon-download-alt"></i> Clique aqui para baixar o arquivo</a>')
+				.show();
 		})
 		.fail(function(jqXHR, textStatus, errorThrown) {
 			$("#loading-popup").hide();
-			$(".alert-error-export").append('Erro ao realizar o download do arquivo: ' + errorThrown);
-			$(".alert-error-export").show();
-		})
-	}
+			$(".alert-error-export").html('Erro ao gerar o arquivo: ' + errorThrown).show();
+		});
+	});
 </script>

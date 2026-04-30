@@ -1,3 +1,7 @@
+## [Versão 3.13.8]
+- Corrigido bug no Sagres onde o botão de download do arquivo de exportação não aparecia após clicar em "Exportar Unidade"
+- Corrigido download do arquivo ZIP do Sagres que falhava devido a conflito com o output buffer do Yii
+
 ## [Versão 3.13.7]
 - Frequência de professores agora é registrada por **dia letivo** em vez de por horário: ao marcar falta em um dia, todos os horários do professor naquele dia são marcados automaticamente
 - Filtros de turma e disciplina removidos da tela de frequência — agora basta selecionar o professor e o mês
