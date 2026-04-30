@@ -983,7 +983,6 @@ $(
 ).focusout(function () {
     let id = "#" + $(this).attr("id");
     let documentDate = stringToDate($(id).val());
-    debugger
     let birthday = stringToDate($(`[name="StudentIdentification[birthday]"]`).val());
     let isAfterBirthday = birthday?.asianStr != null && documentDate?.asianStr != null && birthday?.asianStr > documentDate?.asianStr
     if (!validateDate($(id).val()) || isAfterBirthday) {
