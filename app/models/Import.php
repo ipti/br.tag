@@ -199,6 +199,7 @@ class Import extends CFormModel
             if ($schoolIdentificationModel == null) {
                 $schoolIdentificationModel = new SchoolIdentification();
             }
+            $schoolIdentificationModel->setScenario(SchoolIdentification::SCENARIO_IMPORT);
 
             foreach ($fields as $field) {
                 $columnName = $field->attr;
@@ -207,6 +208,12 @@ class Import extends CFormModel
                 if (isset($line[$collumnOrder]) && $line[$collumnOrder] != '' && in_array($columnName, $attributes)) {
                     $schoolIdentificationModel->{$columnName} = utf8_encode($line[$collumnOrder]);
                 }
+            }
+
+            // Censo 2025: o campo 'regulation' pode vir ausente no arquivo.
+            // Garante um valor padrão para não falhar a validação do modelo.
+            if (empty($schoolIdentificationModel->regulation)) {
+                $schoolIdentificationModel->regulation = $schoolIdentificationModel->regulation ?? 2;
             }
 
             $edcensoCityId = $line[7] ?? null;
@@ -263,6 +270,8 @@ class Import extends CFormModel
             if ($classroomModel == null) {
                 $classroomModel = new Classroom();
             }
+            // Usa scenario de import para permitir o formato 2025 dos dias da semana
+            $classroomModel->setScenario(Classroom::SCENARIO_IMPORT);
 
             foreach ($fields as $field) {
                 if ($field->attr !== 'id') {
@@ -275,13 +284,68 @@ class Import extends CFormModel
                 }
             }
 
+            // Censo 2025: os campos week_days_* passaram a carregar o horário no formato
+            // "HH:MM-HH:MM" (ex: "07:20-11:45") ao invés de 0/1.
+            // Converte para o formato interno do banco (inteiro 0/1) e extrai hora/minuto.
+            $weekDayFields = [
+                'week_days_sunday', 'week_days_monday', 'week_days_tuesday',
+                'week_days_wednesday', 'week_days_thursday', 'week_days_friday', 'week_days_saturday',
+            ];
+            $timeRegex = '/^(\d{2}):(\d{2})-(\d{2}):(\d{2})$/';
+            $parsedInitialHour = null;
+            $parsedInitialMinute = null;
+            $parsedFinalHour = null;
+            $parsedFinalMinute = null;
+
+            foreach ($weekDayFields as $dayField) {
+                $val = $classroomModel->{$dayField} ?? '';
+                if (preg_match($timeRegex, trim((string) $val), $matches)) {
+                    // Formato 2025: "HH:MM-HH:MM" — extrai hora do primeiro dia com horário
+                    if ($parsedInitialHour === null) {
+                        $parsedInitialHour = $matches[1];
+                        $parsedInitialMinute = $matches[2];
+                        $parsedFinalHour = $matches[3];
+                        $parsedFinalMinute = $matches[4];
+                    }
+                    $classroomModel->{$dayField} = 1;
+                } elseif (trim((string) $val) === '' || $val === '0') {
+                    $classroomModel->{$dayField} = 0;
+                }
+            }
+
+            // Popula os campos de hora separados a partir do horário extraído dos dias
+            if ($parsedInitialHour !== null) {
+                $classroomModel->initial_hour = $parsedInitialHour;
+                $classroomModel->initial_minute = $parsedInitialMinute;
+                $classroomModel->final_hour = $parsedFinalHour;
+                $classroomModel->final_minute = $parsedFinalMinute;
+            } elseif (empty($classroomModel->initial_hour)) {
+                // Turma não-presencial ou sem horário informado no arquivo 2025:
+                // preenche com '00' para satisfazer a regra 'required' do modelo.
+                $classroomModel->initial_hour = '00';
+                $classroomModel->initial_minute = '00';
+                $classroomModel->final_hour = '00';
+                $classroomModel->final_minute = '00';
+            }
+
             $classroomModel->assistance_type = 0;
             $classroomModel->school_year = $year;
             if ($this->hasValue($line[2] ?? null)) {
                 $classroomModel->censo_own_system_code = $line[2];
             }
+            // Garante que o inep_id da turma seja sempre gravado a partir do arquivo,
+            // mesmo em turmas já existentes no banco com inep_id = NULL.
+            if ($this->hasValue($line[3] ?? null)) {
+                $classroomModel->inep_id = $line[3];
+            }
             if (!$classroomModel->save()) {
-                $this->setFailure('20', $line, TagUtils::stringfyValidationErrors($classroomModel));
+                $debugInfo = 'DEBUG name=' . var_export($classroomModel->name, true)
+                    . ' school_inep_fk=' . var_export($classroomModel->school_inep_fk, true)
+                    . ' pedagogical_mediation_type=' . var_export($classroomModel->pedagogical_mediation_type, true)
+                    . ' edcenso_stage_vs_modality_fk=' . var_export($classroomModel->edcenso_stage_vs_modality_fk, true)
+                    . ' isNewRecord=' . var_export($classroomModel->isNewRecord, true)
+                    . ' fieldsCount=' . count($fields);
+                $this->setFailure('20', $line, TagUtils::stringfyValidationErrors($classroomModel) . ' | ' . $debugInfo);
             }
         }
     }
@@ -367,7 +431,11 @@ class Import extends CFormModel
             }
         }
 
-        $this->setFailure('30', $line);
+        $errorMsg = implode(' | ', array_filter([
+            TagUtils::stringfyValidationErrors($studentIdentificationModel),
+            TagUtils::stringfyValidationErrors($studentDocumentModel),
+        ]));
+        $this->setFailure('30', $line, $errorMsg ?: 'Falha ao salvar aluno (erro desconhecido).');
     }
 
     public function importRegister302($line, $year)
@@ -425,6 +493,11 @@ class Import extends CFormModel
         if ($this->hasValue($line[2] ?? null)) {
             $instructorIdentificationModel->censo_own_system_code = $line[2];
         }
+        // Garante que o inep_id do professor seja sempre gravado a partir do arquivo,
+        // mesmo em professores já existentes no banco com inep_id = NULL.
+        if ($this->hasValue($line[3] ?? null)) {
+            $instructorIdentificationModel->inep_id = $line[3];
+        }
         $instructorDocumentModel->school_inep_id_fk = $instructorIdentificationModel->school_inep_id_fk;
         if ($instructorIdentificationModel->validate() && $instructorDocumentModel->validate()) {
             if ($instructorIdentificationModel->save(false)) {
@@ -435,7 +508,22 @@ class Import extends CFormModel
             }
         }
 
-        $this->setFailure('30', $line);
+        // Censo 2025: se o único erro de validação for CPF duplicado no documento,
+        // significa que o professor já existe no banco (cadastro anterior pelo CPF).
+        // Não é necessário criar novamente — ignora silenciosamente sem gerar falha.
+        $identificationErrors = $instructorIdentificationModel->getErrors();
+        $documentErrors = $instructorDocumentModel->getErrors();
+        $onlyCpfDuplicate = empty($identificationErrors)
+            && array_keys($documentErrors) === ['cpf'];
+        if ($onlyCpfDuplicate) {
+            return;
+        }
+
+        $errorMsg = implode(' | ', array_filter([
+            TagUtils::stringfyValidationErrors($instructorIdentificationModel),
+            TagUtils::stringfyValidationErrors($instructorDocumentModel),
+        ]));
+        $this->setFailure('30', $line, $errorMsg ?: 'Falha ao salvar professor (erro desconhecido).');
     }
 
     public function importRegister40($lines, $year)
@@ -502,8 +590,16 @@ class Import extends CFormModel
         foreach ($lines as $line) {
             $classroom = $this->findClassroom($line[1], $year, $line[4] ?? null, $line[5] ?? null);
             $instructor = $this->findInstructor($line[1], $line[2] ?? null, $line[3] ?? null);
-            if ($classroom === null || $instructor === null) {
-                $this->setFailure('50', $line, 'Professor ou turma não encontrado para criar vínculo.');
+            if ($classroom === null && $instructor === null) {
+                $this->setFailure('50', $line, 'Professor e turma não encontrados para criar vínculo (inep_professor=' . ($line[3] ?? '') . ', cod_professor=' . ($line[2] ?? '') . ', inep_turma=' . ($line[5] ?? '') . ', cod_turma=' . ($line[4] ?? '') . ').');
+                continue;
+            }
+            if ($classroom === null) {
+                $this->setFailure('50', $line, 'Turma não encontrada para criar vínculo (inep_turma=' . ($line[5] ?? '') . ', cod_turma=' . ($line[4] ?? '') . ').');
+                continue;
+            }
+            if ($instructor === null) {
+                $this->setFailure('50', $line, 'Professor não encontrado para criar vínculo (inep_professor=' . ($line[3] ?? '') . ', cod_professor=' . ($line[2] ?? '') . ').');
                 continue;
             }
 
@@ -562,6 +658,17 @@ class Import extends CFormModel
                     if (isset($line[$collumnOrder]) && $line[$collumnOrder] != '' && in_array($columnName, $attributes)) {
                         $studentEnrollmentModel->{$columnName} = utf8_encode($line[$collumnOrder]);
                     }
+                }
+            }
+
+            // Censo 2025: o valor de edcenso_stage_vs_modality_fk vindo do arquivo pode ser
+            // um código que não existe na tabela de referência (ex: 0 ou código novo).
+            // Para evitar violação de FK, valida a existência antes de salvar.
+            if (!empty($studentEnrollmentModel->edcenso_stage_vs_modality_fk)) {
+                $stageExists = EdcensoStageVsModality::model()->findByPk((int) $studentEnrollmentModel->edcenso_stage_vs_modality_fk);
+                if ($stageExists === null) {
+                    $this->setFailure('60', $line, 'Etapa/modalidade inválida (edcenso_stage_vs_modality_fk=' . $studentEnrollmentModel->edcenso_stage_vs_modality_fk . ') não encontrada na tabela de referência. Campo será ignorado.');
+                    $studentEnrollmentModel->edcenso_stage_vs_modality_fk = null;
                 }
             }
 
