@@ -18,6 +18,7 @@
         "phpmd/phpmd": "^2.13",
         "squizlabs/php_codesniffer": "^3.7",
         "friendsofphp/php-cs-fixer": "^3.3",
+        "phpstan/phpstan": "^2.0",
         "codeception/codeception": "^4.2",
         "codeception/module-phpbrowser": "^1.0.0",
         "codeception/module-asserts": "^1.0.0",
@@ -29,7 +30,11 @@
         "phpunit/phpunit-selenium": "^8.0"
     },
     "scripts": {
-        "mess": "./vendor/bin/phpmd",
+        "lint": "docker exec -u root -e PHP_CS_FIXER_IGNORE_ENV=1 tag-app ./vendor/bin/php-cs-fixer fix --dry-run --diff",
+        "fix": "docker exec -u root -e PHP_CS_FIXER_IGNORE_ENV=1 tag-app ./vendor/bin/php-cs-fixer fix",
+        "analyse": "docker exec tag-app ./vendor/bin/phpstan analyse --memory-limit=512M",
+        "rector": "docker exec tag-app ./vendor/bin/rector process",
+        "mess": "docker exec tag-app ./vendor/bin/phpmd app/ text ruleset.xml",
         "sass": "./vendor/bin/pscss",
         "sass:build": "docker compose run --rm --entrypoint /opt/dart-sass/sass sass /sass/main.scss:/css/main.css --no-source-map --style=compressed",
         "sass:watch": "@docker compose up sass",

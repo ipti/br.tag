@@ -1,0 +1,2413 @@
+parameters:
+	ignoreErrors:
+		-
+			message: '#^Access to an undefined property CApplication\:\:\$authManager\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/components/Controller.php
+
+		-
+			message: '#^Access to an undefined property CApplication\:\:\$sentry\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/components/Controller.php
+
+		-
+			message: '#^Access to an undefined property CApplication\:\:\$user\.$#'
+			identifier: property.notFound
+			count: 9
+			path: app/components/Controller.php
+
+		-
+			message: '#^Constant SESSION_MAX_LIFETIME not found\.$#'
+			identifier: constant.notFound
+			count: 1
+			path: app/components/Controller.php
+
+		-
+			message: '#^Access to an undefined property CApplication\:\:\$user\.$#'
+			identifier: property.notFound
+			count: 6
+			path: app/components/FeaturesComponent.php
+
+		-
+			message: '#^Access to property \$active on an unknown class FeatureFlags\.$#'
+			identifier: class.notFound
+			count: 6
+			path: app/components/FeaturesComponent.php
+
+		-
+			message: '#^Access to property \$feature_name on an unknown class FeatureFlags\.$#'
+			identifier: class.notFound
+			count: 2
+			path: app/components/FeaturesComponent.php
+
+		-
+			message: '#^Call to method save\(\) on an unknown class FeatureFlags\.$#'
+			identifier: class.notFound
+			count: 3
+			path: app/components/FeaturesComponent.php
+
+		-
+			message: '#^Call to static method model\(\) on an unknown class FeatureFlags\.$#'
+			identifier: class.notFound
+			count: 2
+			path: app/components/FeaturesComponent.php
+
+		-
+			message: '#^Instantiated class FeatureFlags not found\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/components/FeaturesComponent.php
+
+		-
+			message: '#^Method FeaturesComponent\:\:getOrCreateFeature\(\) has invalid return type FeatureFlags\.$#'
+			identifier: class.notFound
+			count: 2
+			path: app/components/FeaturesComponent.php
+
+		-
+			message: '#^Access to property \$body on an unknown class Notification\.$#'
+			identifier: class.notFound
+			count: 2
+			path: app/components/NotificationService.php
+
+		-
+			message: '#^Access to property \$created_by on an unknown class Notification\.$#'
+			identifier: class.notFound
+			count: 2
+			path: app/components/NotificationService.php
+
+		-
+			message: '#^Access to property \$expires_at on an unknown class Notification\.$#'
+			identifier: class.notFound
+			count: 2
+			path: app/components/NotificationService.php
+
+		-
+			message: '#^Access to property \$notification_fk on an unknown class NotificationRecipient\.$#'
+			identifier: class.notFound
+			count: 4
+			path: app/components/NotificationService.php
+
+		-
+			message: '#^Access to property \$school_fk on an unknown class Notification\.$#'
+			identifier: class.notFound
+			count: 2
+			path: app/components/NotificationService.php
+
+		-
+			message: '#^Access to property \$source on an unknown class Notification\.$#'
+			identifier: class.notFound
+			count: 2
+			path: app/components/NotificationService.php
+
+		-
+			message: '#^Access to property \$source_event on an unknown class Notification\.$#'
+			identifier: class.notFound
+			count: 4
+			path: app/components/NotificationService.php
+
+		-
+			message: '#^Access to property \$source_url on an unknown class Notification\.$#'
+			identifier: class.notFound
+			count: 2
+			path: app/components/NotificationService.php
+
+		-
+			message: '#^Access to property \$title on an unknown class Notification\.$#'
+			identifier: class.notFound
+			count: 2
+			path: app/components/NotificationService.php
+
+		-
+			message: '#^Access to property \$type on an unknown class Notification\.$#'
+			identifier: class.notFound
+			count: 2
+			path: app/components/NotificationService.php
+
+		-
+			message: '#^Access to property \$user_fk on an unknown class NotificationRecipient\.$#'
+			identifier: class.notFound
+			count: 4
+			path: app/components/NotificationService.php
+
+		-
+			message: '#^Call to method getErrors\(\) on an unknown class Notification\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/components/NotificationService.php
+
+		-
+			message: '#^Call to method save\(\) on an unknown class Notification\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/components/NotificationService.php
+
+		-
+			message: '#^Call to method save\(\) on an unknown class NotificationRecipient\.$#'
+			identifier: class.notFound
+			count: 2
+			path: app/components/NotificationService.php
+
+		-
+			message: '#^Call to static method model\(\) on an unknown class NotificationRecipient\.$#'
+			identifier: class.notFound
+			count: 3
+			path: app/components/NotificationService.php
+
+		-
+			message: '#^Call to static method model\(\) on an unknown class Users\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/components/NotificationService.php
+
+		-
+			message: '#^Instantiated class Notification not found\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/components/NotificationService.php
+
+		-
+			message: '#^Instantiated class NotificationRecipient not found\.$#'
+			identifier: class.notFound
+			count: 2
+			path: app/components/NotificationService.php
+
+		-
+			message: '#^Method NotificationService\:\:broadcast\(\) has invalid return type Notification\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/components/NotificationService.php
+
+		-
+			message: '#^Method NotificationService\:\:getUserNotifications\(\) has invalid return type NotificationRecipient\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/components/NotificationService.php
+
+		-
+			message: '#^Method NotificationService\:\:notify\(\) has invalid return type Notification\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/components/NotificationService.php
+
+		-
+			message: '#^Access to an undefined property CApplication\:\:\$user\.$#'
+			identifier: property.notFound
+			count: 2
+			path: app/components/SessionTimer.php
+
+		-
+			message: '#^Call to static method model\(\) on an unknown class SchoolIdentification\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/components/UserIdentity.php
+
+		-
+			message: '#^Call to static method model\(\) on an unknown class Users\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/components/UserIdentity.php
+
+		-
+			message: '#^Access to an undefined property CApplication\:\:\$authManager\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/components/auth/RbacSeeder.php
+
+		-
+			message: '#^Access to an undefined property CApplication\:\:\$notifier\.$#'
+			identifier: property.notFound
+			count: 2
+			path: app/components/behaviors/NotifyOnEventBehavior.php
+
+		-
+			message: '#^Access to an undefined property CApplication\:\:\$features\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/components/utils/TMenu.php
+
+		-
+			message: '#^Variable \$itemRoute in empty\(\) always exists and is not falsy\.$#'
+			identifier: empty.variable
+			count: 1
+			path: app/components/utils/TMenu.php
+
+		-
+			message: '#^Access to an undefined property CApplication\:\:\$authManager\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/components/utils/TagUtils.php
+
+		-
+			message: '#^Access to an undefined property CApplication\:\:\$user\.$#'
+			identifier: property.notFound
+			count: 9
+			path: app/components/utils/TagUtils.php
+
+		-
+			message: '#^Call to an undefined method CApplication\:\:getAuthManager\(\)\.$#'
+			identifier: method.notFound
+			count: 5
+			path: app/components/utils/TagUtils.php
+
+		-
+			message: '#^Call to static method model\(\) on an unknown class AuthAssignment\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/components/utils/TagUtils.php
+
+		-
+			message: '#^Call to static method model\(\) on an unknown class InstructorIdentification\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/components/utils/TagUtils.php
+
+		-
+			message: '#^Call to static method model\(\) on an unknown class InstructorTeachingData\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/components/utils/TagUtils.php
+
+		-
+			message: '#^Constant INSTANCE not found\.$#'
+			identifier: constant.notFound
+			count: 2
+			path: app/components/utils/TagUtils.php
+
+		-
+			message: '#^PHPDoc tag @var above a method has no effect\.$#'
+			identifier: varTag.misplaced
+			count: 1
+			path: app/components/utils/TagUtils.php
+
+		-
+			message: '#^Access to an undefined property DataTableGridView\:\:\$afterAjaxUpdate\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/components/widgets/DataTableGridView.php
+
+		-
+			message: '#^Access to an undefined property DataTableGridView\:\:\$enableSorting\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/components/widgets/DataTableGridView.php
+
+		-
+			message: '#^Access to an undefined property DataTableGridView\:\:\$itemsCssClass\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/components/widgets/DataTableGridView.php
+
+		-
+			message: '#^DataTableGridView\:\:init\(\) calls parent\:\:init\(\) but DataTableGridView does not extend any class\.$#'
+			identifier: class.noParent
+			count: 1
+			path: app/components/widgets/DataTableGridView.php
+
+		-
+			message: '#^DataTableGridView\:\:run\(\) calls parent\:\:run\(\) but DataTableGridView does not extend any class\.$#'
+			identifier: class.noParent
+			count: 1
+			path: app/components/widgets/DataTableGridView.php
+
+		-
+			message: '#^Access to an undefined property CApplication\:\:\$utils\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/domain/admin/exceptions/CantSaveGradeUnityException.php
+
+		-
+			message: '#^Access to property \$edcensoStageVsModalityFk on an unknown class GradeUnity\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/domain/admin/exceptions/CantSaveGradeUnityException.php
+
+		-
+			message: '#^Access to property \$name on an unknown class GradeUnity\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/domain/admin/exceptions/CantSaveGradeUnityException.php
+
+		-
+			message: '#^Parameter \$unity of method CantSaveGradeUnityException\:\:__construct\(\) has invalid type GradeUnity\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/domain/admin/exceptions/CantSaveGradeUnityException.php
+
+		-
+			message: '#^Access to an undefined property CApplication\:\:\$utils\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/domain/admin/exceptions/CantSaveGradeUnityModalityException.php
+
+		-
+			message: '#^Access to property \$approvation_media on an unknown class GradeRules\.$#'
+			identifier: class.notFound
+			count: 3
+			path: app/domain/admin/usecases/CopyGradeStructUsecase.php
+
+		-
+			message: '#^Access to property \$edcenso_stage_vs_modality_fk on an unknown class GradeRulesVsEdcensoStageVsModality\.$#'
+			identifier: class.notFound
+			count: 2
+			path: app/domain/admin/usecases/CopyGradeStructUsecase.php
+
+		-
+			message: '#^Access to property \$final_recover_media on an unknown class GradeRules\.$#'
+			identifier: class.notFound
+			count: 3
+			path: app/domain/admin/usecases/CopyGradeStructUsecase.php
+
+		-
+			message: '#^Access to property \$final_recovery_avarage_formula on an unknown class GradeUnity\.$#'
+			identifier: class.notFound
+			count: 3
+			path: app/domain/admin/usecases/CopyGradeStructUsecase.php
+
+		-
+			message: '#^Access to property \$grade_calculation_fk on an unknown class GradePartialRecovery\.$#'
+			identifier: class.notFound
+			count: 2
+			path: app/domain/admin/usecases/CopyGradeStructUsecase.php
+
+		-
+			message: '#^Access to property \$grade_calculation_fk on an unknown class GradeRules\.$#'
+			identifier: class.notFound
+			count: 3
+			path: app/domain/admin/usecases/CopyGradeStructUsecase.php
+
+		-
+			message: '#^Access to property \$grade_calculation_fk on an unknown class GradeUnity\.$#'
+			identifier: class.notFound
+			count: 3
+			path: app/domain/admin/usecases/CopyGradeStructUsecase.php
+
+		-
+			message: '#^Access to property \$grade_rules_fk on an unknown class GradePartialRecovery\.$#'
+			identifier: class.notFound
+			count: 2
+			path: app/domain/admin/usecases/CopyGradeStructUsecase.php
+
+		-
+			message: '#^Access to property \$grade_rules_fk on an unknown class GradeRulesVsEdcensoStageVsModality\.$#'
+			identifier: class.notFound
+			count: 2
+			path: app/domain/admin/usecases/CopyGradeStructUsecase.php
+
+		-
+			message: '#^Access to property \$grade_rules_fk on an unknown class GradeUnity\.$#'
+			identifier: class.notFound
+			count: 2
+			path: app/domain/admin/usecases/CopyGradeStructUsecase.php
+
+		-
+			message: '#^Access to property \$grade_unity_fk on an unknown class GradeUnityModality\.$#'
+			identifier: class.notFound
+			count: 2
+			path: app/domain/admin/usecases/CopyGradeStructUsecase.php
+
+		-
+			message: '#^Access to property \$has_final_recovery on an unknown class GradeRules\.$#'
+			identifier: class.notFound
+			count: 3
+			path: app/domain/admin/usecases/CopyGradeStructUsecase.php
+
+		-
+			message: '#^Access to property \$has_partial_recovery on an unknown class GradeRules\.$#'
+			identifier: class.notFound
+			count: 3
+			path: app/domain/admin/usecases/CopyGradeStructUsecase.php
+
+		-
+			message: '#^Access to property \$id on an unknown class GradePartialRecovery\.$#'
+			identifier: class.notFound
+			count: 2
+			path: app/domain/admin/usecases/CopyGradeStructUsecase.php
+
+		-
+			message: '#^Access to property \$id on an unknown class GradeRules\.$#'
+			identifier: class.notFound
+			count: 8
+			path: app/domain/admin/usecases/CopyGradeStructUsecase.php
+
+		-
+			message: '#^Access to property \$id on an unknown class GradeUnity\.$#'
+			identifier: class.notFound
+			count: 3
+			path: app/domain/admin/usecases/CopyGradeStructUsecase.php
+
+		-
+			message: '#^Access to property \$name on an unknown class GradePartialRecovery\.$#'
+			identifier: class.notFound
+			count: 2
+			path: app/domain/admin/usecases/CopyGradeStructUsecase.php
+
+		-
+			message: '#^Access to property \$name on an unknown class GradeRules\.$#'
+			identifier: class.notFound
+			count: 3
+			path: app/domain/admin/usecases/CopyGradeStructUsecase.php
+
+		-
+			message: '#^Access to property \$name on an unknown class GradeUnity\.$#'
+			identifier: class.notFound
+			count: 3
+			path: app/domain/admin/usecases/CopyGradeStructUsecase.php
+
+		-
+			message: '#^Access to property \$name on an unknown class GradeUnityModality\.$#'
+			identifier: class.notFound
+			count: 2
+			path: app/domain/admin/usecases/CopyGradeStructUsecase.php
+
+		-
+			message: '#^Access to property \$order_partial_recovery on an unknown class GradePartialRecovery\.$#'
+			identifier: class.notFound
+			count: 2
+			path: app/domain/admin/usecases/CopyGradeStructUsecase.php
+
+		-
+			message: '#^Access to property \$parcial_recovery_fk on an unknown class GradeUnity\.$#'
+			identifier: class.notFound
+			count: 2
+			path: app/domain/admin/usecases/CopyGradeStructUsecase.php
+
+		-
+			message: '#^Access to property \$partial_recovery_fk on an unknown class GradePartialRecoveryWeights\.$#'
+			identifier: class.notFound
+			count: 2
+			path: app/domain/admin/usecases/CopyGradeStructUsecase.php
+
+		-
+			message: '#^Access to property \$rule_type on an unknown class GradeRules\.$#'
+			identifier: class.notFound
+			count: 3
+			path: app/domain/admin/usecases/CopyGradeStructUsecase.php
+
+		-
+			message: '#^Access to property \$school_year on an unknown class GradeRules\.$#'
+			identifier: class.notFound
+			count: 3
+			path: app/domain/admin/usecases/CopyGradeStructUsecase.php
+
+		-
+			message: '#^Access to property \$semester on an unknown class GradePartialRecovery\.$#'
+			identifier: class.notFound
+			count: 2
+			path: app/domain/admin/usecases/CopyGradeStructUsecase.php
+
+		-
+			message: '#^Access to property \$semester on an unknown class GradeUnity\.$#'
+			identifier: class.notFound
+			count: 3
+			path: app/domain/admin/usecases/CopyGradeStructUsecase.php
+
+		-
+			message: '#^Access to property \$type on an unknown class GradeUnity\.$#'
+			identifier: class.notFound
+			count: 3
+			path: app/domain/admin/usecases/CopyGradeStructUsecase.php
+
+		-
+			message: '#^Access to property \$type on an unknown class GradeUnityModality\.$#'
+			identifier: class.notFound
+			count: 2
+			path: app/domain/admin/usecases/CopyGradeStructUsecase.php
+
+		-
+			message: '#^Access to property \$unity_fk on an unknown class GradePartialRecoveryWeights\.$#'
+			identifier: class.notFound
+			count: 2
+			path: app/domain/admin/usecases/CopyGradeStructUsecase.php
+
+		-
+			message: '#^Access to property \$weight on an unknown class GradePartialRecoveryWeights\.$#'
+			identifier: class.notFound
+			count: 2
+			path: app/domain/admin/usecases/CopyGradeStructUsecase.php
+
+		-
+			message: '#^Access to property \$weight on an unknown class GradeUnity\.$#'
+			identifier: class.notFound
+			count: 3
+			path: app/domain/admin/usecases/CopyGradeStructUsecase.php
+
+		-
+			message: '#^Access to property \$weight on an unknown class GradeUnityModality\.$#'
+			identifier: class.notFound
+			count: 2
+			path: app/domain/admin/usecases/CopyGradeStructUsecase.php
+
+		-
+			message: '#^Access to property \$weight_final_media on an unknown class GradeUnity\.$#'
+			identifier: class.notFound
+			count: 3
+			path: app/domain/admin/usecases/CopyGradeStructUsecase.php
+
+		-
+			message: '#^Access to property \$weight_final_recovery on an unknown class GradeUnity\.$#'
+			identifier: class.notFound
+			count: 3
+			path: app/domain/admin/usecases/CopyGradeStructUsecase.php
+
+		-
+			message: '#^Call to method save\(\) on an unknown class GradePartialRecovery\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/domain/admin/usecases/CopyGradeStructUsecase.php
+
+		-
+			message: '#^Call to method save\(\) on an unknown class GradePartialRecoveryWeights\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/domain/admin/usecases/CopyGradeStructUsecase.php
+
+		-
+			message: '#^Call to method save\(\) on an unknown class GradeRules\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/domain/admin/usecases/CopyGradeStructUsecase.php
+
+		-
+			message: '#^Call to method save\(\) on an unknown class GradeRulesVsEdcensoStageVsModality\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/domain/admin/usecases/CopyGradeStructUsecase.php
+
+		-
+			message: '#^Call to method save\(\) on an unknown class GradeUnity\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/domain/admin/usecases/CopyGradeStructUsecase.php
+
+		-
+			message: '#^Call to method save\(\) on an unknown class GradeUnityModality\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/domain/admin/usecases/CopyGradeStructUsecase.php
+
+		-
+			message: '#^Call to static method model\(\) on an unknown class GradePartialRecovery\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/domain/admin/usecases/CopyGradeStructUsecase.php
+
+		-
+			message: '#^Call to static method model\(\) on an unknown class GradePartialRecoveryWeights\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/domain/admin/usecases/CopyGradeStructUsecase.php
+
+		-
+			message: '#^Call to static method model\(\) on an unknown class GradeRules\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/domain/admin/usecases/CopyGradeStructUsecase.php
+
+		-
+			message: '#^Call to static method model\(\) on an unknown class GradeRulesVsEdcensoStageVsModality\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/domain/admin/usecases/CopyGradeStructUsecase.php
+
+		-
+			message: '#^Call to static method model\(\) on an unknown class GradeUnity\.$#'
+			identifier: class.notFound
+			count: 2
+			path: app/domain/admin/usecases/CopyGradeStructUsecase.php
+
+		-
+			message: '#^Call to static method model\(\) on an unknown class GradeUnityModality\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/domain/admin/usecases/CopyGradeStructUsecase.php
+
+		-
+			message: '#^Instantiated class GradePartialRecovery not found\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/domain/admin/usecases/CopyGradeStructUsecase.php
+
+		-
+			message: '#^Instantiated class GradePartialRecoveryWeights not found\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/domain/admin/usecases/CopyGradeStructUsecase.php
+
+		-
+			message: '#^Instantiated class GradeRules not found\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/domain/admin/usecases/CopyGradeStructUsecase.php
+
+		-
+			message: '#^Instantiated class GradeRulesVsEdcensoStageVsModality not found\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/domain/admin/usecases/CopyGradeStructUsecase.php
+
+		-
+			message: '#^Instantiated class GradeUnity not found\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/domain/admin/usecases/CopyGradeStructUsecase.php
+
+		-
+			message: '#^Instantiated class GradeUnityModality not found\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/domain/admin/usecases/CopyGradeStructUsecase.php
+
+		-
+			message: '#^Method CopyGradeStructUsecase\:\:cloneGradeRules\(\) has invalid return type GradeRules\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/domain/admin/usecases/CopyGradeStructUsecase.php
+
+		-
+			message: '#^Method CopyGradeStructUsecase\:\:cloneUnity\(\) has invalid return type GradeUnity\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/domain/admin/usecases/CopyGradeStructUsecase.php
+
+		-
+			message: '#^Method CopyGradeStructUsecase\:\:exec\(\) has invalid return type GradeRules\.$#'
+			identifier: class.notFound
+			count: 2
+			path: app/domain/admin/usecases/CopyGradeStructUsecase.php
+
+		-
+			message: '#^Parameter \$newGradeRules of method CopyGradeStructUsecase\:\:cloneLinkedUnities\(\) has invalid type GradeRules\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/domain/admin/usecases/CopyGradeStructUsecase.php
+
+		-
+			message: '#^Parameter \$newGradeRules of method CopyGradeStructUsecase\:\:clonePartialRecoveries\(\) has invalid type GradeRules\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/domain/admin/usecases/CopyGradeStructUsecase.php
+
+		-
+			message: '#^Parameter \$newGradeRules of method CopyGradeStructUsecase\:\:cloneStageAssociations\(\) has invalid type GradeRules\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/domain/admin/usecases/CopyGradeStructUsecase.php
+
+		-
+			message: '#^Parameter \$newGradeRules of method CopyGradeStructUsecase\:\:cloneStandaloneUnities\(\) has invalid type GradeRules\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/domain/admin/usecases/CopyGradeStructUsecase.php
+
+		-
+			message: '#^Parameter \$source of method CopyGradeStructUsecase\:\:cloneGradeRules\(\) has invalid type GradeRules\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/domain/admin/usecases/CopyGradeStructUsecase.php
+
+		-
+			message: '#^Parameter \$source of method CopyGradeStructUsecase\:\:cloneLinkedUnities\(\) has invalid type GradeRules\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/domain/admin/usecases/CopyGradeStructUsecase.php
+
+		-
+			message: '#^Parameter \$source of method CopyGradeStructUsecase\:\:clonePartialRecoveries\(\) has invalid type GradeRules\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/domain/admin/usecases/CopyGradeStructUsecase.php
+
+		-
+			message: '#^Parameter \$source of method CopyGradeStructUsecase\:\:cloneStageAssociations\(\) has invalid type GradeRules\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/domain/admin/usecases/CopyGradeStructUsecase.php
+
+		-
+			message: '#^Parameter \$source of method CopyGradeStructUsecase\:\:cloneStandaloneUnities\(\) has invalid type GradeRules\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/domain/admin/usecases/CopyGradeStructUsecase.php
+
+		-
+			message: '#^Parameter \$unity of method CopyGradeStructUsecase\:\:cloneUnity\(\) has invalid type GradeUnity\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/domain/admin/usecases/CopyGradeStructUsecase.php
+
+		-
+			message: '#^Access to an undefined property UpdateGradeJustOneStructUsecase\:\:\$approvalMedia\.$#'
+			identifier: property.notFound
+			count: 2
+			path: app/domain/admin/usecases/UpdateGradeJustOneStructUsecase.php
+
+		-
+			message: '#^Access to an undefined property UpdateGradeJustOneStructUsecase\:\:\$calculationFinalMedia\.$#'
+			identifier: property.notFound
+			count: 2
+			path: app/domain/admin/usecases/UpdateGradeJustOneStructUsecase.php
+
+		-
+			message: '#^Access to an undefined property UpdateGradeJustOneStructUsecase\:\:\$finalRecoverMedia\.$#'
+			identifier: property.notFound
+			count: 2
+			path: app/domain/admin/usecases/UpdateGradeJustOneStructUsecase.php
+
+		-
+			message: '#^Access to an undefined property UpdateGradeJustOneStructUsecase\:\:\$gradeRulesId\.$#'
+			identifier: property.notFound
+			count: 4
+			path: app/domain/admin/usecases/UpdateGradeJustOneStructUsecase.php
+
+		-
+			message: '#^Access to an undefined property UpdateGradeJustOneStructUsecase\:\:\$gradeRulesName\.$#'
+			identifier: property.notFound
+			count: 2
+			path: app/domain/admin/usecases/UpdateGradeJustOneStructUsecase.php
+
+		-
+			message: '#^Access to an undefined property UpdateGradeJustOneStructUsecase\:\:\$hasFinalRecovery\.$#'
+			identifier: property.notFound
+			count: 2
+			path: app/domain/admin/usecases/UpdateGradeJustOneStructUsecase.php
+
+		-
+			message: '#^Access to an undefined property UpdateGradeJustOneStructUsecase\:\:\$hasPartialRecovery\.$#'
+			identifier: property.notFound
+			count: 2
+			path: app/domain/admin/usecases/UpdateGradeJustOneStructUsecase.php
+
+		-
+			message: '#^Access to an undefined property UpdateGradeJustOneStructUsecase\:\:\$partialRecoveries\.$#'
+			identifier: property.notFound
+			count: 2
+			path: app/domain/admin/usecases/UpdateGradeJustOneStructUsecase.php
+
+		-
+			message: '#^Access to an undefined property UpdateGradeJustOneStructUsecase\:\:\$ruleType\.$#'
+			identifier: property.notFound
+			count: 2
+			path: app/domain/admin/usecases/UpdateGradeJustOneStructUsecase.php
+
+		-
+			message: '#^Access to an undefined property UpdateGradeJustOneStructUsecase\:\:\$stage\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/domain/admin/usecases/UpdateGradeJustOneStructUsecase.php
+
+		-
+			message: '#^Access to an undefined property UpdateGradeJustOneStructUsecase\:\:\$stages\.$#'
+			identifier: property.notFound
+			count: 2
+			path: app/domain/admin/usecases/UpdateGradeJustOneStructUsecase.php
+
+		-
+			message: '#^Access to an undefined property UpdateGradeJustOneStructUsecase\:\:\$unities\.$#'
+			identifier: property.notFound
+			count: 2
+			path: app/domain/admin/usecases/UpdateGradeJustOneStructUsecase.php
+
+		-
+			message: '#^Access to constant TYPE_RECOVERY on an unknown class GradeUnityModality\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/domain/admin/usecases/UpdateGradeJustOneStructUsecase.php
+
+		-
+			message: '#^Access to constant TYPE_UNITY_WITH_RECOVERY on an unknown class GradeUnity\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/domain/admin/usecases/UpdateGradeJustOneStructUsecase.php
+
+		-
+			message: '#^Call to static method model\(\) on an unknown class GradeUnity\.$#'
+			identifier: class.notFound
+			count: 2
+			path: app/domain/admin/usecases/UpdateGradeJustOneStructUsecase.php
+
+		-
+			message: '#^Call to static method model\(\) on an unknown class GradeUnityModality\.$#'
+			identifier: class.notFound
+			count: 2
+			path: app/domain/admin/usecases/UpdateGradeJustOneStructUsecase.php
+
+		-
+			message: '#^Instantiated class GradeUnity not found\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/domain/admin/usecases/UpdateGradeJustOneStructUsecase.php
+
+		-
+			message: '#^Instantiated class GradeUnityModality not found\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/domain/admin/usecases/UpdateGradeJustOneStructUsecase.php
+
+		-
+			message: '#^PHPDoc tag @property has invalid value \(\[\] \$partialRecoveries\)\: Unexpected token "\[", expected type at offset 451 on line 15$#'
+			identifier: phpDoc.parseError
+			count: 1
+			path: app/domain/admin/usecases/UpdateGradeJustOneStructUsecase.php
+
+		-
+			message: '#^PHPDoc tag @property has invalid value \(\[\] \$stages\)\: Unexpected token "\[", expected type at offset 184 on line 7$#'
+			identifier: phpDoc.parseError
+			count: 1
+			path: app/domain/admin/usecases/UpdateGradeJustOneStructUsecase.php
+
+		-
+			message: '#^PHPDoc tag @property has invalid value \(\[\] \$unities\)\: Unexpected token "\[", expected type at offset 208 on line 8$#'
+			identifier: phpDoc.parseError
+			count: 1
+			path: app/domain/admin/usecases/UpdateGradeJustOneStructUsecase.php
+
+		-
+			message: '#^Access to an undefined property CApplication\:\:\$utils\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/domain/admin/usecases/UpdateGradePartialRecoveryUsecase.php
+
+		-
+			message: '#^Access to an undefined property UpdateGradePartialRecoveryUsecase\:\:\$gradeRules\.$#'
+			identifier: property.notFound
+			count: 2
+			path: app/domain/admin/usecases/UpdateGradePartialRecoveryUsecase.php
+
+		-
+			message: '#^Access to an undefined property UpdateGradePartialRecoveryUsecase\:\:\$partialRecoveries\.$#'
+			identifier: property.notFound
+			count: 2
+			path: app/domain/admin/usecases/UpdateGradePartialRecoveryUsecase.php
+
+		-
+			message: '#^Call to static method model\(\) on an unknown class Grade\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/domain/admin/usecases/UpdateGradePartialRecoveryUsecase.php
+
+		-
+			message: '#^Call to static method model\(\) on an unknown class GradePartialRecovery\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/domain/admin/usecases/UpdateGradePartialRecoveryUsecase.php
+
+		-
+			message: '#^Call to static method model\(\) on an unknown class GradePartialRecoveryWeights\.$#'
+			identifier: class.notFound
+			count: 2
+			path: app/domain/admin/usecases/UpdateGradePartialRecoveryUsecase.php
+
+		-
+			message: '#^Call to static method model\(\) on an unknown class GradeUnity\.$#'
+			identifier: class.notFound
+			count: 2
+			path: app/domain/admin/usecases/UpdateGradePartialRecoveryUsecase.php
+
+		-
+			message: '#^Instantiated class GradePartialRecovery not found\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/domain/admin/usecases/UpdateGradePartialRecoveryUsecase.php
+
+		-
+			message: '#^Instantiated class GradePartialRecoveryWeights not found\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/domain/admin/usecases/UpdateGradePartialRecoveryUsecase.php
+
+		-
+			message: '#^PHPDoc tag @property has invalid value \(\[\] \$partialRecoveries\)\: Unexpected token "\[", expected type at offset 121 on line 5$#'
+			identifier: phpDoc.parseError
+			count: 1
+			path: app/domain/admin/usecases/UpdateGradePartialRecoveryUsecase.php
+
+		-
+			message: '#^Access to an undefined property UpdateGradeRulesUsecase\:\:\$approvalMedia\.$#'
+			identifier: property.notFound
+			count: 2
+			path: app/domain/admin/usecases/UpdateGradeRulesUsecase.php
+
+		-
+			message: '#^Access to an undefined property UpdateGradeRulesUsecase\:\:\$calcFinalMedia\.$#'
+			identifier: property.notFound
+			count: 3
+			path: app/domain/admin/usecases/UpdateGradeRulesUsecase.php
+
+		-
+			message: '#^Access to an undefined property UpdateGradeRulesUsecase\:\:\$finalRecoverMedia\.$#'
+			identifier: property.notFound
+			count: 2
+			path: app/domain/admin/usecases/UpdateGradeRulesUsecase.php
+
+		-
+			message: '#^Access to an undefined property UpdateGradeRulesUsecase\:\:\$gradeRulesId\.$#'
+			identifier: property.notFound
+			count: 2
+			path: app/domain/admin/usecases/UpdateGradeRulesUsecase.php
+
+		-
+			message: '#^Access to an undefined property UpdateGradeRulesUsecase\:\:\$gradeRulesName\.$#'
+			identifier: property.notFound
+			count: 2
+			path: app/domain/admin/usecases/UpdateGradeRulesUsecase.php
+
+		-
+			message: '#^Access to an undefined property UpdateGradeRulesUsecase\:\:\$hasFinalRecovery\.$#'
+			identifier: property.notFound
+			count: 2
+			path: app/domain/admin/usecases/UpdateGradeRulesUsecase.php
+
+		-
+			message: '#^Access to an undefined property UpdateGradeRulesUsecase\:\:\$hasPartialRecovery\.$#'
+			identifier: property.notFound
+			count: 3
+			path: app/domain/admin/usecases/UpdateGradeRulesUsecase.php
+
+		-
+			message: '#^Access to an undefined property UpdateGradeRulesUsecase\:\:\$partialRecoveries\.$#'
+			identifier: property.notFound
+			count: 2
+			path: app/domain/admin/usecases/UpdateGradeRulesUsecase.php
+
+		-
+			message: '#^Access to an undefined property UpdateGradeRulesUsecase\:\:\$ruleType\.$#'
+			identifier: property.notFound
+			count: 2
+			path: app/domain/admin/usecases/UpdateGradeRulesUsecase.php
+
+		-
+			message: '#^Access to an undefined property UpdateGradeRulesUsecase\:\:\$stages\.$#'
+			identifier: property.notFound
+			count: 2
+			path: app/domain/admin/usecases/UpdateGradeRulesUsecase.php
+
+		-
+			message: '#^Access to property \$approvation_media on an unknown class GradeRules\.$#'
+			identifier: class.notFound
+			count: 2
+			path: app/domain/admin/usecases/UpdateGradeRulesUsecase.php
+
+		-
+			message: '#^Access to property \$edcenso_stage_vs_modality_fk on an unknown class GradeRulesVsEdcensoStageVsModality\.$#'
+			identifier: class.notFound
+			count: 2
+			path: app/domain/admin/usecases/UpdateGradeRulesUsecase.php
+
+		-
+			message: '#^Access to property \$final_recover_media on an unknown class GradeRules\.$#'
+			identifier: class.notFound
+			count: 2
+			path: app/domain/admin/usecases/UpdateGradeRulesUsecase.php
+
+		-
+			message: '#^Access to property \$grade_calculation_fk on an unknown class GradeRules\.$#'
+			identifier: class.notFound
+			count: 2
+			path: app/domain/admin/usecases/UpdateGradeRulesUsecase.php
+
+		-
+			message: '#^Access to property \$grade_rules_fk on an unknown class GradeRulesVsEdcensoStageVsModality\.$#'
+			identifier: class.notFound
+			count: 2
+			path: app/domain/admin/usecases/UpdateGradeRulesUsecase.php
+
+		-
+			message: '#^Access to property \$has_final_recovery on an unknown class GradeRules\.$#'
+			identifier: class.notFound
+			count: 2
+			path: app/domain/admin/usecases/UpdateGradeRulesUsecase.php
+
+		-
+			message: '#^Access to property \$has_partial_recovery on an unknown class GradeRules\.$#'
+			identifier: class.notFound
+			count: 2
+			path: app/domain/admin/usecases/UpdateGradeRulesUsecase.php
+
+		-
+			message: '#^Access to property \$id on an unknown class GradeRules\.$#'
+			identifier: class.notFound
+			count: 3
+			path: app/domain/admin/usecases/UpdateGradeRulesUsecase.php
+
+		-
+			message: '#^Access to property \$name on an unknown class GradeRules\.$#'
+			identifier: class.notFound
+			count: 2
+			path: app/domain/admin/usecases/UpdateGradeRulesUsecase.php
+
+		-
+			message: '#^Access to property \$rule_type on an unknown class GradeRules\.$#'
+			identifier: class.notFound
+			count: 2
+			path: app/domain/admin/usecases/UpdateGradeRulesUsecase.php
+
+		-
+			message: '#^Call to method save\(\) on an unknown class GradeRules\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/domain/admin/usecases/UpdateGradeRulesUsecase.php
+
+		-
+			message: '#^Call to method save\(\) on an unknown class GradeRulesVsEdcensoStageVsModality\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/domain/admin/usecases/UpdateGradeRulesUsecase.php
+
+		-
+			message: '#^Call to method validate\(\) on an unknown class GradeRules\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/domain/admin/usecases/UpdateGradeRulesUsecase.php
+
+		-
+			message: '#^Call to static method model\(\) on an unknown class GradeRules\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/domain/admin/usecases/UpdateGradeRulesUsecase.php
+
+		-
+			message: '#^Call to static method model\(\) on an unknown class GradeRulesVsEdcensoStageVsModality\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/domain/admin/usecases/UpdateGradeRulesUsecase.php
+
+		-
+			message: '#^Instantiated class GradeRules not found\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/domain/admin/usecases/UpdateGradeRulesUsecase.php
+
+		-
+			message: '#^Instantiated class GradeRulesVsEdcensoStageVsModality not found\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/domain/admin/usecases/UpdateGradeRulesUsecase.php
+
+		-
+			message: '#^PHPDoc tag @property has invalid value \(\[\]  \$partialRecoveries\)\: Unexpected token "\[", expected type at offset 364 on line 12$#'
+			identifier: phpDoc.parseError
+			count: 1
+			path: app/domain/admin/usecases/UpdateGradeRulesUsecase.php
+
+		-
+			message: '#^PHPDoc tag @property has invalid value \(\[\] \$stages\)\: Unexpected token "\[", expected type at offset 159 on line 6$#'
+			identifier: phpDoc.parseError
+			count: 1
+			path: app/domain/admin/usecases/UpdateGradeRulesUsecase.php
+
+		-
+			message: '#^PHPDoc tag @var for variable \$gradeRules contains unknown class GradeRules\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/domain/admin/usecases/UpdateGradeRulesUsecase.php
+
+		-
+			message: '#^Access to an undefined property UpdateGradeStructUsecase\:\:\$approvalMedia\.$#'
+			identifier: property.notFound
+			count: 4
+			path: app/domain/admin/usecases/UpdateGradeStructUsecase.php
+
+		-
+			message: '#^Access to an undefined property UpdateGradeStructUsecase\:\:\$calculationFinalMedia\.$#'
+			identifier: property.notFound
+			count: 4
+			path: app/domain/admin/usecases/UpdateGradeStructUsecase.php
+
+		-
+			message: '#^Access to an undefined property UpdateGradeStructUsecase\:\:\$finalRecoverMedia\.$#'
+			identifier: property.notFound
+			count: 4
+			path: app/domain/admin/usecases/UpdateGradeStructUsecase.php
+
+		-
+			message: '#^Access to an undefined property UpdateGradeStructUsecase\:\:\$gradeRulesId\.$#'
+			identifier: property.notFound
+			count: 3
+			path: app/domain/admin/usecases/UpdateGradeStructUsecase.php
+
+		-
+			message: '#^Access to an undefined property UpdateGradeStructUsecase\:\:\$gradeRulesName\.$#'
+			identifier: property.notFound
+			count: 3
+			path: app/domain/admin/usecases/UpdateGradeStructUsecase.php
+
+		-
+			message: '#^Access to an undefined property UpdateGradeStructUsecase\:\:\$hasFinalRecovery\.$#'
+			identifier: property.notFound
+			count: 4
+			path: app/domain/admin/usecases/UpdateGradeStructUsecase.php
+
+		-
+			message: '#^Access to an undefined property UpdateGradeStructUsecase\:\:\$hasPartialRecovery\.$#'
+			identifier: property.notFound
+			count: 2
+			path: app/domain/admin/usecases/UpdateGradeStructUsecase.php
+
+		-
+			message: '#^Access to an undefined property UpdateGradeStructUsecase\:\:\$partialRecoveries\.$#'
+			identifier: property.notFound
+			count: 4
+			path: app/domain/admin/usecases/UpdateGradeStructUsecase.php
+
+		-
+			message: '#^Access to an undefined property UpdateGradeStructUsecase\:\:\$reply\.$#'
+			identifier: property.notFound
+			count: 2
+			path: app/domain/admin/usecases/UpdateGradeStructUsecase.php
+
+		-
+			message: '#^Access to an undefined property UpdateGradeStructUsecase\:\:\$ruleType\.$#'
+			identifier: property.notFound
+			count: 4
+			path: app/domain/admin/usecases/UpdateGradeStructUsecase.php
+
+		-
+			message: '#^Access to an undefined property UpdateGradeStructUsecase\:\:\$stages\.$#'
+			identifier: property.notFound
+			count: 3
+			path: app/domain/admin/usecases/UpdateGradeStructUsecase.php
+
+		-
+			message: '#^Access to an undefined property UpdateGradeStructUsecase\:\:\$unities\.$#'
+			identifier: property.notFound
+			count: 4
+			path: app/domain/admin/usecases/UpdateGradeStructUsecase.php
+
+		-
+			message: '#^Call to static method model\(\) on an unknown class EdcensoStageVsModality\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/domain/admin/usecases/UpdateGradeStructUsecase.php
+
+		-
+			message: '#^Class UpdateGradeJustOneStructUsecase constructor invoked with 10 parameters, 11 required\.$#'
+			identifier: arguments.count
+			count: 1
+			path: app/domain/admin/usecases/UpdateGradeStructUsecase.php
+
+		-
+			message: '#^PHPDoc tag @property has invalid value \(\[\] \$partialRecoveries\)\: Unexpected token "\[", expected type at offset 445 on line 15$#'
+			identifier: phpDoc.parseError
+			count: 1
+			path: app/domain/admin/usecases/UpdateGradeStructUsecase.php
+
+		-
+			message: '#^PHPDoc tag @property has invalid value \(\[\] \$stages\)\: Unexpected token "\[", expected type at offset 184 on line 7$#'
+			identifier: phpDoc.parseError
+			count: 1
+			path: app/domain/admin/usecases/UpdateGradeStructUsecase.php
+
+		-
+			message: '#^PHPDoc tag @property has invalid value \(\[\] \$unities\)\: Unexpected token "\[", expected type at offset 208 on line 8$#'
+			identifier: phpDoc.parseError
+			count: 1
+			path: app/domain/admin/usecases/UpdateGradeStructUsecase.php
+
+		-
+			message: '#^Access to an undefined property CApplication\:\:\$authManager\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/domain/admin/usecases/importInstructorUserUseCase.php
+
+		-
+			message: '#^Access to an undefined property CApplication\:\:\$user\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/domain/admin/usecases/importInstructorUserUseCase.php
+
+		-
+			message: '#^Access to property \$name on an unknown class Users\.$#'
+			identifier: class.notFound
+			count: 2
+			path: app/domain/admin/usecases/importInstructorUserUseCase.php
+
+		-
+			message: '#^Access to property \$password on an unknown class Users\.$#'
+			identifier: class.notFound
+			count: 2
+			path: app/domain/admin/usecases/importInstructorUserUseCase.php
+
+		-
+			message: '#^Access to property \$school_fk on an unknown class UsersSchool\.$#'
+			identifier: class.notFound
+			count: 2
+			path: app/domain/admin/usecases/importInstructorUserUseCase.php
+
+		-
+			message: '#^Access to property \$user_fk on an unknown class UsersSchool\.$#'
+			identifier: class.notFound
+			count: 2
+			path: app/domain/admin/usecases/importInstructorUserUseCase.php
+
+		-
+			message: '#^Access to property \$username on an unknown class Users\.$#'
+			identifier: class.notFound
+			count: 2
+			path: app/domain/admin/usecases/importInstructorUserUseCase.php
+
+		-
+			message: '#^Call to an undefined method ImportInstructorUserUseCase\:\:hashBirthdayDate\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: app/domain/admin/usecases/importInstructorUserUseCase.php
+
+		-
+			message: '#^Call to method save\(\) on an unknown class UsersSchool\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/domain/admin/usecases/importInstructorUserUseCase.php
+
+		-
+			message: '#^Instantiated class InstructorDocumentsAndAddress not found\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/domain/admin/usecases/importInstructorUserUseCase.php
+
+		-
+			message: '#^Instantiated class InstructorIdentification not found\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/domain/admin/usecases/importInstructorUserUseCase.php
+
+		-
+			message: '#^Instantiated class Users not found\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/domain/admin/usecases/importInstructorUserUseCase.php
+
+		-
+			message: '#^Instantiated class UsersSchool not found\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/domain/admin/usecases/importInstructorUserUseCase.php
+
+		-
+			message: '#^Method ImportInstructorUserUseCase\:\:createUserSchool\(\) invoked with 2 parameters, 1 required\.$#'
+			identifier: arguments.count
+			count: 1
+			path: app/domain/admin/usecases/importInstructorUserUseCase.php
+
+		-
+			message: '#^Access to constant OP_MAX on an unknown class GradeCalculation\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/domain/grades/usecases/ApplyFormulaOnGradesUsecase.php
+
+		-
+			message: '#^Access to constant OP_MEDIA on an unknown class GradeCalculation\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/domain/grades/usecases/ApplyFormulaOnGradesUsecase.php
+
+		-
+			message: '#^Access to constant OP_MEDIA_BY_WEIGTH on an unknown class GradeCalculation\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/domain/grades/usecases/ApplyFormulaOnGradesUsecase.php
+
+		-
+			message: '#^Access to constant OP_MIN on an unknown class GradeCalculation\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/domain/grades/usecases/ApplyFormulaOnGradesUsecase.php
+
+		-
+			message: '#^Access to constant OP_SUM on an unknown class GradeCalculation\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/domain/grades/usecases/ApplyFormulaOnGradesUsecase.php
+
+		-
+			message: '#^PHPDoc tag @property for property ApplyFormulaOnGradesUsecase\:\:\$calculation contains unknown class GradeCalculation\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/domain/grades/usecases/ApplyFormulaOnGradesUsecase.php
+
+		-
+			message: '#^PHPDoc tag @var for variable \$grade contains unknown class Grade\.$#'
+			identifier: class.notFound
+			count: 2
+			path: app/domain/grades/usecases/ApplyFormulaOnGradesUsecase.php
+
+		-
+			message: '#^Access to an undefined property CalculateConceptGradeUsecase\:\:\$classroomId\.$#'
+			identifier: property.notFound
+			count: 3
+			path: app/domain/grades/usecases/CalculateConceptGradeUsecase.php
+
+		-
+			message: '#^Access to an undefined property CalculateConceptGradeUsecase\:\:\$discipline\.$#'
+			identifier: property.notFound
+			count: 2
+			path: app/domain/grades/usecases/CalculateConceptGradeUsecase.php
+
+		-
+			message: '#^Access to an undefined property CalculateConceptGradeUsecase\:\:\$stage\.$#'
+			identifier: property.notFound
+			count: 4
+			path: app/domain/grades/usecases/CalculateConceptGradeUsecase.php
+
+		-
+			message: '#^Access to constant STATUS_ACTIVE on an unknown class StudentEnrollment\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/domain/grades/usecases/CalculateConceptGradeUsecase.php
+
+		-
+			message: '#^Access to constant STATUS_APPROVED on an unknown class StudentEnrollment\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/domain/grades/usecases/CalculateConceptGradeUsecase.php
+
+		-
+			message: '#^Access to constant TYPE_COMMON on an unknown class GradeUnityModality\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/domain/grades/usecases/CalculateConceptGradeUsecase.php
+
+		-
+			message: '#^Access to constant TYPE_FINAL_CONCEPT on an unknown class GradeUnity\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/domain/grades/usecases/CalculateConceptGradeUsecase.php
+
+		-
+			message: '#^Access to constant TYPE_FINAL_CONCEPT on an unknown class GradeUnityModality\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/domain/grades/usecases/CalculateConceptGradeUsecase.php
+
+		-
+			message: '#^Access to offset non\-falsy\-string on an unknown class GradeResults\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/domain/grades/usecases/CalculateConceptGradeUsecase.php
+
+		-
+			message: '#^Access to property \$discipline_fk on an unknown class GradeResults\.$#'
+			identifier: class.notFound
+			count: 2
+			path: app/domain/grades/usecases/CalculateConceptGradeUsecase.php
+
+		-
+			message: '#^Access to property \$enrollment_fk on an unknown class GradeResults\.$#'
+			identifier: class.notFound
+			count: 2
+			path: app/domain/grades/usecases/CalculateConceptGradeUsecase.php
+
+		-
+			message: '#^Access to property \$final_concept on an unknown class GradeResults\.$#'
+			identifier: class.notFound
+			count: 2
+			path: app/domain/grades/usecases/CalculateConceptGradeUsecase.php
+
+		-
+			message: '#^Access to property \$final_media on an unknown class GradeResults\.$#'
+			identifier: class.notFound
+			count: 2
+			path: app/domain/grades/usecases/CalculateConceptGradeUsecase.php
+
+		-
+			message: '#^Access to property \$gradeConceptFk on an unknown class Grade\.$#'
+			identifier: class.notFound
+			count: 2
+			path: app/domain/grades/usecases/CalculateConceptGradeUsecase.php
+
+		-
+			message: '#^Access to property \$id on an unknown class GradeResults\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/domain/grades/usecases/CalculateConceptGradeUsecase.php
+
+		-
+			message: '#^Access to property \$situation on an unknown class GradeResults\.$#'
+			identifier: class.notFound
+			count: 4
+			path: app/domain/grades/usecases/CalculateConceptGradeUsecase.php
+
+		-
+			message: '#^Call to method save\(\) on an unknown class GradeResults\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/domain/grades/usecases/CalculateConceptGradeUsecase.php
+
+		-
+			message: '#^Call to static method model\(\) on an unknown class Classroom\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/domain/grades/usecases/CalculateConceptGradeUsecase.php
+
+		-
+			message: '#^Call to static method model\(\) on an unknown class Grade\.$#'
+			identifier: class.notFound
+			count: 2
+			path: app/domain/grades/usecases/CalculateConceptGradeUsecase.php
+
+		-
+			message: '#^Call to static method model\(\) on an unknown class GradeResults\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/domain/grades/usecases/CalculateConceptGradeUsecase.php
+
+		-
+			message: '#^Instantiated class GradeResults not found\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/domain/grades/usecases/CalculateConceptGradeUsecase.php
+
+		-
+			message: '#^Method CalculateConceptGradeUsecase\:\:getGradesResultForStudent\(\) has invalid return type GradeResults\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/domain/grades/usecases/CalculateConceptGradeUsecase.php
+
+		-
+			message: '#^Method CalculateConceptGradeUsecase\:\:getStudentGrades\(\) has invalid return type Grade\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/domain/grades/usecases/CalculateConceptGradeUsecase.php
+
+		-
+			message: '#^PHPDoc tag @param references unknown parameter\: \$unityId$#'
+			identifier: parameter.notFound
+			count: 1
+			path: app/domain/grades/usecases/CalculateConceptGradeUsecase.php
+
+		-
+			message: '#^Call to static method model\(\) on an unknown class Grade\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/domain/grades/usecases/CalculateFinalMediaUsecase.php
+
+		-
+			message: '#^Call to static method model\(\) on an unknown class GradeCalculation\.$#'
+			identifier: class.notFound
+			count: 2
+			path: app/domain/grades/usecases/CalculateFinalMediaUsecase.php
+
+		-
+			message: '#^Call to static method model\(\) on an unknown class GradeUnity\.$#'
+			identifier: class.notFound
+			count: 3
+			path: app/domain/grades/usecases/CalculateFinalMediaUsecase.php
+
+		-
+			message: '#^PHPDoc tag @property for property CalculateFinalMediaUsecase\:\:\$gradeRule contains unknown class GradeRules\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/domain/grades/usecases/CalculateFinalMediaUsecase.php
+
+		-
+			message: '#^PHPDoc tag @property for property CalculateFinalMediaUsecase\:\:\$gradesResult contains unknown class GradeResults\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/domain/grades/usecases/CalculateFinalMediaUsecase.php
+
+		-
+			message: '#^PHPDoc tag @property for property CalculateFinalMediaUsecase\:\:\$gradesStudent contains unknown class GradeUnity\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/domain/grades/usecases/CalculateFinalMediaUsecase.php
+
+		-
+			message: '#^Call to static method model\(\) on an unknown class Classroom\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/domain/grades/usecases/CalculateGradeResultsUsecase.php
+
+		-
+			message: '#^Call to static method model\(\) on an unknown class GradeRules\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/domain/grades/usecases/CalculateGradeResultsUsecase.php
+
+		-
+			message: '#^Access to constant TYPE_COMMON on an unknown class GradeUnityModality\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/domain/grades/usecases/CalculateNumericGradeUsecase.php
+
+		-
+			message: '#^Access to constant TYPE_FINAL_RECOVERY on an unknown class GradeUnity\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/domain/grades/usecases/CalculateNumericGradeUsecase.php
+
+		-
+			message: '#^Access to constant TYPE_RECOVERY on an unknown class GradeUnityModality\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/domain/grades/usecases/CalculateNumericGradeUsecase.php
+
+		-
+			message: '#^Access to constant TYPE_UNITY on an unknown class GradeUnity\.$#'
+			identifier: class.notFound
+			count: 2
+			path: app/domain/grades/usecases/CalculateNumericGradeUsecase.php
+
+		-
+			message: '#^Access to constant TYPE_UNITY_WITH_RECOVERY on an unknown class GradeUnity\.$#'
+			identifier: class.notFound
+			count: 2
+			path: app/domain/grades/usecases/CalculateNumericGradeUsecase.php
+
+		-
+			message: '#^Access to property \$discipline_fk on an unknown class GradeResults\.$#'
+			identifier: class.notFound
+			count: 2
+			path: app/domain/grades/usecases/CalculateNumericGradeUsecase.php
+
+		-
+			message: '#^Access to property \$enrollment_fk on an unknown class GradeResults\.$#'
+			identifier: class.notFound
+			count: 2
+			path: app/domain/grades/usecases/CalculateNumericGradeUsecase.php
+
+		-
+			message: '#^Access to property \$gradeCalculationFk on an unknown class GradeUnity\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/domain/grades/usecases/CalculateNumericGradeUsecase.php
+
+		-
+			message: '#^Access to property \$id on an unknown class GradeUnity\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/domain/grades/usecases/CalculateNumericGradeUsecase.php
+
+		-
+			message: '#^Access to property \$id on an unknown class StudentEnrollment\.$#'
+			identifier: class.notFound
+			count: 2
+			path: app/domain/grades/usecases/CalculateNumericGradeUsecase.php
+
+		-
+			message: '#^Call to static method model\(\) on an unknown class Classroom\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/domain/grades/usecases/CalculateNumericGradeUsecase.php
+
+		-
+			message: '#^Call to static method model\(\) on an unknown class Grade\.$#'
+			identifier: class.notFound
+			count: 3
+			path: app/domain/grades/usecases/CalculateNumericGradeUsecase.php
+
+		-
+			message: '#^Call to static method model\(\) on an unknown class GradePartialRecoveryWeights\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/domain/grades/usecases/CalculateNumericGradeUsecase.php
+
+		-
+			message: '#^Call to static method model\(\) on an unknown class GradeResults\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/domain/grades/usecases/CalculateNumericGradeUsecase.php
+
+		-
+			message: '#^Call to static method model\(\) on an unknown class GradeUnity\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/domain/grades/usecases/CalculateNumericGradeUsecase.php
+
+		-
+			message: '#^Instantiated class GradeResults not found\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/domain/grades/usecases/CalculateNumericGradeUsecase.php
+
+		-
+			message: '#^Method CalculateNumericGradeUsecase\:\:getGradesResultForStudent\(\) has invalid return type GradeResults\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/domain/grades/usecases/CalculateNumericGradeUsecase.php
+
+		-
+			message: '#^Method CalculateNumericGradeUsecase\:\:getStudentGradesFromUnity\(\) has invalid return type Grade\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/domain/grades/usecases/CalculateNumericGradeUsecase.php
+
+		-
+			message: '#^PHPDoc tag @param references unknown parameter\: \$discipline$#'
+			identifier: parameter.notFound
+			count: 2
+			path: app/domain/grades/usecases/CalculateNumericGradeUsecase.php
+
+		-
+			message: '#^PHPDoc tag @param references unknown parameter\: \$unity$#'
+			identifier: parameter.notFound
+			count: 2
+			path: app/domain/grades/usecases/CalculateNumericGradeUsecase.php
+
+		-
+			message: '#^PHPDoc tag @var for variable \$grade contains unknown class Grade\.$#'
+			identifier: class.notFound
+			count: 2
+			path: app/domain/grades/usecases/CalculateNumericGradeUsecase.php
+
+		-
+			message: '#^PHPDoc tag @var with type Grade is not subtype of native type float\.$#'
+			identifier: varTag.nativeType
+			count: 2
+			path: app/domain/grades/usecases/CalculateNumericGradeUsecase.php
+
+		-
+			message: '#^Parameter \$enrollment of method CalculateNumericGradeUsecase\:\:calculatePartialRecoveryMedia\(\) has invalid type StudentEnrollment\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/domain/grades/usecases/CalculateNumericGradeUsecase.php
+
+		-
+			message: '#^Parameter \$enrollment of method CalculateNumericGradeUsecase\:\:calculateUnityMedia\(\) has invalid type StudentEnrollment\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/domain/grades/usecases/CalculateNumericGradeUsecase.php
+
+		-
+			message: '#^Parameter \$unity of method CalculateNumericGradeUsecase\:\:calculateUnityMedia\(\) has invalid type GradeUnity\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/domain/grades/usecases/CalculateNumericGradeUsecase.php
+
+		-
+			message: '#^Variable \$finalUnityMedia on left side of \?\? always exists and is not nullable\.$#'
+			identifier: nullCoalesce.variable
+			count: 1
+			path: app/domain/grades/usecases/CalculateNumericGradeUsecase.php
+
+		-
+			message: '#^Variable \$partialRecoveryMedia on left side of \?\? always exists and is not nullable\.$#'
+			identifier: nullCoalesce.variable
+			count: 1
+			path: app/domain/grades/usecases/CalculateNumericGradeUsecase.php
+
+		-
+			message: '#^Access to constant STATUS_ACTIVE on an unknown class StudentEnrollment\.$#'
+			identifier: class.notFound
+			count: 2
+			path: app/domain/grades/usecases/ChageStudentStatusByGradeUsecase.php
+
+		-
+			message: '#^Access to constant STATUS_APPROVED on an unknown class StudentEnrollment\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/domain/grades/usecases/ChageStudentStatusByGradeUsecase.php
+
+		-
+			message: '#^Access to constant STATUS_DISAPPROVED on an unknown class StudentEnrollment\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/domain/grades/usecases/ChageStudentStatusByGradeUsecase.php
+
+		-
+			message: '#^Call to static method model\(\) on an unknown class StudentEnrollment\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/domain/grades/usecases/ChageStudentStatusByGradeUsecase.php
+
+		-
+			message: '#^PHPDoc tag @property for property ChageStudentStatusByGradeUsecase\:\:\$gradeResult contains unknown class GradeResults\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/domain/grades/usecases/ChageStudentStatusByGradeUsecase.php
+
+		-
+			message: '#^PHPDoc tag @property for property ChageStudentStatusByGradeUsecase\:\:\$gradeRule contains unknown class GradeRules\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/domain/grades/usecases/ChageStudentStatusByGradeUsecase.php
+
+		-
+			message: '#^Access to an undefined property ChangeEnrollmentStatusUsecase\:\:\$gradeResult\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/domain/grades/usecases/ChangeEnrollmentStatusUsecase.php
+
+		-
+			message: '#^Call to static method model\(\) on an unknown class EdcensoDiscipline\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/domain/grades/usecases/ChangeEnrollmentStatusUsecase.php
+
+		-
+			message: '#^Call to static method model\(\) on an unknown class GradeResults\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/domain/grades/usecases/ChangeEnrollmentStatusUsecase.php
+
+		-
+			message: '#^Call to static method model\(\) on an unknown class StudentEnrollment\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/domain/grades/usecases/ChangeEnrollmentStatusUsecase.php
+
+		-
+			message: '#^PHPDoc tag @property for property ChangeEnrollmentStatusUsecase\:\:\$enrollment contains unknown class StudentEnrollment\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/domain/grades/usecases/ChangeEnrollmentStatusUsecase.php
+
+		-
+			message: '#^Access to constant TYPE_COMMON on an unknown class GradeUnityModality\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/domain/grades/usecases/CheckIfUnityHasAllGradesUsecase.php
+
+		-
+			message: '#^Call to static method model\(\) on an unknown class Grade\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/domain/grades/usecases/CheckIfUnityHasAllGradesUsecase.php
+
+		-
+			message: '#^PHPDoc tag @property for property CheckIfUnityHasAllGradesUsecase\:\:\$unity contains unknown class GradeUnity\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/domain/grades/usecases/CheckIfUnityHasAllGradesUsecase.php
+
+		-
+			message: '#^Access to constant TYPE_UNITY on an unknown class GradeUnity\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/domain/grades/usecases/GetGradeUnitiesByDisciplineUsecase.php
+
+		-
+			message: '#^Access to constant TYPE_UNITY_BY_CONCEPT on an unknown class GradeUnity\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/domain/grades/usecases/GetGradeUnitiesByDisciplineUsecase.php
+
+		-
+			message: '#^Access to constant TYPE_UNITY_WITH_RECOVERY on an unknown class GradeUnity\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/domain/grades/usecases/GetGradeUnitiesByDisciplineUsecase.php
+
+		-
+			message: '#^Call to static method model\(\) on an unknown class GradeUnity\.$#'
+			identifier: class.notFound
+			count: 2
+			path: app/domain/grades/usecases/GetGradeUnitiesByDisciplineUsecase.php
+
+		-
+			message: '#^Method GetGradeUnitiesByDisciplineUsecase\:\:exec\(\) has invalid return type GradeUnity\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/domain/grades/usecases/GetGradeUnitiesByDisciplineUsecase.php
+
+		-
+			message: '#^Access to constant TYPE_FINAL_RECOVERY on an unknown class GradeUnity\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/domain/grades/usecases/GetStudentGradesByDisciplineUsecase.php
+
+		-
+			message: '#^Access to constant TYPE_UNITY on an unknown class GradeUnity\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/domain/grades/usecases/GetStudentGradesByDisciplineUsecase.php
+
+		-
+			message: '#^Access to constant TYPE_UNITY_BY_CONCEPT on an unknown class GradeUnity\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/domain/grades/usecases/GetStudentGradesByDisciplineUsecase.php
+
+		-
+			message: '#^Access to constant TYPE_UNITY_WITH_RECOVERY on an unknown class GradeUnity\.$#'
+			identifier: class.notFound
+			count: 2
+			path: app/domain/grades/usecases/GetStudentGradesByDisciplineUsecase.php
+
+		-
+			message: '#^Access to offset ''id'' on an unknown class GradeUnity\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/domain/grades/usecases/GetStudentGradesByDisciplineUsecase.php
+
+		-
+			message: '#^Access to property \$activeStudentEnrollments on an unknown class Classroom\.$#'
+			identifier: class.notFound
+			count: 2
+			path: app/domain/grades/usecases/GetStudentGradesByDisciplineUsecase.php
+
+		-
+			message: '#^Access to property \$countGradeUnityModalities on an unknown class GradeUnity\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/domain/grades/usecases/GetStudentGradesByDisciplineUsecase.php
+
+		-
+			message: '#^Access to property \$discipline_fk on an unknown class Grade\.$#'
+			identifier: class.notFound
+			count: 4
+			path: app/domain/grades/usecases/GetStudentGradesByDisciplineUsecase.php
+
+		-
+			message: '#^Access to property \$discipline_fk on an unknown class GradeResults\.$#'
+			identifier: class.notFound
+			count: 2
+			path: app/domain/grades/usecases/GetStudentGradesByDisciplineUsecase.php
+
+		-
+			message: '#^Access to property \$edcenso_stage_vs_modality_fk on an unknown class Classroom\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/domain/grades/usecases/GetStudentGradesByDisciplineUsecase.php
+
+		-
+			message: '#^Access to property \$enrollment_fk on an unknown class Grade\.$#'
+			identifier: class.notFound
+			count: 4
+			path: app/domain/grades/usecases/GetStudentGradesByDisciplineUsecase.php
+
+		-
+			message: '#^Access to property \$enrollment_fk on an unknown class GradeResults\.$#'
+			identifier: class.notFound
+			count: 2
+			path: app/domain/grades/usecases/GetStudentGradesByDisciplineUsecase.php
+
+		-
+			message: '#^Access to property \$grade on an unknown class Grade\.$#'
+			identifier: class.notFound
+			count: 4
+			path: app/domain/grades/usecases/GetStudentGradesByDisciplineUsecase.php
+
+		-
+			message: '#^Access to property \$gradeCalculationFk on an unknown class GradePartialRecovery\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/domain/grades/usecases/GetStudentGradesByDisciplineUsecase.php
+
+		-
+			message: '#^Access to property \$gradeCalculationFk on an unknown class GradeUnity\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/domain/grades/usecases/GetStudentGradesByDisciplineUsecase.php
+
+		-
+			message: '#^Access to property \$gradeUnityModalities on an unknown class GradeUnity\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/domain/grades/usecases/GetStudentGradesByDisciplineUsecase.php
+
+		-
+			message: '#^Access to property \$gradeUnityModalityFk on an unknown class Grade\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/domain/grades/usecases/GetStudentGradesByDisciplineUsecase.php
+
+		-
+			message: '#^Access to property \$grade_partial_recovery_fk on an unknown class Grade\.$#'
+			identifier: class.notFound
+			count: 2
+			path: app/domain/grades/usecases/GetStudentGradesByDisciplineUsecase.php
+
+		-
+			message: '#^Access to property \$grade_unity_modality_fk on an unknown class Grade\.$#'
+			identifier: class.notFound
+			count: 3
+			path: app/domain/grades/usecases/GetStudentGradesByDisciplineUsecase.php
+
+		-
+			message: '#^Access to property \$id on an unknown class Classroom\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/domain/grades/usecases/GetStudentGradesByDisciplineUsecase.php
+
+		-
+			message: '#^Access to property \$id on an unknown class GradePartialRecovery\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/domain/grades/usecases/GetStudentGradesByDisciplineUsecase.php
+
+		-
+			message: '#^Access to property \$name on an unknown class GradePartialRecovery\.$#'
+			identifier: class.notFound
+			count: 2
+			path: app/domain/grades/usecases/GetStudentGradesByDisciplineUsecase.php
+
+		-
+			message: '#^Access to property \$name on an unknown class GradeUnity\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/domain/grades/usecases/GetStudentGradesByDisciplineUsecase.php
+
+		-
+			message: '#^Access to property \$parcial_recovery_fk on an unknown class GradeUnity\.$#'
+			identifier: class.notFound
+			count: 2
+			path: app/domain/grades/usecases/GetStudentGradesByDisciplineUsecase.php
+
+		-
+			message: '#^Access to property \$semester on an unknown class GradeUnity\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/domain/grades/usecases/GetStudentGradesByDisciplineUsecase.php
+
+		-
+			message: '#^Access to property \$type on an unknown class GradeUnity\.$#'
+			identifier: class.notFound
+			count: 3
+			path: app/domain/grades/usecases/GetStudentGradesByDisciplineUsecase.php
+
+		-
+			message: '#^Call to method getGradeRules\(\) on an unknown class Classroom\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/domain/grades/usecases/GetStudentGradesByDisciplineUsecase.php
+
+		-
+			message: '#^Call to method save\(\) on an unknown class Grade\.$#'
+			identifier: class.notFound
+			count: 2
+			path: app/domain/grades/usecases/GetStudentGradesByDisciplineUsecase.php
+
+		-
+			message: '#^Call to method save\(\) on an unknown class GradeResults\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/domain/grades/usecases/GetStudentGradesByDisciplineUsecase.php
+
+		-
+			message: '#^Call to method validate\(\) on an unknown class Grade\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/domain/grades/usecases/GetStudentGradesByDisciplineUsecase.php
+
+		-
+			message: '#^Call to static method model\(\) on an unknown class Classroom\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/domain/grades/usecases/GetStudentGradesByDisciplineUsecase.php
+
+		-
+			message: '#^Call to static method model\(\) on an unknown class Grade\.$#'
+			identifier: class.notFound
+			count: 2
+			path: app/domain/grades/usecases/GetStudentGradesByDisciplineUsecase.php
+
+		-
+			message: '#^Call to static method model\(\) on an unknown class GradeConcept\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/domain/grades/usecases/GetStudentGradesByDisciplineUsecase.php
+
+		-
+			message: '#^Call to static method model\(\) on an unknown class GradePartialRecovery\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/domain/grades/usecases/GetStudentGradesByDisciplineUsecase.php
+
+		-
+			message: '#^Call to static method model\(\) on an unknown class GradeResults\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/domain/grades/usecases/GetStudentGradesByDisciplineUsecase.php
+
+		-
+			message: '#^Call to static method model\(\) on an unknown class GradeUnity\.$#'
+			identifier: class.notFound
+			count: 3
+			path: app/domain/grades/usecases/GetStudentGradesByDisciplineUsecase.php
+
+		-
+			message: '#^Instantiated class Grade not found\.$#'
+			identifier: class.notFound
+			count: 2
+			path: app/domain/grades/usecases/GetStudentGradesByDisciplineUsecase.php
+
+		-
+			message: '#^Instantiated class GradeResults not found\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/domain/grades/usecases/GetStudentGradesByDisciplineUsecase.php
+
+		-
+			message: '#^Method GetStudentGradesByDisciplineUsecase\:\:getGradeUnitiesByDiscipline\(\) has invalid return type GradeUnity\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/domain/grades/usecases/GetStudentGradesByDisciplineUsecase.php
+
+		-
+			message: '#^Method GetStudentGradesByDisciplineUsecase\:\:getStudentGradesFromUnity\(\) has invalid return type Grade\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/domain/grades/usecases/GetStudentGradesByDisciplineUsecase.php
+
+		-
+			message: '#^Method GetStudentGradesByDisciplineUsecase\:\:getpartialRecoveriesByUnity\(\) has invalid return type GradePartialRecovery\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/domain/grades/usecases/GetStudentGradesByDisciplineUsecase.php
+
+		-
+			message: '#^PHPDoc tag @property has invalid value \(int isClassroomStage\)\: Unexpected token "isClassroomStage", expected variable at offset 134 on line 6$#'
+			identifier: phpDoc.parseError
+			count: 1
+			path: app/domain/grades/usecases/GetStudentGradesByDisciplineUsecase.php
+
+		-
+			message: '#^PHPDoc tag @return has invalid value \(array\<StructClassromGradeResult\)\: Unexpected token "\*/", expected ''\>'' at offset 121 on line 5$#'
+			identifier: phpDoc.parseError
+			count: 1
+			path: app/domain/grades/usecases/GetStudentGradesByDisciplineUsecase.php
+
+		-
+			message: '#^PHPDoc tag @var above a method has no effect\.$#'
+			identifier: varTag.misplaced
+			count: 1
+			path: app/domain/grades/usecases/GetStudentGradesByDisciplineUsecase.php
+
+		-
+			message: '#^PHPDoc tag @var for variable \$classroom contains unknown class Classroom\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/domain/grades/usecases/GetStudentGradesByDisciplineUsecase.php
+
+		-
+			message: '#^PHPDoc tag @var for variable \$unit contains unknown class GradeUnity\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/domain/grades/usecases/GetStudentGradesByDisciplineUsecase.php
+
+		-
+			message: '#^PHPDoc tag @var for variable \$unitiesByDiscipline contains unknown class GradeUnity\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/domain/grades/usecases/GetStudentGradesByDisciplineUsecase.php
+
+		-
+			message: '#^Parameter \$grades of method GetStudentGradesByDisciplineUsecase\:\:indexGradesByUnity\(\) has invalid type Grade\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/domain/grades/usecases/GetStudentGradesByDisciplineUsecase.php
+
+		-
+			message: '#^Variable \$unit in PHPDoc tag @var does not match assigned variable \$allGrades\.$#'
+			identifier: varTag.differentVariable
+			count: 1
+			path: app/domain/grades/usecases/GetStudentGradesByDisciplineUsecase.php
+
+		-
+			message: '#^Access to property \$discipline_fk on an unknown class GradeResults\.$#'
+			identifier: class.notFound
+			count: 2
+			path: app/domain/grades/usecases/GetStudentGradesResultUsecase.php
+
+		-
+			message: '#^Access to property \$enrollment_fk on an unknown class GradeResults\.$#'
+			identifier: class.notFound
+			count: 2
+			path: app/domain/grades/usecases/GetStudentGradesResultUsecase.php
+
+		-
+			message: '#^Call to method save\(\) on an unknown class GradeResults\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/domain/grades/usecases/GetStudentGradesResultUsecase.php
+
+		-
+			message: '#^Call to static method model\(\) on an unknown class GradeResults\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/domain/grades/usecases/GetStudentGradesResultUsecase.php
+
+		-
+			message: '#^Instantiated class GradeResults not found\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/domain/grades/usecases/GetStudentGradesResultUsecase.php
+
+		-
+			message: '#^Method GetStudentGradesResultUsecase\:\:exec\(\) has invalid return type GradeResults\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/domain/grades/usecases/GetStudentGradesResultUsecase.php
+
+		-
+			message: '#^Access to an undefined property CApplication\:\:\$user\.$#'
+			identifier: property.notFound
+			count: 3
+			path: app/repository/FormsRepository.php
+
+		-
+			message: '#^Access to an undefined property CApplication\:\:\$utils\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/repository/FormsRepository.php
+
+		-
+			message: '#^Access to constant STATUS_ABANDONED on an unknown class StudentEnrollment\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/repository/FormsRepository.php
+
+		-
+			message: '#^Access to constant STATUS_CANCELED on an unknown class StudentEnrollment\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/repository/FormsRepository.php
+
+		-
+			message: '#^Access to constant STATUS_CONCLUDED on an unknown class StudentEnrollment\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/repository/FormsRepository.php
+
+		-
+			message: '#^Access to constant STATUS_DEATH on an unknown class StudentEnrollment\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/repository/FormsRepository.php
+
+		-
+			message: '#^Access to constant STATUS_TRANSFERRED on an unknown class StudentEnrollment\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/repository/FormsRepository.php
+
+		-
+			message: '#^Call to static method model\(\) on an unknown class ClassFaults\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/repository/FormsRepository.php
+
+		-
+			message: '#^Call to static method model\(\) on an unknown class Classroom\.$#'
+			identifier: class.notFound
+			count: 3
+			path: app/repository/FormsRepository.php
+
+		-
+			message: '#^Call to static method model\(\) on an unknown class CurricularMatrix\.$#'
+			identifier: class.notFound
+			count: 2
+			path: app/repository/FormsRepository.php
+
+		-
+			message: '#^Call to static method model\(\) on an unknown class EdcensoDiscipline\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/repository/FormsRepository.php
+
+		-
+			message: '#^Call to static method model\(\) on an unknown class GradeConcept\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/repository/FormsRepository.php
+
+		-
+			message: '#^Call to static method model\(\) on an unknown class GradePartialRecovery\.$#'
+			identifier: class.notFound
+			count: 2
+			path: app/repository/FormsRepository.php
+
+		-
+			message: '#^Call to static method model\(\) on an unknown class GradeResults\.$#'
+			identifier: class.notFound
+			count: 3
+			path: app/repository/FormsRepository.php
+
+		-
+			message: '#^Call to static method model\(\) on an unknown class GradeRules\.$#'
+			identifier: class.notFound
+			count: 3
+			path: app/repository/FormsRepository.php
+
+		-
+			message: '#^Call to static method model\(\) on an unknown class GradeUnity\.$#'
+			identifier: class.notFound
+			count: 3
+			path: app/repository/FormsRepository.php
+
+		-
+			message: '#^Call to static method model\(\) on an unknown class GradeUnityPeriods\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/repository/FormsRepository.php
+
+		-
+			message: '#^Call to static method model\(\) on an unknown class Schedule\.$#'
+			identifier: class.notFound
+			count: 4
+			path: app/repository/FormsRepository.php
+
+		-
+			message: '#^Call to static method model\(\) on an unknown class SchoolIdentification\.$#'
+			identifier: class.notFound
+			count: 2
+			path: app/repository/FormsRepository.php
+
+		-
+			message: '#^Call to static method model\(\) on an unknown class StudentDisorder\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/repository/FormsRepository.php
+
+		-
+			message: '#^Call to static method model\(\) on an unknown class StudentDisorderHistory\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/repository/FormsRepository.php
+
+		-
+			message: '#^Call to static method model\(\) on an unknown class StudentEnrollment\.$#'
+			identifier: class.notFound
+			count: 6
+			path: app/repository/FormsRepository.php
+
+		-
+			message: '#^Call to static method model\(\) on an unknown class StudentIMC\.$#'
+			identifier: class.notFound
+			count: 6
+			path: app/repository/FormsRepository.php
+
+		-
+			message: '#^Call to static method model\(\) on an unknown class StudentIdentification\.$#'
+			identifier: class.notFound
+			count: 2
+			path: app/repository/FormsRepository.php
+
+		-
+			message: '#^Call to static method model\(\) on an unknown class StudentImcClassification\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/repository/FormsRepository.php
+
+		-
+			message: '#^Method FormsRepository\:\:calculateFrequency\(\) should return int but returns float\.$#'
+			identifier: return.type
+			count: 1
+			path: app/repository/FormsRepository.php
+
+		-
+			message: '#^Undefined variable\: \$currentGrade$#'
+			identifier: variable.undefined
+			count: 1
+			path: app/repository/FormsRepository.php
+
+		-
+			message: '#^Undefined variable\: \$currentUnity$#'
+			identifier: variable.undefined
+			count: 1
+			path: app/repository/FormsRepository.php
+
+		-
+			message: '#^Variable \$modality might not be defined\.$#'
+			identifier: variable.undefined
+			count: 1
+			path: app/repository/FormsRepository.php
+
+		-
+			message: '#^Access to an undefined property CApplication\:\:\$user\.$#'
+			identifier: property.notFound
+			count: 10
+			path: app/repository/ReportsRepository.php
+
+		-
+			message: '#^Call to an undefined method CApplication\:\:getAuthManager\(\)\.$#'
+			identifier: method.notFound
+			count: 2
+			path: app/repository/ReportsRepository.php
+
+		-
+			message: '#^Call to static method classroomDisciplineLabelArray\(\) on an unknown class ClassroomController\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/repository/ReportsRepository.php
+
+		-
+			message: '#^Call to static method model\(\) on an unknown class Classroom\.$#'
+			identifier: class.notFound
+			count: 17
+			path: app/repository/ReportsRepository.php
+
+		-
+			message: '#^Call to static method model\(\) on an unknown class EdcensoDiscipline\.$#'
+			identifier: class.notFound
+			count: 3
+			path: app/repository/ReportsRepository.php
+
+		-
+			message: '#^Call to static method model\(\) on an unknown class EdcensoStageVsModality\.$#'
+			identifier: class.notFound
+			count: 4
+			path: app/repository/ReportsRepository.php
+
+		-
+			message: '#^Call to static method model\(\) on an unknown class GradeConcept\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/repository/ReportsRepository.php
+
+		-
+			message: '#^Call to static method model\(\) on an unknown class GradeResults\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/repository/ReportsRepository.php
+
+		-
+			message: '#^Call to static method model\(\) on an unknown class GradeRules\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/repository/ReportsRepository.php
+
+		-
+			message: '#^Call to static method model\(\) on an unknown class GradeUnity\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/repository/ReportsRepository.php
+
+		-
+			message: '#^Call to static method model\(\) on an unknown class Schedule\.$#'
+			identifier: class.notFound
+			count: 2
+			path: app/repository/ReportsRepository.php
+
+		-
+			message: '#^Call to static method model\(\) on an unknown class SchoolIdentification\.$#'
+			identifier: class.notFound
+			count: 24
+			path: app/repository/ReportsRepository.php
+
+		-
+			message: '#^Call to static method model\(\) on an unknown class StudentEnrollment\.$#'
+			identifier: class.notFound
+			count: 2
+			path: app/repository/ReportsRepository.php
+
+		-
+			message: '#^Call to static method model\(\) on an unknown class StudentIdentification\.$#'
+			identifier: class.notFound
+			count: 2
+			path: app/repository/ReportsRepository.php
+
+		-
+			message: '#^Variable \$error might not be defined\.$#'
+			identifier: variable.undefined
+			count: 3
+			path: app/repository/ReportsRepository.php
+
+		-
+			message: '#^Variable \$message might not be defined\.$#'
+			identifier: variable.undefined
+			count: 3
+			path: app/repository/ReportsRepository.php
+
+		-
+			message: '#^Variable \$result might not be defined\.$#'
+			identifier: variable.undefined
+			count: 3
+			path: app/repository/ReportsRepository.php
+
+		-
+			message: '#^Variable \$view might not be defined\.$#'
+			identifier: variable.undefined
+			count: 2
+			path: app/repository/ReportsRepository.php
