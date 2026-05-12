@@ -19,8 +19,7 @@
                             <?php echo @current($identification) ?>
                         </span>
                         <?php echo CHtml::link('- Corrigir', array('school/school/update', 'id' => $log['school']['info']['inep_id'], 'censo' => 1)); ?>
-                        <? php
-                        @$dataValidation['school' . $log['school']['info']['inep_id']][] = current($identification); ?>
+                        <?php @$dataValidation['school' . $log['school']['info']['inep_id']][] = current($identification); ?>
                         <div class="clearfix"></div>
                     </li>
                     <?php

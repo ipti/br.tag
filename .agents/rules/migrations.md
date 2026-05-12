@@ -4,36 +4,43 @@ trigger: always_on
 
 # Database Migrations
 
-Rules for managing database schema changes in this project.
+TAG uses raw SQL migrations and executes them across multiple tenant databases.
 
-## General Principles
-- **No Manual SQL**: Never apply SQL directly to production databases. All changes must be in a migration file.
-- **SQL Files Only**: Migrations are **raw `.sql` files** placed in `app/migrations/`. This project does NOT use PHP migration classes.
-- **Multi-Database**: The `SqlMigrationCommand` automatically discovers and executes migrations across **all databases** matching `*.tag.ong.br`.
+## Stable rules
 
-## Core Commands
-- **Run Migration**: `docker exec tag-app php /app/app/yiic sqlmigration run app/migrations/<file>.sql`
-- **Dry Run**: `docker exec tag-app php /app/app/yiic sqlmigration run app/migrations/<file>.sql --dry-run`
-- **Filter by DB**: Use `--db-filter=<name>` to target only databases containing the given string.
+- Never apply schema changes manually in production.
+- Use SQL files under `app/migrations/`.
+- This repo does not use PHP migration classes for normal schema work.
+- `SqlMigrationCommand` is the execution path behind migration scripts.
 
-## Under the Hood
-The commands invoke `SqlMigrationCommand` (`app/commands/SqlMigrationCommand.php`):
-```
-docker exec tag-app php /app/app/yiic sqlmigration run app/migrations/<file>.sql
-docker exec tag-app php /app/app/yiic sqlmigration run app/migrations/<file>.sql --dry-run
-docker exec tag-app php /app/app/yiic sqlmigration run app/migrations/<file>.sql --db-filter=treinamento
-```
+## Important repo reality
 
-## Creating Migrations
-- Create a new `.sql` file in `app/migrations/`.
-- Use the **version-based** naming convention: `v<VERSION>_description.sql` (e.g., `v3.11.0_add_wallet_table.sql`, `v3.10.0_fix_instructor_fk.sql`). The version must match `TAG_VERSION` from `config.php`.
-- Always wrap destructive operations in a transaction with `ROLLBACK` for safety during review:
-```sql
-START TRANSACTION;
+The migration tree is mixed:
+- older version folders such as `app/migrations/3.10.0/3.10.0.sql`
+- named SQL files such as `app/migrations/3.13.0/v3.13.0_view_studentsfile_add_cns.sql`
+- legacy files under `app/migrations/old_migrations/`
 
--- your DDL/DML here
+Because of that, do not assume one single historical naming convention. Follow the current release pattern already used near the target version and keep it consistent.
 
-ROLLBACK;
--- COMMIT;  -- uncomment after manual verification
-```
-- Never use `DROP TABLE` or `DELETE` without a `WHERE` clause.
+## Preferred commands
+
+Use the documented Composer entrypoints when possible:
+- Run: `composer run migrate <path-to-sql>`
+- Dry run: `composer run migrate:dry <path-to-sql> -- --dry-run`
+
+Direct Docker execution is acceptable when Composer scripts are insufficient, but Composer should be the default.
+
+## Safety expectations
+
+- Dry-run first when practical.
+- Make SQL idempotent where possible.
+- Avoid irreversible destructive statements unless explicitly required.
+- Never use `DELETE` without a `WHERE` clause.
+- For risky migrations, use transaction-based review scaffolding during development.
+
+## Version alignment
+
+- Check `TAG_VERSION` in `config.php`.
+- Place the new migration where the current release organization expects it.
+- If the repo already groups migrations by version folder for that release line, follow that pattern.
+

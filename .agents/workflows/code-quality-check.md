@@ -1,19 +1,14 @@
 ---
-description: Run all code quality checks and tests
+description: Compatibility alias for .agents/playbooks/code-quality.md
 ---
 
-Perform these steps before pushing any code to the repository. All commands run inside Docker.
+Use `.agents/playbooks/code-quality.md`.
 
-1. **Linting (PHPMD)**:
-// turbo
-   - Run `docker exec tag-app ./vendor/bin/phpmd` to identify architectural issues.
-2. **Formatting (PHP-CS-Fixer)**:
-// turbo
-   - Run `docker exec tag-app ./vendor/bin/php-cs-fixer fix` to ensure project style compliance.
-3. **Compile Styles**:
-// turbo
-   - Run `docker compose run --rm --entrypoint /opt/dart-sass/sass sass /sass/main.scss:/css/main.css --no-source-map --style=compressed` if any styles were changed.
-4. **Run Tests**:
-// turbo
-   - Run `docker exec tag-app ./vendor/bin/codecept run acceptance --steps` to execute acceptance tests.
-5. **Verification**: Ensure all checks pass (green output).
+Preferred order:
+1. `composer run lint`
+2. `composer run analyse`
+3. `composer run mess`
+4. `composer run test`
+
+If styles changed, also run `composer run sass:build`.
+
