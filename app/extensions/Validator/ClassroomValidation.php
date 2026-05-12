@@ -149,7 +149,9 @@ class ClassroomValidation extends Register
     {
         $numberOfOnes = 0;
         for ($i = 0; $i < sizeof($array); $i++) {
-            if ((strlen($array[$i] ?? '') == 1 && $array[$i] == '1') || strlen($array[$i] ?? '') == 5) {
+            $val = trim((string)($array[$i] ?? ''));
+            // Considera válido se for '1' ou o formato "HH:MM-HH:MM" (11 chars) do Censo 2025
+            if ($val == '1' || strlen($val) == 11 || strlen($val) == 5) {
                 $numberOfOnes++;
             }
         }
@@ -163,12 +165,15 @@ class ClassroomValidation extends Register
     public function areValidClassroomDays($days, $mediation)
     {
         $allowedValues = ['0', '1'];
+        $timeRegex = '/^(\d{2}):(\d{2})-(\d{2}):(\d{2})$/';
 
         foreach ($days as $day) {
-            if (strlen($day) != 1) {
-                return ['status' => false, 'erro' => 'Os campos devem possuir 1 caractere'];
+            $dayStr = trim((string)$day);
+            // Verifica se é 0/1 (tamanho 1) ou se corresponde ao formato 2025 "HH:MM-HH:MM" (tamanho 11)
+            if (strlen($dayStr) != 1 && !preg_match($timeRegex, $dayStr) && strlen($dayStr) != 5) {
+                return ['status' => false, 'erro' => 'Os campos devem possuir 1 caractere ou o formato de horas HH:MM-HH:MM'];
             }
-            if (!in_array($day, $allowedValues)) {
+            if (strlen($dayStr) == 1 && !in_array($dayStr, $allowedValues)) {
                 return ['status' => false, 'erro' => 'Dias de aula contem valores invalidos'];
             }
         }
