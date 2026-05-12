@@ -1,3 +1,6 @@
+## [Versão 3.13.12]
+- Corrigido bug onde a justificativa de falta do professor não era salva: atributos customizados do checkbox (`instructorId`, `day`, `month`) eram removidos pelo DOMPurify antes de serem lidos pelo JavaScript, enviando valores vazios ao servidor
+
 ## [Versão 3.13.11]
 - Corrigido erro de constraint FK ao excluir turmas AEE: registros de `student_aee_record` vinculados à turma agora são removidos antes da exclusão da turma
 

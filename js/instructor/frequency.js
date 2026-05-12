@@ -47,9 +47,9 @@ $("#classesSearch").on("click", function () {
                             "<input class='frequency-checkbox' type='checkbox'" +
                             (!schedule.available ? " disabled" : "") +
                             (schedule.fault ? " checked" : "") +
-                            " instructorId='" + instructor.instructorId + "'" +
-                            " day='" + schedule.day + "'" +
-                            " month='" + $("#month").val() + "'>" +
+                            " data-instructor-id='" + instructor.instructorId + "'" +
+                            " data-day='" + schedule.day + "'" +
+                            " data-month='" + $("#month").val() + "'>" +
                             justificationIcon + "</td>";
                     });
                     html += "</tr></tbody></table>";
@@ -86,9 +86,9 @@ $(document).on("change", ".frequency-checkbox", function () {
         url: "?r=instructor/saveFrequency",
         cache: false,
         data: {
-            instructorId: $(this).attr("instructorid"),
-            day: $(this).attr("day"),
-            month: $(this).attr("month"),
+            instructorId: $(this).data("instructor-id"),
+            day: $(this).data("day"),
+            month: $(this).data("month"),
             fault: $(this).is(":checked") ? 1 : 0,
         },
         beforeSend: function () {
@@ -113,9 +113,9 @@ $(document).on("change", ".frequency-checkbox", function () {
 
 $(document).on("click", ".frequency-justification-icon", function () {
     let checkbox = $(this).parent().find(".frequency-checkbox");
-    $("#justification-instructorid").val(checkbox.attr("instructorid"));
-    $("#justification-day").val(checkbox.attr("day"));
-    $("#justification-month").val(checkbox.attr("month"));
+    $("#justification-instructorid").val(checkbox.data("instructor-id"));
+    $("#justification-day").val(checkbox.data("day"));
+    $("#justification-month").val(checkbox.data("month"));
     $(".justification-text").val($(this).attr("data-original-title") || "");
     $("#save-justification-modal").modal("show");
 });
@@ -141,7 +141,7 @@ $(document).on("click", ".btn-save-justification", function () {
             $("#save-justification-modal").find(".centered-loading-gif").show();
         },
         success: function () {
-            let justification = $(".table-frequency tbody .frequency-checkbox[instructorid=" + $("#justification-instructorid").val() + "][day=" + $("#justification-day").val() + "][month=" + $("#justification-month").val() + "]").parent().find(".frequency-justification-icon");
+            let justification = $(".table-frequency tbody .frequency-checkbox[data-instructor-id=" + $("#justification-instructorid").val() + "][data-day=" + $("#justification-day").val() + "][data-month=" + $("#justification-month").val() + "]").parent().find(".frequency-justification-icon");
             if ($(".justification-text").val() === "") {
                 justification.html("<i class='fa fa-file-o'></i><i class='fa fa-file'></i>");
                 justification.attr("data-original-title", "").tooltip("hide");
