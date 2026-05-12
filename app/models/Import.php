@@ -10,6 +10,8 @@ class Import extends CFormModel
     public $registers;
     public $instructorOwnSystemCodes;
     public $instructorInepId;
+    public $studentOwnSystemCodes;
+    public $studentInepId;
     public $year;
     public $file;
     public $importWithError;
@@ -130,6 +132,8 @@ class Import extends CFormModel
         $registers = $this->emptyRegisters();
         $instructorOwnSystemCodes = [];
         $instructorInepId = [];
+        $studentOwnSystemCodes = [];
+        $studentInepId = [];
 
         while (true) {
             $line = fgets($file);
@@ -153,6 +157,14 @@ class Import extends CFormModel
                     array_push($instructorInepId, $fields[3]);
                 }
             }
+            if ($registerType === '60') {
+                if ($this->hasValue($fields[2] ?? null)) {
+                    array_push($studentOwnSystemCodes, $fields[2]);
+                }
+                if ($this->hasValue($fields[3] ?? null)) {
+                    array_push($studentInepId, $fields[3]);
+                }
+            }
             $registers[$registerType][] = $fields;
         }
 
@@ -160,6 +172,8 @@ class Import extends CFormModel
 
         $this->instructorOwnSystemCodes = array_unique($instructorOwnSystemCodes);
         $this->instructorInepId = array_unique($instructorInepId);
+        $this->studentOwnSystemCodes = array_unique($studentOwnSystemCodes);
+        $this->studentInepId = array_unique($studentInepId);
         $this->registers = $registers;
         $this->initImport($this->year);
     }
@@ -353,12 +367,18 @@ class Import extends CFormModel
     public function importRegister30($lines, $year)
     {
         foreach ($lines as $line) {
-            $isStudent = !(in_array($line[2], $this->instructorOwnSystemCodes) || in_array($line[3], $this->instructorInepId));
+            $isInstructor = (in_array($line[2], $this->instructorOwnSystemCodes) || in_array($line[3], $this->instructorInepId));
 
-            if ($isStudent) {
-                $this->importRegister301($line, $year);
-            } else {
+            if ($isInstructor) {
                 $this->importRegister302($line, $year);
+                // Pessoa que é professora em uma turma e aluna em outra: salvar também
+                // como aluno para que o registro 60 consiga criar a matrícula.
+                $alsoStudent = (in_array($line[2], $this->studentOwnSystemCodes) || in_array($line[3], $this->studentInepId));
+                if ($alsoStudent) {
+                    $this->importRegister301($line, $year);
+                }
+            } else {
+                $this->importRegister301($line, $year);
             }
         }
     }
@@ -516,6 +536,30 @@ class Import extends CFormModel
         $onlyCpfDuplicate = empty($identificationErrors)
             && array_keys($documentErrors) === ['cpf'];
         if ($onlyCpfDuplicate) {
+            // Professor já existe com CPF duplicado — garantir que inep_id e
+            // censo_own_system_code do arquivo sejam gravados no registro existente,
+            // pois o save() principal falhou antes de persistir esses valores.
+            $existingDoc = InstructorDocumentsAndAddress::model()->find(
+                "cpf is not null and cpf != '' and cpf = :cpf",
+                [':cpf' => $instructorDocumentModel->cpf]
+            );
+            if ($existingDoc !== null) {
+                $existing = InstructorIdentification::model()->findByPk($existingDoc->id);
+                if ($existing !== null) {
+                    $changed = false;
+                    if ($this->hasValue($line[2] ?? null) && empty($existing->censo_own_system_code)) {
+                        $existing->censo_own_system_code = $line[2];
+                        $changed = true;
+                    }
+                    if ($this->hasValue($line[3] ?? null) && empty($existing->inep_id)) {
+                        $existing->inep_id = $line[3];
+                        $changed = true;
+                    }
+                    if ($changed) {
+                        $existing->save(false);
+                    }
+                }
+            }
             return;
         }
 
@@ -622,7 +666,8 @@ class Import extends CFormModel
             }
 
             if (!$instructorTeachingModel->save()) {
-                $this->setFailure('50', $line);
+                $instructorTeachingModel->validate();
+                $this->setFailure('50', $line, TagUtils::stringfyValidationErrors($instructorTeachingModel));
             }
         }
     }
@@ -634,12 +679,19 @@ class Import extends CFormModel
         $attributes = $studentEnrollment->attributeNames();
 
         foreach ($lines as $line) {
+            $ownCode = $line[2] ?? null;
             $inepId = $line[3] ?? null;
             $classroomInepId = $line[5] ?? null;
             $classroom = $this->findClassroom($line[1], $year, $line[4] ?? null, $classroomInepId);
-            $student = $this->hasValue($inepId) ? StudentIdentification::model()->findByAttributes(['inep_id' => $inepId]) : null;
+            $student = null;
+            if ($this->hasValue($inepId)) {
+                $student = StudentIdentification::model()->findByAttributes(['inep_id' => $inepId]);
+            }
+            if ($student === null && $this->hasValue($ownCode)) {
+                $student = StudentIdentification::model()->findByAttributes(['censo_own_system_code' => $ownCode]);
+            }
             if ($classroom === null || $student === null) {
-                $this->setFailure('60', $line, 'Aluno ou turma não encontrado para criar matrícula.');
+                $this->setFailure('60', $line, 'Aluno ou turma não encontrado para criar matrícula (inep=' . ($inepId ?? '') . ', cod=' . ($ownCode ?? '') . ').');
                 continue;
             }
 
@@ -661,20 +713,28 @@ class Import extends CFormModel
                 }
             }
 
-            // Censo 2025: o valor de edcenso_stage_vs_modality_fk vindo do arquivo pode ser
-            // um código que não existe na tabela de referência (ex: 0 ou código novo).
-            // Para evitar violação de FK, valida a existência antes de salvar.
-            if (!empty($studentEnrollmentModel->edcenso_stage_vs_modality_fk)) {
-                $stageExists = EdcensoStageVsModality::model()->findByPk((int) $studentEnrollmentModel->edcenso_stage_vs_modality_fk);
+            // Censo 2025: o valor de edcenso_stage_vs_modality_fk pode vir como "0" ou
+            // código inexistente na tabela de referência. !empty() considera "0" como vazio,
+            // o que deixava o valor passar e causava violação de FK. A verificação agora
+            // usa cast para int: qualquer valor <= 0 é nullado antes do save.
+            $stageId = (int) $studentEnrollmentModel->edcenso_stage_vs_modality_fk;
+            if ($stageId <= 0) {
+                $studentEnrollmentModel->edcenso_stage_vs_modality_fk = null;
+            } else {
+                $stageExists = EdcensoStageVsModality::model()->findByPk($stageId);
                 if ($stageExists === null) {
-                    $this->setFailure('60', $line, 'Etapa/modalidade inválida (edcenso_stage_vs_modality_fk=' . $studentEnrollmentModel->edcenso_stage_vs_modality_fk . ') não encontrada na tabela de referência. Campo será ignorado.');
+                    $this->setFailure('60', $line, 'Etapa/modalidade inválida (edcenso_stage_vs_modality_fk=' . $stageId . ') não encontrada na tabela de referência. Campo será ignorado.');
                     $studentEnrollmentModel->edcenso_stage_vs_modality_fk = null;
                 }
             }
 
-            if (!$studentEnrollmentModel->save()) {
-                $studentEnrollmentModel->validate();
-                $this->setFailure('60', $line, TagUtils::stringfyValidationErrors($studentEnrollmentModel));
+            try {
+                if (!$studentEnrollmentModel->save()) {
+                    $studentEnrollmentModel->validate();
+                    $this->setFailure('60', $line, TagUtils::stringfyValidationErrors($studentEnrollmentModel));
+                }
+            } catch (Exception $e) {
+                $this->setFailure('60', $line, 'Erro ao salvar matrícula: ' . $e->getMessage());
             }
         }
     }
