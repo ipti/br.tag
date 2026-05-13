@@ -2,120 +2,67 @@
 trigger: always_on
 ---
 
-# TAG — System Overview
+# TAG System Overview
 
-This is the TAG (Tecnologia de Apoio à Gestão), an open-source school management system built with **Yii 1.1** (PHP 8.3) and **MySQL 8.0**, running in Docker.
+TAG (Tecnologia de Apoio a Gestao) is a school management system for Brazilian municipal education networks.
 
-## What TAG Does
-TAG manages the full lifecycle of a municipal education network:
-- **Students**: enrollment, transfers, documents, health records (IMC), grades, attendance
-- **Teachers (Instructors)**: identification, teaching assignments, schedules, absences, substitute management
-- **Schools**: structure, rooms, managers, calendars
-- **Academics**: grade structures (numeric and concept-based), curricula, lesson plans, class diaries, teaching records
-- **Reports**: enrollment forms, grade sheets, attendance reports, electronic diaries, school certificates
-- **Integrations**: Educacenso (national census), Sagres (audit), SEDSP (São Paulo state)
-- **Support**: school lunch/food management, inventory, notifications, online enrollment, feature flags
+## Verified stack
 
-## Architecture
+- Backend: PHP 8.3, Yii 1.1, MySQL 8.0
+- Frontend: server-rendered PHP, jQuery, SASS design system in `sass/scss/`
+- Infra: Docker containers including `tag-app`
 
-### Stack
-- **Backend**: PHP 8.3, Yii 1.1 (MVC), MySQL 8.0
-- **Frontend**: Server-rendered PHP views, jQuery, SASS design system (TAG)
-- **Infrastructure**: Docker (`tag-app`, `mysql`, `adminer`, `sass`, `bytebase`)
+## Architectural guidance
 
-### Directory Structure
-```
-app/
-├── commands/         # Console commands (SqlMigration, Admin, etc.)
-├── components/       # Yii components (shared services)
-├── config/           # App configuration
-├── controllers/      # Legacy controllers (19 files — avoid adding new ones)
-├── domain/           # Domain logic (admin, grades)
-├── models/           # Root CActiveRecord models (89 files)
-├── modules/          # Feature modules (28 — all new features go here)
-│   ├── abilities/         # Regional skills management
-│   ├── aeerecord/         # Special education (AEE) records
-│   ├── calendar/          # School calendars
-│   ├── classdiary/        # Class diary / teaching records
-│   ├── courseplan/        # Lesson plans
-│   ├── curricularcomponents/ # Curricular components
-│   ├── curricularmatrix/  # Curricular matrices
-│   ├── dashboard/         # Dashboard
-│   ├── enrollmentonline/  # Online enrollment
-│   ├── foods/             # Lunch ingredients/nutrition
-│   ├── gradeconcept/      # Concept-based grading
-│   ├── inventory/         # School supply inventory
-│   ├── lunch/             # Lunch menus and management
-│   ├── notifications/     # User notifications
-│   ├── professional/      # Professional staff management
-│   ├── quiz/              # Assessments
-│   ├── resultsmanagement/ # Grade results
-│   ├── sagres/            # Sagres audit integration
-│   ├── schoolreport/      # Report cards
-│   ├── sedsp/             # São Paulo state integration
-│   ├── stages/            # Education stages
-│   ├── studentimc/        # Student health (BMI)
-│   ├── systemadmin/       # System administration
-│   ├── tag/               # Core TAG utilities
-│   ├── timesheet/         # Teacher timesheets
-│   ├── tools/             # Admin tools
-│   └── wizard/            # Setup wizard
-├── migrations/       # SQL migration files
-├── services/         # Service classes
-├── widgets/          # Reusable UI widgets
-└── export/           # File exports
-```
+- Legacy code still exists in `app/controllers/`, `app/models/`, and `themes/default/views/`.
+- New features should be implemented as Yii modules under `app/modules/<module_name>/`.
+- Shared root models in `app/models/` are still heavily used even by modules.
+- Shared business rules should stay in models or services, not in views or controllers.
+- Root controllers are legacy territory. Avoid adding new root controllers unless a repo-specific constraint truly requires it.
 
-### Key Models (Root)
-| Domain | Models |
-|--------|--------|
-| Student | `StudentIdentification`, `StudentEnrollment`, `StudentDocumentsAndAddress`, `StudentDisorder`, `StudentVaccine` |
-| Teacher | `InstructorIdentification`, `InstructorTeachingData`, `InstructorDocumentsAndAddress`, `InstructorVariableData`, `InstructorFaults` |
-| School | `SchoolIdentification`, `SchoolStructure`, `SchoolRoom`, `SchoolStages` |
-| Class | `Classroom`, `ClassBoard`, `ClassContents`, `ClassDiaries`, `ClassFaults`, `Schedule` |
-| Grades | `Grade`, `GradeRules`, `GradeUnity`, `GradeResults`, `GradeCalculation`, `GradeConcept` |
-| Course | `CoursePlan`, `CourseClass`, `CourseClassAbilities` |
-| System | `Users`, `UsersSchool`, `AuthAssignment`, `AuthItem`, `FeatureFlags`, `Log` |
+## Current module landscape
 
-### Design System (SASS)
-Located in `sass/scss/`. Uses design tokens (`_tokens.scss`), a custom grid, and components prefixed with `t-` (buttons), `tag-` (tables), etc. See `design-system-usage.md` rule for full list.
+The repo already uses modules such as:
+- `student`
+- `school`
+- `notifications`
+- `inventory`
+- `foods`
+- `classdiary`
+- `courseplan`
+- `stages`
+- `professional`
+- `schoolreport`
 
-### Multi-Tenant
-Each municipality has its own database (`*.tag.ong.br`). Migrations run across all databases via `SqlMigrationCommand`.
+When extending an existing domain, prefer updating the relevant module instead of creating parallel structures.
 
-## Documentation Locations
-- `docs/` — ADRs, usage guides, test cases
-- `docs/modules/` — Per-module documentation (domain + technical)
-- `CHANGELOG.md` — Release history (user-facing language)
-- `.github/` — PR template, code review template
-- `docs/adrs/` — Architectural Decision Records
+## Module reality
 
-## Documentation Guidelines
+Modules are not fully uniform:
+- some modules import local models and components
+- some modules intentionally keep shared models in root `app/models/`
+- some modules publish `resources/` to `baseScriptUrl`
+- some views still register direct asset paths
 
-Documentation must be split into two perspectives, adapting language accordingly:
+Codex should follow the nearest module's local pattern instead of forcing a synthetic standard during unrelated work.
 
-### Documentação de Domínio (Funcional)
-- **Público**: gestores escolares, secretários de educação, coordenadores pedagógicos
-- **Linguagem**: termos do dia a dia escolar — "aluno", "matrícula", "turma", "boletim", "diário de classe", "merenda"
-- **Foco**: o que o sistema faz, fluxos de uso, regras de negócio
-- **Evitar**: nomes de classes, tabelas, colunas, código, jargão técnico
-- **Exemplo**: "O gestor pode enviar notificações para todos os professores de uma escola"
+## UI guidance
 
-### Documentação Técnica
-- **Público**: desenvolvedores, QA, devops
-- **Linguagem**: nomes de classes, models, controllers, tabelas, colunas, rotas, comandos
-- **Foco**: como o sistema funciona, arquitetura, API, exemplos de código, diagramas ER
-- **Exemplo**: "`NotificationService::broadcast()` envia para users filtrados por `auth_assignment.itemname`"
+- TAG has its own design system.
+- Common classes verified in the repo include `t-button-primary`, `tag-table-primary`, `tag-table-secondary`, `t-cards`, `t-badge-info`, `t-badge-success`, `t-badge-warning`, and `t-badge-critical`.
+- Do not assume Bootstrap is the target design language even if legacy Bootstrap classes still appear in views.
 
-### Regra Geral
-Ao documentar um módulo, inclua **ambas as perspectivas** no mesmo documento:
-1. Primeiro a visão de domínio (funcionalidades, fluxos, regras)
-2. Depois a visão técnica (arquitetura, API, código, diagramas)
+## Documentation rule
 
-### Precisão Documental (CRÍTICO)
-- **Documentar apenas o que o sistema FAZ, nunca o que PODERIA fazer.**
-- Se um componente existe no código mas **não é utilizado por nenhum outro arquivo**, ele deve ser documentado como "infraestrutura disponível" ou "planejado", **nunca como funcionalidade ativa**.
-- Antes de afirmar que uma funcionalidade está ativa, **verificar se ela é realmente chamada/utilizada** (buscar por referências com `grep` nos models, controllers e config).
-- Exemplos:
-  - ❌ "O sistema envia notificações quando uma matrícula é criada" (se nenhum model usa o behavior)
-  - ✅ "O sistema possui infraestrutura para notificações automáticas, mas ainda não está ativada nos módulos"
+Document only what is active and verifiable.
+
+Before claiming a feature exists:
+1. Search for code references.
+2. Confirm the route, model, or integration is actually used.
+3. If it exists only as dormant infrastructure, describe it as available but not active.
+
+## Documentation split
+
+When documenting modules, keep both perspectives:
+- Functional/domain view for school staff and education managers
+- Technical view for developers, QA, and ops

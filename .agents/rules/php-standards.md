@@ -4,98 +4,53 @@ trigger: always_on
 
 # PHP Standards and Quality
 
-Ensures the code follows the project's quality standards and uses the available automated tools.
+Use repo-verified commands and Yii 1.1 patterns that match TAG's current architecture.
 
-## Static Analysis and Linting
-- **PHPMD**: Always run `docker exec tag-app ./vendor/bin/phpmd` to check for architectural flaws, unused variables, etc.
-- **PHP-CS-Fixer**: Always check code formatting before submitting: `docker exec tag-app ./vendor/bin/php-cs-fixer fix`.
-- **PHP Version**: The runtime is PHP 8.3 (see `Dockerfile`). Use modern PHP practices.
+## Preferred verification commands
 
-## Yii 1.1 Best Practices
+Prefer Composer scripts when they exist:
+- Format check: `composer run lint`
+- Auto-fix formatting: `composer run fix`
+- Static analysis: `composer run analyse`
+- PHPMD: `composer run mess`
+- Acceptance tests: `composer run test`
 
-### Model (M) — `CActiveRecord`
-- Models extend `CActiveRecord` and represent database tables.
-- **All business logic** belongs in the Model (or a dedicated Service class), never in the Controller.
-- Always define `rules()` for validation, `relations()` for relationships, and `attributeLabels()` for form labels.
-- Use `CDbCriteria` for complex queries instead of raw SQL:
-  ```php
-  $criteria = new CDbCriteria();
-  $criteria->compare('status', 1);
-  $criteria->addCondition('created_at > :date');
-  $criteria->params[':date'] = '2025-01-01';
-  $models = MyModel::model()->findAll($criteria);
-  ```
-- **Security**: Always use parameter binding (`:param`). Never concatenate user input into SQL.
-- Use scopes for reusable query filters:
-  ```php
-  public function scopes() {
-      return ['active' => ['condition' => 'status=1']];
-  }
-  ```
+These scripts already encode the expected Docker container usage.
 
-### Controller (C)
-- Controllers must be **thin**: only handle request/response flow.
-- Follow the action naming convention: `actionCreate`, `actionUpdate`, `actionDelete`, `actionIndex`, `actionView`.
-- Always use `accessRules()` for access control:
-  ```php
-  public function accessRules() {
-      return [
-          ['allow', 'actions' => ['index', 'view'], 'users' => ['@']],
-          ['deny', 'users' => ['*']],
-      ];
-  }
-  ```
-- Use `$this->redirect()` after POST operations (PRG pattern).
-- Validate `$_POST` data through the model, never manually in the controller.
+## Test command reality
 
-### View (V)
-- Views are `.php` files that only handle **presentation**.
-- Never put business logic or database queries in views.
-- Use `$this->renderPartial()` for reusable UI fragments.
-- Use `CHtml` helpers for generating HTML forms and links:
-  ```php
-  CHtml::link('Text', ['controller/action', 'id' => $model->id]);
-  CHtml::activeTextField($model, 'name');
-  ```
+- `composer run test` maps to `./vendor/bin/codecept run acceptance --steps`.
+- Acceptance tests rely on Codeception WebDriver and the suite currently points to `http://localhost/`.
+- Do not promise this command will run successfully unless the local browser/WebDriver setup exists.
 
-### General
-- **Dependencies**: Use the provided `composer.json` for managing backend dependencies.
-- **URL Routing**: Use Yii's URL manager with `['controller/action', 'param' => value]` arrays, never hardcode URLs.
+## PHP and Yii conventions
 
-## New Features — Yii Module Pattern
-- **Always** create new features as Yii modules inside `app/modules/<module_name>/`.
-- Each module must follow this structure:
-  ```
-  app/modules/<module_name>/
-  ├── <ModuleName>Module.php    # extends CWebModule
-  ├── controllers/
-  │   └── <Name>Controller.php
-  ├── models/
-  │   └── <ModelName>.php
-  └── views/
-      └── <controllerName>/
-          └── <viewName>.php
-  ```
-- The module class must extend `CWebModule`, set the layout, and import its own models:
-  ```php
-  class ExampleModule extends CWebModule
-  {
-      public $defaultController = 'example';
-      public $layout = 'webroot.themes.default.views.layouts.fullmenu';
+- Runtime target is PHP 8.3, but coding style must stay compatible with the repo's Yii 1.1 architecture.
+- Keep controllers thin.
+- Put business rules in models, services, or domain-oriented classes.
+- Views should render data, not query or decide business rules.
+- Use parameter binding in SQL and criteria objects where feasible.
+- Reuse existing helpers and widget patterns before inventing parallel abstractions.
 
-      public function init()
-      {
-          $this->setImport(['example.models.*']);
-      }
+## New feature placement
 
-      public function beforeControllerAction($controller, $action)
-      {
-          if (parent::beforeControllerAction($controller, $action)) {
-              $controller->layout = $this->layout;
-              return true;
-          }
-          return false;
-      }
-  }
-  ```
-- Do **not** add controllers or views to the root `app/controllers/` or `themes/` for new features.
+- New features belong in `app/modules/<module_name>/`.
+- Avoid adding new root controllers in `app/controllers/`.
+- If a model is shared broadly across modules, keep it where current architecture expects it.
+- Do not move shared root models into a module just to satisfy an abstract purity rule.
+
+## Change discipline
+
+Before introducing a new pattern:
+1. Search the module or nearby domain for an existing implementation.
+2. Match local conventions first.
+3. Only generalize after verifying repeated usage.
+
+## Definition of done for PHP work
+
+For meaningful PHP changes, Codex should try to leave the branch in a state where:
+- formatting is valid
+- static analysis is considered
+- affected flows were reviewed or tested
+
+If a check could not be run, say so explicitly in the final report.

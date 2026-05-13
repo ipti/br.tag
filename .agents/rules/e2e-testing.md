@@ -4,42 +4,45 @@ trigger: always_on
 
 # E2E Testing
 
-All code changes must be validated with E2E tests using the **built-in browser** before being considered complete.
+Browser E2E is required for UI and behavior-sensitive changes, not for every repository task.
 
-## Rules
+## When this rule applies
 
-1. **Always create a test plan FIRST** — before executing any test, present the plan to the user and ask for approval.
-2. **Test what changed AND what is related** — if you changed a form, test that form AND the listing page, detail view, and any other page that links to it.
-3. **Always ask the user** — before starting E2E tests, ask the user for the URL and credentials to use. Never assume.
-4. **Record results** — document pass/fail for each test case with screenshots when relevant.
+Apply browser E2E when the change affects:
+- forms
+- views
+- routes
+- JavaScript or AJAX flows
+- CSS or SASS behavior
+- user-visible reporting output
 
-## Test Plan Format
+It does not need to block purely documentary or internal analysis tasks.
 
-Before testing, present this to the user:
+## Before running browser tests
 
-```
-### Plano de Testes E2E
+Codex must ask the user for:
+- base URL
+- credentials
+- any required seed data or preconditions
+- approval for the test plan
 
-**Alterações feitas**: [resumo das alterações]
+## Automation reality
 
-**Testes diretos** (o que foi alterado):
-1. [ ] [Descrição do teste] — URL: [rota]
-2. [ ] [Descrição do teste] — URL: [rota]
+- Codeception acceptance config exists in `tests/acceptance.suite.yml`.
+- The default configured URL there is `http://localhost/`.
+- Interactive browser validation and automated Codeception runs are related but not identical steps.
+- If using the automated suite, report environment assumptions explicitly.
 
-**Testes correlatos** (elementos que dependem do que foi alterado):
-1. [ ] [Descrição do teste] — URL: [rota]
-2. [ ] [Descrição do teste] — URL: [rota]
+## Planning rule
 
-**Pré-requisitos**: [credenciais, dados necessários]
-```
+Before executing tests, present:
+- direct tests for what changed
+- correlated tests for adjacent flows
+- prerequisites
 
-## What to Test
+## Reporting rule
 
-| Tipo de alteração | Testes diretos | Testes correlatos |
-|-------------------|----------------|-------------------|
-| Model alterado | CRUD do model | Relatórios, views que listam esse model |
-| Controller/rota alterada | Todas as actions do controller | Links/menus que apontam para esse controller |
-| View/formulário alterado | Submissão, validações, layout | Listagem, detalhes, impressão |
-| Migration (nova coluna) | Formulário que usa a coluna | Listagens, relatórios, exports |
-| CSS/SASS alterado | Páginas que usam os componentes | Responsividade, impressão |
-| AJAX alterado | Interação AJAX específica | Fluxo completo da feature |
+After E2E execution:
+- state pass or fail per test
+- mention any blocked scenarios
+- include screenshots when the testing tool supports them
