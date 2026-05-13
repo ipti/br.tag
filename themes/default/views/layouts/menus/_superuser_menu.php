@@ -64,10 +64,10 @@ endif ?>
 
     <?php if (TagUtils::checkAccess(['admin', 'reader', 'manager'])): ?>
     <li id="menu-electronic-diary" class="t-menu-group <?=
-        strpos($_SERVER['REQUEST_URI'], " ?r=courseplan") || strpos($_SERVER['REQUEST_URI'], "?r=classes/classContents"
-        ) || strpos($_SERVER['REQUEST_URI'], "?r=classes/frequency" ) ||
-        strpos($_SERVER['REQUEST_URI'], "?r=grades/grades" ) ||
-        strpos($_SERVER['REQUEST_URI'], "?r=enrollment/reportCard" ) ? 'active' : '' ?>">
+        strpos($_SERVER['REQUEST_URI'], " ?r=courseplan") || strpos($_SERVER['REQUEST_URI'], "?r=classdiary/classes/classContents"
+        ) || strpos($_SERVER['REQUEST_URI'], "?r=classdiary/classes/frequency" ) ||
+        strpos($_SERVER['REQUEST_URI'], "?r=grades/default/grades" ) ||
+        strpos($_SERVER['REQUEST_URI'], "?r=grades/default/reportCard" ) ? 'active' : '' ?>">
         <i class="submenu-icon fa fa-chevron-right"></i>
         <i class="submenu-icon fa fa-chevron-down"></i>
         <a id="menu-electronic-diary-trigger" data-toggle="collapse" class="t-menu-group__link"
@@ -76,11 +76,11 @@ endif ?>
             <span class="t-menu-group__text">Diário Eletrônico</span>
         </a>
         <ul class="collapse <?=
-        strpos($_SERVER['REQUEST_URI'], " ?r=courseplan") || strpos($_SERVER['REQUEST_URI'], "?r=classes/classContents"
-            ) || strpos($_SERVER['REQUEST_URI'], "?r=classes/frequency" ) ||
-            strpos($_SERVER['REQUEST_URI'], "?r=grades/grades" ) ||
-            strpos($_SERVER['REQUEST_URI'], "?r=enrollment/reportCard" ) ||
-            strpos($_SERVER['REQUEST_URI'], "?r=enrollment/gradesRelease" ) ||
+        strpos($_SERVER['REQUEST_URI'], " ?r=courseplan") || strpos($_SERVER['REQUEST_URI'], "?r=classdiary/classes/classContents"
+            ) || strpos($_SERVER['REQUEST_URI'], "?r=classdiary/classes/frequency" ) ||
+            strpos($_SERVER['REQUEST_URI'], "?r=grades/default/grades" ) ||
+            strpos($_SERVER['REQUEST_URI'], "?r=grades/default/reportCard" ) ||
+            strpos($_SERVER['REQUEST_URI'], "?r=grades/default/gradesRelease" ) ||
             strpos($_SERVER['REQUEST_URI'], "?r=aeerecord" ) ? 'in' : '' ?>"
             id="submenu-electronic-diary">
 
@@ -91,14 +91,14 @@ endif ?>
                 </a>
             </li>
             <?php if (TagUtils::checkAccess(['admin', 'reader', 'manager'])): ?>
-            <li class="t-menu-item <?= strpos($_SERVER['REQUEST_URI'], " ?r=classes/classContents") ? 'active' : '' ?>">
-                <a class="t-menu-item__link" href="<?php echo Yii::app()->createUrl('classes/classContents')?>">
+            <li class="t-menu-item <?= strpos($_SERVER['REQUEST_URI'], " ?r=classdiary/classes/classContents") ? 'active' : '' ?>">
+                <a class="t-menu-item__link" href="<?php echo Yii::app()->createUrl('classdiary/classes/classContents')?>">
                     <span class="t-icon-topics t-menu-item__icon"></span>
                     <span class="t-menu-item__text">Aulas Ministradas</span>
                 </a>
             </li>
-            <li class="t-menu-item <?= strpos($_SERVER['REQUEST_URI'], " ?r=classes/frequency") ? 'active' : '' ?>">
-                <a class="t-menu-item__link" href="<?php echo Yii::app()->createUrl('classes/frequency')?>">
+            <li class="t-menu-item <?= strpos($_SERVER['REQUEST_URI'], " ?r=classdiary/classes/frequency") ? 'active' : '' ?>">
+                <a class="t-menu-item__link" href="<?php echo Yii::app()->createUrl('classdiary/classes/frequency')?>">
                     <span class="t-icon-checklist t-menu-item__icon"></span>
                     <span class="t-menu-item__text">Frequência</span>
                 </a>
@@ -106,14 +106,14 @@ endif ?>
             <?php
     endif ?>
             <?php if (Yii::app()->getAuthManager()->checkAccess('instructor', Yii::app()->user->loginInfos->id) && (Yii::app()->features->isEnable("FEAT_FREQ_CLASSCONT"))): ?>
-            <li class="t-menu-item <?= strpos($_SERVER['REQUEST_URI'], " ?r=classes/classContents") ? 'active' : '' ?>">
-                <a class="t-menu-item__link" href="<?php echo Yii::app()->createUrl('classes/classContents')?>">
+            <li class="t-menu-item <?= strpos($_SERVER['REQUEST_URI'], " ?r=classdiary/classes/classContents") ? 'active' : '' ?>">
+                <a class="t-menu-item__link" href="<?php echo Yii::app()->createUrl('classdiary/classes/classContents')?>">
                     <span class="t-icon-topics t-menu-item__icon"></span>
                     <span class="t-menu-item__text">Aulas Ministradas</span>
                 </a>
             </li>
-            <li class="t-menu-item <?= strpos($_SERVER['REQUEST_URI'], " ?r=classes/frequency") ? 'active' : '' ?>">
-                <a class="t-menu-item__link" href="<?php echo Yii::app()->createUrl('classes/frequency')?>">
+            <li class="t-menu-item <?= strpos($_SERVER['REQUEST_URI'], " ?r=classdiary/classes/frequency") ? 'active' : '' ?>">
+                <a class="t-menu-item__link" href="<?php echo Yii::app()->createUrl('classdiary/classes/frequency')?>">
                     <span class="t-icon-checklist t-menu-item__icon"></span>
                     <span class="t-menu-item__text">Frequência</span>
                 </a>
@@ -121,8 +121,8 @@ endif ?>
             <?php
     endif ?>
             <?php if (Yii::app()->features->isEnable("FEAT_GRADES")): ?>
-            <li class="t-menu-item <?= strpos($_SERVER['REQUEST_URI'], " ?r=grades/grades") ? 'active' : '' ?>">
-                <a class="t-menu-item__link" href="<?php echo Yii::app()->createUrl('grades/grades')?> ">
+            <li class="t-menu-item <?= strpos($_SERVER['REQUEST_URI'], " ?r=grades/default/grades") ? 'active' : '' ?>">
+                <a class="t-menu-item__link" href="<?php echo Yii::app()->createUrl('grades/default/grades')?> ">
                     <span class="t-icon-edition t-menu-item__icon"></span>
                     <span class="t-menu-item__text">Notas</span>
                 </a>
@@ -130,8 +130,8 @@ endif ?>
             <?php
     endif ?>
             <?php if (Yii::app()->features->isEnable("FEAT_REPORTCARD")): ?>
-            <li class="t-menu-item <?= strpos($_SERVER['REQUEST_URI'], " ?r=enrollment/reportCard") ? 'active' : '' ?>">
-                <a class="t-menu-item__link" href="<?php echo Yii::app()->createUrl('enrollment/reportCard')?> ">
+            <li class="t-menu-item <?= strpos($_SERVER['REQUEST_URI'], " ?r=grades/default/reportCard") ? 'active' : '' ?>">
+                <a class="t-menu-item__link" href="<?php echo Yii::app()->createUrl('grades/default/reportCard')?> ">
                     <span class="t-report_card t-menu-item__icon"></span>
                     <span class="t-menu-item__text">Lançamento de Notas</span>
                 </a>
@@ -139,9 +139,9 @@ endif ?>
             <?php
     endif ?>
             <?php if (Yii::app()->features->isEnable("FEAT_GRADESRELEASE")): ?>
-            <li class="t-menu-item <?= strpos($_SERVER['REQUEST_URI'], " ?r=enrollment/gradesRelease") ? 'active' : ''
+            <li class="t-menu-item <?= strpos($_SERVER['REQUEST_URI'], " ?r=grades/default/gradesRelease") ? 'active' : ''
                 ?>">
-                <a class="t-menu-item__link" href="<?php echo Yii::app()->createUrl('enrollment/gradesRelease')?> ">
+                <a class="t-menu-item__link" href="<?php echo Yii::app()->createUrl('grades/default/gradesRelease')?> ">
                     <span class="t-report_card t-menu-item__icon"></span>
                     <span class="t-menu-item__text">Lançamento de Notas</span>
                 </a>
@@ -171,8 +171,8 @@ endif ?>
 endif ?>
     </li>
     <?php if (Yii::app()->getAuthManager()->checkAccess('coordinator', Yii::app()->user->loginInfos->id)): ?>
-    <li class="t-menu-item <?= strpos($_SERVER['REQUEST_URI'], " ?r=classes/validateClassContents") ? 'active' : '' ?>">
-        <a class="t-menu-item__link" href="<?php echo Yii::app()->createUrl('classes/validateClassContents')?>">
+    <li class="t-menu-item <?= strpos($_SERVER['REQUEST_URI'], " ?r=classdiary/classes/validateClassContents") ? 'active' : '' ?>">
+        <a class="t-menu-item__link" href="<?php echo Yii::app()->createUrl('classdiary/classes/validateClassContents')?>">
             <span class="t-icon-topics t-menu-item__icon"></span>
             <span class="t-menu-item__text">Aulas Ministradas</span>
         </a>
@@ -210,8 +210,8 @@ endif ?>
 Yii::app()->getAuthManager()->checkAccess('admin', Yii::app()->user->loginInfos->id) || Yii::app()->getAuthManager()->checkAccess('manager', Yii::app()->user->loginInfos->id)
 || Yii::app()->getAuthManager()->checkAccess('reader', Yii::app()->user->loginInfos->id)
 ): ?>
-    <li class="t-menu-item <?= strpos($_SERVER['REQUEST_URI'], " ?r=reports") ? 'active' : '' ?> hide-responsive">
-        <a class="t-menu-item__link" href="<?php echo Yii::app()->createUrl('reports')?>">
+    <li class="t-menu-item <?= strpos($_SERVER['REQUEST_URI'], '?r=schoolreport/reports') !== false ? 'active' : '' ?> hide-responsive">
+        <a class="t-menu-item__link" href="<?php echo Yii::app()->createUrl('schoolreport/reports/index')?>">
             <span class="t-icon-column_graphi t-menu-item__icon"></span>
             <span class="t-menu-item__text">Relatórios</span>
         </a>
@@ -293,9 +293,9 @@ endif; ?>
     </li>
     <?php
 endif ?>
-    <li class="t-menu-item <?= strpos($_SERVER['REQUEST_URI'], " ?r=admin/editPassword") ? 'active' : '' ?>
+    <li class="t-menu-item <?= strpos($_SERVER['REQUEST_URI'], " ?r=systemadmin/default/editPassword") ? 'active' : '' ?>
         hide-responsive">
-        <a class="t-menu-item__link" href="<?php echo Yii::app()->createUrl('admin/editPassword', array(" id"=>
+        <a class="t-menu-item__link" href="<?php echo Yii::app()->createUrl('systemadmin/default/editPassword', array(" id"=>
             Yii::app()->user->loginInfos->id))?>">
             <span class="t-icon-lock t-menu-item__icon"></span>
             <span class="t-menu-item__text">Alterar senha</span>
@@ -325,8 +325,8 @@ endif;
 Yii::app()->getAuthManager()->checkAccess('admin', Yii::app()->user->loginInfos->id)
 || Yii::app()->getAuthManager()->checkAccess('reader', Yii::app()->user->loginInfos->id)
 ) { ?>
-    <li class="t-menu-item <?= strpos($_SERVER['REQUEST_URI'], " ?r=admin") ? 'active' : '' ?> hide-responsive">
-        <a class="t-menu-item__link" href="<?php echo Yii::app()->createUrl('admin')?>">
+    <li class="t-menu-item <?= strpos($_SERVER['REQUEST_URI'], " ?r=systemadmin") ? 'active' : '' ?> hide-responsive">
+        <a class="t-menu-item__link" href="<?php echo Yii::app()->createUrl('systemadmin/default/index')?>">
             <span class="t-icon-configuration-adm t-menu-item__icon"></span>
             <span class="t-menu-item__text">Administração</span>
         </a>
@@ -351,3 +351,5 @@ Yii::app()->getAuthManager()->checkAccess('admin', Yii::app()->user->loginInfos-
     <?php
 }?>
 </ul>
+
+

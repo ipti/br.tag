@@ -36,11 +36,11 @@ $cs->registerScript('', '
 ', CClientScript::POS_HEAD);
 
 $form = $this->beginWidget(
-    'CActiveForm',
-    [
-        'id' => 'student',
-        'enableAjaxValidation' => false,
-    ]
+  'CActiveForm',
+  [
+    'id' => 'student',
+    'enableAjaxValidation' => false,
+  ]
 );
 /**
  * @var CActiveForm $form CActiveForm
@@ -51,22 +51,23 @@ $form = $this->beginWidget(
 <div class="mobile-row ">
   <div class="column clearleft">
     <?php
-if (!$modelStudentIdentification->isNewRecord && Yii::app()->features->isEnable(TFeature::FEAT_INTEGRATIONS_SEDSP)):
-    $sedspSync = StudentIdentification::model()->findByPk($modelStudentIdentification->id)->sedsp_sync;
-    ?>
+    if (!$modelStudentIdentification->isNewRecord && Yii::app()->features->isEnable(TFeature::FEAT_INTEGRATIONS_SEDSP)):
+      $sedspSync = StudentIdentification::model()->findByPk($modelStudentIdentification->id)->sedsp_sync;
+      ?>
       <div style="display: flex;align-items: center;margin-right: 10px;margin-top: 13px;">
         <?php if ($sedspSync): ?>
           <div style="font-weight: bold;margin-right: 20px;">
             <img alt="icone de sincronizado" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/SyncTrue.png"
               style="width: 25px; margin-right: 2px;">Sincronizado
           </div>
-        <?php
+          <?php
         else: ?>
           <div style="font-weight: bold;margin-right: 20px;">
-            <img alt="tag icon" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/notSync.png" style="width: 25px;margin-right: 2px;">Não
+            <img alt="tag icon" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/notSync.png"
+              style="width: 25px;margin-right: 2px;">Não
             sincronizado
           </div>
-        <?php
+          <?php
         endif; ?>
 
         <a class="update-student-from-sedsp"
@@ -74,17 +75,17 @@ if (!$modelStudentIdentification->isNewRecord && Yii::app()->features->isEnable(
           Importar dados da SED
         </a>
       </div>
-    <?php
-endif; ?>
+      <?php
+    endif; ?>
     <h1><?php echo $title; ?></h1>
   </div>
   <div class="column clearfix align-items--center justify-content--end show--desktop">
     <a data-toggle="tab" class='hide-responsive t-button-secondary prev'
-      style="display:none;"><?php echo Yii::t('default', 'Previous')?><i></i></a>
-    <?= $modelStudentIdentification->isNewRecord ? "<a data-toggle='tab' class='t-button-primary  next'>" . Yii::t('default', 'Next') . '</a>' : ''?>
+      style="display:none;"><?php echo Yii::t('default', 'Previous') ?><i></i></a>
+    <?= $modelStudentIdentification->isNewRecord ? "<a data-toggle='tab' class='t-button-primary  next'>" . Yii::t('default', 'Next') . '</a>' : '' ?>
 
     <button class="t-button-primary  last save-student" type="button">
-      <?= $modelStudentIdentification->isNewRecord ? Yii::t('default', 'Create') : Yii::t('default', 'Save')?>
+      <?= $modelStudentIdentification->isNewRecord ? Yii::t('default', 'Create') : Yii::t('default', 'Save') ?>
     </button>
   </div>
 </div>
@@ -93,66 +94,66 @@ endif; ?>
   <div class="widget widget-tabs border-bottom-none">
     <div class="alert student-alert js-remove-enrollment-alert hide"></div>
     <?php
-echo $form->errorSummary($modelStudentIdentification);
-echo $form->errorSummary($modelStudentDocumentsAndAddress);
-?>
+    echo $form->errorSummary($modelStudentIdentification);
+    echo $form->errorSummary($modelStudentDocumentsAndAddress);
+    ?>
     <?php if (Yii::app()->user->hasFlash('success') && (!$modelClassroom->isNewRecord)) { ?>
       <div class="alert student-alert alert-success">
-        <?php echo Yii::app()->user->getFlash('success')?>
+        <?php echo Yii::app()->user->getFlash('success') ?>
       </div>
-    <?php
+      <?php
     } elseif (Yii::app()->user->hasFlash('error') && (!$modelClassroom->isNewRecord)) { ?>
       <div class="alert student-alert alert-error">
-        <?php echo Yii::app()->user->getFlash('error')?>
+        <?php echo Yii::app()->user->getFlash('error') ?>
       </div>
-    <?php
+      <?php
     } else { ?>
       <div class="alert student-alert no-show"></div>
-    <?php
-    }?>
+      <?php
+    } ?>
     <div class="t-tabs js-tab-control">
       <ul class="tab-student t-tabs__list">
         <li id="tab-student-identify" class="t-tabs__item active">
           <a class="t-tabs__link first" href="#student-identify" data-toggle="tab">
             <span class="t-tabs__numeration">1</span>
-            <!-- <?php echo Yii::t('default', 'Identification')?> -->
-            <?php echo Yii::t('default', 'Student Data')?>
+            <!-- <?php echo Yii::t('default', 'Identification') ?> -->
+            <?php echo Yii::t('default', 'Student Data') ?>
           </a>
           <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/seta-tabs.svg" alt="seta">
         </li>
         <li id="tab-student-affiliation" class="t-tabs__item">
           <a class="t-tabs__link" href="#student-affiliation" data-toggle="tab">
             <span class="t-tabs__numeration">2</span>
-            <?php echo Yii::t('default', 'Affiliation')?>
+            <?php echo Yii::t('default', 'Affiliation') ?>
           </a>
           <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/seta-tabs.svg" alt="seta">
         </li>
         <li id="tab-student-documents" class="t-tabs__item ">
           <a class="t-tabs__link" href="#student-documents" data-toggle="tab">
             <span class="t-tabs__numeration">3</span>
-            <!-- <?php echo Yii::t('default', 'Documents')?> -->
-            <?php echo Yii::t('default', 'Social Data')?>
+            <!-- <?php echo Yii::t('default', 'Documents') ?> -->
+            <?php echo Yii::t('default', 'Social Data') ?>
           </a>
           <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/seta-tabs.svg" alt="seta">
         </li>
         <li id="tab-student-address" class="t-tabs__item ">
           <a class="t-tabs__link" href="#student-address" data-toggle="tab">
             <span class="t-tabs__numeration js-change-number-3">4</span>
-            <?php echo Yii::t('default', 'Address')?>
+            <?php echo Yii::t('default', 'Address') ?>
           </a>
           <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/seta-tabs.svg" alt="seta">
         </li>
         <li id="tab-student-enrollment" class="t-tabs__item ">
           <a class="t-tabs__link" href="#student-enrollment" data-toggle="tab">
             <span class="t-tabs__numeration js-change-number-4">5</span>
-            <?php echo Yii::t('default', 'Enrollment')?>
+            <?php echo Yii::t('default', 'Enrollment') ?>
           </a>
           <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/seta-tabs.svg" alt="seta">
         </li>
         <li id="tab-student-health" class="t-tabs__item ">
           <a class="t-tabs__link" href="#student-health" data-toggle="tab">
             <span class="t-tabs__numeration js-change-number-5">6</span>
-            <?php echo Yii::t('default', 'Health')?>
+            <?php echo Yii::t('default', 'Health') ?>
           </a>
         </li>
       </ul>
@@ -176,19 +177,19 @@ echo $form->errorSummary($modelStudentDocumentsAndAddress);
               <div class="t-field-text" id="nameStudents">
                 <?php echo $form->label($modelStudentIdentification, 'name', ['class' => 't-field-text__label--required']); ?>
                 <?php echo $form->textField(
-    $modelStudentIdentification,
-    'name',
-    [
-        'size' => 60,
-        'maxlength' => 100,
-        'class' => 't-field-text__input js-trim-name',
-        'placeholder' => 'Digite o Nome de Apresentação'
-    ]
-); ?>
+                  $modelStudentIdentification,
+                  'name',
+                  [
+                    'size' => 60,
+                    'maxlength' => 100,
+                    'class' => 't-field-text__input js-trim-name',
+                    'placeholder' => 'Digite o Nome de Apresentação'
+                  ]
+                ); ?>
                 <span id="similarMessage" data-toggle="tooltip" data-placement="top" data-original-title="">
                   <img id="warningNameIcon" onclick="displayRecords()" style="display: none;"
-                    src="<?php echo $themeUrl . '/img/warning-icon.svg'?>" alt="icone aviso">
-                  <img id="errorNameIcon" style="display: none;" src="<?php echo $themeUrl . '/img/error-icon.svg'?>"
+                    src="<?php echo $themeUrl . '/img/warning-icon.svg' ?>" alt="icone aviso">
+                  <img id="errorNameIcon" style="display: none;" src="<?php echo $themeUrl . '/img/error-icon.svg' ?>"
                     alt="icone erro">
                 </span>
                 <?php echo $form->error($modelStudentIdentification, 'name'); ?>
@@ -198,21 +199,21 @@ echo $form->errorSummary($modelStudentDocumentsAndAddress);
             <div class="column clearleft--on-mobile is-two-fifths">
               <div class="t-field-checkbox js-hide-not-required" id="show-student-civil-name-box">
                 <input type="checkbox" class="t-field-checkbox__input" id="show-student-civil-name" <?php if ($modelStudentIdentification->civil_name != null) {
-                    echo 'checked';
-                }?>>
+                  echo 'checked';
+                } ?>>
                 <label for="checkbox" class="t-field-checkbox__label">Esse é um nome social?</label>
               </div>
               <div class="t-field-text student-civil-name" id="civilName" style="display: none;">
                 <?php echo $form->label($modelStudentIdentification, 'civil_name', ['class' => 't-field-text__label--required']); ?>
                 <?php echo $form->textField(
-                    $modelStudentIdentification,
-                    'civil_name',
-                    [
-                        'size' => 60,
-                        'maxlength' => 100,
-                        'class' => 't-field-text__input js-trim-name',
-                        'placeholder' => 'Digite o Nome Civil'
-                    ]
+                  $modelStudentIdentification,
+                  'civil_name',
+                  [
+                    'size' => 60,
+                    'maxlength' => 100,
+                    'class' => 't-field-text__input js-trim-name',
+                    'placeholder' => 'Digite o Nome Civil'
+                  ]
                 ); ?>
                 <?php echo $form->error($modelStudentIdentification, 'civil_name'); ?>
               </div>
@@ -226,51 +227,51 @@ echo $form->errorSummary($modelStudentDocumentsAndAddress);
                 <?php echo $form->label($modelStudentIdentification, 'birthday', ['class' => 't-field-text__label--required']); ?>
                 <?php
                 $this->widget('zii.widgets.jui.CJuiDatePicker', DatePickerWidget::renderDatePicker($modelStudentIdentification, 'birthday'));
-echo CHtml::link('	Limpar', '#', [
-    'onclick' => '$("#' . CHtml::activeId($modelStudentIdentification, 'birthday') . '").datepicker("setDate", null); return false;',
-]);
-echo $form->error($modelStudentIdentification, 'birthday');
-?>
+                echo CHtml::link('	Limpar', '#', [
+                  'onclick' => '$("#' . CHtml::activeId($modelStudentIdentification, 'birthday') . '").datepicker("setDate", null); return false;',
+                ]);
+                echo $form->error($modelStudentIdentification, 'birthday');
+                ?>
               </div>
             </div>
             <!-- CPF -->
             <div class="column clearleft--on-mobile is-two-fifths">
-                <div class="t-field-text js-hide-not-required" id="show-student-cpf-box" style="display:flex; flex-direction:row; gap:0 0.5rem;">
-                    <input type="checkbox" class="t-field-checkbox__input" id="show-cpf-reason"
-                        <?php if ($modelStudentDocumentsAndAddress->cpf != null) {
-                            echo 'checked';
-                        }?>>
-                    <label for="checkbox" class="t-field-checkbox__label">Aluno possui CPF?</label>
-                </div>
-                <div class="t-field-text" id="cpfStudents" style="display: none;">
-                    <?php echo $form->label($modelStudentDocumentsAndAddress, 'cpf', ['class' => 't-field-text__label']); ?>
-                    <?php echo $form->textField($modelStudentDocumentsAndAddress, 'cpf', ['size' => 11, 'maxlength' => 14, 'class' => 't-field-text__input']); ?>
-                    <span id="cpfMessage" data-toggle="tooltip" data-placement="top" data-original-title="">
-                    <img id="errorCPFIcon" style="display: none;" src="<?php echo $themeUrl . '/img/error-icon.svg'?>"
-                        alt="icone erro">
-                    </span>
-                    <?php if ($modelStudentDocumentsAndAddress->hasErrors('cpf')): ?>
-                    <div style='margin-top: 5px;color: red;'>
-                        <?= CHtml::encode($modelStudentDocumentsAndAddress->getError('cpf')); ?>
-                    </div>
-                    <?php
-                    endif; ?>
-                </div>
-                <div class="t-field-text" id="cpfReasonStudents" style="display: block;">
-                    <?= $form->label($modelStudentDocumentsAndAddress, 'cpf_reason', ['class' => 't-field-text__label']); ?>
-                    <?php echo $form->DropDownList(
-                            $modelStudentDocumentsAndAddress,
-                            'cpf_reason',
-                            [null => 'Selecione uma justificativa', 1 => 'Pais não entregaram o documento do aluno na unidade escolar', 2 => 'Impedimento judicial', 3 => 'Aluno não possui documento CPF'],
-                            ['class' => 'select-search-off t-field-select__input select2-container']
-                        ); ?>
-                    <?php if ($modelStudentDocumentsAndAddress->hasErrors('cpf_reason')): ?>
-                    <div style='margin-top: 5px;color: red;'>
-                        <?= CHtml::encode($modelStudentDocumentsAndAddress->getError('cpf_reason')); ?>
-                    </div>
-                    <?php
-                    endif; ?>
-                </div>
+              <div class="t-field-text js-hide-not-required" id="show-student-cpf-box"
+                style="display:flex; flex-direction:row; gap:0 0.5rem;">
+                <input type="checkbox" class="t-field-checkbox__input" id="show-cpf-reason" <?php if ($modelStudentDocumentsAndAddress->cpf != null) {
+                  echo 'checked';
+                } ?>>
+                <label for="checkbox" class="t-field-checkbox__label">Aluno possui CPF?</label>
+              </div>
+              <div class="t-field-text" id="cpfStudents" style="display: none;">
+                <?php echo $form->label($modelStudentDocumentsAndAddress, 'cpf', ['class' => 't-field-text__label']); ?>
+                <?php echo $form->textField($modelStudentDocumentsAndAddress, 'cpf', ['size' => 11, 'maxlength' => 14, 'class' => 't-field-text__input']); ?>
+                <span id="cpfMessage" data-toggle="tooltip" data-placement="top" data-original-title="">
+                  <img id="errorCPFIcon" style="display: none;" src="<?php echo $themeUrl . '/img/error-icon.svg' ?>"
+                    alt="icone erro">
+                </span>
+                <?php if ($modelStudentDocumentsAndAddress->hasErrors('cpf')): ?>
+                  <div style='margin-top: 5px;color: red;'>
+                    <?= CHtml::encode($modelStudentDocumentsAndAddress->getError('cpf')); ?>
+                  </div>
+                  <?php
+                endif; ?>
+              </div>
+              <div class="t-field-text" id="cpfReasonStudents" style="display: block;">
+                <?= $form->label($modelStudentDocumentsAndAddress, 'cpf_reason', ['class' => 't-field-text__label']); ?>
+                <?php echo $form->DropDownList(
+                  $modelStudentDocumentsAndAddress,
+                  'cpf_reason',
+                  [null => 'Selecione uma justificativa', 1 => 'Pais não entregaram o documento do aluno na unidade escolar', 2 => 'Impedimento judicial', 3 => 'Aluno não possui documento CPF'],
+                  ['class' => 'select-search-off t-field-select__input select2-container']
+                ); ?>
+                <?php if ($modelStudentDocumentsAndAddress->hasErrors('cpf_reason')): ?>
+                  <div style='margin-top: 5px;color: red;'>
+                    <?= CHtml::encode($modelStudentDocumentsAndAddress->getError('cpf_reason')); ?>
+                  </div>
+                  <?php
+                endif; ?>
+              </div>
             </div>
           </div>
           <!-- Sexo e Raça -->
@@ -280,11 +281,11 @@ echo $form->error($modelStudentIdentification, 'birthday');
               <div class="t-field-select" id="gender-select">
                 <?php echo $form->label($modelStudentIdentification, 'sex', ['class' => 't-field-select__label--required']); ?>
                 <?php echo $form->DropDownList(
-                        $modelStudentIdentification,
-                        'sex',
-                        [null => 'Selecione o sexo', '1' => 'Masculino', '2' => 'Feminino'],
-                        ['class' => 'select-search-off t-field-select__input select2-container']
-                    ); ?>
+                  $modelStudentIdentification,
+                  'sex',
+                  [null => 'Selecione o sexo', '1' => 'Masculino', '2' => 'Feminino'],
+                  ['class' => 'select-search-off t-field-select__input select2-container']
+                ); ?>
                 <?php echo $form->error($modelStudentIdentification, 'sex'); ?>
               </div>
             </div>
@@ -294,15 +295,15 @@ echo $form->error($modelStudentIdentification, 'birthday');
                 <?php echo $form->label($modelStudentIdentification, 'color_race', ['class' => 't-field-select__label--required']); ?>
                 <?php
                 echo $form->DropDownList($modelStudentIdentification, 'color_race', [
-                    null => 'Selecione a cor/raça',
-                    '0' => 'Não declarada',
-                    '1' => 'Branca',
-                    '2' => 'Preta',
-                    '3' => 'Parda',
-                    '4' => 'Amarela',
-                    '5' => 'Indígena'
+                  null => 'Selecione a cor/raça',
+                  '0' => 'Não declarada',
+                  '1' => 'Branca',
+                  '2' => 'Preta',
+                  '3' => 'Parda',
+                  '4' => 'Amarela',
+                  '5' => 'Indígena'
                 ], ['class' => 'select-search-off t-field-select__input select2-container']);
-?>
+                ?>
                 <?php echo $form->error($modelStudentIdentification, 'color_race'); ?>
               </div>
             </div>
@@ -314,20 +315,20 @@ echo $form->error($modelStudentIdentification, 'birthday');
               <div class="t-field-select" id="nationality-select">
                 <?= $form->label($modelStudentIdentification, 'nationality', ['class' => 't-field-select__label--required']); ?>
                 <?=
-    $form->dropDownList(
-        $modelStudentIdentification,
-        'nationality',
-        [null => 'Selecione a nacionalidade', '1' => 'Brasileira', '2' => 'Brasileira: Nascido no exterior ou Naturalizado', '3' => 'Estrangeira'],
-        ['class' => 'select-search-off t-field-select__input select2-container'],
-        [
-            'ajax' => [
-                'type' => 'POST',
-                'url' => CController::createUrl('student/student/getnations'),
-                'update' => '#StudentIdentification_edcenso_nation_fk'
-            ]
-        ]
-    );
-?>
+                  $form->dropDownList(
+                    $modelStudentIdentification,
+                    'nationality',
+                    [null => 'Selecione a nacionalidade', '1' => 'Brasileira', '2' => 'Brasileira: Nascido no exterior ou Naturalizado', '3' => 'Estrangeira'],
+                    ['class' => 'select-search-off t-field-select__input select2-container'],
+                    [
+                      'ajax' => [
+                        'type' => 'POST',
+                        'url' => Yii::app()->createUrl('student/student/getnations'),
+                        'update' => '#StudentIdentification_edcenso_nation_fk'
+                      ]
+                    ]
+                  );
+                ?>
                 <?php echo $form->error($modelStudentIdentification, 'nationality'); ?>
               </div>
             </div>
@@ -336,13 +337,13 @@ echo $form->error($modelStudentIdentification, 'birthday');
               <div class="t-field-select">
                 <?php echo $form->label($modelStudentIdentification, 'edcenso_nation_fk', ['class' => 't-field-select__label--required']); ?>
                 <?php
-echo $form->dropDownList(
-    $modelStudentIdentification,
-    'edcenso_nation_fk',
-    CHtml::listData(EdcensoNation::model()->findAll(['order' => 'name']), 'id', 'name'),
-    ['prompt' => 'Selecione uma nação', 'class' => 'select-search-on nationality-sensitive no-br t-field-select__input select2-container', 'disabled' => 'disabled']
-);
-?>
+                echo $form->dropDownList(
+                  $modelStudentIdentification,
+                  'edcenso_nation_fk',
+                  CHtml::listData(EdcensoNation::model()->findAll(['order' => 'name']), 'id', 'name'),
+                  ['prompt' => 'Selecione uma nação', 'class' => 'select-search-on nationality-sensitive no-br t-field-select__input select2-container', 'disabled' => 'disabled']
+                );
+                ?>
                 <?php echo $form->error($modelStudentIdentification, 'edcenso_nation_fk'); ?>
               </div>
             </div>
@@ -354,22 +355,22 @@ echo $form->dropDownList(
               <div class="t-field-select js-hide-not-required js-change-required">
                 <?php echo $form->label($modelStudentIdentification, 'edcenso_uf_fk', ['class' => 't-field-select__label--required']); ?>
                 <?php
-echo $form->dropDownList(
-    $modelStudentIdentification,
-    'edcenso_uf_fk',
-    CHtml::listData(EdcensoUf::model()->findAll(['order' => 'name']), 'id', 'name'),
-    [
-        'ajax' => [
-            'type' => 'POST',
-            'url' => CController::createUrl('student/getcities', ['rt' => 0]),
-            'update' => '#StudentIdentification_edcenso_city_fk'
-        ],
-        'prompt' => 'Selecione um estado',
-        'class' => 'select-search-on nationality-sensitive br t-field-select__input select2-container',
-        'disabled' => 'disabled',
-    ]
-);
-?>
+                echo $form->dropDownList(
+                  $modelStudentIdentification,
+                  'edcenso_uf_fk',
+                  CHtml::listData(EdcensoUf::model()->findAll(['order' => 'name']), 'id', 'name'),
+                  [
+                    'ajax' => [
+                      'type' => 'POST',
+                      'url' => Yii::app()->createUrl('student/getcities', ['rt' => 0]),
+                      'update' => '#StudentIdentification_edcenso_city_fk'
+                    ],
+                    'prompt' => 'Selecione um estado',
+                    'class' => 'select-search-on nationality-sensitive br t-field-select__input select2-container',
+                    'disabled' => 'disabled',
+                  ]
+                );
+                ?>
                 <?php echo $form->error($modelStudentIdentification, 'edcenso_uf_fk'); ?>
               </div>
             </div>
@@ -378,20 +379,20 @@ echo $form->dropDownList(
               <div class="t-field-select js-hide-not-required js-change-required" id="city-select">
                 <?php echo $form->label($modelStudentIdentification, 'edcenso_city_fk', ['class' => 't-field-select__label--required']); ?>
                 <?php
-echo $form->dropDownList(
-    $modelStudentIdentification,
-    'edcenso_city_fk',
-    CHtml::listData(EdcensoCity::model()->findAllByAttributes(
-        ['edcenso_uf_fk' => $modelStudentIdentification->edcenso_uf_fk],
-        ['order' => 'name']
-    ), 'id', 'name'),
-    [
-        'prompt' => 'Selecione uma cidade',
-        'disabled' => 'disabled',
-        'class' => 'select-search-on nationality-sensitive br t-field-select__input select2-container'
-    ]
-);
-?>
+                echo $form->dropDownList(
+                  $modelStudentIdentification,
+                  'edcenso_city_fk',
+                  CHtml::listData(EdcensoCity::model()->findAllByAttributes(
+                    ['edcenso_uf_fk' => $modelStudentIdentification->edcenso_uf_fk],
+                    ['order' => 'name']
+                  ), 'id', 'name'),
+                  [
+                    'prompt' => 'Selecione uma cidade',
+                    'disabled' => 'disabled',
+                    'class' => 'select-search-on nationality-sensitive br t-field-select__input select2-container'
+                  ]
+                );
+                ?>
                 <?php echo $form->error($modelStudentIdentification, 'edcenso_city_fk'); ?>
               </div>
             </div>
@@ -403,10 +404,10 @@ echo $form->dropDownList(
               <div class=" t-field-text js-hide-not-required" id="email">
                 <?php echo $form->label($modelStudentIdentification, 'id_email', ['class' => 't-field-text__label']); ?>
                 <?php echo $form->textField(
-    $modelStudentIdentification,
-    'id_email',
-    ['size' => 60, 'maxlength' => 255, 'class' => 't-field-text__input', 'placeholder' => 'Digite o Email']
-); ?>
+                  $modelStudentIdentification,
+                  'id_email',
+                  ['size' => 60, 'maxlength' => 255, 'class' => 't-field-text__input', 'placeholder' => 'Digite o Email']
+                ); ?>
                 <?php echo $form->error($modelStudentIdentification, 'id_email'); ?>
               </div>
             </div>
@@ -416,35 +417,35 @@ echo $form->dropDownList(
                 <?php echo CHtml::label('Escolaridade', 'scholarity', ['class' => 't-field-select__label']); ?>
                 <?php
                 echo $form->dropDownList(
-                    $modelStudentIdentification,
-                    'scholarity',
-                    [
-                        '0' => 'Selecione a escolaridade',
-                        '1' => 'Formação Geral',
-                        '2' => 'Modalidade Normal (Magistério)',
-                        '3' => 'Curso Técnico',
-                        '4' => 'Magistério Indígena Modalidade Normal',
-                        '5' => 'Ensino Fundamental',
-                    ],
-                    [
-                        'class' => 'select-search-off t-field-select__input select2-container'
-                    ]
+                  $modelStudentIdentification,
+                  'scholarity',
+                  [
+                    '0' => 'Selecione a escolaridade',
+                    '1' => 'Formação Geral',
+                    '2' => 'Modalidade Normal (Magistério)',
+                    '3' => 'Curso Técnico',
+                    '4' => 'Magistério Indígena Modalidade Normal',
+                    '5' => 'Ensino Fundamental',
+                  ],
+                  [
+                    'class' => 'select-search-off t-field-select__input select2-container'
+                  ]
                 );
-?>
+                ?>
                 <?php echo $form->error($modelStudentIdentification, 'scholarity'); ?>
               </div>
             </div>
           </div>
           <div class="row">
             <div class="column clearleft is-two-fifths js-is-indigenous hide">
-                <?php echo $form->label($modelStudentIdentification, 'id_indigenous_people', ['class' => 't-field-text__label t-field-select__label--required']); ?>
-                <?php echo $form->dropDownList(
-    $modelStudentIdentification,
-    'id_indigenous_people',
-    CHtml::listData(EdcensoIndigenousPeople::model()->findAll(['order' => 'id_indigenous_people']), 'id_indigenous_people', 'name'),
-    ['class' => 'select-search-on t-field-select__input select2-container', 'prompt' => 'Selecione um povo indígena']
-)?>
-                <?php echo $form->error($modelStudentIdentification, 'id_indigenous_people'); ?>
+              <?php echo $form->label($modelStudentIdentification, 'id_indigenous_people', ['class' => 't-field-text__label t-field-select__label--required']); ?>
+              <?php echo $form->dropDownList(
+                $modelStudentIdentification,
+                'id_indigenous_people',
+                CHtml::listData(EdcensoIndigenousPeople::model()->findAll(['order' => 'id_indigenous_people']), 'id_indigenous_people', 'name'),
+                ['class' => 'select-search-on t-field-select__input select2-container', 'prompt' => 'Selecione um povo indígena']
+              ) ?>
+              <?php echo $form->error($modelStudentIdentification, 'id_indigenous_people'); ?>
             </div>
             <div class="column clearleft is-two-fifths"></div>
           </div>
@@ -467,7 +468,7 @@ echo $form->dropDownList(
               <div id="StudentIdentification_deficiencies"
                 class="t-field-checkbox-group control-group deficiencies-container js-change-required js-visibility-deficiencies">
                 <label for="deficiency_type_blindness" class="t-field-checkbox__label--required">
-                    Deficiência, transtorno do espectro autista e altas habilidades ou superdotação
+                  Deficiência, transtorno do espectro autista e altas habilidades ou superdotação
                 </label>
                 <div class="t-field-checkbox">
                   <?php echo $form->checkBox($modelStudentIdentification, 'deficiency_type_blindness', ['value' => 1, 'uncheckValue' => 0, 'class' => 'linked-deficiency']); ?>
@@ -526,46 +527,46 @@ echo $form->dropDownList(
               </div>
               <div class="t-field-checkbox-group" id="transtorno-checkbox">
                 <h3>
-                    Transtorno(s) que impacta(m) o desenvolvimento da aprendizagem
+                  Transtorno(s) que impacta(m) o desenvolvimento da aprendizagem
                 </h3>
                 <div class="t-field-checkbox-group" id="transtorno-checkbox">
-                    <div class="t-field-checkbox">
+                  <div class="t-field-checkbox">
                     <?php echo $form->checkBox($modelStudentDisorder, 'dyscalculia', ['class' => 'js-disorder-impact-learning', 'value' => 1, 'uncheckValue' => 0]); ?>
                     <label for="disorder" class="t-field-checkbox">
-                        Discalculia ou outro transtorno da matemática e raciocínio lógico
+                      Discalculia ou outro transtorno da matemática e raciocínio lógico
                     </label>
-                    </div>
-                    <div class="t-field-checkbox">
+                  </div>
+                  <div class="t-field-checkbox">
                     <?php echo $form->checkBox($modelStudentDisorder, 'dysgraphia', ['class' => 'js-disorder-impact-learning', 'value' => 1, 'uncheckValue' => 0]); ?>
                     <label for="disorder" class="t-field-checkbox">
-                        Disgrafia, Disortografia ou outro transtorno da escrita e ortografia
+                      Disgrafia, Disortografia ou outro transtorno da escrita e ortografia
                     </label>
-                    </div>
-                    <div class="t-field-checkbox">
+                  </div>
+                  <div class="t-field-checkbox">
                     <?php echo $form->checkBox($modelStudentDisorder, 'dyslalia', ['class' => 'js-disorder-impact-learning', 'value' => 1, 'uncheckValue' => 0]); ?>
                     <label for="disorder" class="t-field-checkbox">
-                       Dislalia ou outro transtorno da linguagem e comunicação
+                      Dislalia ou outro transtorno da linguagem e comunicação
                     </label>
-                    </div>
-                    <div class="t-field-checkbox">
+                  </div>
+                  <div class="t-field-checkbox">
                     <?php echo $form->checkBox($modelStudentDisorder, 'dyslexia', ['class' => 'js-disorder-impact-learning', 'value' => 1, 'uncheckValue' => 0]); ?>
                     <label for="dislexia" class="t-field-checkbox">
-                       Dislexia
+                      Dislexia
                     </label>
-                    </div>
-                    <div class="t-field-checkbox">
+                  </div>
+                  <div class="t-field-checkbox">
                     <?php echo $form->checkBox($modelStudentDisorder, 'tdah', ['class' => 'js-disorder-impact-learning', 'value' => 1, 'uncheckValue' => 0]); ?>
                     <label for="tdah" class="t-field-checkbox">
-                       Transtorno do Déficit de Atenção com Hiperatividade (TDAH)
+                      Transtorno do Déficit de Atenção com Hiperatividade (TDAH)
                     </label>
-                    </div>
-                    <div class="t-field-checkbox">
+                  </div>
+                  <div class="t-field-checkbox">
                     <?php echo $form->checkBox($modelStudentDisorder, 'tpac', ['class' => 'js-disorder-impact-learning', 'value' => 1, 'uncheckValue' => 0]); ?>
                     <label for="TPAC" class="t-field-checkbox">
-                       Transtorno do Processamento Auditivo Central (TPAC)
+                      Transtorno do Processamento Auditivo Central (TPAC)
                     </label>
-                    </div>
-                    <?php echo $form->checkBox($modelStudentDisorder, 'disorders_impact_learning', ['class' => 'js-disorders-impact-learning', 'style' => 'display:none;', 'checked' => false]); ?>
+                  </div>
+                  <?php echo $form->checkBox($modelStudentDisorder, 'disorders_impact_learning', ['class' => 'js-disorders-impact-learning', 'style' => 'display:none;', 'checked' => false]); ?>
                 </div>
               </div>
             </div>
@@ -671,13 +672,13 @@ echo $form->dropDownList(
                     $modelStudentIdentification,
                     'gov_id',
                     [
-                        'size' => 60,
-                        'maxlength' => 12,
-                        'class' => 't-field-text__input',
-                        'placeholder' => 'Não possui',
-                        'disabled' => 'disabled'
+                      'size' => 60,
+                      'maxlength' => 12,
+                      'class' => 't-field-text__input',
+                      'placeholder' => 'Não possui',
+                      'disabled' => 'disabled'
                     ]
-                ); ?>
+                  ); ?>
                   <button type="button" id="copy-gov-id" class="t-button-icon">
                     <span class="t-icon-copy"></span>
                   </button>
@@ -687,7 +688,7 @@ echo $form->dropDownList(
                 </div>
               </div>
             </div>
-          <?php
+            <?php
           endif; ?>
         </div>
 
@@ -712,22 +713,22 @@ echo $form->dropDownList(
               <div class="t-field-select" id="filiation-select">
                 <?php echo $form->label($modelStudentIdentification, 'filiation', ['class' => 't-field-select__label--required']); ?>
                 <?php
-if (Yii::app()->features->isEnable(TFeature::FEAT_INTEGRATIONS_SEDSP)) {
-    echo $form->DropDownList(
-        $modelStudentIdentification,
-        'filiation',
-        ['1' => 'Pai e/ou Mãe'],
-        ['class' => 'select-search-off t-field-select__input select2-container']
-    );
-} else {
-    echo $form->DropDownList(
-        $modelStudentIdentification,
-        'filiation',
-        [null => 'Selecione a filiação', '0' => 'Não declarado/Ignorado', '1' => 'Pai e/ou Mãe'],
-        ['class' => 'select-search-off t-field-select__input select2-container']
-    );
-}
-?>
+                if (Yii::app()->features->isEnable(TFeature::FEAT_INTEGRATIONS_SEDSP)) {
+                  echo $form->DropDownList(
+                    $modelStudentIdentification,
+                    'filiation',
+                    ['1' => 'Pai e/ou Mãe'],
+                    ['class' => 'select-search-off t-field-select__input select2-container']
+                  );
+                } else {
+                  echo $form->DropDownList(
+                    $modelStudentIdentification,
+                    'filiation',
+                    [null => 'Selecione a filiação', '0' => 'Não declarado/Ignorado', '1' => 'Pai e/ou Mãe'],
+                    ['class' => 'select-search-off t-field-select__input select2-container']
+                  );
+                }
+                ?>
                 <?php echo $form->error($modelStudentIdentification, 'filiation'); ?>
               </div>
             </div>
@@ -736,13 +737,13 @@ if (Yii::app()->features->isEnable(TFeature::FEAT_INTEGRATIONS_SEDSP)) {
               <div class="t-field-select" id="responsable-select">
                 <?php echo $form->label($modelStudentIdentification, 'responsable', ['class' => 't-field-select__label']); ?>
                 <?php
-echo $form->dropDownList(
-    $modelStudentIdentification,
-    'responsable',
-    [null => 'Selecione o responsável', 0 => 'Pai', 1 => 'Mãe', 2 => 'Outro', ],
-    ['class' => 'select-search-off t-field-select__input select2-container']
-);
-?>
+                echo $form->dropDownList(
+                  $modelStudentIdentification,
+                  'responsable',
+                  [null => 'Selecione o responsável', 0 => 'Pai', 1 => 'Mãe', 2 => 'Outro',],
+                  ['class' => 'select-search-off t-field-select__input select2-container']
+                );
+                ?>
                 <?php echo $form->error($modelStudentIdentification, 'responsable'); ?>
               </div>
             </div>
@@ -762,10 +763,10 @@ echo $form->dropDownList(
               <div class="t-field-text js-hide-not-required" id="nameResponsable">
                 <?php echo $form->label($modelStudentIdentification, 'responsable_name', ['class' => 't-field-text__label']); ?>
                 <?php echo $form->textField(
-    $modelStudentIdentification,
-    'responsable_name',
-    ['size' => 60, 'maxlength' => 100, 'class' => 't-field-text__input', 'placeholder' => 'Digite o Nome do Responsável']
-); ?>
+                  $modelStudentIdentification,
+                  'responsable_name',
+                  ['size' => 60, 'maxlength' => 100, 'class' => 't-field-text__input', 'placeholder' => 'Digite o Nome do Responsável']
+                ); ?>
                 <?php echo $form->error($modelStudentIdentification, 'responsable_name'); ?>
               </div>
             </div>
@@ -776,19 +777,19 @@ echo $form->dropDownList(
             <div class="column clearleft is-two-fifths">
               <div class=" t-field-text js-hide-not-required" id="emailResponsable">
                 <?php echo $form->label(
-                    $modelStudentIdentification,
-                    'email_responsable',
-                    ['class' => 't-field-text__label']
+                  $modelStudentIdentification,
+                  'email_responsable',
+                  ['class' => 't-field-text__label']
                 ); ?>
                 <?php echo $form->textField(
-                    $modelStudentIdentification,
-                    'email_responsable',
-                    [
-                        'size' => 60,
-                        'maxlength' => 255,
-                        'class' => 't-field-text__input',
-                        'placeholder' => 'Digite o Email'
-                    ]
+                  $modelStudentIdentification,
+                  'email_responsable',
+                  [
+                    'size' => 60,
+                    'maxlength' => 255,
+                    'class' => 't-field-text__input',
+                    'placeholder' => 'Digite o Email'
+                  ]
                 ); ?>
                 <?php echo $form->error($modelStudentIdentification, 'email_responsable'); ?>
               </div>
@@ -798,14 +799,14 @@ echo $form->dropDownList(
               <div class="t-field-text js-hide-not-required" id="responsableJob">
                 <?php echo $form->label($modelStudentIdentification, 'responsable_job', ['class' => 't-field-text__label']); ?>
                 <?php echo $form->textField(
-                    $modelStudentIdentification,
-                    'responsable_job',
-                    [
-                        'size' => 60,
-                        'maxlength' => 100,
-                        'class' => 't-field-text__input',
-                        'placeholder' => 'Digite a Profissão do Responsável'
-                    ]
+                  $modelStudentIdentification,
+                  'responsable_job',
+                  [
+                    'size' => 60,
+                    'maxlength' => 100,
+                    'class' => 't-field-text__input',
+                    'placeholder' => 'Digite a Profissão do Responsável'
+                  ]
                 ); ?>
                 <?php echo $form->error($modelStudentIdentification, 'responsable_job'); ?>
               </div>
@@ -818,16 +819,16 @@ echo $form->dropDownList(
               <div class="t-field-select js-hide-not-required" id="scholarityResponsable-select">
                 <?php echo $form->label($modelStudentIdentification, 'responsable_scholarity', ['class' => 't-field-select__label']); ?>
                 <?php echo $form->DropDownList(
-                    $modelStudentIdentification,
-                    'responsable_scholarity',
-                    [
-                        null => 'Selecione a escolaridade',
-                        '1' => 'Formação Geral',
-                        '2' => 'Modalidade Normal (Magistério)',
-                        '3' => 'Curso Técnico',
-                        '4' => 'Magistério Indígena Modalidade Normal'
-                    ],
-                    ['class' => 'select-search-off t-field-select__input select2-container']
+                  $modelStudentIdentification,
+                  'responsable_scholarity',
+                  [
+                    null => 'Selecione a escolaridade',
+                    '1' => 'Formação Geral',
+                    '2' => 'Modalidade Normal (Magistério)',
+                    '3' => 'Curso Técnico',
+                    '4' => 'Magistério Indígena Modalidade Normal'
+                  ],
+                  ['class' => 'select-search-off t-field-select__input select2-container']
                 ); ?>
                 <?php echo $form->error($modelStudentIdentification, 'responsable_scholarity'); ?>
               </div>
@@ -837,9 +838,9 @@ echo $form->dropDownList(
               <div class="t-field-text js-hide-not-required" id="rgResposable">
                 <?php echo $form->label($modelStudentIdentification, 'responsable_rg', ['class' => 't-field-text__label']); ?>
                 <?php echo $form->textField(
-                    $modelStudentIdentification,
-                    'responsable_rg',
-                    ['size' => 60, 'maxlength' => 45, 'class' => 't-field-text__input', 'placeholder' => 'Digite o RG do Responsável']
+                  $modelStudentIdentification,
+                  'responsable_rg',
+                  ['size' => 60, 'maxlength' => 45, 'class' => 't-field-text__input', 'placeholder' => 'Digite o RG do Responsável']
                 ); ?>
                 <?php echo $form->error($modelStudentIdentification, 'responsable_rg'); ?>
               </div>
@@ -876,14 +877,14 @@ echo $form->dropDownList(
               <div class="t-field-text js-hide-not-required  js-disabled-finputs" id="filiationMain">
                 <?php echo $form->label($modelStudentIdentification, 'filiation_1', ['class' => 't-field-text__label']); ?>
                 <?php echo $form->textField(
-                    $modelStudentIdentification,
-                    'filiation_1',
-                    [
-                        'size' => 60,
-                        'maxlength' => 100,
-                        'class' => 'js-disabled-finputs js-finput-clear t-field-text__input',
-                        'placeholder' => 'Digite o Nome Completo da Filiação'
-                    ]
+                  $modelStudentIdentification,
+                  'filiation_1',
+                  [
+                    'size' => 60,
+                    'maxlength' => 100,
+                    'class' => 'js-disabled-finputs js-finput-clear t-field-text__input',
+                    'placeholder' => 'Digite o Nome Completo da Filiação'
+                  ]
                 ); ?>
                 <?php echo $form->error($modelStudentIdentification, 'filiation_1'); ?>
               </div>
@@ -893,9 +894,9 @@ echo $form->dropDownList(
               <div class="t-field-text js-hide-not-required js-disabled-finputs" id="cpfFiliation1">
                 <?php echo $form->label($modelStudentIdentification, 'filiation_1_cpf', ['class' => 't-field-text__label']); ?>
                 <?php echo $form->textField(
-                    $modelStudentIdentification,
-                    'filiation_1_cpf',
-                    ['size' => 60, 'maxlength' => 14, 'class' => 'js-disabled-finputs js-finput-clear t-field-text__input']
+                  $modelStudentIdentification,
+                  'filiation_1_cpf',
+                  ['size' => 60, 'maxlength' => 14, 'class' => 'js-disabled-finputs js-finput-clear t-field-text__input']
                 ); ?>
                 <?php echo $form->error($modelStudentIdentification, 'filiation_1_cpf'); ?>
               </div>
@@ -915,14 +916,14 @@ echo $form->dropDownList(
               <div class="t-field-text  js-hide-not-required js-disabled-finputs" id="rgFiliation1">
                 <?php echo $form->label($modelStudentIdentification, 'filiation_1_rg', ['class' => 't-field-text__label']); ?>
                 <?php echo $form->textField(
-                    $modelStudentIdentification,
-                    'filiation_1_rg',
-                    [
-                        'size' => 60,
-                        'maxlength' => 45,
-                        'class' => 'js-disabled-finputs js-finput-clear t-field-text__input',
-                        'placeholder' => 'Digite o RG da Filiação 1'
-                    ]
+                  $modelStudentIdentification,
+                  'filiation_1_rg',
+                  [
+                    'size' => 60,
+                    'maxlength' => 45,
+                    'class' => 'js-disabled-finputs js-finput-clear t-field-text__input',
+                    'placeholder' => 'Digite o RG da Filiação 1'
+                  ]
                 ); ?>
                 <?php echo $form->error($modelStudentIdentification, 'filiation_1_rg'); ?>
               </div>
@@ -936,17 +937,17 @@ echo $form->dropDownList(
                 <?php echo $form->label($modelStudentIdentification, 'filiation_1_scholarity', ['class' => 't-field-select__label']); ?>
                 <?php
                 echo $form->dropDownList($modelStudentIdentification, 'filiation_1_scholarity', [
-                    null => 'Não declarado',
-                    0 => 'Não sabe ler e escrever ',
-                    1 => 'Sabe ler e escrever',
-                    2 => 'Ens. Fund. Incompleto',
-                    3 => 'Ens. Fund. Completo',
-                    4 => 'Ens. Médio Incompleto',
-                    5 => 'Ens. Médio Completo',
-                    6 => 'Ens. Sup. Incompleto',
-                    7 => 'Ens. Sup. Completo'
+                  null => 'Não declarado',
+                  0 => 'Não sabe ler e escrever ',
+                  1 => 'Sabe ler e escrever',
+                  2 => 'Ens. Fund. Incompleto',
+                  3 => 'Ens. Fund. Completo',
+                  4 => 'Ens. Médio Incompleto',
+                  5 => 'Ens. Médio Completo',
+                  6 => 'Ens. Sup. Incompleto',
+                  7 => 'Ens. Sup. Completo'
                 ], ['class' => 'select-search-off js-disabled-finputs js-finput-clear t-field-select__input select2-container']);
-?>
+                ?>
                 <?php echo $form->error($modelStudentIdentification, 'filiation_1_scholarity'); ?>
               </div>
             </div>
@@ -955,15 +956,15 @@ echo $form->dropDownList(
               <div class="t-field-text js-hide-not-required js-disabled-finputs" id="professionFiliation1">
                 <?php echo $form->label($modelStudentIdentification, 'filiation_1_job', ['class' => 't-field-text__label']); ?>
                 <?php echo $form->textField(
-    $modelStudentIdentification,
-    'filiation_1_job',
-    [
-        'size' => 60,
-        'maxlength' => 100,
-        'class' => 'js-disabled-finputs js-finput-clear t-field-text__input select2-container',
-        'placeholder' => 'Digite a Profissão da Filiação 1'
-    ]
-); ?>
+                  $modelStudentIdentification,
+                  'filiation_1_job',
+                  [
+                    'size' => 60,
+                    'maxlength' => 100,
+                    'class' => 'js-disabled-finputs js-finput-clear t-field-text__input select2-container',
+                    'placeholder' => 'Digite a Profissão da Filiação 1'
+                  ]
+                ); ?>
                 <?php echo $form->error($modelStudentIdentification, 'filiation_1_job'); ?>
               </div>
             </div>
@@ -982,14 +983,14 @@ echo $form->dropDownList(
               <div class="t-field-text js-hide-not-required js-disabled-finputs" id="filiationSecondary">
                 <?php echo $form->label($modelStudentIdentification, 'filiation_2', ['class' => 't-field-text__label']); ?>
                 <?php echo $form->textField(
-                    $modelStudentIdentification,
-                    'filiation_2',
-                    [
-                        'size' => 60,
-                        'maxlength' => 100,
-                        'class' => 'js-disabled-finputs js-finput-clear t-field-text__input',
-                        'placeholder' => 'Digite o Nome Completo do Pai'
-                    ]
+                  $modelStudentIdentification,
+                  'filiation_2',
+                  [
+                    'size' => 60,
+                    'maxlength' => 100,
+                    'class' => 'js-disabled-finputs js-finput-clear t-field-text__input',
+                    'placeholder' => 'Digite o Nome Completo do Pai'
+                  ]
                 ); ?>
                 <?php echo $form->error($modelStudentIdentification, 'filiation_2'); ?>
               </div>
@@ -999,9 +1000,9 @@ echo $form->dropDownList(
               <div class="t-field-text js-hide-not-required js-disabled-finputs" id="cpfFiliation2">
                 <?php echo $form->label($modelStudentIdentification, 'filiation_2_cpf', ['class' => 't-field-text__label']); ?>
                 <?php echo $form->textField(
-                    $modelStudentIdentification,
-                    'filiation_2_cpf',
-                    ['size' => 60, 'maxlength' => 14, 'class' => 'js-disabled-finputs js-finput-clear t-field-text__input']
+                  $modelStudentIdentification,
+                  'filiation_2_cpf',
+                  ['size' => 60, 'maxlength' => 14, 'class' => 'js-disabled-finputs js-finput-clear t-field-text__input']
                 ); ?>
                 <?php echo $form->error($modelStudentIdentification, 'filiation_2_cpf'); ?>
               </div>
@@ -1021,9 +1022,9 @@ echo $form->dropDownList(
               <div class="t-field-text js-hide-not-required js-disabled-finputs" id="rgFiliation2">
                 <?php echo $form->label($modelStudentIdentification, 'filiation_2_rg', ['class' => 't-field-text__label']); ?>
                 <?php echo $form->textField(
-                    $modelStudentIdentification,
-                    'filiation_2_rg',
-                    ['size' => 60, 'maxlength' => 45, 'class' => 'js-disabled-finputs js-finput-clear t-field-text__input', 'placeholder' => 'Digite o RG do Pai']
+                  $modelStudentIdentification,
+                  'filiation_2_rg',
+                  ['size' => 60, 'maxlength' => 45, 'class' => 'js-disabled-finputs js-finput-clear t-field-text__input', 'placeholder' => 'Digite o RG do Pai']
                 ); ?>
                 <?php echo $form->error($modelStudentIdentification, 'filiation_2_rg'); ?>
               </div>
@@ -1037,17 +1038,17 @@ echo $form->dropDownList(
                 <?php echo $form->label($modelStudentIdentification, 'filiation_2_scholarity', ['class' => 'control-label t-field-select__label']); ?>
                 <?php
                 echo $form->dropDownList($modelStudentIdentification, 'filiation_2_scholarity', [
-                    null => 'Não declarado',
-                    0 => 'Não sabe ler e escrever ',
-                    1 => 'Sabe ler e escrever',
-                    2 => 'Ens. Fund. Incompleto',
-                    3 => 'Ens. Fund. Completo',
-                    4 => 'Ens. Médio Incompleto',
-                    5 => 'Ens. Médio Completo',
-                    6 => 'Ens. Sup. Incompleto',
-                    7 => 'Ens. Sup. Completo'
+                  null => 'Não declarado',
+                  0 => 'Não sabe ler e escrever ',
+                  1 => 'Sabe ler e escrever',
+                  2 => 'Ens. Fund. Incompleto',
+                  3 => 'Ens. Fund. Completo',
+                  4 => 'Ens. Médio Incompleto',
+                  5 => 'Ens. Médio Completo',
+                  6 => 'Ens. Sup. Incompleto',
+                  7 => 'Ens. Sup. Completo'
                 ], ['class' => 'select-search-off js-disabled-finputs js-finput-clear t-field-select__input select2-container']);
-?>
+                ?>
                 <?php echo $form->error($modelStudentIdentification, 'filiation_2_scholarity'); ?>
               </div>
             </div>
@@ -1056,10 +1057,10 @@ echo $form->dropDownList(
               <div class="t-field-text js-hide-not-required js-disabled-finputs" id="jobFiliation2">
                 <?php echo $form->label($modelStudentIdentification, 'filiation_2_job', ['class' => 'ct-field-text__label']); ?>
                 <?php echo $form->textField(
-    $modelStudentIdentification,
-    'filiation_2_job',
-    ['size' => 60, 'maxlength' => 100, 'class' => 'js-disabled-finputs js-finput-clear t-field-text__input', 'placeholder' => 'Digite a Profissão do Pai']
-); ?>
+                  $modelStudentIdentification,
+                  'filiation_2_job',
+                  ['size' => 60, 'maxlength' => 100, 'class' => 'js-disabled-finputs js-finput-clear t-field-text__input', 'placeholder' => 'Digite a Profissão do Pai']
+                ); ?>
                 <?php echo $form->error($modelStudentIdentification, 'filiation_2_job'); ?>
               </div>
             </div>
@@ -1081,14 +1082,14 @@ echo $form->dropDownList(
             <div class="column clearleft is-two-fifths">
               <div class="t-field-checkbox">
                 <?php echo $form->checkBox(
-                    $modelStudentDocumentsAndAddress,
-                    'received_cc',
-                    [
-                        'value' => 1,
-                        'class' => 't-field-checkbox__input',
-                        'uncheckValue' => 0,
-                        'checked' => ($modelStudentDocumentsAndAddress->id == '') ? 'checked' : $modelStudentDocumentsAndAddress->received_cc
-                    ]
+                  $modelStudentDocumentsAndAddress,
+                  'received_cc',
+                  [
+                    'value' => 1,
+                    'class' => 't-field-checkbox__input',
+                    'uncheckValue' => 0,
+                    'checked' => ($modelStudentDocumentsAndAddress->id == '') ? 'checked' : $modelStudentDocumentsAndAddress->received_cc
+                  ]
                 ); ?>
                 <label for="checkbox" class="t-field-checkbox">
                   <?php echo StudentDocumentsAndAddress::model()->attributeLabels()['received_cc']; ?>
@@ -1096,14 +1097,14 @@ echo $form->dropDownList(
               </div>
               <div class="t-field-checkbox">
                 <?php echo $form->checkBox(
-                    $modelStudentDocumentsAndAddress,
-                    'received_address',
-                    [
-                        'value' => 1,
-                        'class' => 't-field-checkbox__input',
-                        'uncheckValue' => 0,
-                        'checked' => ($modelStudentDocumentsAndAddress->id == '') ? 'checked' : $modelStudentDocumentsAndAddress->received_address
-                    ]
+                  $modelStudentDocumentsAndAddress,
+                  'received_address',
+                  [
+                    'value' => 1,
+                    'class' => 't-field-checkbox__input',
+                    'uncheckValue' => 0,
+                    'checked' => ($modelStudentDocumentsAndAddress->id == '') ? 'checked' : $modelStudentDocumentsAndAddress->received_address
+                  ]
                 ); ?>
                 <label for="checkbox" class="t-field-checkbox ">
                   <?php echo StudentDocumentsAndAddress::model()->attributeLabels()['received_address']; ?>
@@ -1113,14 +1114,14 @@ echo $form->dropDownList(
             <div class="column clearleft--on-mobile is-two-fifths">
               <div class="t-field-checkbox">
                 <?php echo $form->checkBox(
-                    $modelStudentDocumentsAndAddress,
-                    'received_photo',
-                    [
-                        'value' => 1,
-                        'class' => 't-field-checkbox__input',
-                        'uncheckValue' => 0,
-                        'checked' => ($modelStudentDocumentsAndAddress->id == '') ? 'checked' : $modelStudentDocumentsAndAddress->received_photo
-                    ]
+                  $modelStudentDocumentsAndAddress,
+                  'received_photo',
+                  [
+                    'value' => 1,
+                    'class' => 't-field-checkbox__input',
+                    'uncheckValue' => 0,
+                    'checked' => ($modelStudentDocumentsAndAddress->id == '') ? 'checked' : $modelStudentDocumentsAndAddress->received_photo
+                  ]
                 ); ?>
                 <label for="checkbox" class="t-field-checkbox ">
                   <?php echo StudentDocumentsAndAddress::model()->attributeLabels()['received_photo']; ?>
@@ -1128,14 +1129,14 @@ echo $form->dropDownList(
               </div>
               <div class="t-field-checkbox">
                 <?php echo $form->checkBox(
-                    $modelStudentDocumentsAndAddress,
-                    'received_nis',
-                    [
-                        'value' => 1,
-                        'class' => 't-field-checkbox__input',
-                        'uncheckValue' => 0,
-                        'checked' => ($modelStudentDocumentsAndAddress->id == '') ? 'checked' : $modelStudentDocumentsAndAddress->received_nis
-                    ]
+                  $modelStudentDocumentsAndAddress,
+                  'received_nis',
+                  [
+                    'value' => 1,
+                    'class' => 't-field-checkbox__input',
+                    'uncheckValue' => 0,
+                    'checked' => ($modelStudentDocumentsAndAddress->id == '') ? 'checked' : $modelStudentDocumentsAndAddress->received_nis
+                  ]
                 ); ?>
                 <label for="checkbox" class="t-field-checkbox ">
                   <?php echo StudentDocumentsAndAddress::model()->attributeLabels()['received_nis']; ?>
@@ -1145,14 +1146,14 @@ echo $form->dropDownList(
             <div class="column clearleft--on-mobile is-two-fifths">
               <div class="t-field-checkbox">
                 <?php echo $form->checkBox(
-                    $modelStudentDocumentsAndAddress,
-                    'received_responsable_rg',
-                    [
-                        'value' => 1,
-                        'class' => 't-field-checkbox__input',
-                        'uncheckValue' => 0,
-                        'checked' => ($modelStudentDocumentsAndAddress->id == '') ? 'checked' : $modelStudentDocumentsAndAddress->received_responsable_rg
-                    ]
+                  $modelStudentDocumentsAndAddress,
+                  'received_responsable_rg',
+                  [
+                    'value' => 1,
+                    'class' => 't-field-checkbox__input',
+                    'uncheckValue' => 0,
+                    'checked' => ($modelStudentDocumentsAndAddress->id == '') ? 'checked' : $modelStudentDocumentsAndAddress->received_responsable_rg
+                  ]
                 ); ?>
                 <label for="checkbox" class="t-field-checkbox">
                   <?php echo StudentDocumentsAndAddress::model()->attributeLabels()['received_responsable_rg']; ?>
@@ -1160,14 +1161,14 @@ echo $form->dropDownList(
               </div>
               <div class="t-field-checkbox">
                 <?php echo $form->checkBox(
-                    $modelStudentDocumentsAndAddress,
-                    'received_responsable_cpf',
-                    [
-                        'value' => 1,
-                        'class' => 't-field-checkbox__input',
-                        'uncheckValue' => 0,
-                        'checked' => ($modelStudentDocumentsAndAddress->id == '') ? 'checked' : $modelStudentDocumentsAndAddress->received_responsable_cpf
-                    ]
+                  $modelStudentDocumentsAndAddress,
+                  'received_responsable_cpf',
+                  [
+                    'value' => 1,
+                    'class' => 't-field-checkbox__input',
+                    'uncheckValue' => 0,
+                    'checked' => ($modelStudentDocumentsAndAddress->id == '') ? 'checked' : $modelStudentDocumentsAndAddress->received_responsable_cpf
+                  ]
                 ); ?>
                 <label for="checkbox" class="t-field-checkbox">
                   <?php echo StudentDocumentsAndAddress::model()->attributeLabels()['received_responsable_cpf']; ?>
@@ -1177,27 +1178,27 @@ echo $form->dropDownList(
             <div class="column clearleft--on-mobile is-two-fifths">
               <label for="checkbox" class="t-field-checkbox" style="align-items: center">
                 <?php echo $form->checkBox(
-                    $modelStudentDocumentsAndAddress,
-                    'consent_form',
-                    [
-                        'value' => 1,
-                        'class' => 't-field-checkbox__input',
-                        'uncheckValue' => 0,
-                        'checked' => ($modelStudentDocumentsAndAddress->id == '') ? 'checked' : $modelStudentDocumentsAndAddress->consent_form
-                    ]
+                  $modelStudentDocumentsAndAddress,
+                  'consent_form',
+                  [
+                    'value' => 1,
+                    'class' => 't-field-checkbox__input',
+                    'uncheckValue' => 0,
+                    'checked' => ($modelStudentDocumentsAndAddress->id == '') ? 'checked' : $modelStudentDocumentsAndAddress->consent_form
+                  ]
                 ); ?>
                 <?php echo StudentDocumentsAndAddress::model()->attributeLabels()['consent_form']; ?>
               </label>
               <label for="checkbox" class="t-field-checkbox" style="align-items: center">
                 <?php echo $form->checkBox(
-                    $modelStudentDocumentsAndAddress,
-                    'received_sus_card',
-                    [
-                        'value' => 1,
-                        'class' => 't-field-checkbox__input',
-                        'uncheckValue' => 0,
-                        'checked' => ($modelStudentDocumentsAndAddress->id == '') ? 'checked' : $modelStudentDocumentsAndAddress->received_sus_card
-                    ]
+                  $modelStudentDocumentsAndAddress,
+                  'received_sus_card',
+                  [
+                    'value' => 1,
+                    'class' => 't-field-checkbox__input',
+                    'uncheckValue' => 0,
+                    'checked' => ($modelStudentDocumentsAndAddress->id == '') ? 'checked' : $modelStudentDocumentsAndAddress->received_sus_card
+                  ]
                 ); ?>
                 <?php echo StudentDocumentsAndAddress::model()->attributeLabels()['received_sus_card']; ?>
               </label>
@@ -1205,27 +1206,27 @@ echo $form->dropDownList(
             <div class="column clearleft--on-mobile is-two-fifths">
               <label for="checkbox" class="t-field-checkbox" style="align-items: center">
                 <?php echo $form->checkBox(
-                    $modelStudentDocumentsAndAddress,
-                    'received_student_rg',
-                    [
-                        'value' => 1,
-                        'class' => 't-field-checkbox__input',
-                        'uncheckValue' => 0,
-                        'checked' => ($modelStudentDocumentsAndAddress->id == '') ? 'checked' : $modelStudentDocumentsAndAddress->received_student_rg
-                    ]
+                  $modelStudentDocumentsAndAddress,
+                  'received_student_rg',
+                  [
+                    'value' => 1,
+                    'class' => 't-field-checkbox__input',
+                    'uncheckValue' => 0,
+                    'checked' => ($modelStudentDocumentsAndAddress->id == '') ? 'checked' : $modelStudentDocumentsAndAddress->received_student_rg
+                  ]
                 ); ?>
                 <?php echo StudentDocumentsAndAddress::model()->attributeLabels()['received_student_rg']; ?>
               </label>
               <label for="checkbox" class="t-field-checkbox" style="align-items: center">
                 <?php echo $form->checkBox(
-                    $modelStudentDocumentsAndAddress,
-                    'received_student_cpf',
-                    [
-                        'value' => 1,
-                        'class' => 't-field-checkbox__input',
-                        'uncheckValue' => 0,
-                        'checked' => ($modelStudentDocumentsAndAddress->id == '') ? 'checked' : $modelStudentDocumentsAndAddress->received_student_cpf
-                    ]
+                  $modelStudentDocumentsAndAddress,
+                  'received_student_cpf',
+                  [
+                    'value' => 1,
+                    'class' => 't-field-checkbox__input',
+                    'uncheckValue' => 0,
+                    'checked' => ($modelStudentDocumentsAndAddress->id == '') ? 'checked' : $modelStudentDocumentsAndAddress->received_student_cpf
+                  ]
                 ); ?>
                 <?php echo StudentDocumentsAndAddress::model()->attributeLabels()['received_student_cpf']; ?>
               </label>
@@ -1244,10 +1245,10 @@ echo $form->dropDownList(
               <div class="t-field-select">
                 <?php echo $form->label($modelStudentDocumentsAndAddress, 'civil_certification', ['class' => 't-field-select__label']); ?>
                 <?php echo $form->DropDownList(
-                    $modelStudentDocumentsAndAddress,
-                    'civil_certification',
-                    [null => 'Selecione o modelo', '1' => 'Modelo Antigo', '2' => 'Modelo Novo'],
-                    ['class' => 'select-search-off t-field-select__input select2-container nationality-sensitive br no-br', 'disabled' => 'disabled']
+                  $modelStudentDocumentsAndAddress,
+                  'civil_certification',
+                  [null => 'Selecione o modelo', '1' => 'Modelo Antigo', '2' => 'Modelo Novo'],
+                  ['class' => 'select-search-off t-field-select__input select2-container nationality-sensitive br no-br', 'disabled' => 'disabled']
                 ); ?>
                 <?php echo $form->error($modelStudentDocumentsAndAddress, 'civil_certification'); ?>
               </div>
@@ -1257,10 +1258,10 @@ echo $form->dropDownList(
               <div class="t-field-select js-hidden-oldDocuments-fields" id="typeOfCivil-select">
                 <?php echo $form->label($modelStudentDocumentsAndAddress, 'civil_certification_type', ['class' => 't-field-select__label']); ?>
                 <?php echo $form->DropdownList(
-                    $modelStudentDocumentsAndAddress,
-                    'civil_certification_type',
-                    [null => 'Selecione o tipo', '1' => 'Nascimento', '2' => 'Casamento'],
-                    ['class' => 'select-search-off t-field-select__input select2-container nationality-sensitive br no-br', 'disabled' => 'disabled']
+                  $modelStudentDocumentsAndAddress,
+                  'civil_certification_type',
+                  [null => 'Selecione o tipo', '1' => 'Nascimento', '2' => 'Casamento'],
+                  ['class' => 'select-search-off t-field-select__input select2-container nationality-sensitive br no-br', 'disabled' => 'disabled']
                 ); ?>
                 <?php echo $form->error($modelStudentDocumentsAndAddress, 'civil_certification_type'); ?>
               </div>
@@ -1272,18 +1273,18 @@ echo $form->dropDownList(
               <div class="t-field-text js-hidden-oldDocuments-fields" id="termNumber">
                 <?php echo $form->label($modelStudentDocumentsAndAddress, 'civil_certification_term_number', ['class' => 't-field-text__label']); ?>
                 <?php echo $form->textField(
-                    $modelStudentDocumentsAndAddress,
-                    'civil_certification_term_number',
-                    [
-                        'size' => 8,
-                        'maxlength' => 8,
-                        'disabled' => 'disabled',
-                        'class' => 't-field-text__input nationality-sensitive br no-br',
-                        'placeholder' => 'Digite o Nº do Termo'
-                    ]
+                  $modelStudentDocumentsAndAddress,
+                  'civil_certification_term_number',
+                  [
+                    'size' => 8,
+                    'maxlength' => 8,
+                    'disabled' => 'disabled',
+                    'class' => 't-field-text__input nationality-sensitive br no-br',
+                    'placeholder' => 'Digite o Nº do Termo'
+                  ]
                 ); ?>
                 <span id="termMessage" data-toggle="tooltip" data-placement="top" data-original-title="">
-                  <img id="errorTermIcon" style="display: none;" src="<?php echo $themeUrl . '/img/error-icon.svg'?>"
+                  <img id="errorTermIcon" style="display: none;" src="<?php echo $themeUrl . '/img/error-icon.svg' ?>"
                     alt="icone erro">
                 </span>
                 <?php echo $form->error($modelStudentDocumentsAndAddress, 'civil_certification_term_number'); ?>
@@ -1293,9 +1294,9 @@ echo $form->dropDownList(
               <div class="t-field-text js-hidden-oldDocuments-fields" id="sheet">
                 <?php echo $form->label($modelStudentDocumentsAndAddress, 'civil_certification_sheet', ['class' => 't-field-text__label']); ?>
                 <?php echo $form->textField(
-                    $modelStudentDocumentsAndAddress,
-                    'civil_certification_sheet',
-                    ['size' => 4, 'maxlength' => 4, 'disabled' => 'disabled', 'class' => 't-field-text__input nationality-sensitive br no-br', 'placeholder' => 'Digite a Folha']
+                  $modelStudentDocumentsAndAddress,
+                  'civil_certification_sheet',
+                  ['size' => 4, 'maxlength' => 4, 'disabled' => 'disabled', 'class' => 't-field-text__input nationality-sensitive br no-br', 'placeholder' => 'Digite a Folha']
                 ); ?>
                 <?php echo $form->error($modelStudentDocumentsAndAddress, 'civil_certification_sheet'); ?>
               </div>
@@ -1306,9 +1307,9 @@ echo $form->dropDownList(
               <div class="t-field-text js-hidden-oldDocuments-fields" id="bookCertification">
                 <?php echo $form->label($modelStudentDocumentsAndAddress, 'civil_certification_book', ['class' => 't-field-text__label']); ?>
                 <?php echo $form->textField(
-                    $modelStudentDocumentsAndAddress,
-                    'civil_certification_book',
-                    ['size' => 8, 'maxlength' => 8, 'disabled' => 'disabled', 'class' => 't-field-text__input nationality-sensitive br no-br', 'placeholder' => 'Digite o Livro']
+                  $modelStudentDocumentsAndAddress,
+                  'civil_certification_book',
+                  ['size' => 8, 'maxlength' => 8, 'disabled' => 'disabled', 'class' => 't-field-text__input nationality-sensitive br no-br', 'placeholder' => 'Digite o Livro']
                 ); ?>
                 <?php echo $form->error($modelStudentDocumentsAndAddress, 'civil_certification_book'); ?>
               </div>
@@ -1317,15 +1318,15 @@ echo $form->dropDownList(
               <div class="t-field-text js-hidden-oldDocuments-fields" id="certificationDate">
                 <?php echo $form->label($modelStudentDocumentsAndAddress, 'civil_certification_date', ['class' => 't-field-text__label']); ?>
                 <?php echo $form->textField(
-                    $modelStudentDocumentsAndAddress,
-                    'civil_certification_date',
-                    [
-                        'size' => 10,
-                        'maxlength' => 10,
-                        'disabled' => 'disabled',
-                        'class' => 't-field-text__input nationality-sensitive br no-br',
-                        'placeholder' => 'Digite a Data de Emissão da Certidão (Dia/Mês/Ano)'
-                    ]
+                  $modelStudentDocumentsAndAddress,
+                  'civil_certification_date',
+                  [
+                    'size' => 10,
+                    'maxlength' => 10,
+                    'disabled' => 'disabled',
+                    'class' => 't-field-text__input nationality-sensitive br no-br',
+                    'placeholder' => 'Digite a Data de Emissão da Certidão (Dia/Mês/Ano)'
+                  ]
                 ); ?>
                 <?php echo $form->error($modelStudentDocumentsAndAddress, 'civil_certification_date'); ?>
               </div>
@@ -1337,21 +1338,21 @@ echo $form->dropDownList(
                 <?php echo $form->label($modelStudentDocumentsAndAddress, 'notary_office_uf_fk', ['class' => 't-field-select__label']); ?>
                 <?php
                 echo $form->dropDownList(
-                    $modelStudentDocumentsAndAddress,
-                    'notary_office_uf_fk',
-                    CHtml::listData(EdcensoUf::model()->findAll(['order' => 'name']), 'id', 'name'),
-                    [
-                        'ajax' => [
-                            'type' => 'POST',
-                            'url' => CController::createUrl('student/getcities', ['rt' => 1]),
-                            'update' => '#StudentDocumentsAndAddress_notary_office_city_fk'
-                        ],
-                        'prompt' => 'Selecione um estado',
-                        'class' => 'select-search-on t-field-select__input select2-container nationality-sensitive br no-br',
-                        'disabled' => 'disabled',
-                    ]
+                  $modelStudentDocumentsAndAddress,
+                  'notary_office_uf_fk',
+                  CHtml::listData(EdcensoUf::model()->findAll(['order' => 'name']), 'id', 'name'),
+                  [
+                    'ajax' => [
+                      'type' => 'POST',
+                      'url' => Yii::app()->createUrl('student/getcities', ['rt' => 1]),
+                      'update' => '#StudentDocumentsAndAddress_notary_office_city_fk'
+                    ],
+                    'prompt' => 'Selecione um estado',
+                    'class' => 'select-search-on t-field-select__input select2-container nationality-sensitive br no-br',
+                    'disabled' => 'disabled',
+                  ]
                 );
-?>
+                ?>
                 <?php echo $form->error($modelStudentDocumentsAndAddress, 'notary_office_uf_fk'); ?>
               </div>
             </div>
@@ -1359,25 +1360,25 @@ echo $form->dropDownList(
               <div class="t-field-select js-hidden-oldDocuments-fields" id="municipalityRegistry-select">
                 <?php echo $form->label($modelStudentDocumentsAndAddress, 'notary_office_city_fk', ['class' => 't-field-select__label']); ?>
                 <?php
-echo $form->dropDownList(
-    $modelStudentDocumentsAndAddress,
-    'notary_office_city_fk',
-    CHtml::listData(EdcensoCity::model()->findAllByAttributes(
-        ['edcenso_uf_fk' => $modelStudentDocumentsAndAddress->notary_office_uf_fk],
-        ['order' => 'name']
-    ), 'id', 'name'),
-    [
-        'ajax' => [
-            'type' => 'POST',
-            'url' => CController::createUrl('student/student/getnotaryoffice'),
-            'update' => '#StudentDocumentsAndAddress_edcenso_notary_office_fk'
-        ],
-        'prompt' => 'Selecione uma cidade',
-        'class' => 'select-search-on t-field-select__input select2-container nationality-sensitive br no-br',
-        'disabled' => 'disabled'
-    ]
-);
-?>
+                echo $form->dropDownList(
+                  $modelStudentDocumentsAndAddress,
+                  'notary_office_city_fk',
+                  CHtml::listData(EdcensoCity::model()->findAllByAttributes(
+                    ['edcenso_uf_fk' => $modelStudentDocumentsAndAddress->notary_office_uf_fk],
+                    ['order' => 'name']
+                  ), 'id', 'name'),
+                  [
+                    'ajax' => [
+                      'type' => 'POST',
+                      'url' => Yii::app()->createUrl('student/student/getnotaryoffice'),
+                      'update' => '#StudentDocumentsAndAddress_edcenso_notary_office_fk'
+                    ],
+                    'prompt' => 'Selecione uma cidade',
+                    'class' => 'select-search-on t-field-select__input select2-container nationality-sensitive br no-br',
+                    'disabled' => 'disabled'
+                  ]
+                );
+                ?>
                 <?php echo $form->error($modelStudentDocumentsAndAddress, 'notary_office_city_fk'); ?>
               </div>
             </div>
@@ -1387,20 +1388,20 @@ echo $form->dropDownList(
               <div class="t-field-select js-hidden-oldDocuments-fields" id="notaryOffice-select">
                 <?php echo $form->label($modelStudentDocumentsAndAddress, 'edcenso_notary_office_fk', ['class' => 't-field-select__label']); ?>
                 <?php
-echo $form->dropDownList(
-    $modelStudentDocumentsAndAddress,
-    'edcenso_notary_office_fk',
-    CHtml::listData(EdcensoNotaryOffice::model()->findAllByAttributes(
-        ['city' => $modelStudentDocumentsAndAddress->notary_office_city_fk],
-        ['order' => 'name']
-    ), 'cod', 'name') + ['7177' => 'OUTROS'],
-    [
-        'prompt' => 'Selecione um cartório',
-        'class' => 'select-search-on t-field-select__input select2-container nationality-sensitive br no-br',
-        'disabled' => 'disabled',
-    ]
-);
-?>
+                echo $form->dropDownList(
+                  $modelStudentDocumentsAndAddress,
+                  'edcenso_notary_office_fk',
+                  CHtml::listData(EdcensoNotaryOffice::model()->findAllByAttributes(
+                    ['city' => $modelStudentDocumentsAndAddress->notary_office_city_fk],
+                    ['order' => 'name']
+                  ), 'cod', 'name') + ['7177' => 'OUTROS'],
+                  [
+                    'prompt' => 'Selecione um cartório',
+                    'class' => 'select-search-on t-field-select__input select2-container nationality-sensitive br no-br',
+                    'disabled' => 'disabled',
+                  ]
+                );
+                ?>
                 <?php echo $form->error($modelStudentDocumentsAndAddress, 'edcenso_notary_office_fk'); ?>
               </div>
             </div>
@@ -1408,12 +1409,12 @@ echo $form->dropDownList(
               <div class="t-field-text js-hidden-newDocument-field" id="numberRegistration">
                 <?php echo $form->label($modelStudentDocumentsAndAddress, 'civil_register_enrollment_number', ['class' => 't-field-text__label']); ?>
                 <?php echo $form->textField(
-    $modelStudentDocumentsAndAddress,
-    'civil_register_enrollment_number',
-    ['disabled' => 'disabled', 'class' => 'nationality-sensitive br no-br t-field-text__input select2-container']
-); ?>
+                  $modelStudentDocumentsAndAddress,
+                  'civil_register_enrollment_number',
+                  ['disabled' => 'disabled', 'class' => 'nationality-sensitive br no-br t-field-text__input select2-container']
+                ); ?>
                 <span id="registerMessage" data-toggle="tooltip" data-placement="top" data-original-title="">
-                  <img id="registerIcon" style="display: none;" src="<?php echo $themeUrl . '/img/error-icon.svg'?>"
+                  <img id="registerIcon" style="display: none;" src="<?php echo $themeUrl . '/img/error-icon.svg' ?>"
                     alt="icone erro">
                 </span>
                 <?php echo $form->error($modelStudentDocumentsAndAddress, 'civil_register_enrollment_number'); ?>
@@ -1434,15 +1435,15 @@ echo $form->dropDownList(
               <div class="t-field-text" id="numberCns">
                 <?php echo $form->label($modelStudentDocumentsAndAddress, 'cns', ['class' => 't-field-text__label']); ?>
                 <?php echo $form->textField(
-                    $modelStudentDocumentsAndAddress,
-                    'cns',
-                    [
-                        'size' => 11,
-                        'maxlength' => 15,
-                        'disabled' => 'disabled',
-                        'class' => 't-field-text__input nationality-sensitive br no-br',
-                        'placeholder' => 'Digite o Nº do CNS'
-                    ]
+                  $modelStudentDocumentsAndAddress,
+                  'cns',
+                  [
+                    'size' => 11,
+                    'maxlength' => 15,
+                    'disabled' => 'disabled',
+                    'class' => 't-field-text__input nationality-sensitive br no-br',
+                    'placeholder' => 'Digite o Nº do CNS'
+                  ]
                 ); ?>
                 <?php echo $form->error($modelStudentDocumentsAndAddress, 'cns'); ?>
               </div>
@@ -1464,15 +1465,15 @@ echo $form->dropDownList(
               <div class="t-field-text" id="numberIdentity">
                 <?php echo $form->label($modelStudentDocumentsAndAddress, 'rg_number', ['class' => 't-field-text__label']); ?>
                 <?php echo $form->textField(
-                    $modelStudentDocumentsAndAddress,
-                    'rg_number',
-                    [
-                        'size' => 20,
-                        'maxlength' => 20,
-                        'disabled' => 'disabled',
-                        'class' => 't-field-text__input nationality-sensitive br no-br',
-                        'placeholder' => 'Digite o Nº da Identidade'
-                    ]
+                  $modelStudentDocumentsAndAddress,
+                  'rg_number',
+                  [
+                    'size' => 20,
+                    'maxlength' => 20,
+                    'disabled' => 'disabled',
+                    'class' => 't-field-text__input nationality-sensitive br no-br',
+                    'placeholder' => 'Digite o Nº da Identidade'
+                  ]
                 ); ?>
                 <?php echo $form->error($modelStudentDocumentsAndAddress, 'rg_number'); ?>
               </div>
@@ -1482,16 +1483,16 @@ echo $form->dropDownList(
               <div class="t-field-select" id="rgOrgan-select">
                 <?php echo $form->label($modelStudentDocumentsAndAddress, 'rg_number_edcenso_organ_id_emitter_fk', ['class' => 't-field-select__label']); ?>
                 <?php echo $form->DropdownList(
-                    $modelStudentDocumentsAndAddress,
-                    'rg_number_edcenso_organ_id_emitter_fk',
-                    CHtml::listData(EdcensoOrganIdEmitter::model()->findAll(['order' => 'name']), 'id', 'name'),
-                    [
-                        'prompt' => 'Selecione um órgão emissor da identidade',
-                        'class' => 'select-search-on t-field-select__input select2-container nationality-sensitive br no-br ',
-                        'disabled' => 'disabled'
-                    ]
+                  $modelStudentDocumentsAndAddress,
+                  'rg_number_edcenso_organ_id_emitter_fk',
+                  CHtml::listData(EdcensoOrganIdEmitter::model()->findAll(['order' => 'name']), 'id', 'name'),
+                  [
+                    'prompt' => 'Selecione um órgão emissor da identidade',
+                    'class' => 'select-search-on t-field-select__input select2-container nationality-sensitive br no-br ',
+                    'disabled' => 'disabled'
+                  ]
                 );
-?>
+                ?>
                 <?php echo $form->error($modelStudentDocumentsAndAddress, 'rg_number_edcenso_organ_id_emitter_fk'); ?>
               </div>
             </div>
@@ -1503,16 +1504,16 @@ echo $form->dropDownList(
               <div class="t-field-text" id="identityDate">
                 <?php echo $form->label($modelStudentDocumentsAndAddress, 'rg_number_expediction_date', ['class' => 't-field-text__label']); ?>
                 <?php echo $form->textField(
-    $modelStudentDocumentsAndAddress,
-    'rg_number_expediction_date',
-    [
-        'size' => 10,
-        'maxlength' => 10,
-        'disabled' => 'disabled',
-        'class' => 't-field-text__input nationality-sensitive br no-br',
-        'placeholder' => 'Digite a Data de Expedição da Identidade dd/mm/aaaa'
-    ]
-); ?>
+                  $modelStudentDocumentsAndAddress,
+                  'rg_number_expediction_date',
+                  [
+                    'size' => 10,
+                    'maxlength' => 10,
+                    'disabled' => 'disabled',
+                    'class' => 't-field-text__input nationality-sensitive br no-br',
+                    'placeholder' => 'Digite a Data de Expedição da Identidade dd/mm/aaaa'
+                  ]
+                ); ?>
                 <?php echo $form->error($modelStudentDocumentsAndAddress, 'rg_number_expediction_date'); ?>
               </div>
             </div>
@@ -1521,16 +1522,16 @@ echo $form->dropDownList(
               <div class="t-field-select" id="identyUF-select">
                 <?php echo $form->label($modelStudentDocumentsAndAddress, 'rg_number_edcenso_uf_fk', ['class' => 't-field-select__label']); ?>
                 <?php echo $form->dropDownList(
-                    $modelStudentDocumentsAndAddress,
-                    'rg_number_edcenso_uf_fk',
-                    CHtml::listData(EdcensoUf::model()->findAll(['order' => 'name']), 'id', 'name'),
-                    [
-                        'prompt' => 'Selecione um estado',
-                        'class' => 'select-search-on t-field-select__input select2-container nationality-sensitive br no-br',
-                        'disabled' => 'disabled'
-                    ]
+                  $modelStudentDocumentsAndAddress,
+                  'rg_number_edcenso_uf_fk',
+                  CHtml::listData(EdcensoUf::model()->findAll(['order' => 'name']), 'id', 'name'),
+                  [
+                    'prompt' => 'Selecione um estado',
+                    'class' => 'select-search-on t-field-select__input select2-container nationality-sensitive br no-br',
+                    'disabled' => 'disabled'
+                  ]
                 );
-?>
+                ?>
                 <?php echo $form->error($modelStudentDocumentsAndAddress, 'rg_number_edcenso_uf_fk'); ?>
               </div>
             </div>
@@ -1544,11 +1545,11 @@ echo $form->dropDownList(
               <div class="t-field-select" id="justice-select">
                 <?php echo $form->label($modelStudentDocumentsAndAddress, 'justice_restriction', ['class' => 't-field-select__label']); ?>
                 <?php echo $form->DropDownList(
-    $modelStudentDocumentsAndAddress,
-    'justice_restriction',
-    [null => 'Selecione', '0' => 'Não possui restrições', '1' => 'LA - Liberdade Assistida', '2' => 'PSC - Prestação de Serviços Comunitários'],
-    ['class' => 'select-search-off t-field-select__input select2-container']
-); ?>
+                  $modelStudentDocumentsAndAddress,
+                  'justice_restriction',
+                  [null => 'Selecione', '0' => 'Não possui restrições', '1' => 'LA - Liberdade Assistida', '2' => 'PSC - Prestação de Serviços Comunitários'],
+                  ['class' => 'select-search-off t-field-select__input select2-container']
+                ); ?>
                 <?php echo $form->error($modelStudentDocumentsAndAddress, 'justice_restriction'); ?>
               </div>
             </div>
@@ -1558,15 +1559,15 @@ echo $form->dropDownList(
               <div class="t-field-text">
                 <?php echo $form->label($modelStudentDocumentsAndAddress, 'foreign_document_or_passport', ['class' => 't-field-text__label']); ?>
                 <?php echo $form->textField(
-                    $modelStudentDocumentsAndAddress,
-                    'foreign_document_or_passport',
-                    [
-                        'size' => 20,
-                        'maxlength' => 20,
-                        'disabled' => 'disabled',
-                        'class' => 't-field-text__input nationality-sensitive no-br',
-                        'placeholder' => 'Digite o Passaporte ou Documento Estrangeiro'
-                    ]
+                  $modelStudentDocumentsAndAddress,
+                  'foreign_document_or_passport',
+                  [
+                    'size' => 20,
+                    'maxlength' => 20,
+                    'disabled' => 'disabled',
+                    'class' => 't-field-text__input nationality-sensitive no-br',
+                    'placeholder' => 'Digite o Passaporte ou Documento Estrangeiro'
+                  ]
                 ); ?>
                 <?php echo $form->error($modelStudentDocumentsAndAddress, 'foreign_document_or_passport'); ?>
               </div>
@@ -1588,14 +1589,14 @@ echo $form->dropDownList(
               <div class="t-field-select" id="justification-select">
                 <?php echo $form->label($modelStudentIdentification, 'no_document_desc', ['class' => 't-field-select__label']); ?>
                 <?php echo $form->DropDownList(
-                    $modelStudentIdentification,
-                    'no_document_desc',
-                    [
-                        null => 'Selecione a justificativa',
-                        '1' => 'O(a) aluno(a) não possui os documentos pessoais solicitados',
-                        '2' => 'A escola não dispõe ou não recebeu os documentos pessoais do(a) aluno(a)'
-                    ],
-                    ['class' => 'select-search-off t-field-select__input select2-container nationality-sensitive br no-br', 'disabled' => 'disabled']
+                  $modelStudentIdentification,
+                  'no_document_desc',
+                  [
+                    null => 'Selecione a justificativa',
+                    '1' => 'O(a) aluno(a) não possui os documentos pessoais solicitados',
+                    '2' => 'A escola não dispõe ou não recebeu os documentos pessoais do(a) aluno(a)'
+                  ],
+                  ['class' => 'select-search-off t-field-select__input select2-container nationality-sensitive br no-br', 'disabled' => 'disabled']
                 ); ?>
                 <?php echo $form->error($modelStudentIdentification, 'no_document_desc'); ?>
               </div>
@@ -1617,11 +1618,11 @@ echo $form->dropDownList(
                 <?php echo $form->label($modelStudentDocumentsAndAddress, 'nis', ['class' => 't-field-text__label']); ?>
                 <?php echo $form->textField($modelStudentDocumentsAndAddress, 'nis', ['size' => 11, 'maxlength' => 11, 'placeholder' => 'Digite o NIS']); ?>
                 <span id="nisMessage" data-toggle="tooltip" data-placement="top" data-original-title="">
-                  <img id="errorNisIcon" style="display: none;" src="<?php echo $themeUrl . '/img/error-icon.svg'?>"
+                  <img id="errorNisIcon" style="display: none;" src="<?php echo $themeUrl . '/img/error-icon.svg' ?>"
                     alt="icone erro">
                 </span>
                 <span id="nisMessage" data-toggle="tooltip" data-placement="top" data-original-title="">
-                  <img id="errorNisIcon" style="display: none;" src="<?php echo $themeUrl . '/img/error-icon.svg'?>"
+                  <img id="errorNisIcon" style="display: none;" src="<?php echo $themeUrl . '/img/error-icon.svg' ?>"
                     alt="icone erro">
                 </span>
                 <?php echo $form->error($modelStudentDocumentsAndAddress, 'nis'); ?>
@@ -1632,9 +1633,9 @@ echo $form->dropDownList(
               <div class="t-field-text js-hide-not-required" id="idInep">
                 <?php echo $form->label($modelStudentIdentification, 'inep_id', ['class' => 't-field-text__label']); ?>
                 <?php echo $form->textField(
-                    $modelStudentIdentification,
-                    'inep_id',
-                    ['size' => 60, 'maxlength' => 12, 'class' => 't-field-text__input', 'placeholder' => 'Digite o ID INEP']
+                  $modelStudentIdentification,
+                  'inep_id',
+                  ['size' => 60, 'maxlength' => 12, 'class' => 't-field-text__input', 'placeholder' => 'Digite o ID INEP']
                 ); ?>
                 <?php echo $form->error($modelStudentIdentification, 'inep_id'); ?>
               </div>
@@ -1654,9 +1655,9 @@ echo $form->dropDownList(
             <div class="column clearleft--on-mobile is-two-fifths">
               <div class="t-field-checkbox" id="postCensus">
                 <?php echo $form->checkBox(
-                    $modelStudentIdentification,
-                    'send_year',
-                    ['value' => date('Y') + 1, 'uncheckValue' => (date('Y')), 'class' => 't-field-checkbox__input']
+                  $modelStudentIdentification,
+                  'send_year',
+                  ['value' => date('Y') + 1, 'uncheckValue' => (date('Y')), 'class' => 't-field-checkbox__input']
                 ); ?>
                 <?php echo $form->error($modelStudentIdentification, 'send_year'); ?>
                 <?php echo $form->label($modelStudentIdentification, 'send_year', ['class' => 'control-label t-field-checkbox__label--required']); ?>
@@ -1680,20 +1681,20 @@ echo $form->dropDownList(
                 <?php echo $form->label($modelStudentDocumentsAndAddress, 'edcenso_uf_fk', ['class' => 't-field-select__label']); ?>
                 <?php
                 echo $form->dropDownList(
-                    $modelStudentDocumentsAndAddress,
-                    'edcenso_uf_fk',
-                    CHtml::listData(EdcensoUf::model()->findAll(['order' => 'name']), 'id', 'name'),
-                    [
-                        'ajax' => [
-                            'type' => 'POST',
-                            'url' => CController::createUrl('student/getcities', ['rt' => 2]),
-                            'update' => '#StudentDocumentsAndAddress_edcenso_city_fk'
-                        ],
-                        'prompt' => 'Selecione um estado',
-                        'class' => 'select-search-on t-field-select__input select2-container'
-                    ]
+                  $modelStudentDocumentsAndAddress,
+                  'edcenso_uf_fk',
+                  CHtml::listData(EdcensoUf::model()->findAll(['order' => 'name']), 'id', 'name'),
+                  [
+                    'ajax' => [
+                      'type' => 'POST',
+                      'url' => Yii::app()->createUrl('student/getcities', ['rt' => 2]),
+                      'update' => '#StudentDocumentsAndAddress_edcenso_city_fk'
+                    ],
+                    'prompt' => 'Selecione um estado',
+                    'class' => 'select-search-on t-field-select__input select2-container'
+                  ]
                 );
-?>
+                ?>
                 <?php echo $form->error($modelStudentDocumentsAndAddress, 'edcenso_uf_fk'); ?>
               </div>
             </div>
@@ -1702,16 +1703,16 @@ echo $form->dropDownList(
               <div class="t-field-text js-hide-not-required">
                 <?php echo $form->label($modelStudentDocumentsAndAddress, 'cep', ['class' => 't-field-text__label']); ?>
                 <?php
-echo $form->textField(
-    $modelStudentDocumentsAndAddress,
-    'cep',
-    [
-        'size' => 8,
-        'maxlength' => 9,
-        'class' => 't-field-text_input'
-    ]
-);
-?>
+                echo $form->textField(
+                  $modelStudentDocumentsAndAddress,
+                  'cep',
+                  [
+                    'size' => 8,
+                    'maxlength' => 9,
+                    'class' => 't-field-text_input'
+                  ]
+                );
+                ?>
                 <?php echo $form->error($modelStudentDocumentsAndAddress, 'cep'); ?>
               </div>
             </div>
@@ -1723,16 +1724,16 @@ echo $form->textField(
               <div class="t-field-select js-hide-not-required">
                 <?php echo $form->label($modelStudentDocumentsAndAddress, 'edcenso_city_fk', ['class' => 't-field-text__label']); ?>
                 <?php
-echo $form->dropDownList(
-    $modelStudentDocumentsAndAddress,
-    'edcenso_city_fk',
-    CHtml::listData(EdcensoCity::model()->findAllByAttributes(
-        ['edcenso_uf_fk' => $modelStudentDocumentsAndAddress->edcenso_uf_fk],
-        ['order' => 'name']
-    ), 'id', 'name'),
-    ['prompt' => 'Selecione uma cidade', 'class' => 'select-search-on t-field-select__input select2-container']
-);
-?>
+                echo $form->dropDownList(
+                  $modelStudentDocumentsAndAddress,
+                  'edcenso_city_fk',
+                  CHtml::listData(EdcensoCity::model()->findAllByAttributes(
+                    ['edcenso_uf_fk' => $modelStudentDocumentsAndAddress->edcenso_uf_fk],
+                    ['order' => 'name']
+                  ), 'id', 'name'),
+                  ['prompt' => 'Selecione uma cidade', 'class' => 'select-search-on t-field-select__input select2-container']
+                );
+                ?>
                 <?php echo $form->error($modelStudentDocumentsAndAddress, 'edcenso_city_fk'); ?>
               </div>
             </div>
@@ -1741,10 +1742,10 @@ echo $form->dropDownList(
               <div class="t-field-text js-hide-not-required">
                 <?php echo $form->label($modelStudentDocumentsAndAddress, 'address', ['class' => 't-field-text__labeld']); ?>
                 <?php echo $form->textField(
-    $modelStudentDocumentsAndAddress,
-    'address',
-    ['size' => 60, 'maxlength' => 100, 'placeholder' => 'Digite o Endereço', 'class' => 't-field-text__input']
-); ?>
+                  $modelStudentDocumentsAndAddress,
+                  'address',
+                  ['size' => 60, 'maxlength' => 100, 'placeholder' => 'Digite o Endereço', 'class' => 't-field-text__input']
+                ); ?>
                 <?php echo $form->error($modelStudentDocumentsAndAddress, 'address'); ?>
               </div>
             </div>
@@ -1756,9 +1757,9 @@ echo $form->dropDownList(
               <div class="t-field-text js-hide-not-required">
                 <?php echo $form->label($modelStudentDocumentsAndAddress, 'neighborhood', ['class' => 't-field-text__label']); ?>
                 <?php echo $form->textField(
-                    $modelStudentDocumentsAndAddress,
-                    'neighborhood',
-                    ['size' => 50, 'maxlength' => 50, 'placeholder' => 'Digite o Bairro ou Povoado', 'class' => 't-field-text__input']
+                  $modelStudentDocumentsAndAddress,
+                  'neighborhood',
+                  ['size' => 50, 'maxlength' => 50, 'placeholder' => 'Digite o Bairro ou Povoado', 'class' => 't-field-text__input']
                 ); ?>
                 <?php echo $form->error($modelStudentDocumentsAndAddress, 'neighborhood'); ?>
               </div>
@@ -1768,9 +1769,9 @@ echo $form->dropDownList(
               <div class="t-field-text">
                 <?php echo $form->label($modelStudentDocumentsAndAddress, 'number', ['class' => 't-field-text__label']); ?>
                 <?php echo $form->textField(
-                    $modelStudentDocumentsAndAddress,
-                    'number',
-                    ['size' => 10, 'maxlength' => 10, 'placeholder' => 'Digite o Número', 'class' => 't-field-text__input']
+                  $modelStudentDocumentsAndAddress,
+                  'number',
+                  ['size' => 10, 'maxlength' => 10, 'placeholder' => 'Digite o Número', 'class' => 't-field-text__input']
                 ); ?>
                 <?php echo $form->error($modelStudentDocumentsAndAddress, 'number'); ?>
               </div>
@@ -1783,9 +1784,9 @@ echo $form->dropDownList(
               <div class="t-field-text js-hide-not-required" id="complement">
                 <?php echo $form->label($modelStudentDocumentsAndAddress, 'complement', ['class' => 't-field-text__label']); ?>
                 <?php echo $form->textField(
-                    $modelStudentDocumentsAndAddress,
-                    'complement',
-                    ['size' => 20, 'maxlength' => 20, 'placeholder' => 'Digite o Complemento', 'class' => 't-field-text__input']
+                  $modelStudentDocumentsAndAddress,
+                  'complement',
+                  ['size' => 20, 'maxlength' => 20, 'placeholder' => 'Digite o Complemento', 'class' => 't-field-text__input']
                 ); ?>
                 <?php echo $form->error($modelStudentDocumentsAndAddress, 'complement'); ?>
               </div>
@@ -1795,17 +1796,17 @@ echo $form->dropDownList(
               <div class="t-field-select  js-hide-not-required" id="location-select">
                 <?php echo $form->label($modelStudentDocumentsAndAddress, 'diff_location', ['class' => 't-field-select__label']); ?>
                 <?php echo $form->DropDownList(
-                    $modelStudentDocumentsAndAddress,
-                    'diff_location',
-                    [
-                        null => 'Selecione a localização',
-                        7 => 'Não reside em área de localização diferenciada',
-                        1 => 'Área de assentamento',
-                        2 => 'Terra indígena',
-                        3 => 'Comunidade quilombola',
-                        8 => 'Área onde se localizam povos e comunidades tradicionais'
-                    ],
-                    ['class' => 'select-search-on t-field-select__input select2-container']
+                  $modelStudentDocumentsAndAddress,
+                  'diff_location',
+                  [
+                    null => 'Selecione a localização',
+                    7 => 'Não reside em área de localização diferenciada',
+                    1 => 'Área de assentamento',
+                    2 => 'Terra indígena',
+                    3 => 'Comunidade quilombola',
+                    8 => 'Área onde se localizam povos e comunidades tradicionais'
+                  ],
+                  ['class' => 'select-search-on t-field-select__input select2-container']
                 ); ?>
                 <?php echo $form->error($modelStudentDocumentsAndAddress, 'diff_location'); ?>
               </div>
@@ -1818,10 +1819,10 @@ echo $form->dropDownList(
               <div class="t-field-select" id="zone-select">
                 <?php echo $form->label($modelStudentDocumentsAndAddress, 'residence_zone', ['class' => 't-field-select__label--required']); ?>
                 <?php echo $form->DropDownList(
-                    $modelStudentDocumentsAndAddress,
-                    'residence_zone',
-                    [null => 'Selecione uma zona', '1' => 'URBANA', '2' => 'RURAL'],
-                    ['class' => 'select-search-off t-field-select__input select2-container']
+                  $modelStudentDocumentsAndAddress,
+                  'residence_zone',
+                  [null => 'Selecione uma zona', '1' => 'URBANA', '2' => 'RURAL'],
+                  ['class' => 'select-search-off t-field-select__input select2-container']
                 ); ?>
                 <?php echo $form->error($modelStudentDocumentsAndAddress, 'residence_zone'); ?>
               </div>
@@ -1840,35 +1841,35 @@ echo $form->dropDownList(
             <div class="column clearleft is-two-fifths">
               <div class="t-buttons-container">
                 <?php
-if (Yii::app()->features->isEnable(TFeature::FEAT_INTEGRATIONS_SEDSP)) {
-    $idStudent = isset($_GET['id']) ? $_GET['id'] : null;
+                if (Yii::app()->features->isEnable(TFeature::FEAT_INTEGRATIONS_SEDSP)) {
+                  $idStudent = isset($_GET['id']) ? $_GET['id'] : null;
 
-    if ($idStudent !== null) {
-        $sql = 'SELECT COUNT(*) FROM classroom
+                  if ($idStudent !== null) {
+                    $sql = 'SELECT COUNT(*) FROM classroom
                                                     WHERE id IN (SELECT classroom_fk FROM student_enrollment WHERE student_fk = :idStudent AND status = 1)
                                                     AND school_year = :schoolYear';
 
-        $command = Yii::app()->db->createCommand($sql);
-        $command->bindValues([':idStudent' => $idStudent, ':schoolYear' => Yii::app()->user->year]);
-        $existEnrollment = (int)$command->queryScalar();
+                    $command = Yii::app()->db->createCommand($sql);
+                    $command->bindValues([':idStudent' => $idStudent, ':schoolYear' => Yii::app()->user->year]);
+                    $existEnrollment = (int) $command->queryScalar();
 
-        if ($existEnrollment === 0) {
-            echo '<a href="#" class="t-button-primary" id="new-enrollment-button">Adicionar Matrícula</a>';
-        }
-    } else {
-        echo '<a href="#" class="t-button-primary" id="new-enrollment-button">Adicionar Matrícula</a>';
-    }
-} else {
-    echo '<a href="#" class="t-button-primary" id="new-enrollment-button">Adicionar Matrícula</a>';
-}
+                    if ($existEnrollment === 0) {
+                      echo '<a href="#" class="t-button-primary" id="new-enrollment-button">Adicionar Matrícula</a>';
+                    }
+                  } else {
+                    echo '<a href="#" class="t-button-primary" id="new-enrollment-button">Adicionar Matrícula</a>';
+                  }
+                } else {
+                  echo '<a href="#" class="t-button-primary" id="new-enrollment-button">Adicionar Matrícula</a>';
+                }
 
-?>
+                ?>
                 <?php
-echo $modelStudentIdentification->isNewRecord ? '' : '<a href=' . @Yii::app()->createUrl(
-    'student/student/transfer',
-    ['id' => $modelStudentIdentification->id]
-) . ' class="t-button-secondary" id="transfer-student">Transferir Matrícula</a>'
-?>
+                echo $modelStudentIdentification->isNewRecord ? '' : '<a href=' . @Yii::app()->createUrl(
+                  'student/student/transfer',
+                  ['id' => $modelStudentIdentification->id]
+                ) . ' class="t-button-secondary" id="transfer-student">Transferir Matrícula</a>'
+                  ?>
               </div>
             </div>
           </div>
@@ -1880,51 +1881,51 @@ echo $modelStudentIdentification->isNewRecord ? '' : '<a href=' . @Yii::app()->c
               <div class="t-field-select" id="class-select">
                 <?php echo $form->label($modelEnrollment, 'classroom_fk', ['class' => 't-fild-select--required']); ?>
                 <?php
-$currentStage = $modelStudentIdentification->getCurrentStageVsModality();
-$nextStages = implode(',', EdcensoStageVsModality::getNextStages($currentStage));
+                $currentStage = $modelStudentIdentification->getCurrentStageVsModality();
+                $nextStages = implode(',', EdcensoStageVsModality::getNextStages($currentStage));
 
-$classrooms = Classroom::model()->findAll(
-    'school_year = :year AND school_inep_fk = :school ORDER BY name',
-    [
-        ':year' => Yii::app()->user->year,
-        ':school' => Yii::app()->user->school,
-    ]
-);
+                $classrooms = Classroom::model()->findAll(
+                  'school_year = :year AND school_inep_fk = :school ORDER BY name',
+                  [
+                    ':year' => Yii::app()->user->year,
+                    ':school' => Yii::app()->user->school,
+                  ]
+                );
 
-$classroomOptions = [];
-$classroomDataAttributes = [];
+                $classroomOptions = [];
+                $classroomDataAttributes = [];
 
-foreach ($classrooms as $classroom) {
-    $activeEnrollments = $classroom->activeEnrollmentsCount;
+                foreach ($classrooms as $classroom) {
+                  $activeEnrollments = $classroom->activeEnrollmentsCount;
 
-    if ($activeEnrollments < $classroom->capacity) {
-        $availableSeats = $classroom->capacity - $activeEnrollments;
-        $seatsLabel = $availableSeats == 1 ? 'Vaga' : 'Vagas';
+                  if ($activeEnrollments < $classroom->capacity) {
+                    $availableSeats = $classroom->capacity - $activeEnrollments;
+                    $seatsLabel = $availableSeats == 1 ? 'Vaga' : 'Vagas';
 
-        // Key must be the classroom ID
-        $classroomOptions[$classroom->id] =
-            $classroom->name . ' (+' . $availableSeats . ' ' . $seatsLabel . ')';
+                    // Key must be the classroom ID
+                    $classroomOptions[$classroom->id] =
+                      $classroom->name . ' (+' . $availableSeats . ' ' . $seatsLabel . ')';
 
-        $classroomDataAttributes[$classroom->id] = [
-            'data-isMulti' => (int)TagUtils::isMultiStage(
-                $classroom->edcenso_stage_vs_modality_fk
-            )
-        ];
-    }
-}
+                    $classroomDataAttributes[$classroom->id] = [
+                      'data-isMulti' => (int) TagUtils::isMultiStage(
+                        $classroom->edcenso_stage_vs_modality_fk
+                      )
+                    ];
+                  }
+                }
 
-echo $form->dropDownList(
-    $modelEnrollment,
-    'classroom_fk',
-    $classroomOptions,
-    [
-        'prompt' => 'Selecione uma Turma',
-        'class' => 'select-search-off t-field-select__input select2-container js-classroom-is-multi',
-        'options' => $classroomDataAttributes,
-        'encode' => false
-    ]
-);
-?>
+                echo $form->dropDownList(
+                  $modelEnrollment,
+                  'classroom_fk',
+                  $classroomOptions,
+                  [
+                    'prompt' => 'Selecione uma Turma',
+                    'class' => 'select-search-off t-field-select__input select2-container js-classroom-is-multi',
+                    'options' => $classroomDataAttributes,
+                    'encode' => false
+                  ]
+                );
+                ?>
                 <?php echo $form->error($modelEnrollment, 'classroom_fk'); ?>
               </div>
             </div>
@@ -1933,11 +1934,11 @@ echo $form->dropDownList(
               <div class="t-field-select js-hide-not-required" id="ticketType-select">
                 <?php echo $form->label($modelEnrollment, 'admission_type', ['class' => 't-field-select__label']); ?>
                 <?php echo $form->DropDownList(
-    $modelEnrollment,
-    'admission_type',
-    ['1' => 'Rematrícula', '2' => 'Transferência interna', '3' => 'Transferência externa'],
-    ['prompt' => 'Selecione', 'class' => 'select-search-off t-field-select__input select2-container']
-); ?>
+                  $modelEnrollment,
+                  'admission_type',
+                  ['1' => 'Rematrícula', '2' => 'Transferência interna', '3' => 'Transferência externa'],
+                  ['prompt' => 'Selecione', 'class' => 'select-search-off t-field-select__input select2-container']
+                ); ?>
                 <?php echo $form->error($modelEnrollment, 'admission_type'); ?>
               </div>
             </div>
@@ -1946,7 +1947,7 @@ echo $form->dropDownList(
           <div class="row new-enrollment-form" style="display: none;">
             <!--  Data de ingresso na escola -->
             <div class="column clearleft is-two-fifths">
-            <div class="t-field-text js-hide-not-required" id="ticketDate">
+              <div class="t-field-text js-hide-not-required" id="ticketDate">
                 <?php echo $form->label($modelEnrollment, 'enrollment_date', ['class' => 't-field-text__label']); ?>
                 <?php echo $form->textField($modelEnrollment, 'enrollment_date', ['size' => 10, 'maxlength' => 10, 'class' => 't-field-text__input']); ?>
                 <?php echo $form->error($modelEnrollment, 'enrollment_date'); ?>
@@ -1957,15 +1958,15 @@ echo $form->dropDownList(
               <div class="t-field-select js-hide-not-required" id="situationSerie-select">
                 <?php echo $form->label($modelEnrollment, 'current_stage_situation', ['class' => 't-field-select__label']); ?>
                 <?php echo $form->DropDownList(
-                    $modelEnrollment,
-                    'current_stage_situation',
-                    [
-                        null => 'Selecione',
-                        '0' => 'Primeira matrícula no curso',
-                        '1' => 'Promovido na série anterior do mesmo curso',
-                        '2' => 'Repetente'
-                    ],
-                    ['class' => 'select-search-off t-field-select__input select2-container']
+                  $modelEnrollment,
+                  'current_stage_situation',
+                  [
+                    null => 'Selecione',
+                    '0' => 'Primeira matrícula no curso',
+                    '1' => 'Promovido na série anterior do mesmo curso',
+                    '2' => 'Repetente'
+                  ],
+                  ['class' => 'select-search-off t-field-select__input select2-container']
                 ); ?>
                 <?php echo $form->error($modelEnrollment, 'current_stage_situation'); ?>
               </div>
@@ -1996,10 +1997,10 @@ echo $form->dropDownList(
               <div class="t-field-select js-hide-not-required" id="registrationStatus-select">
                 <?php echo $form->label($modelEnrollment, 'status', ['class' => 't-field-select__label']); ?>
                 <?php echo $form->DropDownList(
-                    $modelEnrollment,
-                    'status',
-                    StudentEnrollment::getListStatus(),
-                    ['options' => ['1' => ['selected' => true]], 'prompt' => 'Selecione', 'class' => 'select-search-off t-field-select__input select2-container']
+                  $modelEnrollment,
+                  'status',
+                  StudentEnrollment::getListStatus(),
+                  ['options' => ['1' => ['selected' => true]], 'prompt' => 'Selecione', 'class' => 'select-search-off t-field-select__input select2-container']
                 ); ?>
                 <?php echo $form->error($modelEnrollment, 'status'); ?>
               </div>
@@ -2009,18 +2010,18 @@ echo $form->dropDownList(
               <div class="t-field-select js-hide-not-required" id="situationYear-select">
                 <?php echo $form->label($modelEnrollment, 'previous_stage_situation', ['class' => 't-field-select__label']); ?>
                 <?php echo $form->DropDownList(
-                    $modelEnrollment,
-                    'previous_stage_situation',
-                    [
-                        null => 'Selecione',
-                        '0' => 'Não frequentou',
-                        '1' => 'Reprovado',
-                        '2' => 'Afastado por transferência',
-                        '3' => 'Afastado por abandono',
-                        '4' => 'Matrícula final em Educação Infantil',
-                        '5' => 'Promovido'
-                    ],
-                    ['class' => 'select-search-off t-field-select__input select2-container']
+                  $modelEnrollment,
+                  'previous_stage_situation',
+                  [
+                    null => 'Selecione',
+                    '0' => 'Não frequentou',
+                    '1' => 'Reprovado',
+                    '2' => 'Afastado por transferência',
+                    '3' => 'Afastado por abandono',
+                    '4' => 'Matrícula final em Educação Infantil',
+                    '5' => 'Promovido'
+                  ],
+                  ['class' => 'select-search-off t-field-select__input select2-container']
                 ); ?>
                 <?php echo $form->error($modelEnrollment, 'previous_stage_situation'); ?>
               </div>
@@ -2038,10 +2039,10 @@ echo $form->dropDownList(
               <div class="t-field-select js-hide-not-required" id="unifiedClassroom-select">
                 <?php echo $form->label($modelEnrollment, 'unified_class', ['class' => 't-field-select__label']); ?>
                 <?php echo $form->DropDownList(
-                    $modelEnrollment,
-                    'unified_class',
-                    [null => 'Selecione o tipo de turma infantil', '1' => 'CRECHE', '2' => 'PRÉ-ESCOLA', '3' => 'NÃO POSSUI'],
-                    ['class' => 'select-search-off t-field-select__input select2-container']
+                  $modelEnrollment,
+                  'unified_class',
+                  [null => 'Selecione o tipo de turma infantil', '1' => 'CRECHE', '2' => 'PRÉ-ESCOLA', '3' => 'NÃO POSSUI'],
+                  ['class' => 'select-search-off t-field-select__input select2-container']
                 ); ?>
                 <?php echo $form->error($modelEnrollment, 'unified_class'); ?>
               </div>
@@ -2050,10 +2051,10 @@ echo $form->dropDownList(
               <div class="t-field-select js-hide-not-required" id="schooling-select">
                 <?php echo $form->label($modelEnrollment, 'another_scholarization_place', ['class' => 't-field-select__label']); ?>
                 <?php echo $form->DropDownList(
-                    $modelEnrollment,
-                    'another_scholarization_place',
-                    ['1' => 'Não recebe', '2' => 'Em hospital', '3' => 'Em domicílio'],
-                    ['class' => 'select-search-on t-field-select__input select2-container']
+                  $modelEnrollment,
+                  'another_scholarization_place',
+                  ['1' => 'Não recebe', '2' => 'Em hospital', '3' => 'Em domicílio'],
+                  ['class' => 'select-search-on t-field-select__input select2-container']
                 ); ?>
                 <?php echo $form->error($modelEnrollment, 'another_scholarization_place'); ?>
               </div>
@@ -2066,30 +2067,30 @@ echo $form->dropDownList(
                 <?php echo CHtml::label('Etapa', 'Stage', ['class' => 't-field-select__label']); ?>
                 <?php
                 echo CHtml::dropDownList(
-                    'Stage',
-                    null,
-                    [
-                        '0' => 'Selecione a Modalidade',
-                        '1' => 'Infantil',
-                        '2' => 'Fundamental Menor',
-                        '3' => 'Fundamental Maior',
-                        '4' => 'Médio',
-                        '5' => 'Profissional',
-                        '6' => 'EJA',
-                        '7' => 'Outros',
-                    ],
-                    [
-                        'class' => 'select-search-off t-field-select__input select2-container',
-                        'ajax' => [
-                            'type' => 'POST',
-                            'url' => CController::createUrl('enrollment/getmodalities'),
-                            'success' => 'function(data){
+                  'Stage',
+                  null,
+                  [
+                    '0' => 'Selecione a Modalidade',
+                    '1' => 'Infantil',
+                    '2' => 'Fundamental Menor',
+                    '3' => 'Fundamental Maior',
+                    '4' => 'Médio',
+                    '5' => 'Profissional',
+                    '6' => 'EJA',
+                    '7' => 'Outros',
+                  ],
+                  [
+                    'class' => 'select-search-off t-field-select__input select2-container',
+                    'ajax' => [
+                      'type' => 'POST',
+                      'url' => Yii::app()->createUrl('/student/enrollment/getmodalities'),
+                      'success' => 'function(data){
                                                 $("#StudentEnrollment_edcenso_stage_vs_modality_fk").html(decodeHtml(data));
                                             }'
-                        ],
-                    ]
+                    ],
+                  ]
                 );
-?>
+                ?>
               </div>
             </div>
             <div class="column clearleft--on-mobile is-two-fifths">
@@ -2097,11 +2098,11 @@ echo $form->dropDownList(
               <div class="t-field-select js-hide-not-required" id="teachingStage-select">
                 <?php echo $form->label($modelEnrollment, 'edcenso_stage_vs_modality_fk', ['class' => 't-field-select__label']); ?>
                 <?php echo $form->dropDownList(
-    $modelEnrollment,
-    'edcenso_stage_vs_modality_fk',
-    CHtml::listData(EdcensoStageVsModality::model()->findAll(), 'id', 'name'),
-    ['prompt' => 'Selecione a etapa', 'class' => 'select-search-on t-field-select__input select2-container']
-); ?>
+                  $modelEnrollment,
+                  'edcenso_stage_vs_modality_fk',
+                  CHtml::listData(EdcensoStageVsModality::model()->findAll(), 'id', 'name'),
+                  ['prompt' => 'Selecione a etapa', 'class' => 'select-search-on t-field-select__input select2-container']
+                ); ?>
                 <?php echo $form->error($modelEnrollment, 'edcenso_stage_vs_modality_fk'); ?>
               </div>
             </div>
@@ -2271,14 +2272,14 @@ echo $form->dropDownList(
           </div>
           <div class="row-fluid">
             <?php
-                $error = $modelEnrollment->getErrors('enrollmentId');
-if (!empty($error)):
-    ?>
+            $error = $modelEnrollment->getErrors('enrollmentId');
+            if (!empty($error)):
+              ?>
               <div class="alert alert-error">
                 <?php echo $error[0]; ?>
               </div>
-            <?php
-endif; ?>
+              <?php
+            endif; ?>
             <div id="enrollment" class="widget widget-scroll margin-bottom-none">
               <div class="row">
                 <h3>
@@ -2289,106 +2290,108 @@ endif; ?>
                 <div class="column clearleft is-four-fifths">
                   <div id="accordion" class="t-accordeon-quaternary">
                     <?php
-foreach ($modelStudentIdentification->studentEnrollments as $me) {
-    ?>
+                    foreach ($modelStudentIdentification->studentEnrollments as $me) {
+                      ?>
                       <div class="ui-accordion-header justify-content--space-between">
                         <div>
                           <div class="mobile-row align-items--center">
-                            <h4 class="t-title"><?php echo $me->classroomFk->name?>
-                              - <?php echo $me->classroomFk->school_year?></h4>
+                            <h4 class="t-title"><?php echo $me->classroomFk->name ?>
+                              - <?php echo $me->classroomFk->school_year ?></h4>
                             <?php
-    switch ($me->status) {
-        case '1':
-            $enrollmentDate = '';
-            if (isset($me->enrollment_date)) {
-                $enrollmentDate = date_create_from_format('Y-m-d', $me->enrollment_date)->format('d/m/Y');
-            }
-            echo "<label for='checkbox' class='t-badge-success'>Matriculado " . $enrollmentDate . '</label>';
-            break;
-        case '2':
-            $transferDate = '';
-            if (isset($me->transfer_date)) {
-                $transferDate = date_create_from_format('Y-m-d', $me->transfer_date)->format('d/m/Y');
-            }
-            echo "<label for='checkbox' class='t-badge-success'>Transferido " . $transferDate . '</label>';
-            break;
-        case '3':
-            echo "<label for='checkbox' class='t-badge-critical'>Cancelado</label>";
-            break;
-        case '4':
-            echo "<label for='checkbox' class='t-badge-critical'>Deixou de Frequentar</label>";
-            break;
-        case '5':
-            echo "<label for='checkbox' class='t-badge-warning'>Remanejado</label>";
-            break;
-        case '6':
-            echo "<label for='checkbox' class='t-badge-success'>Aprovado</label>";
-            break;
-        case '7':
-            echo "<label for='checkbox' class='t-badge-success'>Aprovado pelo Conselho</label>";
-            break;
-        case '8':
-            echo "<label for='checkbox' class='t-badge-critical'>Reprovado</label>";
-            break;
-        case '9':
-            echo "<label for='checkbox' class='t-badge-success'>Concluinte</label>";
-            break;
-        case '10':
-            echo "<label for='checkbox' class='t-badge-warning'>Indeterminado</label>";
-            break;
-        case '11':
-            echo "<label for='checkbox' class='t-badge-critical'>Falecido</label>";
-            break;
-        case '12':
-            echo "<label for='checkbox' class='t-badge-success'>Avançado</label>";
-            break;
-        case '13':
-            echo "<label for='checkbox' class='t-badge-success'>Reintegrado</label>";
-            break;
-        default:
-            echo '';
-    } ?>
+                            switch ($me->status) {
+                              case '1':
+                                $enrollmentDate = '';
+                                if (isset($me->enrollment_date)) {
+                                  $enrollmentDate = date_create_from_format('Y-m-d', $me->enrollment_date)->format('d/m/Y');
+                                }
+                                echo "<label for='checkbox' class='t-badge-success'>Matriculado " . $enrollmentDate . '</label>';
+                                break;
+                              case '2':
+                                $transferDate = '';
+                                if (isset($me->transfer_date)) {
+                                  $transferDate = date_create_from_format('Y-m-d', $me->transfer_date)->format('d/m/Y');
+                                }
+                                echo "<label for='checkbox' class='t-badge-success'>Transferido " . $transferDate . '</label>';
+                                break;
+                              case '3':
+                                echo "<label for='checkbox' class='t-badge-critical'>Cancelado</label>";
+                                break;
+                              case '4':
+                                echo "<label for='checkbox' class='t-badge-critical'>Deixou de Frequentar</label>";
+                                break;
+                              case '5':
+                                echo "<label for='checkbox' class='t-badge-warning'>Remanejado</label>";
+                                break;
+                              case '6':
+                                echo "<label for='checkbox' class='t-badge-success'>Aprovado</label>";
+                                break;
+                              case '7':
+                                echo "<label for='checkbox' class='t-badge-success'>Aprovado pelo Conselho</label>";
+                                break;
+                              case '8':
+                                echo "<label for='checkbox' class='t-badge-critical'>Reprovado</label>";
+                                break;
+                              case '9':
+                                echo "<label for='checkbox' class='t-badge-success'>Concluinte</label>";
+                                break;
+                              case '10':
+                                echo "<label for='checkbox' class='t-badge-warning'>Indeterminado</label>";
+                                break;
+                              case '11':
+                                echo "<label for='checkbox' class='t-badge-critical'>Falecido</label>";
+                                break;
+                              case '12':
+                                echo "<label for='checkbox' class='t-badge-success'>Avançado</label>";
+                                break;
+                              case '13':
+                                echo "<label for='checkbox' class='t-badge-success'>Reintegrado</label>";
+                                break;
+                              default:
+                                echo '';
+                            } ?>
                             <?php if ($me->classroomFk->school_year >= Yii::app()->user->year) { ?>
-                              <a href='<?php echo @Yii::app()->createUrl('enrollment/update', ['id' => $me->id]); ?>'
+                              <a href='<?php echo @Yii::app()->createUrl('/student/enrollment/update', ['id' => $me->id]); ?>'
                                 class="t-link-button--info">
                                 <div class="t-icon-pencil t-icon"></div>
                               </a>
-                            <?php
+                              <?php
                             } ?>
-                            <div class="t-icon-trash t-icon js-remove-enrollment" style="color:red; margin-left:8px;" enrollment-id="<?= $me->id?>"></div>
+                            <div class="t-icon-trash t-icon js-remove-enrollment" style="color:red; margin-left:8px;"
+                              enrollment-id="<?= $me->id ?>"></div>
                           </div>
                           <div id="accordion-school-label" class="mobile-row">
-                            <label for="checkbox" class="accordion-label"><?php echo $me->schoolInepIdFk->name?></label>
+                            <label for="checkbox" class="accordion-label"><?php echo $me->schoolInepIdFk->name ?></label>
                           </div>
                         </div>
                         <div class="align-items--center">
                           <?php
-                            if (!$modelStudentIdentification->isNewRecord && Yii::app()->features->isEnable(TFeature::FEAT_INTEGRATIONS_SEDSP)) {
-                                $sedspSync = StudentEnrollment::model()->findByPk($me->id)->sedsp_sync; ?>
+                          if (!$modelStudentIdentification->isNewRecord && Yii::app()->features->isEnable(TFeature::FEAT_INTEGRATIONS_SEDSP)) {
+                            $sedspSync = StudentEnrollment::model()->findByPk($me->id)->sedsp_sync; ?>
                             <div style="display: flex;align-items: center;margin-right: 10px;margin-top: 13px;">
                               <?php if ($sedspSync) { ?>
                                 <div style="font-weight: bold;margin-right: 20px;">
                                   <img alt="tag icon sicronizado" src="/themes/default/img/SyncTrue.png" title="Sincronizado"
                                     style="width: 20px;margin-right: 20px;">
                                 </div>
-                              <?php
+                                <?php
                               } else { ?>
                                 <div style="font-weight: bold;margin-right: 20px;">
-                                  <img alt="tag icon não sincronizado" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/notSync.png"
-                                    title="Não Sincronizado" style="width: 20px;margin-right: 20px;">
+                                  <img alt="tag icon não sincronizado"
+                                    src="<?php echo Yii::app()->theme->baseUrl; ?>/img/notSync.png" title="Não Sincronizado"
+                                    style="width: 20px;margin-right: 20px;">
                                 </div>
-                              <?php
+                                <?php
                               } ?>
                             </div>
-                          <?php
-                            } ?>
+                            <?php
+                          } ?>
                           <span class="t-icon-down_arrow accordion-arrow-icon"></span>
                         </div>
                       </div>
                       <div class="ui-accordion-content">
                         <div class="mobile-row">
                           <label for="checkbox" class="accordion-label--title">Turma:</label>
-                          <a href='<?php echo Yii::app()->createUrl('classroom/update', ['id' => $me->classroomFk->id]); ?>'
+                          <a href='<?php echo Yii::app()->createUrl('classroom/default/update', ['id' => $me->classroomFk->id]); ?>'
                             class="t-link-button--info accordion-label">
                             <?php echo $me->classroomFk->name; ?>
                           </a>
@@ -2398,26 +2401,26 @@ foreach ($modelStudentIdentification->studentEnrollments as $me) {
                           <label for="checkbox" class="accordion-label">
                             <?php
                             switch ($me->classroomFk->turn) {
-                                case 'M':
-                                    echo 'Matutino';
-                                    break;
-                                case 'T':
-                                    echo 'Vespertino';
-                                    break;
-                                case 'N':
-                                    echo 'Noturno';
-                                    break;
-                                case 'I':
-                                    echo 'Integral';
-                                    break;
-                                default:
-                                    echo '-';
+                              case 'M':
+                                echo 'Matutino';
+                                break;
+                              case 'T':
+                                echo 'Vespertino';
+                                break;
+                              case 'N':
+                                echo 'Noturno';
+                                break;
+                              case 'I':
+                                echo 'Integral';
+                                break;
+                              default:
+                                echo '-';
                             } ?>
                           </label>
                         </div>
                         <div class="mobile-row">
                           <label for="checkbox" class="accordion-label--title">Ano:</label>
-                          <label for="checkbox" class="accordion-label"><?php echo $me->classroomFk->school_year?></label>
+                          <label for="checkbox" class="accordion-label"><?php echo $me->classroomFk->school_year ?></label>
                         </div>
                         <?php if (!empty($me->studentEnrollmentHistories)): ?>
                           <div class="mobile-row upper-margin">
@@ -2425,130 +2428,130 @@ foreach ($modelStudentIdentification->studentEnrollments as $me) {
                           </div>
                           <div class="enrollment-history">
                             <?php foreach (array_reverse($me->studentEnrollmentHistories) as $studentEnrollmentHistory) {
-                                switch ($studentEnrollmentHistory->status) {
-                                    case '1':
-                                        $enrollmentDate = '';
-                                        if (isset($studentEnrollmentHistory->enrollment_date)) {
-                                            $enrollmentDate = date_create_from_format('Y-m-d', $studentEnrollmentHistory->enrollment_date)->format('d/m/Y');
-                                        }
-                                        echo '<div>• Matriculado ' . $enrollmentDate . '</div>';
-                                        break;
-                                    case '2':
-                                        $transferDate = '';
-                                        if (isset($studentEnrollmentHistory->transfer_date)) {
-                                            $transferDate = date_create_from_format('Y-m-d', $studentEnrollmentHistory->transfer_date)->format('d/m/Y');
-                                        }
-                                        echo '<div>• Transferido ' . $transferDate . '</div>';
-                                        break;
-                                    case '3':
-                                        echo '<div>• Cancelado</div>';
-                                        break;
-                                    case '4':
-                                        echo '<div>• Deixou de Frequentar </div>';
-                                        break;
-                                    case '5':
-                                        echo '<div>• Remanejado</div>';
-                                        break;
-                                    case '6':
-                                        echo '<div>• Aprovado</div>';
-                                        break;
-                                    case '7':
-                                        echo '<div>• Aprovado pelo Conselho</div>';
-                                        break;
-                                    case '8':
-                                        echo '<div>• Reprovado</div>';
-                                        break;
-                                    case '9':
-                                        echo '<div>• Concluinte</div>';
-                                        break;
-                                    case '10':
-                                        echo '<div>• Indeterminado</div>';
-                                        break;
-                                    case '11':
-                                        echo '<div>• Falecido</div>';
-                                        break;
-                                    case '12':
-                                        echo '<div>• Avançado</div>';
-                                        break;
-                                    case '13':
-                                        echo '<div>• Reintegrado</div>';
-                                        break;
-                                    default:
-                                        echo '';
-                                }
+                              switch ($studentEnrollmentHistory->status) {
+                                case '1':
+                                  $enrollmentDate = '';
+                                  if (isset($studentEnrollmentHistory->enrollment_date)) {
+                                    $enrollmentDate = date_create_from_format('Y-m-d', $studentEnrollmentHistory->enrollment_date)->format('d/m/Y');
+                                  }
+                                  echo '<div>• Matriculado ' . $enrollmentDate . '</div>';
+                                  break;
+                                case '2':
+                                  $transferDate = '';
+                                  if (isset($studentEnrollmentHistory->transfer_date)) {
+                                    $transferDate = date_create_from_format('Y-m-d', $studentEnrollmentHistory->transfer_date)->format('d/m/Y');
+                                  }
+                                  echo '<div>• Transferido ' . $transferDate . '</div>';
+                                  break;
+                                case '3':
+                                  echo '<div>• Cancelado</div>';
+                                  break;
+                                case '4':
+                                  echo '<div>• Deixou de Frequentar </div>';
+                                  break;
+                                case '5':
+                                  echo '<div>• Remanejado</div>';
+                                  break;
+                                case '6':
+                                  echo '<div>• Aprovado</div>';
+                                  break;
+                                case '7':
+                                  echo '<div>• Aprovado pelo Conselho</div>';
+                                  break;
+                                case '8':
+                                  echo '<div>• Reprovado</div>';
+                                  break;
+                                case '9':
+                                  echo '<div>• Concluinte</div>';
+                                  break;
+                                case '10':
+                                  echo '<div>• Indeterminado</div>';
+                                  break;
+                                case '11':
+                                  echo '<div>• Falecido</div>';
+                                  break;
+                                case '12':
+                                  echo '<div>• Avançado</div>';
+                                  break;
+                                case '13':
+                                  echo '<div>• Reintegrado</div>';
+                                  break;
+                                default:
+                                  echo '';
+                              }
                             } ?>
                           </div>
-                        <?php
+                          <?php
                         endif; ?>
                         <div class="mobile-row upper-margin">
                           <label for="checkbox" class="accordion-label--title">Formulários:</label>
                         </div>
                         <div class="reports">
                           <?php
-                        $forms = unserialize(FORMS);
-    foreach ($forms as $item) {
-        $link = Yii::app()->createUrl('forms/' . $item['action'], ['type' => $type, 'enrollmentId' => $me->id]); ?>
-                            <a class="<?= $item['name'] == 'Ficha de Matrícula' ? 't-button-primary' : 't-button-secondary'?> mobile-margin"
-                              rel="noopener" target="_blank" href="<?= $link?>">
+                          $forms = unserialize(FORMS);
+                          foreach ($forms as $item) {
+                            $link = Yii::app()->createUrl('schoolreport/forms/' . $item['action'], ['type' => $type, 'enrollmentId' => $me->id]); ?>
+                            <a class="<?= $item['name'] == 'Ficha de Matrícula' ? 't-button-primary' : 't-button-secondary' ?> mobile-margin"
+                              rel="noopener" target="_blank" href="<?= $link ?>">
                               <span class="t-icon-printer"></span>
-                              <?php echo $item['name']?>
+                              <?php echo $item['name'] ?>
                             </a>
                             <?php
-    } ?>
+                          } ?>
                           <a class="t-button-secondary" rel="noopener" target="_blank" href="<?php echo @Yii::app()->createUrl(
-            'forms/EnrollmentGradesReport',
-            ['enrollmentId' => $me->id]
-        )?>">
+                            'schoolreport/forms/EnrollmentGradesReport',
+                            ['enrollmentId' => $me->id]
+                          ) ?>">
                             <span class="t-icon-printer"></span>
                             Ficha de Notas
                           </a>
                           <?php if (Yii::app()->features->isEnable('HAS_INDIVIDUALRECORD')): ?>
-                          <a class="t-button-secondary" rel="noopener" target="_blank"
-                            href="<?php echo @Yii::app()->createUrl('forms/IndividualRecord', ['enrollmentId' => $me->id])?>">
-                            <span class="t-icon-printer"></span>
-                            Ficha Individual
-                          </a>
-                          <?php
+                            <a class="t-button-secondary" rel="noopener" target="_blank"
+                              href="<?php echo @Yii::app()->createUrl('schoolreport/forms/IndividualRecord', ['enrollmentId' => $me->id]) ?>">
+                              <span class="t-icon-printer"></span>
+                              Ficha Individual
+                            </a>
+                            <?php
                           endif; ?>
                         </div>
                         <?php if ($me->classroomFk->school_year == date('Y')) { ?>
                           <div class="mobile-row">
                             <label for="checkbox" class="accordion-label--title">Questionários:</label>
                           </div>
-                        <?php
+                          <?php
                         } ?>
                         <div class="reports">
                           <?php
-                        if ($me->classroomFk->school_year == date('Y')) {
+                          if ($me->classroomFk->school_year == date('Y')) {
                             $date = date('Y-m-d');
                             $quizs = Quiz::model()->findAll(
-                                'status = 1 AND init_date <=:init_date AND final_date >=:final_date',
-                                [':init_date' => $date, ':final_date' => $date]
+                              'status = 1 AND init_date <=:init_date AND final_date >=:final_date',
+                              [':init_date' => $date, ':final_date' => $date]
                             );
                             if (count($quizs) > 0) {
-                                foreach ($quizs as $quiz) {
-                                    $link = Yii::app()->createUrl('quiz/default/answer', ['quizId' => $quiz->id, 'studentId' => $me->studentFk->id]); ?>
-                                <a class="t-button-secondary mobile-margin" rel="noopener" target="_blank" href="<?= $link?>">
+                              foreach ($quizs as $quiz) {
+                                $link = Yii::app()->createUrl('quiz/default/answer', ['quizId' => $quiz->id, 'studentId' => $me->studentFk->id]); ?>
+                                <a class="t-button-secondary mobile-margin" rel="noopener" target="_blank" href="<?= $link ?>">
                                   <span class="t-icon-printer"></span>
-                                  <?php echo $quiz->name?>
+                                  <?php echo $quiz->name ?>
                                 </a>
                                 <?php
-                                }
+                              }
                             }
-                        } ?>
+                          } ?>
                         </div>
                         <?php if ($me->classroomFk->school_year >= Yii::app()->user->year) { ?>
                           <div class="row">
                             <a href='#' id="delete-enrollment" class="t-link-button--warning"
-                              enrollment="<?= $me->id?>">Excluir Matrícula
+                              enrollment="<?= $me->id ?>">Excluir Matrícula
                             </a>
                           </div>
-                        <?php
+                          <?php
                         } ?>
                       </div>
                       <?php
-}
-?>
+                    }
+                    ?>
                   </div>
                 </div>
               </div>
@@ -2562,58 +2565,58 @@ foreach ($modelStudentIdentification->studentEnrollments as $me) {
 
           <div class="row">
             <div class="column clearleft--on-mobile is-two-fifths">
-                <h3>
-                    Transtornos
-                </h3>
-                <div class="t-field-checkbox-group" id="transtorno-checkbox">
-                    <div class="t-field-checkbox">
-                    <?php echo $form->checkBox($modelStudentDisorder, 'depressao', ['value' => 1, 'uncheckValue' => 0]); ?>
-                    <label for="checkbox" class="t-field-checkbox">
-                        Transtorno depressivo (depressão)
-                    </label>
-                    </div>
-                    <div class="t-field-checkbox">
-                    <?php echo $form->checkBox($modelStudentDisorder, 'tab', ['value' => 1, 'uncheckValue' => 0]); ?>
-                    <label for="checkbox" class="t-field-checkbox">
-                        Transtorno bipolar (TAB)
-                    </label>
-                    </div>
-                    <div class="t-field-checkbox">
-                    <?php echo $form->checkBox($modelStudentDisorder, 'toc', ['value' => 1, 'uncheckValue' => 0]); ?>
-                    <label for="checkbox" class="t-field-checkbox">
-                        Transtorno obsessivo compulsivo (TOC)
-                    </label>
-                    </div>
-                    <div class="t-field-checkbox">
-                    <?php echo $form->checkBox($modelStudentDisorder, 'tag', ['value' => 1, 'uncheckValue' => 0]); ?>
-                    <label for="checkbox" class="t-field-checkbox">
-                        Transtorno de ansiedade generalizada (TAG)
-                    </label>
-                    </div>
-                    <div class="t-field-checkbox">
-                    <?php echo $form->checkBox($modelStudentDisorder, 'tod', ['value' => 1, 'uncheckValue' => 0]); ?>
-                    <label for="checkbox" class="t-field-checkbox">
-                        Distúrbio desafiador e de oposição (TOD)
-                    </label>
-                    </div>
-                    <div class="t-field-checkbox">
-                    <?php echo $form->checkBox($modelStudentDisorder, 'tcne', ['value' => 1, 'uncheckValue' => 0]); ?>
-                    <label for="checkbox" class="t-field-checkbox">
-                        Transtorno de conduta não especificado
-                    </label>
-                    </div>
-                    <div class="t-field-checkbox">
-                    <?php echo $modelStudentDisorder->others != null ?
-    "<input type='checkbox' id='others-check' checked>" :
-    "<input type='checkbox' id='others-check'>"?>
-                    <label for="checkbox" class="t-field-checkbox">
-                        Outros transtornos de conduta
-                    </label>
-                    </div>
-                    <div class="row others-text-box" style="display: none;">
-                    <?php echo $form->textArea($modelStudentDisorder, 'others', ['rows' => 6, 'cols' => 50]); ?>
-                    </div>
+              <h3>
+                Transtornos
+              </h3>
+              <div class="t-field-checkbox-group" id="transtorno-checkbox">
+                <div class="t-field-checkbox">
+                  <?php echo $form->checkBox($modelStudentDisorder, 'depressao', ['value' => 1, 'uncheckValue' => 0]); ?>
+                  <label for="checkbox" class="t-field-checkbox">
+                    Transtorno depressivo (depressão)
+                  </label>
                 </div>
+                <div class="t-field-checkbox">
+                  <?php echo $form->checkBox($modelStudentDisorder, 'tab', ['value' => 1, 'uncheckValue' => 0]); ?>
+                  <label for="checkbox" class="t-field-checkbox">
+                    Transtorno bipolar (TAB)
+                  </label>
+                </div>
+                <div class="t-field-checkbox">
+                  <?php echo $form->checkBox($modelStudentDisorder, 'toc', ['value' => 1, 'uncheckValue' => 0]); ?>
+                  <label for="checkbox" class="t-field-checkbox">
+                    Transtorno obsessivo compulsivo (TOC)
+                  </label>
+                </div>
+                <div class="t-field-checkbox">
+                  <?php echo $form->checkBox($modelStudentDisorder, 'tag', ['value' => 1, 'uncheckValue' => 0]); ?>
+                  <label for="checkbox" class="t-field-checkbox">
+                    Transtorno de ansiedade generalizada (TAG)
+                  </label>
+                </div>
+                <div class="t-field-checkbox">
+                  <?php echo $form->checkBox($modelStudentDisorder, 'tod', ['value' => 1, 'uncheckValue' => 0]); ?>
+                  <label for="checkbox" class="t-field-checkbox">
+                    Distúrbio desafiador e de oposição (TOD)
+                  </label>
+                </div>
+                <div class="t-field-checkbox">
+                  <?php echo $form->checkBox($modelStudentDisorder, 'tcne', ['value' => 1, 'uncheckValue' => 0]); ?>
+                  <label for="checkbox" class="t-field-checkbox">
+                    Transtorno de conduta não especificado
+                  </label>
+                </div>
+                <div class="t-field-checkbox">
+                  <?php echo $modelStudentDisorder->others != null ?
+                    "<input type='checkbox' id='others-check' checked>" :
+                    "<input type='checkbox' id='others-check'>" ?>
+                  <label for="checkbox" class="t-field-checkbox">
+                    Outros transtornos de conduta
+                  </label>
+                </div>
+                <div class="row others-text-box" style="display: none;">
+                  <?php echo $form->textArea($modelStudentDisorder, 'others', ['rows' => 6, 'cols' => 50]); ?>
+                </div>
+              </div>
             </div>
             <!-- Vacinas -->
             <div class="column clearleft--on-mobile is-two-fifths">
@@ -2628,7 +2631,7 @@ foreach ($modelStudentIdentification->studentEnrollments as $me) {
                       <?= $vaccine->name; ?>
                     </label>
                   </div>
-                <?php
+                  <?php
                 endforeach; ?>
               </div>
             </div>
@@ -2686,7 +2689,7 @@ foreach ($modelStudentIdentification->studentEnrollments as $me) {
                 <div class="t-field-checkbox">
                   <?php echo $modelStudentRestrictions->others != null ?
                     "<input type='checkbox' id='others-check' checked>" :
-                    "<input type='checkbox' id='others-check'>"?>
+                    "<input type='checkbox' id='others-check'>" ?>
                   <label for="checkbox" class="t-field-checkbox">
                     <?php echo StudentRestrictions::model()->attributeLabels()['others']; ?>
                   </label>
@@ -2703,12 +2706,12 @@ foreach ($modelStudentIdentification->studentEnrollments as $me) {
           <div class="t-buttons-container">
             <div class="column clearfix">
               <a data-toggle="tab" class='t-button-secondary prev'
-                style="display:none;"><?php echo Yii::t('default', 'Previous')?><i></i></a>
+                style="display:none;"><?php echo Yii::t('default', 'Previous') ?><i></i></a>
             </div>
             <div class="column clearfix">
-              <?= $modelStudentIdentification->isNewRecord ? "<a data-toggle='tab' class='t-button-primary nofloat next'>" . Yii::t('default', 'Next') . '</a>' : ''?>
+              <?= $modelStudentIdentification->isNewRecord ? "<a data-toggle='tab' class='t-button-primary nofloat next'>" . Yii::t('default', 'Next') . '</a>' : '' ?>
               <a class="t-button-primary last save-student" type="button" style="display: none;">
-                <?= $modelStudentIdentification->isNewRecord ? Yii::t('default', 'Create') : Yii::t('default', 'Save')?>
+                <?= $modelStudentIdentification->isNewRecord ? Yii::t('default', 'Create') : Yii::t('default', 'Save') ?>
               </a>
             </div>
           </div>
@@ -2749,15 +2752,15 @@ foreach ($modelStudentIdentification->studentEnrollments as $me) {
 </div>
 <?php
 
-                if (isset($_GET['censo']) && isset($_GET['id'])) {
-                    $this->widget('application.widgets.AlertCensoWidget', ['prefix' => 'student', 'dataId' => $_GET['id']]);
-                }
+if (isset($_GET['censo']) && isset($_GET['id'])) {
+  $this->widget('application.widgets.AlertCensoWidget', ['prefix' => 'student', 'dataId' => $_GET['id']]);
+}
 ?>
 
 <script type="text/javascript">
   var formIdentification = '#StudentIdentification_';
   var formDocumentsAndAddress = '#StudentDocumentsAndAddress_';
   var formEnrollment = '#StudentEnrollment_';
-  var updateDependenciesURL = '<?php echo yii::app()->createUrl('enrollment/updatedependencies')?>';
+  var updateDependenciesURL = '<?php echo yii::app()->createUrl('/student/enrollment/updatedependencies') ?>';
   var filled = -1;
 </script>

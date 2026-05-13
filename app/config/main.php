@@ -51,10 +51,6 @@ return [
     'language' => 'pt_br',
     'preload' => ['log'],
     'import' => [
-        'application.domain.admin.exceptions.*',
-        'application.domain.admin.usecases.*',
-        'application.domain.grades.exceptions.*',
-        'application.domain.grades.usecases.*',
         'application.models.*',
         'application.controllers.*',
         'application.components.*',
@@ -76,9 +72,6 @@ return [
         'application.components.auth.TNotificationEvent',
         'ext.bncc-import.BNCCImport',
         'ext.imc.IMC',
-    ],
-    'controllerMap' => [
-        'gradesstructure' => 'GradesStructureController',
     ],
     'modules' => [
         'gii' => [
@@ -109,16 +102,20 @@ return [
         'dashboard',
         'courseplan',
         'aeerecord',
+        'grades',
         'gradeconcept',
         'abilities',
         'enrollmentonline',
         'gestaopresente',
         'systemadmin',
-        'studentimc',
         'inventory',
         'notifications',
         'tools',
         'student',
+        'instructor',
+        'farmer',
+        'gradestructure',
+        'classroom',
     ],
     'components' => [
         'utils' => [

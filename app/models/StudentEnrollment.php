@@ -266,6 +266,30 @@ class StudentEnrollment extends AltActiveRecord
         return @StudentEnrollment::model()->find($criteria);
     }
 
+    protected function beforeDelete()
+    {
+        if (!parent::beforeDelete()) {
+            return false;
+        }
+
+        $this->deleteEnrollmentFrequencyDependencies();
+
+        return true;
+    }
+
+    protected function deleteEnrollmentFrequencyDependencies()
+    {
+        FrequencyAndMeanByDiscipline::model()->deleteAll(
+            'enrollment_fk = :enrollment_fk',
+            ['enrollment_fk' => $this->id]
+        );
+
+        FrequencyByExam::model()->deleteAll(
+            'enrollment_fk = :enrollment_fk',
+            ['enrollment_fk' => $this->id]
+        );
+    }
+
     public function search()
     {
         // Warning: Please modify the following code to remove attributes that

@@ -69,7 +69,7 @@ class ClassroomCest
         sleep(2);
 
         $teste->see('Turma adicionada com sucesso!');
-        $teste->canSeeInCurrentUrl('?r=classroom/index');
+        $teste->canSeeInCurrentUrl('?r=classroom/default/index');
     }
 
     /**
@@ -98,7 +98,7 @@ class ClassroomCest
         sleep(2);
 
         $teste->see('Turma adicionada com sucesso!');
-        $teste->canSeeInCurrentUrl('?r=classroom/index');
+        $teste->canSeeInCurrentUrl('?r=classroom/default/index');
     }
 
     /**
@@ -147,6 +147,6 @@ class ClassroomCest
         sleep(2);
 
         $teste->see('Turma adicionada com sucesso!');
-        $teste->canSeeInCurrentUrl('?r=classroom/index');
+        $teste->canSeeInCurrentUrl('?r=classroom/default/index');
     }
 }

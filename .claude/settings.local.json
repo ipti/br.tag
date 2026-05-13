@@ -1,0 +1,19 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(rtk ls *)",
+      "Bash(rtk grep *)",
+      "Bash(rtk read *)",
+      "Bash(rtk wc *)",
+      "Bash(rtk find *)",
+      "Bash(cp -r c:/Users/CoordenacaoTI/Projetos/br.tag/themes/default/views/calendar/default/. c:/Users/CoordenacaoTI/Projetos/br.tag/app/modules/calendar/views/default/)",
+      "Bash(cp -r c:/Users/CoordenacaoTI/Projetos/br.tag/themes/default/views/curricularmatrix/curricularmatrix/. c:/Users/CoordenacaoTI/Projetos/br.tag/app/modules/curricularmatrix/views/curricularmatrix/)",
+      "Bash(cp -r c:/Users/CoordenacaoTI/Projetos/br.tag/themes/default/views/timesheet/timesheet/. c:/Users/CoordenacaoTI/Projetos/br.tag/app/modules/timesheet/views/timesheet/)",
+      "Bash(cp -r c:/Users/CoordenacaoTI/Projetos/br.tag/themes/default/views/lunch/default/. c:/Users/CoordenacaoTI/Projetos/br.tag/app/modules/lunch/views/default/)",
+      "Bash(cp -r c:/Users/CoordenacaoTI/Projetos/br.tag/themes/default/views/lunch/lunch/. c:/Users/CoordenacaoTI/Projetos/br.tag/app/modules/lunch/views/lunch/)",
+      "Bash(cp -r c:/Users/CoordenacaoTI/Projetos/br.tag/themes/default/views/lunch/stock/. c:/Users/CoordenacaoTI/Projetos/br.tag/app/modules/lunch/views/stock/)",
+      "Bash(cp -r c:/Users/CoordenacaoTI/Projetos/br.tag/themes/default/views/quiz/default/. c:/Users/CoordenacaoTI/Projetos/br.tag/app/modules/quiz/views/default/)",
+      "Bash(cp -r c:/Users/CoordenacaoTI/Projetos/br.tag/themes/default/views/resultsmanagement/default/. c:/Users/CoordenacaoTI/Projetos/br.tag/app/modules/resultsmanagement/views/default/)"
+    ]
+  }
+}

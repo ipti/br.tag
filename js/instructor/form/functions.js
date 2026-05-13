@@ -108,7 +108,7 @@ function renderClasroomsCards() {
             let cardsClassrooms = result.reduce((acc, element) =>
                 acc += `
                 <div class="column clearfix no-grow">
-                     <a href="${window.location.host}?r=classroom/update&id=${element["id"]}" class="t-cards">
+                     <a href="${window.location.host}?r=classroom/default/update&id=${element["id"]}" class="t-cards">
                         <div class="t-cards-content">
                             <div class="t-tag-primary">${element["discipline_name"]}</div>
                             <div class="t-cards-title">${element["name"]}</div>

@@ -53,7 +53,7 @@ class DefaultController extends Controller
         return [
             [
                 'allow',
-                'actions' => ['index', 'run'],
+                'actions' => ['index', 'run', 'opcache', 'viewLogs'],
                 'expression' => 'TagUtils::isSuperuser()',
             ],
             ['deny', 'users' => ['*']],
@@ -61,12 +61,79 @@ class DefaultController extends Controller
     }
 
     /**
-     * Tela principal: lista os commands disponíveis.
+     * Tela principal: lista os commands disponíveis e links de diagnóstico.
      */
     public function actionIndex()
     {
+        $diagnostics = [
+            [
+                'name' => 'Visualizar Logs',
+                'description' => 'Exibe as entradas de log da aplicação do dia atual.',
+                'icon' => 'fa-file-text',
+                'url' => Yii::app()->createUrl('tools/default/viewLogs'),
+            ],
+            [
+                'name' => 'OPcache',
+                'description' => 'Painel de monitoramento do cache de bytecode PHP (OPcache GUI).',
+                'icon' => 'fa-tachometer',
+                'url' => Yii::app()->createUrl('tools/default/opcache'),
+            ],
+        ];
+
         $this->render('index', [
             'commands' => $this->whitelist,
+            'diagnostics' => $diagnostics,
+        ]);
+    }
+
+    /**
+     * Exibe o painel OPcache GUI.
+     */
+    public function actionOpcache()
+    {
+        $this->layout = 'reportsclean';
+        $opcacheGuiPath = Yii::getPathOfAlias('application.extensions.opcache-gui') . '/index.php';
+
+        if (!file_exists($opcacheGuiPath)) {
+            throw new CHttpException(404, 'OPcache GUI não encontrado.');
+        }
+
+        require_once $opcacheGuiPath;
+        Yii::app()->end();
+    }
+
+    /**
+     * Exibe os logs da aplicação do dia atual com paginação.
+     */
+    public function actionViewLogs()
+    {
+        $logPath = '/app/app/runtime/' . INSTANCE . '/' . date('Y-m-d');
+        $logFiles = glob($logPath . '/application.log*');
+        $logs = [];
+
+        rsort($logFiles);
+
+        if (!empty($logFiles)) {
+            foreach ($logFiles as $file) {
+                array_unshift($logs, ['type' => 'header', 'file' => basename($file)]);
+
+                $fileHandle = fopen($file, 'r');
+                if ($fileHandle) {
+                    while (($line = fgets($fileHandle)) !== false) {
+                        array_unshift($logs, ['type' => 'log', 'line' => $line]);
+                    }
+                    fclose($fileHandle);
+                }
+            }
+        }
+
+        $dataProvider = new CArrayDataProvider($logs, [
+            'id' => 'log',
+            'pagination' => ['pageSize' => 50],
+        ]);
+
+        $this->render('viewLogs', [
+            'dataProvider' => $dataProvider,
         ]);
     }
 
