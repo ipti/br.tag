@@ -85,6 +85,49 @@ class Register20
         return $disciplines;
     }
 
+    private static function isSelectedValue($value)
+    {
+        return $value === '1' || $value === 1;
+    }
+
+    private static function resolveClassTypeFor2026($attributes)
+    {
+        if (self::isSelectedValue($attributes['aee'] ?? null)) {
+            return '6';
+        }
+
+        if (self::isSelectedValue($attributes['schooling'] ?? null) && self::isSelectedValue($attributes['complementary_activity'] ?? null)) {
+            return '9';
+        }
+
+        if (self::isSelectedValue($attributes['complementary_activity'] ?? null)) {
+            return '5';
+        }
+
+        return '4';
+    }
+
+    private static function resolveOrganizationFormFor2026($register)
+    {
+        if (($register[self::REGISTER_ATTR_MODULO] ?? null) === '1' || ($register[self::REGISTER_ATTR_MODULO] ?? null) === 1) {
+            return '5';
+        }
+
+        if (($register[self::REGISTER_ATTR_GRUPO_NAO_SERIADO] ?? null) === '1' || ($register[self::REGISTER_ATTR_GRUPO_NAO_SERIADO] ?? null) === 1) {
+            return '4';
+        }
+
+        if (($register[self::REGISTER_ATTR_CICLO] ?? null) === '1' || ($register[self::REGISTER_ATTR_CICLO] ?? null) === 1) {
+            return '3';
+        }
+
+        if (($register[self::REGISTER_ATTR_PERIODO] ?? null) === '1' || ($register[self::REGISTER_ATTR_PERIODO] ?? null) === 1) {
+            return '2';
+        }
+
+        return '1';
+    }
+
     public static function export($year)
     {
         $registers = [];
@@ -306,7 +349,12 @@ class Register20
                     }
                 }
 
-                array_push($registers, implode('|', $register));
+                if ((int) $year === 2026) {
+                    $register[14] = self::resolveClassTypeFor2026($attributes);
+                    $register[28] = self::resolveOrganizationFormFor2026($register);
+                }
+
+                array_push($registers, EducacensoRegisterFormatter::format(20, $register, $year));
             }
         }
 

@@ -241,7 +241,7 @@ class Register60
                         }
                     }
 
-                    array_push($registers, implode('|', $register));
+                    array_push($registers, EducacensoRegisterFormatter::format(60, $register, $year));
                 }
             }
         }

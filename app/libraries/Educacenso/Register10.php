@@ -2,6 +2,74 @@
 
 class Register10
 {
+    private static function isSelectedValue($value)
+    {
+        return $value === '1' || $value === 1;
+    }
+
+    private static function deriveInternetDeviceAccess(array $attributes)
+    {
+        $schoolDevices = self::isSelectedValue($attributes['internet_access_connected_desktop'] ?? null);
+        $personalDevices = self::isSelectedValue($attributes['internet_access_connected_personaldevice'] ?? null);
+
+        if ($schoolDevices && $personalDevices) {
+            return '3';
+        }
+
+        if ($personalDevices) {
+            return '2';
+        }
+
+        return '1';
+    }
+
+    private static function deriveLocalNetworkAccess(array $attributes)
+    {
+        $cable = self::isSelectedValue($attributes['internet_access_local_cable'] ?? null);
+        $wireless = self::isSelectedValue($attributes['internet_access_local_wireless'] ?? null);
+
+        if ($cable && $wireless) {
+            return '3';
+        }
+
+        if ($wireless) {
+            return '2';
+        }
+
+        if ($cable) {
+            return '1';
+        }
+
+        return '0';
+    }
+
+    private static function ensureRegisterGroupHasSelectedValue(array &$register, array $corders, $defaultCorder)
+    {
+        foreach ($corders as $corder) {
+            if (($register[$corder] ?? null) === '1' || ($register[$corder] ?? null) === 1) {
+                return;
+            }
+        }
+
+        foreach ($corders as $corder) {
+            if (!isset($register[$corder]) || $register[$corder] === null || $register[$corder] === '') {
+                $register[$corder] = '0';
+            }
+        }
+
+        $register[$defaultCorder] = '1';
+    }
+
+    private static function ensureMandatoryGroupsFor2026(array &$register)
+    {
+        self::ensureRegisterGroupHasSelectedValue($register, range(18, 23), 18);
+        self::ensureRegisterGroupHasSelectedValue($register, range(24, 27), 24);
+        self::ensureRegisterGroupHasSelectedValue($register, range(28, 31), 28);
+        self::ensureRegisterGroupHasSelectedValue($register, range(32, 36), 32);
+        self::ensureRegisterGroupHasSelectedValue($register, range(37, 40), 40);
+        self::ensureRegisterGroupHasSelectedValue($register, range(41, 79), 79);
+    }
+
     public static function export($year)
     {
         $registers = [];
@@ -226,7 +294,11 @@ class Register10
 
         $edcensoAliases = EdcensoAlias::model()->findAll('year = :year and register = 10 order by corder', [':year' => $year]);
         foreach ($edcensoAliases as $edcensoAlias) {
-            if ($edcensoAlias->corder == 44) {
+            if ((int) $year === 2026 && $edcensoAlias->corder == 115) {
+                $register[$edcensoAlias->corder] = self::deriveInternetDeviceAccess($attributes);
+            } elseif ((int) $year === 2026 && $edcensoAlias->corder == 117) {
+                $register[$edcensoAlias->corder] = self::deriveLocalNetworkAccess($attributes);
+            } elseif ($edcensoAlias->corder == 44) {
                 $register[$edcensoAlias->corder] =
                     $attributes['dependencies_prysical_disability_bathroom'] == 1 || $attributes['dependencies_child_bathroom'] == 1 ||
                     $attributes['dependencies_bathroom_workes'] == 1 || $attributes['dependencies_bathroom_with_shower'] == 1
@@ -251,7 +323,13 @@ class Register10
             }
         }
 
-        array_push($registers, implode('|', $register));
+        if ((int) $year === 2026) {
+            $register[115] = self::deriveInternetDeviceAccess($attributes);
+            $register[117] = self::deriveLocalNetworkAccess($attributes);
+            self::ensureMandatoryGroupsFor2026($register);
+        }
+
+        array_push($registers, EducacensoRegisterFormatter::format(10, $register, $year));
 
         return $registers;
     }

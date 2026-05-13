@@ -2599,12 +2599,18 @@ class CensoController extends Controller
     {
         include dirname(__DIR__) . '/libraries/Educacenso/Educacenso.php';
         $educacenso = new Educacenso();
-        $export = $educacenso->exportar(date('Y'), $withoutCertificates);
+        try {
+            $export = $educacenso->exportar(date('Y'), $withoutCertificates);
+        } catch (InvalidArgumentException $exception) {
+            Yii::app()->user->setFlash('error', Yii::t('default', $exception->getMessage()));
+            return $this->redirect(['index']);
+        }
 
         $fileDir = Yii::app()->basePath . '/export/' . date('Y_') . Yii::app()->user->school . '.TXT';
 
         Yii::import('ext.FileManager.fileManager');
         $fm = new fileManager();
+        $export = EducacensoRegisterFormatter::encodeOutput($export);
         $result = $fm->write($fileDir, $export);
 
         if ($result) {
