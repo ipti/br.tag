@@ -99,9 +99,9 @@ DELETE FROM edcenso_alias
 WHERE `year` = 2026
   AND (
       (register = 0 AND corder > 53)
-      OR (register = 10 AND corder > 182)
+      OR (register = 10 AND corder > 187)
       OR (register = 20 AND corder > 66)
-      OR (register IN (301, 302) AND corder > 108)
+      OR (register IN (301, 302) AND corder > 110)
       OR (register = 40 AND corder > 7)
       OR (register = 50 AND corder > 38)
       OR (register = 60 AND corder > 33)
