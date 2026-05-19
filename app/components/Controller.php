@@ -55,6 +55,9 @@ class Controller extends CController
 
     public function beforeAction($action)
     {
+        if($this->getId() == 'site' && $action->getId() == 'login'){
+        	return parent::beforeAction($action);
+        }
         $transaction = SentrySdk::getCurrentHub()->startTransaction(new TransactionContext(
             Yii::app()->controller->id . '/' . $action->id,
         ));

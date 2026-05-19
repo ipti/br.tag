@@ -1,8 +1,11 @@
 services:
   tag:
-    build: .
+    image: biaeduaothp/tag-app:latest
+
     container_name: tag-app
     restart: always
+
+    # user: "${LOCAL_UID}:${LOCAL_GID}"
     ports:
       - 80:80
       - 433:433
@@ -12,25 +15,24 @@ services:
     networks:
       - tag-v3-network
     environment:
-      MAINTENANCE_MODE: 0
-      HOST_DB_TAG: 'mysql'
-      USER_DB_TAG: 'root'
-      PWD_DB_TAG: 'root'
-      TOKEN_FIREBASE: ''
-      PWD_FIREBASE: ''
-      YII_DEBUG: 1
-      PHP_ENABLE_XDEBUG: 0
-      # XDEBUG_MODE: 'off'
+      MAINTENANCE_MODE: "0"
+      HOST_DB_TAG: "192.168.15.18"
+      USER_DB_TAG: "taguser"
+      PWD_DB_TAG: "root"
+      TOKEN_FIREBASE: ""
+      PWD_FIREBASE: ""
+      YII_DEBUG: "1"
+      PHP_ENABLE_XDEBUG: "0"
       SEDSP_URL: "https://homologacaointegracaosed.educacao.sp.gov.br"
     volumes:
       - .:/app
       # - ./docker/php/conf.d/xdebug.ini:/usr/local/etc/php/conf.d/xdebug.ini
       # - /app/docker/mysql # comment this line if yout run project in linux ubuntu 24.0.1
-      - /app/vendor
-      - /app/app/vendor
-      - /app/assets
-      - /app/db
-      - /app/.git
+      #- /app/vendor
+      #- /app/app/vendor
+      #- /app/assets
+      #- /app/db
+      #- /app/.git
       # - ./docker/php/conf.d/error_reporting.ini:/usr/local/etc/php/conf.d/error_reporting.ini
 
   mysql:
@@ -52,7 +54,6 @@ services:
           memory: 1GB
     environment:
       MYSQL_ROOT_PASSWORD: root
-      # MYSQL_DATABASE: tag
       MYSQL_USER: admin
       MYSQL_PASSWORD: admin
     volumes:
@@ -97,5 +98,4 @@ networks:
 
 volumes:
   db-volume:
-
 

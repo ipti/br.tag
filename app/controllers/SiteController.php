@@ -89,7 +89,6 @@ class SiteController extends Controller
      */
     public function actionLogin()
     {
-        $this->layout = 'login';
 
         $model = new LoginForm();
 
@@ -124,8 +123,13 @@ class SiteController extends Controller
         for ($i = $year; $i >= 2014; $i--) {
             $years[$i] = $i;
         }
-
+        $this->layout = '//layouts/login';
+        try {
         $this->render('login', ['model' => $model, 'years' => $years]);
+        } catch (Exception $e){
+          die("Erro: " . $e->getMessage() . "em" . $e->getFile() . ":" . $e->getLine());
+        }
+        die("depois do render");
     }
 
     /**

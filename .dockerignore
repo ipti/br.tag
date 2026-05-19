@@ -3,6 +3,4 @@
 /assets/*
 /db
 /docker/mysql/dbfiles
-/vendor
-/app/vendor
 /.git/

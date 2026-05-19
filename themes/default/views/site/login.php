@@ -116,7 +116,7 @@ $form = $this->beginWidget('CActiveForm', array(
             <span>Uma tecnologia desenvolvida pelo</span>
             <br> -->
         </div>
-    <?php// endif; ?>
+    <?php // endif; ?>
 
 
 </body>

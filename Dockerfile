@@ -1,37 +1,87 @@
-FROM ipti/yii2:8.3-fpm
+FROM php:8.3-fpm-alpine
 
-# Definir o diretório principal
 WORKDIR /app
 USER root
 
-# Copiar arquivos para o contêiner no diretório raiz da aplicação
-COPY . /app
+ARG LOCAL_UID=1000
+ARG LOCAL_GID=1000
 
+# Instalar nginx e dependências do sistema
+RUN apk add --no-cache \
+    nginx \
+    curl \
+    unzip \
+    git \
+    supervisor \
+    openssl
+
+# Instalar extensões PHP necessárias para Yii2
+RUN apk add --no-cache \
+    libpng-dev \
+    libjpeg-turbo-dev \
+    libwebp-dev \
+    freetype-dev \
+    libzip-dev \
+    icu-dev \
+    oniguruma-dev \
+    libxml2-dev \
+    && docker-php-ext-configure gd --with-freetype --with-jpeg --with-webp \
+    && docker-php-ext-install \
+        pdo \
+        pdo_mysql \
+        mysqli \
+        gd \
+        zip \
+        intl \
+        mbstring \
+        xml \
+        opcache \
+        curl \
+        bcmath \
+        sockets
+
+# Ajustar UID/GID do www-data
+RUN sed -i "s/^www-data:x:[0-9]*:/www-data:x:${LOCAL_GID}:/" /etc/group && \
+    sed -i "s/^www-data:x:[0-9]*:[0-9]*:/www-data:x:${LOCAL_UID}:${LOCAL_GID}:/" /etc/passwd
+
+# Composer
 COPY --from=composer:latest /usr/bin/composer /usr/local/bin/composer
 
-# Criar diretórios e ajustar arquivos de configuração
-RUN sed -i "s|/app/web|/app|g" /etc/nginx/conf.d/default.conf \
-    && sed -i "s|memory_limit=128M|memory_limit=512M|g" /usr/local/etc/php/conf.d/base.ini \
-    && sed -i "s|fastcgi_pass 127.0.0.1:9000;|fastcgi_pass 127.0.0.1:9000;fastcgi_read_timeout 2400;proxy_read_timeout 2400;|g" /etc/nginx/conf.d/default.conf
+# Configuração do nginx
+RUN mkdir -p /var/run/nginx /var/log/nginx /etc/nginx/ssl
 
-# Voltar para o diretório principal (/app) e executar comandos adicionais
-WORKDIR /app
-RUN composer update \
-    && composer update --no-plugins \
-    && composer install
+# Gerar certificado SSL autoassinado
+RUN openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
+    -keyout /etc/nginx/ssl/nginx-selfsigned.key \
+    -out /etc/nginx/ssl/nginx-selfsigned.crt \
+    -subj "/C=BR/ST=SP/L=SP/O=TAG/CN=localhost"
 
-# Conctruir arquivos css do sass
-# RUN vendor/scssphp/scssphp/bin/pscss --no-source-map --style=compressed sass/scss:sass/css
+# Configuração do nginx.conf
+COPY docker/nginx/nginx.conf /etc/nginx/nginx.conf
+COPY docker/nginx/default.conf /etc/nginx/conf.d/default.conf
 
-# Ajustar permissões para o usuário www-data
-RUN chown -R www-data:www-data /app/app/runtime \
-    && mkdir -p /app/assets && chown -R www-data:www-data /app/assets \
-    && chown -R www-data:www-data /app/app/export \
-    && chown -R www-data:www-data /app/app/import
+# Configuração do supervisor (gerencia nginx + php-fpm juntos)
+COPY docker/supervisor/supervisord.conf /etc/supervisord.conf
 
+# Copiar aplicação
+COPY . /app
 
-RUN chmod +x /usr/local/bin/docker-run.sh \
-    && chown www-data:www-data /usr/local/bin/docker-run.sh
+# Criar diretórios necessários
+RUN mkdir -p \
+    /app/app/runtime \
+    /app/assets \
+    /app/app/export \
+    /app/app/import
 
-# Mudar para o usuário não-root
-USER www-data
+# Ajustar permissões
+RUN chown -R www-data:www-data /app \
+    && chmod -R 775 /app/app/runtime \
+    && chmod -R 775 /app/assets \
+    && chmod -R 775 /app/app/export \
+    && chmod -R 775 /app/app/import \
+    && chown -R www-data:www-data /var/log/nginx \
+    && chown -R www-data:www-data /var/run/nginx
+
+EXPOSE 80 443
+
+CMD ["/usr/bin/supervisord", "-c", "/etc/supervisord.conf"]

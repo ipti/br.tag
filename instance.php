@@ -16,8 +16,8 @@ $domain = array_shift($host_array);
 
 $newdb = $domain . '.tag.ong.br';
 
-if ($domain == "localhost") {
-    $newdb = 'tome-acu.tag.ong.br';
+if ($domain == "localhost"|| is_numeric($domain)) {
+    $newdb = 'treinamento.tag.ong.br';
 }
 
 $_GLOBALGROUP = 0;
@@ -30,7 +30,7 @@ $USER = getenv("USER_DB_TAG");
 $PWD = getenv("PWD_DB_TAG");
 
 define("DBCONFIG", serialize(array(
-    'connectionString' => "mysql:host=$HOST;dbname=$newdb",
+    'connectionString' => "mysql:host=$HOST;port=3307;dbname=$newdb",
     'emulatePrepare' => true,
     'enableProfiling' => YII_DEBUG,
     'enableParamLogging' => YII_DEBUG,

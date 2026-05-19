@@ -1,4 +1,7 @@
 <?php
+
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 // change the following paths if necessary
 //$yii_app=dirname(__FILE__).'/app/vendor/autoload.php';
 $autoload =dirname(__FILE__).'/vendor/autoload.php';
