@@ -5,8 +5,8 @@ parameters:
         - app/repository
         - app/components
     excludePaths:
-        - app/vendor
-        - app/runtime
+        - app/vendor (?)
+        - app/runtime (?)
         - app/components/widgets
     bootstrapFiles:
         - phpstan-bootstrap.php
