@@ -30,7 +30,7 @@ $USER = getenv("USER_DB_TAG");
 $PWD = getenv("PWD_DB_TAG");
 
 define("DBCONFIG", serialize(array(
-    'connectionString' => "mysql:host=$HOST;port=3307;dbname=$newdb",
+    'connectionString' => "mysql:host=$HOST;dbname=$newdb",
     'emulatePrepare' => true,
     'enableProfiling' => YII_DEBUG,
     'enableParamLogging' => YII_DEBUG,

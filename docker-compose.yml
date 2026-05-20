@@ -16,8 +16,8 @@ services:
       - tag-v3-network
     environment:
       MAINTENANCE_MODE: "0"
-      HOST_DB_TAG: "192.168.15.18"
-      USER_DB_TAG: "taguser"
+      HOST_DB_TAG: "mysql"
+      USER_DB_TAG: "root"
       PWD_DB_TAG: "root"
       TOKEN_FIREBASE: ""
       PWD_FIREBASE: ""
