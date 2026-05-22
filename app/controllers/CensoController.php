@@ -1905,7 +1905,7 @@ class CensoController extends Controller
         $modelTeachingData = Classroom::model()->findByPk($id)->instructorTeachingDatas;
         $teachingDataDisciplines = [];
         foreach ($modelTeachingData as  $model) {
-            $disciplines = ClassroomController::teachingDataDiscipline2array($model);
+            $disciplines = ClassroomHelper::teachingDataDiscipline2array($model);
             foreach ($disciplines as $discipline) {
                 if ($discipline->id > 99) {
                     $teachingDataDisciplines[99] = 99;
@@ -2494,7 +2494,7 @@ class CensoController extends Controller
                 $attributes['filiation_1'] = strtoupper($this->fixName($attributes['filiation_1']));
                 $attributes['filiation_2'] = strtoupper($this->fixName($attributes['filiation_2']));
                 $dteacher = $this->findDisc($attributes['id']);
-                $dclass = ClassroomController::classroomDiscipline2array2();
+                $dclass = ClassroomHelper::classroomDiscipline2array2();
                 $classroom = Classroom::model()->findByPk($attributes['id']);
                 foreach ($attributes as $i => $attr) {
                     $pos = strstr($i, 'discipline');

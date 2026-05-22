@@ -774,7 +774,7 @@ $form = $this->beginWidget(
                             //Pega a lista de disciplinas que possuem instrutores e tira as duplicatas
                             $teachingDataDisciplines = array_unique($teachingDataDisciplines);
                             //Pega a lista de disciplinas da turma
-                            $disciplinesArray = ClassroomController::classroomDiscipline2array($modelClassroom);
+                            $disciplinesArray = ClassroomHelper::classroomDiscipline2array($modelClassroom);
 
                             //Pega a diferença entre a lista de disciplinas com instrutores e a lista de disciplinas da turma
                             $disciplinesWithoutInstructor = array_diff($disciplinesArray, $teachingDataDisciplines);
@@ -782,7 +782,7 @@ $form = $this->beginWidget(
                             //monta a lista com as disciplinas que não possuem instrutor
                             $teachingDataList .= "<div class='disciplines-without-container'><span><b>Componentes curriculares/eixos sem Instrutores</b></span><div class='separator'></div>"
                                 . "<ul id='DisciplinesWithoutInstructors'>";
-                            $disciplinesLabels = ClassroomController::classroomDisciplineLabelArray();
+                            $disciplinesLabels = ClassroomHelper::classroomDisciplineLabelArray();
                             foreach ($disciplinesWithoutInstructor as $disciplineId => $value) {
                                 if ($value == 2) {
                                     $teachingDataList .= "<li discipline='" . $disciplineId . "'><span>" . $disciplinesLabels[$disciplineId] . "</span>"

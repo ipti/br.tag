@@ -113,7 +113,7 @@ class EntryController extends Controller
     public function actionGetDisciplines()
     {
         $classroom = Classroom::model()->findByPk($_POST['classroom']);
-        $disciplinesLabels = ClassroomController::classroomDisciplineLabelArray();
+        $disciplinesLabels = ClassroomHelper::classroomDisciplineLabelArray();
         if (Yii::app()->getAuthManager()->checkAccess('instructor', Yii::app()->user->loginInfos->id)) {
             $disciplines = Yii::app()->db->createCommand(
                 'select ed.id from teaching_matrixes tm

@@ -1,12 +1,6 @@
 <?php
 
-/**
- * Static method stub kept for backward compatibility.
- * All controller actions have been moved to app/modules/classroom/controllers/DefaultController.php.
- * This class remains to serve the many callers of ClassroomController::classroomDisciplineLabelArray()
- * and other static helpers across the codebase.
- */
-class ClassroomController
+class ClassroomHelper
 {
     public static function classroomDisciplineLabelArray()
     {

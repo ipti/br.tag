@@ -119,7 +119,7 @@ class DefaultController extends Controller
     public function actionGetDisciplines()
     {
         $classroom = Classroom::model()->findByPk($_POST['classroom']);
-        $disciplinesLabels = ClassroomController::classroomDisciplineLabelArray();
+        $disciplinesLabels = ClassroomHelper::classroomDisciplineLabelArray();
         echo CHtml::tag('option', ['value' => ''], CHtml::encode('Selecione...'), true);
         if (Yii::app()->getAuthManager()->checkAccess('instructor', Yii::app()->user->loginInfos->id)) {
             $disciplines = Yii::app()->db->createCommand(

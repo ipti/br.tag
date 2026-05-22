@@ -2117,7 +2117,7 @@ class ReportsRepository
     public function getDisciplines(CHttpRequest $request): void
     {
         $classroom = Classroom::model()->findByPk($request->getPost('classroom'));
-        $disciplinesLabels = ClassroomController::classroomDisciplineLabelArray();
+        $disciplinesLabels = ClassroomHelper::classroomDisciplineLabelArray();
         if (Yii::app()->getAuthManager()->checkAccess('instructor', Yii::app()->user->loginInfos->id)) {
             $sql = 'SELECT ed.id FROM teaching_matrixes tm
                     JOIN instructor_teaching_data itd ON itd.id = tm.teaching_data_fk
