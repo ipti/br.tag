@@ -37,7 +37,7 @@
                             -
                             <?php echo @current($structure) ?>
                         </span>
-                        <?php echo CHtml::link('- Corrigir', array('school/update', 'id' => $log['school']['info']['inep_id'], 'censo' => 1)); ?>
+                        <?php echo CHtml::link('- Corrigir', array('school/school/update', 'id' => $log['school']['info']['inep_id'], 'censo' => 1)); ?>
                         <?php $dataValidation['school' . $log['school']['info']['inep_id']][] = current($structure); ?>
                         <div class="clearfix"></div>
                     </li>
@@ -223,7 +223,7 @@
                             <?php echo current($eberros) ?>
                         </span>
                         <?php echo CHtml::link('- Corrigir', $eberros["type"] === "batchUpdate"
-                            ? array('classroom/default/batchupdatetotal', 'id' => $variabledata["id"], 'censo' => 1)
+                            ? array('classroom/default/batchupdatetotal', 'id' => $enrollment['id'], 'censo' => 1)
                             : array(
                                 '/student/enrollment/update',
                                 'id' => $enrollment['id'],
