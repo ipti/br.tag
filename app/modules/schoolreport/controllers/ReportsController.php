@@ -4,37 +4,78 @@ require_once __DIR__ . '/../repositories/ReportsRepository.php';
 
 class ReportsController extends Controller
 {
-    public $layout = 'reportsclean';
+    public $layout = 'webroot.themes.default.views.layouts.reports';
     public $year = 0;
 
     public function accessRules()
     {
         return [
-            ['allow', // allow authenticated user to perform 'create' and 'update' actions
-                'actions' => ['index', 'BFReport', 'numberStudentsPerClassroomReport',
-                    'EnrollmentStatisticsByYearReport', 'InstructorsPerClassroomReport', 'StudentsFileReport',
-                    'getStudentsFileInformation', 'ResultBoardReport',
-                    'StatisticalDataReport', 'StudentsDeclarationReport',
-                    'EnrollmentPerClassroomReport', 'AtaSchoolPerformance',
-                    'EnrollmentDeclarationReport', 'TransferForm',
-                    'StudentsWithDisabilitiesPerClassroom', 'StudentsWithDisabilitiesPerSchool',
-                    'EnrollmentNotification', 'TransferRequirement',
-                    'EnrollmentComparativeAnalysisReport', 'SchoolProfessionalNumberByClassroomReport',
-                    'ComplementarActivityAssistantByClassroomReport', 'EducationalAssistantPerClassroomReport',
-                    'DisciplineAndInstructorRelationReport', 'ClassroomWithoutInstructorRelationReport',
-                    'StudentInstructorNumbersRelationReport', 'StudentPendingDocument',
-                    'BFRStudentReport', 'ElectronicDiary', 'OutOfTownStudentsReport', 'StudentSpecialFood',
-                    'ClassCouncilReport', 'QuarterlyReport', 'GetStudentClassrooms', 'QuarterlyFollowUpReport',
-                    'EvaluationFollowUpStudentsReport', 'CnsPerClassroomReport', 'CnsSchools', 'CnsPerSchool',
-                    'TeacherTrainingReport', 'ClassroomTransferReport', 'SchoolTransferReport', 'AllSchoolsTransferReport',
-                    'TeachersByStage', 'TeachersBySchool', 'StatisticalData', 'NumberOfStudentsEnrolledPerPeriodPerClassroom',
-                    'NumberOfStudentsEnrolledPerPeriodPerSchool', 'NumberOfStudentsEnrolledPerPeriodAllSchools',
-                    'AllSchoolsReportOfStudentsBenefitingFromTheBF', 'AllClassroomsReportOfStudentsBenefitingFromTheBF',
-                    'ReportOfStudentsBenefitingFromTheBFPerClassroom', 'TeachersByStage', 'TeachersBySchool', 'StatisticalData',
-                    'NumberOfClassesPerSchool', 'NumberOfClassesPerSchool', 'StudentCpfRgNisPerClassroom', 'FoodMenu'],
+            [
+                'allow', // allow authenticated user to perform 'create' and 'update' actions
+                'actions' => [
+                    'index',
+                    'BFReport',
+                    'numberStudentsPerClassroomReport',
+                    'EnrollmentStatisticsByYearReport',
+                    'InstructorsPerClassroomReport',
+                    'StudentsFileReport',
+                    'getStudentsFileInformation',
+                    'ResultBoardReport',
+                    'StatisticalDataReport',
+                    'StudentsDeclarationReport',
+                    'EnrollmentPerClassroomReport',
+                    'AtaSchoolPerformance',
+                    'EnrollmentDeclarationReport',
+                    'TransferForm',
+                    'StudentsWithDisabilitiesPerClassroom',
+                    'StudentsWithDisabilitiesPerSchool',
+                    'EnrollmentNotification',
+                    'TransferRequirement',
+                    'EnrollmentComparativeAnalysisReport',
+                    'SchoolProfessionalNumberByClassroomReport',
+                    'ComplementarActivityAssistantByClassroomReport',
+                    'EducationalAssistantPerClassroomReport',
+                    'DisciplineAndInstructorRelationReport',
+                    'ClassroomWithoutInstructorRelationReport',
+                    'StudentInstructorNumbersRelationReport',
+                    'StudentPendingDocument',
+                    'BFRStudentReport',
+                    'ElectronicDiary',
+                    'OutOfTownStudentsReport',
+                    'StudentSpecialFood',
+                    'ClassCouncilReport',
+                    'QuarterlyReport',
+                    'GetStudentClassrooms',
+                    'QuarterlyFollowUpReport',
+                    'EvaluationFollowUpStudentsReport',
+                    'CnsPerClassroomReport',
+                    'CnsSchools',
+                    'CnsPerSchool',
+                    'TeacherTrainingReport',
+                    'ClassroomTransferReport',
+                    'SchoolTransferReport',
+                    'AllSchoolsTransferReport',
+                    'TeachersByStage',
+                    'TeachersBySchool',
+                    'StatisticalData',
+                    'NumberOfStudentsEnrolledPerPeriodPerClassroom',
+                    'NumberOfStudentsEnrolledPerPeriodPerSchool',
+                    'NumberOfStudentsEnrolledPerPeriodAllSchools',
+                    'AllSchoolsReportOfStudentsBenefitingFromTheBF',
+                    'AllClassroomsReportOfStudentsBenefitingFromTheBF',
+                    'ReportOfStudentsBenefitingFromTheBFPerClassroom',
+                    'TeachersByStage',
+                    'TeachersBySchool',
+                    'StatisticalData',
+                    'NumberOfClassesPerSchool',
+                    'NumberOfClassesPerSchool',
+                    'StudentCpfRgNisPerClassroom',
+                    'FoodMenu'
+                ],
                 'users' => ['@'],
             ],
-            ['deny', // deny all users
+            [
+                'deny', // deny all users
                 'users' => ['*'],
             ],
         ];
@@ -47,8 +88,24 @@ class ReportsController extends Controller
         }
 
         $this->year = Yii::app()->user->year;
+        $this->layout = $this->resolveLayout($action->id);
 
         return true;
+    }
+
+    private function resolveLayout($actionId)
+    {
+        $actionId = strtolower($actionId);
+
+        if (in_array($actionId, ['index', 'electronicdiary'], true)) {
+            return 'webroot.themes.default.views.layouts.fullmenu';
+        }
+
+        if (in_array($actionId, ['studentsbetween5and14yearsoldreport', 'classcontentsreport'], true)) {
+            return 'webroot.themes.default.views.layouts.reportsclean';
+        }
+
+        return 'webroot.themes.default.views.layouts.reports';
     }
 
     public function actionTotalNumberOfStudentsEnrolled()
@@ -296,7 +353,6 @@ class ReportsController extends Controller
 
     public function actionStudentPerClassroom($id)
     {
-        $this->layout = 'reports';
         $repository = new ReportsRepository();
         $query = $repository->getStudentPerClassroom($id);
         $this->render('StudentPerClassroom', $query);
@@ -318,7 +374,6 @@ class ReportsController extends Controller
 
     public function actionStudentsBetween5And14YearsOldReport()
     {
-        $this->layout = 'reportsclean';
         $repository = new ReportsRepository();
         $query = $repository->getStudentsBetween5And14YearsOldReport();
         $this->render('StudentsBetween5And14YearsOldReport', $query);
@@ -420,9 +475,11 @@ class ReportsController extends Controller
             //Coloca em um array todos o stage number e nome dos estágios que
             // já não estão no mesmo (através da lista de classes)
             if (array_search($classroom->edcensoStageVsModalityFk->name, array_column($stages, 'name')) === false) {
-                array_push($stages, ['stageNumber' => $classroom->edcensoStageVsModalityFk->stage,
+                array_push($stages, [
+                    'stageNumber' => $classroom->edcensoStageVsModalityFk->stage,
                     'name' => $classroom->edcensoStageVsModalityFk->name,
-                    'alias' => $classroom->edcensoStageVsModalityFk->alias]);
+                    'alias' => $classroom->edcensoStageVsModalityFk->alias
+                ]);
             }
         }
         //Cria a primeira linha da tabela com o grupo de estágios
@@ -471,8 +528,8 @@ class ReportsController extends Controller
             where classroom_fk = :classroom_fk
             order by si.name'
         )
-        ->bindParam(':classroom_fk', $classroomId)
-        ->queryAll();
+            ->bindParam(':classroom_fk', $classroomId)
+            ->queryAll();
         $isMinorEducation = $classroom->edcensoStageVsModalityFk->unified_frequency == 1 ? true : $classroom->checkIsStageMinorEducation();
         $totalClasses = ClassContents::model()->getTotalClassesByMonth($classroomId, $month, $year, $disciplineId);
         $totalClassContents = ClassContents::model()->getTotalClassContentsByMonth($classroomId, $month, $year, $disciplineId);
@@ -488,7 +545,6 @@ class ReportsController extends Controller
 
         $month = str_pad($month, 2, '0', STR_PAD_LEFT);
 
-        $this->layout = 'reportsclean';
         $this->render('ClassContentsReport', [
             'classContents' => $classContents,
             'totalClasses' => $totalClasses,
@@ -554,7 +610,7 @@ class ReportsController extends Controller
     private function translateStageNumbers($stageNumber)
     {
         switch ($stageNumber) {
-            case '1' :
+            case '1':
                 return 'Ensino Infantil';
             case '2':
                 return 'Ensino Fundamental Menor';
@@ -603,7 +659,6 @@ class ReportsController extends Controller
 
     public function actionIndex()
     {
-        $this->layout = 'fullmenu';
         $repository = new ReportsRepository();
         $data = $repository->getIndexData();
         $this->render('index', $data);
@@ -611,7 +666,6 @@ class ReportsController extends Controller
 
     public function actionElectronicDiary()
     {
-        $this->layout = 'fullmenu';
         $repository = new ReportsRepository();
         $data = $repository->getElectronicDiary();
         $this->render('ElectronicDiary', $data);

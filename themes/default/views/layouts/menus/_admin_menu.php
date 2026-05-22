@@ -338,7 +338,7 @@ $menuItems = [
     // Administração
     [
         'label' => 'Administração',
-        'url' => ['admin'],
+        'url' => ['systemadmin/default/index'],
         'icon' => 't-icon-configuration-adm',
         'roles' => [TRole::ADMIN, TRole::READER],
         'feature' => TTask::TASK_ADMIN_GENERAL,
