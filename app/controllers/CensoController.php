@@ -1314,7 +1314,7 @@ class CensoController extends Controller
 
     public function validateStudentDocumentsAddress($collumn, $studentident)
     {
-        $studentInepId = $collumn['student_fk'];
+        $studentInepId = $studentident['inep_id'];
         $inepIds = $this->getInepIds();
         foreach ($inepIds as  $value) {
             $allowedSchoolInepIds[] = $value['inep_id'];
@@ -1340,11 +1340,13 @@ class CensoController extends Controller
         }
 
         //campo 4
-        $sql = "SELECT COUNT(inep_id) AS status FROM student_identification WHERE inep_id = '$studentInepId';";
-        $check = Yii::app()->db->createCommand($sql)->queryAll();
-        $result = $sda->isEqual($check[0]['status'], '1', "Não há tal student_inep_id $studentInepId");
-        if (!$result['status']) {
-            array_push($log, ['student_indentification' => $result['erro']]);
+        if (!empty($studentInepId)) {
+            $sql = "SELECT COUNT(inep_id) AS status FROM student_identification WHERE inep_id = '$studentInepId';";
+            $check = Yii::app()->db->createCommand($sql)->queryAll();
+            $result = $sda->isEqual($check[0]['status'], '1', "Não há tal student_inep_id $studentInepId");
+            if (!$result['status']) {
+                array_push($log, ['student_indentification' => $result['erro']]);
+            }
         }
         //campo 9
         $result = $sda->isAllowed($collumn['civil_certification'], ['1', '2']);
