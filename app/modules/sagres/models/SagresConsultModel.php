@@ -823,7 +823,8 @@ class SagresConsultModel
                     c.ignore_on_sagres,
                     c.room_fk,
                     sr.number as nrSala,
-                    c.is_prosic as prosic
+                    c.is_prosic as prosic,
+                    esvm.edcenso_associated_stage_id as stage
                 FROM
                     classroom c
                     join edcenso_stage_vs_modality esvm on c.edcenso_stage_vs_modality_fk = esvm.id
@@ -1021,9 +1022,13 @@ class SagresConsultModel
                 continue;
             }
 
-            $serieType->setIdSerie($idSerie);
-
             $this->getSerieValidation($serieType, $schoolName, $classId, $edcensoCode, $edcensoCodes);
+
+            if ($idSerie === null) {
+                continue;
+            }
+
+            $serieType->setIdSerie($idSerie);
 
             $matriculas = $this->getEnrollments($classId);
 
@@ -1078,7 +1083,7 @@ class SagresConsultModel
     private function getSeriesQuery($isMulti): string
     {
         return $isMulti ?
-        '
+            '
         SELECT
             esvm.edcenso_associated_stage_id as edcensoCode,
             c.edcenso_stage_vs_modality_fk as edcensoCodeOriginal,
@@ -1093,8 +1098,8 @@ class SagresConsultModel
             c.id = :id
         And esvm.edcenso_associated_stage_id is not NULL
         GROUP by se.edcenso_stage_vs_modality_fk'
-        :
-        '
+            :
+            '
         SELECT
             esvm.edcenso_associated_stage_id as edcensoCode,
             c.edcenso_stage_vs_modality_fk as edcensoCodeOriginal,
@@ -1125,7 +1130,8 @@ class SagresConsultModel
         } elseif ((int) $serie->aee === 1 || (int) $edcensoCode == 75) {
             return 'AEE1';
         } else {
-            return $edcensoCodes[(int) $edcensoCode];
+            $edcensoCode = (int) $edcensoCode;
+            return isset($edcensoCodes[$edcensoCode]) ? $edcensoCodes[$edcensoCode] : null;
         }
     }
 
@@ -1144,7 +1150,7 @@ class SagresConsultModel
         if ($multiStage && $idSerie !== 'COM1' && $idSerie !== 'AEE1') {
             return array_filter(
                 $matriculas,
-                fn ($e) => $e->getEnrollmentStage() == $serie->edcensoCode
+                fn($e) => $e->getEnrollmentStage() == $serie->edcensoCode
             );
         }
         return $response;
@@ -1170,7 +1176,7 @@ class SagresConsultModel
             $inconsistencyModel->identifier = '10';
             $inconsistencyModel->idClass = $classId;
             $inconsistencyModel->insert();
-        } elseif (!isset($edcensoCodes[$edcensoCode])) {
+        } elseif (!isset($edcensoCodes[(int) $edcensoCode])) {
             $inconsistencyModel = new ValidationSagresModel();
             $inconsistencyModel->enrollment = SERIE_STRONG;
             $inconsistencyModel->school = $schoolName;
