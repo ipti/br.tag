@@ -146,6 +146,9 @@ class Register20
                 $register = [];
                 // Altera edcenso_stage_vs_modality_fk pela etapa associao ao censo para adaptar etapas criadas
                 $edcensoStageVsModality = EdcensoStageVsModality::model()->findByPk($attributes['edcenso_stage_vs_modality_fk']);
+                if ($edcensoStageVsModality === null) {
+                    continue;
+                }
                 $attributes['edcenso_stage_vs_modality_fk'] = $edcensoStageVsModality->edcenso_associated_stage_id;
 
                 $attributes['name'] = trim(strtoupper(self::sanitizeString($attributes['name'])));

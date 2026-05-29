@@ -9,13 +9,6 @@ class Register00
         ],
     ];
 
-    private const SCHOOL_YEAR_DATE_LIMITS_BY_YEAR = [
-        2026 => [
-            'minimum' => '29/05/2025',
-            'maximum' => '27/05/2026',
-        ],
-    ];
-
     private static function sanitizeString($string)
     {
         $wh = ['ä', 'ã', 'à', 'á', 'â', 'ê', 'ë', 'è', 'é', 'ï', 'ì', 'í', 'ö', 'õ', 'ò', 'ó', 'ô', 'ü', 'ù', 'ú', 'û', 'À', 'Á', 'Ã', 'Â', 'É', 'Ê', 'Í', 'Ó', 'Õ', 'Ô', 'Ú', 'Û', 'ñ', 'Ñ', 'ç', 'Ç', ' ', '-', '(', ')', ',', ';', ':', '|', '!', '"', '#', '$', '%', '&', '/', '=', '?', '~', '^', '>', '<', 'ª', 'º', '°', '.'];
@@ -61,17 +54,6 @@ class Register00
 
         if ($finalDateTime <= $initialDateTime) {
             throw new InvalidArgumentException('A data final do calendario letivo deve ser posterior a data inicial.');
-        }
-
-        if (!isset(self::SCHOOL_YEAR_DATE_LIMITS_BY_YEAR[(int) $year])) {
-            return;
-        }
-
-        $minimumDateTime = self::parseDate(self::SCHOOL_YEAR_DATE_LIMITS_BY_YEAR[(int) $year]['minimum']);
-        $maximumDateTime = self::parseDate(self::SCHOOL_YEAR_DATE_LIMITS_BY_YEAR[(int) $year]['maximum']);
-
-        if ($initialDateTime < $minimumDateTime || $initialDateTime > $maximumDateTime || $finalDateTime < $minimumDateTime || $finalDateTime > $maximumDateTime) {
-            throw new InvalidArgumentException('As datas do calendario letivo de 2026 devem estar entre 29/05/2025 e 27/05/2026.');
         }
     }
 
