@@ -89,6 +89,7 @@ class TagUtils extends CApplicationComponent
     public static function isMultiStage($stage)
     {
         $refMinorStages = [
+            '3',
             '12',
             '13',
             '22',
