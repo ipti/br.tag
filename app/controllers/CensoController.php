@@ -1343,9 +1343,11 @@ class CensoController extends Controller
         if (!empty($studentInepId)) {
             $sql = "SELECT COUNT(inep_id) AS status FROM student_identification WHERE inep_id = '$studentInepId';";
             $check = Yii::app()->db->createCommand($sql)->queryAll();
-            $result = $sda->isEqual($check[0]['status'], '1', "Não há tal student_inep_id $studentInepId");
-            if (!$result['status']) {
-                array_push($log, ['student_indentification' => $result['erro']]);
+            $count = (int)$check[0]['status'];
+            if ($count === 0) {
+                array_push($log, ['student_indentification' => "INEP do aluno não encontrado: $studentInepId"]);
+            } elseif ($count > 1) {
+                array_push($log, ['student_indentification' => "INEP do aluno duplicado: $studentInepId (encontrado $count vezes na base)"]);
             }
         }
         //campo 9
@@ -1410,13 +1412,14 @@ class CensoController extends Controller
         }
 
         //campo 4
-        $sql = "SELECT COUNT(inep_id) AS status FROM student_identification WHERE inep_id = '$studentInepIdFk';";
-        $check = Yii::app()->db->createCommand($sql)->queryAll();
-
         if (!empty($studentInepIdFk)) {
-            $result = $sev->isEqual($check[0]['status'], '1', "Não há tal student_inep_id $studentInepIdFk");
-            if (!$result['status']) {
-                array_push($log, ['student_fk' => $result['erro']]);
+            $sql = "SELECT COUNT(inep_id) AS status FROM student_identification WHERE inep_id = '$studentInepIdFk';";
+            $check = Yii::app()->db->createCommand($sql)->queryAll();
+            $count = (int)$check[0]['status'];
+            if ($count === 0) {
+                array_push($log, ['student_fk' => "INEP do aluno não encontrado: $studentInepIdFk"]);
+            } elseif ($count > 1) {
+                array_push($log, ['student_fk' => "INEP do aluno duplicado: $studentInepIdFk (encontrado $count vezes na base)"]);
             }
         }
 
@@ -1547,8 +1550,10 @@ class CensoController extends Controller
             foreach ($classroom->studentEnrollments as $ienrollment => $enrollment) {
                 $studentId = $enrollment->student_fk;
                 $log['student'][$studentId]['info'] = $enrollment->studentFk->attributes;
-                $log['student'][$studentId]['validate']['identification'][$ienrollment] = $this->validateStudentIdentification($enrollment->studentFk->attributes, $enrollment->studentFk->documentsFk->attributes, $enrollment->classroomFk->attributes);
-                @$log['student'][$studentId]['validate']['documents'][$ienrollment] = $this->validateStudentDocumentsAddress($enrollment->studentFk->documentsFk->attributes, $enrollment->studentFk->attributes);
+                if (!isset($log['student'][$studentId]['validate'])) {
+                    $log['student'][$studentId]['validate']['identification'][0] = $this->validateStudentIdentification($enrollment->studentFk->attributes, $enrollment->studentFk->documentsFk->attributes, $enrollment->classroomFk->attributes);
+                    @$log['student'][$studentId]['validate']['documents'][0] = $this->validateStudentDocumentsAddress($enrollment->studentFk->documentsFk->attributes, $enrollment->studentFk->attributes);
+                }
                 $log['student'][$studentId]['validate']['enrollment'][$ienrollment]['id'] = $enrollment->id;
                 $log['student'][$studentId]['validate']['enrollment'][$ienrollment]['turma'] = $enrollment->classroomFk->name;
                 $log['student'][$studentId]['validate']['enrollment'][$ienrollment]['errors'] = $this->validateEnrollment($enrollment->attributes);

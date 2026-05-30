@@ -107,9 +107,13 @@ $(formIdentification + 'address_neighborhood').focusout(function () {
 
 $(formIdentification + 'phone_number').focusout(function () {
     let id = '#' + $(this).attr("id");
-    if (!validatePhone($(id).val(), 9)) {
+    let val = $(id).val();
+    if (!validatePhone(val, 9)) {
         $(id).attr('value', '');
         addError(id, "Apenas números são aceitos. Não pode ter todos os algarismos iguais. Deve ter 8 ou 9 números. Se houver 9 números, o primeiro algarismo deve ser o dígito 9.");
+    } else if (val.length === 8 && val.charAt(0) === '9') {
+        $(id).attr('value', '');
+        addError(id, "O campo \"Telefone\" com 8 dígitos não pode começar com o caractere numérico 9.");
     } else {
         removeError(id);
     }
@@ -125,9 +129,13 @@ $(formIdentification + 'public_phone_number').focusout(function () {
 });
 $(formIdentification + 'other_phone_number').focusout(function () {
     let id = '#' + $(this).attr("id");
-    if (!validatePhone($(id).val(), 9)) {
+    let val = $(id).val();
+    if (!validatePhone(val, 9)) {
         $(id).attr('value', '');
         addError(id, "Apenas números são aceitos. Não pode ter todos os algarismos iguais. Deve ter 8 ou 9 números. Se houver 9 números, o primeiro algarismo deve ser o dígito 9.");
+    } else if (val.length === 8 && val.charAt(0) === '9') {
+        $(id).attr('value', '');
+        addError(id, "O campo \"Outro telefone de contato\" com 8 dígitos não pode começar com o caractere numérico 9.");
     } else {
         removeError(id);
     }
