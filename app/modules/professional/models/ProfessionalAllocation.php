@@ -38,6 +38,7 @@ class ProfessionalAllocation extends TagModel
     public const ROLE_SECURITY_GUARD = 13;
     public const ROLE_MONITOR = 14;
     public const ROLE_BRAILLE_ASSISTANT = 15;
+    public const ROLE_PSYCHOPEDAGOGUE = 16;
     public const ROLE_UNDEFINED = 9999;
 
     // Contract Types
@@ -118,6 +119,7 @@ class ProfessionalAllocation extends TagModel
             self::ROLE_SPEECH_THERAPIST => 'Fonoaudiólogo',
             self::ROLE_NUTRITIONIST => 'Nutricionista',
             self::ROLE_PSYCHOLOGIST => 'Psicólogo',
+            self::ROLE_PSYCHOPEDAGOGUE => 'Psicopedagogo',
             self::ROLE_COOKER => 'Cozinheiro / Merendeira',
             self::ROLE_SUPPORT_PROFESSIONAL => 'Profissional de Apoio Pedagógico',
             self::ROLE_SCHOOL_SECRETARY => 'Secretário(a)',

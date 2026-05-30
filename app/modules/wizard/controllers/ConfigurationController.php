@@ -54,7 +54,12 @@ class ConfigurationController extends Controller
                 $newClassroom->id = null;
                 $newClassroom->inep_id = null;
                 $newClassroom->gov_id = null;
+                $newClassroom->room_fk = null;
+                if (empty($newClassroom->modality)) {
+                    $newClassroom->modality = $this->getClassroomModalityFromStage($newClassroom->edcenso_stage_vs_modality_fk);
+                }
                 $newClassroom->sedsp_sync = 0;
+
                 $save = $newClassroom->save();
                 if ($save) {
                     foreach ($classBoard as $cb) {
@@ -109,6 +114,27 @@ class ConfigurationController extends Controller
         $this->render('classrooms', [
             'title' => Yii::t('default', 'Reaproveitamento das Turmas')
         ]);
+    }
+
+    private function getClassroomModalityFromStage($stageId)
+    {
+        $stage = EdcensoStageVsModality::model()->findByPk($stageId);
+
+        if ($stage === null) {
+            return 1;
+        }
+
+        $edcensoStageId = $stage->edcenso_associated_stage_id ?: $stage->id;
+
+        if (TagUtils::isStageEJA($edcensoStageId)) {
+            return 3;
+        }
+
+        if (in_array((int)$edcensoStageId, [30, 31, 32, 33, 34, 39, 40, 64, 67, 68], true)) {
+            return 4;
+        }
+
+        return 1;
     }
 
     public function actionStudent()

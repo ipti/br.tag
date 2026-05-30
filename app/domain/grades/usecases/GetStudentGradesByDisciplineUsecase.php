@@ -176,7 +176,7 @@ class GetStudentGradesByDisciplineUsecase
         $criteria->join = 'join grade_unity_modality gum on gum.grade_unity_fk = gu.id';
         $criteria->condition = 'grade_rules_fk = :grade_rules_fk';
         $criteria->params = [':grade_rules_fk' => $gradeRulesId];
-        $criteria->order = 'gu.type desc, gu.id';
+        $criteria->order = 'gu.id';
         return GradeUnity::model()->findAll($criteria);
     }
 
