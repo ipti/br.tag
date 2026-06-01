@@ -116,10 +116,17 @@ class EnrollmentController extends Controller implements AuthenticateSEDTokenInt
         $stage = $_POST['Stage'];
         $where = ($stage == '0') ? '' : "stage = $stage";
         $data = EdcensoStageVsModality::model()->findAll($where);
-        $data = CHtml::listData($data, 'id', 'name');
 
-        foreach ($data as $value => $name) {
-            echo htmlspecialchars(CHtml::tag('option', ['value' => $value], CHtml::encode($name), true));
+        foreach ($data as $stageVsModality) {
+            echo htmlspecialchars(CHtml::tag(
+                'option',
+                [
+                    'value' => $stageVsModality->id,
+                    'data-associated-stage' => $stageVsModality->edcenso_associated_stage_id,
+                ],
+                CHtml::encode($stageVsModality->name),
+                true
+            ));
         }
     }
 

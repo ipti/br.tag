@@ -2,7 +2,7 @@
 
 class Register40
 {
-    public static function export()
+    public static function export($year)
     {
         $registers = [];
 
@@ -26,7 +26,23 @@ class Register40
             $inepId = $instructor['inep_id'];
         }
 
-        array_push($registers, '40|' . Yii::app()->user->school . '|' . $systemId . '|' . $inepId . '|1|2|1');
+        $managerIdentification = ManagerIdentification::model()->findByAttributes(['school_inep_id_fk' => Yii::app()->user->school]);
+        $contractType = $managerIdentification === null ? '1' : (string) $managerIdentification['contract_type'];
+        if (!in_array($contractType, ['1', '2', '3', '4'], true)) {
+            $contractType = '1';
+        }
+
+        $register = [
+            1 => '40',
+            2 => Yii::app()->user->school,
+            3 => $systemId,
+            4 => $inepId,
+            5 => '1',
+            6 => '2',
+            7 => $contractType,
+        ];
+
+        array_push($registers, EducacensoRegisterFormatter::format(40, $register, $year));
 
         return $registers;
     }

@@ -5,9 +5,12 @@
  *
  * The followings are the available columns in table 'edcenso_professional_education_course':
  * @property integer $id
- * @property string $name
+ * @property integer $axis_id
+ * @property integer $minimum_hours
+ * @property string  $name
  *
  * The followings are the available model relations:
+ * @property EdcensoProfessionalEducationCourseAxis $axis
  * @property Classroom[] $classrooms
  */
 class EdcensoProfessionalEducationCourse extends TagModel
@@ -39,10 +42,8 @@ class EdcensoProfessionalEducationCourse extends TagModel
         // will receive user inputs.
         return [
             ['id, name', 'required'],
-            ['id', 'numerical', 'integerOnly' => true],
+            ['id, axis_id', 'numerical', 'integerOnly' => true],
             ['name', 'length', 'max' => 200],
-            // The following rule is used by search().
-            // Please remove those attributes that should not be searched.
             ['id, name', 'safe', 'on' => 'search'],
         ];
     }
@@ -55,6 +56,7 @@ class EdcensoProfessionalEducationCourse extends TagModel
         // NOTE: you may need to adjust the relation name and the related
         // class name for the relations automatically generated below.
         return [
+            'axis'       => [self::BELONGS_TO, 'EdcensoProfessionalEducationCourseAxis', 'axis_id'],
             'classrooms' => [self::HAS_MANY, 'Classroom', 'edcenso_professional_education_course_fk'],
         ];
     }
@@ -65,8 +67,9 @@ class EdcensoProfessionalEducationCourse extends TagModel
     public function attributeLabels()
     {
         return [
-            'id' => Yii::t('default', 'ID'),
-            'name' => Yii::t('default', 'Name'),
+            'id'      => Yii::t('default', 'ID'),
+            'axis_id' => Yii::t('default', 'Eixo'),
+            'name'    => Yii::t('default', 'Name'),
         ];
     }
 

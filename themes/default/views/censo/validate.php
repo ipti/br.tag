@@ -104,18 +104,22 @@
     <div class="clearfix"></div>
     <div class="main form-content widget widget-4 widget-tabs-icons-only widget-timeline margin-bottom-none">
 
-        <div class="widget-body">
-        </div>
+        <?php if (Yii::app()->request->getQuery('exported') == '1'): ?>
+            <div id="censo-export-success" class="alert alert-success">
+                <?= Yii::t('default', 'Exportação Concluida com Sucesso.') ?><br>
+                <a href="<?= CHtml::normalizeUrl(array('censo/DownloadExportFile')) ?>" class="btn btn-mini" target="_blank">
+                    <i class="icon-download-alt"></i>
+                    <?= Yii::t('default', 'Clique aqui para fazer o Download do arquivo de exportação!!!') ?>
+                </a>
+            </div>
+        <?php endif ?>
 
-        <?php if (Yii::app()->user->hasFlash('success')) { ?>
-            <div class="alert alert-success">
-                <?php echo Yii::app()->user->getFlash('success') ?>
-            </div>
-        <?php } else if (Yii::app()->user->hasFlash('error')) { ?>
+        <?php if (Yii::app()->user->hasFlash('error')): ?>
             <div class="alert alert-error">
-                <?php echo Yii::app()->user->getFlash('success') ?>
+                <?php echo Yii::app()->user->getFlash('error') ?>
             </div>
-        <?php } ?>
+        <?php endif ?>
+
         <div class="row  t-buttons-container">
             <a href="<?= CHtml::normalizeUrl(array('censo/export', 'withoutCertificates' => 0)) ?>" class="t-button-primary js-export-link" style="margin:0;">
                 <?= Yii::t('default', 'Exportar arquivo de migração') ?>

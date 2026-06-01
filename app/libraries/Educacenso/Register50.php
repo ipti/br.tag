@@ -100,7 +100,7 @@ class Register50
                     }
                 }
 
-                array_push($registers, implode('|', $register));
+                array_push($registers, EducacensoRegisterFormatter::format(50, $register, $year));
             }
         }
 
