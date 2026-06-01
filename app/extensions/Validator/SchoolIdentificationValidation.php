@@ -469,10 +469,10 @@ class SchoolIdentificationValidation extends Register
             return ['status' => false, 'erro' => 'Quando o telefone tiver 9 dígitos, o primeiro caractere deve ser o dígito 9.'];
         } elseif ((!$phoneNumberEmpty && count(array_unique(str_split($phoneNumber))) === 1) || (!$otherPhoneNumberEmpty && count(array_unique(str_split($otherPhoneNumber))) === 1)) {
             return ['status' => false, 'erro' => 'Os campos de telefone não podem ser a repetição de um mesmo algarismo.'];
-        } elseif ($phoneNumberEmpty && (!$otherPhoneNumberEmpty && $otherPhoneNumberIsInvalid)) {
-            return ['status' => false, 'erro' => 'O campo de outro telefone com 8 dígitos não pode começar com o caractere numérico 9.'];
-        } elseif ($otherPhoneNumberEmpty && (!$phoneNumberEmpty && $phoneNumberIsInvalid)) {
-            return ['status' => false, 'erro' => 'O campo de telefone com 8 dígitos não pode começar com o caractere numérico 9.'];
+        } elseif (!$phoneNumberEmpty && $phoneNumberIsInvalid) {
+            return ['status' => false, 'erro' => 'O campo "Telefone" com 8 dígitos não pode começar com o caractere numérico 9.'];
+        } elseif (!$otherPhoneNumberEmpty && $otherPhoneNumberIsInvalid) {
+            return ['status' => false, 'erro' => 'O campo "Outro telefone de contato" com 8 dígitos não pode começar com o caractere numérico 9.'];
         }
         return ['status' => true, 'erro' => ''];
     }

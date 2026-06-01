@@ -1908,7 +1908,10 @@ foreach ($classrooms as $classroom) {
         $classroomDataAttributes[$classroom->id] = [
             'data-isMulti' => (int)TagUtils::isMultiStage(
                 $classroom->edcenso_stage_vs_modality_fk
-            )
+            ),
+            'data-stage' => (int)$classroom->edcenso_stage_vs_modality_fk,
+            'data-associated-stage' => (int)($classroom->edcensoStageVsModalityFk ? $classroom->edcensoStageVsModalityFk->edcenso_associated_stage_id : $classroom->edcenso_stage_vs_modality_fk),
+            'data-course' => (int)$classroom->course
         ];
     }
 }
@@ -2096,13 +2099,31 @@ echo $form->dropDownList(
               <!-- Etapa de Ensino -->
               <div class="t-field-select js-hide-not-required" id="teachingStage-select">
                 <?php echo $form->label($modelEnrollment, 'edcenso_stage_vs_modality_fk', ['class' => 't-field-select__label']); ?>
+                <?php
+                $studentEnrollmentStages = EdcensoStageVsModality::model()->findAll();
+$studentEnrollmentStageDataAttributes = [];
+foreach ($studentEnrollmentStages as $studentEnrollmentStage) {
+    $studentEnrollmentStageDataAttributes[$studentEnrollmentStage->id] = [
+        'data-associated-stage' => $studentEnrollmentStage->edcenso_associated_stage_id,
+    ];
+}
+?>
                 <?php echo $form->dropDownList(
     $modelEnrollment,
     'edcenso_stage_vs_modality_fk',
-    CHtml::listData(EdcensoStageVsModality::model()->findAll(), 'id', 'name'),
-    ['prompt' => 'Selecione a etapa', 'class' => 'select-search-on t-field-select__input select2-container']
+    CHtml::listData($studentEnrollmentStages, 'id', 'name'),
+    ['prompt' => 'Selecione a etapa', 'class' => 'select-search-on t-field-select__input select2-container', 'options' => $studentEnrollmentStageDataAttributes]
 ); ?>
                 <?php echo $form->error($modelEnrollment, 'edcenso_stage_vs_modality_fk'); ?>
+              </div>
+            </div>
+          </div>
+          <div class="row new-enrollment-form js-integrated-course-hours-container" style="display: none;">
+            <div class="column clearleft is-two-fifths">
+              <div class="t-field-text js-hide-not-required">
+                <?php echo $form->label($modelEnrollment, 'integrated_course_hours', ['class' => 't-field-text__label--required']); ?>
+                <?php echo $form->numberField($modelEnrollment, 'integrated_course_hours', ['min' => 1, 'max' => 9999, 'maxlength' => 4, 'class' => 't-field-text__input']); ?>
+                <?php echo $form->error($modelEnrollment, 'integrated_course_hours'); ?>
               </div>
             </div>
           </div>

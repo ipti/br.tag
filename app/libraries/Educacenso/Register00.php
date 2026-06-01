@@ -2,12 +2,86 @@
 
 class Register00
 {
+    private const SCHOOL_YEAR_DEFAULT_DATES_BY_YEAR = [
+        2026 => [
+            'initial_date' => '29/05/2025',
+            'final_date' => '27/05/2026',
+        ],
+    ];
+
     private static function sanitizeString($string)
     {
         $wh = ['ä', 'ã', 'à', 'á', 'â', 'ê', 'ë', 'è', 'é', 'ï', 'ì', 'í', 'ö', 'õ', 'ò', 'ó', 'ô', 'ü', 'ù', 'ú', 'û', 'À', 'Á', 'Ã', 'Â', 'É', 'Ê', 'Í', 'Ó', 'Õ', 'Ô', 'Ú', 'Û', 'ñ', 'Ñ', 'ç', 'Ç', ' ', '-', '(', ')', ',', ';', ':', '|', '!', '"', '#', '$', '%', '&', '/', '=', '?', '~', '^', '>', '<', 'ª', 'º', '°', '.'];
         $by = ['a', 'a', 'a', 'a', 'a', 'e', 'e', 'e', 'e', 'i', 'i', 'i', 'o', 'o', 'o', 'o', 'o', 'u', 'u', 'u', 'u', 'A', 'A', 'A', 'A', 'E', 'E', 'I', 'O', 'O', 'O', 'U', 'U', 'n', 'n', 'c', 'C', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-'];
 
         return str_replace($wh, $by, $string);
+    }
+
+    private static function configureSchoolYearDates(array &$attributes, $year)
+    {
+        $year = (int) $year;
+        $attributes['initial_date'] = self::resolveSchoolYearDate($attributes['initial_date'] ?? null, $year, 'initial_date');
+        $attributes['final_date'] = self::resolveSchoolYearDate($attributes['final_date'] ?? null, $year, 'final_date');
+
+        self::validateSchoolYearDates($attributes['initial_date'], $attributes['final_date'], $year);
+    }
+
+    private static function resolveSchoolYearDate($date, $year, $field)
+    {
+        if ($date === null || $date === '') {
+            return self::SCHOOL_YEAR_DEFAULT_DATES_BY_YEAR[$year][$field] ?? ($field === 'initial_date' ? '25/02/' . $year : '12/12/' . $year);
+        }
+
+        return self::normalizeDate($date);
+    }
+
+    private static function normalizeDate($date)
+    {
+        foreach (['d/m/Y', 'Y-m-d'] as $format) {
+            $dateTime = DateTime::createFromFormat('!' . $format, $date);
+            if ($dateTime instanceof DateTime && $dateTime->format($format) === $date) {
+                return $dateTime->format('d/m/Y');
+            }
+        }
+
+        throw new InvalidArgumentException('Data do calendario letivo invalida para exportacao do Censo Escolar.');
+    }
+
+    private static function validateSchoolYearDates($initialDate, $finalDate, $year)
+    {
+        $initialDateTime = self::parseDate($initialDate);
+        $finalDateTime = self::parseDate($finalDate);
+
+        if ($finalDateTime <= $initialDateTime) {
+            throw new InvalidArgumentException('A data final do calendario letivo deve ser posterior a data inicial.');
+        }
+    }
+
+    private static function parseDate($date)
+    {
+        $dateTime = DateTime::createFromFormat('!d/m/Y', $date);
+        if (!$dateTime instanceof DateTime || $dateTime->format('d/m/Y') !== $date) {
+            throw new InvalidArgumentException('Data do calendario letivo invalida para exportacao do Censo Escolar.');
+        }
+
+        return $dateTime;
+    }
+
+    private static function ensureRegisterGroupHasSelectedValue(array &$register, array $corders, $defaultCorder)
+    {
+        foreach ($corders as $corder) {
+            if (($register[$corder] ?? null) === '1' || ($register[$corder] ?? null) === 1) {
+                return;
+            }
+        }
+
+        foreach ($corders as $corder) {
+            if (!isset($register[$corder]) || $register[$corder] === null || $register[$corder] === '') {
+                $register[$corder] = '0';
+            }
+        }
+
+        $register[$defaultCorder] = '1';
     }
 
     public static function export($year)
@@ -27,8 +101,7 @@ class Register00
         $attributes['situation'] = '1';
         if ($attributes['situation'] == '1') {
             $attributes['regulation'] = '2';
-            $attributes['initial_date'] = '25/02/' . $year;
-            $attributes['final_date'] = '12/12/' . $year;
+            self::configureSchoolYearDates($attributes, $year);
         } else {
             $attributes['initial_date'] = '';
             $attributes['final_date'] = '';
@@ -123,7 +196,12 @@ class Register00
             }
         }
 
-        array_push($registers, implode('|', $register));
+        if ((int) $year === 2026) {
+            self::ensureRegisterGroupHasSelectedValue($register, range(22, 25), 22);
+            self::ensureRegisterGroupHasSelectedValue($register, range(26, 31), 26);
+        }
+
+        array_push($registers, EducacensoRegisterFormatter::format(0, $register, $year));
 
         return $registers;
     }

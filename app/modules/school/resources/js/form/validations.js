@@ -107,9 +107,13 @@ $(formIdentification + 'address_neighborhood').focusout(function () {
 
 $(formIdentification + 'phone_number').focusout(function () {
     let id = '#' + $(this).attr("id");
-    if (!validatePhone($(id).val(), 9)) {
+    let val = $(id).val();
+    if (!validatePhone(val, 9)) {
         $(id).attr('value', '');
         addError(id, "Apenas números são aceitos. Não pode ter todos os algarismos iguais. Deve ter 8 ou 9 números. Se houver 9 números, o primeiro algarismo deve ser o dígito 9.");
+    } else if (val.length === 8 && val.charAt(0) === '9') {
+        $(id).attr('value', '');
+        addError(id, "O campo \"Telefone\" com 8 dígitos não pode começar com o caractere numérico 9.");
     } else {
         removeError(id);
     }
@@ -125,9 +129,13 @@ $(formIdentification + 'public_phone_number').focusout(function () {
 });
 $(formIdentification + 'other_phone_number').focusout(function () {
     let id = '#' + $(this).attr("id");
-    if (!validatePhone($(id).val(), 9)) {
+    let val = $(id).val();
+    if (!validatePhone(val, 9)) {
         $(id).attr('value', '');
         addError(id, "Apenas números são aceitos. Não pode ter todos os algarismos iguais. Deve ter 8 ou 9 números. Se houver 9 números, o primeiro algarismo deve ser o dígito 9.");
+    } else if (val.length === 8 && val.charAt(0) === '9') {
+        $(id).attr('value', '');
+        addError(id, "O campo \"Outro telefone de contato\" com 8 dígitos não pode começar com o caractere numérico 9.");
     } else {
         removeError(id);
     }
@@ -355,9 +363,9 @@ $(".save-school-button").click(function () {
         error = true;
         message += "Quando o Local de Funcionamento é um Prédio Escolar, o campo <b>Nº de Salas de Aula</b> é obrigatório. Informe um número válido.<br>";
     }
-    if (!$("#SchoolStructure_operation_location_building").is(":checked") && ($("#SchoolStructure_dependencies_outside_roomspublic").val() === "" || $("#SchoolStructure_dependencies_outside_roomspublic").val() === 0 || $("#SchoolStructure_dependencies_outside_roomspublic").val() > 9999)) {
+    if (!$("#SchoolStructure_operation_location_building").is(":checked") && ($("#SchoolStructure_used_classroom_count").val() === "" || $("#SchoolStructure_used_classroom_count").val() === 0 || $("#SchoolStructure_used_classroom_count").val() > 9999)) {
         error = true;
-        message += "Quando o Local de Funcionamento não é um Prédio Escolar, o campo <b>Nº de Salas utilizadas fora do prédio</b> é obrigatório. Informe um número válido.<br>";
+        message += "Quando o Local de Funcionamento não é um Prédio Escolar, o campo <b>Nº de Salas de Aula utilizadas</b> é obrigatório. Informe um número válido.<br>";
     }
     if (Number($("#SchoolStructure_dependencies_climate_roomspublic").val()) > (Number($("#SchoolStructure_classroom_count").val()) + Number($("#SchoolStructure_dependencies_outside_roomspublic").val()))) {
         error = true;

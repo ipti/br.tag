@@ -402,11 +402,15 @@ class Register30
         return $register;
     }
 
-    private static function exportInstructorVariable($instructor, $register, $highEducationCourses, $aliases)
+    private static function exportInstructorVariable($instructor, $register, $highEducationCourses, $aliases, $year)
     {
         $instructor['register_type'] = '30';
 
         if ($instructor['scholarity'] == '3' || $instructor['scholarity'] == '4') {
+            $instructor['scholarity'] = '7';
+        }
+
+        if ((int) $year === 2026 && !in_array((string) $instructor['scholarity'], ['1', '2', '6', '7'], true)) {
             $instructor['scholarity'] = '7';
         }
 
@@ -555,7 +559,7 @@ class Register30
             $register = self::exportStudentDisorders($student['disorders'], $register, $aliasesStudent);
 
             ksort($register);
-            array_push($registers, implode('|', $register));
+            array_push($registers, EducacensoRegisterFormatter::format(30, $register, $year));
         }
 
         $managerIsAnInstructor = false;
@@ -577,10 +581,10 @@ class Register30
 
             $register = self::exportInstructorIdentification($instructor['identification'], $register, $school, $resetEmail, $aliasesInstructor);
             $register = self::exportInstructorDocuments($instructor['documents'], $register, $school, $aliasesInstructor);
-            $register = self::exportInstructorVariable($instructor['variable'], $register, $highEducationCourses, $aliasesInstructor);
+            $register = self::exportInstructorVariable($instructor['variable'], $register, $highEducationCourses, $aliasesInstructor, $year);
             $register[self::REGISTER_TYPE] = '30';
             ksort($register);
-            array_push($registers, implode('|', $register));
+            array_push($registers, EducacensoRegisterFormatter::format(30, $register, $year));
         }
 
         if (!$managerIsAnInstructor) {
@@ -605,6 +609,7 @@ class Register30
                 . '6||0113P011|2008|3||||||||||||||||||||||||||||1|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|1|' // 46 a 97 (escolaridade, cursos e pós-graduações)
                 . $managerIdentification['email']
             );
+            $registers[count($registers) - 1] = EducacensoRegisterFormatter::formatLine(30, $registers[count($registers) - 1], $year);
         }
 
         return $registers;

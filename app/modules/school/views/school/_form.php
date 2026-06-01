@@ -1177,6 +1177,29 @@ echo $form->dropDownList(
                             <div class="t-field-text">
                                 <?php echo $form->label(
                                     $modelSchoolStructure,
+                                    'workers_social_worker',
+                                    ['class' => 't-field-text__label']
+                                ); ?>
+                                <?php echo $form->textField(
+                                    $modelSchoolStructure,
+                                    'workers_social_worker',
+                                    [
+                                        'placeholder' => 'Digite o Número de Assistentes Sociais',
+                                        'class' => 't-field-text__input'
+                                    ]
+                                ); ?>
+                                <?php echo $form->error(
+                                    $modelSchoolStructure,
+                                    'workers_social_worker'
+                                ); ?>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="column is-two-fifths clearleft">
+                            <div class="t-field-text">
+                                <?php echo $form->label(
+                                    $modelSchoolStructure,
                                     'workers_administrative_assistant',
                                     ['class' => 't-field-text__label']
                                 ); ?>
@@ -1830,6 +1853,16 @@ echo $form->dropDownList(
                                     ); ?>
                                     <label class="t-field-checkbox">
                                         <?php echo SchoolStructure::model()->attributeLabels()['dependencies_info_lab']; ?>
+                                    </label>
+                                </div>
+                                <div class="t-field-checkbox">
+                                    <?php echo $form->checkBox(
+                                        $modelSchoolStructure,
+                                        'dependencies_robotics_lab',
+                                        ['value' => 1, 'uncheckValue' => 0]
+                                    ); ?>
+                                    <label class="t-field-checkbox">
+                                        <?php echo SchoolStructure::model()->attributeLabels()['dependencies_robotics_lab']; ?>
                                     </label>
                                 </div>
                                 <div class="t-field-checkbox">
@@ -3684,11 +3717,31 @@ echo $form->dropDownList(
                                 <div class="t-field-checkbox">
                                     <?php echo $form->checkBox(
                                         $modelSchoolStructure,
+                                        'equipments_audiovisual_student_production',
+                                        ['value' => 1, 'uncheckValue' => 0]
+                                    ); ?>
+                                    <label class="t-field-checkbox">
+                                        <?php echo SchoolStructure::model()->attributeLabels()['equipments_audiovisual_student_production']; ?>
+                                    </label>
+                                </div>
+                                <div class="t-field-checkbox">
+                                    <?php echo $form->checkBox(
+                                        $modelSchoolStructure,
                                         'equipments_garden_planting_agricultural',
                                         ['value' => 1, 'uncheckValue' => 0]
                                     ); ?>
                                     <label class="t-field-checkbox">
                                         <?php echo SchoolStructure::model()->attributeLabels()['equipments_garden_planting_agricultural']; ?>
+                                    </label>
+                                </div>
+                                <div class="t-field-checkbox">
+                                    <?php echo $form->checkBox(
+                                        $modelSchoolStructure,
+                                        'equipments_robotics_kit',
+                                        ['value' => 1, 'uncheckValue' => 0]
+                                    ); ?>
+                                    <label class="t-field-checkbox">
+                                        <?php echo SchoolStructure::model()->attributeLabels()['equipments_robotics_kit']; ?>
                                     </label>
                                 </div>
                                 <div class="t-field-checkbox">
@@ -3709,6 +3762,16 @@ echo $form->dropDownList(
                                     ); ?>
                                     <label class="t-field-checkbox">
                                         <?php echo SchoolStructure::model()->attributeLabels()['equipments_educational_games']; ?>
+                                    </label>
+                                </div>
+                                <div class="t-field-checkbox">
+                                    <?php echo $form->checkBox(
+                                        $modelSchoolStructure,
+                                        'equipments_emotional_education_materials',
+                                        ['value' => 1, 'uncheckValue' => 0]
+                                    ); ?>
+                                    <label class="t-field-checkbox">
+                                        <?php echo SchoolStructure::model()->attributeLabels()['equipments_emotional_education_materials']; ?>
                                     </label>
                                 </div>
                                 <div class="t-field-checkbox">

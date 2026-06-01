@@ -69,7 +69,8 @@ class ClassroomValidation extends Register
         36 => ' Ensino Médio - Normal/Magistério 2ª Série',
         37 => ' Ensino Médio - Normal/Magistério 3ª Série',
         38 => ' Ensino Médio - Normal/Magistério 4ª Série',
-        66 => ' Segmento Técnico da EJA integrada'
+        66 => ' Segmento Técnico da EJA integrada',
+        75 => ' Curso de Qualificação Profissional'
     ];
 
     public function __construct()
@@ -449,7 +450,7 @@ class ClassroomValidation extends Register
     public function isValidStage($stage, $complementaryActivity, $mediation, $modality, $diffLocation)
     {
         if ($stage != null) {
-            if (in_array($stage, [30, 31, 32, 33, 34, 43, 44, 51, 65, 45, 62, 60, 47, 46, 58, 48, 63, 61, 67, 68, 73, 74])) {
+            if (in_array($stage, [30, 31, 32, 33, 34, 43, 44, 51, 65, 45, 62, 60, 47, 46, 58, 48, 63, 61, 74])) {
                 return ['status' => false, 'erro' => 'A etapa de ensino selecionada não faz mais parte do censo. Modifique-a.'];
             }
             if ($complementaryActivity == 1 && in_array($stage, [1, 2, 3, 39, 40, 56, 64, 69, 70, 71, 72])) {
@@ -459,7 +460,7 @@ class ClassroomValidation extends Register
             if ($mediation == 2 && !in_array($stage, [69, 70, 71, 72])) {
                 return ['status' => false, 'erro' => 'Nao pode ser preenchido com essa etapa quando a mediação didático-pedagócica "Semipresencial" for selecionada.'];
             }
-            if ($mediation == 3 && !in_array($stage, [25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 70, 71, 73, 74, 64, 67, 68])) {
+            if ($mediation == 3 && !in_array($stage, [25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 70, 71, 73, 74, 64, 67, 68, 75])) {
                 return ['status' => false, 'erro' => 'Nao pode ser preenchido com essa etapa quando a mediação didático-pedagócica "Educação a distância" for selecionada.'];
             }
             if (($diffLocation == 2 || $diffLocation == 3) && in_array($stage, [1, 2, 3, 56])) {
@@ -474,8 +475,8 @@ class ClassroomValidation extends Register
     //campo 39
     public function isValidProfessionalEducation($modality, $professionalEducation, $stage)
     {
-        if ($modality == 4 && !in_array($stage, [30, 31, 32, 33, 34, 39, 40, 73, 74, 64, 67, 68])) {
-            return ['status' => false, 'erro' => $this->replaceCodeModalities('O campo nao pode ser preenchido quando a etapa for 30, 31, 32, 33, 34, 39, 40, 64 ou 74')];
+        if ($modality == 4 && !in_array($stage, [30, 31, 32, 33, 34, 39, 40, 73, 74, 64, 67, 68, 75])) {
+            return ['status' => false, 'erro' => $this->replaceCodeModalities('O campo nao pode ser preenchido quando a etapa for 30, 31, 32, 33, 34, 39, 40, 64, 67, 68, 73, 74 ou 75')];
         }
         return ['status' => true, 'erro' => ''];
     }
@@ -531,7 +532,7 @@ class ClassroomValidation extends Register
     public function isValidDisciplineForStage($stage, $instructorsTeachingData)
     {
         foreach ($instructorsTeachingData as $instructorTeachingData) {
-            if ($this->instructorHasDiscipline($instructorTeachingData, 25) && in_array($stage, [14, 15, 16, 17, 18, 69, 19, 20, 21, 41, 23, 22, 56, 70, 72, 73, 25, 26, 27, 28, 29, 71, 30, 31, 32, 33, 34, 74, 67, 39, 40, 64, 68])) {
+            if ($this->instructorHasDiscipline($instructorTeachingData, 25) && in_array($stage, [14, 15, 16, 17, 18, 69, 19, 20, 21, 41, 23, 22, 56, 70, 72, 73, 25, 26, 27, 28, 29, 71, 30, 31, 32, 33, 34, 74, 67, 39, 40, 64, 68, 75])) {
                 return ['status' => false, 'erro' => 'A componente curricular "Componentes curriculares/eixos pedagógicos" não é compatível com a etapa de ensino nesta turma.'];
             }
         }

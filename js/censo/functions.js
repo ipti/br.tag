@@ -1,3 +1,7 @@
+$('.js-export-link').on('click', function () {
+  $('#censo-export-success').hide();
+});
+
 $('.js-withoutCertificates').on('change', function () {
   const checkbox = this;
   const exportLinks = $('.js-export-link');
