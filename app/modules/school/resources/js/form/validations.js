@@ -363,9 +363,9 @@ $(".save-school-button").click(function () {
         error = true;
         message += "Quando o Local de Funcionamento é um Prédio Escolar, o campo <b>Nº de Salas de Aula</b> é obrigatório. Informe um número válido.<br>";
     }
-    if (!$("#SchoolStructure_operation_location_building").is(":checked") && ($("#SchoolStructure_dependencies_outside_roomspublic").val() === "" || $("#SchoolStructure_dependencies_outside_roomspublic").val() === 0 || $("#SchoolStructure_dependencies_outside_roomspublic").val() > 9999)) {
+    if (!$("#SchoolStructure_operation_location_building").is(":checked") && ($("#SchoolStructure_used_classroom_count").val() === "" || $("#SchoolStructure_used_classroom_count").val() === 0 || $("#SchoolStructure_used_classroom_count").val() > 9999)) {
         error = true;
-        message += "Quando o Local de Funcionamento não é um Prédio Escolar, o campo <b>Nº de Salas utilizadas fora do prédio</b> é obrigatório. Informe um número válido.<br>";
+        message += "Quando o Local de Funcionamento não é um Prédio Escolar, o campo <b>Nº de Salas de Aula utilizadas</b> é obrigatório. Informe um número válido.<br>";
     }
     if (Number($("#SchoolStructure_dependencies_climate_roomspublic").val()) > (Number($("#SchoolStructure_classroom_count").val()) + Number($("#SchoolStructure_dependencies_outside_roomspublic").val()))) {
         error = true;

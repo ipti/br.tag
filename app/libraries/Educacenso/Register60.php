@@ -2,6 +2,20 @@
 
 class Register60
 {
+    private const TECHNICAL_PROFESSIONAL_STAGE_IDS_2026 = [39, 40, 67, 68, 73, 75];
+
+    private static function isProfessionalCourseType($value)
+    {
+        return in_array((string)$value, ['1', '2'], true);
+    }
+
+    private static function requiresIntegratedCourseHours($classroom, $classroomAssociatedStage, $enrollmentStage)
+    {
+        return self::isProfessionalCourseType($classroom->course)
+            || in_array((int)$classroomAssociatedStage, self::TECHNICAL_PROFESSIONAL_STAGE_IDS_2026, true)
+            || in_array((int)$enrollmentStage, self::TECHNICAL_PROFESSIONAL_STAGE_IDS_2026, true);
+    }
+
     public static function export($year)
     {
         $registers = [];
@@ -53,6 +67,10 @@ class Register60
                         if ($edcensoStageVsModality !== null) {
                             $enrollment['edcenso_stage_vs_modality_fk'] = $edcensoStageVsModality->edcenso_associated_stage_id;
                         }
+                    }
+
+                    if (!self::requiresIntegratedCourseHours($classroom, $classroomAssociatedStage, $enrollment['edcenso_stage_vs_modality_fk'])) {
+                        $enrollment['integrated_course_hours'] = '';
                     }
 
                     if ($classroom->aee == 0) {

@@ -45,6 +45,8 @@
  * @property integer $modality
  * @property string $edcenso_stage_vs_modality_fk
  * @property integer $edcenso_professional_education_course_fk
+ * @property integer $qualification_course_axis_code
+ * @property integer $total_course_hours
  * @property integer $discipline_chemistry
  * @property integer $discipline_physics
  * @property integer $discipline_mathematics
@@ -180,7 +182,7 @@ class Classroom extends AltActiveRecord
         return [
             ['name, edcenso_stage_vs_modality_fk, school_inep_fk, initial_hour, initial_minute, final_hour, final_minute, week_days_sunday, week_days_monday, week_days_tuesday, week_days_wednesday, week_days_thursday, week_days_friday, week_days_saturday, school_year, pedagogical_mediation_type', 'required'],
             ['modality', 'required', 'except' => self::SCENARIO_IMPORT],
-            ['classroom_status, is_special_education, pedagogical_mediation_type, assistance_type, mais_educacao_participator, complementary_activity_type_1, complementary_activity_type_2, complementary_activity_type_3, complementary_activity_type_4, complementary_activity_type_5, complementary_activity_type_6, modality, edcenso_professional_education_course_fk, school_year, calendar_fk, schooling, diff_location, course, complementary_activity, aee, aee_braille, aee_optical_nonoptical, aee_cognitive_functions, aee_mobility_techniques, aee_libras, aee_caa, aee_curriculum_enrichment, aee_soroban, aee_accessible_teaching, aee_portuguese, aee_autonomous_life, sedsp_school_unity_fk, sedsp_sync, sedsp_max_physical_capacity, ignore_on_sagres, period, capacity, room_fk, is_prosic', 'numerical', 'integerOnly' => true],
+            ['classroom_status, is_special_education, pedagogical_mediation_type, assistance_type, mais_educacao_participator, complementary_activity_type_1, complementary_activity_type_2, complementary_activity_type_3, complementary_activity_type_4, complementary_activity_type_5, complementary_activity_type_6, modality, edcenso_professional_education_course_fk, qualification_course_axis_code, total_course_hours, school_year, calendar_fk, schooling, diff_location, course, complementary_activity, aee, aee_braille, aee_optical_nonoptical, aee_cognitive_functions, aee_mobility_techniques, aee_libras, aee_caa, aee_curriculum_enrichment, aee_soroban, aee_accessible_teaching, aee_portuguese, aee_autonomous_life, sedsp_school_unity_fk, sedsp_sync, sedsp_max_physical_capacity, ignore_on_sagres, period, capacity, room_fk, is_prosic', 'numerical', 'integerOnly' => true],
             // week_days_* são inteiros no banco, mas o importador 2025 converte o formato
             // "HH:MM-HH:MM" para 0/1 antes do save(). A validação numérica fica separada
             // para evitar falha quando o modelo for manipulado internamente.
@@ -195,7 +197,7 @@ class Classroom extends AltActiveRecord
             ['name', 'length', 'max' => 80],
             ['turn', 'length', 'max' => 45],
             ['hash', 'length', 'max' => 40],
-            ['register_type, school_inep_fk, inep_id, id, name, pedagogical_mediation_type, initial_hour, initial_minute, final_hour, final_minute, week_days_sunday, week_days_monday, week_days_tuesday, week_days_wednesday, week_days_thursday, week_days_friday, week_days_saturday, assistance_type, mais_educacao_participator, complementary_activity_type_1, complementary_activity_type_2, complementary_activity_type_3, complementary_activity_type_4, complementary_activity_type_5, complementary_activity_type_6, aee_braille, , modality, edcenso_stage_vs_modality_fk, edcenso_professional_education_course_fk, discipline_chemistry, discipline_physics, discipline_mathematics, discipline_biology, discipline_science, discipline_language_portuguese_literature, discipline_foreign_language_english, discipline_foreign_language_spanish, discipline_foreign_language_franch, discipline_foreign_language_other, discipline_arts, discipline_physical_education, discipline_history, discipline_geography, discipline_philosophy, discipline_social_study, discipline_sociology, discipline_informatics, discipline_professional_disciplines, discipline_special_education_and_inclusive_practices, discipline_sociocultural_diversity, discipline_libras, discipline_pedagogical, discipline_religious, discipline_native_language, discipline_others, school_year, turn, create_date, fkid, calendar_fk, sedsp_sync, sedsp_acronym, sedsp_school_unity_fk, sedsp_classnumber, sedsp_max_physical_capacity,  ignore_on_sagres, period, is_prosic', 'safe', 'on' => 'search'],
+            ['register_type, school_inep_fk, inep_id, id, name, pedagogical_mediation_type, initial_hour, initial_minute, final_hour, final_minute, week_days_sunday, week_days_monday, week_days_tuesday, week_days_wednesday, week_days_thursday, week_days_friday, week_days_saturday, assistance_type, mais_educacao_participator, complementary_activity_type_1, complementary_activity_type_2, complementary_activity_type_3, complementary_activity_type_4, complementary_activity_type_5, complementary_activity_type_6, aee_braille, , modality, edcenso_stage_vs_modality_fk, edcenso_professional_education_course_fk, qualification_course_axis_code, total_course_hours, discipline_chemistry, discipline_physics, discipline_mathematics, discipline_biology, discipline_science, discipline_language_portuguese_literature, discipline_foreign_language_english, discipline_foreign_language_spanish, discipline_foreign_language_franch, discipline_foreign_language_other, discipline_arts, discipline_physical_education, discipline_history, discipline_geography, discipline_philosophy, discipline_social_study, discipline_sociology, discipline_informatics, discipline_professional_disciplines, discipline_special_education_and_inclusive_practices, discipline_sociocultural_diversity, discipline_libras, discipline_pedagogical, discipline_religious, discipline_native_language, discipline_others, school_year, turn, create_date, fkid, calendar_fk, sedsp_sync, sedsp_acronym, sedsp_school_unity_fk, sedsp_classnumber, sedsp_max_physical_capacity,  ignore_on_sagres, period, is_prosic', 'safe', 'on' => 'search'],
         ];
     }
 
@@ -293,6 +295,8 @@ class Classroom extends AltActiveRecord
             'modality' => Yii::t('default', 'Modality'),
             'edcenso_stage_vs_modality_fk' => Yii::t('default', 'Edcenso Stage Vs Modality Fk'),
             'edcenso_professional_education_course_fk' => Yii::t('default', 'Edcenso Professional Education Course Fk'),
+            'qualification_course_axis_code' => Yii::t('default', 'Qualification Course Axis Code'),
+            'total_course_hours' => Yii::t('default', 'Total Course Hours'),
             'discipline_chemistry' => Yii::t('default', 'Discipline Chemistry'),
             'discipline_physics' => Yii::t('default', 'Discipline Physics'),
             'discipline_mathematics' => Yii::t('default', 'Discipline Mathematics'),
@@ -388,6 +392,8 @@ class Classroom extends AltActiveRecord
         $criteria->compare('inep_id', $this->inep_id, true);
         $criteria->compare('id', $this->id);
         $criteria->compare('name', $this->name, true);
+        $criteria->compare('qualification_course_axis_code', $this->qualification_course_axis_code);
+        $criteria->compare('total_course_hours', $this->total_course_hours);
         $criteria->compare('school_year', Yii::app()->user->year);
         //$criteria->addCondition('edcensoStageVsModalityFk.name like "%' . $this->edcensoStageVsModalityFk . '%"');
 

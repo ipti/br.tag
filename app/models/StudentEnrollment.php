@@ -13,6 +13,7 @@
  * @property string $enrollment_id
  * @property string $unified_class
  * @property integer $edcenso_stage_vs_modality_fk
+ * @property integer $integrated_course_hours
  * @property integer $multi
  * @property integer $another_scholarization_place
  * @property integer $public_transport
@@ -163,7 +164,7 @@ class StudentEnrollment extends AltActiveRecord
         // will receive user inputs.
         return [
             ['school_inep_id_fk, student_fk', 'required'],
-            ['daily_order, student_fk, classroom_fk, unified_class, edcenso_stage_vs_modality_fk, another_scholarization_place, public_transport, transport_responsable_government, vehicle_type_van, vehicle_type_microbus, vehicle_type_bus, vehicle_type_bike, vehicle_type_animal_vehicle, vehicle_type_other_vehicle, vehicle_type_waterway_boat_5, vehicle_type_waterway_boat_5_15, vehicle_type_waterway_boat_15_35, vehicle_type_waterway_boat_35, vehicle_type_metro_or_train, student_entry_form, current_stage_situation, previous_stage_situation, admission_type, status, aee_cognitive_functions, aee_autonomous_life, aee_curriculum_enrichment, aee_accessible_teaching, aee_libras, aee_portuguese, aee_soroban, aee_braille, aee_mobility_techniques, aee_caa, aee_optical_nonoptical, current_enrollment', 'numerical', 'integerOnly' => true],
+            ['daily_order, student_fk, classroom_fk, unified_class, edcenso_stage_vs_modality_fk, integrated_course_hours, another_scholarization_place, public_transport, transport_responsable_government, vehicle_type_van, vehicle_type_microbus, vehicle_type_bus, vehicle_type_bike, vehicle_type_animal_vehicle, vehicle_type_other_vehicle, vehicle_type_waterway_boat_5, vehicle_type_waterway_boat_5_15, vehicle_type_waterway_boat_15_35, vehicle_type_waterway_boat_35, vehicle_type_metro_or_train, student_entry_form, current_stage_situation, previous_stage_situation, admission_type, status, aee_cognitive_functions, aee_autonomous_life, aee_curriculum_enrichment, aee_accessible_teaching, aee_libras, aee_portuguese, aee_soroban, aee_braille, aee_mobility_techniques, aee_caa, aee_optical_nonoptical, current_enrollment', 'numerical', 'integerOnly' => true],
             ['register_type', 'length', 'max' => 2],
             ['school_inep_id_fk', 'length', 'max' => 8],
             ['student_inep_id, classroom_inep_id, enrollment_id', 'length', 'max' => 12],
@@ -171,7 +172,7 @@ class StudentEnrollment extends AltActiveRecord
             ['enrollment_id', 'validateMultiply'],
             ['observation', 'length', 'max' => 200],
             ['reenrollment, class_transfer_date, school_readmission_date, enrollment_date', 'safe'],
-            ['register_type, school_inep_id_fk, student_inep_id, student_fk, classroom_inep_id, classroom_fk, enrollment_id, unified_class, edcenso_stage_vs_modality_fk, another_scholarization_place, public_transport, transport_responsable_government, vehicle_type_van, vehicle_type_microbus, vehicle_type_bus, vehicle_type_bike, vehicle_type_animal_vehicle, vehicle_type_other_vehicle, vehicle_type_waterway_boat_5, vehicle_type_waterway_boat_5_15, vehicle_type_waterway_boat_15_35, vehicle_type_waterway_boat_35, vehicle_type_metro_or_train, student_entry_form, id, create_date, fkid, current_stage_situation, previous_stage_situation, admission_type, status, aee_cognitive_functions, aee_autonomous_life, aee_curriculum_enrichment, aee_accessible_teaching, aee_libras, aee_portuguese, aee_soroban, aee_braille, aee_mobility_techniques, class_transfer_date, school_readmission_date, aee_caa, aee_optical_nonoptical, enrollment_date, current_enrollment', 'safe', 'on' => 'search'],
+            ['register_type, school_inep_id_fk, student_inep_id, student_fk, classroom_inep_id, classroom_fk, enrollment_id, unified_class, edcenso_stage_vs_modality_fk, integrated_course_hours, another_scholarization_place, public_transport, transport_responsable_government, vehicle_type_van, vehicle_type_microbus, vehicle_type_bus, vehicle_type_bike, vehicle_type_animal_vehicle, vehicle_type_other_vehicle, vehicle_type_waterway_boat_5, vehicle_type_waterway_boat_5_15, vehicle_type_waterway_boat_15_35, vehicle_type_waterway_boat_35, vehicle_type_metro_or_train, student_entry_form, id, create_date, fkid, current_stage_situation, previous_stage_situation, admission_type, status, aee_cognitive_functions, aee_autonomous_life, aee_curriculum_enrichment, aee_accessible_teaching, aee_libras, aee_portuguese, aee_soroban, aee_braille, aee_mobility_techniques, class_transfer_date, school_readmission_date, aee_caa, aee_optical_nonoptical, enrollment_date, current_enrollment', 'safe', 'on' => 'search'],
         ];
     }
 
@@ -210,6 +211,7 @@ class StudentEnrollment extends AltActiveRecord
             'enrollment_id' => Yii::t('default', 'Enrollment'),
             'unified_class' => Yii::t('default', 'Unified Class'),
             'edcenso_stage_vs_modality_fk' => Yii::t('default', 'Edcenso Stage Vs Modality Fk'),
+            'integrated_course_hours' => Yii::t('default', 'Integrated Course Hours'),
             'another_scholarization_place' => Yii::t('default', 'Another Scholarization Place'),
             'public_transport' => Yii::t('default', 'Public Transport') . ' *',
             'transport_responsable_government' => Yii::t('default', 'Transport Responsable Government') . ' *',
@@ -276,6 +278,7 @@ class StudentEnrollment extends AltActiveRecord
         $criteria->together = true;
         $criteria->compare('enrollment_id', $this->enrollment_id, true);
         $criteria->compare('id', $this->id);
+        $criteria->compare('integrated_course_hours', $this->integrated_course_hours);
         $criteria->compare('classroomFk.school_year', Yii::app()->user->year);
         $criteria->compare('class_transfer_date', $this->class_transfer_date);
         $criteria->compare('school_readmission_date', $this->school_readmission_date);

@@ -5,26 +5,31 @@ class Register20
     // 2024: 32 ~> 2025: 26
 
     private const REGISTER_ATTR_TURMA_EDUCACAO_ESPECIAL = 24;
-    private const REGISTER_ATTR_ETAPA_AGREGADA = 25;
-    private const REGISTER_ATTR_ETAPA = 26;
+    private const REGISTER_ATTR_QUALIFICATION_COURSE_AXIS = 25;
+    private const REGISTER_ATTR_ETAPA_AGREGADA = 26;
+    private const REGISTER_ATTR_TOTAL_COURSE_HOURS = 27;
+    private const REGISTER_ATTR_ETAPA = 28;
     // 2024: 34 ~> 2025: 28
-    private const REGISTER_ATTR_SERIE = 28;
+    private const REGISTER_ATTR_SERIE = 30;
     // 2024: 35 ~> 2025: 29
-    private const REGISTER_ATTR_PERIODO = 29;
+    private const REGISTER_ATTR_PERIODO = 31;
     // 2024: 36 ~> 2025: 30
-    private const REGISTER_ATTR_CICLO = 30;
+    private const REGISTER_ATTR_CICLO = 32;
     // 2024: 37 ~> 2025: 31
-    private const REGISTER_ATTR_GRUPO_NAO_SERIADO = 31;
+    private const REGISTER_ATTR_GRUPO_NAO_SERIADO = 33;
     // 2024: 38 ~> 2025: 32
-    private const REGISTER_ATTR_MODULO = 32;
+    private const REGISTER_ATTR_MODULO = 34;
 
     // 2024: 39 ~> 2025: 33
-    private const REGISTER_ATTR_ALTERNACIA_REGULAR = 33;
+    private const REGISTER_ATTR_ALTERNACIA_REGULAR = 35;
 
     // 2024: 49 ~> 2025: 43
-    private const REGISTER_ATTR_QUIMICA = 43;
-    private const REGISTER_ATTR_PROJETO_DE_VIDA = 68;
-    private const REGISTER_ATTR_OUTRAS_DISCIPLINAS = 69;
+    private const REGISTER_ATTR_QUIMICA = 45;
+    private const REGISTER_ATTR_PROJETO_DE_VIDA = 70;
+    private const REGISTER_ATTR_OUTRAS_DISCIPLINAS = 71;
+    private const REGISTER_ATTR_FORMA_ORGANIZACAO = 30;
+    private const QUALIFICATION_COURSE_AXIS_STAGE_IDS = [67, 68, 73, 75];
+    private const PROFESSIONAL_COURSE_STAGE_IDS = [30, 31, 32, 33, 34, 39, 40, 64, 67, 68, 73, 74, 75];
 
     private static function sanitizeString($string)
     {
@@ -90,10 +95,25 @@ class Register20
         return $value === '1' || $value === 1;
     }
 
+    private static function isProfessionalCourseType($value)
+    {
+        return in_array((string)$value, ['1', '2'], true);
+    }
+
+    private static function stageRequiresQualificationCourseAxis($stageId)
+    {
+        return in_array((int)$stageId, self::QUALIFICATION_COURSE_AXIS_STAGE_IDS, true);
+    }
+
+    private static function stageAllowsProfessionalCourse($stageId)
+    {
+        return in_array((int)$stageId, self::PROFESSIONAL_COURSE_STAGE_IDS, true);
+    }
+
     private static function resolveClassTypeFor2026($attributes)
     {
         if (self::isSelectedValue($attributes['aee'] ?? null)) {
-            return '6';
+            return '5';
         }
 
         if (self::isSelectedValue($attributes['schooling'] ?? null) && self::isSelectedValue($attributes['complementary_activity'] ?? null)) {
@@ -101,10 +121,10 @@ class Register20
         }
 
         if (self::isSelectedValue($attributes['complementary_activity'] ?? null)) {
-            return '5';
+            return '4';
         }
 
-        return '4';
+        return '6';
     }
 
     private static function resolveOrganizationFormFor2026($register)
@@ -204,8 +224,16 @@ class Register20
                     $attributes['schooling'] = '1';
                 }
 
-                if (!in_array($attributes['edcenso_stage_vs_modality_fk'], [30, 31, 32, 33, 34, 39, 40, 64, 74])) {
+                if (!self::stageAllowsProfessionalCourse($attributes['edcenso_stage_vs_modality_fk'])) {
                     $attributes['course'] = '';
+                }
+
+                if (!self::stageRequiresQualificationCourseAxis($attributes['edcenso_stage_vs_modality_fk'])) {
+                    $attributes['qualification_course_axis_code'] = '';
+                }
+
+                if (!self::isProfessionalCourseType($attributes['course'])) {
+                    $attributes['total_course_hours'] = '';
                 }
 
                 if ($attributes['edcenso_stage_vs_modality_fk'] == '' || $attributes['edcenso_stage_vs_modality_fk'] == 1 || $attributes['edcenso_stage_vs_modality_fk'] == 2 || $attributes['edcenso_stage_vs_modality_fk'] == 3) {
@@ -293,11 +321,11 @@ class Register20
                     ) {
                         if ($register[self::REGISTER_ATTR_ETAPA] == '' || in_array($attributes['edcenso_stage_vs_modality_fk'], [1, 2, 3])) {
                             $register[$edcensoAlias->corder] = '';
-                        } elseif ($edcensoAlias->corder == self::REGISTER_ATTR_SERIE && !in_array($attributes['edcenso_stage_vs_modality_fk'], [14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 41, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 64, 56, 69, 70, 71, 72, 73, 74, 67])) {
+                        } elseif ($edcensoAlias->corder == self::REGISTER_ATTR_SERIE && !in_array($attributes['edcenso_stage_vs_modality_fk'], [14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 41, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 64, 56, 69, 70, 71, 72, 73, 74, 67, 68, 75])) {
                             $register[self::REGISTER_ATTR_SERIE] = '0';
                         } elseif ($register[self::REGISTER_ATTR_SERIE] == '0' && $edcensoAlias->corder == self::REGISTER_ATTR_PERIODO) {
                             $register[self::REGISTER_ATTR_PERIODO] = '1';
-                            if (!in_array($attributes['edcenso_stage_vs_modality_fk'], [25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 64, 69, 70, 71, 72, 73, 74, 67, 68])) {
+                            if (!in_array($attributes['edcenso_stage_vs_modality_fk'], [25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 64, 69, 70, 71, 72, 73, 74, 67, 68, 75])) {
                                 $register[self::REGISTER_ATTR_PERIODO] = '0';
                             }
                         } elseif ($register[self::REGISTER_ATTR_SERIE] == '0' && $register[self::REGISTER_ATTR_PERIODO] == '0' && $edcensoAlias->corder == self::REGISTER_ATTR_CICLO) {
@@ -307,17 +335,17 @@ class Register20
                             }
                         } elseif ($register[self::REGISTER_ATTR_SERIE] == '0' && $register[self::REGISTER_ATTR_PERIODO] == '0' && $register[self::REGISTER_ATTR_CICLO] == '0' && $edcensoAlias->corder == self::REGISTER_ATTR_GRUPO_NAO_SERIADO) {
                             $register[self::REGISTER_ATTR_GRUPO_NAO_SERIADO] = '1';
-                            if (!in_array($attributes['edcenso_stage_vs_modality_fk'], [14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 41, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 64, 56, 69, 70, 71, 72, 73, 74, 67, 68])) {
+                            if (!in_array($attributes['edcenso_stage_vs_modality_fk'], [14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 41, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 64, 56, 69, 70, 71, 72, 73, 74, 67, 68, 75])) {
                                 $register[self::REGISTER_ATTR_GRUPO_NAO_SERIADO] = '0';
                             }
                         } elseif ($register[self::REGISTER_ATTR_SERIE] == '0' && $register[self::REGISTER_ATTR_PERIODO] == '0' && $register[self::REGISTER_ATTR_CICLO] == '0' && $register[self::REGISTER_ATTR_GRUPO_NAO_SERIADO] == '0' && $edcensoAlias->corder == self::REGISTER_ATTR_MODULO) {
                             $register[self::REGISTER_ATTR_MODULO] = '1';
-                            if (!in_array($attributes['edcenso_stage_vs_modality_fk'], [14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 41, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 64, 56, 69, 70, 71, 72, 73, 74, 67, 68])) {
+                            if (!in_array($attributes['edcenso_stage_vs_modality_fk'], [14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 41, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 64, 56, 69, 70, 71, 72, 73, 74, 67, 68, 75])) {
                                 $register[self::REGISTER_ATTR_MODULO] = '0';
                             }
                         } elseif ($register[self::REGISTER_ATTR_SERIE] == '0' && $register[self::REGISTER_ATTR_PERIODO] == '0' && $register[self::REGISTER_ATTR_CICLO] == '0' && $register[self::REGISTER_ATTR_GRUPO_NAO_SERIADO] == '0' && $register[self::REGISTER_ATTR_MODULO] == '0' && $edcensoAlias->corder == self::REGISTER_ATTR_ALTERNACIA_REGULAR) {
                             $register[self::REGISTER_ATTR_ALTERNACIA_REGULAR] = '1';
-                            if (!in_array($attributes['edcenso_stage_vs_modality_fk'], [19, 20, 21, 22, 23, 41, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 64, 69, 70, 71, 72, 73, 74, 67, 68])) {
+                            if (!in_array($attributes['edcenso_stage_vs_modality_fk'], [19, 20, 21, 22, 23, 41, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 64, 69, 70, 71, 72, 73, 74, 67, 68, 75])) {
                                 $register[self::REGISTER_ATTR_ALTERNACIA_REGULAR] = '0';
                                 $register[self::REGISTER_ATTR_SERIE] = '1';
                             }
@@ -354,7 +382,7 @@ class Register20
 
                 if ((int) $year === 2026) {
                     $register[14] = self::resolveClassTypeFor2026($attributes);
-                    $register[28] = self::resolveOrganizationFormFor2026($register);
+                    $register[self::REGISTER_ATTR_FORMA_ORGANIZACAO] = self::resolveOrganizationFormFor2026($register);
                 }
 
                 array_push($registers, EducacensoRegisterFormatter::format(20, $register, $year));

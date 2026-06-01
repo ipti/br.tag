@@ -107,6 +107,8 @@ $(document).on("change", "#SchoolStructure_operation_location_building", functio
         $("#SchoolStructure_building_occupation_situation").removeAttr("disabled").trigger("change.select2");
         $("#SchoolStructure_classroom_count").closest(".control-group").find(".control-label").addClass("required").html("Nº de Salas de Aula *");
         $("#SchoolStructure_classroom_count").removeAttr("disabled");
+        $("#SchoolStructure_used_classroom_count").closest(".control-group").find(".control-label").removeClass("required").html("Nº de Salas de Aula utilizadas");
+        $("#SchoolStructure_used_classroom_count").val("").attr("disabled", "disabled");
         $("#SchoolStructure_dependencies_outside_roomspublic").closest(".control-group").find(".control-label").removeClass("required").html("Nº de Salas utilizadas fora do prédio");
         $("#SchoolStructure_shared_building_with_school").removeAttr("disabled").trigger("change");
     } else {
@@ -114,7 +116,9 @@ $(document).on("change", "#SchoolStructure_operation_location_building", functio
         $("#SchoolStructure_building_occupation_situation").val("").attr("disabled", "disabled").trigger("change.select2");
         $("#SchoolStructure_classroom_count").closest(".control-group").find(".control-label").removeClass("required").html("Nº de Salas de Aula");
         $("#SchoolStructure_classroom_count").val("").attr("disabled", "disabled");
-        $("#SchoolStructure_dependencies_outside_roomspublic").closest(".control-group").find(".control-label").addClass("required").html("Nº de Salas utilizadas fora do prédio *");
+        $("#SchoolStructure_used_classroom_count").closest(".control-group").find(".control-label").addClass("required").html("Nº de Salas de Aula utilizadas *");
+        $("#SchoolStructure_used_classroom_count").removeAttr("disabled");
+        $("#SchoolStructure_dependencies_outside_roomspublic").closest(".control-group").find(".control-label").removeClass("required").html("Nº de Salas utilizadas fora do prédio");
         $("#SchoolStructure_shared_building_with_school").prop("checked", false).attr("disabled", "disabled").trigger("change");
     }
 });
