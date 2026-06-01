@@ -143,6 +143,31 @@ $(".save-classroom").click(function () {
         error = true;
         message += "Campo <b>Capacidade Física Máxima</b> é obrigatório, com limite máximo de 99.<br>";
     }
+    if (typeof isQualificationCourseAxisRequired === "function" && isQualificationCourseAxisRequired()) {
+        const qualificationCourseAxisCode = Number($("#Classroom_qualification_course_axis_code").val());
+        if (!Number.isInteger(qualificationCourseAxisCode) || qualificationCourseAxisCode < 1 || qualificationCourseAxisCode > 99) {
+            error = true;
+            message += "Campo <b>Eixo do curso de qualificação profissional</b> é obrigatório, com limite de 2 dígitos.<br>";
+        }
+    }
+    if (typeof isTotalCourseHoursRequired === "function" && isTotalCourseHoursRequired()) {
+        const totalCourseHours = Number($("#Classroom_total_course_hours").val());
+        const courseType = String($("#Classroom_course").val() || "");
+        const minHours = Number($("#Classroom_edcenso_professional_education_course_fk").find("option:selected").data("min-hours")) || 0;
+        if (!Number.isInteger(totalCourseHours) || totalCourseHours < 1 || totalCourseHours > 9999) {
+            error = true;
+            message += "Campo <b>Carga horária total do curso</b> é obrigatório, com limite de 4 dígitos.<br>";
+        } else if (courseType === "1" && minHours > 0 && totalCourseHours < minHours) {
+            error = true;
+            message += "Campo <b>Carga horária total do curso</b> deve ser no mínimo " + minHours + " horas para o curso selecionado.<br>";
+        } else if (courseType === "1" && totalCourseHours > 2000) {
+            error = true;
+            message += "Campo <b>Carga horária total do curso</b> deve ter no máximo 2000 horas para curso técnico.<br>";
+        } else if (courseType === "2" && (totalCourseHours < 160 || totalCourseHours > 800)) {
+            error = true;
+            message += "Campo <b>Carga horária total do curso</b> deve ter entre 160 e 800 horas para curso de qualificação profissional.<br>";
+        }
+    }
     if (error) {
         $("html, body").animate({ scrollTop: 0 }, "fast");
         $(this).closest("form").find(".classroom-alert").addClass("alert-error").removeClass("alert-warning").removeClass("alert-success").html(message).show();

@@ -1090,6 +1090,15 @@ $(".save-student").click(function () {
             "Quando a turma é multiseriada o campo <b>Etapa de Ensino</b> é obrigatório.<br>";
     }
 
+    if (typeof isIntegratedCourseHoursRequired === "function" && isIntegratedCourseHoursRequired()) {
+        const integratedCourseHours = Number($("#StudentEnrollment_integrated_course_hours").val());
+        if (!Number.isInteger(integratedCourseHours) || integratedCourseHours < 1 || integratedCourseHours > 9999) {
+            error = true;
+            message +=
+                "Campo <b>Carga horária integralizada pelo aluno</b> é obrigatório, com limite de 4 dígitos.<br>";
+        }
+    }
+
     if ($("#errorNameIcon").css("display") == "inline-block") {
         error = true;
         message += "Corrija o campo <b>Nome</b>.<br>";

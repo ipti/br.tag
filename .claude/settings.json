@@ -1,0 +1,15 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(xargs grep -l \"corder.*54\\\\|corder.*55\")",
+      "Bash(Get-ChildItem -Path \"d:\\\\IPTI\\\\br.tag\\\\app\\\\migrations\" -Filter \"*.php\")",
+      "Bash(Select-Object -ExpandProperty FullName)",
+      "Bash(xargs grep -l \"school_structure\\\\|classroom\\\\|student_enrollment\")",
+      "Bash(cat)",
+      "Read(//tmp/**)",
+      "Bash(python3 -c ' *)",
+      "Bash(python -c ' *)",
+      "Bash(grep -n '$this->createTable\\\\|CREATE TABLE\\\\|'\\\\''edcenso_professional_education_course'\\\\''' 'D:\\\\IPTI\\\\br.tag\\\\app\\\\migrations\\\\old_migrations\\\\m160408_124724_tabelas_auxiliares_2016.php')"
+    ]
+  }
+}

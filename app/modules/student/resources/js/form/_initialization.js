@@ -4,6 +4,37 @@ window.location.search.includes("update")
 
 
 const formStudentIdentification = '#StudentIdentification_';
+const censo2026TechnicalProfessionalStageIds = ["39", "40", "67", "68", "73", "75"];
+const censo2026ProfessionalCourseTypes = ["1", "2"];
+
+function selectedOptionAttribute(selector, attributeName) {
+    return $(selector).find(":selected").attr(attributeName) || "";
+}
+
+function isIntegratedCourseHoursRequired() {
+    const classroomCourse = selectedOptionAttribute("#StudentEnrollment_classroom_fk", "data-course");
+    const classroomStage = selectedOptionAttribute("#StudentEnrollment_classroom_fk", "data-stage");
+    const classroomAssociatedStage = selectedOptionAttribute("#StudentEnrollment_classroom_fk", "data-associated-stage");
+    const enrollmentStage = $("#StudentEnrollment_edcenso_stage_vs_modality_fk").val() || "";
+    const enrollmentAssociatedStage = selectedOptionAttribute("#StudentEnrollment_edcenso_stage_vs_modality_fk", "data-associated-stage");
+    const stageIds = [classroomStage, classroomAssociatedStage, enrollmentStage, enrollmentAssociatedStage].map(String);
+
+    return censo2026ProfessionalCourseTypes.includes(String(classroomCourse))
+        || stageIds.some(function (stageId) {
+            return censo2026TechnicalProfessionalStageIds.includes(stageId);
+        });
+}
+
+function toggleIntegratedCourseHours() {
+    const required = isIntegratedCourseHoursRequired();
+
+    if (required && $(".new-enrollment-form").is(":visible")) {
+        $(".js-integrated-course-hours-container").show();
+    } else {
+        $("#StudentEnrollment_integrated_course_hours").val("");
+        $(".js-integrated-course-hours-container").hide();
+    }
+}
 
 $(document).ready(function () {
     if ($("#others-check").is(":checked")) {
@@ -21,6 +52,7 @@ $(document).ready(function () {
         if ($(".new-enrollment-form").css("display") == "none") {
             $(".new-enrollment-form").show();
             $("#new-enrollment-button").text("Fechar formulário");
+            toggleIntegratedCourseHours();
             let $dateField = $("#StudentEnrollment_enrollment_date");
             if ($dateField.val() === "") {
                 let now = new Date();
@@ -31,6 +63,7 @@ $(document).ready(function () {
         } else {
             $(".new-enrollment-form").hide();
             $("#new-enrollment-button").text("Adicionar Matrícula");
+            toggleIntegratedCourseHours();
         }
     });
 
@@ -190,6 +223,8 @@ $(document).ready(function () {
     }
 });
 
+$(document).on("change", "#StudentEnrollment_classroom_fk, #StudentEnrollment_edcenso_stage_vs_modality_fk", toggleIntegratedCourseHours);
+
 $("#show-cpf-reason").on("change", (event) => {
     if ($("#show-cpf-reason").is(":checked")) {
         $("#cpfReasonStudents").hide();
@@ -276,6 +311,7 @@ $("#copy-gov-id").click(function () {
 });
 
 $("#StudentEnrollment_public_transport").trigger("change");
+toggleIntegratedCourseHours();
 
 $(".update-student-from-sedsp").click(function () {
     $("#importStudentFromSEDSP").modal("show");

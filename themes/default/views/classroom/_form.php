@@ -154,10 +154,49 @@ $form = $this->beginWidget(
                                 <?= $form->error($modelClassroom, 'pedagogical_mediation_type'); ?>
                             </div>
                             <!-- Código Curso Educação Profissional -->
+                            <?php
+                            $professionalCourses = EdcensoProfessionalEducationCourse::model()->with('axis')->findAll(array('order' => 't.name'));
+                            $professionalCourseData = array();
+                            $professionalCourseOptions = array();
+                            $currentAxisName = '';
+                            foreach ($professionalCourses as $professionalCourse) {
+                                $professionalCourseData[$professionalCourse->id] = $professionalCourse->name;
+                                $axisName = ($professionalCourse->axis) ? $professionalCourse->axis->name : '';
+                                $professionalCourseOptions[$professionalCourse->id] = array(
+                                    'data-axis-id'    => $professionalCourse->axis_id,
+                                    'data-axis-name'  => $axisName,
+                                    'data-min-hours'  => $professionalCourse->minimum_hours,
+                                );
+                                if ($modelClassroom->edcenso_professional_education_course_fk == $professionalCourse->id) {
+                                    $currentAxisName = $axisName;
+                                }
+                            }
+                            ?>
                             <div class="t-field-select">
                                 <?= $form->label($modelClassroom, 'edcenso_professional_education_course_fk', array('class' => 't-field-select__label')); ?>
-                                <?= $form->DropDownList($modelClassroom, 'edcenso_professional_education_course_fk', CHtml::listData(EdcensoProfessionalEducationCourse::model()->findAll(array('order' => 'name')), 'id', 'name'), array('prompt' => 'Selecione o curso', 'class' => 'select-search-off t-field-select__input', 'style' => 'width: 100%')); ?>
+                                <?= $form->DropDownList($modelClassroom, 'edcenso_professional_education_course_fk', $professionalCourseData, array('prompt' => 'Selecione o curso', 'class' => 'select-search-off t-field-select__input', 'style' => 'width: 100%', 'options' => $professionalCourseOptions)); ?>
                                 <?= $form->error($modelClassroom, 'edcenso_professional_education_course_fk'); ?>
+                            </div>
+                            <div class="t-field-select js-professional-course-type">
+                                <?= $form->label($modelClassroom, 'course', array('class' => 't-field-select__label')); ?>
+                                <?= $form->DropDownList(
+                                    $modelClassroom,
+                                    'course',
+                                    array('1' => 'Curso técnico', '2' => 'Curso de qualificação profissional'),
+                                    array('prompt' => 'Selecione o tipo do curso', 'class' => 'select-search-off t-field-select__input', 'style' => 'width: 100%')
+                                ); ?>
+                                <?= $form->error($modelClassroom, 'course'); ?>
+                            </div>
+                            <div class="t-field-text js-qualification-course-axis">
+                                <?= $form->label($modelClassroom, 'qualification_course_axis_code', array('class' => 't-field-text__label')); ?>
+                                <?= CHtml::textField('qualification_course_axis_display', $currentAxisName, array('id' => 'qualification_course_axis_display', 'class' => 't-field-text__input', 'readonly' => true, 'placeholder' => 'Selecione o curso acima')); ?>
+                                <?= CHtml::activeHiddenField($modelClassroom, 'qualification_course_axis_code'); ?>
+                                <?= $form->error($modelClassroom, 'qualification_course_axis_code'); ?>
+                            </div>
+                            <div class="t-field-text js-total-course-hours">
+                                <?= $form->label($modelClassroom, 'total_course_hours', array('class' => 't-field-text__label')); ?>
+                                <?= $form->numberField($modelClassroom, 'total_course_hours', array('min' => 1, 'max' => 9999, 'maxlength' => 4, 'class' => 't-field-text__input')); ?>
+                                <?= $form->error($modelClassroom, 'total_course_hours'); ?>
                             </div>
                             <!-- Local de Funcionamento Diferenciado -->
                             <div class="t-field-select" id="diff_location_container">
@@ -208,10 +247,19 @@ $form = $this->beginWidget(
                             <!-- Etapa de Ensino -->
                             <div class="t-field-select" id="stage_vs_modality">
                                 <?= $form->label($modelClassroom, 'edcenso_stage_vs_modality_fk', array('class' => 't-field-select__label--required')); ?>
+                                <?php
+                                $stageOptionsDataAttributes = [];
+                                foreach ($edcensoStageVsModalities as $stageVsModality) {
+                                    $stageOptionsDataAttributes[$stageVsModality->id] = [
+                                        'data-associated-stage' => $stageVsModality->edcenso_associated_stage_id,
+                                    ];
+                                }
+                                ?>
                                 <?= $form->DropDownList($modelClassroom, 'edcenso_stage_vs_modality_fk', CHtml::listData($edcensoStageVsModalities, 'id', 'name'), array(
                                     'prompt' => 'Selecione o estágio vs modalidade',
                                     'class' => ($disabledFields ? 'select-search-off t-field-select__input disabled-field' : 'select-search-off t-field-select__input'),
-                                    'style' => 'width: 80%'
+                                    'style' => 'width: 80%',
+                                    'options' => $stageOptionsDataAttributes
                                 )); ?>
                                 <?= $form->error($modelClassroom, 'edcenso_stage_vs_modality_fk'); ?>
                                 <img class="loading-disciplines" style="display:none;position: fixed;margin: 5px 20px;"

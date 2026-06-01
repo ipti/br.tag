@@ -33,6 +33,7 @@
  * @property integer $post_graduation_none
  * @property integer $other_courses_nursery
  * @property integer $other_courses_pre_school
+ * @property integer $other_courses_literacy
  * @property integer $other_courses_basic_education_initial_years
  * @property integer $other_courses_basic_education_final_years
  * @property integer $other_courses_high_school
@@ -89,8 +90,8 @@ class InstructorVariableData extends AltActiveRecord
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return [
-            ['school_inep_id_fk, scholarity, other_courses_nursery, other_courses_pre_school, other_courses_basic_education_initial_years, other_courses_basic_education_final_years, other_courses_high_school, other_courses_education_of_youth_and_adults, other_courses_special_education, other_courses_native_education, other_courses_field_education, other_courses_environment_education, other_courses_human_rights_education, other_courses_bilingual_education_for_the_deaf, other_courses_education_and_tic, other_courses_sexual_education, other_courses_child_and_teenage_rights, other_courses_ethnic_education, other_courses_other, other_courses_none', 'required'],
-            ['scholarity, high_education_situation_1, high_education_formation_1, high_education_institution_code_1_fk, high_education_situation_2, high_education_formation_2, high_education_institution_code_2_fk, high_education_situation_3, high_education_formation_3, high_education_institution_code_3_fk, post_graduation_specialization, post_graduation_master, post_graduation_doctorate, post_graduation_none, other_courses_nursery, other_courses_pre_school, other_courses_basic_education_initial_years, other_courses_basic_education_final_years, other_courses_high_school, other_courses_education_of_youth_and_adults, other_courses_special_education, other_courses_native_education, other_courses_field_education, other_courses_environment_education, other_courses_human_rights_education, other_courses_sexual_education, other_courses_child_and_teenage_rights, other_courses_ethnic_education, other_courses_other, other_courses_none', 'numerical', 'integerOnly' => true],
+            ['school_inep_id_fk, scholarity, other_courses_nursery, other_courses_pre_school, other_courses_literacy, other_courses_basic_education_initial_years, other_courses_basic_education_final_years, other_courses_high_school, other_courses_education_of_youth_and_adults, other_courses_special_education, other_courses_native_education, other_courses_field_education, other_courses_environment_education, other_courses_human_rights_education, other_courses_bilingual_education_for_the_deaf, other_courses_education_and_tic, other_courses_sexual_education, other_courses_child_and_teenage_rights, other_courses_ethnic_education, other_courses_other, other_courses_none', 'required'],
+            ['scholarity, high_education_situation_1, high_education_formation_1, high_education_institution_code_1_fk, high_education_situation_2, high_education_formation_2, high_education_institution_code_2_fk, high_education_situation_3, high_education_formation_3, high_education_institution_code_3_fk, post_graduation_specialization, post_graduation_master, post_graduation_doctorate, post_graduation_none, other_courses_nursery, other_courses_pre_school, other_courses_literacy, other_courses_basic_education_initial_years, other_courses_basic_education_final_years, other_courses_high_school, other_courses_education_of_youth_and_adults, other_courses_special_education, other_courses_native_education, other_courses_field_education, other_courses_environment_education, other_courses_human_rights_education, other_courses_sexual_education, other_courses_child_and_teenage_rights, other_courses_ethnic_education, other_courses_other, other_courses_none', 'numerical', 'integerOnly' => true],
             ['register_type', 'length', 'max' => 2],
             ['school_inep_id_fk', 'length', 'max' => 8],
             ['inep_id', 'length', 'max' => 12],
@@ -99,7 +100,7 @@ class InstructorVariableData extends AltActiveRecord
             ['hash', 'length', 'max' => 40],
             // The following rule is used by search().
             // Please remove those attributes that should not be searched.
-            ['register_type, school_inep_id_fk, inep_id, id, scholarity, high_education_situation_1, high_education_formation_1, high_education_course_code_1_fk, high_education_initial_year_1, high_education_final_year_1, high_education_institution_code_1_fk, high_education_situation_2, high_education_formation_2, high_education_course_code_2_fk, high_education_initial_year_2, high_education_final_year_2, high_education_institution_code_2_fk, high_education_situation_3, high_education_formation_3, high_education_course_code_3_fk, high_education_initial_year_3, high_education_final_year_3, high_education_institution_code_3_fk, post_graduation_specialization, post_graduation_master, post_graduation_doctorate, post_graduation_none, other_courses_nursery, other_courses_pre_school, other_courses_basic_education_initial_years, other_courses_basic_education_final_years, other_courses_high_school, other_courses_education_of_youth_and_adults, other_courses_special_education, other_courses_native_education, other_courses_field_education, other_courses_environment_education, other_courses_human_rights_education, other_courses_bilingual_education_for_the_deaf, other_courses_education_and_tic, other_courses_sexual_education, other_courses_child_and_teenage_rights, other_courses_ethnic_education, other_courses_other, other_courses_none, hash', 'safe', 'on' => 'search'],
+            ['register_type, school_inep_id_fk, inep_id, id, scholarity, high_education_situation_1, high_education_formation_1, high_education_course_code_1_fk, high_education_initial_year_1, high_education_final_year_1, high_education_institution_code_1_fk, high_education_situation_2, high_education_formation_2, high_education_course_code_2_fk, high_education_initial_year_2, high_education_final_year_2, high_education_institution_code_2_fk, high_education_situation_3, high_education_formation_3, high_education_course_code_3_fk, high_education_initial_year_3, high_education_final_year_3, high_education_institution_code_3_fk, post_graduation_specialization, post_graduation_master, post_graduation_doctorate, post_graduation_none, other_courses_nursery, other_courses_pre_school, other_courses_literacy, other_courses_basic_education_initial_years, other_courses_basic_education_final_years, other_courses_high_school, other_courses_education_of_youth_and_adults, other_courses_special_education, other_courses_native_education, other_courses_field_education, other_courses_environment_education, other_courses_human_rights_education, other_courses_bilingual_education_for_the_deaf, other_courses_education_and_tic, other_courses_sexual_education, other_courses_child_and_teenage_rights, other_courses_ethnic_education, other_courses_other, other_courses_none, hash', 'safe', 'on' => 'search'],
         ];
     }
 
@@ -155,6 +156,7 @@ class InstructorVariableData extends AltActiveRecord
             'post_graduation_none' => Yii::t('default', 'Post Graduation None'),
             'other_courses_nursery' => Yii::t('default', 'Other Courses Nursery'),
             'other_courses_pre_school' => Yii::t('default', 'Other Courses Pre School'),
+            'other_courses_literacy' => Yii::t('default', 'Other Courses Literacy'),
             'other_courses_basic_education_initial_years' => Yii::t('default', 'Other Courses Basic Education Initial Years'),
             'other_courses_basic_education_final_years' => Yii::t('default', 'Other Courses Basic Education Final Years'),
             'other_courses_high_school' => Yii::t('default', 'Other Courses High School'),
@@ -214,6 +216,7 @@ class InstructorVariableData extends AltActiveRecord
         $criteria->compare('post_graduation_none', $this->post_graduation_none);
         $criteria->compare('other_courses_nursery', $this->other_courses_nursery);
         $criteria->compare('other_courses_pre_school', $this->other_courses_pre_school);
+        $criteria->compare('other_courses_literacy', $this->other_courses_literacy);
         $criteria->compare('other_courses_basic_education_initial_years', $this->other_courses_basic_education_initial_years);
         $criteria->compare('other_courses_basic_education_final_years', $this->other_courses_basic_education_final_years);
         $criteria->compare('other_courses_high_school', $this->other_courses_high_school);

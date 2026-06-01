@@ -336,6 +336,64 @@ $(document).on("change", "#Classroom_pedagogical_mediation_type", function () {
     }
 });
 
+const qualificationCourseAxisStages2026 = ["67", "68", "73", "75"];
+const professionalCourseTypes2026 = ["1", "2"];
+
+function getSelectedClassroomStageIds() {
+    const selectedStage = $("#Classroom_edcenso_stage_vs_modality_fk").val() || "";
+    const associatedStage = $("#Classroom_edcenso_stage_vs_modality_fk option:selected").attr("data-associated-stage") || "";
+
+    return [String(selectedStage), String(associatedStage)];
+}
+
+function classroomStageMatches(stageIds) {
+    return getSelectedClassroomStageIds().some(function (stageId) {
+        return stageIds.includes(stageId);
+    });
+}
+
+function isQualificationCourseAxisRequired() {
+    return String($("#Classroom_course").val() || "") === "2";
+}
+
+function isTotalCourseHoursRequired() {
+    return professionalCourseTypes2026.includes(String($("#Classroom_course").val() || ""));
+}
+
+function toggleCenso2026ProfessionalCourseFields() {
+    const axisRequired = isQualificationCourseAxisRequired();
+    const totalHoursRequired = isTotalCourseHoursRequired();
+
+    $(".js-qualification-course-axis").toggle(axisRequired);
+    $(".js-qualification-course-axis label")
+        .toggleClass("t-field-text__label--required", axisRequired)
+        .toggleClass("t-field-text__label", !axisRequired);
+    if (!axisRequired) {
+        $("#Classroom_qualification_course_axis_code").val("");
+        $("#qualification_course_axis_display").val("");
+    }
+
+    $(".js-total-course-hours").toggle(totalHoursRequired);
+    $(".js-total-course-hours label")
+        .toggleClass("t-field-text__label--required", totalHoursRequired)
+        .toggleClass("t-field-text__label", !totalHoursRequired);
+    if (!totalHoursRequired) {
+        $("#Classroom_total_course_hours").val("");
+    }
+}
+
+$(document).on("change", "#Classroom_edcenso_stage_vs_modality_fk, #Classroom_course", toggleCenso2026ProfessionalCourseFields);
+
+$(document).on("change", "#Classroom_edcenso_professional_education_course_fk", function () {
+    var $selected = $(this).find("option:selected");
+    var axisId   = $selected.data("axis-id")   || "";
+    var axisName = $selected.data("axis-name") || "";
+    var minHours = $selected.data("min-hours") || "";
+    $("#Classroom_qualification_course_axis_code").val(axisId);
+    $("#qualification_course_axis_display").val(axisName);
+    $("#Classroom_total_course_hours").val(minHours);
+});
+
 $(document).on("change", "#Classroom_edcenso_stage_vs_modality_fk", function () {
     if ($(this).val() !== '') {
         $.ajax({
@@ -398,6 +456,7 @@ $(document).on("change", "#Classroom_edcenso_stage_vs_modality_fk", function () 
 });
 
 $("#Classroom_edcenso_stage_vs_modality_fk").trigger("change");
+toggleCenso2026ProfessionalCourseFields();
 
 $("#js-t-sortable").on("sortupdate", function (event, ui) {
     newOrderArray = $(this).sortable("toArray");

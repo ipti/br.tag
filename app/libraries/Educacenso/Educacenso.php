@@ -1,5 +1,7 @@
 <?php
 
+include_once __DIR__ . '/EducacensoRegisterFormatter.php';
+
 class Educacenso
 {
     private $registers = [];
@@ -37,9 +39,9 @@ class Educacenso
         $this->registers['30'] = Register30::export($year, $withoutCertificates);
     }
 
-    private function register40()
+    private function register40($year)
     {
-        $this->registers['40'] = Register40::export();
+        $this->registers['40'] = Register40::export($year);
     }
 
     private function register50($year)
@@ -68,7 +70,7 @@ class Educacenso
         $this->register10($year);
         $this->register20($year);
         $this->register30($year, $withoutCertificates);
-        $this->register40();
+        $this->register40($year);
         $this->register50($year);
         $this->register60($year);
         $this->register99();
@@ -81,7 +83,7 @@ class Educacenso
             }
         }
 
-        return implode("\n", $lines);
+        return EducacensoRegisterFormatter::sanitizeFileContent(implode("\n", $lines));
     }
 
     public function exportarIdentification($withoutCertificates)
