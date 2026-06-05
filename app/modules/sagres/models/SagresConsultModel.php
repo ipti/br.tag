@@ -2773,7 +2773,7 @@ class SagresConsultModel
         $path = './app/export/SagresEdu/' . $inst;
 
         if (!file_exists($path)) {
-            mkdir($path);
+            mkdir($path, 0755, true);
         }
 
         $fileDir = './app/export/SagresEdu/' . $inst . $fileName;
