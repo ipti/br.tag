@@ -4070,63 +4070,25 @@ echo $form->dropDownList(
                                     </label>
                                 </div>
                             </div>
-                            <div class="t-field-checkbox">
-                                <?php echo $form->checkBox(
-                                        $modelSchoolStructure,
-                                        'native_education',
-                                        ['value' => 1, 'uncheckValue' => 0]
-                                    ); ?>
-                                <label class="t-field-checkbox__label">
-                                    <!-- <?php echo $form->label(
+                            <div class="t-field-select">
+                                <label class="t-field-select__label">
+                                    <?php echo SchoolStructure::model()->attributeLabels()['native_education_language']; ?>
+                                </label>
+                                <?php echo $form->dropDownList(
                                     $modelSchoolStructure,
-                                    'native_education',
-                                    ['class' => 'control-label']
-                                ); ?> -->
-                                    <?php echo SchoolStructure::model()->attributeLabels()['native_education']; ?>
-                                    <?php echo $form->error($modelSchoolStructure, 'native_education'); ?>
-                                </label>
+                                    'native_education_language',
+                                    [
+                                        '0' => 'Não oferece educação indígena',
+                                        '1' => 'Língua indígena',
+                                        '2' => 'Língua portuguesa',
+                                        '3' => 'Língua indígena e língua portuguesa',
+                                    ],
+                                    ['class' => 't-field-select__input', 'prompt' => 'Selecione']
+                                ); ?>
+                                <?php echo $form->error($modelSchoolStructure, 'native_education_language'); ?>
                             </div>
 
-                            <div class="t-field-checkbox-group" id="native_education_language">
-                                <label class="t-field-checkbox-group__label">
-                                    <?php echo Yii::t('default', 'Native Education Language'); ?>
-                                </label>
-                                <div id="native_education_lenguage_none">
-                                    <?php echo CHtml::activeHiddenField(
-                                        $modelSchoolStructure,
-                                        'native_education_language_native',
-                                        ['value' => null, 'disabled' => 'disabled']
-                                    );
-echo CHtml::activeHiddenField(
-    $modelSchoolStructure,
-    'native_education_language_portuguese',
-    ['value' => null, 'disabled' => 'disabled']
-); ?>
-                                </div>
-                                <div class="t-field-checkbox-group" id="native_education_lenguage_some">
-                                    <div class="t-field-checkbox">
-                                        <?php echo $form->checkBox(
-    $modelSchoolStructure,
-    'native_education_language_native',
-    ['value' => 1, 'uncheckValue' => 0]
-); ?>
-                                        <label class="t-field-checkbox">
-                                            <?php echo SchoolStructure::model()->attributeLabels()['native_education_language_native']; ?>
-                                        </label>
-                                    </div>
-                                    <div class="t-field-checkbox">
-                                        <?php echo $form->checkBox(
-                                            $modelSchoolStructure,
-                                            'native_education_language_portuguese',
-                                            ['value' => 1, 'uncheckValue' => 0]
-                                        ); ?>
-                                        <label class="t-field-checkbox">
-                                            <?php echo SchoolStructure::model()->attributeLabels()['native_education_language_portuguese']; ?>
-                                        </label>
-                                    </div>
-                                </div>
-                            </div>
-
+                            <div id="native_education_languages_container">
                             <div class="t-field-select">
                                 <?php echo $form->label(
                                             $modelSchoolStructure,
@@ -4189,6 +4151,7 @@ echo CHtml::activeHiddenField(
 ?>
                                 <?php echo $form->error($modelSchoolStructure, 'edcenso_native_languages_fk3'); ?>
                             </div>
+                            </div><!-- /#native_education_languages_container -->
 
                             <div class="t-field-checkbox">
                                 <?php echo $form->checkBox(

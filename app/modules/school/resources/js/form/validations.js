@@ -233,19 +233,16 @@ $(formStructure + 'operation_location').focusout(function () {
     }
 });
 
-$(formStructure + 'native_education').change(function () {
-    if ($(formStructure + 'native_education:checked').length == 1) {
-        $("#native_education_language").show();
-        $("#native_education_lenguage_none input").attr('disabled', 'disabled');
-        $("#native_education_lenguage_some input").removeAttr('disabled');
+$(formStructure + 'native_education_language').change(function () {
+    var val = $(this).val();
+    if (val !== '' && val !== '0') {
+        $("#native_education_languages_container").show();
     } else {
-        $("#native_education_language").hide();
-        $("#native_education_lenguage_none input").val(null).removeAttr('disabled');
-        $("#native_education_lenguage_some input").attr('disabled', 'disabled');
+        $("#native_education_languages_container").hide();
     }
 });
 
-$(formStructure + 'native_education').trigger('change');
+$(formStructure + 'native_education_language').trigger('change');
 
 $(".save-school-button").click(function () {
     let error = false;

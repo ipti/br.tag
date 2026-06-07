@@ -250,10 +250,7 @@ class Register10
             $attributes['workers_braille'] = null;
         }
 
-        $attributes['native_education'] = 0;
-        if ($attributes['native_education'] != 1) {
-            $attributes['native_education_language_native'] = '';
-            $attributes['native_education_language_portuguese'] = '';
+        if (!($attributes['native_education_language'] ?? null)) {
             $attributes['edcenso_native_languages_fk'] = '';
             $attributes['edcenso_native_languages_fk2'] = '';
             $attributes['edcenso_native_languages_fk3'] = '';
