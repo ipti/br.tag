@@ -291,16 +291,16 @@ class Register10
 
         $edcensoAliases = EdcensoAlias::model()->findAll('year = :year and register = 10 order by corder', [':year' => $year]);
         foreach ($edcensoAliases as $edcensoAlias) {
-            if ((int) $year === 2026 && $edcensoAlias->corder == 115) {
+            if ((int) $year === 2026 && $edcensoAlias->corder == 116) {
                 $register[$edcensoAlias->corder] = self::deriveInternetDeviceAccess($attributes);
-            } elseif ((int) $year === 2026 && $edcensoAlias->corder == 117) {
+            } elseif ((int) $year === 2026 && $edcensoAlias->corder == 118) {
                 $register[$edcensoAlias->corder] = self::deriveLocalNetworkAccess($attributes);
             } elseif ($edcensoAlias->corder == 44) {
                 $register[$edcensoAlias->corder] =
                     $attributes['dependencies_prysical_disability_bathroom'] == 1 || $attributes['dependencies_child_bathroom'] == 1 ||
                     $attributes['dependencies_bathroom_workes'] == 1 || $attributes['dependencies_bathroom_with_shower'] == 1
                     ? 1 : 0;
-            } elseif ($edcensoAlias->corder == 138) {
+            } elseif ($edcensoAlias->corder == 137) {
                 $register[$edcensoAlias->corder] = null;
                 if (
                     $attributes['workers_garden_planting_agricultural'] == null && $attributes['workers_administrative_assistant'] == null
@@ -314,15 +314,18 @@ class Register10
                 }
             } else {
                 $register[$edcensoAlias->corder] = $edcensoAlias->default;
-                if ($edcensoAlias['attr'] != null && $attributes[$edcensoAlias['attr']] !== $edcensoAlias->default) {
-                    $register[$edcensoAlias->corder] = $attributes[$edcensoAlias['attr']] ?? $edcensoAlias->default;
+                if ($edcensoAlias['attr'] != null && array_key_exists($edcensoAlias['attr'], $attributes)) {
+                    $attrValue = $attributes[$edcensoAlias['attr']];
+                    if ($attrValue !== $edcensoAlias->default) {
+                        $register[$edcensoAlias->corder] = $attrValue;
+                    }
                 }
             }
         }
 
         if ((int) $year === 2026) {
-            $register[115] = self::deriveInternetDeviceAccess($attributes);
-            $register[117] = self::deriveLocalNetworkAccess($attributes);
+            $register[116] = self::deriveInternetDeviceAccess($attributes);
+            $register[118] = self::deriveLocalNetworkAccess($attributes);
             self::ensureMandatoryGroupsFor2026($register);
         }
 
