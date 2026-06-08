@@ -82,7 +82,7 @@ function validateTime(time) {
 
 function stringToDate(str) {
     var date = new Object();
-    if (str === undefined){
+    if (str === undefined) {
         return
     }
     date.day = str.split("/")[0];
@@ -227,7 +227,7 @@ function validateNamePerson(personName, callback) {
         }
 
         for (let index = 0; index < array_students.length; index++) {
-            var similares_text = `<a style="color: #2E33B7; font-size: 13px;" href='${origin}${pathname}?r=student/update&id=${array_students[index].id}' >${array_students[index].name}</a><br>`;
+            var similares_text = `<a style="color: #2E33B7; font-size: 13px;" href='${origin}${pathname}?r=student/student/update&id=${array_students[index].id}' >${array_students[index].name}</a><br>`;
             formatSimilares.push(similares_text);
         }
         if (passExp) {
@@ -293,8 +293,8 @@ function existsStudentWithCPF(cpf, studentId, callback) {
 
 function validateCpf(cpf) {
     const statusInvalido = {
-            valid: false,
-            message: "Informe um CPF válido. Deve possuir apenas números."
+        valid: false,
+        message: "Informe um CPF válido. Deve possuir apenas números."
     };
 
     const statusValido = {
@@ -334,7 +334,7 @@ function validateCpf(cpf) {
         return statusInvalido;
     }
 
-    if (!rule(cpf, numberRules.cpf)){
+    if (!rule(cpf, numberRules.cpf)) {
         return statusInvalido;
     }
 
@@ -531,7 +531,7 @@ function decodeHtml(html) {
 
 function initDateFieldMaskAndValidation(element) {
     var date = new Date();
-    $(element).mask("00/00/0000", {placeholder: "dd/mm/aaaa"});
+    $(element).mask("00/00/0000", { placeholder: "dd/mm/aaaa" });
     $(element).focusout(function () {
         var id = '#' + $(this).attr("id");
         var dateValue = stringToDate($(element).val());
