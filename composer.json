@@ -45,7 +45,8 @@
         "lint:fix": "docker exec -u root -e PHP_CS_FIXER_IGNORE_ENV=1 tag-app ./vendor/bin/php-cs-fixer fix",
         "clear-assets": "docker exec tag-app sh -c \"find /app/assets -mindepth 1 -delete\"",
         "dedup:instructors": "docker exec tag-app php /app/app/yiic deduplicateinstructors",
-        "dedup:instructors:commit": "docker exec tag-app php /app/app/yiic deduplicateinstructors --commit"
+        "dedup:instructors:commit": "docker exec tag-app php /app/app/yiic deduplicateinstructors --commit",
+        "routes:generate": "docker exec tag-app php /app/scripts/generate-routes.php"
     },
     "config": {
         "allow-plugins": {

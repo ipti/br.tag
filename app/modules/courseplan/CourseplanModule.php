@@ -16,6 +16,7 @@ class CourseplanModule extends CWebModule
             ->publish(Yii::getPathOfAlias('application.modules.courseplan.resources'));
         // import the module-level models and components
         $this->setImport([
+            'application.modules.courseplan.CourseplanRoutes',
             'courseplan.models.*',
             'courseplan.components.*',
             'courseplan.controllers.*',

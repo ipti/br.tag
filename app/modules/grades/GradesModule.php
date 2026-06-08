@@ -13,6 +13,7 @@ class GradesModule extends CWebModule
         );
         $this->layout = 'webroot.themes.default.views.layouts.fullmenu';
         $this->setImport([
+            'application.modules.grades.GradesRoutes',
             'grades.usecases.*',
             'grades.exceptions.*',
         ]);

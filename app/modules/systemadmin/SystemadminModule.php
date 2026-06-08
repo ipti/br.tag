@@ -5,6 +5,7 @@ class SystemadminModule extends CWebModule
     public function init()
     {
         $this->setImport([
+            'application.modules.systemadmin.SystemadminRoutes',
             'systemadmin.models.*',
             'systemadmin.components.*',
         ]);

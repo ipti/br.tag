@@ -5,6 +5,7 @@ class ClassroomModule extends CWebModule
     public function init()
     {
         $this->setImport([
+            'application.modules.classroom.ClassroomRoutes',
             'classroom.models.*',
             'classroom.components.*',
         ]);

@@ -9,6 +9,7 @@ class InstructorModule extends CWebModule
     {
         $this->baseUrl = Yii::app()->createUrl('instructor');
         $this->setImport([
+            'application.modules.instructor.InstructorRoutes',
             'instructor.models.*',
             'instructor.components.*',
             'instructor.usecases.*',

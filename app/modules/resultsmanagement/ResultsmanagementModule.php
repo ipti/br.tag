@@ -11,6 +11,7 @@ class ResultsManagementModule extends CWebModule
         $this->baseScriptUrl = Yii::app()->getAssetManager()->publish(Yii::getPathOfAlias('application.modules.resultsmanagement.resources'));
         $this->layout = 'webroot.themes.default.views.layouts.resultsmanagement';
         $this->setImport([
+            'application.modules.resultsmanagement.ResultsmanagementRoutes',
             'resultsmanagement.models.*',
             'resultsmanagement.components.*',
         ]);

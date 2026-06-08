@@ -66,6 +66,8 @@ return [
         'application.modules.sagres.soap.src.sagresEdu.*',
         'application.components.utils.TagUtils',
         'application.components.utils.TMenu',
+        'application.components.utils.TUrlBridge',
+        'application.components.utils.AppRoutes',
         'application.components.auth.TFeature',
         'application.components.auth.TRole',
         'application.components.utils.TLog',

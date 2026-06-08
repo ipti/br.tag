@@ -7,6 +7,8 @@ class InventoryModule extends CWebModule
 
     public function init()
     {
+        $this->setImport(['application.modules.inventory.InventoryRoutes']);
+
         // import the module-level models and components
         $this->setImport(
             [

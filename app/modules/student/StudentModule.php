@@ -29,6 +29,8 @@ class StudentModule extends CWebModule
         );
 
         $this->setImport([
+
+            'application.modules.student.StudentRoutes',
             'application.modules.student.models.*',
             'application.modules.grades.usecases.*',
         ]);

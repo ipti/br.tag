@@ -9,6 +9,7 @@ class SagresModule extends CWebModule
 
         // import the module-level models and components
         $this->setImport([
+            'application.modules.sagres.SagresRoutes',
             'sagres.models.*',
             'sagres.components.*',
             'sagres.soap.src.sagresEdu.*',

@@ -13,6 +13,8 @@ class FarmerModule extends CWebModule
             ->publish(Yii::getPathOfAlias('application.modules.farmer.resources'));
 
         $this->setImport([
+
+            'application.modules.farmer.FarmerRoutes',
             'farmer.components.*',
             'application.modules.foods.models.*',
             'application.modules.foods.services.*',

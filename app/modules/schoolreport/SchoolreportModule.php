@@ -13,6 +13,8 @@ class SchoolreportModule extends CWebModule
         $this->layout = 'schoolreport';
 
         $this->setImport([
+
+            'application.modules.schoolreport.SchoolreportRoutes',
             'schoolreport.models.*',
             'schoolreport.components.*',
             'schoolreport.repositories.*',
