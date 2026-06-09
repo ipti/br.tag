@@ -58,7 +58,6 @@ $menuItems = [
             }
             return ['enrollmentonline/Enrollmentonlinepreenrollmenteventonline/Index'];
         },
-        ['enrollmentonline/Enrollmentonlinestudentidentification/StudentStatus'],
         'icon' => 't-icon-backpack',
         'roles' => [TRole::GUARDIAN, TRole::ADMIN, TRole::MANAGER, TRole::READER],
         'feature' => TTask::TASK_ONLINE_ENROLLMENT,
