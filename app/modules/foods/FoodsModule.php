@@ -8,6 +8,8 @@ class FoodsModule extends CWebModule
 
     public function init()
     {
+        $this->setImport(['application.modules.foods.FoodsRoutes']);
+
         // this method is called when the module is being created
         // you may place code here to customize the module or the application
         $this->baseUrl = Yii::app()->createUrl('foods');

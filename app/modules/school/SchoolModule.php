@@ -11,6 +11,8 @@ class SchoolModule extends CWebModule
             ->publish(Yii::getPathOfAlias('application.modules.school.resources'));
 
         $this->setImport([
+
+            'application.modules.school.SchoolRoutes',
             'school.models.*',
         ]);
     }

@@ -16,6 +16,7 @@ class CurricularcomponentsModule extends CWebModule
             ->publish(Yii::getPathOfAlias('application.modules.curricularcomponents.resources'));
         // import the module-level models and components
         $this->setImport([
+            'application.modules.curricularcomponents.CurricularcomponentsRoutes',
             'curricularcomponents.models.*',
             'curricularcomponents.components.*',
         ]);

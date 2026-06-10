@@ -131,7 +131,7 @@ class DefaultController extends Controller
     public function actionGetDisciplines()
     {
         $result = [];
-        $disciplinesLabels = ClassroomController::classroomDisciplineLabelArray();
+        $disciplinesLabels = ClassroomHelper::classroomDisciplineLabelArray();
         if (Yii::app()->getAuthManager()->checkAccess('instructor', Yii::app()->user->loginInfos->id)) {
             $disciplines = Yii::app()->db->createCommand(
                 'select ed.id from teaching_matrixes tm

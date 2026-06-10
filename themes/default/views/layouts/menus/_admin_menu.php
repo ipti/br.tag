@@ -58,7 +58,6 @@ $menuItems = [
             }
             return ['enrollmentonline/Enrollmentonlinepreenrollmenteventonline/Index'];
         },
-        ['enrollmentonline/Enrollmentonlinestudentidentification/StudentStatus'],
         'icon' => 't-icon-backpack',
         'roles' => [TRole::GUARDIAN, TRole::ADMIN, TRole::MANAGER, TRole::READER],
         'feature' => TTask::TASK_ONLINE_ENROLLMENT,
@@ -117,35 +116,35 @@ $menuItems = [
             ],
             [
                 'label' => 'Aulas Ministradas',
-                'url' => ['classes/classContents'],
+                'url' => ['classdiary/classes/classContents'],
                 'icon' => 't-icon-topics',
                 'roles' => [TRole::ADMIN, TRole::MANAGER, TRole::INSTRUCTOR, TRole::READER],
                 'feature' => TFeature::FEAT_DIARY_CLASSES,
             ],
             [
                 'label' => 'Frequência',
-                'url' => ['classes/frequency'],
+                'url' => ['classdiary/classes/frequency'],
                 'icon' => 't-icon-checklist',
                 'roles' => [TRole::ADMIN, TRole::MANAGER, TRole::INSTRUCTOR, TRole::READER],
                 'feature' => TFeature::FEAT_DIARY_ATTENDANCE,
             ],
             [
                 'label' => 'Notas',
-                'url' => ['grades/grades'],
+                'url' => ['grades/default/grades'],
                 'icon' => 't-icon-edition',
                 'roles' => [TRole::ADMIN, TRole::MANAGER, TRole::INSTRUCTOR, TRole::READER],
                 'feature' => TFeature::FEAT_DIARY_GRADES,
             ],
             [
                 'label' => 'Lançamento de Notas',
-                'url' => ['enrollment/reportCard'],
+                'url' => ['grades/default/reportCard'],
                 'icon' => 't-report_card',
                 'roles' => [TRole::ADMIN, TRole::MANAGER, TRole::INSTRUCTOR, TRole::READER],
                 'feature' => TFeature::FEAT_DIARY_GRADES_BUZIOS,
             ],
             [
                 'label' => 'Lançamento de Notas',
-                'url' => ['enrollment/gradesRelease'],
+                'url' => ['grades/default/gradesRelease'],
                 'icon' => 't-report_card',
                 'roles' => [TRole::ADMIN, TRole::MANAGER, TRole::INSTRUCTOR, TRole::READER],
                 'feature' => TFeature::FEAT_DIARY_GRADES_FINAL,
@@ -170,7 +169,7 @@ $menuItems = [
     // Coordenador
     [
         'label' => 'Aulas Ministradas',
-        'url' => ['classes/validateClassContents'],
+        'url' => ['classdiary/classes/validateClassContents'],
         'icon' => 't-icon-topics',
         'roles' => [TRole::COORDINATOR],
         'feature' => TTask::TASK_DIARY_RECORD,
@@ -199,7 +198,7 @@ $menuItems = [
 
     [
         'label' => 'Relatórios',
-        'url' => ['reports'],
+        'url' => ['schoolreport/reports/index'],
         'icon' => 't-icon-column_graphi',
         'roles' => [TRole::ADMIN, TRole::MANAGER, TRole::READER],
         'feature' => TTask::TASK_REPORTS_ACCESS,
@@ -273,7 +272,7 @@ $menuItems = [
     // Acompanhamento de Saúde
     [
         'label' => 'Acompanhamento de Saúde',
-        'url' => ['studentimc/studentimc/studentIndex'],
+        'url' => ['student/studentimc/studentIndex'],
         'icon' => 't-icon-heart',
         'roles' => [TRole::NUTRITIONIST, TRole::ADMIN, TRole::MANAGER, TRole::READER, TRole::FOOD_SERVICE_WORKER],
         'feature' => TTask::TASK_STUDENT_IMC,
@@ -328,7 +327,7 @@ $menuItems = [
     [
         'label' => 'Alterar senha',
         'url' => function () {
-            return ['admin/editPassword', ['id' => Yii::app()->user->loginInfos->id]];
+            return ['systemadmin/default/editPassword', ['id' => Yii::app()->user->loginInfos->id]];
         },
         'roles' => [TRole::ADMIN, TRole::MANAGER, TRole::READER, TRole::INSTRUCTOR, TRole::NUTRITIONIST, TRole::FOOD_SERVICE_WORKER, TRole::GUARDIAN],
         'icon' => 't-icon-lock',
@@ -338,7 +337,7 @@ $menuItems = [
     // Administração
     [
         'label' => 'Administração',
-        'url' => ['admin'],
+        'url' => ['systemadmin/default/index'],
         'icon' => 't-icon-configuration-adm',
         'roles' => [TRole::ADMIN, TRole::READER],
         'feature' => TTask::TASK_ADMIN_GENERAL,

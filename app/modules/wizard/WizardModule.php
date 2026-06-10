@@ -8,6 +8,7 @@ class WizardModule extends CWebModule
         // you may place code here to customize the module or the application
         // import the module-level models and components
         $this->setImport([
+            'application.modules.wizard.WizardRoutes',
             'wizard.models.*',
             'wizard.components.*',
         ]);

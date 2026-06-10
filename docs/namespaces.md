@@ -136,8 +136,6 @@ grep -r "new CopyGradeStructUsecase\|new CalculateGrade" app/
 
 **Arquivos críticos a modificar:**
 - `app/domain/**/*.php` — todos (~8–15 arquivos)
-- `app/repository/FormsRepository.php`
-- `app/repository/ReportsRepository.php`
 - `app/config/main.php`
 - Controllers que fazem `Yii::import('application.domain.*')`
 - `composer.json`
@@ -251,4 +249,3 @@ Criar ou atualizar `CLAUDE.md` na raiz do projeto com:
 - **Não migra `app/models/`, `app/controllers/`, `app/modules/` para namespaces** — risco muito alto, retorno baixo; o SonarCloud + PHPStan em `app/domain/` já cobre o código que mais cresce
 - **Não troca `Yii::import()` por autoload globalmente** — quebraria o framework sem ganho proporcional
 - **Não atualiza o Yii para v2/v3** — fora de escopo; seria uma reescrita
-

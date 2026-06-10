@@ -8,6 +8,7 @@ class NotificationsModule extends CWebModule
     public function init()
     {
         $this->setImport([
+            'application.modules.notifications.NotificationsRoutes',
             'notifications.models.*',
         ]);
     }

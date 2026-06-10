@@ -994,7 +994,7 @@ class TimesheetController extends Controller
 
         $isMinor = $classroom->edcensoStageVsModalityFk->unified_frequency == 1 ? true : $classroom->checkIsStageMinorEducation();
 
-        $disciplinesLabels = ClassroomController::classroomDisciplineLabelArray();
+        $disciplinesLabels = ClassroomHelper::classroomDisciplineLabelArray();
 
         $htmlOptions = CHtml::tag('option', ['value' => ''], CHtml::encode('Selecione o componente  curricular/eixo'), true);
 

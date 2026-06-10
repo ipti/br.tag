@@ -5,7 +5,7 @@ $("#classroom").change(function () {
     if ($(this).val() !== "") {
         $.ajax({
             type: "POST",
-            url: "?r=enrollment/getDisciplines",
+            url: "?r=grades/entry/getDisciplines",
             cache: false,
             data: {
                 classroom: $("#classroom").val(),
@@ -40,7 +40,7 @@ $("#discipline").change(function (e, triggerEvent) {
         $(".js-grades-alert").hide();
         $.ajax({
             type: "POST",
-            url: "?r=enrollment/getGrades",
+            url: "?r=grades/entry/getGrades",
             cache: false,
             data: {
                 classroom: $("#classroom").val(),
@@ -209,7 +209,7 @@ $("#save").on("click", function (e) {
 
     $.ajax({
         type: "POST",
-        url: "?r=enrollment/saveGrades",
+        url: "?r=grades/entry/saveGrades",
         cache: false,
         data: {
             classroom: $("#classroom").val(),
@@ -240,7 +240,7 @@ $("#save").on("click", function (e) {
 //     $(".js-grades-alert").hide();
 //     $.ajax({
 //         type: "POST",
-//         url: "?r=enrollment/calculateFinalMedia",
+//         url: "?r=student/enrollment/calculateFinalMedia",
 //         cache: false,
 //         data: {
 //             classroom: $("#classroom").val(),

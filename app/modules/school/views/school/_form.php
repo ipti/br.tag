@@ -27,11 +27,11 @@ $form = $this->beginWidget('CActiveForm', [
     </div>
     <div class="column clearfix align-items--center justify-content--end show--desktop">
         <a data-toggle="tab" class='hide-responsive t-button-secondary prev' style="display:none;">
-            <?php echo Yii::t('default', 'Previous')?><i></i>
+            <?php echo Yii::t('default', 'Previous') ?><i></i>
         </a>
-        <?= $modelSchoolIdentification->isNewRecord ? "<a data-toggle='tab' class='t-button-primary  next'>" . Yii::t('default', 'Next') . '</a>' : ''?>
+        <?= $modelSchoolIdentification->isNewRecord ? "<a data-toggle='tab' class='t-button-primary  next'>" . Yii::t('default', 'Next') . '</a>' : '' ?>
         <button class="t-button-primary  last save-school-button" type="button">
-            <?= $modelSchoolIdentification->isNewRecord ? Yii::t('default', 'Create') : Yii::t('default', 'Save')?>
+            <?= $modelSchoolIdentification->isNewRecord ? Yii::t('default', 'Create') : Yii::t('default', 'Save') ?>
         </button>
     </div>
 </div>
@@ -48,14 +48,14 @@ $form = $this->beginWidget('CActiveForm', [
                 <li id="tab-school-indentify" class="active t-tabs__item">
                     <a class="t-tabs__link first" href="#school-indentify" data-toggle="tab">
                         <span class="t-tabs__numeration">1</span>
-                        <?php echo Yii::t('default', 'Identification')?>
+                        <?php echo Yii::t('default', 'Identification') ?>
                     </a>
                     <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/seta-tabs.svg" alt="seta">
                 </li>
                 <li id="tab-school-addressContact" class="t-tabs__item">
                     <a class="t-tabs__link" href="#school-addressContact" data-toggle="tab">
                         <span class="t-tabs__numeration">2</span>
-                        <?php echo Yii::t('default', 'Address and Contact')?>
+                        <?php echo Yii::t('default', 'Address and Contact') ?>
 
                     </a>
                     <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/seta-tabs.svg" alt="seta">
@@ -64,7 +64,7 @@ $form = $this->beginWidget('CActiveForm', [
                 <li id="tab-school-structure" class="t-tabs__item"><a class="t-tabs__link" href="#school-structure"
                         data-toggle="tab">
                         <span class="t-tabs__numeration">3</span>
-                        <?php echo Yii::t('default', 'Structure')?>
+                        <?php echo Yii::t('default', 'Structure') ?>
 
                     </a>
                     <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/seta-tabs.svg" alt="seta">
@@ -72,44 +72,44 @@ $form = $this->beginWidget('CActiveForm', [
                 <li id="tab-school-equipment" class="t-tabs__item"><a class="t-tabs__link" href="#school-equipment"
                         data-toggle="tab">
                         <span class="t-tabs__numeration">4</span>
-                        <?php echo Yii::t('default', 'Equipments')?>
+                        <?php echo Yii::t('default', 'Equipments') ?>
                     </a>
                     <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/seta-tabs.svg" alt="seta">
                 </li>
                 <li id="tab-school-manager" class="t-tabs__item"><a class="t-tabs__link" href="#school-manager"
                         data-toggle="tab">
                         <span class="t-tabs__numeration">5</span>
-                        <?php echo Yii::t('default', 'manager')?>
+                        <?php echo Yii::t('default', 'manager') ?>
                     </a>
                     <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/seta-tabs.svg" alt="seta">
                 </li>
                 <li id="tab-school-education" class="t-tabs__item"><a class="t-tabs__link" href="#school-education"
                         data-toggle="tab">
                         <span class="t-tabs__numeration">6</span>
-                        <?php echo Yii::t('default', 'Educational Data')?>
+                        <?php echo Yii::t('default', 'Educational Data') ?>
                     </a>
                     <?php if (!$modelSchoolIdentification->isNewRecord): ?>
-                    <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/seta-tabs.svg" alt="seta">
-                    <?php
+                        <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/seta-tabs.svg" alt="seta">
+                        <?php
                     endif ?>
                 </li>
                 <?php if (!$modelSchoolIdentification->isNewRecord): ?>
-                <li id="tab-school-rooms" class="t-tabs__item">
-                    <a class="t-tabs__link" href="#school-rooms" data-toggle="tab">
-                        <span class="t-tabs__numeration">7</span>
-                        <?php echo Yii::t('default', 'Salas de Aula')?>
-                    </a>
-                    <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/seta-tabs.svg" alt="seta">
-                </li>
-                <li id="tab-school-reports" class="t-tabs__item hide-responsive">
+                    <li id="tab-school-rooms" class="t-tabs__item">
+                        <a class="t-tabs__link" href="#school-rooms" data-toggle="tab">
+                            <span class="t-tabs__numeration">7</span>
+                            <?php echo Yii::t('default', 'Salas de Aula') ?>
+                        </a>
+                        <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/seta-tabs.svg" alt="seta">
+                    </li>
+                    <li id="tab-school-reports" class="t-tabs__item hide-responsive">
 
-                    <a class="t-tabs__link" href="#school-reports" data-toggle="tab">
-                        <span class="t-tabs__numeration">8</span>
-                        <?php echo Yii::t('default', 'Relatórios')?>
-                    </a>
+                        <a class="t-tabs__link" href="#school-reports" data-toggle="tab">
+                            <span class="t-tabs__numeration">8</span>
+                            <?php echo Yii::t('default', 'Relatórios') ?>
+                        </a>
 
-                </li>
-                <?php
+                    </li>
+                    <?php
                 endif ?>
             </ul>
         </div>
@@ -123,10 +123,10 @@ $form = $this->beginWidget('CActiveForm', [
                         <div class="column is-two-fifths clearleft">
                             <div class="t-field-text">
                                 <?php echo $form->label(
-    $modelSchoolIdentification,
-    'name',
-    ['class' => 't-field-text__label--required']
-); ?>
+                                    $modelSchoolIdentification,
+                                    'name',
+                                    ['class' => 't-field-text__label--required']
+                                ); ?>
                                 <?php echo $form->textField(
                                     $modelSchoolIdentification,
                                     'name',
@@ -175,11 +175,11 @@ $form = $this->beginWidget('CActiveForm', [
                                             'class' => 't-field-text__input',
                                             'disabled' => 'disabled'
                                         ]
-                                    )?>
+                                    ) ?>
                                 <?php echo $form->error(
-                                        $modelSchoolIdentification,
-                                        'inep_id'
-                                    ); ?>
+                                    $modelSchoolIdentification,
+                                    'inep_id'
+                                ); ?>
                             </div>
                         </div>
                     </div>
@@ -268,13 +268,13 @@ $form = $this->beginWidget('CActiveForm', [
                                 ); ?>
                                 <?php
                                 $options = DatePickerWidget::renderDatePicker($modelSchoolIdentification, 'initial_date');
-$options['htmlOptions'] = array_merge(isset($options['htmlOptions']) ? $options['htmlOptions'] : [], ['style' => 'background-color: #fff;']);
-$this->widget('zii.widgets.jui.CJuiDatePicker', $options);
-echo CHtml::link('	Limpar', '#', [
-    'id' => 'initial_reset'
-]);
-echo $form->error($modelSchoolIdentification, 'initial_date');
-?>
+                                $options['htmlOptions'] = array_merge(isset($options['htmlOptions']) ? $options['htmlOptions'] : [], ['style' => 'background-color: #fff;']);
+                                $this->widget('zii.widgets.jui.CJuiDatePicker', $options);
+                                echo CHtml::link('	Limpar', '#', [
+                                    'id' => 'initial_reset'
+                                ]);
+                                echo $form->error($modelSchoolIdentification, 'initial_date');
+                                ?>
                             </div>
                         </div>
                     </div>
@@ -282,29 +282,29 @@ echo $form->error($modelSchoolIdentification, 'initial_date');
                         <div class="column is-two-fifths clearleft">
                             <div class="t-field-text">
                                 <?php echo $form->label(
-    $modelSchoolIdentification,
-    'Final do período letivo',
-    ['class' => 't-field-text__label']
-); ?>
+                                    $modelSchoolIdentification,
+                                    'Final do período letivo',
+                                    ['class' => 't-field-text__label']
+                                ); ?>
                                 <?php
                                 $options = DatePickerWidget::renderDatePickerFinal($modelSchoolIdentification, 'final_date');
-$options['htmlOptions'] = array_merge(isset($options['htmlOptions']) ? $options['htmlOptions'] : [], ['style' => 'background-color: #fff;']);
-$this->widget('zii.widgets.jui.CJuiDatePicker', $options);
+                                $options['htmlOptions'] = array_merge(isset($options['htmlOptions']) ? $options['htmlOptions'] : [], ['style' => 'background-color: #fff;']);
+                                $this->widget('zii.widgets.jui.CJuiDatePicker', $options);
 
-echo CHtml::link('Limpar', '#', [
-    'id' => 'final_reset'
-]);
-echo $form->error($modelSchoolIdentification, 'final_date');
-?>
+                                echo CHtml::link('Limpar', '#', [
+                                    'id' => 'final_reset'
+                                ]);
+                                echo $form->error($modelSchoolIdentification, 'final_date');
+                                ?>
                             </div>
                         </div>
                         <div class="column clearleft--on-mobile is-two-fifths">
                             <div class="t-field-select">
                                 <?php echo $form->label(
-    $modelSchoolIdentification,
-    'regulation',
-    ['class' => 't-field-select__label--required']
-); ?>
+                                    $modelSchoolIdentification,
+                                    'regulation',
+                                    ['class' => 't-field-select__label--required']
+                                ); ?>
                                 <?php echo $form->dropDownList(
                                     $modelSchoolIdentification,
                                     'regulation',
@@ -336,12 +336,12 @@ echo $form->error($modelSchoolIdentification, 'final_date');
                                 </button>
                                 <span class="uploaded-logo-name">
                                     <?php echo $modelSchoolIdentification->logo_file_name !== null ?
-                                    $modelSchoolIdentification->logo_file_name . '<a href="' . Yii::app()->controller->createUrl('school/removeLogo', ['id' => $modelSchoolIdentification->inep_id]) . '" class="deleteTeachingData" title="Excluir"></a>' : ''?>
+                                        $modelSchoolIdentification->logo_file_name . '<a href="' . Yii::app()->controller->createUrl('school/removeLogo', ['id' => $modelSchoolIdentification->inep_id]) . '" class="deleteTeachingData" title="Excluir"></a>' : '' ?>
                                 </span>
                                 <?php echo $form->fileField(
-                                        $modelSchoolIdentification,
-                                        'logo_file_content'
-                                    ); ?>
+                                    $modelSchoolIdentification,
+                                    'logo_file_content'
+                                ); ?>
                                 <?php echo $form->error(
                                     $modelSchoolIdentification,
                                     'logo_file_content'
@@ -519,7 +519,7 @@ echo $form->error($modelSchoolIdentification, 'final_date');
                                         'class' => 't-field-text__input',
                                         'ajax' => [
                                             'type' => 'POST',
-                                            'url' => CController::createUrl('Instructor/getcitybycep'),
+                                            'url' => Yii::app()->createUrl('Instructor/getcitybycep'),
                                             'data' => ['cep' => 'js:this.value'],
                                             'success' => "function(data){
                                     data = jQuery.parseJSON(data);
@@ -579,7 +579,7 @@ echo $form->error($modelSchoolIdentification, 'final_date');
                                         'class' => 'select-search-on t-field-select__input select2-container',
                                         'ajax' => [
                                             'type' => 'POST',
-                                            'url' => CController::createUrl('school/updateUfDependencies'),
+                                            'url' => Yii::app()->createUrl('school/updateUfDependencies'),
                                             'success' => "function(data){
                                         data = jQuery.parseJSON(data);
                                         valR = $('#SchoolIdentification_edcenso_regional_education_organ_fk').val();
@@ -663,7 +663,7 @@ echo $form->error($modelSchoolIdentification, 'final_date');
                                         'class' => 'select-search-on t-field-select__input select2-container',
                                         'ajax' => [
                                             'type' => 'POST',
-                                            'url' => CController::createUrl('school/updateCityDependencies'),
+                                            'url' => Yii::app()->createUrl('school/updateCityDependencies'),
                                             'success' => "function(data){
                                         data = jQuery.parseJSON(data);
                                         valD = $('#SchoolIdentification_edcenso_district_fk').val();
@@ -826,7 +826,7 @@ echo $form->error($modelSchoolIdentification, 'final_date');
                         <div class="column is-two-fifths clearleft">
                             <div class="t-field-select">
                                 <?php
-?>
+                                ?>
                                 <?php echo $form->label(
                                     $modelSchoolIdentification,
                                     'edcenso_regional_education_organ_fk',
@@ -834,20 +834,20 @@ echo $form->error($modelSchoolIdentification, 'final_date');
                                 ); ?>
                                 <?php
                                 $criteria = new CDbCriteria();
-$criteria->select = 't.*';
-$criteria->join = 'LEFT JOIN edcenso_city city ON city.id = t.edcenso_city_fk ';
-$criteria->condition = 'city.edcenso_uf_fk = "' . $modelSchoolIdentification->edcenso_uf_fk . '"';
-$criteria->order = 'name';
-echo $form->dropDownList(
-    $modelSchoolIdentification,
-    'edcenso_regional_education_organ_fk',
-    CHtml::listData(EdcensoRegionalEducationOrgan::model()->findAll($criteria), 'code', 'name'),
-    ['prompt' => 'Selecione o órgão', 'class' => 'select-search-on t-field-select__input select2-container']
-); ?>
+                                $criteria->select = 't.*';
+                                $criteria->join = 'LEFT JOIN edcenso_city city ON city.id = t.edcenso_city_fk ';
+                                $criteria->condition = 'city.edcenso_uf_fk = "' . $modelSchoolIdentification->edcenso_uf_fk . '"';
+                                $criteria->order = 'name';
+                                echo $form->dropDownList(
+                                    $modelSchoolIdentification,
+                                    'edcenso_regional_education_organ_fk',
+                                    CHtml::listData(EdcensoRegionalEducationOrgan::model()->findAll($criteria), 'code', 'name'),
+                                    ['prompt' => 'Selecione o órgão', 'class' => 'select-search-on t-field-select__input select2-container']
+                                ); ?>
                                 <?php echo $form->error(
-    $modelSchoolIdentification,
-    'edcenso_regional_education_organ_fk'
-); ?>
+                                    $modelSchoolIdentification,
+                                    'edcenso_regional_education_organ_fk'
+                                ); ?>
                             </div>
                         </div>
                         <div class="column clearleft--on-mobile is-two-fifths">
@@ -1497,10 +1497,10 @@ echo $form->dropDownList(
                                 id="SchoolStructure_operation_location">
                                 <div class="t-field-checkbox">
                                     <?php echo $form->checkBox(
-                                    $modelSchoolStructure,
-                                    'operation_location_building',
-                                    ['value' => 1, 'uncheckValue' => 0]
-                                ); ?>
+                                        $modelSchoolStructure,
+                                        'operation_location_building',
+                                        ['value' => 1, 'uncheckValue' => 0]
+                                    ); ?>
                                     <label class="t-field-checkbox">
                                         <?php echo SchoolStructure::model()->attributeLabels()['operation_location_building']; ?>
                                     </label>
@@ -1558,12 +1558,12 @@ echo $form->dropDownList(
                             </div>
                             <div class="t-field-select">
                                 <?php echo $form->label(
-                                        $modelSchoolStructure,
-                                        'building_occupation_situation',
-                                        [
-                                            'class' => 't-field-select__label--required'
-                                        ]
-                                    ); ?>
+                                    $modelSchoolStructure,
+                                    'building_occupation_situation',
+                                    [
+                                        'class' => 't-field-select__label--required'
+                                    ]
+                                ); ?>
                                 <?php echo $form->DropDownList(
                                     $modelSchoolStructure,
                                     'building_occupation_situation',
@@ -1593,17 +1593,17 @@ echo $form->dropDownList(
                                 <label class="t-field-checkbox__label">
                                     <?php echo SchoolStructure::model()->attributeLabels()['shared_building_with_school']; ?>
                                     <?php echo $form->error(
-                                    $modelSchoolStructure,
-                                    'shared_building_with_school'
-                                ); ?>
+                                        $modelSchoolStructure,
+                                        'shared_building_with_school'
+                                    ); ?>
                                 </label>
                             </div>
                             <div class="t-field-select">
                                 <?php echo $form->label(
-                                        $modelSchoolStructure,
-                                        'shared_school_inep_id_1',
-                                        ['class' => 't-field-select__label']
-                                    ); ?>
+                                    $modelSchoolStructure,
+                                    'shared_school_inep_id_1',
+                                    ['class' => 't-field-select__label']
+                                ); ?>
                                 <?php echo $form->dropDownList(
                                     $modelSchoolStructure,
                                     'shared_school_inep_id_1',
@@ -1630,10 +1630,10 @@ echo $form->dropDownList(
                             <div class="t-field-checkbox-group clear-margin--top dependencies-container">
                                 <div class="t-field-checkbox">
                                     <?php echo $form->checkBox(
-                                    $modelSchoolStructure,
-                                    'dependencies_warehouse',
-                                    ['value' => 1, 'uncheckValue' => 0]
-                                ); ?>
+                                        $modelSchoolStructure,
+                                        'dependencies_warehouse',
+                                        ['value' => 1, 'uncheckValue' => 0]
+                                    ); ?>
                                     <label class="t-field-checkbox">
                                         <?php echo SchoolStructure::model()->attributeLabels()['dependencies_warehouse']; ?>
                                     </label>
@@ -2100,10 +2100,10 @@ echo $form->dropDownList(
                             </label>
                             <div class="t-field-checkbox">
                                 <?php echo $form->checkBox(
-                                        $modelSchoolStructure,
-                                        'provide_potable_water',
-                                        ['value' => 1, 'uncheckValue' => 0]
-                                    ); ?>
+                                    $modelSchoolStructure,
+                                    'provide_potable_water',
+                                    ['value' => 1, 'uncheckValue' => 0]
+                                ); ?>
                                 <label class="t-field-checkbox__label">
                                     <?php echo SchoolStructure::model()->attributeLabels()['provide_potable_water']; ?>
                                 </label>
@@ -2156,10 +2156,10 @@ echo $form->dropDownList(
                             <div class="t-field-checkbox-group clear-margin--top energy-supply-container">
                                 <div class="t-field-checkbox">
                                     <?php echo $form->checkBox(
-                                    $modelSchoolStructure,
-                                    'energy_supply_public',
-                                    ['value' => 1, 'uncheckValue' => 0]
-                                ); ?>
+                                        $modelSchoolStructure,
+                                        'energy_supply_public',
+                                        ['value' => 1, 'uncheckValue' => 0]
+                                    ); ?>
                                     <label class="t-field-checkbox">
                                         <?php echo SchoolStructure::model()->attributeLabels()['energy_supply_public']; ?>
                                     </label>
@@ -2199,10 +2199,10 @@ echo $form->dropDownList(
                         <div class="column clearleft--on-mobile is-two-fifths">
                             <div class="t-field-checkbox clear-margin--top ">
                                 <?php echo $form->checkBox(
-                                        $modelSchoolStructure,
-                                        'ppp_updated',
-                                        ['value' => 1, 'uncheckValue' => 0]
-                                    ); ?>
+                                    $modelSchoolStructure,
+                                    'ppp_updated',
+                                    ['value' => 1, 'uncheckValue' => 0]
+                                ); ?>
                                 <label class="t-field-checkbox__label">
                                     <!-- <?php echo $form->label($modelSchoolStructure, 'ppp_updated', ['class' => 'control-label']); ?> -->
                                     <?php echo SchoolStructure::model()->attributeLabels()['ppp_updated']; ?>
@@ -2233,10 +2233,10 @@ echo $form->dropDownList(
                             <div class="t-field-checkbox-group clear-margin--top sewage-container">
                                 <div class="t-field-checkbox">
                                     <?php echo $form->checkBox(
-                                    $modelSchoolStructure,
-                                    'sewage_public',
-                                    ['value' => 1, 'uncheckValue' => 0]
-                                ); ?>
+                                        $modelSchoolStructure,
+                                        'sewage_public',
+                                        ['value' => 1, 'uncheckValue' => 0]
+                                    ); ?>
                                     <label class="t-field-checkbox">
                                         <?php echo SchoolStructure::model()->attributeLabels()['sewage_public']; ?>
                                     </label>
@@ -2276,16 +2276,16 @@ echo $form->dropDownList(
                         <div class="column clearleft--on-mobile is-two-fifths">
                             <div class="t-field-checkbox clear-margin--top">
                                 <?php echo $form->checkBox(
-                                        $modelSchoolStructure,
-                                        'space_schoolenviroment',
-                                        ['value' => 1, 'uncheckValue' => 0]
-                                    ); ?>
-                                <label class="t-field-checkbox__label">
-                                    <!-- <?php echo $form->label(
                                     $modelSchoolStructure,
                                     'space_schoolenviroment',
-                                    ['class' => 'control-label']
-                                ); ?> -->
+                                    ['value' => 1, 'uncheckValue' => 0]
+                                ); ?>
+                                <label class="t-field-checkbox__label">
+                                    <!-- <?php echo $form->label(
+                                        $modelSchoolStructure,
+                                        'space_schoolenviroment',
+                                        ['class' => 'control-label']
+                                    ); ?> -->
                                     <?php echo SchoolStructure::model()->attributeLabels()['space_schoolenviroment']; ?>
                                     <?php echo $form->error(
                                         $modelSchoolStructure,
@@ -2295,16 +2295,16 @@ echo $form->dropDownList(
                             </div>
                             <div class="t-field-checkbox">
                                 <?php echo $form->checkBox(
-                                        $modelSchoolStructure,
-                                        'community_integration',
-                                        ['value' => 1, 'uncheckValue' => 0]
-                                    ); ?>
-                                <label class="t-field-checkbox__label">
-                                    <!-- <?php echo $form->label(
                                     $modelSchoolStructure,
                                     'community_integration',
-                                    ['class' => 'control-label']
-                                ); ?> -->
+                                    ['value' => 1, 'uncheckValue' => 0]
+                                ); ?>
+                                <label class="t-field-checkbox__label">
+                                    <!-- <?php echo $form->label(
+                                        $modelSchoolStructure,
+                                        'community_integration',
+                                        ['class' => 'control-label']
+                                    ); ?> -->
                                     <?php echo SchoolStructure::model()->attributeLabels()['community_integration']; ?>
                                     <?php echo $form->error(
                                         $modelSchoolStructure,
@@ -2322,10 +2322,10 @@ echo $form->dropDownList(
                         <div class="t-field-checkbox-group clear-margin--top garbage_destination_container">
                             <div class="t-field-checkbox">
                                 <?php echo $form->checkBox(
-                                        $modelSchoolStructure,
-                                        'garbage_destination_collect',
-                                        ['value' => 1, 'uncheckValue' => 0]
-                                    ); ?>
+                                    $modelSchoolStructure,
+                                    'garbage_destination_collect',
+                                    ['value' => 1, 'uncheckValue' => 0]
+                                ); ?>
                                 <label class="t-field-checkbox">
                                     <?php echo SchoolStructure::model()->attributeLabels()['garbage_destination_collect']; ?>
                                 </label>
@@ -2681,7 +2681,7 @@ echo $form->dropDownList(
                                     '4' => 'Amarela',
                                     '5' => 'Indígena'
                                 ], ['class' => 'select-search-off t-field-select__input select2-container', 'id' => 'color_race']);
-?>
+                                ?>
                                 <?php echo $form->error($modelManagerIdentification, 'color_race'); ?>
                             </div>
                         </div>
@@ -2690,10 +2690,10 @@ echo $form->dropDownList(
                         <div class="column is-two-fifths clearleft">
                             <div class="t-field-select">
                                 <?php echo $form->label(
-    $modelManagerIdentification,
-    'sex',
-    ['class' => 't-field-select__label--required']
-); ?>
+                                    $modelManagerIdentification,
+                                    'sex',
+                                    ['class' => 't-field-select__label--required']
+                                ); ?>
                                 <?php echo $form->DropDownList(
                                     $modelManagerIdentification,
                                     'sex',
@@ -2751,12 +2751,12 @@ echo $form->dropDownList(
                                     [
                                         'ajax' => [
                                             'type' => 'POST',
-                                            'url' => CController::createUrl('student/getnations'),
+                                            'url' => Yii::app()->createUrl('student/getnations'),
                                             'update' => '#ManagerIdentification_edcenso_nation_fk'
                                         ]
                                     ]
                                 );
-?>
+                                ?>
                                 <?php echo $form->error($modelManagerIdentification, 'nationality'); ?>
                             </div>
                         </div>
@@ -2764,23 +2764,23 @@ echo $form->dropDownList(
                             <div class="t-field-select">
                                 <label class="t-field-select__input">País de Origem</label>
                                 <?php
-echo $form->dropDownList(
-    $modelManagerIdentification,
-    'edcenso_nation_fk',
-    CHtml::listData(EdcensoNation::model()->findAll([
-        'order' => 'name'
-    ]), 'id', 'name'),
-    [
-        'prompt' => 'Selecione uma nação',
-        'class' => 'select-search-on t-field-select__input select2-container nationality-sensitive no-br',
-        'disabled' => 'disabled'
-    ]
-);
-?>
+                                echo $form->dropDownList(
+                                    $modelManagerIdentification,
+                                    'edcenso_nation_fk',
+                                    CHtml::listData(EdcensoNation::model()->findAll([
+                                        'order' => 'name'
+                                    ]), 'id', 'name'),
+                                    [
+                                        'prompt' => 'Selecione uma nação',
+                                        'class' => 'select-search-on t-field-select__input select2-container nationality-sensitive no-br',
+                                        'disabled' => 'disabled'
+                                    ]
+                                );
+                                ?>
                                 <?php echo $form->error(
-    $modelManagerIdentification,
-    'edcenso_nation_fk'
-); ?>
+                                    $modelManagerIdentification,
+                                    'edcenso_nation_fk'
+                                ); ?>
                             </div>
                         </div>
                     </div>
@@ -2801,11 +2801,11 @@ echo $form->dropDownList(
                                         'prompt' => 'Selecione uma cidade',
                                     ]
                                 );
-?>
+                                ?>
                                 <?php echo $form->error(
-    $modelManagerIdentification,
-    'edcenso_uf_fk'
-); ?>
+                                    $modelManagerIdentification,
+                                    'edcenso_uf_fk'
+                                ); ?>
                             </div>
                         </div>
                         <div class="column clearleft--on-mobile is-two-fifths">
@@ -2826,7 +2826,7 @@ echo $form->dropDownList(
                                         'class' => 'select-search-on nationality-sensitive br t-field-select__input select2-container',
                                     ]
                                 );
-?>
+                                ?>
                                 <?php echo $form->error($modelManagerIdentification, 'edcenso_city_fk'); ?>
                             </div>
                         </div>
@@ -2835,10 +2835,10 @@ echo $form->dropDownList(
                         <div class="column is-two-fifths clearleft">
                             <div class="t-field-text">
                                 <?php echo $form->label(
-    $modelManagerIdentification,
-    'number_ato',
-    ['class' => 't-field-text__label']
-); ?>
+                                    $modelManagerIdentification,
+                                    'number_ato',
+                                    ['class' => 't-field-text__label']
+                                ); ?>
                                 <?php echo $form->textField(
                                     $modelManagerIdentification,
                                     'number_ato',
@@ -2906,10 +2906,10 @@ echo $form->dropDownList(
                             <div class="column is-two-fifths clearleft">
                                 <div class="t-field-text">
                                     <?php echo $form->label(
-                                    $modelManagerIdentification,
-                                    'filiation_1',
-                                    ['class' => 't-field-text__label']
-                                ); ?>
+                                        $modelManagerIdentification,
+                                        'filiation_1',
+                                        ['class' => 't-field-text__label']
+                                    ); ?>
                                     <?php echo $form->textField(
                                         $modelManagerIdentification,
                                         'filiation_1',
@@ -3055,27 +3055,27 @@ echo $form->dropDownList(
                                         'filiation_1_scholarity',
                                         ['class' => 't-field-select__label']
                                     );
-echo $form->dropDownList(
-    $modelManagerIdentification,
-    'filiation_1_scholarity',
-    [
-        null => 'Selecione a escolaridade da filiação 1',
-        0 => 'Não sabe ler e escrever ',
-        1 => 'Sabe ler e escrever',
-        2 => 'Ens. Fund. Incompleto',
-        3 => 'Ens. Fund. Completo',
-        4 => 'Ens. Médio Incompleto',
-        5 => 'Ens. Médio Completo',
-        6 => 'Ens. Sup. Incompleto',
-        7 => 'Ens. Sup. Completo'
-    ],
-    ['class' => 'select-search-off js-disabled-finputs js-finput-clear t-field-select__input select2-container']
-);
-?>
+                                    echo $form->dropDownList(
+                                        $modelManagerIdentification,
+                                        'filiation_1_scholarity',
+                                        [
+                                            null => 'Selecione a escolaridade da filiação 1',
+                                            0 => 'Não sabe ler e escrever ',
+                                            1 => 'Sabe ler e escrever',
+                                            2 => 'Ens. Fund. Incompleto',
+                                            3 => 'Ens. Fund. Completo',
+                                            4 => 'Ens. Médio Incompleto',
+                                            5 => 'Ens. Médio Completo',
+                                            6 => 'Ens. Sup. Incompleto',
+                                            7 => 'Ens. Sup. Completo'
+                                        ],
+                                        ['class' => 'select-search-off js-disabled-finputs js-finput-clear t-field-select__input select2-container']
+                                    );
+                                    ?>
                                     <?php echo $form->error(
-    $modelManagerIdentification,
-    'filiation_1_scholarity'
-); ?>
+                                        $modelManagerIdentification,
+                                        'filiation_1_scholarity'
+                                    ); ?>
                                 </div>
                             </div>
                             <div class="column clearleft--on-mobile is-two-fifths">
@@ -3102,11 +3102,11 @@ echo $form->dropDownList(
                                         ],
                                         ['class' => 'select-search-off js-disabled-finputs js-finput-clear t-field-select__input select2-container']
                                     );
-?>
+                                    ?>
                                     <?php echo $form->error(
-    $modelManagerIdentification,
-    'filiation_2_scholarity'
-); ?>
+                                        $modelManagerIdentification,
+                                        'filiation_2_scholarity'
+                                    ); ?>
                                 </div>
                             </div>
                         </div>
@@ -3163,10 +3163,10 @@ echo $form->dropDownList(
                         <div class="column is-two-fifths clearleft">
                             <div class="t-field-select">
                                 <?php echo $form->label(
-                                        $modelManagerIdentification,
-                                        'residence_zone',
-                                        ['class' => 't-field-select__label--required']
-                                    ); ?>
+                                    $modelManagerIdentification,
+                                    'residence_zone',
+                                    ['class' => 't-field-select__label--required']
+                                ); ?>
                                 <?php echo $form->DropDownList(
                                     $modelManagerIdentification,
                                     'residence_zone',
@@ -3527,10 +3527,10 @@ echo $form->dropDownList(
                                 </label>
                                 <div class="t-field-checkbox">
                                     <?php echo $form->checkBox(
-                                    $modelSchoolStructure,
-                                    'equipments_satellite_dish',
-                                    ['value' => 1, 'uncheckValue' => 0]
-                                ); ?>
+                                        $modelSchoolStructure,
+                                        'equipments_satellite_dish',
+                                        ['value' => 1, 'uncheckValue' => 0]
+                                    ); ?>
                                     <label class="t-field-checkbox">
                                         <?php echo SchoolStructure::model()->attributeLabels()['equipments_satellite_dish']; ?>
                                     </label>
@@ -3600,10 +3600,10 @@ echo $form->dropDownList(
                         <div class="column clearleft--on-mobile is-two-fifths">
                             <div class="t-field-checkbox">
                                 <?php echo $form->checkBox(
-                                        $modelSchoolStructure,
-                                        'bandwidth',
-                                        ['value' => 1, 'uncheckValue' => 0]
-                                    ); ?>
+                                    $modelSchoolStructure,
+                                    'bandwidth',
+                                    ['value' => 1, 'uncheckValue' => 0]
+                                ); ?>
                                 <label class="t-field-checkbox__label">
                                     <?php echo SchoolStructure::model()->attributeLabels()['bandwidth']; ?>
                                     <?php echo $form->error($modelSchoolStructure, 'bandwidth'); ?>
@@ -3616,10 +3616,10 @@ echo $form->dropDownList(
                             <div class="t-field-checkbox-group internet-access-container">
                                 <div class="t-field-checkbox">
                                     <?php echo $form->checkBox(
-                                    $modelSchoolStructure,
-                                    'internet_access_administrative',
-                                    ['value' => 1, 'uncheckValue' => 0]
-                                ); ?>
+                                        $modelSchoolStructure,
+                                        'internet_access_administrative',
+                                        ['value' => 1, 'uncheckValue' => 0]
+                                    ); ?>
                                     <label class="t-field-checkbox">
                                         <?php echo SchoolStructure::model()->attributeLabels()['internet_access_administrative']; ?>
                                     </label>
@@ -3959,10 +3959,10 @@ echo $form->dropDownList(
                         <div class="column is-two-fifths clearleft">
                             <div class="t-field-select">
                                 <?php echo $form->label(
-                                        $modelSchoolStructure,
-                                        'aee',
-                                        ['class' => 't-field-select__label']
-                                    ); ?>
+                                    $modelSchoolStructure,
+                                    'aee',
+                                    ['class' => 't-field-select__label']
+                                ); ?>
                                 <?php echo $form->DropDownList(
                                     $modelSchoolStructure,
                                     'aee',
@@ -4007,17 +4007,17 @@ echo $form->dropDownList(
                                 <label class="t-field-checkbox__label">
                                     <?php echo SchoolStructure::model()->attributeLabels()['basic_education_cycle_organized']; ?>
                                     <?php echo $form->error(
-                                    $modelSchoolStructure,
-                                    'basic_education_cycle_organized'
-                                ); ?>
+                                        $modelSchoolStructure,
+                                        'basic_education_cycle_organized'
+                                    ); ?>
                                 </label>
                             </div>
                             <div class="t-field-select">
                                 <?php echo $form->label(
-                                        $modelSchoolStructure,
-                                        'different_location',
-                                        ['class' => 't-field-select__label']
-                                    ); ?>
+                                    $modelSchoolStructure,
+                                    'different_location',
+                                    ['class' => 't-field-select__label']
+                                ); ?>
                                 <?php
                                 echo $form->DropDownList($modelSchoolStructure, 'different_location', [
                                     null => 'Selecione a localização',
@@ -4029,7 +4029,7 @@ echo $form->dropDownList(
                                     '6' => 'Unidade de uso sustentável em área remanescente de quilombos',
                                     '7' => 'Não se aplica',
                                 ], ['class' => 'select-search-off t-field-select__input select2-container']);
-?>
+                                ?>
                                 <?php echo $form->error($modelSchoolStructure, 'different_location'); ?>
                             </div>
                             <div class="t-field-checkbox-group">
@@ -4038,10 +4038,10 @@ echo $form->dropDownList(
                                 </label>
                                 <div class="t-field-checkbox">
                                     <?php echo $form->checkBox(
-    $modelSchoolStructure,
-    'sociocultural_didactic_material_none',
-    ['value' => 1, 'uncheckValue' => 0]
-); ?>
+                                        $modelSchoolStructure,
+                                        'sociocultural_didactic_material_none',
+                                        ['value' => 1, 'uncheckValue' => 0]
+                                    ); ?>
                                     <label class="t-field-checkbox">
                                         <?php echo SchoolStructure::model()->attributeLabels()['sociocultural_didactic_material_none']; ?>
                                     </label>
@@ -4072,16 +4072,16 @@ echo $form->dropDownList(
                             </div>
                             <div class="t-field-checkbox">
                                 <?php echo $form->checkBox(
-                                        $modelSchoolStructure,
-                                        'native_education',
-                                        ['value' => 1, 'uncheckValue' => 0]
-                                    ); ?>
-                                <label class="t-field-checkbox__label">
-                                    <!-- <?php echo $form->label(
                                     $modelSchoolStructure,
                                     'native_education',
-                                    ['class' => 'control-label']
-                                ); ?> -->
+                                    ['value' => 1, 'uncheckValue' => 0]
+                                ); ?>
+                                <label class="t-field-checkbox__label">
+                                    <!-- <?php echo $form->label(
+                                        $modelSchoolStructure,
+                                        'native_education',
+                                        ['class' => 'control-label']
+                                    ); ?> -->
                                     <?php echo SchoolStructure::model()->attributeLabels()['native_education']; ?>
                                     <?php echo $form->error($modelSchoolStructure, 'native_education'); ?>
                                 </label>
@@ -4097,19 +4097,19 @@ echo $form->dropDownList(
                                         'native_education_language_native',
                                         ['value' => null, 'disabled' => 'disabled']
                                     );
-echo CHtml::activeHiddenField(
-    $modelSchoolStructure,
-    'native_education_language_portuguese',
-    ['value' => null, 'disabled' => 'disabled']
-); ?>
+                                    echo CHtml::activeHiddenField(
+                                        $modelSchoolStructure,
+                                        'native_education_language_portuguese',
+                                        ['value' => null, 'disabled' => 'disabled']
+                                    ); ?>
                                 </div>
                                 <div class="t-field-checkbox-group" id="native_education_lenguage_some">
                                     <div class="t-field-checkbox">
                                         <?php echo $form->checkBox(
-    $modelSchoolStructure,
-    'native_education_language_native',
-    ['value' => 1, 'uncheckValue' => 0]
-); ?>
+                                            $modelSchoolStructure,
+                                            'native_education_language_native',
+                                            ['value' => 1, 'uncheckValue' => 0]
+                                        ); ?>
                                         <label class="t-field-checkbox">
                                             <?php echo SchoolStructure::model()->attributeLabels()['native_education_language_native']; ?>
                                         </label>
@@ -4129,10 +4129,10 @@ echo CHtml::activeHiddenField(
 
                             <div class="t-field-select">
                                 <?php echo $form->label(
-                                            $modelSchoolStructure,
-                                            'edcenso_native_languages_fk',
-                                            ['class' => 't-field-select__label']
-                                        ); ?>
+                                    $modelSchoolStructure,
+                                    'edcenso_native_languages_fk',
+                                    ['class' => 't-field-select__label']
+                                ); ?>
                                 <?php echo $form->DropDownList(
                                     $modelSchoolStructure,
                                     'edcenso_native_languages_fk',
@@ -4167,16 +4167,16 @@ echo CHtml::activeHiddenField(
                                         'class' => 'select-search-on t-field-select__input select2-container'
                                     ]
                                 );
-?>
+                                ?>
                                 <?php echo $form->error($modelSchoolStructure, 'edcenso_native_languages_fk2'); ?>
                             </div>
 
                             <div class="t-field-select">
                                 <?php echo $form->label(
-    $modelSchoolStructure,
-    'edcenso_native_languages_fk3',
-    ['class' => 't-field-select__label']
-); ?>
+                                    $modelSchoolStructure,
+                                    'edcenso_native_languages_fk3',
+                                    ['class' => 't-field-select__label']
+                                ); ?>
                                 <?php echo $form->DropDownList(
                                     $modelSchoolStructure,
                                     'edcenso_native_languages_fk3',
@@ -4186,22 +4186,22 @@ echo CHtml::activeHiddenField(
                                         'class' => 'select-search-on t-field-select__input select2-container'
                                     ]
                                 );
-?>
+                                ?>
                                 <?php echo $form->error($modelSchoolStructure, 'edcenso_native_languages_fk3'); ?>
                             </div>
 
                             <div class="t-field-checkbox">
                                 <?php echo $form->checkBox(
-    $modelSchoolStructure,
-    'brazil_literate',
-    ['value' => 1, 'uncheckValue' => 0]
-); ?>
-                                <label class="t-field-checkbox__label">
-                                    <!-- <?php echo $form->label(
                                     $modelSchoolStructure,
                                     'brazil_literate',
-                                    ['class' => 'control-label']
-                                ); ?> -->
+                                    ['value' => 1, 'uncheckValue' => 0]
+                                ); ?>
+                                <label class="t-field-checkbox__label">
+                                    <!-- <?php echo $form->label(
+                                        $modelSchoolStructure,
+                                        'brazil_literate',
+                                        ['class' => 'control-label']
+                                    ); ?> -->
                                     <?php echo SchoolStructure::model()->attributeLabels()['brazil_literate']; ?>
                                     <?php echo $form->error($modelSchoolStructure, 'brazil_literate'); ?>
                                 </label>
@@ -4209,30 +4209,30 @@ echo CHtml::activeHiddenField(
 
                             <div class="t-field-checkbox">
                                 <?php echo $form->checkBox(
-                                        $modelSchoolStructure,
-                                        'open_weekend',
-                                        ['value' => 1, 'uncheckValue' => 0]
-                                    ); ?>
+                                    $modelSchoolStructure,
+                                    'open_weekend',
+                                    ['value' => 1, 'uncheckValue' => 0]
+                                ); ?>
                                 <label class="t-field-checkbox__label">
                                     <?php echo SchoolStructure::model()->attributeLabels()['open_weekend']; ?>
                                     <?php echo $form->error(
-                                    $modelSchoolStructure,
-                                    'open_weekend'
-                                ); ?>
+                                        $modelSchoolStructure,
+                                        'open_weekend'
+                                    ); ?>
                                 </label>
                             </div>
                             <div class="t-field-checkbox">
                                 <?php echo $form->checkBox(
-                                        $modelSchoolStructure,
-                                        'pedagogical_formation_by_alternance',
-                                        ['value' => 1, 'uncheckValue' => 0]
-                                    ); ?>
+                                    $modelSchoolStructure,
+                                    'pedagogical_formation_by_alternance',
+                                    ['value' => 1, 'uncheckValue' => 0]
+                                ); ?>
                                 <label class="t-field-checkbox__label">
                                     <?php echo SchoolStructure::model()->attributeLabels()['pedagogical_formation_by_alternance']; ?>
                                     <?php echo $form->error(
-                                    $modelSchoolStructure,
-                                    'pedagogical_formation_by_alternance'
-                                ); ?>
+                                        $modelSchoolStructure,
+                                        'pedagogical_formation_by_alternance'
+                                    ); ?>
                                 </label>
                             </div>
                         </div>
@@ -4465,66 +4465,66 @@ echo CHtml::activeHiddenField(
                             <div class="widget clearmargin">
                                 <div class="widget-body">
                                     <?php
-if (!$modelSchoolIdentification->isNewRecord) {
-    $dataProvider = new CActiveDataProvider('SchoolRoom', [
-        'criteria' => [
-            'condition' => 'school_inep_fk = :school_id',
-            'params' => [':school_id' => $modelSchoolIdentification->inep_id],
-            'order' => 'name ASC',
-        ],
-        'pagination' => false,
-    ]);
+                                    if (!$modelSchoolIdentification->isNewRecord) {
+                                        $dataProvider = new CActiveDataProvider('SchoolRoom', [
+                                            'criteria' => [
+                                                'condition' => 'school_inep_fk = :school_id',
+                                                'params' => [':school_id' => $modelSchoolIdentification->inep_id],
+                                                'order' => 'name ASC',
+                                            ],
+                                            'pagination' => false,
+                                        ]);
 
-    $this->widget('zii.widgets.grid.CGridView', [
-        'dataProvider' => $dataProvider,
-        'enableSorting' => true,
-        'ajaxUpdate' => false,
-        'itemsCssClass' => 'js-tag-table tag-table-primary table table-condensed table-striped table-hover table-primary table-vertical-center checkboxs',
-        'columns' => [
-            [
-                'name' => 'name',
-                'header' => 'Nome da Sala',
-                'type' => 'raw',
-                'value' => function ($data) {
-                    return CHtml::link(
-                        CHtml::encode($data->name),
-                        Yii::app()->createUrl('school/school/updateRoom', ['id' => $data->id]),
-                        ['class' => 'open-room-modal']
-                    );
-                },
-            ],
-            [
-                'name' => 'number',
-                'header' => 'Número',
-                'value' => '$data->number ? $data->number : "-"',
-            ],
-            [
-                'name' => 'capacity',
-                'header' => 'Capacidade',
-                'value' => '$data->capacity ? $data->capacity : "-"',
-            ],
-            [
-                'header' => 'Ações',
-                'class' => 'CButtonColumn',
-                'template' => '{update}{delete}',
-                'buttons' => [
-                    'update' => [
-                        'imageUrl' => Yii::app()->theme->baseUrl . '/img/editar.svg',
-                        'url' => 'Yii::app()->createUrl("school/school/updateRoom", array("id"=>$data->id))',
-                        'options' => ['class' => 'open-room-modal', 'style' => 'margin-right: 20px;', 'title' => 'Editar'],
-                    ],
-                    'delete' => [
-                        'imageUrl' => Yii::app()->theme->baseUrl . '/img/deletar.svg',
-                        'url' => 'Yii::app()->createUrl("school/school/deleteRoom", array("id"=>$data->id))',
-                        'options' => ['title' => 'Excluir'],
-                    ],
-                ],
-                'htmlOptions' => ['width' => '100px', 'style' => 'text-align: center'],
-            ],
-        ],
-    ]);
-}
-?>
+                                        $this->widget('zii.widgets.grid.CGridView', [
+                                            'dataProvider' => $dataProvider,
+                                            'enableSorting' => true,
+                                            'ajaxUpdate' => false,
+                                            'itemsCssClass' => 'js-tag-table tag-table-primary table table-condensed table-striped table-hover table-primary table-vertical-center checkboxs',
+                                            'columns' => [
+                                                [
+                                                    'name' => 'name',
+                                                    'header' => 'Nome da Sala',
+                                                    'type' => 'raw',
+                                                    'value' => function ($data) {
+                                                        return CHtml::link(
+                                                            CHtml::encode($data->name),
+                                                            Yii::app()->createUrl('school/school/updateRoom', ['id' => $data->id]),
+                                                            ['class' => 'open-room-modal']
+                                                        );
+                                                    },
+                                                ],
+                                                [
+                                                    'name' => 'number',
+                                                    'header' => 'Número',
+                                                    'value' => '$data->number ? $data->number : "-"',
+                                                ],
+                                                [
+                                                    'name' => 'capacity',
+                                                    'header' => 'Capacidade',
+                                                    'value' => '$data->capacity ? $data->capacity : "-"',
+                                                ],
+                                                [
+                                                    'header' => 'Ações',
+                                                    'class' => 'CButtonColumn',
+                                                    'template' => '{update}{delete}',
+                                                    'buttons' => [
+                                                        'update' => [
+                                                            'imageUrl' => Yii::app()->theme->baseUrl . '/img/editar.svg',
+                                                            'url' => 'Yii::app()->createUrl("school/school/updateRoom", array("id"=>$data->id))',
+                                                            'options' => ['class' => 'open-room-modal', 'style' => 'margin-right: 20px;', 'title' => 'Editar'],
+                                                        ],
+                                                        'delete' => [
+                                                            'imageUrl' => Yii::app()->theme->baseUrl . '/img/deletar.svg',
+                                                            'url' => 'Yii::app()->createUrl("school/school/deleteRoom", array("id"=>$data->id))',
+                                                            'options' => ['title' => 'Excluir'],
+                                                        ],
+                                                    ],
+                                                    'htmlOptions' => ['width' => '100px', 'style' => 'text-align: center'],
+                                                ],
+                                            ],
+                                        ]);
+                                    }
+                                    ?>
                                 </div>
                             </div>
                             <style>
@@ -4539,20 +4539,20 @@ if (!$modelSchoolIdentification->isNewRecord) {
                     <container>
                         <row class="reports">
                             <div class="reports_cards">
-                                <a class="t-button-secondary" rel="noopener" target="_blank" href="<?=@Yii::app()->createUrl(
-    'school/school/reportsMonthlyTransaction',
-    [
-        'id' => $modelSchoolIdentification->inep_id,
-        'type' => 1
-    ]
-); ?>">
+                                <a class="t-button-secondary" rel="noopener" target="_blank" href="<?= @Yii::app()->createUrl(
+                                    'school/school/reportsMonthlyTransaction',
+                                    [
+                                        'id' => $modelSchoolIdentification->inep_id,
+                                        'type' => 1
+                                    ]
+                                ); ?>">
                                     <span class="t-icon-printer"></span>
 
                                     Movimentação Mensal Anos Iniciais
                                 </a>
                             </div>
                             <div class="reports_cards">
-                                <a class="t-button-secondary" rel="noopener" target="_blank" href="<?=@Yii::app()->createUrl(
+                                <a class="t-button-secondary" rel="noopener" target="_blank" href="<?= @Yii::app()->createUrl(
                                     'school/school/reportsMonthlyTransaction',
                                     ['id' => $modelSchoolIdentification->inep_id, 'type' => 2]
                                 ); ?>">
@@ -4562,7 +4562,7 @@ if (!$modelSchoolIdentification->isNewRecord) {
                                 </a>
                             </div>
                             <div class="reports_cards">
-                                <a class="t-button-secondary" rel="noopener" target="_blank" href="<?=@Yii::app()->createUrl(
+                                <a class="t-button-secondary" rel="noopener" target="_blank" href="<?= @Yii::app()->createUrl(
                                     'school/school/reportsMonthlyTransaction',
                                     ['id' => $modelSchoolIdentification->inep_id, 'type' => 3]
                                 ); ?>">
@@ -4571,7 +4571,7 @@ if (!$modelSchoolIdentification->isNewRecord) {
                                 </a>
                             </div>
                             <div class="reports_cards">
-                                <a class="t-button-secondary" rel="noopener" target="_blank" href="<?=@Yii::app()->createUrl(
+                                <a class="t-button-secondary" rel="noopener" target="_blank" href="<?= @Yii::app()->createUrl(
                                     'school/school/reports',
                                     ['id' => $modelSchoolIdentification->inep_id]
                                 ); ?>">
@@ -4580,7 +4580,7 @@ if (!$modelSchoolIdentification->isNewRecord) {
                                 </a>
                             </div>
                             <div class="reports_cards">
-                                <a class="t-button-secondary" rel="noopener" target="_blank" href="<?=@Yii::app()->createUrl('school/school/record', [
+                                <a class="t-button-secondary" rel="noopener" target="_blank" href="<?= @Yii::app()->createUrl('school/school/record', [
                                     'id' => $modelSchoolIdentification->inep_id,
                                     'type' => 1
                                 ]); ?>">
@@ -4589,7 +4589,7 @@ if (!$modelSchoolIdentification->isNewRecord) {
                                 </a>
                             </div>
                             <div class="reports_cards">
-                                <a class="t-button-secondary" rel="noopener" target="_blank" href="<?=@Yii::app()->createUrl('school/school/record', [
+                                <a class="t-button-secondary" rel="noopener" target="_blank" href="<?= @Yii::app()->createUrl('school/school/record', [
                                     'id' => $modelSchoolIdentification->inep_id,
                                     'type' => 2
                                 ]); ?>">
@@ -4608,14 +4608,14 @@ if (!$modelSchoolIdentification->isNewRecord) {
             <div class="t-buttons-container">
                 <div class="column clearfix">
                     <a data-toggle="tab" class='t-button-secondary prev' style="display:none;">
-                        <?php echo Yii::t('default', 'Previous')?>
+                        <?php echo Yii::t('default', 'Previous') ?>
                         <i></i>
                     </a>
                 </div>
                 <div class="column clearfix">
-                    <?= $modelSchoolIdentification->isNewRecord ? "<a data-toggle='tab' class='t-button-primary nofloat next'>" . Yii::t('default', 'Next') . '</a>' : ''?>
+                    <?= $modelSchoolIdentification->isNewRecord ? "<a data-toggle='tab' class='t-button-primary nofloat next'>" . Yii::t('default', 'Next') . '</a>' : '' ?>
                     <a class="t-button-primary last save-school-button" type="button">
-                        <?= $modelSchoolIdentification->isNewRecord ? Yii::t('default', 'Create') : Yii::t('default', 'Save')?>
+                        <?= $modelSchoolIdentification->isNewRecord ? Yii::t('default', 'Create') : Yii::t('default', 'Save') ?>
                     </a>
                 </div>
             </div>

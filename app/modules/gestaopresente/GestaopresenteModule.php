@@ -9,6 +9,7 @@ class GestaopresenteModule extends CWebModule
 
         // import the module-level models and components
         $this->setImport([
+            'application.modules.gestaopresente.GestaopresenteRoutes',
             'gestaopresente.models.*',
             'gestaopresente.components.*',
         ]);
