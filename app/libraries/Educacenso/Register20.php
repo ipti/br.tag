@@ -2,32 +2,32 @@
 
 class Register20
 {
-    // 2024: 32 ~> 2025: 26
+    // 2024: 32 ~> 2025: 26 ~> 2026: 24
 
-    private const REGISTER_ATTR_TURMA_EDUCACAO_ESPECIAL = 24;
+    private const REGISTER_ATTR_TURMA_EDUCACAO_ESPECIAL = 22;
+    private const REGISTER_ATTR_ETAPA_AGREGADA = 23;
+    private const REGISTER_ATTR_ETAPA = 24;
     private const REGISTER_ATTR_QUALIFICATION_COURSE_AXIS = 25;
-    private const REGISTER_ATTR_ETAPA_AGREGADA = 26;
     private const REGISTER_ATTR_TOTAL_COURSE_HOURS = 27;
-    private const REGISTER_ATTR_ETAPA = 28;
-    // 2024: 34 ~> 2025: 28
-    private const REGISTER_ATTR_SERIE = 30;
-    // 2024: 35 ~> 2025: 29
-    private const REGISTER_ATTR_PERIODO = 31;
-    // 2024: 36 ~> 2025: 30
-    private const REGISTER_ATTR_CICLO = 32;
-    // 2024: 37 ~> 2025: 31
-    private const REGISTER_ATTR_GRUPO_NAO_SERIADO = 33;
-    // 2024: 38 ~> 2025: 32
-    private const REGISTER_ATTR_MODULO = 34;
+    // 2024: 34 ~> 2025: 28 ~> 2026: 28
+    private const REGISTER_ATTR_SERIE = 28;
+    // 2024: 35 ~> 2025: 29 ~> 2026: 29
+    private const REGISTER_ATTR_PERIODO = 29;
+    // 2024: 36 ~> 2025: 30 ~> 2026: 30
+    private const REGISTER_ATTR_CICLO = 30;
+    // 2024: 37 ~> 2025: 31 ~> 2026: 31
+    private const REGISTER_ATTR_GRUPO_NAO_SERIADO = 31;
+    // 2024: 38 ~> 2025: 32 ~> 2026: 32
+    private const REGISTER_ATTR_MODULO = 32;
 
-    // 2024: 39 ~> 2025: 33
-    private const REGISTER_ATTR_ALTERNACIA_REGULAR = 35;
+    // 2024: 39 ~> 2025: 33 ~> 2026: 33
+    private const REGISTER_ATTR_ALTERNACIA_REGULAR = 33;
 
-    // 2024: 49 ~> 2025: 43
-    private const REGISTER_ATTR_QUIMICA = 45;
-    private const REGISTER_ATTR_PROJETO_DE_VIDA = 70;
-    private const REGISTER_ATTR_OUTRAS_DISCIPLINAS = 71;
-    private const REGISTER_ATTR_FORMA_ORGANIZACAO = 30;
+    // 2024: 49 ~> 2025: 43 ~> 2026: 43
+    private const REGISTER_ATTR_QUIMICA = 43;
+    private const REGISTER_ATTR_PROJETO_DE_VIDA = 68;
+    private const REGISTER_ATTR_OUTRAS_DISCIPLINAS = 69;
+    private const REGISTER_ATTR_FORMA_ORGANIZACAO = 28;
     private const QUALIFICATION_COURSE_AXIS_STAGE_IDS = [67, 68, 73, 75];
     private const PROFESSIONAL_COURSE_STAGE_IDS = [30, 31, 32, 33, 34, 39, 40, 64, 67, 68, 73, 74, 75];
 
@@ -302,10 +302,6 @@ class Register20
                         $register[$edcensoAlias->corder] = $edcensoAssocietedStage->aggregated_stage;
                     }
 
-                    if (in_array($edcensoAlias->corder, [7, 8, 9, 10, 11, 12, 13])) {
-                        $register[$edcensoAlias->corder] = $attributes['initial_hour'] . ':' . $attributes['initial_minute'] . '-' . $attributes['final_hour'] . ':' . $attributes['final_minute'];
-                    }
-
                     if (
                         in_array(
                             $edcensoAlias->corder,
@@ -365,8 +361,6 @@ class Register20
                     $clearCoders = new CList(
                         [
                             self::REGISTER_ATTR_TURMA_EDUCACAO_ESPECIAL,
-                            self::REGISTER_ATTR_ETAPA_AGREGADA,
-                            self::REGISTER_ATTR_ETAPA
                         ],
                         true
                     );
@@ -376,12 +370,44 @@ class Register20
                     }
 
                     if (in_array($edcensoAlias->corder, [7, 8, 9, 10, 11, 12, 13])) {
-                        $register[$edcensoAlias->corder] = $attributes['initial_hour'] . ':' . $attributes['initial_minute'] . '-' . $attributes['final_hour'] . ':' . $attributes['final_minute'];
+                        $weekDayAttrs = [
+                            7  => 'week_days_sunday',
+                            8  => 'week_days_monday',
+                            9  => 'week_days_tuesday',
+                            10 => 'week_days_wednesday',
+                            11 => 'week_days_thursday',
+                            12 => 'week_days_friday',
+                            13 => 'week_days_saturday',
+                        ];
+                        $dayAttr = $weekDayAttrs[$edcensoAlias->corder];
+                        if ($attributes[$dayAttr] == '1' || $attributes[$dayAttr] === 1) {
+                            $register[$edcensoAlias->corder] = $attributes['initial_hour'] . ':' . $attributes['initial_minute'] . '-' . $attributes['final_hour'] . ':' . $attributes['final_minute'];
+                        } else {
+                            $register[$edcensoAlias->corder] = '';
+                        }
                     }
+
                 }
 
                 if ((int) $year === 2026) {
                     $register[14] = self::resolveClassTypeFor2026($attributes);
+
+                    // Campo 22: Turma de Educação Especial — obrigatório quando tipo_turma = 6 ou 9.
+                    $register[self::REGISTER_ATTR_TURMA_EDUCACAO_ESPECIAL] = in_array($register[14], ['6', '9'])
+                        ? (string)($attributes['is_special_education'] ?? '')
+                        : '';
+
+                    // Campo 23: Etapa agregada — obrigatório quando tipo_turma = 6 ou 9.
+                    if (!in_array($register[14], ['6', '9'])) {
+                        $register[self::REGISTER_ATTR_ETAPA_AGREGADA] = '';
+                    }
+
+                    // Campo 24: Etapa — obrigatório quando etapa_agregada = 301, 302, 303, 306 ou 308.
+                    $etapaAgregadaValue = (string)($register[self::REGISTER_ATTR_ETAPA_AGREGADA] ?? '');
+                    if (!in_array($etapaAgregadaValue, ['301', '302', '303', '306', '308'])) {
+                        $register[self::REGISTER_ATTR_ETAPA] = '';
+                    }
+
                     $register[self::REGISTER_ATTR_FORMA_ORGANIZACAO] = self::resolveOrganizationFormFor2026($register);
                 }
 
