@@ -396,41 +396,31 @@ echo $form->error($modelSchoolIdentification, 'final_date');
                             </div>
                         </div>
                     </div>
-                    <div>
-                        <h3 class="titulos required">Esfera do Órgão regulador</h3>
-                    </div>
                     <div class="row">
-                        <div class="t-field-checkbox-group clear-margin--top"
-                            id="SchoolIdentification_regulation_organ">
-                            <div class="t-field-checkbox">
-                                <?= $form->checkBox(
+                        <div class="column is-two-fifths clearleft">
+                            <div class="t-field-select">
+                                <?php echo $form->label(
                                     $modelSchoolIdentification,
-                                    'regulation_organ_federal',
-                                    ['value' => 1, 'uncheckValue' => 0]
+                                    'regulation_organ_sphere',
+                                    ['class' => 't-field-select__label--required']
                                 ); ?>
-                                <label class="t-field-checkbox">
-                                    <?= SchoolIdentification::model()->attributeLabels()['regulation_organ_federal']; ?>
-                                </label>
-                            </div>
-                            <div class="t-field-checkbox">
-                                <?= $form->checkBox(
+                                <?php echo $form->dropDownList(
                                     $modelSchoolIdentification,
-                                    'regulation_organ_state',
-                                    ['value' => 1, 'uncheckValue' => 0]
+                                    'regulation_organ_sphere',
+                                    [
+                                        null => 'Selecione a esfera do órgão regulador',
+                                        1    => 'Federal',
+                                        2    => 'Estadual',
+                                        3    => 'Municipal',
+                                        4    => 'Estadual e Municipal',
+                                        5    => 'Federal e Estadual',
+                                    ],
+                                    ['class' => 'select-search-off t-field-select__input select2-container']
                                 ); ?>
-                                <label class="t-field-checkbox">
-                                    <?= SchoolIdentification::model()->attributeLabels()['regulation_organ_state']; ?>
-                                </label>
-                            </div>
-                            <div class="t-field-checkbox">
-                                <?= $form->checkBox(
+                                <?php echo $form->error(
                                     $modelSchoolIdentification,
-                                    'regulation_organ_municipal',
-                                    ['value' => 1, 'uncheckValue' => 0]
+                                    'regulation_organ_sphere'
                                 ); ?>
-                                <label class="t-field-checkbox">
-                                    <?= SchoolIdentification::model()->attributeLabels()['regulation_organ_municipal']; ?>
-                                </label>
                             </div>
                         </div>
                     </div>

@@ -267,9 +267,9 @@ $(".save-school-button").click(function () {
         error = true;
         message += "Campo <b>Órgãos que a escola está vinculadao</b> é obrigatório. Selecione ao menos uma opção<br>";
     }
-    if (!$("#SchoolIdentification_regulation_organ input[type=checkbox]:checked").length) {
+    if (!$("#SchoolIdentification_regulation_organ_sphere").val()) {
         error = true;
-        message += "Campo <b>Esfera do Órgão regulador</b> é obrigatório. Selecione ao menos uma opção<br>";
+        message += "Campo <b>Esfera do Órgão regulador</b> é obrigatório.<br>";
     }
     if ($("#SchoolIdentification_edcenso_uf_fk").val() === "") {
         error = true;
@@ -299,9 +299,9 @@ $(".save-school-button").click(function () {
         error = true;
         message += "Campo <b>Local de Funcionamento</b> é obrigatório. Selecione ao menos uma opção.<br>";
     }
-    if (($("#SchoolIdentification_regulation").val() == "1" || $("#SchoolIdentification_regulation").val() == "2") && !$("#SchoolIdentification_regulation_organ input[type=checkbox]:checked").length) {
+    if (($("#SchoolIdentification_regulation").val() == "1" || $("#SchoolIdentification_regulation").val() == "2") && !$("#SchoolIdentification_regulation_organ_sphere").val()) {
         error = true;
-        message += "Campo <b>Esfera do Órgão Regulador</b> é obrigatório. Selecione ao menos uma opção.<br>";
+        message += "Campo <b>Esfera do Órgão Regulador</b> é obrigatório.<br>";
     }
     if (($("#SchoolIdentification_administrative_dependence").val() == "1" || $("#SchoolIdentification_administrative_dependence").val() == "2" || $("#SchoolIdentification_administrative_dependence").val() == "3")
         && !$("#SchoolIdentification_linked_organ input[type=checkbox]:checked").length) {
