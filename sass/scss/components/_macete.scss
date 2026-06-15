@@ -1,0 +1,143 @@
+// Macete module — form layout, summary sidebar, methodology phase cards
+
+.macete-form-layout {
+    display: flex;
+    gap: 24px;
+    align-items: flex-start;
+    margin-top: 16px;
+}
+
+.macete-form-layout__content {
+    flex: 1;
+    min-width: 0;
+}
+
+.macete-form-layout__sidebar {
+    width: 260px;
+    flex-shrink: 0;
+
+    @media (max-width: 900px) {
+        display: none;
+    }
+}
+
+// Summary panel
+
+.macete-summary {
+    background: #fff;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 20px;
+    position: sticky;
+    top: 80px;
+}
+
+.macete-summary__title {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #1a202c;
+    margin: 0 0 16px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.macete-summary__item {
+    margin-bottom: 12px;
+}
+
+.macete-summary__label {
+    display: block;
+    font-size: 0.6875rem;
+    font-weight: 600;
+    color: #64748b;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 2px;
+}
+
+.macete-summary__value {
+    display: block;
+    font-size: 0.875rem;
+    color: #1a202c;
+    line-height: 1.4;
+}
+
+.macete-summary__info {
+    background: #e8f4fd;
+    border-left: 3px solid #2B90B3;
+    padding: 10px 12px;
+    border-radius: 4px;
+    font-size: 0.8125rem;
+    color: #1a202c;
+    margin-top: 16px;
+    line-height: 1.5;
+
+    .fa {
+        margin-right: 6px;
+        color: #2B90B3;
+    }
+}
+
+// Methodology phase cards
+
+.macete-phase-cards {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 24px;
+
+    @media (max-width: 900px) {
+        flex-direction: column;
+    }
+}
+
+.macete-phase-card {
+    flex: 1;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    overflow: hidden;
+    min-width: 0;
+}
+
+.macete-phase-card__header {
+    background: #E8F5F3;
+    padding: 14px 16px;
+    font-weight: 600;
+    font-size: 0.9375rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #1a5c50;
+
+    .fa {
+        font-size: 1rem;
+        color: #2B8A72;
+    }
+}
+
+.macete-phase-card__body {
+    padding: 16px;
+
+    .js-macete-stage-empty {
+        font-size: 0.875rem;
+        color: #64748b;
+        padding: 8px 0;
+    }
+
+    .js-macete-stage-field {
+        margin-bottom: 16px;
+
+        &:last-child {
+            margin-bottom: 0;
+        }
+    }
+
+    .t-field-tarea__label {
+        font-size: 0.8125rem;
+        color: #64748b;
+        margin-bottom: 6px;
+    }
+
+    .t-field-tarea__input {
+        width: 100%;
+    }
+}

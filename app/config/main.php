@@ -103,6 +103,7 @@ return [
         'foods',
         'dashboard',
         'courseplan',
+        'macete',
         'aeerecord',
         'grades',
         'gradeconcept',

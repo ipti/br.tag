@@ -65,6 +65,7 @@ endif ?>
     <?php if (TagUtils::checkAccess(['admin', 'reader', 'manager'])): ?>
     <li id="menu-electronic-diary" class="t-menu-group <?=
         strpos($_SERVER['REQUEST_URI'], " ?r=courseplan") || strpos($_SERVER['REQUEST_URI'], "?r=classdiary/classes/classContents"
+        ) || strpos($_SERVER['REQUEST_URI'], "?r=macete"
         ) || strpos($_SERVER['REQUEST_URI'], "?r=classdiary/classes/frequency" ) ||
         strpos($_SERVER['REQUEST_URI'], "?r=grades/default/grades" ) ||
         strpos($_SERVER['REQUEST_URI'], "?r=grades/default/reportCard" ) ? 'active' : '' ?>">
@@ -77,6 +78,7 @@ endif ?>
         </a>
         <ul class="collapse <?=
         strpos($_SERVER['REQUEST_URI'], " ?r=courseplan") || strpos($_SERVER['REQUEST_URI'], "?r=classdiary/classes/classContents"
+            ) || strpos($_SERVER['REQUEST_URI'], "?r=macete"
             ) || strpos($_SERVER['REQUEST_URI'], "?r=classdiary/classes/frequency" ) ||
             strpos($_SERVER['REQUEST_URI'], "?r=grades/default/grades" ) ||
             strpos($_SERVER['REQUEST_URI'], "?r=grades/default/reportCard" ) ||
@@ -90,11 +92,23 @@ endif ?>
                     <span class="t-menu-item__text">Plano de Aula</span>
                 </a>
             </li>
+            <li class="t-menu-item <?= strpos($_SERVER['REQUEST_URI'], " ?r=macete/lessonPlan") || strpos($_SERVER['REQUEST_URI'], "?r=macete/lessonPlan") ? 'active' : '' ?>">
+                <a class="t-menu-item__link" href="<?php echo Yii::app()->createUrl('macete/lessonPlan/index')?>">
+                    <span class="t-icon-diary t-menu-item__icon"></span>
+                    <span class="t-menu-item__text">Plano MACETE</span>
+                </a>
+            </li>
             <?php if (TagUtils::checkAccess(['admin', 'reader', 'manager'])): ?>
             <li class="t-menu-item <?= strpos($_SERVER['REQUEST_URI'], " ?r=classdiary/classes/classContents") ? 'active' : '' ?>">
                 <a class="t-menu-item__link" href="<?php echo Yii::app()->createUrl('classdiary/classes/classContents')?>">
                     <span class="t-icon-topics t-menu-item__icon"></span>
                     <span class="t-menu-item__text">Aulas Ministradas</span>
+                </a>
+            </li>
+            <li class="t-menu-item <?= strpos($_SERVER['REQUEST_URI'], " ?r=macete/lessonRecord") || strpos($_SERVER['REQUEST_URI'], "?r=macete/lessonRecord") ? 'active' : '' ?>">
+                <a class="t-menu-item__link" href="<?php echo Yii::app()->createUrl('macete/lessonRecord/index')?>">
+                    <span class="t-icon-topics t-menu-item__icon"></span>
+                    <span class="t-menu-item__text">Registros MACETE</span>
                 </a>
             </li>
             <li class="t-menu-item <?= strpos($_SERVER['REQUEST_URI'], " ?r=classdiary/classes/frequency") ? 'active' : '' ?>">
@@ -180,10 +194,28 @@ endif ?>
     <?php
 endif ?>
     <?php if (Yii::app()->getAuthManager()->checkAccess('coordinator', Yii::app()->user->loginInfos->id)): ?>
+    <li class="t-menu-item <?= strpos($_SERVER['REQUEST_URI'], " ?r=macete/lessonRecord") || strpos($_SERVER['REQUEST_URI'], "?r=macete/lessonRecord") ? 'active' : '' ?>">
+        <a class="t-menu-item__link" href="<?php echo Yii::app()->createUrl('macete/lessonRecord/index')?>">
+            <span class="t-icon-topics t-menu-item__icon"></span>
+            <span class="t-menu-item__text">Registros MACETE</span>
+        </a>
+    </li>
+    <?php
+endif ?>
+    <?php if (Yii::app()->getAuthManager()->checkAccess('coordinator', Yii::app()->user->loginInfos->id)): ?>
     <li class="t-menu-item <?= strpos($_SERVER['REQUEST_URI'], " ?r=courseplan") ? 'active' : '' ?>">
         <a class="t-menu-item__link" href="<?php echo Yii::app()->createUrl('courseplan/courseplan')?>">
             <span class="t-icon-diary t-menu-item__icon"></span>
             <span class="t-menu-item__text">Plano de Aula</span>
+        </a>
+    </li>
+    <?php
+endif ?>
+    <?php if (Yii::app()->getAuthManager()->checkAccess('coordinator', Yii::app()->user->loginInfos->id)): ?>
+    <li class="t-menu-item <?= strpos($_SERVER['REQUEST_URI'], " ?r=macete/lessonPlan") || strpos($_SERVER['REQUEST_URI'], "?r=macete/lessonPlan") ? 'active' : '' ?>">
+        <a class="t-menu-item__link" href="<?php echo Yii::app()->createUrl('macete/lessonPlan/index')?>">
+            <span class="t-icon-diary t-menu-item__icon"></span>
+            <span class="t-menu-item__text">Plano MACETE</span>
         </a>
     </li>
     <?php
@@ -351,5 +383,4 @@ Yii::app()->getAuthManager()->checkAccess('admin', Yii::app()->user->loginInfos-
     <?php
 }?>
 </ul>
-
 
