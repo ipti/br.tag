@@ -9,6 +9,11 @@ class Register10
 
     private static function deriveInternetDeviceAccess(array $attributes)
     {
+
+        if (!self::isSelectedValue($attributes['internet_access_student'])) {
+            return null;
+        }
+
         $schoolDevices = self::isSelectedValue($attributes['internet_access_connected_desktop'] ?? null);
         $personalDevices = self::isSelectedValue($attributes['internet_access_connected_personaldevice'] ?? null);
 
