@@ -932,6 +932,12 @@ class CensoController extends Controller
             }
         }
 
+        $alternanciaRestrictedStages = [1, 2, 3, 14, 15, 16, 17, 18, 56];
+        $stageVsModalityId = (int) ($column['edcenso_stage_vs_modality_fk'] ?? 0);
+        if ($stageVsModalityId > 0 && !in_array($stageVsModalityId, $alternanciaRestrictedStages) && $column['is_alternance'] === null) {
+            array_push($log, ['is_alternance' => 'O campo "Turma de Formação por Alternância" deve ser preenchido para esta etapa (Censo 2026, Registro 20, campo 29).']);
+        }
+
         return $log;
     }
 
@@ -2163,9 +2169,7 @@ class CensoController extends Controller
                     }
                 }
 
-                if ($attributes['native_education'] != 1) {
-                    $attributes['native_education_language_native'] = '';
-                    $attributes['native_education_language_portuguese'] = '';
+                if (!($attributes['native_education_language'] ?? null)) {
                     $attributes['edcenso_native_languages_fk'] = '';
                     $attributes['edcenso_native_languages_fk2'] = '';
                     $attributes['edcenso_native_languages_fk3'] = '';

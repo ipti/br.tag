@@ -118,6 +118,13 @@ class Register00
             $attributes['offer_or_linked_unity'] = '2';
         }
 
+        if ($attributes['offer_or_linked_unity'] != '1') {
+            $attributes['inep_head_school'] = '';
+        }
+        if ($attributes['offer_or_linked_unity'] != '2') {
+            $attributes['ies_code'] = '';
+        }
+
         if (empty($attributes['ddd']) || $attributes['ddd'] == null) {
             $attributes['phone_number'] = '';
             $attributes['other_phone_number'] = '';
@@ -151,41 +158,8 @@ class Register00
             $attributes['private_school_category'] = '';
         }
 
-        // Caso o municipio seja Brasilia, o campo municipal não pode ser preenchido com o valor 1 (Sim)
-        if ($attributes['edcenso_city_fk'] == '5300108' && $attributes['regulation_organ_municipal'] == '1') {
-            $attributes['regulation_organ_municipal'] = '0';
-        }
-
         if (!in_array($attributes['regulation'], ['1', '2'])) {
-            $attributes['regulation_organ_federal'] = '';
-            $attributes['regulation_organ_state'] = '';
-            $attributes['regulation_organ_municipal'] = '';
-        } else {
-            if (in_array($attributes['administrative_dependence'], ['2', '3'])) {
-                $attributes['regulation_organ_federal'] = '0';
-            }
-            if (in_array($attributes['administrative_dependence'], ['1', '2'])) {
-                $attributes['regulation_organ_municipal'] = '0';
-            }
-            if ($attributes['regulation_organ_federal'] == '1') {
-                $attributes['regulation_organ_municipal'] = '0';
-            }
-
-            if ($attributes['regulation_organ_municipal'] == '0' && $attributes['regulation_organ_state'] == '0' && $attributes['regulation_organ_federal'] == '0') {
-                if ($attributes['administrative_dependence'] == '1') {
-                    $attributes['regulation_organ_federal'] = '1';
-                } elseif ($attributes['administrative_dependence'] == '3') {
-                    $attributes['regulation_organ_municipal'] = '1';
-                } else {
-                    $attributes['regulation_organ_state'] = '1';
-                }
-            }
-            if ($attributes['regulation_organ_state'] == null) {
-                $attributes['regulation_organ_state'] = '0';
-            }
-            if ($attributes['regulation_organ_municipal'] == null) {
-                $attributes['regulation_organ_municipal'] = '0';
-            }
+            $attributes['regulation_organ_sphere'] = '';
         }
 
         $edcensoAliases = EdcensoAlias::model()->findAll('year = :year and register = 0 order by corder', [':year' => $year]);
@@ -198,7 +172,9 @@ class Register00
 
         if ((int) $year === 2026) {
             self::ensureRegisterGroupHasSelectedValue($register, range(22, 25), 22);
-            self::ensureRegisterGroupHasSelectedValue($register, range(26, 31), 26);
+            if ($attributes['administrative_dependence'] == '4') {
+                self::ensureRegisterGroupHasSelectedValue($register, range(26, 31), 26);
+            }
         }
 
         array_push($registers, EducacensoRegisterFormatter::format(0, $register, $year));
