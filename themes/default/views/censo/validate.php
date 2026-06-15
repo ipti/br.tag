@@ -114,6 +114,22 @@
             </div>
         <?php endif ?>
 
+        <?php if (Yii::app()->request->getQuery('exportedIdentification') == '1'): ?>
+            <div id="censo-export-identification-success" class="alert alert-success">
+                <?= Yii::t('default', 'Exportação Concluida com Sucesso.') ?><br>
+                <a href="<?= CHtml::normalizeUrl(array('censo/DownloadExportFileIdentification')) ?>" class="btn btn-mini" target="_blank">
+                    <i class="icon-download-alt"></i>
+                    <?= Yii::t('default', 'Clique aqui para fazer o Download do arquivo de identificação!!!') ?>
+                </a>
+            </div>
+        <?php endif ?>
+
+        <?php if (Yii::app()->user->hasFlash('success')): ?>
+            <div class="alert alert-success">
+                <?php echo Yii::app()->user->getFlash('success') ?>
+            </div>
+        <?php endif ?>
+
         <?php if (Yii::app()->user->hasFlash('error')): ?>
             <div class="alert alert-error">
                 <?php echo Yii::app()->user->getFlash('error') ?>
