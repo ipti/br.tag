@@ -278,6 +278,12 @@ $form = $this->beginWidget(
                             </div>
 
                             <div class="t-field-select">
+                                <?= $form->label($modelClassroom, 'organization_form', ['class' => 't-field-select__label']) ?>
+                                <?= $form->DropDownList($modelClassroom, 'organization_form', OrganizationFormOptions::asArray(), ['class' => 'select-search-off t-field-select__input', 'prompt' => 'Selecione a forma de organização']) ?>
+                                <?= $form->error($modelClassroom, 'organization_form'); ?>
+                            </div>
+
+                            <div class="t-field-select">
                                 <?= $form->label($modelClassroom, 'status', ['class' => 't-field-select__label--required']) ?>
                                 <?= $form->DropDownList($modelClassroom, 'classroom_status',  CHtml::listData(ClassroomStatus::model()->findAll(), 'id', 'name'), ['class' => 'select-search-off t-field-select__input', 'prompt' => 'Selecione a unidade escolar']) ?>
                                 <?= $form->error($modelClassroom, 'classroom_status'); ?>

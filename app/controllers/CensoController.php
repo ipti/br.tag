@@ -1,12 +1,12 @@
 <?php
 
-//@done S2 - Modularizar o código do import
+//@done S2 - Modularizar o cÃƒÆ’Ã‚Â³digo do import
 //@done S2 - Criar o controller de Import
-//@done S2 - Mover o código do import de SchoolController.php para AdminController.php
-//@done S2 - Mover o código do configACL de SchoolController.php para AdminController.php
-//@done S2 - Criar método de limparBanco
+//@done S2 - Mover o cÃƒÆ’Ã‚Â³digo do import de SchoolController.php para AdminController.php
+//@done S2 - Mover o cÃƒÆ’Ã‚Â³digo do configACL de SchoolController.php para AdminController.php
+//@done S2 - Criar mÃƒÆ’Ã‚Â©todo de limparBanco
 //@done S2 - Criar tela de index do AdminController.php
-//@done S2 - Criar usuários padrões.
+//@done S2 - Criar usuÃƒÆ’Ã‚Â¡rios padrÃƒÆ’Ã‚Âµes.
 //@done S2 - Mensagens de retorno ao executar os scripts.
 class CensoController extends Controller
 {
@@ -480,7 +480,7 @@ class CensoController extends Controller
         if (!$result['status']) {
             array_push($log, ['school_inep_id_fk' => $result['erro']]);
         }
-        //campo 3 à 11
+        //campo 3 ÃƒÆ’Ã‚Â  11
         $operationLocations = [
             $collumn['operation_location_building'],
             $collumn['operation_location_temple'],
@@ -507,7 +507,7 @@ class CensoController extends Controller
             array_push($log, ['building_occupation_situation' => $result['erro']]);
         }
 
-        //campos 14 à 19
+        //campos 14 ÃƒÆ’Ã‚Â  19
         $sharedSchoolInepIds = [
             $collumn['shared_school_inep_id_1'],
             $collumn['shared_school_inep_id_2'],
@@ -521,7 +521,7 @@ class CensoController extends Controller
             array_push($log, ['Escolas com qual e compartilhada' => $result['erro']]);
         }
 
-        //campos 21 à 25
+        //campos 21 ÃƒÆ’Ã‚Â  25
         $waterSupplys = [
             $collumn['water_supply_public'],
             $collumn['water_supply_artesian_well'],
@@ -535,7 +535,7 @@ class CensoController extends Controller
             array_push($log, ['Suprimento de Agua' => $result['erro']]);
         }
 
-        //campos 26 à 29
+        //campos 26 ÃƒÆ’Ã‚Â  29
         $energySupplys = [
             $collumn['energy_supply_public'],
             $collumn['energy_supply_generator'],
@@ -547,7 +547,7 @@ class CensoController extends Controller
             array_push($log, ['Suprimento de Energia' => $result['erro']]);
         }
 
-        //campos 30 à 32
+        //campos 30 ÃƒÆ’Ã‚Â  32
         $sewages = [
             $collumn['sewage_public'],
             $collumn['sewage_fossa'],
@@ -559,7 +559,7 @@ class CensoController extends Controller
             array_push($log, ['Esgoto' => $result['erro']]);
         }
 
-        //campos 33 à 38
+        //campos 33 ÃƒÆ’Ã‚Â  38
         $garbageDestinations = [
             $collumn['garbage_destination_collect'],
             $collumn['garbage_destination_burn'],
@@ -583,7 +583,7 @@ class CensoController extends Controller
             array_push($log, ['Tratamento do lixo' => $result['erro']]);
         }
 
-        //campos 39 à 68
+        //campos 39 ÃƒÆ’Ã‚Â  68
         $dependencies = [
             $collumn['dependencies_principal_room'],
             $collumn['dependencies_instructors_room'],
@@ -669,7 +669,7 @@ class CensoController extends Controller
         ];
         $result = $ssv->atLeastOne($internetAccess);
         if (!$result['status']) {
-            array_push($log, ['Acesso à Internet' => $result['erro']]);
+            array_push($log, ['Acesso ÃƒÆ’Ã‚Â  Internet' => $result['erro']]);
         }
 
         $instruments = [
@@ -927,15 +927,20 @@ class CensoController extends Controller
                 in_array($instructorTeachingData->role, [1, 5])
                 && empty($instructorTeachingData->teachingMatrixes)
             ) {
-                array_push($log, ['Professores' => 'Há professores sem componentes curriculares/eixos vinculados à Turma.']);
+                array_push($log, ['Professores' => 'HÃƒÆ’Ã‚Â¡ professores sem componentes curriculares/eixos vinculados ÃƒÆ’Ã‚Â  Turma.']);
                 break;
             }
         }
 
+
         $alternanciaRestrictedStages = [1, 2, 3, 14, 15, 16, 17, 18, 56];
         $stageVsModalityId = (int) ($column['edcenso_stage_vs_modality_fk'] ?? 0);
         if ($stageVsModalityId > 0 && !in_array($stageVsModalityId, $alternanciaRestrictedStages) && $column['is_alternance'] === null) {
-            array_push($log, ['is_alternance' => 'O campo "Turma de Formação por Alternância" deve ser preenchido para esta etapa (Censo 2026, Registro 20, campo 29).']);
+            array_push($log, ['is_alternance' => 'O campo "Turma de Formacao por Alternancia" deve ser preenchido para esta etapa (Censo 2026, Registro 20, campo 29).']);
+        }
+
+        if ($stageVsModalityId > 0 && !in_array($stageVsModalityId, [1, 2, 3]) && $column['organization_form'] === null) {
+            array_push($log, ['organization_form' => 'O campo "Forma de Organizacao" deve ser preenchido para esta etapa (Censo 2026, Registro 20, campo 28).']);
         }
 
         return $log;
@@ -1045,7 +1050,7 @@ class CensoController extends Controller
             array_push($log, ['deficiency' => $result['erro']]);
         }
 
-        //campo 19 à 25
+        //campo 19 ÃƒÆ’Ã‚Â  25
         $deficiencies = [
             $collumn['deficiency_type_blindness'],
             $collumn['deficiency_type_low_vision'],
@@ -1083,7 +1088,7 @@ class CensoController extends Controller
 
         $variabelData = InstructorVariableData::model()->findByPk($collumn['id']);
         if (!isset($variabelData)) {
-            array_push($log, ['Escolaridade' => 'Formação educacional não foi informada']);
+            array_push($log, ['Escolaridade' => 'FormaÃƒÆ’Ã‚Â§ÃƒÆ’Ã‚Â£o educacional nÃƒÆ’Ã‚Â£o foi informada']);
         }
 
         return $log;
@@ -1114,7 +1119,7 @@ class CensoController extends Controller
         if (!empty($instructorInepId)) {
             $sql = "SELECT COUNT(inep_id) AS status FROM instructor_documents_and_address WHERE inep_id =  '$instructorInepId'";
             $check = Yii::app()->db->createCommand($sql)->queryAll();
-            $result = $idav->isEqual($check[0]['status'], '1', "Não há tal inep_id $instructorInepId");
+            $result = $idav->isEqual($check[0]['status'], '1', "NÃƒÆ’Ã‚Â£o hÃƒÆ’Ã‚Â¡ tal inep_id $instructorInepId");
             if (!$result['status']) {
                 array_push($log, ['id' => $result['erro']]);
             }
@@ -1167,7 +1172,7 @@ class CensoController extends Controller
         $sql = "SELECT COUNT(id) AS status FROM instructor_identification WHERE id =  '$instructorFk'";
         $check = Yii::app()->db->createCommand($sql)->queryAll();
 
-        $result = $itdv->isEqual($check[0]['status'], '1', 'Não há tal instructor_fk $instructorFk');
+        $result = $itdv->isEqual($check[0]['status'], '1', 'NÃƒÆ’Ã‚Â£o hÃƒÆ’Ã‚Â¡ tal instructor_fk $instructorFk');
         if (!$result['status']) {
             array_push($log, ['instructor_fk' => $result['erro']]);
         }
@@ -1182,7 +1187,7 @@ class CensoController extends Controller
         $sql = "SELECT COUNT(id) AS status FROM classroom WHERE id = '$classroomFk';";
         $check = Yii::app()->db->createCommand($sql)->queryAll();
 
-        $result = $itdv->isEqual($check[0]['status'], '1', 'Não há tal classroom_id_fk $classroomFk');
+        $result = $itdv->isEqual($check[0]['status'], '1', 'NÃƒÆ’Ã‚Â£o hÃƒÆ’Ã‚Â¡ tal classroom_id_fk $classroomFk');
         if (!$result['status']) {
             array_push($log, ['classroom_id_fk' => $result['erro']]);
         }
@@ -1358,7 +1363,7 @@ class CensoController extends Controller
             array_push($log, ['pedagogical_formation_by_alternance' => $result['erro']]);
         }
 
-        //campo 17 à 24 e 26 à 29
+        //campo 17 ÃƒÆ’Ã‚Â  24 e 26 ÃƒÆ’Ã‚Â  29
 
         $deficienciesWhole = [
             $collumn['deficiency_type_blindness'],
@@ -1375,9 +1380,9 @@ class CensoController extends Controller
 
         $excludingdeficiencies = [
             ['Cegueira' => [$collumn['deficiency_type_blindness'] => [$collumn['deficiency_type_low_vision'], $collumn['deficiency_type_deafness'], $collumn['deficiency_type_deafblindness']]]],
-            ['Baixa Visão' => [$collumn['deficiency_type_low_vision'] => [$collumn['deficiency_type_deafblindness']]]],
+            ['Baixa VisÃƒÆ’Ã‚Â£o' => [$collumn['deficiency_type_low_vision'] => [$collumn['deficiency_type_deafblindness']]]],
             ['Surdez' => [$collumn['deficiency_type_deafness'] => [$collumn['deficiency_type_disability_hearing'], $collumn['deficiency_type_deafblindness']]]],
-            ['Deficiência Auditiva' => [$collumn['deficiency_type_disability_hearing'] => [$collumn['deficiency_type_deafblindness']]]]
+            ['DeficiÃƒÆ’Ã‚Âªncia Auditiva' => [$collumn['deficiency_type_disability_hearing'] => [$collumn['deficiency_type_deafblindness']]]]
         ];
 
         $result = $stiv->checkDeficiencies($collumn['deficiency'], $deficienciesWhole, $excludingdeficiencies);
@@ -1420,7 +1425,7 @@ class CensoController extends Controller
 
         $result = $stiv->atLeastOne($deficienciesWhole);
         if ($classroom['aee'] == 1 && ($collumn['deficiency'] == 0 || !$result['status'])) {
-            array_push($log, ['Deficiencia' => 'O aluno está matriculado na turma de Atendimento Educacional Especializado "' . $classroom['name'] . '", mas nenhum tipo de deficiência foi marcado.']);
+            array_push($log, ['Deficiencia' => 'O aluno estÃƒÆ’Ã‚Â¡ matriculado na turma de Atendimento Educacional Especializado "' . $classroom['name'] . '", mas nenhum tipo de deficiÃƒÆ’Ã‚Âªncia foi marcado.']);
         }
 
         return $log;
@@ -1459,7 +1464,7 @@ class CensoController extends Controller
             $check = Yii::app()->db->createCommand($sql)->queryAll();
             $count = (int) $check[0]['status'];
             if ($count === 0) {
-                array_push($log, ['student_indentification' => "INEP do aluno não encontrado: $studentInepId"]);
+                array_push($log, ['student_indentification' => "INEP do aluno nÃƒÆ’Ã‚Â£o encontrado: $studentInepId"]);
             } elseif ($count > 1) {
                 array_push($log, ['student_indentification' => "INEP do aluno duplicado: $studentInepId (encontrado $count vezes na base)"]);
             }
@@ -1531,7 +1536,7 @@ class CensoController extends Controller
             $check = Yii::app()->db->createCommand($sql)->queryAll();
             $count = (int) $check[0]['status'];
             if ($count === 0) {
-                array_push($log, ['student_fk' => "INEP do aluno não encontrado: $studentInepIdFk"]);
+                array_push($log, ['student_fk' => "INEP do aluno nÃƒÆ’Ã‚Â£o encontrado: $studentInepIdFk"]);
             } elseif ($count > 1) {
                 array_push($log, ['student_fk' => "INEP do aluno duplicado: $studentInepIdFk (encontrado $count vezes na base)"]);
             }
@@ -1548,7 +1553,7 @@ class CensoController extends Controller
         $sql = "SELECT COUNT(id) AS status FROM classroom WHERE id = '$classroomFk';";
         $check = Yii::app()->db->createCommand($sql)->queryAll();
 
-        $result = $sev->isEqual($check[0]['status'], '1', 'Não há tal classroom_id $classroomFk');
+        $result = $sev->isEqual($check[0]['status'], '1', 'NÃƒÆ’Ã‚Â£o hÃƒÆ’Ã‚Â¡ tal classroom_id $classroomFk');
         if (!$result['status']) {
             array_push($log, ['classroom_fk' => $result['erro']]);
         }
@@ -1697,12 +1702,12 @@ class CensoController extends Controller
     public function fixName($name)
     {
         $name = preg_replace('/&([a-z])[a-z]+;/i', '$1', htmlentities($name));
-        $name = str_replace(['Á', 'À', 'Ã', 'Â', 'Ä'], 'A', $name);
-        $name = str_replace(['É', 'È', 'Ê', 'Ë'], 'E', $name);
-        $name = str_replace(['Í', 'Ì', 'Î', 'Ï'], 'I', $name);
-        $name = str_replace(['Ó', 'Ò', 'Õ', 'Ô', 'Ö'], 'O', $name);
-        $name = str_replace(['Ú', 'Ù', 'Û', 'Ü'], 'U', $name);
-        $name = str_replace(['Ç'], 'C', $name);
+        $name = str_replace(['ÃƒÆ’Ã‚Â', 'ÃƒÆ’Ã¢â€šÂ¬', 'ÃƒÆ’Ã†â€™', 'ÃƒÆ’Ã¢â‚¬Å¡', 'ÃƒÆ’Ã¢â‚¬Å¾'], 'A', $name);
+        $name = str_replace(['ÃƒÆ’Ã¢â‚¬Â°', 'ÃƒÆ’Ã‹â€ ', 'ÃƒÆ’Ã…Â ', 'ÃƒÆ’Ã¢â‚¬Â¹'], 'E', $name);
+        $name = str_replace(['ÃƒÆ’Ã‚Â', 'ÃƒÆ’Ã…â€™', 'ÃƒÆ’Ã…Â½', 'ÃƒÆ’Ã‚Â'], 'I', $name);
+        $name = str_replace(['ÃƒÆ’Ã¢â‚¬Å“', 'ÃƒÆ’Ã¢â‚¬â„¢', 'ÃƒÆ’Ã¢â‚¬Â¢', 'ÃƒÆ’Ã¢â‚¬Â', 'ÃƒÆ’Ã¢â‚¬â€œ'], 'O', $name);
+        $name = str_replace(['ÃƒÆ’Ã…Â¡', 'ÃƒÆ’Ã¢â€žÂ¢', 'ÃƒÆ’Ã¢â‚¬Âº', 'ÃƒÆ’Ã…â€œ'], 'U', $name);
+        $name = str_replace(['ÃƒÆ’Ã¢â‚¬Â¡'], 'C', $name);
         return $name;
     }
 
@@ -2027,7 +2032,7 @@ class CensoController extends Controller
 
     public function sanitizeString($string)
     {
-        $what = ['ä', 'ã', 'à', 'á', 'â', 'ê', 'ë', 'è', 'é', 'ï', 'ì', 'í', 'ö', 'õ', 'ò', 'ó', 'ô', 'ü', 'ù', 'ú', 'û', 'À', 'Á', 'É', 'Í', 'Ó', 'Ú', 'ñ', 'Ñ', 'ç', 'Ç', ' ', '-', '(', ')', ',', ';', ':', '|', '!', '"', '#', '$', '%', '&', '/', '=', '?', '~', '^', '>', '<', 'ª', 'º'];
+        $what = ['ÃƒÆ’Ã‚Â¤', 'ÃƒÆ’Ã‚Â£', 'ÃƒÆ’Ã‚Â ', 'ÃƒÆ’Ã‚Â¡', 'ÃƒÆ’Ã‚Â¢', 'ÃƒÆ’Ã‚Âª', 'ÃƒÆ’Ã‚Â«', 'ÃƒÆ’Ã‚Â¨', 'ÃƒÆ’Ã‚Â©', 'ÃƒÆ’Ã‚Â¯', 'ÃƒÆ’Ã‚Â¬', 'ÃƒÆ’Ã‚Â­', 'ÃƒÆ’Ã‚Â¶', 'ÃƒÆ’Ã‚Âµ', 'ÃƒÆ’Ã‚Â²', 'ÃƒÆ’Ã‚Â³', 'ÃƒÆ’Ã‚Â´', 'ÃƒÆ’Ã‚Â¼', 'ÃƒÆ’Ã‚Â¹', 'ÃƒÆ’Ã‚Âº', 'ÃƒÆ’Ã‚Â»', 'ÃƒÆ’Ã¢â€šÂ¬', 'ÃƒÆ’Ã‚Â', 'ÃƒÆ’Ã¢â‚¬Â°', 'ÃƒÆ’Ã‚Â', 'ÃƒÆ’Ã¢â‚¬Å“', 'ÃƒÆ’Ã…Â¡', 'ÃƒÆ’Ã‚Â±', 'ÃƒÆ’Ã¢â‚¬Ëœ', 'ÃƒÆ’Ã‚Â§', 'ÃƒÆ’Ã¢â‚¬Â¡', ' ', '-', '(', ')', ',', ';', ':', '|', '!', '"', '#', '$', '%', '&', '/', '=', '?', '~', '^', '>', '<', 'Ãƒâ€šÃ‚Âª', 'Ãƒâ€šÃ‚Âº'];
         $by = ['a', 'a', 'a', 'a', 'a', 'e', 'e', 'e', 'e', 'i', 'i', 'i', 'o', 'o', 'o', 'o', 'o', 'u', 'u', 'u', 'u', 'A', 'A', 'E', 'I', 'O', 'U', 'n', 'n', 'c', 'C', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '', ''];
         return str_replace($what, $by, $string);
     }
@@ -2590,8 +2595,8 @@ class CensoController extends Controller
                 break;
             case '51':
                 /*
-                 * O campo "Código da disciplina 4" não pode ser preenchido quando a turma à qual o docente
-                 * está vinculado for de Educação infantil ou EJA - Fundamental - Projovem urbano.
+                 * O campo "CÃƒÆ’Ã‚Â³digo da disciplina 4" nÃƒÆ’Ã‚Â£o pode ser preenchido quando a turma ÃƒÆ’Ã‚Â  qual o docente
+                 * estÃƒÆ’Ã‚Â¡ vinculado for de EducaÃƒÆ’Ã‚Â§ÃƒÆ’Ã‚Â£o infantil ou EJA - Fundamental - Projovem urbano.
                  */
                 $classroom = Classroom::model()->findByPk($attributes['classroom_id_fk']);
                 if (
@@ -2749,7 +2754,7 @@ class CensoController extends Controller
             return $this->redirect(['index', 'exported' => 1]);
         }
 
-        Yii::app()->user->setFlash('error', Yii::t('default', 'Houve algum erro na Exportação.'));
+        Yii::app()->user->setFlash('error', Yii::t('default', 'Houve algum erro na ExportaÃƒÆ’Ã‚Â§ÃƒÆ’Ã‚Â£o.'));
         return $this->redirect(['index']);
     }
 
@@ -2771,7 +2776,7 @@ class CensoController extends Controller
             return $this->redirect(['index', 'exportedIdentification' => 1]);
         }
 
-        Yii::app()->user->setFlash('error', Yii::t('default', 'Houve algum erro na Exportação.'));
+        Yii::app()->user->setFlash('error', Yii::t('default', 'Houve algum erro na ExportaÃƒÆ’Ã‚Â§ÃƒÆ’Ã‚Â£o.'));
         return $this->redirect(['index']);
     }
 
@@ -2788,7 +2793,7 @@ class CensoController extends Controller
             header($this->concatContentLength(filesize($fileDir)));
             readfile($fileDir);
         } else {
-            Yii::app()->user->setFlash('error', Yii::t('default', 'Arquivo de exportação não encontrado!!! Tente exportar novamente.'));
+            Yii::app()->user->setFlash('error', Yii::t('default', 'Arquivo de exportaÃƒÆ’Ã‚Â§ÃƒÆ’Ã‚Â£o nÃƒÆ’Ã‚Â£o encontrado!!! Tente exportar novamente.'));
             $this->render('index');
         }
     }
@@ -2806,7 +2811,7 @@ class CensoController extends Controller
             header($this->concatContentLength(filesize($fileDir)));
             readfile($fileDir);
         } else {
-            Yii::app()->user->setFlash('error', Yii::t('default', 'Arquivo de exportação não encontrado!!! Tente exportar novamente.'));
+            Yii::app()->user->setFlash('error', Yii::t('default', 'Arquivo de exportaÃƒÆ’Ã‚Â§ÃƒÆ’Ã‚Â£o nÃƒÆ’Ã‚Â£o encontrado!!! Tente exportar novamente.'));
             $this->render('index');
         }
     }
@@ -2856,7 +2861,7 @@ class CensoController extends Controller
         try {
             $file = fopen($uploadedFile, 'r');
             if ($file === false) {
-                die('O arquivo não existe.');
+                die('O arquivo nÃƒÆ’Ã‚Â£o existe.');
             }
             while (true) {
                 $fileLine = fgets($file);
@@ -2918,7 +2923,7 @@ class CensoController extends Controller
                     $counterStudents++;
                 }
             }
-            Yii::app()->user->setFlash('success', 'Importação realizada com sucesso!');
+            Yii::app()->user->setFlash('success', 'ImportaÃƒÆ’Ã‚Â§ÃƒÆ’Ã‚Â£o realizada com sucesso!');
             Yii::app()->user->setFlash('log', "{$counterInstructos} registros de Professores importados com sucesso\n {$counterStudents} registros de alunos importados com sucesso");
         } catch (Exception $e) {
             Yii::app()->user->setFlash('error', 'Ocorreu um erro inesperado.');
@@ -3002,7 +3007,7 @@ class CensoController extends Controller
                     }
                 }
             }
-            Yii::app()->user->setFlash('success', 'Importação realizada com sucesso!');
+            Yii::app()->user->setFlash('success', 'ImportaÃƒÆ’Ã‚Â§ÃƒÆ’Ã‚Â£o realizada com sucesso!');
             Yii::app()->user->setFlash('log', $imported);
         } catch (Exception $e) {
             Yii::app()->user->setFlash('error', 'Ocorreu um erro inesperado.');
@@ -3042,7 +3047,7 @@ class CensoController extends Controller
 
         $file = fopen($fileDir, $mode);
         if ($file === false) {
-            die('O arquivo não existe.');
+            die('O arquivo nÃƒÆ’Ã‚Â£o existe.');
         }
 
         $registerLines = [];

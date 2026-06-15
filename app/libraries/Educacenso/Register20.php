@@ -129,27 +129,6 @@ class Register20
         return '6';
     }
 
-    private static function resolveOrganizationFormFor2026($register)
-    {
-        if (($register[self::REGISTER_ATTR_MODULO] ?? null) === '1' || ($register[self::REGISTER_ATTR_MODULO] ?? null) === 1) {
-            return '5';
-        }
-
-        if (($register[self::REGISTER_ATTR_GRUPO_NAO_SERIADO] ?? null) === '1' || ($register[self::REGISTER_ATTR_GRUPO_NAO_SERIADO] ?? null) === 1) {
-            return '4';
-        }
-
-        if (($register[self::REGISTER_ATTR_CICLO] ?? null) === '1' || ($register[self::REGISTER_ATTR_CICLO] ?? null) === 1) {
-            return '3';
-        }
-
-        if (($register[self::REGISTER_ATTR_PERIODO] ?? null) === '1' || ($register[self::REGISTER_ATTR_PERIODO] ?? null) === 1) {
-            return '2';
-        }
-
-        return '1';
-    }
-
     public static function export($year)
     {
         $registers = [];
@@ -418,7 +397,9 @@ class Register20
                     // Campo 28: calculado ANTES de limpar os campos 30-32, pois a função lê
                     // os valores intermediários de organização (CICLO/GRUPO/MODULO) que o
                     // bloco especial do loop depositou nessas posições.
-                    $register[self::REGISTER_ATTR_FORMA_ORGANIZACAO] = self::resolveOrganizationFormFor2026($register);
+                    $register[self::REGISTER_ATTR_FORMA_ORGANIZACAO] = $attributes['organization_form'] === null || $attributes['organization_form'] === ''
+                        ? ''
+                        : (string) $attributes['organization_form'];
 
                     // Campo 28: EI (etapas 1, 2, 3) não possui forma de organização no INEP 2026.
                     // resolveOrganizationFormFor2026 retorna '1' como default mesmo quando todos os
