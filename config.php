@@ -10,6 +10,9 @@ defined('SESSION_MAX_LIFETIME') or define('SESSION_MAX_LIFETIME', 3600);
 
 define("TAG_VERSION", '3.13.14');
 
+$buildConfig = require __DIR__ . '/app/config/build.php';
+defined('TAG_BUILD_COMMIT') or define('TAG_BUILD_COMMIT', isset($buildConfig['commit']) ? (string) $buildConfig['commit'] : '');
+
 define("YII_VERSION", Yii::getVersion());
 define("BOARD_MSG", '<div class="alert alert-success">Novas atualizações no TAG. Confira clicando <a class="changelog-link" href="?r=admin/changelog">aqui</a>.</div>');
 
