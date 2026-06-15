@@ -56,7 +56,7 @@ class EdcensoProfessionalEducationCourse extends TagModel
         // NOTE: you may need to adjust the relation name and the related
         // class name for the relations automatically generated below.
         return [
-            'axis'       => [self::BELONGS_TO, 'EdcensoProfessionalEducationCourseAxis', 'axis_id'],
+            'axis' => [self::BELONGS_TO, 'EdcensoProfessionalEducationCourseAxis', 'axis_id'],
             'classrooms' => [self::HAS_MANY, 'Classroom', 'edcenso_professional_education_course_fk'],
         ];
     }
@@ -67,9 +67,9 @@ class EdcensoProfessionalEducationCourse extends TagModel
     public function attributeLabels()
     {
         return [
-            'id'      => Yii::t('default', 'ID'),
+            'id' => Yii::t('default', 'ID'),
             'axis_id' => Yii::t('default', 'Eixo'),
-            'name'    => Yii::t('default', 'Name'),
+            'name' => Yii::t('default', 'Name'),
         ];
     }
 

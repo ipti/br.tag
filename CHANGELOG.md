@@ -1,3 +1,9 @@
+## [Versão 3.13.14]
+- Corrigidos múltiplos problemas no layout do Educacenso 2026: registros 00, 10, 20, 301 e 302 alinhados ao spec INEP 2026
+- Adicionado campo "Turma de Formação por Alternância" (campo 29 do Registro 20) no cadastro de turma, com obrigatoriedade e inconsistência no painel do censo
+- Adicionados campos novos de 2026 no Registro 30 (docente): "Alfabetização" (corder 91) e "Educação integral em tempo integral" (corder 103)
+- Corrigido bug onde alunos com status de matrícula NULL não eram exportados no Registro 30 (pessoa física) do censo, embora aparecessem no Registro 60
+
 ## [Versão 3.13.13]
 - Corrigido importação do censo
 
