@@ -23,9 +23,11 @@ class Register20
     // 2024: 39 ~> 2025: 33 ~> 2026: 33
     private const REGISTER_ATTR_ALTERNACIA_REGULAR = 33;
 
-    // 2024: 49 ~> 2025: 43 ~> 2026: 43
+    // 2024: 49 ~> 2025: 43 ~> 2026: 39
     private const REGISTER_ATTR_QUIMICA = 43;
+    // 2026: 64
     private const REGISTER_ATTR_PROJETO_DE_VIDA = 68;
+    // 2026: 65
     private const REGISTER_ATTR_OUTRAS_DISCIPLINAS = 69;
     private const REGISTER_ATTR_FORMA_ORGANIZACAO = 28;
     private const QUALIFICATION_COURSE_AXIS_STAGE_IDS = [67, 68, 73, 75];
@@ -151,6 +153,12 @@ class Register20
     public static function export($year)
     {
         $registers = [];
+
+        // Para 2026 o shift de -4 nos corders 33+ desloca as disciplinas e o
+        // Projeto de Vida para posições menores que as constantes de classe indicam.
+        $disciplineCorderStart = (int)$year === 2026 ? 39 : self::REGISTER_ATTR_QUIMICA;
+        $disciplineCorderEnd = (int)$year === 2026 ? 65 : self::REGISTER_ATTR_OUTRAS_DISCIPLINAS;
+        $projetoDeVidaCorder = (int)$year === 2026 ? 64 : self::REGISTER_ATTR_PROJETO_DE_VIDA;
 
         $classrooms = Classroom::model()->findAllByAttributes(['school_inep_fk' => yii::app()->user->school, 'school_year' => Yii::app()->user->year]);
 
@@ -348,7 +356,7 @@ class Register20
                         }
                     }
 
-                    if ($edcensoAlias->corder == self::REGISTER_ATTR_PROJETO_DE_VIDA) {
+                    if ($edcensoAlias->corder == $projetoDeVidaCorder) {
                         if ($attributes['edcenso_stage_vs_modality_fk'] == '' || $attributes['edcenso_stage_vs_modality_fk'] == 1 || $attributes['edcenso_stage_vs_modality_fk'] == 2 || $attributes['edcenso_stage_vs_modality_fk'] == 3) {
                             $register[$edcensoAlias->corder] = '';
                         } else {
@@ -365,15 +373,15 @@ class Register20
                         true
                     );
 
-                    if ($clearCoders->contains($edcensoAlias->corder) || $edcensoAlias->corder >= self::REGISTER_ATTR_QUIMICA && $edcensoAlias->corder <= self::REGISTER_ATTR_OUTRAS_DISCIPLINAS && ($attributes['aee'] == '1' || ($attributes['complementary_activity'] == '1' && $attributes['schooling'] == '0'))) {
+                    if ($clearCoders->contains($edcensoAlias->corder) || ($edcensoAlias->corder >= $disciplineCorderStart && $edcensoAlias->corder <= $disciplineCorderEnd && ($attributes['aee'] == '1' || ($attributes['complementary_activity'] == '1' && $attributes['schooling'] == '0')))) {
                         $register[$edcensoAlias->corder] = '';
                     }
 
                     if (in_array($edcensoAlias->corder, [7, 8, 9, 10, 11, 12, 13])) {
                         $weekDayAttrs = [
-                            7  => 'week_days_sunday',
-                            8  => 'week_days_monday',
-                            9  => 'week_days_tuesday',
+                            7 => 'week_days_sunday',
+                            8 => 'week_days_monday',
+                            9 => 'week_days_tuesday',
                             10 => 'week_days_wednesday',
                             11 => 'week_days_thursday',
                             12 => 'week_days_friday',
@@ -386,7 +394,6 @@ class Register20
                             $register[$edcensoAlias->corder] = '';
                         }
                     }
-
                 }
 
                 if ((int) $year === 2026) {
@@ -408,7 +415,35 @@ class Register20
                         $register[self::REGISTER_ATTR_ETAPA] = '';
                     }
 
+                    // Campo 28: calculado ANTES de limpar os campos 30-32, pois a função lê
+                    // os valores intermediários de organização (CICLO/GRUPO/MODULO) que o
+                    // bloco especial do loop depositou nessas posições.
                     $register[self::REGISTER_ATTR_FORMA_ORGANIZACAO] = self::resolveOrganizationFormFor2026($register);
+
+                    // Campo 28: EI (etapas 1, 2, 3) não possui forma de organização no INEP 2026.
+                    // resolveOrganizationFormFor2026 retorna '1' como default mesmo quando todos os
+                    // valores intermediários estão vazios, então limpamos explicitamente aqui.
+                    $stageId = (int)($attributes['edcenso_stage_vs_modality_fk'] ?? 0);
+                    if (in_array($stageId, [1, 2, 3])) {
+                        $register[self::REGISTER_ATTR_FORMA_ORGANIZACAO] = '';
+                    }
+
+                    // Campo 29 (Turma de Formação por Alternância): o loop genérico já leu
+                    // turma_alternancia do modelo. Para etapas restritas (EI e EF 1º-5º + 56),
+                    // o INEP exige obrigatoriamente 0 — nunca vazio, nunca 1.
+                    if (in_array($stageId, [1, 2, 3, 14, 15, 16, 17, 18, 56])) {
+                        $register[29] = '0';
+                    } elseif ($register[29] === null || $register[29] === '') {
+                        $register[29] = '';
+                    }
+
+                    // Campos 30-32 (FGB, IFA, IFTP) — válidos somente para etapa_agregada 304 ou 305.
+                    // Para todas as demais etapas devem ser nulos.
+                    if (!in_array($etapaAgregadaValue, ['304', '305'])) {
+                        $register[30] = '';
+                        $register[31] = '';
+                        $register[32] = '';
+                    }
                 }
 
                 array_push($registers, EducacensoRegisterFormatter::format(20, $register, $year));

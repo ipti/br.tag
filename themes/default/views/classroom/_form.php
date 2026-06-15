@@ -338,7 +338,20 @@ $form = $this->beginWidget(
                                 </div>
                             </div>
 
-
+                            <?php
+                            $turmaAlternanciaRestrictedStages = [1, 2, 3, 14, 15, 16, 17, 18, 56];
+                            $currentStageId = (int)($modelClassroom->edcenso_stage_vs_modality_fk ?? 0);
+                            $turmaAlternanciaVisible = $currentStageId > 0 && !in_array($currentStageId, $turmaAlternanciaRestrictedStages);
+                            ?>
+                            <div class="t-field-select" id="turma-alternancia-container" style="<?= $turmaAlternanciaVisible ? '' : 'display:none;' ?>">
+                                <?= $form->label($modelClassroom, 'is_alternance', array('class' => 't-field-select__label--required')); ?>
+                                <?= $form->DropDownList($modelClassroom, 'is_alternance', array(
+                                    '' => 'Selecione',
+                                    0 => 'Não',
+                                    1 => 'Sim',
+                                ), array('class' => 'select-search-off t-field-select__input', 'style' => 'width: 100%')); ?>
+                                <?= $form->error($modelClassroom, 'is_alternance'); ?>
+                            </div>
 
                             <?php if (Yii::app()->features->isEnable(TFeature::FEAT_INTEGRATIONS_SEDSP)): ?>
                                 <!-- Unidade Escolar -->
@@ -1271,14 +1284,24 @@ foreach ($edcensoStageVsModalities as $modality) {
 <script>
     $(document).ready(function() {
         var multiStages = <?= json_encode($multiGradeIds) ?>;
-        
+        var alternanciaRestrictedStages = <?= json_encode([1, 2, 3, 14, 15, 16, 17, 18, 56]) ?>;
+
         $('#Classroom_edcenso_stage_vs_modality_fk').on('change', function() {
             var selectedStage = $(this).val();
+            var selectedStageInt = parseInt(selectedStage, 10);
+
             if (multiStages.indexOf(selectedStage) !== -1) {
                 $('#prosic-container').show();
             } else {
                 $('#prosic-container').hide();
                 $('#Classroom_is_prosic').prop('checked', false);
+            }
+
+            if (selectedStageInt > 0 && alternanciaRestrictedStages.indexOf(selectedStageInt) === -1) {
+                $('#turma-alternancia-container').show();
+            } else {
+                $('#turma-alternancia-container').hide();
+                $('#Classroom_is_alternance').val('');
             }
         });
     });
