@@ -599,14 +599,21 @@ class Register30
                 $managerIdentification['filiation_2'] = '';
             }
 
+            // O bloco cobre corders 88-109 (post_graduation_none + other_courses) + email no 110.
+            // Em 2026 dois campos novos foram inseridos: other_courses_literacy (91) e
+            // other_courses_full_time_education (103), elevando o total de 20 para 22 valores.
+            $otherCoursesBlock = (int) $year === 2026
+                ? '1|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|1|'
+                : '1|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|1|';
+
             array_push(
                 $registers,
                 '30|' . Yii::app()->user->school . '|' . $managerIsAnInstructorId . '||' // 1 a 4
                 . $managerIdentification['cpf'] . '|' . $managerIdentification['name'] . '|' . $managerIdentification['birthday_date'] . '|' . $managerIdentification['filiation'] . '|' // 5 a 8
                 . $managerIdentification['filiation_1'] . '|' . $managerIdentification['filiation_2'] . '|' . $managerIdentification['sex'] . '|' . $managerIdentification['color_race'] . '||' // 9 a 12
                 . $managerIdentification['nationality'] . '|' . $managerIdentification['edcenso_nation_fk'] . '|' . $managerIdentification['edcenso_city_fk'] . '|' // 13 a 15
-                . '0|||||||||||||||||||||||||||||||||||||||' // 16 a 45 (deficiencias, certidão e dados de residência (ignoráveis para o registro 40)
-                . '6||0113P011|2008|3||||||||||||||||||||||||||||1|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|1|' // 46 a 97 (escolaridade, cursos e pós-graduações)
+                . '0|||||||||||||||||||||||||||||||||||||||' // 16 a 45 (deficiencias, certidão e dados de residência)
+                . '6||0113P011|2008|3||||||||||||||||||||||||||||' . $otherCoursesBlock // 46 a 109 (escolaridade, cursos e pós-graduações)
                 . $managerIdentification['email']
             );
             $registers[count($registers) - 1] = EducacensoRegisterFormatter::formatLine(30, $registers[count($registers) - 1], $year);

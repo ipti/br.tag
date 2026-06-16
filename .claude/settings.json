@@ -9,7 +9,9 @@
       "Read(//tmp/**)",
       "Bash(python3 -c ' *)",
       "Bash(python -c ' *)",
-      "Bash(grep -n '$this->createTable\\\\|CREATE TABLE\\\\|'\\\\''edcenso_professional_education_course'\\\\''' 'D:\\\\IPTI\\\\br.tag\\\\app\\\\migrations\\\\old_migrations\\\\m160408_124724_tabelas_auxiliares_2016.php')"
+      "Bash(grep -n '$this->createTable\\\\|CREATE TABLE\\\\|'\\\\''edcenso_professional_education_course'\\\\''' 'D:\\\\IPTI\\\\br.tag\\\\app\\\\migrations\\\\old_migrations\\\\m160408_124724_tabelas_auxiliares_2016.php')",
+      "Bash(Get-ChildItem \"d:\\\\IPTI\\\\br.tag\" -Filter \"*.csv\")",
+      "Bash(Select-Object Name, Length)"
     ]
   }
 }
