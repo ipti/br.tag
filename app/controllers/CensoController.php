@@ -911,7 +911,7 @@ class CensoController extends Controller
             array_push($log, ['Turma' => $result['erro']]);
         }
 
-        $result = $crv->isValidDisciplineForStage($column['edcenso_stage_vs_modality_fk'], $instructorsTeachingData);
+        $result = $crv->isValidDisciplineForStage($associatedStageId, $instructorsTeachingData);
         if (!$result['status']) {
             array_push($log, ['Disciplinas' => $result['erro']]);
         }
@@ -927,19 +927,18 @@ class CensoController extends Controller
                 in_array($instructorTeachingData->role, [1, 5])
                 && empty($instructorTeachingData->teachingMatrixes)
             ) {
-                array_push($log, ['Professores' => 'HÃƒÆ’Ã‚Â¡ professores sem componentes curriculares/eixos vinculados ÃƒÆ’Ã‚Â  Turma.']);
+                array_push($log, ['Professores' => 'Há professores sem componentes curriculares/eixos vinculados à Turma.']);
                 break;
             }
         }
 
 
         $alternanciaRestrictedStages = [1, 2, 3, 14, 15, 16, 17, 18, 56];
-        $stageVsModalityId = (int) ($column['edcenso_stage_vs_modality_fk'] ?? 0);
-        if ($stageVsModalityId > 0 && !in_array($stageVsModalityId, $alternanciaRestrictedStages) && $column['is_alternance'] === null) {
+        if ($associatedStageId > 0 && !in_array($associatedStageId, $alternanciaRestrictedStages) && $column['is_alternance'] === null) {
             array_push($log, ['is_alternance' => 'O campo "Turma de Formacao por Alternancia" deve ser preenchido para esta etapa (Censo 2026, Registro 20, campo 29).']);
         }
 
-        if ($stageVsModalityId > 0 && !in_array($stageVsModalityId, [1, 2, 3]) && $column['organization_form'] === null) {
+        if ($associatedStageId > 0 && !in_array($associatedStageId, [1, 2, 3]) && $column['organization_form'] === null) {
             array_push($log, ['organization_form' => 'O campo "Forma de Organizacao" deve ser preenchido para esta etapa (Censo 2026, Registro 20, campo 28).']);
         }
 
