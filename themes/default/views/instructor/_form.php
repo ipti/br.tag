@@ -1215,6 +1215,20 @@ $isModel = isset($modelInstructorIdentification->id);
                                         ?>
                                     </label>
                                     <label class="checkbox">
+                                        <?php
+                                        echo InstructorVariableData::model()->attributeLabels()['other_courses_full_time_education'];
+                                        echo $form->checkBox(
+                                            $modelInstructorVariableData,
+                                            'other_courses_full_time_education',
+                                            array(
+                                                'class' => 'other_courses',
+                                                'value' => 1,
+                                                'uncheckValue' => 0
+                                            )
+                                        );
+                                        ?>
+                                    </label>
+                                    <label class="checkbox">
                                         <?php echo InstructorVariableData::model()->attributeLabels()['other_courses_sexual_education'];
                                         echo $form->checkBox(
                                             $modelInstructorVariableData,

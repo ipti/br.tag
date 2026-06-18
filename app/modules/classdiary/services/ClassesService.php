@@ -105,7 +105,7 @@
                             join course_plan cp on cp.id = cc.course_plan_fk
                             join edcenso_discipline ed on cp.discipline_fk = ed.id
                             where cp.school_inep_fk = :school_inep_fk and cp.modality_fk = :modality_fk and cp.users_fk = :users_fk
-                            order by ed.name, cp.name'
+                            order by ed.name, cp.name, cc.order'
                         )
                             ->bindParam(':school_inep_fk', Yii::app()->user->school)
                             ->bindParam(':modality_fk', $schedule->classroomFk->edcenso_stage_vs_modality_fk)
@@ -118,7 +118,7 @@
                             join course_plan cp on cp.id = cc.course_plan_fk
                             where cp.school_inep_fk = :school_inep_fk and cp.modality_fk = :modality_fk and cp.users_fk = :users_fk and cp.discipline_fk IS NULL
                             and YEAR(cp.start_date) = :year
-                            order by cp.name'
+                            order by cp.name, cc.order'
                         )
                             ->bindParam(':school_inep_fk', Yii::app()->user->school)
                             ->bindParam(':modality_fk', $schedule->classroomFk->edcenso_stage_vs_modality_fk)
@@ -133,7 +133,7 @@
                             join course_plan cp on cp.id = cc.course_plan_fk
                             join edcenso_discipline ed on cp.discipline_fk = ed.id
                             where cp.school_inep_fk = :school_inep_fk and cp.modality_fk = :modality_fk and cp.discipline_fk = :discipline_fk and cp.users_fk = :users_fk
-                            order by ed.name, cp.name'
+                            order by ed.name, cp.name, cc.order'
                         )
                             ->bindParam(':school_inep_fk', Yii::app()->user->school)
                             ->bindParam(':modality_fk', $schedule->classroomFk->edcenso_stage_vs_modality_fk)
