@@ -18,10 +18,23 @@ $('#course-classes tbody').on('click', 'td.details-control', function () {
 
     let formatSelectionFunction = (d) => $('#validate-index').length > 0 ? format_validate(d) : format(d);
 
-    if (!row.child.isShown()) {
+    let childRow = row.child();
+    if (childRow && childRow.length) {
+        if (childRow.is(":visible")) {
+            childRow.hide();
+            i.removeClass('closed');
+        } else {
+            childRow.show();
+            i.addClass('closed');
+        }
+        return;
+    }
+
+    if (!childRow || !childRow.length) {
         row.child(formatSelectionFunction(row.data())).show();
-        tr.next().find('select.type-select, select.resource-select').select2();
-        tr.next().find('input.ability-search-select').select2({
+        childRow = row.child();
+        childRow.find('select.type-select, select.resource-select').select2();
+        childRow.find('input.ability-search-select').select2({
             placeholder: "Informe o código da habilidade",
             minimumInputLength: 4,
             ajax: {
@@ -59,7 +72,7 @@ $('#course-classes tbody').on('click', 'td.details-control', function () {
             },
 
         });
-        tr.next().find('select.ability-select').select2({
+        childRow.find('select.ability-select').select2({
             formatSelection: function (state) {
                 let textArray = state.text.split("|");
                 return textArray[0];
@@ -76,15 +89,7 @@ $('#course-classes tbody').on('click', 'td.details-control', function () {
                 return m;
             },
         });
-        tr.next().addClass("detailed-row").show();
-    } else {
-        tr.next().toggle();
-    }
-
-
-    if (!tr.next().is(":visible")) {
-        i.removeClass('closed');
-    } else {
+        childRow.addClass("detailed-row").show();
         i.addClass('closed');
     }
 });

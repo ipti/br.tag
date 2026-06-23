@@ -8,7 +8,7 @@ function initTable() {
                 data.coursePlanId = $(".js-course-plan-id").val();
             },
             complete: function () {
-                $(".details-control").click().click();
+                // Accordions are rendered on demand when the user opens each row.
             },
         },
         paginate: false,
@@ -58,23 +58,39 @@ function initTable() {
             .column(1)
             .nodes()
             .each(function (cell, i) {
-                cell.innerHTML = i + 1;
+                let rowData = table.row($(cell).closest("tr")).data();
+                $(cell).empty().text(i + 1);
+                appendCourseClassIdInput(cell, rowData);
             });
         $(".remove-course-class").tooltip();
     });
 }
 
-function addCoursePlanRow() {
-    let lastTr = $("#course-classes tbody tr.dt-hasChild").last();
-    let index = 0;
-    if (lastTr.length > 0) {
-        let row = table.row(lastTr);
-        index = row.data().class;
+function appendCourseClassIdInput(cell, rowData) {
+    if (!rowData || !rowData.courseClassId) {
+        return;
     }
+
+    $(cell).append(
+        $("<input>", {
+            type: "hidden",
+            name: "course-class[" + rowData.class + "][id]",
+            value: rowData.courseClassId,
+        })
+    );
+}
+
+function addCoursePlanRow() {
+    let index = 0;
+    table.rows().every(function () {
+        let rowClass = parseInt(this.data().class, 10);
+        if (rowClass > index) {
+            index = rowClass;
+        }
+    });
 
     $(".details-control .fa-minus-circle").click();
 
-    index = $("#course-classes .dt-hasChild").length;
     table.row
         .add({
             class: index + 1,
@@ -108,13 +124,6 @@ function format_validate(d) {
         ' row"></div>'
     );
     let column1 = $('<div   class="column no-grow"></div>');
-    let id = $(
-        '<input type="hidden" name="course-class[' +
-        d.class +
-        '][id]" value="' +
-        d.courseClassId +
-        '">'
-    );
     let content = $('<div class="t-field-tarea content-input"></div>');
     let contentLabel = $(
         '<label class="t-field-tarea__label" for="course-class[' +
@@ -271,7 +280,6 @@ function format_validate(d) {
     column1.append(ability);
     column1.append(methodology);
     column1.append(resource);
-    div.append(id);
     div.append(column1);
     return div;
 }
@@ -285,13 +293,6 @@ function format(d) {
         ' row"></div>'
     );
     let column1 = $('<div   class="column no-grow"></div>');
-    let id = $(
-        '<input type="hidden" name="course-class[' +
-        d.class +
-        '][id]" value="' +
-        d.courseClassId +
-        '">'
-    );
     let content = $('<div class="t-field-tarea content-input"></div>');
     let contentLabel = $(
         '<label class="t-field-tarea__label" for="course-class[' +
@@ -474,7 +475,6 @@ function format(d) {
     column1.append(methodology);
     column1.append(resource);
     column1.append(deleteButton);
-    div.append(id);
     div.append(column1);
     return div;
 }
