@@ -1,5 +1,6 @@
 var table;
 let selectAbilities;
+var lessonDetailCache = {};
 
 $(document).ready(function () {
     initTable();
@@ -9,89 +10,258 @@ $(document).ready(function () {
 });
 
 
+function getLessonDetailCacheKey(rowData) {
+    if (!rowData) {
+        return "";
+    }
+    return rowData.courseClassId ? rowData.courseClassId : "new-" + rowData.class;
+}
+
+function extractCurrentDetailFromChild(childRow, classIndex) {
+    var data = {};
+    data.classIndex = classIndex;
+    data.content = childRow.find('textarea[name="course-class[' + classIndex + '][content]"]').val() || "";
+    data.methodology = childRow.find('textarea[name="course-class[' + classIndex + '][methodology]"]').val() || "";
+
+    data.abilities = [];
+    childRow.find("input.ability-panel-option-id").each(function () {
+        var option = $(this).closest(".ability-panel-option");
+        var id = $(this).val();
+        var code = option.find("b").first().text().replace(/[()]/g, "").trim();
+        var description = option.find(".ability-description").text().trim();
+        var discipline = option.prevAll("label").first().text().trim();
+
+        if (!description) {
+            var descriptionContainer = option.find("span").last().clone();
+            descriptionContainer.find("b").remove();
+            description = descriptionContainer.text().replace("()", "").trim();
+        }
+
+        if (id) {
+            data.abilities.push({
+                id: id,
+                code: code,
+                description: description,
+                discipline: discipline,
+            });
+        }
+    });
+
+    data.resources = [];
+    childRow.find(".course-class-resource").each(function () {
+        var resourceId = $(this).find(".resource-id").val();
+        var resourceValue = $(this).find(".resource-value").val();
+        var resourceAmount = $(this).find(".resource-amount").val();
+        var resourceDescription = $(this)
+            .find(".resource-amount-text")
+            .parent()
+            .text()
+            .replace(resourceAmount + "x - ", "")
+            .trim();
+
+        if (resourceValue) {
+            data.resources.push({
+                id: resourceId || "",
+                value: resourceValue,
+                amount: resourceAmount,
+                description: resourceDescription,
+            });
+        }
+    });
+
+    return data;
+}
+
+function initSelect2InChild(childRow) {
+    childRow.find('select.type-select, select.resource-select').select2();
+    childRow.find('input.ability-search-select').select2({
+        placeholder: "Informe o código da habilidade",
+        minimumInputLength: 4,
+        ajax: {
+            url: "?r=courseplan/courseplan/getAbilities",
+            dataType: "json",
+            quietMillis: 300,
+            timeout: 7000,
+            cache: true,
+            data: function (term, page) {
+                return {
+                    q: term,
+                };
+            },
+            results: function (data, page) {
+                if (!Array.isArray(data)) {
+                    return { results: [] };
+                }
+                return { results: data, text: "description" };
+            },
+            error: function (xhr, status, errorThrown) {
+                console.error("Erro ao buscar habilidades:", status, errorThrown);
+            }
+        },
+        formatSelection: function (state) {
+            return "(" + state.code + ") " + state.description;
+        },
+        formatResult: function (data) {
+            return "(" + data.code + ") " + data.description;
+        },
+        escapeMarkup: function (m) {
+            return m;
+        },
+    });
+    childRow.find('select.ability-select').select2({
+        formatSelection: function (state) {
+            return state.text.split("|")[0];
+        },
+        formatResult: function (data) {
+            var parts = data.text.split("|");
+            if (parts.length === 1) {
+                return "<div class='ability-optgroup'><b>" + parts[0] + "</b></div>";
+            }
+            return "<div><b class='ability-code'>(" + parts[0] + ")</b> <span class='ability-description'>" + parts[1] + "</span></div>";
+        },
+        escapeMarkup: function (m) {
+            return m;
+        },
+    });
+}
+
+function appendCachedInput(form, name, value) {
+    form.append(
+        $("<input>", {
+            type: "hidden",
+            class: "js-course-class-cache-input",
+            name: name,
+            value: value || "",
+        })
+    );
+}
+
+function appendCachedDetailsToForm() {
+    var form = $("#course-plan-form");
+    form.find(".js-course-class-cache-input").remove();
+
+    Object.keys(lessonDetailCache).forEach(function (cacheKey) {
+        var detail = lessonDetailCache[cacheKey];
+        var classIndex = detail.classIndex;
+        var rowExists = false;
+
+        table.rows().every(function () {
+            if (String(this.data().class) === String(classIndex)) {
+                rowExists = true;
+            }
+        });
+
+        if (!rowExists || form.find(".course-class-" + classIndex).length) {
+            return;
+        }
+
+        appendCachedInput(form, "course-class[" + classIndex + "][id]", detail.courseClassId);
+        appendCachedInput(form, "course-class[" + classIndex + "][content]", detail.content);
+        appendCachedInput(form, "course-class[" + classIndex + "][methodology]", detail.methodology);
+
+        $.each(detail.abilities || [], function (index, ability) {
+            appendCachedInput(form, "course-class[" + classIndex + "][ability][" + index + "]", ability.id);
+        });
+
+        $.each(detail.resources || [], function (index, resource) {
+            appendCachedInput(form, "course-class[" + classIndex + "][resource][" + index + "][id]", resource.id);
+            appendCachedInput(form, "course-class[" + classIndex + "][resource][" + index + "][value]", resource.value);
+            appendCachedInput(form, "course-class[" + classIndex + "][resource][" + index + "][amount]", resource.amount);
+        });
+    });
+}
+
 // Add event listener for opening and closing details
 $('#course-classes tbody').on('click', 'td.details-control', function () {
 
-    let tr = $(this).closest('tr');
-    let i = $(this).children('img').first();
-    let row = table.row(tr);
+    var tr = $(this).closest('tr');
+    var icon = $(this).children('img').first();
+    var row = table.row(tr);
+    var rowData = row.data();
+    var courseClassId = rowData.courseClassId;
+    var cacheKey = getLessonDetailCacheKey(rowData);
 
-    let formatSelectionFunction = (d) => $('#validate-index').length > 0 ? format_validate(d) : format(d);
+    var formatFn = function (d) {
+        return $('#validate-index').length > 0 ? format_validate(d) : format(d);
+    };
 
-    let childRow = row.child();
-    if (childRow && childRow.length) {
-        if (childRow.is(":visible")) {
-            childRow.hide();
-            i.removeClass('closed');
-        } else {
-            childRow.show();
-            i.addClass('closed');
+    var childRow = row.child();
+    if (childRow && childRow.length && childRow.is(":visible")) {
+        if (!childRow.find(".courseplan-loading, .courseplan-detail-error").length) {
+            var captured = extractCurrentDetailFromChild(childRow, rowData.class);
+            captured.courseClassId = courseClassId || "";
+            lessonDetailCache[cacheKey] = captured;
+            rowData.content = captured.content;
+            row.data(rowData);
         }
+
+        row.child.remove();
+        icon.removeClass('closed');
         return;
     }
 
-    if (!childRow || !childRow.length) {
-        row.child(formatSelectionFunction(row.data())).show();
-        childRow = row.child();
-        childRow.find('select.type-select, select.resource-select').select2();
-        childRow.find('input.ability-search-select').select2({
-            placeholder: "Informe o código da habilidade",
-            minimumInputLength: 4,
-            ajax: {
-                url: "?r=courseplan/courseplan/getAbilities",
-                dataType: 'json',
-                quietMillis: 300,
-                timeout: 7000,
-                cache: true,
-                data: function (term, page) {
-                    return {
-                        q: term,
-                    };
-                },
-                results: function (data, page) {
-                    if (!Array.isArray(data)) {
-                        console.warn("Resposta inesperada:", data);
-                        return { results: [] };
-                    }
-                    return { results: data, text: 'description' };
-                },
-                error: function (xhr, status, errorThrown) {
-                    console.error("Erro ao buscar habilidades:", status, errorThrown);
-                }
-            },
-            formatSelection: function (state) {
-                let textArray = `(${state.code}) ${state.description}`
-                return textArray;
-            },
-            formatResult: function (data) {
-                let textArray = `(${data.code}) ${data.description}`;
-                return textArray;
-            },
-            escapeMarkup: function (m) {
-                return m;
-            },
-
-        });
-        childRow.find('select.ability-select').select2({
-            formatSelection: function (state) {
-                let textArray = state.text.split("|");
-                return textArray[0];
-            },
-            formatResult: function (data) {
-                let textArray = data.text.split("|");
-                if (textArray.length === 1) {
-                    return "<div class='ability-optgroup'><b>" + textArray[0] + "</b></div>";
-                } else {
-                    return "<div><b class='ability-code'>(" + textArray[0] + ")</b> <span class='ability-description'>" + textArray[1] + "</span></div>";
-                }
-            },
-            escapeMarkup: function (m) {
-                return m;
-            },
-        });
-        childRow.addClass("detailed-row").show();
-        i.addClass('closed');
+    if (!courseClassId && !lessonDetailCache[cacheKey]) {
+        rowData.methodology = "";
+        rowData.abilities = null;
+        rowData.resources = null;
+        row.child(formatFn(rowData)).show();
+        var newChild = row.child();
+        newChild.addClass("detailed-row");
+        initSelect2InChild(newChild);
+        icon.addClass('closed');
+        return;
     }
+
+    if (lessonDetailCache[cacheKey]) {
+        var cached = lessonDetailCache[cacheKey];
+        rowData.content = cached.content || rowData.content;
+        rowData.methodology = cached.methodology;
+        rowData.abilities = cached.abilities;
+        rowData.resources = cached.resources;
+        row.child(formatFn(rowData)).show();
+        var cachedChild = row.child();
+        cachedChild.addClass("detailed-row");
+        initSelect2InChild(cachedChild);
+        icon.addClass('closed');
+        return;
+    }
+
+    row.child('<div class="courseplan-loading" style="padding:12px;">Carregando...</div>').show();
+    icon.addClass('closed');
+
+    $.ajax({
+        type: "POST",
+        url: "?r=courseplan/courseplan/getCourseClassDetail",
+        data: { courseClassId: courseClassId },
+        dataType: "json",
+        success: function (detail) {
+            lessonDetailCache[cacheKey] = {
+                classIndex: rowData.class,
+                courseClassId: courseClassId,
+                content: rowData.content || "",
+                methodology: detail.methodology,
+                abilities: detail.abilities,
+                resources: detail.resources,
+            };
+
+            var activeChild = row.child();
+            if (!activeChild || !activeChild.length || !activeChild.find(".courseplan-loading").length) {
+                return;
+            }
+
+            rowData.methodology = detail.methodology;
+            rowData.abilities = detail.abilities;
+            rowData.resources = detail.resources;
+            row.child(formatFn(rowData)).show();
+            var detailChild = row.child();
+            detailChild.addClass("detailed-row");
+            initSelect2InChild(detailChild);
+        },
+        error: function () {
+            row.child('<div class="courseplan-detail-error" style="padding:12px;color:red">Erro ao carregar detalhe da aula. Tente novamente.</div>').show();
+            icon.removeClass('closed');
+        }
+    });
 });
 
 $(document).on("click", "#new-course-class", function () {
@@ -100,6 +270,9 @@ $(document).on("click", "#new-course-class", function () {
 
 $(document).on("click", ".js-remove-course-class", function () {
     if (!$(this).hasClass("js-unavailable")) {
+        let tr = $(this).closest("tr").prev();
+        let rowData = table.row(tr).data();
+        delete lessonDetailCache[getLessonDetailCacheKey(rowData)];
         removeCoursePlanRow(this);
     }
 });
@@ -351,7 +524,19 @@ $("#save").on('click', function () {
     $("#js-loading-div").removeClass("hide");
     let submit = validateSave();
     if (submit) {
-        $("#course-plan-form").submit();
+        try { appendCachedDetailsToForm(); } catch (e) { console.error(e); }
+        var formEl = document.getElementById('course-plan-form');
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', window.location.href);
+        xhr.withCredentials = true;
+        xhr.onload = function () {
+            window.location.replace(xhr.responseURL || window.location.href);
+        };
+        xhr.onerror = function () {
+            $("#js-submit-div").removeClass("hide");
+            $("#js-loading-div").addClass("hide");
+        };
+        xhr.send(new FormData(formEl));
     } else {
         $("#js-submit-div").removeClass("hide");
         $("#js-loading-div").addClass("hide");

@@ -37,6 +37,7 @@ class CourseplanController extends Controller
                     'getDisciplines',
                     'save',
                     'getCourseClasses',
+                    'getCourseClassDetail',
                     'getAbilities',
                     'getAbilitiesInitialStructure',
                     'getAbilitiesNextStructure',
@@ -132,11 +133,6 @@ class CourseplanController extends Controller
         $coursePlan = CoursePlan::model()->with([
             'courseClasses',
             'courseClasses.classContents',
-            'courseClasses.courseClassHasClassResources',
-            'courseClasses.courseClassHasClassResources.courseClassResourceFk',
-            'courseClasses.courseClassHasClassAbilities',
-            'courseClasses.courseClassHasClassAbilities.courseClassAbilityFk',
-            'courseClasses.courseClassHasClassAbilities.courseClassAbilityFk.edcensoDisciplineFk',
         ])->findByPk($_POST['coursePlanId']);
         $courseClasses = [];
         $courseClassesIds = [];
@@ -145,26 +141,6 @@ class CourseplanController extends Controller
             $courseClasses[$order]['class'] = $courseClass->order;
             $courseClasses[$order]['courseClassId'] = $courseClass->id;
             $courseClasses[$order]['content'] = $courseClass->content;
-            $courseClasses[$order]['methodology'] = $courseClass->methodology;
-            $courseClasses[$order]['resources'] = [];
-            $courseClasses[$order]['abilities'] = [];
-
-            foreach ($courseClass->courseClassHasClassResources as $courseClassHasClassResource) {
-                $resource['id'] = $courseClassHasClassResource->id;
-                $resource['value'] = $courseClassHasClassResource->course_class_resource_fk;
-                $resource['description'] = $courseClassHasClassResource->courseClassResourceFk->name;
-                $resource['amount'] = $courseClassHasClassResource->amount;
-                $courseClasses[$order]['resources'][] = $resource;
-            }
-
-            foreach ($courseClass->courseClassHasClassAbilities as $courseClassHasClassAbility) {
-                $ability['id'] = $courseClassHasClassAbility->courseClassAbilityFk->id;
-                $ability['code'] = $courseClassHasClassAbility->courseClassAbilityFk->code;
-                $ability['description'] = $courseClassHasClassAbility->courseClassAbilityFk->description;
-                $ability['discipline'] = $courseClassHasClassAbility->courseClassAbilityFk->edcensoDisciplineFk->name;
-                $courseClasses[$order]['abilities'][] = $ability;
-            }
-
             $courseClasses[$order]['deleteButton'] = empty($courseClass->classContents) ? '' : 'js-unavailable';
 
             $courseClassesIds[] = $courseClass->id;
@@ -177,6 +153,51 @@ class CourseplanController extends Controller
         ]);
 
         echo json_encode(['data' => array_values($courseClasses)]);
+    }
+
+    public function actionGetCourseClassDetail()
+    {
+        $courseClassId = Yii::app()->request->getPost('courseClassId');
+        $courseClass = CourseClass::model()->with([
+            'courseClassHasClassResources',
+            'courseClassHasClassResources.courseClassResourceFk',
+            'courseClassHasClassAbilities',
+            'courseClassHasClassAbilities.courseClassAbilityFk',
+            'courseClassHasClassAbilities.courseClassAbilityFk.edcensoDisciplineFk',
+        ])->findByPk($courseClassId);
+
+        if ($courseClass === null) {
+            throw new CHttpException(404, 'The requested course class does not exist.');
+        }
+
+        $resources = [];
+        foreach ($courseClass->courseClassHasClassResources as $resourceData) {
+            $resources[] = [
+                'id' => $resourceData->id,
+                'value' => $resourceData->course_class_resource_fk,
+                'description' => $resourceData->courseClassResourceFk->name,
+                'amount' => $resourceData->amount,
+            ];
+        }
+
+        $abilities = [];
+        foreach ($courseClass->courseClassHasClassAbilities as $abilityData) {
+            $abilities[] = [
+                'id' => $abilityData->courseClassAbilityFk->id,
+                'code' => $abilityData->courseClassAbilityFk->code,
+                'description' => $abilityData->courseClassAbilityFk->description,
+                'discipline' => $abilityData->courseClassAbilityFk->edcensoDisciplineFk->name,
+            ];
+        }
+
+        TLog::info('Detalhe de aula carregado.', ['CourseClassId' => $courseClassId]);
+
+        echo json_encode([
+            'id' => (int) $courseClassId,
+            'methodology' => $courseClass->methodology,
+            'abilities' => $abilities,
+            'resources' => $resources,
+        ]);
     }
 
     public function actionGetDisciplines()

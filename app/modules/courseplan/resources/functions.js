@@ -34,13 +34,6 @@ function initTable() {
                 data: "content",
             },
             {
-                className: "courseplan-methodology-container",
-                data: "methodology",
-                visible: false,
-            },
-            { data: "abilities", visible: false },
-            { data: "resources", visible: false },
-            {
                 className:
                     "dt-center details-control t-accordion__container-icon",
                 orderable: false,
@@ -96,9 +89,6 @@ function addCoursePlanRow() {
             class: index + 1,
             courseClassId: "",
             content: "",
-            methodology: "",
-            abilities: null,
-            resources: null,
             deleteButton: null,
         })
         .draw();
