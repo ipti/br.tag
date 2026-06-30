@@ -203,15 +203,19 @@ class Register30
             }
 
             if (!empty($student['deficiency_type_gifted'])) {
-                $student['resource_none'] = '';
-                $student['resource_aid_lector'] = '';
-                $student['resource_aid_transcription'] = '';
-                $student['resource_interpreter_guide'] = '';
-                $student['resource_interpreter_libras'] = '';
-                $student['resource_lip_reading'] = '';
-                $student['resource_zoomed_test_18'] = '';
-                $student['resource_zoomed_test_24'] = '';
-                $student['resource_braille_test'] = '';
+                $student['resource_none'] = '1';
+                $student['resource_aid_lector'] = '0';
+                $student['resource_aid_transcription'] = '0';
+                $student['resource_interpreter_guide'] = '0';
+                $student['resource_interpreter_libras'] = '0';
+                $student['resource_lip_reading'] = '0';
+                $student['resource_zoomed_test_18'] = '0';
+                $student['resource_zoomed_test_24'] = '0';
+                $student['resource_braille_test'] = '0';
+                $student['resource_additional_time'] = '0';
+                $student['resource_cd_audio'] = '0';
+                $student['resource_proof_language'] = '0';
+                $student['resource_video_libras'] = '0';
             }
 
             $deficiencyCount = 0;
