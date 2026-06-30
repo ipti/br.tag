@@ -135,9 +135,6 @@ echo $form->textField($coursePlan, 'start_date', ['size' => 400, 'maxlength' => 
                                 <th class="t-accordion__head span1"><?= Yii::t('default', 'Class'); ?></th>
                                 <th class="t-accordion__head"></th>
                                 <th class="t-accordion__head span12"><?= Yii::t('default', 'Objective'); ?></th>
-                                <th class="t-accordion__head"></th>
-                                <th class="t-accordion__head"></th>
-                                <th class="t-accordion__head"></th>
                                 <th class="t-accordion__head" style="background-color: initial !important;"></th>
                             </tr>
                         </thead>
