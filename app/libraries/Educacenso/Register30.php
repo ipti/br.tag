@@ -111,11 +111,11 @@ class Register30
         return $instructors;
     }
 
-    private static function getStudents($classroom, $students, $school)
+    private static function getStudents($classroom, $students, $school, $year)
     {
         if (count($classroom->instructorTeachingDatas) >= 1) {
             foreach ($classroom->studentEnrollments as $ienrollment => $enrollment) {
-                if ($enrollment->isActive()) {
+                if ($enrollment->isActive() && (int) $enrollment->studentFk->send_year <= (int) $year) {
                     if (!isset($students[$enrollment->student_fk])) {
                         $enrollment->studentFk->school_inep_id_fk = $school->inep_id;
                         $enrollment->studentFk->documentsFk->school_inep_id_fk = $school->inep_id;
@@ -551,7 +551,7 @@ class Register30
         $students = [];
 
         foreach ($classrooms as $attributes) {
-            $students = self::getStudents($attributes, $students, $school);
+            $students = self::getStudents($attributes, $students, $school, $year);
             $instructors = self::getInstructors($attributes->instructorTeachingDatas, $instructors, $attributes, $school);
         }
 
