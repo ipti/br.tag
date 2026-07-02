@@ -154,7 +154,9 @@ class Register30
             $student['filiation_2'] = '';
         }
 
-        if ($student['deficiency'] == 0) {
+        $hasAutismOrGifted = !empty($student['deficiency_type_autism']) || !empty($student['deficiency_type_gifted']);
+
+        if ($student['deficiency'] == 0 && !$hasAutismOrGifted) {
             $student['deficiency_type_blindness'] = '';
             $student['deficiency_type_low_vision'] = '';
             $student['deficiency_type_monocular_vision'] = '';
@@ -202,21 +204,11 @@ class Register30
                 }
             }
 
-            if (!empty($student['deficiency_type_gifted'])) {
-                $student['resource_none'] = '1';
-                $student['resource_aid_lector'] = '0';
-                $student['resource_aid_transcription'] = '0';
-                $student['resource_interpreter_guide'] = '0';
-                $student['resource_interpreter_libras'] = '0';
-                $student['resource_lip_reading'] = '0';
-                $student['resource_zoomed_test_18'] = '0';
-                $student['resource_zoomed_test_24'] = '0';
-                $student['resource_braille_test'] = '0';
+            if ($hasAutismOrGifted) {
+                $student['resource_none'] = $existone ? '0' : '1';
+                // resource_braille_material (corder 47) nao tem coluna/checkbox no formulario,
+                // entao nunca e' marcado pelo usuario; ainda assim precisa sair 0 (nao vazio).
                 $student['resource_braille_material'] = '0';
-                $student['resource_additional_time'] = '0';
-                $student['resource_cd_audio'] = '0';
-                $student['resource_proof_language'] = '0';
-                $student['resource_video_libras'] = '0';
             }
 
             $deficiencyCount = 0;
