@@ -212,6 +212,7 @@ class Register30
                 $student['resource_zoomed_test_18'] = '0';
                 $student['resource_zoomed_test_24'] = '0';
                 $student['resource_braille_test'] = '0';
+                $student['resource_braille_material'] = '0';
                 $student['resource_additional_time'] = '0';
                 $student['resource_cd_audio'] = '0';
                 $student['resource_proof_language'] = '0';
