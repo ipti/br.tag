@@ -100,7 +100,7 @@ class Register00
 
         $attributes['situation'] = '1';
         if ($attributes['situation'] == '1') {
-            $attributes['regulation'] = '2';
+            // $attributes['regulation'] = '2';
             self::configureSchoolYearDates($attributes, $year);
         } else {
             $attributes['initial_date'] = '';
