@@ -204,12 +204,8 @@ class Register30
                 }
             }
 
-            if ($hasAutismOrGifted) {
-                $student['resource_none'] = $existone ? '0' : '1';
-                // resource_braille_material (corder 47) nao tem coluna/checkbox no formulario,
-                // entao nunca e' marcado pelo usuario; ainda assim precisa sair 0 (nao vazio).
-                $student['resource_braille_material'] = '0';
-            }
+
+            $student['resource_braille_material'] = '0';
 
             $deficiencyCount = 0;
             $deficiencyCount = $student['deficiency_type_blindness'] == '1' ? $deficiencyCount + 1 : $deficiencyCount;
