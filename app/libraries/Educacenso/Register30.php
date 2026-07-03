@@ -216,9 +216,7 @@ class Register30
             $deficiencyCount = $student['deficiency_type_deafblindness'] == '1' ? $deficiencyCount + 1 : $deficiencyCount;
             $deficiencyCount = $student['deficiency_type_phisical_disability'] == '1' ? $deficiencyCount + 1 : $deficiencyCount;
             $deficiencyCount = $student['deficiency_type_intelectual_disability'] == '1' ? $deficiencyCount + 1 : $deficiencyCount;
-            if ($deficiencyCount >= 2) {
-                $student['deficiency_type_multiple_disabilities'] = '1';
-            }
+            $student['deficiency_type_multiple_disabilities'] = $deficiencyCount >= 2 ? '1' : '0';
         }
 
         if ($student['nationality'] == '1' && !isset($student['edcenso_city_fk'])) {
