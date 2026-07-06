@@ -111,11 +111,11 @@ class Register30
         return $instructors;
     }
 
-    private static function getStudents($classroom, $students, $school)
+    private static function getStudents($classroom, $students, $school, $year)
     {
         if (count($classroom->instructorTeachingDatas) >= 1) {
             foreach ($classroom->studentEnrollments as $ienrollment => $enrollment) {
-                if ($enrollment->isActive()) {
+                if ($enrollment->isActive() && (int) $enrollment->studentFk->send_year <= (int) $year) {
                     if (!isset($students[$enrollment->student_fk])) {
                         $enrollment->studentFk->school_inep_id_fk = $school->inep_id;
                         $enrollment->studentFk->documentsFk->school_inep_id_fk = $school->inep_id;
@@ -154,7 +154,9 @@ class Register30
             $student['filiation_2'] = '';
         }
 
-        if ($student['deficiency'] == 0) {
+        $hasAutismOrGifted = !empty($student['deficiency_type_autism']) || !empty($student['deficiency_type_gifted']);
+
+        if ($student['deficiency'] == 0 && !$hasAutismOrGifted) {
             $student['deficiency_type_blindness'] = '';
             $student['deficiency_type_low_vision'] = '';
             $student['deficiency_type_monocular_vision'] = '';
@@ -202,17 +204,8 @@ class Register30
                 }
             }
 
-            if (!empty($student['deficiency_type_gifted'])) {
-                $student['resource_none'] = '';
-                $student['resource_aid_lector'] = '';
-                $student['resource_aid_transcription'] = '';
-                $student['resource_interpreter_guide'] = '';
-                $student['resource_interpreter_libras'] = '';
-                $student['resource_lip_reading'] = '';
-                $student['resource_zoomed_test_18'] = '';
-                $student['resource_zoomed_test_24'] = '';
-                $student['resource_braille_test'] = '';
-            }
+
+            $student['resource_braille_material'] = '0';
 
             $deficiencyCount = 0;
             $deficiencyCount = $student['deficiency_type_blindness'] == '1' ? $deficiencyCount + 1 : $deficiencyCount;
@@ -223,9 +216,7 @@ class Register30
             $deficiencyCount = $student['deficiency_type_deafblindness'] == '1' ? $deficiencyCount + 1 : $deficiencyCount;
             $deficiencyCount = $student['deficiency_type_phisical_disability'] == '1' ? $deficiencyCount + 1 : $deficiencyCount;
             $deficiencyCount = $student['deficiency_type_intelectual_disability'] == '1' ? $deficiencyCount + 1 : $deficiencyCount;
-            if ($deficiencyCount >= 2) {
-                $student['deficiency_type_multiple_disabilities'] = '1';
-            }
+            $student['deficiency_type_multiple_disabilities'] = $deficiencyCount >= 2 ? '1' : '0';
         }
 
         if ($student['nationality'] == '1' && !isset($student['edcenso_city_fk'])) {
@@ -547,7 +538,7 @@ class Register30
         $students = [];
 
         foreach ($classrooms as $attributes) {
-            $students = self::getStudents($attributes, $students, $school);
+            $students = self::getStudents($attributes, $students, $school, $year);
             $instructors = self::getInstructors($attributes->instructorTeachingDatas, $instructors, $attributes, $school);
         }
 

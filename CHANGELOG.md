@@ -1,3 +1,9 @@
+## [Versão 3.13.17]
+- Corrigido falso positivo no painel de inconsistências do Educacenso: campo "Nº de Salas de Aula em Uso" acusava pendência mesmo estando vazio, pois o valor antigo persistia no banco enquanto o campo ficava desabilitado pelo JavaScript
+- Campo "Nº de Salas de Aula em Uso" agora exibe o valor salvo no banco quando "Prédio Escolar" está marcado, permitindo que o usuário apague o valor manualmente antes de salvar
+- Adicionada validação no formulário de escola que bloqueia o save quando "Prédio Escolar" está marcado e "Nº de Salas de Aula em Uso" ainda tem valor preenchido
+- Removida validação duplicada de "Esfera do Órgão Regulador" que gerava falso positivo ao salvar escola, exibindo o erro mesmo com o campo preenchido
+
 ## [Versão 3.13.14]
 - Corrigidos múltiplos problemas no layout do Educacenso 2026: registros 00, 10, 20, 301 e 302 alinhados ao spec INEP 2026
 - Adicionado campo "Turma de Formação por Alternância" (campo 29 do Registro 20) no cadastro de turma, com obrigatoriedade e inconsistência no painel do censo
