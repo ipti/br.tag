@@ -938,7 +938,7 @@ class CensoController extends Controller
             array_push($log, ['is_alternance' => 'O campo "Turma de Formacao por Alternancia" deve ser preenchido para esta etapa (Censo 2026, Registro 20, campo 29).']);
         }
 
-        if ($associatedStageId > 0 && !in_array($associatedStageId, [1, 2, 3]) && $column['organization_form'] === null) {
+        if ($associatedStageId > 0 && !in_array($associatedStageId, [1, 2, 3]) && $column['organization_form'] === null && $column['schooling'] == "1") {
             array_push($log, ['organization_form' => 'O campo "Forma de Organizacao" deve ser preenchido para esta etapa (Censo 2026, Registro 20, campo 28).']);
         }
 
