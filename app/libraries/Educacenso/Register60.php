@@ -251,10 +251,7 @@ class Register60
                         }
                     }
 
-                    $student = StudentIdentification::model()->findByPk($enrollment['student_fk']);
-                    if (!is_null($student)) {
-                        $enrollment['student_inep_id'] = $student->inep_id;
-                    }
+                    $enrollment['student_inep_id'] = $student['identification']['inep_id'] ?? '';
 
                     $edcensoAliases = EdcensoAlias::model()->findAll('year = :year and register = 60 order by corder', [':year' => $year]);
                     foreach ($edcensoAliases as $edcensoAlias) {
