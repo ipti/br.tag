@@ -13,6 +13,9 @@ $cs->registerCssFile($baseUrl . '/css/template.css?v=1.0');
 $cs->registerCssFile($baseUrl . '/css/template2.css');
 $cs->registerCssFile(Yii::app()->baseUrl . "/sass/css/main.css?v=" . TAG_VERSION);
 $cs->registerScriptFile(Yii::app()->baseUrl . '/js/site/login.js?v=' . TAG_VERSION, CClientScript::POS_END);
+
+$buildCommit = defined('TAG_BUILD_COMMIT') ? TAG_BUILD_COMMIT : '';
+
 $form = $this->beginWidget('CActiveForm', array(
     'id' => 'login-form',
     'enableClientValidation' => true,
@@ -99,7 +102,10 @@ $form = $this->beginWidget('CActiveForm', array(
                 </div>
                 <div class="login-footer">
                     <div class="login-versao">
-                        <span class="">TAG v.<?php echo TAG_VERSION ?>
+                        <span>TAG v.<?php echo CHtml::encode(TAG_VERSION); ?></span>
+                        <?php if ($buildCommit !== ''): ?>
+                            <div>Build <?php echo CHtml::encode($buildCommit); ?></div>
+                        <?php endif; ?>
                     </div>
                     <div class="login-desenvolvido">
                         <span>Uma tecnologia desenvolvida pelo</span>

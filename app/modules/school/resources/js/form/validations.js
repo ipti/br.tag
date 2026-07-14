@@ -233,19 +233,16 @@ $(formStructure + 'operation_location').focusout(function () {
     }
 });
 
-$(formStructure + 'native_education').change(function () {
-    if ($(formStructure + 'native_education:checked').length == 1) {
-        $("#native_education_language").show();
-        $("#native_education_lenguage_none input").attr('disabled', 'disabled');
-        $("#native_education_lenguage_some input").removeAttr('disabled');
+$(formStructure + 'native_education_language').change(function () {
+    var val = $(this).val();
+    if (val !== '' && val !== '0') {
+        $("#native_education_languages_container").show();
     } else {
-        $("#native_education_language").hide();
-        $("#native_education_lenguage_none input").val(null).removeAttr('disabled');
-        $("#native_education_lenguage_some input").attr('disabled', 'disabled');
+        $("#native_education_languages_container").hide();
     }
 });
 
-$(formStructure + 'native_education').trigger('change');
+$(formStructure + 'native_education_language').trigger('change');
 
 $(".save-school-button").click(function () {
     let error = false;
@@ -269,10 +266,6 @@ $(".save-school-button").click(function () {
     if (!$("#SchoolIdentification_linked_organ input[type=checkbox]:checked").length) {
         error = true;
         message += "Campo <b>Órgãos que a escola está vinculadao</b> é obrigatório. Selecione ao menos uma opção<br>";
-    }
-    if (!$("#SchoolIdentification_regulation_organ input[type=checkbox]:checked").length) {
-        error = true;
-        message += "Campo <b>Esfera do Órgão regulador</b> é obrigatório. Selecione ao menos uma opção<br>";
     }
     if ($("#SchoolIdentification_edcenso_uf_fk").val() === "") {
         error = true;
@@ -302,9 +295,9 @@ $(".save-school-button").click(function () {
         error = true;
         message += "Campo <b>Local de Funcionamento</b> é obrigatório. Selecione ao menos uma opção.<br>";
     }
-    if (($("#SchoolIdentification_regulation").val() == "1" || $("#SchoolIdentification_regulation").val() == "2") && !$("#SchoolIdentification_regulation_organ input[type=checkbox]:checked").length) {
+    if (($("#SchoolIdentification_regulation").val() == "1" || $("#SchoolIdentification_regulation").val() == "2") && !$("#SchoolIdentification_regulation_organ_sphere").val()) {
         error = true;
-        message += "Campo <b>Esfera do Órgão Regulador</b> é obrigatório. Selecione ao menos uma opção.<br>";
+        message += "Campo <b>Esfera do Órgão Regulador</b> é obrigatório.<br>";
     }
     if (($("#SchoolIdentification_administrative_dependence").val() == "1" || $("#SchoolIdentification_administrative_dependence").val() == "2" || $("#SchoolIdentification_administrative_dependence").val() == "3")
         && !$("#SchoolIdentification_linked_organ input[type=checkbox]:checked").length) {
@@ -366,6 +359,10 @@ $(".save-school-button").click(function () {
     if (!$("#SchoolStructure_operation_location_building").is(":checked") && ($("#SchoolStructure_used_classroom_count").val() === "" || $("#SchoolStructure_used_classroom_count").val() === 0 || $("#SchoolStructure_used_classroom_count").val() > 9999)) {
         error = true;
         message += "Quando o Local de Funcionamento não é um Prédio Escolar, o campo <b>Nº de Salas de Aula utilizadas</b> é obrigatório. Informe um número válido.<br>";
+    }
+    if ($("#SchoolStructure_operation_location_building").is(":checked") && $("#SchoolStructure_used_classroom_count").val() !== "") {
+        error = true;
+        message += "Quando o Local de Funcionamento é um Prédio Escolar, o campo <b>Nº de Salas de Aula em Uso</b> deve ficar vazio.<br>";
     }
     if (Number($("#SchoolStructure_dependencies_climate_roomspublic").val()) > (Number($("#SchoolStructure_classroom_count").val()) + Number($("#SchoolStructure_dependencies_outside_roomspublic").val()))) {
         error = true;

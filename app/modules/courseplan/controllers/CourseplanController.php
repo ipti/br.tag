@@ -37,6 +37,7 @@ class CourseplanController extends Controller
                     'getDisciplines',
                     'save',
                     'getCourseClasses',
+                    'getCourseClassDetail',
                     'getAbilities',
                     'getAbilitiesInitialStructure',
                     'getAbilitiesNextStructure',
@@ -129,7 +130,10 @@ class CourseplanController extends Controller
 
     public function actionGetCourseClasses()
     {
-        $coursePlan = CoursePlan::model()->findByPk($_POST['coursePlanId']);
+        $coursePlan = CoursePlan::model()->with([
+            'courseClasses',
+            'courseClasses.classContents',
+        ])->findByPk($_POST['coursePlanId']);
         $courseClasses = [];
         $courseClassesIds = [];
         foreach ($coursePlan->courseClasses as $courseClass) {
@@ -137,26 +141,6 @@ class CourseplanController extends Controller
             $courseClasses[$order]['class'] = $courseClass->order;
             $courseClasses[$order]['courseClassId'] = $courseClass->id;
             $courseClasses[$order]['content'] = $courseClass->content;
-            $courseClasses[$order]['methodology'] = $courseClass->methodology;
-            $courseClasses[$order]['resources'] = [];
-            $courseClasses[$order]['abilities'] = [];
-
-            foreach ($courseClass->courseClassHasClassResources as $courseClassHasClassResource) {
-                $resource['id'] = $courseClassHasClassResource->id;
-                $resource['value'] = $courseClassHasClassResource->course_class_resource_fk;
-                $resource['description'] = $courseClassHasClassResource->courseClassResourceFk->name;
-                $resource['amount'] = $courseClassHasClassResource->amount;
-                $courseClasses[$order]['resources'][] = $resource;
-            }
-
-            foreach ($courseClass->courseClassHasClassAbilities as $courseClassHasClassAbility) {
-                $ability['id'] = $courseClassHasClassAbility->courseClassAbilityFk->id;
-                $ability['code'] = $courseClassHasClassAbility->courseClassAbilityFk->code;
-                $ability['description'] = $courseClassHasClassAbility->courseClassAbilityFk->description;
-                $ability['discipline'] = $courseClassHasClassAbility->courseClassAbilityFk->edcensoDisciplineFk->name;
-                $courseClasses[$order]['abilities'][] = $ability;
-            }
-
             $courseClasses[$order]['deleteButton'] = empty($courseClass->classContents) ? '' : 'js-unavailable';
 
             $courseClassesIds[] = $courseClass->id;
@@ -169,6 +153,51 @@ class CourseplanController extends Controller
         ]);
 
         echo json_encode(['data' => array_values($courseClasses)]);
+    }
+
+    public function actionGetCourseClassDetail()
+    {
+        $courseClassId = Yii::app()->request->getPost('courseClassId');
+        $courseClass = CourseClass::model()->with([
+            'courseClassHasClassResources',
+            'courseClassHasClassResources.courseClassResourceFk',
+            'courseClassHasClassAbilities',
+            'courseClassHasClassAbilities.courseClassAbilityFk',
+            'courseClassHasClassAbilities.courseClassAbilityFk.edcensoDisciplineFk',
+        ])->findByPk($courseClassId);
+
+        if ($courseClass === null) {
+            throw new CHttpException(404, 'The requested course class does not exist.');
+        }
+
+        $resources = [];
+        foreach ($courseClass->courseClassHasClassResources as $resourceData) {
+            $resources[] = [
+                'id' => $resourceData->id,
+                'value' => $resourceData->course_class_resource_fk,
+                'description' => $resourceData->courseClassResourceFk->name,
+                'amount' => $resourceData->amount,
+            ];
+        }
+
+        $abilities = [];
+        foreach ($courseClass->courseClassHasClassAbilities as $abilityData) {
+            $abilities[] = [
+                'id' => $abilityData->courseClassAbilityFk->id,
+                'code' => $abilityData->courseClassAbilityFk->code,
+                'description' => $abilityData->courseClassAbilityFk->description,
+                'discipline' => $abilityData->courseClassAbilityFk->edcensoDisciplineFk->name,
+            ];
+        }
+
+        TLog::info('Detalhe de aula carregado.', ['CourseClassId' => $courseClassId]);
+
+        echo json_encode([
+            'id' => (int) $courseClassId,
+            'methodology' => $courseClass->methodology,
+            'abilities' => $abilities,
+            'resources' => $resources,
+        ]);
     }
 
     public function actionGetDisciplines()
@@ -299,47 +328,70 @@ class CourseplanController extends Controller
             $courseClassIds = [];
             $i = 1;
             foreach ($_POST['course-class'] as $cc) {
-                if ($cc['id'] == '') {
+                $courseClassId = isset($cc['id']) ? $cc['id'] : '';
+                $isRendered = array_key_exists('content', $cc)
+                    || array_key_exists('methodology', $cc)
+                    || array_key_exists('ability', $cc)
+                    || array_key_exists('resource', $cc);
+
+                if ($courseClassId == '') {
                     $courseClass = new CourseClass();
                     $courseClass->course_plan_fk = $coursePlan->id;
                 } else {
-                    $courseClass = CourseClass::model()->findByPk($cc['id']);
+                    $courseClass = CourseClass::model()->findByPk($courseClassId);
                 }
                 $courseClass->order = $i++;
-                $courseClass->content = $cc['content'];
-                $courseClass->methodology = $cc['methodology'];
+
+                // Lazy-rendered rows can submit only their id; keep their existing data intact.
+                if (!$isRendered && $courseClassId != '') {
+                    if ($courseClass->save()) {
+                        TLog::info('Aula salva com sucesso', ['CourseClassId' => $courseClass->id, 'CoursePlanId' => $coursePlan->id]);
+                    }
+                    $courseClassIds[] = $courseClass->id;
+                    continue;
+                }
+
+                $courseClass->content = isset($cc['content']) ? $cc['content'] : '';
+                $courseClass->methodology = isset($cc['methodology']) ? $cc['methodology'] : '';
                 if ($courseClass->save()) {
                     TLog::info('Aula salva com sucesso', ['CourseClassId' => $courseClass->id, 'CoursePlanId' => $coursePlan->id]);
                 }
 
                 $courseClassIds[] = $courseClass->id;
 
-                $abilitiesMerged = is_array($cc['ability']) ? implode("', '", $cc['ability']) : $cc['ability'];
-                CourseClassHasClassAbility::model()->deleteAll("course_class_fk = :course_class_fk and course_class_ability_fk not in ( '" . $abilitiesMerged . "' )", [':course_class_fk' => $courseClass->id]);
-                foreach ($cc['ability'] as $abilityId) {
-                    $courseClassHasClassAbility = CourseClassHasClassAbility::model()->find('course_class_fk = :course_class_fk and course_class_ability_fk = :course_class_ability_fk', ['course_class_fk' => $courseClass->id, 'course_class_ability_fk' => $abilityId]);
-                    if ($courseClassHasClassAbility == null) {
-                        $courseClassHasClassAbility = new CourseClassHasClassAbility();
-                        $courseClassHasClassAbility->course_class_fk = $courseClass->id;
-                        $courseClassHasClassAbility->course_class_ability_fk = $abilityId;
-                        if ($courseClassHasClassAbility->save()) {
-                            TLog::info('CourseClassHasClassAbility salvo com sucesso', ['CourseClassId' => $courseClass->id]);
-                        }
-                        $coursePlanVsAbility = new CoursePlanDisciplineVsAbilities();
-                        $coursePlanVsAbility->course_plan_fk = $coursePlan->id;
-                        $abilitieData = CourseClassAbilities::model()->findByPk($abilityId);
-                        $coursePlanVsAbility->discipline_fk = $abilitieData->edcenso_discipline_fk;
-                        $coursePlanVsAbility->course_class_fk = $courseClass->id;
-                        $coursePlanVsAbility->ability_fk = $abilityId;
-                        if ($coursePlanVsAbility->save()) {
-                            TLog::info('CoursePlanDisciplineVsAbilites salvo com sucesso', ['CourseClassId' => $courseClass->id]);
+                $abilities = isset($cc['ability']) ? $cc['ability'] : [];
+                if (empty($abilities)) {
+                    CourseClassHasClassAbility::model()->deleteAll('course_class_fk = :course_class_fk', [':course_class_fk' => $courseClass->id]);
+                }
+                if (!empty($abilities)) {
+                    $abilitiesMerged = is_array($abilities) ? implode("', '", $abilities) : $abilities;
+                    CourseClassHasClassAbility::model()->deleteAll("course_class_fk = :course_class_fk and course_class_ability_fk not in ( '" . $abilitiesMerged . "' )", [':course_class_fk' => $courseClass->id]);
+                    foreach ((array) $abilities as $abilityId) {
+                        $courseClassHasClassAbility = CourseClassHasClassAbility::model()->find('course_class_fk = :course_class_fk and course_class_ability_fk = :course_class_ability_fk', ['course_class_fk' => $courseClass->id, 'course_class_ability_fk' => $abilityId]);
+                        if ($courseClassHasClassAbility == null) {
+                            $courseClassHasClassAbility = new CourseClassHasClassAbility();
+                            $courseClassHasClassAbility->course_class_fk = $courseClass->id;
+                            $courseClassHasClassAbility->course_class_ability_fk = $abilityId;
+                            if ($courseClassHasClassAbility->save()) {
+                                TLog::info('CourseClassHasClassAbility salvo com sucesso', ['CourseClassId' => $courseClass->id]);
+                            }
+                            $coursePlanVsAbility = new CoursePlanDisciplineVsAbilities();
+                            $coursePlanVsAbility->course_plan_fk = $coursePlan->id;
+                            $abilitieData = CourseClassAbilities::model()->findByPk($abilityId);
+                            $coursePlanVsAbility->discipline_fk = $abilitieData->edcenso_discipline_fk;
+                            $coursePlanVsAbility->course_class_fk = $courseClass->id;
+                            $coursePlanVsAbility->ability_fk = $abilityId;
+                            if ($coursePlanVsAbility->save()) {
+                                TLog::info('CoursePlanDisciplineVsAbilites salvo com sucesso', ['CourseClassId' => $courseClass->id]);
+                            }
                         }
                     }
                 }
 
-                if ($cc['resource'] != null) {
+                $resources = isset($cc['resource']) ? $cc['resource'] : null;
+                if ($resources != null) {
                     $idsArray = [];
-                    foreach ($cc['resource'] as $r) {
+                    foreach ($resources as $r) {
                         $courseClassHasClassResource = CourseClassHasClassResource::model()->find('id = :id', ['id' => $r['id']]);
                         if ($courseClassHasClassResource == null) {
                             $courseClassHasClassResource = new CourseClassHasClassResource();

@@ -111,11 +111,11 @@ class Register30
         return $instructors;
     }
 
-    private static function getStudents($classroom, $students, $school)
+    private static function getStudents($classroom, $students, $school, $year)
     {
         if (count($classroom->instructorTeachingDatas) >= 1) {
             foreach ($classroom->studentEnrollments as $ienrollment => $enrollment) {
-                if ($enrollment->isActive()) {
+                if ($enrollment->isActive() && (int) $enrollment->studentFk->send_year <= (int) $year) {
                     if (!isset($students[$enrollment->student_fk])) {
                         $enrollment->studentFk->school_inep_id_fk = $school->inep_id;
                         $enrollment->studentFk->documentsFk->school_inep_id_fk = $school->inep_id;
@@ -133,7 +133,7 @@ class Register30
         return $students;
     }
 
-    private static function exportStudentIdentification($student, $register, $school, $aliases)
+    private static function exportStudentIdentification($student, $register, $school, $aliases, $hasLearningDisorder = false)
     {
         $student['register_type'] = '30';
 
@@ -154,7 +154,13 @@ class Register30
             $student['filiation_2'] = '';
         }
 
-        if ($student['deficiency'] == 0) {
+        $hasAutismOrGifted = !empty($student['deficiency_type_autism']) || !empty($student['deficiency_type_gifted']);
+        // Campos 18-35 (deficiency_type_*): 0/1 apenas quando deficiency=1 (ou autismo/superdotação); senão nulo.
+        $appliesToDeficiencyFields = $student['deficiency'] != 0 || $hasAutismOrGifted;
+        // Campos 36-49 (resource_*): 0/1 quando deficiency=1 (ou autismo/superdotação) OU transtorno de aprendizagem; senão nulo.
+        $appliesToResourceFields = $appliesToDeficiencyFields || $hasLearningDisorder;
+
+        if (!$appliesToDeficiencyFields) {
             $student['deficiency_type_blindness'] = '';
             $student['deficiency_type_low_vision'] = '';
             $student['deficiency_type_monocular_vision'] = '';
@@ -166,6 +172,26 @@ class Register30
             $student['deficiency_type_multiple_disabilities'] = '';
             $student['deficiency_type_autism'] = '';
             $student['deficiency_type_gifted'] = '';
+        } else {
+            foreach ($student as $i => $attr) {
+                if (strstr($i, 'deficiency_') && empty($student[$i])) {
+                    $student[$i] = '0';
+                }
+            }
+
+            $deficiencyCount = 0;
+            $deficiencyCount = $student['deficiency_type_blindness'] == '1' ? $deficiencyCount + 1 : $deficiencyCount;
+            $deficiencyCount = $student['deficiency_type_low_vision'] == '1' ? $deficiencyCount + 1 : $deficiencyCount;
+            $deficiencyCount = $student['deficiency_type_monocular_vision'] == '1' ? $deficiencyCount + 1 : $deficiencyCount;
+            $deficiencyCount = $student['deficiency_type_deafness'] == '1' ? $deficiencyCount + 1 : $deficiencyCount;
+            $deficiencyCount = $student['deficiency_type_disability_hearing'] == '1' ? $deficiencyCount + 1 : $deficiencyCount;
+            $deficiencyCount = $student['deficiency_type_deafblindness'] == '1' ? $deficiencyCount + 1 : $deficiencyCount;
+            $deficiencyCount = $student['deficiency_type_phisical_disability'] == '1' ? $deficiencyCount + 1 : $deficiencyCount;
+            $deficiencyCount = $student['deficiency_type_intelectual_disability'] == '1' ? $deficiencyCount + 1 : $deficiencyCount;
+            $student['deficiency_type_multiple_disabilities'] = $deficiencyCount >= 2 ? '1' : '0';
+        }
+
+        if (!$appliesToResourceFields) {
             $student['resource_additional_time'] = '';
             $student['resource_none'] = '';
             $student['resource_aid_lector'] = '';
@@ -182,12 +208,7 @@ class Register30
         } else {
             $existone = false;
             foreach ($student as $i => $attr) {
-                $pos = strstr($i, 'deficiency_');
-                if ($pos && empty($student[$i])) {
-                    $student[$i] = '0';
-                }
-                $pos2 = strstr($i, 'resource_');
-                if ($pos2) {
+                if (strstr($i, 'resource_') && $i !== 'resource_braille_material') {
                     if (empty($student[$i])) {
                         $student[$i] = '0';
                         if (!$existone) {
@@ -202,30 +223,15 @@ class Register30
                 }
             }
 
-            if (!empty($student['deficiency_type_gifted'])) {
-                $student['resource_none'] = '';
-                $student['resource_aid_lector'] = '';
-                $student['resource_aid_transcription'] = '';
-                $student['resource_interpreter_guide'] = '';
-                $student['resource_interpreter_libras'] = '';
-                $student['resource_lip_reading'] = '';
-                $student['resource_zoomed_test_18'] = '';
-                $student['resource_zoomed_test_24'] = '';
-                $student['resource_braille_test'] = '';
+            if ($student['resource_none'] == '1') {
+                foreach ($student as $i => $attr) {
+                    if (strstr($i, 'resource_') && $i !== 'resource_none' && $i !== 'resource_braille_material') {
+                        $student[$i] = '';
+                    }
+                }
             }
 
-            $deficiencyCount = 0;
-            $deficiencyCount = $student['deficiency_type_blindness'] == '1' ? $deficiencyCount + 1 : $deficiencyCount;
-            $deficiencyCount = $student['deficiency_type_low_vision'] == '1' ? $deficiencyCount + 1 : $deficiencyCount;
-            $deficiencyCount = $student['deficiency_type_monocular_vision'] == '1' ? $deficiencyCount + 1 : $deficiencyCount;
-            $deficiencyCount = $student['deficiency_type_deafness'] == '1' ? $deficiencyCount + 1 : $deficiencyCount;
-            $deficiencyCount = $student['deficiency_type_disability_hearing'] == '1' ? $deficiencyCount + 1 : $deficiencyCount;
-            $deficiencyCount = $student['deficiency_type_deafblindness'] == '1' ? $deficiencyCount + 1 : $deficiencyCount;
-            $deficiencyCount = $student['deficiency_type_phisical_disability'] == '1' ? $deficiencyCount + 1 : $deficiencyCount;
-            $deficiencyCount = $student['deficiency_type_intelectual_disability'] == '1' ? $deficiencyCount + 1 : $deficiencyCount;
-            if ($deficiencyCount >= 2) {
-                $student['deficiency_type_multiple_disabilities'] = '1';
-            }
+            $student['resource_braille_material'] = '0';
         }
 
         if ($student['nationality'] == '1' && !isset($student['edcenso_city_fk'])) {
@@ -547,14 +553,14 @@ class Register30
         $students = [];
 
         foreach ($classrooms as $attributes) {
-            $students = self::getStudents($attributes, $students, $school);
+            $students = self::getStudents($attributes, $students, $school, $year);
             $instructors = self::getInstructors($attributes->instructorTeachingDatas, $instructors, $attributes, $school);
         }
 
         foreach ($students as $student) {
             $register = [];
 
-            $register = self::exportStudentIdentification($student['identification'], $register, $school, $aliasesStudent);
+            $register = self::exportStudentIdentification($student['identification'], $register, $school, $aliasesStudent, !empty($student['disorders']['disorders_impact_learning']));
             $register = self::exportStudentDocuments($student['documents'], $register, $school, $aliasesStudent, $withoutCertificates);
             $register = self::exportStudentDisorders($student['disorders'], $register, $aliasesStudent);
 
@@ -599,14 +605,21 @@ class Register30
                 $managerIdentification['filiation_2'] = '';
             }
 
+            // O bloco cobre corders 88-109 (post_graduation_none + other_courses) + email no 110.
+            // Em 2026 dois campos novos foram inseridos: other_courses_literacy (91) e
+            // other_courses_full_time_education (103), elevando o total de 20 para 22 valores.
+            $otherCoursesBlock = (int) $year === 2026
+                ? '1|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|1|'
+                : '1|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|1|';
+
             array_push(
                 $registers,
                 '30|' . Yii::app()->user->school . '|' . $managerIsAnInstructorId . '||' // 1 a 4
                 . $managerIdentification['cpf'] . '|' . $managerIdentification['name'] . '|' . $managerIdentification['birthday_date'] . '|' . $managerIdentification['filiation'] . '|' // 5 a 8
                 . $managerIdentification['filiation_1'] . '|' . $managerIdentification['filiation_2'] . '|' . $managerIdentification['sex'] . '|' . $managerIdentification['color_race'] . '||' // 9 a 12
                 . $managerIdentification['nationality'] . '|' . $managerIdentification['edcenso_nation_fk'] . '|' . $managerIdentification['edcenso_city_fk'] . '|' // 13 a 15
-                . '0|||||||||||||||||||||||||||||||||||||||' // 16 a 45 (deficiencias, certidão e dados de residência (ignoráveis para o registro 40)
-                . '6||0113P011|2008|3||||||||||||||||||||||||||||1|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|1|' // 46 a 97 (escolaridade, cursos e pós-graduações)
+                . '0|||||||||||||||||||||||||||||||||||||||' // 16 a 45 (deficiencias, certidão e dados de residência)
+                . '6||0113P011|2008|3||||||||||||||||||||||||||||' . $otherCoursesBlock // 46 a 109 (escolaridade, cursos e pós-graduações)
                 . $managerIdentification['email']
             );
             $registers[count($registers) - 1] = EducacensoRegisterFormatter::formatLine(30, $registers[count($registers) - 1], $year);

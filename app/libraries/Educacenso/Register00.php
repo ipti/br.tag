@@ -2,11 +2,9 @@
 
 class Register00
 {
-    private const SCHOOL_YEAR_DEFAULT_DATES_BY_YEAR = [
-        2026 => [
-            'initial_date' => '29/05/2025',
-            'final_date' => '27/05/2026',
-        ],
+    private const MISSING_SCHOOL_YEAR_DATE_MESSAGES = [
+        'initial_date' => 'Preencha a Data de Inicio do Periodo Letivo da escola antes de exportar o Censo Escolar.',
+        'final_date' => 'Preencha a Data Final do Periodo Letivo da escola antes de exportar o Censo Escolar.',
     ];
 
     private static function sanitizeString($string)
@@ -20,16 +18,16 @@ class Register00
     private static function configureSchoolYearDates(array &$attributes, $year)
     {
         $year = (int) $year;
-        $attributes['initial_date'] = self::resolveSchoolYearDate($attributes['initial_date'] ?? null, $year, 'initial_date');
-        $attributes['final_date'] = self::resolveSchoolYearDate($attributes['final_date'] ?? null, $year, 'final_date');
+        $attributes['initial_date'] = self::resolveSchoolYearDate($attributes['initial_date'] ?? null, 'initial_date');
+        $attributes['final_date'] = self::resolveSchoolYearDate($attributes['final_date'] ?? null, 'final_date');
 
         self::validateSchoolYearDates($attributes['initial_date'], $attributes['final_date'], $year);
     }
 
-    private static function resolveSchoolYearDate($date, $year, $field)
+    private static function resolveSchoolYearDate($date, $field)
     {
         if ($date === null || $date === '') {
-            return self::SCHOOL_YEAR_DEFAULT_DATES_BY_YEAR[$year][$field] ?? ($field === 'initial_date' ? '25/02/' . $year : '12/12/' . $year);
+            throw new InvalidArgumentException(self::MISSING_SCHOOL_YEAR_DATE_MESSAGES[$field]);
         }
 
         return self::normalizeDate($date);
@@ -100,7 +98,7 @@ class Register00
 
         $attributes['situation'] = '1';
         if ($attributes['situation'] == '1') {
-            $attributes['regulation'] = '2';
+            // $attributes['regulation'] = '2';
             self::configureSchoolYearDates($attributes, $year);
         } else {
             $attributes['initial_date'] = '';
@@ -116,6 +114,13 @@ class Register00
         }
         if (!$hasInepHeadSchool && ($attributes['ies_code'] != null && !empty($attributes['ies_code']))) {
             $attributes['offer_or_linked_unity'] = '2';
+        }
+
+        if ($attributes['offer_or_linked_unity'] != '1') {
+            $attributes['inep_head_school'] = '';
+        }
+        if ($attributes['offer_or_linked_unity'] != '2') {
+            $attributes['ies_code'] = '';
         }
 
         if (empty($attributes['ddd']) || $attributes['ddd'] == null) {
@@ -151,41 +156,8 @@ class Register00
             $attributes['private_school_category'] = '';
         }
 
-        // Caso o municipio seja Brasilia, o campo municipal não pode ser preenchido com o valor 1 (Sim)
-        if ($attributes['edcenso_city_fk'] == '5300108' && $attributes['regulation_organ_municipal'] == '1') {
-            $attributes['regulation_organ_municipal'] = '0';
-        }
-
         if (!in_array($attributes['regulation'], ['1', '2'])) {
-            $attributes['regulation_organ_federal'] = '';
-            $attributes['regulation_organ_state'] = '';
-            $attributes['regulation_organ_municipal'] = '';
-        } else {
-            if (in_array($attributes['administrative_dependence'], ['2', '3'])) {
-                $attributes['regulation_organ_federal'] = '0';
-            }
-            if (in_array($attributes['administrative_dependence'], ['1', '2'])) {
-                $attributes['regulation_organ_municipal'] = '0';
-            }
-            if ($attributes['regulation_organ_federal'] == '1') {
-                $attributes['regulation_organ_municipal'] = '0';
-            }
-
-            if ($attributes['regulation_organ_municipal'] == '0' && $attributes['regulation_organ_state'] == '0' && $attributes['regulation_organ_federal'] == '0') {
-                if ($attributes['administrative_dependence'] == '1') {
-                    $attributes['regulation_organ_federal'] = '1';
-                } elseif ($attributes['administrative_dependence'] == '3') {
-                    $attributes['regulation_organ_municipal'] = '1';
-                } else {
-                    $attributes['regulation_organ_state'] = '1';
-                }
-            }
-            if ($attributes['regulation_organ_state'] == null) {
-                $attributes['regulation_organ_state'] = '0';
-            }
-            if ($attributes['regulation_organ_municipal'] == null) {
-                $attributes['regulation_organ_municipal'] = '0';
-            }
+            $attributes['regulation_organ_sphere'] = '';
         }
 
         $edcensoAliases = EdcensoAlias::model()->findAll('year = :year and register = 0 order by corder', [':year' => $year]);
@@ -198,7 +170,9 @@ class Register00
 
         if ((int) $year === 2026) {
             self::ensureRegisterGroupHasSelectedValue($register, range(22, 25), 22);
-            self::ensureRegisterGroupHasSelectedValue($register, range(26, 31), 26);
+            if ($attributes['administrative_dependence'] == '4') {
+                self::ensureRegisterGroupHasSelectedValue($register, range(26, 31), 26);
+            }
         }
 
         array_push($registers, EducacensoRegisterFormatter::format(0, $register, $year));

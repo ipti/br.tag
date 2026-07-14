@@ -22,7 +22,8 @@ $cs->registerScriptFile($baseScriptUrl . '/health/functions.js', CClientScript::
 
     <h1>Alunos</h1>
     <div class="row justify-content--end">
-        <a class="t-button-primary" href="<?php echo Yii::app()->createUrl('student/create', ['simple' => 1]) ?>">Adicionar Aluno</a>
+        <a class="t-button-primary"
+            href="<?php echo Yii::app()->createUrl('student/student/create', ['simple' => 1]) ?>">Adicionar Aluno</a>
         <div class="js-report-button hide">
 
         </div>
@@ -33,7 +34,8 @@ $cs->registerScriptFile($baseScriptUrl . '/health/functions.js', CClientScript::
             <div class="column clearleft">
                 <div class="t-field-select">
                     <?php echo CHtml::label(yii::t('default', 'Filtrar por Turma'), 'classroom', ['class' => 't-field-select__label no-wrap']); ?>
-                    <select name="classroom" id="classroom" class="select-search-on t-field-select__input select2-container js-classroom">
+                    <select name="classroom" id="classroom"
+                        class="select-search-on t-field-select__input select2-container js-classroom">
                         <option value="" selected>Selecione...</option>
                         <?php foreach ($classrooms as $classroom): ?>
                             <option value="<?= $classroom['id'] ?>"><?= htmlspecialchars($classroom['name']) ?></option>

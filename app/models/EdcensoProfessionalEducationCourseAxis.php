@@ -41,7 +41,7 @@ class EdcensoProfessionalEducationCourseAxis extends TagModel
     public function attributeLabels()
     {
         return [
-            'id'   => Yii::t('default', 'ID'),
+            'id' => Yii::t('default', 'ID'),
             'name' => Yii::t('default', 'Name'),
         ];
     }

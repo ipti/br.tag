@@ -1,12 +1,12 @@
 <?php
 
-//@done S2 - Modularizar o código do import
+//@done S2 - Modularizar o cÃƒÆ’Ã‚Â³digo do import
 //@done S2 - Criar o controller de Import
-//@done S2 - Mover o código do import de SchoolController.php para AdminController.php
-//@done S2 - Mover o código do configACL de SchoolController.php para AdminController.php
-//@done S2 - Criar método de limparBanco
+//@done S2 - Mover o cÃƒÆ’Ã‚Â³digo do import de SchoolController.php para AdminController.php
+//@done S2 - Mover o cÃƒÆ’Ã‚Â³digo do configACL de SchoolController.php para AdminController.php
+//@done S2 - Criar mÃƒÆ’Ã‚Â©todo de limparBanco
 //@done S2 - Criar tela de index do AdminController.php
-//@done S2 - Criar usuários padrões.
+//@done S2 - Criar usuÃƒÆ’Ã‚Â¡rios padrÃƒÆ’Ã‚Âµes.
 //@done S2 - Mensagens de retorno ao executar os scripts.
 class CensoController extends Controller
 {
@@ -29,9 +29,9 @@ class CensoController extends Controller
     private function isIntegerInRange($value, $min, $max)
     {
         return $this->isFilledValue($value)
-            && preg_match('/^[0-9]+$/', (string)$value)
-            && (int)$value >= $min
-            && (int)$value <= $max;
+            && preg_match('/^[0-9]+$/', (string) $value)
+            && (int) $value >= $min
+            && (int) $value <= $max;
     }
 
     private function stageMatchesAny($stageId, array $stageIds)
@@ -40,7 +40,7 @@ class CensoController extends Controller
             return false;
         }
 
-        if (in_array((int)$stageId, $stageIds, true)) {
+        if (in_array((int) $stageId, $stageIds, true)) {
             return true;
         }
 
@@ -49,12 +49,12 @@ class CensoController extends Controller
             return false;
         }
 
-        return in_array((int)$stage->edcenso_associated_stage_id, $stageIds, true);
+        return in_array((int) $stage->edcenso_associated_stage_id, $stageIds, true);
     }
 
     private function isProfessionalCourseType($course)
     {
-        return in_array((string)$course, self::PROFESSIONAL_COURSE_TYPES_2026, true);
+        return in_array((string) $course, self::PROFESSIONAL_COURSE_TYPES_2026, true);
     }
 
     private function getProfessionalCourseMinimumWorkload($courseId)
@@ -79,7 +79,7 @@ class CensoController extends Controller
                 ->where('id = :id', [':id' => $courseId])
                 ->queryScalar();
 
-            return is_numeric($minimumWorkload) ? (int)$minimumWorkload : null;
+            return is_numeric($minimumWorkload) ? (int) $minimumWorkload : null;
         }
 
         return null;
@@ -98,6 +98,7 @@ class CensoController extends Controller
                 'actions' => [
                     'import',
                     'export',
+                    'exportidentification',
                     'acl',
                     'backup',
                     'data',
@@ -108,6 +109,7 @@ class CensoController extends Controller
                     'clearMaster',
                     'importFromMaster',
                     'downloadexportfile',
+                    'downloadexportfileidentification',
                     'ExportWithoutInepid'
                 ],
                 'users' => ['@'],
@@ -141,7 +143,7 @@ class CensoController extends Controller
         $modalitiesEspecial = false;
         $modalitiesEja = false;
         $modalitiesProfessional = false;
-        foreach ($peopleByMmodalitie as  $item) {
+        foreach ($peopleByMmodalitie as $item) {
             switch ($item['modalities']) {
                 case '1':
                     if ($item['number_of'] > '0') {
@@ -467,7 +469,7 @@ class CensoController extends Controller
         //campo 2
 
         $inepIds = $this->getInepIds();
-        foreach ($inepIds as  $value) {
+        foreach ($inepIds as $value) {
             $allowedSchoolInepIds[] = $value['inep_id'];
         }
 
@@ -478,7 +480,7 @@ class CensoController extends Controller
         if (!$result['status']) {
             array_push($log, ['school_inep_id_fk' => $result['erro']]);
         }
-        //campo 3 à 11
+        //campo 3 ÃƒÆ’Ã‚Â  11
         $operationLocations = [
             $collumn['operation_location_building'],
             $collumn['operation_location_temple'],
@@ -505,7 +507,7 @@ class CensoController extends Controller
             array_push($log, ['building_occupation_situation' => $result['erro']]);
         }
 
-        //campos 14 à 19
+        //campos 14 ÃƒÆ’Ã‚Â  19
         $sharedSchoolInepIds = [
             $collumn['shared_school_inep_id_1'],
             $collumn['shared_school_inep_id_2'],
@@ -519,7 +521,7 @@ class CensoController extends Controller
             array_push($log, ['Escolas com qual e compartilhada' => $result['erro']]);
         }
 
-        //campos 21 à 25
+        //campos 21 ÃƒÆ’Ã‚Â  25
         $waterSupplys = [
             $collumn['water_supply_public'],
             $collumn['water_supply_artesian_well'],
@@ -533,7 +535,7 @@ class CensoController extends Controller
             array_push($log, ['Suprimento de Agua' => $result['erro']]);
         }
 
-        //campos 26 à 29
+        //campos 26 ÃƒÆ’Ã‚Â  29
         $energySupplys = [
             $collumn['energy_supply_public'],
             $collumn['energy_supply_generator'],
@@ -545,7 +547,7 @@ class CensoController extends Controller
             array_push($log, ['Suprimento de Energia' => $result['erro']]);
         }
 
-        //campos 30 à 32
+        //campos 30 ÃƒÆ’Ã‚Â  32
         $sewages = [
             $collumn['sewage_public'],
             $collumn['sewage_fossa'],
@@ -557,7 +559,7 @@ class CensoController extends Controller
             array_push($log, ['Esgoto' => $result['erro']]);
         }
 
-        //campos 33 à 38
+        //campos 33 ÃƒÆ’Ã‚Â  38
         $garbageDestinations = [
             $collumn['garbage_destination_collect'],
             $collumn['garbage_destination_burn'],
@@ -581,7 +583,7 @@ class CensoController extends Controller
             array_push($log, ['Tratamento do lixo' => $result['erro']]);
         }
 
-        //campos 39 à 68
+        //campos 39 ÃƒÆ’Ã‚Â  68
         $dependencies = [
             $collumn['dependencies_principal_room'],
             $collumn['dependencies_instructors_room'],
@@ -649,11 +651,11 @@ class CensoController extends Controller
         }
 
         $usedClassroomCount = $collumn['used_classroom_count'];
-        if ((string)$collumn['operation_location_building'] === '0') {
+        if ((string) $collumn['operation_location_building'] === '0') {
             if (!$this->isIntegerInRange($usedClassroomCount, 1, 9999)) {
                 array_push($log, ['used_classroom_count' => 'Quando a escola nao funciona em predio escolar, o campo deve ser preenchido com valor entre 1 e 9999.']);
             }
-        } elseif ($this->isFilledValue($usedClassroomCount) && (int)$usedClassroomCount !== 0) {
+        } elseif ($this->isFilledValue($usedClassroomCount) && (int) $usedClassroomCount !== 0) {
             array_push($log, ['used_classroom_count' => 'Quando a escola funciona em predio escolar, o campo deve ficar vazio.']);
         }
 
@@ -667,7 +669,7 @@ class CensoController extends Controller
         ];
         $result = $ssv->atLeastOne($internetAccess);
         if (!$result['status']) {
-            array_push($log, ['Acesso à Internet' => $result['erro']]);
+            array_push($log, ['Acesso ÃƒÆ’Ã‚Â  Internet' => $result['erro']]);
         }
 
         $instruments = [
@@ -863,7 +865,7 @@ class CensoController extends Controller
         }
 
         $qualificationCourseAxisCode = $column['qualification_course_axis_code'];
-        $requiresQualificationCourseAxis = in_array((int)$associatedStageId, self::QUALIFICATION_COURSE_AXIS_STAGE_IDS_2026, true);
+        $requiresQualificationCourseAxis = in_array((int) $associatedStageId, self::QUALIFICATION_COURSE_AXIS_STAGE_IDS_2026, true);
         if ($requiresQualificationCourseAxis && !$this->isIntegerInRange($qualificationCourseAxisCode, 1, 99)) {
             array_push($log, ['qualification_course_axis_code' => 'O campo Codigo do eixo do curso de qualificacao profissional deve ser preenchido com valor valido.']);
         } elseif (!$requiresQualificationCourseAxis && $this->isFilledValue($qualificationCourseAxisCode)) {
@@ -874,13 +876,13 @@ class CensoController extends Controller
         if ($this->isProfessionalCourseType($column['course'])) {
             if (!$this->isIntegerInRange($totalCourseHours, 1, 9999)) {
                 array_push($log, ['total_course_hours' => 'A carga horaria total do curso deve ser preenchida com ate 4 digitos.']);
-            } elseif ((string)$column['course'] === '1' && (int)$totalCourseHours > 2000) {
+            } elseif ((string) $column['course'] === '1' && (int) $totalCourseHours > 2000) {
                 array_push($log, ['total_course_hours' => 'Para curso tecnico, a carga horaria total nao pode ultrapassar 2000 horas.']);
-            } elseif ((string)$column['course'] === '2' && ((int)$totalCourseHours < 160 || (int)$totalCourseHours > 800)) {
+            } elseif ((string) $column['course'] === '2' && ((int) $totalCourseHours < 160 || (int) $totalCourseHours > 800)) {
                 array_push($log, ['total_course_hours' => 'Para curso de qualificacao profissional, a carga horaria total deve estar entre 160 e 800 horas.']);
             } else {
                 $minimumWorkload = $this->getProfessionalCourseMinimumWorkload($column['edcenso_professional_education_course_fk']);
-                if ($minimumWorkload !== null && (int)$totalCourseHours < $minimumWorkload) {
+                if ($minimumWorkload !== null && (int) $totalCourseHours < $minimumWorkload) {
                     array_push($log, ['total_course_hours' => "A carga horaria total nao pode ser menor que a carga minima do curso selecionado ($minimumWorkload horas)."]);
                 }
             }
@@ -909,7 +911,7 @@ class CensoController extends Controller
             array_push($log, ['Turma' => $result['erro']]);
         }
 
-        $result = $crv->isValidDisciplineForStage($column['edcenso_stage_vs_modality_fk'], $instructorsTeachingData);
+        $result = $crv->isValidDisciplineForStage($associatedStageId, $instructorsTeachingData);
         if (!$result['status']) {
             array_push($log, ['Disciplinas' => $result['erro']]);
         }
@@ -930,13 +932,23 @@ class CensoController extends Controller
             }
         }
 
+
+        $alternanciaRestrictedStages = [1, 2, 3, 14, 15, 16, 17, 18, 56];
+        if ($associatedStageId > 0 && !in_array($associatedStageId, $alternanciaRestrictedStages) && $column['is_alternance'] === null) {
+            array_push($log, ['is_alternance' => 'O campo "Turma de Formacao por Alternancia" deve ser preenchido para esta etapa (Censo 2026, Registro 20, campo 29).']);
+        }
+
+        if ($associatedStageId > 0 && !in_array($associatedStageId, [1, 2, 3]) && $column['organization_form'] === null && $column['schooling'] == "1") {
+            array_push($log, ['organization_form' => 'O campo "Forma de Organizacao" deve ser preenchido para esta etapa (Censo 2026, Registro 20, campo 28).']);
+        }
+
         return $log;
     }
 
     public function validateInstructor($collumn, $instructorDocumentsAndAddress)
     {
         $inepIds = $this->getInepIds();
-        foreach ($inepIds as  $value) {
+        foreach ($inepIds as $value) {
             $allowedSchoolInepIds[] = $value['inep_id'];
         }
 
@@ -1037,7 +1049,7 @@ class CensoController extends Controller
             array_push($log, ['deficiency' => $result['erro']]);
         }
 
-        //campo 19 à 25
+        //campo 19 ÃƒÆ’Ã‚Â  25
         $deficiencies = [
             $collumn['deficiency_type_blindness'],
             $collumn['deficiency_type_low_vision'],
@@ -1075,7 +1087,7 @@ class CensoController extends Controller
 
         $variabelData = InstructorVariableData::model()->findByPk($collumn['id']);
         if (!isset($variabelData)) {
-            array_push($log, ['Escolaridade' => 'Formação educacional não foi informada']);
+            array_push($log, ['Escolaridade' => 'FormaÃƒÆ’Ã‚Â§ÃƒÆ’Ã‚Â£o educacional nÃƒÆ’Ã‚Â£o foi informada']);
         }
 
         return $log;
@@ -1090,7 +1102,7 @@ class CensoController extends Controller
         $instructorInepId = $collumn['inep_id'];
 
         $inepIds = $this->getInepIds();
-        foreach ($inepIds as  $value) {
+        foreach ($inepIds as $value) {
             $allowedSchoolInepIds[] = $value['inep_id'];
         }
         //campo 2
@@ -1106,7 +1118,7 @@ class CensoController extends Controller
         if (!empty($instructorInepId)) {
             $sql = "SELECT COUNT(inep_id) AS status FROM instructor_documents_and_address WHERE inep_id =  '$instructorInepId'";
             $check = Yii::app()->db->createCommand($sql)->queryAll();
-            $result = $idav->isEqual($check[0]['status'], '1', "Não há tal inep_id $instructorInepId");
+            $result = $idav->isEqual($check[0]['status'], '1', "NÃƒÆ’Ã‚Â£o hÃƒÆ’Ã‚Â¡ tal inep_id $instructorInepId");
             if (!$result['status']) {
                 array_push($log, ['id' => $result['erro']]);
             }
@@ -1136,7 +1148,7 @@ class CensoController extends Controller
     public function validateInstructorData($collumn)
     {
         $inepIds = $this->getInepIds();
-        foreach ($inepIds as  $value) {
+        foreach ($inepIds as $value) {
             $allowedSchoolInepIds[] = $value['inep_id'];
         }
 
@@ -1159,7 +1171,7 @@ class CensoController extends Controller
         $sql = "SELECT COUNT(id) AS status FROM instructor_identification WHERE id =  '$instructorFk'";
         $check = Yii::app()->db->createCommand($sql)->queryAll();
 
-        $result = $itdv->isEqual($check[0]['status'], '1', 'Não há tal instructor_fk $instructorFk');
+        $result = $itdv->isEqual($check[0]['status'], '1', 'NÃƒÆ’Ã‚Â£o hÃƒÆ’Ã‚Â¡ tal instructor_fk $instructorFk');
         if (!$result['status']) {
             array_push($log, ['instructor_fk' => $result['erro']]);
         }
@@ -1174,7 +1186,7 @@ class CensoController extends Controller
         $sql = "SELECT COUNT(id) AS status FROM classroom WHERE id = '$classroomFk';";
         $check = Yii::app()->db->createCommand($sql)->queryAll();
 
-        $result = $itdv->isEqual($check[0]['status'], '1', 'Não há tal classroom_id_fk $classroomFk');
+        $result = $itdv->isEqual($check[0]['status'], '1', 'NÃƒÆ’Ã‚Â£o hÃƒÆ’Ã‚Â¡ tal classroom_id_fk $classroomFk');
         if (!$result['status']) {
             array_push($log, ['classroom_id_fk' => $result['erro']]);
         }
@@ -1236,7 +1248,7 @@ class CensoController extends Controller
     public function validateStudentIdentification($collumn, $studentDocument, $classroom)
     {
         $inepIds = $this->getInepIds();
-        foreach ($inepIds as  $value) {
+        foreach ($inepIds as $value) {
             $allowedSchoolInepIds[] = $value['inep_id'];
         }
 
@@ -1350,7 +1362,7 @@ class CensoController extends Controller
             array_push($log, ['pedagogical_formation_by_alternance' => $result['erro']]);
         }
 
-        //campo 17 à 24 e 26 à 29
+        //campo 17 ÃƒÆ’Ã‚Â  24 e 26 ÃƒÆ’Ã‚Â  29
 
         $deficienciesWhole = [
             $collumn['deficiency_type_blindness'],
@@ -1367,9 +1379,9 @@ class CensoController extends Controller
 
         $excludingdeficiencies = [
             ['Cegueira' => [$collumn['deficiency_type_blindness'] => [$collumn['deficiency_type_low_vision'], $collumn['deficiency_type_deafness'], $collumn['deficiency_type_deafblindness']]]],
-            ['Baixa Visão' => [$collumn['deficiency_type_low_vision'] => [$collumn['deficiency_type_deafblindness']]]],
+            ['Baixa VisÃƒÆ’Ã‚Â£o' => [$collumn['deficiency_type_low_vision'] => [$collumn['deficiency_type_deafblindness']]]],
             ['Surdez' => [$collumn['deficiency_type_deafness'] => [$collumn['deficiency_type_disability_hearing'], $collumn['deficiency_type_deafblindness']]]],
-            ['Deficiência Auditiva' => [$collumn['deficiency_type_disability_hearing'] => [$collumn['deficiency_type_deafblindness']]]]
+            ['DeficiÃƒÆ’Ã‚Âªncia Auditiva' => [$collumn['deficiency_type_disability_hearing'] => [$collumn['deficiency_type_deafblindness']]]]
         ];
 
         $result = $stiv->checkDeficiencies($collumn['deficiency'], $deficienciesWhole, $excludingdeficiencies);
@@ -1412,7 +1424,7 @@ class CensoController extends Controller
 
         $result = $stiv->atLeastOne($deficienciesWhole);
         if ($classroom['aee'] == 1 && ($collumn['deficiency'] == 0 || !$result['status'])) {
-            array_push($log, ['Deficiencia' => 'O aluno está matriculado na turma de Atendimento Educacional Especializado "' . $classroom['name'] . '", mas nenhum tipo de deficiência foi marcado.']);
+            array_push($log, ['Deficiencia' => 'O aluno estÃƒÆ’Ã‚Â¡ matriculado na turma de Atendimento Educacional Especializado "' . $classroom['name'] . '", mas nenhum tipo de deficiÃƒÆ’Ã‚Âªncia foi marcado.']);
         }
 
         return $log;
@@ -1422,7 +1434,7 @@ class CensoController extends Controller
     {
         $studentInepId = $studentident['inep_id'];
         $inepIds = $this->getInepIds();
-        foreach ($inepIds as  $value) {
+        foreach ($inepIds as $value) {
             $allowedSchoolInepIds[] = $value['inep_id'];
         }
 
@@ -1449,9 +1461,9 @@ class CensoController extends Controller
         if (!empty($studentInepId)) {
             $sql = "SELECT COUNT(inep_id) AS status FROM student_identification WHERE inep_id = '$studentInepId';";
             $check = Yii::app()->db->createCommand($sql)->queryAll();
-            $count = (int)$check[0]['status'];
+            $count = (int) $check[0]['status'];
             if ($count === 0) {
-                array_push($log, ['student_indentification' => "INEP do aluno não encontrado: $studentInepId"]);
+                array_push($log, ['student_indentification' => "INEP do aluno nÃƒÆ’Ã‚Â£o encontrado: $studentInepId"]);
             } elseif ($count > 1) {
                 array_push($log, ['student_indentification' => "INEP do aluno duplicado: $studentInepId (encontrado $count vezes na base)"]);
             }
@@ -1498,7 +1510,7 @@ class CensoController extends Controller
     public function validateEnrollment($collumn)
     {
         $inepIds = $this->getInepIds();
-        foreach ($inepIds as  $value) {
+        foreach ($inepIds as $value) {
             $allowedSchoolInepIds[] = $value['inep_id'];
         }
 
@@ -1521,9 +1533,9 @@ class CensoController extends Controller
         if (!empty($studentInepIdFk)) {
             $sql = "SELECT COUNT(inep_id) AS status FROM student_identification WHERE inep_id = '$studentInepIdFk';";
             $check = Yii::app()->db->createCommand($sql)->queryAll();
-            $count = (int)$check[0]['status'];
+            $count = (int) $check[0]['status'];
             if ($count === 0) {
-                array_push($log, ['student_fk' => "INEP do aluno não encontrado: $studentInepIdFk"]);
+                array_push($log, ['student_fk' => "INEP do aluno nÃƒÆ’Ã‚Â£o encontrado: $studentInepIdFk"]);
             } elseif ($count > 1) {
                 array_push($log, ['student_fk' => "INEP do aluno duplicado: $studentInepIdFk (encontrado $count vezes na base)"]);
             }
@@ -1540,7 +1552,7 @@ class CensoController extends Controller
         $sql = "SELECT COUNT(id) AS status FROM classroom WHERE id = '$classroomFk';";
         $check = Yii::app()->db->createCommand($sql)->queryAll();
 
-        $result = $sev->isEqual($check[0]['status'], '1', 'Não há tal classroom_id $classroomFk');
+        $result = $sev->isEqual($check[0]['status'], '1', 'NÃƒÆ’Ã‚Â£o hÃƒÆ’Ã‚Â¡ tal classroom_id $classroomFk');
         if (!$result['status']) {
             array_push($log, ['classroom_fk' => $result['erro']]);
         }
@@ -1689,12 +1701,12 @@ class CensoController extends Controller
     public function fixName($name)
     {
         $name = preg_replace('/&([a-z])[a-z]+;/i', '$1', htmlentities($name));
-        $name = str_replace(['Á', 'À', 'Ã', 'Â', 'Ä'], 'A', $name);
-        $name = str_replace(['É', 'È', 'Ê', 'Ë'], 'E', $name);
-        $name = str_replace(['Í', 'Ì', 'Î', 'Ï'], 'I', $name);
-        $name = str_replace(['Ó', 'Ò', 'Õ', 'Ô', 'Ö'], 'O', $name);
-        $name = str_replace(['Ú', 'Ù', 'Û', 'Ü'], 'U', $name);
-        $name = str_replace(['Ç'], 'C', $name);
+        $name = str_replace(['ÃƒÆ’Ã‚Â', 'ÃƒÆ’Ã¢â€šÂ¬', 'ÃƒÆ’Ã†â€™', 'ÃƒÆ’Ã¢â‚¬Å¡', 'ÃƒÆ’Ã¢â‚¬Å¾'], 'A', $name);
+        $name = str_replace(['ÃƒÆ’Ã¢â‚¬Â°', 'ÃƒÆ’Ã‹â€ ', 'ÃƒÆ’Ã…Â ', 'ÃƒÆ’Ã¢â‚¬Â¹'], 'E', $name);
+        $name = str_replace(['ÃƒÆ’Ã‚Â', 'ÃƒÆ’Ã…â€™', 'ÃƒÆ’Ã…Â½', 'ÃƒÆ’Ã‚Â'], 'I', $name);
+        $name = str_replace(['ÃƒÆ’Ã¢â‚¬Å“', 'ÃƒÆ’Ã¢â‚¬â„¢', 'ÃƒÆ’Ã¢â‚¬Â¢', 'ÃƒÆ’Ã¢â‚¬Â', 'ÃƒÆ’Ã¢â‚¬â€œ'], 'O', $name);
+        $name = str_replace(['ÃƒÆ’Ã…Â¡', 'ÃƒÆ’Ã¢â€žÂ¢', 'ÃƒÆ’Ã¢â‚¬Âº', 'ÃƒÆ’Ã…â€œ'], 'U', $name);
+        $name = str_replace(['ÃƒÆ’Ã¢â‚¬Â¡'], 'C', $name);
         return $name;
     }
 
@@ -1852,7 +1864,7 @@ class CensoController extends Controller
             $ordens = EdcensoAlias::model()->findAllByAttributes(['register' => $register]);
             foreach ($ordens as $ord) {
                 $evalin = '$this->tmpexp["' . $pos . '"][' . $attributes['id'] . '][' . $ord->corder . '] = "' . $ord->default . '";';
-                eval($evalin);
+                eval ($evalin);
             }
         } elseif ($register == 20) {
             $pos = 'c';
@@ -1865,7 +1877,7 @@ class CensoController extends Controller
             if ($reg == 60) {
                 foreach ($ordens as $ord) {
                     $evalin = '$this->tmpexp["' . $pos . '"][' . $attributes['id'] . '][' . $ord->corder . '] = "' . $ord->default . '";';
-                    eval($evalin);
+                    eval ($evalin);
                 }
             }
         } elseif ($register == 30 || $register == 40 || $register == 50) {
@@ -1876,7 +1888,7 @@ class CensoController extends Controller
             if ($reg == 30) {
                 foreach ($ordens as $ord) {
                     $evalin = '$this->tmpexp["' . $pos . '"][' . $attributes['id'] . '][' . $ord->corder . '] = "' . $ord->default . '";';
-                    eval($evalin);
+                    eval ($evalin);
                 }
             }
         } elseif ($register == 80) {
@@ -1890,7 +1902,7 @@ class CensoController extends Controller
             $ordens = EdcensoAlias::model()->findAllByAttributes(['register' => $register]);
             foreach ($ordens as $ord) {
                 $evalin = '$this->tmpexp["' . $pos . '"][' . $attributes['id'] . '][' . $ord->corder . '] = "' . $ord->default . '";';
-                eval($evalin);
+                eval ($evalin);
             }
         }
         $attributes = $this->fixMistakesExport($reg, $attributes);
@@ -1899,13 +1911,13 @@ class CensoController extends Controller
             if (isset($ordem->corder)) {
                 if (($reg == 70 || $reg == 40) && $key == 'edcenso_city_fk') {
                     $eval = '$this->tmpexp["' . $pos . '"][' . $attributes['id'] . '][44] = "' . $attr . '";';
-                    eval($eval);
+                    eval ($eval);
                 } elseif (($reg == 60 || $reg == 30) && $key == 'edcenso_city_fk') {
                     $eval = '$this->tmpexp["' . $pos . '"][' . $attributes['id'] . '][15] = "' . $attr . '";';
-                    eval($eval);
+                    eval ($eval);
                 } else {
                     $eval = '$this->tmpexp["' . $pos . '"][' . $attributes['id'] . '][' . $ordem->corder . '] = "' . $attr . '";';
-                    eval($eval);
+                    eval ($eval);
                 }
             }
         }
@@ -2019,7 +2031,7 @@ class CensoController extends Controller
 
     public function sanitizeString($string)
     {
-        $what = ['ä', 'ã', 'à', 'á', 'â', 'ê', 'ë', 'è', 'é', 'ï', 'ì', 'í', 'ö', 'õ', 'ò', 'ó', 'ô', 'ü', 'ù', 'ú', 'û', 'À', 'Á', 'É', 'Í', 'Ó', 'Ú', 'ñ', 'Ñ', 'ç', 'Ç', ' ', '-', '(', ')', ',', ';', ':', '|', '!', '"', '#', '$', '%', '&', '/', '=', '?', '~', '^', '>', '<', 'ª', 'º'];
+        $what = ['ÃƒÆ’Ã‚Â¤', 'ÃƒÆ’Ã‚Â£', 'ÃƒÆ’Ã‚Â ', 'ÃƒÆ’Ã‚Â¡', 'ÃƒÆ’Ã‚Â¢', 'ÃƒÆ’Ã‚Âª', 'ÃƒÆ’Ã‚Â«', 'ÃƒÆ’Ã‚Â¨', 'ÃƒÆ’Ã‚Â©', 'ÃƒÆ’Ã‚Â¯', 'ÃƒÆ’Ã‚Â¬', 'ÃƒÆ’Ã‚Â­', 'ÃƒÆ’Ã‚Â¶', 'ÃƒÆ’Ã‚Âµ', 'ÃƒÆ’Ã‚Â²', 'ÃƒÆ’Ã‚Â³', 'ÃƒÆ’Ã‚Â´', 'ÃƒÆ’Ã‚Â¼', 'ÃƒÆ’Ã‚Â¹', 'ÃƒÆ’Ã‚Âº', 'ÃƒÆ’Ã‚Â»', 'ÃƒÆ’Ã¢â€šÂ¬', 'ÃƒÆ’Ã‚Â', 'ÃƒÆ’Ã¢â‚¬Â°', 'ÃƒÆ’Ã‚Â', 'ÃƒÆ’Ã¢â‚¬Å“', 'ÃƒÆ’Ã…Â¡', 'ÃƒÆ’Ã‚Â±', 'ÃƒÆ’Ã¢â‚¬Ëœ', 'ÃƒÆ’Ã‚Â§', 'ÃƒÆ’Ã¢â‚¬Â¡', ' ', '-', '(', ')', ',', ';', ':', '|', '!', '"', '#', '$', '%', '&', '/', '=', '?', '~', '^', '>', '<', 'Ãƒâ€šÃ‚Âª', 'Ãƒâ€šÃ‚Âº'];
         $by = ['a', 'a', 'a', 'a', 'a', 'e', 'e', 'e', 'e', 'i', 'i', 'i', 'o', 'o', 'o', 'o', 'o', 'u', 'u', 'u', 'u', 'A', 'A', 'E', 'I', 'O', 'U', 'n', 'n', 'c', 'C', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '', ''];
         return str_replace($what, $by, $string);
     }
@@ -2028,7 +2040,7 @@ class CensoController extends Controller
     {
         $modelTeachingData = Classroom::model()->findByPk($id)->instructorTeachingDatas;
         $teachingDataDisciplines = [];
-        foreach ($modelTeachingData as  $model) {
+        foreach ($modelTeachingData as $model) {
             $disciplines = ClassroomHelper::teachingDataDiscipline2array($model);
             foreach ($disciplines as $discipline) {
                 if ($discipline->id > 99) {
@@ -2161,9 +2173,7 @@ class CensoController extends Controller
                     }
                 }
 
-                if ($attributes['native_education'] != 1) {
-                    $attributes['native_education_language_native'] = '';
-                    $attributes['native_education_language_portuguese'] = '';
+                if (!($attributes['native_education_language'] ?? null)) {
                     $attributes['edcenso_native_languages_fk'] = '';
                     $attributes['edcenso_native_languages_fk2'] = '';
                     $attributes['edcenso_native_languages_fk3'] = '';
@@ -2584,8 +2594,8 @@ class CensoController extends Controller
                 break;
             case '51':
                 /*
-                 * O campo "Código da disciplina 4" não pode ser preenchido quando a turma à qual o docente
-                 * está vinculado for de Educação infantil ou EJA - Fundamental - Projovem urbano.
+                 * O campo "CÃƒÆ’Ã‚Â³digo da disciplina 4" nÃƒÆ’Ã‚Â£o pode ser preenchido quando a turma ÃƒÆ’Ã‚Â  qual o docente
+                 * estÃƒÆ’Ã‚Â¡ vinculado for de EducaÃƒÆ’Ã‚Â§ÃƒÆ’Ã‚Â£o infantil ou EJA - Fundamental - Projovem urbano.
                  */
                 $classroom = Classroom::model()->findByPk($attributes['classroom_id_fk']);
                 if (
@@ -2743,15 +2753,15 @@ class CensoController extends Controller
             return $this->redirect(['index', 'exported' => 1]);
         }
 
-        Yii::app()->user->setFlash('error', Yii::t('default', 'Houve algum erro na Exportação.'));
+        Yii::app()->user->setFlash('error', Yii::t('default', 'Houve algum erro na ExportaÃƒÆ’Ã‚Â§ÃƒÆ’Ã‚Â£o.'));
         return $this->redirect(['index']);
     }
 
-    public function actionExportIdentification($withoutCertificates)
+    public function actionExportIdentification($withoutCertificates = false)
     {
         include_once dirname(__DIR__) . '/libraries/Educacenso/Educacenso.php';
         $educacenso = new Educacenso();
-        $export = $educacenso->exportarIdentification($withoutCertificates);
+        $export = $educacenso->exportarIdentification((bool) $withoutCertificates);
 
         $fileDir = Yii::app()->basePath . '/export/' . date('Y_') . Yii::app()->user->school . '_IDENTIFICACAO.TXT';
 
@@ -2762,11 +2772,10 @@ class CensoController extends Controller
         if ($result) {
             $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
             Log::model()->saveAction('educacenso', Yii::app()->user->school, 'E', $school->name);
-            Yii::app()->user->setFlash('success', Yii::t('default', 'Exportação Concluida com Sucesso.<br><a href="?r=/censo/DownloadExportFileIdentification" class="btn btn-mini" target="_blank"><i class="icon-download-alt"></i>Clique aqui para fazer o Download do arquivo de identificação!!!</a>'));
-        } else {
-            Yii::app()->user->setFlash('error', Yii::t('default', 'Houve algum erro na Exportação.'));
+            return $this->redirect(['index', 'exportedIdentification' => 1]);
         }
 
+        Yii::app()->user->setFlash('error', Yii::t('default', 'Houve algum erro na ExportaÃƒÆ’Ã‚Â§ÃƒÆ’Ã‚Â£o.'));
         return $this->redirect(['index']);
     }
 
@@ -2783,7 +2792,7 @@ class CensoController extends Controller
             header($this->concatContentLength(filesize($fileDir)));
             readfile($fileDir);
         } else {
-            Yii::app()->user->setFlash('error', Yii::t('default', 'Arquivo de exportação não encontrado!!! Tente exportar novamente.'));
+            Yii::app()->user->setFlash('error', Yii::t('default', 'Arquivo de exportaÃƒÆ’Ã‚Â§ÃƒÆ’Ã‚Â£o nÃƒÆ’Ã‚Â£o encontrado!!! Tente exportar novamente.'));
             $this->render('index');
         }
     }
@@ -2801,7 +2810,7 @@ class CensoController extends Controller
             header($this->concatContentLength(filesize($fileDir)));
             readfile($fileDir);
         } else {
-            Yii::app()->user->setFlash('error', Yii::t('default', 'Arquivo de exportação não encontrado!!! Tente exportar novamente.'));
+            Yii::app()->user->setFlash('error', Yii::t('default', 'Arquivo de exportaÃƒÆ’Ã‚Â§ÃƒÆ’Ã‚Â£o nÃƒÆ’Ã‚Â£o encontrado!!! Tente exportar novamente.'));
             $this->render('index');
         }
     }
@@ -2851,7 +2860,7 @@ class CensoController extends Controller
         try {
             $file = fopen($uploadedFile, 'r');
             if ($file === false) {
-                die('O arquivo não existe.');
+                die('O arquivo nÃƒÆ’Ã‚Â£o existe.');
             }
             while (true) {
                 $fileLine = fgets($file);
@@ -2913,7 +2922,7 @@ class CensoController extends Controller
                     $counterStudents++;
                 }
             }
-            Yii::app()->user->setFlash('success', 'Importação realizada com sucesso!');
+            Yii::app()->user->setFlash('success', 'ImportaÃƒÆ’Ã‚Â§ÃƒÆ’Ã‚Â£o realizada com sucesso!');
             Yii::app()->user->setFlash('log', "{$counterInstructos} registros de Professores importados com sucesso\n {$counterStudents} registros de alunos importados com sucesso");
         } catch (Exception $e) {
             Yii::app()->user->setFlash('error', 'Ocorreu um erro inesperado.');
@@ -2997,7 +3006,7 @@ class CensoController extends Controller
                     }
                 }
             }
-            Yii::app()->user->setFlash('success', 'Importação realizada com sucesso!');
+            Yii::app()->user->setFlash('success', 'ImportaÃƒÆ’Ã‚Â§ÃƒÆ’Ã‚Â£o realizada com sucesso!');
             Yii::app()->user->setFlash('log', $imported);
         } catch (Exception $e) {
             Yii::app()->user->setFlash('error', 'Ocorreu um erro inesperado.');
@@ -3037,7 +3046,7 @@ class CensoController extends Controller
 
         $file = fopen($fileDir, $mode);
         if ($file === false) {
-            die('O arquivo não existe.');
+            die('O arquivo nÃƒÆ’Ã‚Â£o existe.');
         }
 
         $registerLines = [];

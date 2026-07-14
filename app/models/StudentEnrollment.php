@@ -806,14 +806,10 @@ class StudentEnrollment extends AltActiveRecord
 
     public function isActive()
     {
-        $refActiveStatus = [
-            '1',
-            '8',
-            '10',
-            '6',
-            '5',
-            null
-        ];
+        if ($this->status === null) {
+            return true;
+        }
+        $refActiveStatus = ['1', '8', '10', '6', '5'];
         $stages = new CList($refActiveStatus, true);
         return $stages->contains($this->status . '');
     }

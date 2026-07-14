@@ -17,6 +17,7 @@ class RegisterIdentification
     private const EDCENSO_FILIATION_2 = 7;
     private const EDCENSO_MUN_NASCIMENTO = 8;
     private const EDCENSO_INEP_ID = 9;
+    private const EDCENSO_NACIONALIDADE_BRASILEIRA = '1';
 
     private static function fixName($name)
     {
@@ -76,6 +77,11 @@ class RegisterIdentification
         return $register;
     }
 
+    private static function wasBornInBrazil($person): bool
+    {
+        return (string)($person['identification']['nationality'] ?? '') === self::EDCENSO_NACIONALIDADE_BRASILEIRA;
+    }
+
     public static function export($withoutCertificates)
     {
         $registers = [];
@@ -90,11 +96,19 @@ class RegisterIdentification
         }
 
         foreach ($instructors as $instructor) {
+            if (!self::wasBornInBrazil($instructor)) {
+                continue;
+            }
+
             $register = self::exportPerson($instructor, RegisterIdentificationType::INSTRUCTOR, $withoutCertificates);
             array_push($registers, implode('|', $register));
         }
 
         foreach ($students as $student) {
+            if (!self::wasBornInBrazil($student)) {
+                continue;
+            }
+
             $register = self::exportPerson($student, RegisterIdentificationType::STUDENT, $withoutCertificates);
             array_push($registers, implode('|', $register));
         }

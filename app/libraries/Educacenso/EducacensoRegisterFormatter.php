@@ -5,12 +5,12 @@ class EducacensoRegisterFormatter
     private const EXPECTED_FIELD_COUNTS_BY_YEAR = [
         2026 => [
             0 => 53,
-            10 => 192,
-            20 => 68,
-            30 => 111,
+            10 => 187,
+            20 => 66,
+            30 => 110,
             40 => 7,
             50 => 38,
-            60 => 34,
+            60 => 33,
         ],
     ];
 
