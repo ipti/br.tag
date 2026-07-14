@@ -9,6 +9,7 @@ class StagesModule extends CWebModule
 
         // import the module-level models and components
         $this->setImport([
+            'application.modules.stages.StagesRoutes',
             'stages.models.*',
             'stages.components.*',
         ]);

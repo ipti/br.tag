@@ -22,44 +22,24 @@ class TMenu
                 continue;
             }
 
-            // URL pode ser string, array [route], ou function
-            $urlParams = is_callable($item['url']) ? $item['url']() : $item['url'];
-
-            // Extract route from array or string
-            $itemRoute = is_array($urlParams) ? trim($urlParams[0], '/') : trim($urlParams, '/');
-            if (empty($itemRoute)) {
-                $itemRoute = 'site/index';
-            }
-
-            // Append /index if it's just a controller or module name
-            if (strpos($itemRoute, '/') === false) {
-                $modules = array_keys(Yii::app()->modules);
-                if (in_array($itemRoute, $modules)) {
-                    $itemRoute .= '/default/index';
-                } else {
-                    $itemRoute .= '/index';
-                }
-            }
-
-            // Append controller/index if it's just a module or controller name
-            if (strpos($itemRoute, '/') === false && !empty($itemRoute)) {
-                $modules = array_keys(Yii::app()->modules);
-                if (in_array($itemRoute, $modules)) {
-                    $exceptions = ['calendar', 'lunch', 'foods', 'sagres'];
-                    if (!in_array($itemRoute, $exceptions)) {
-                        // Usa o mesmo nome do módulo como controller (ex: timesheet/timesheet/index)
-                        $itemRoute .= '/' . $itemRoute . '/index';
-                    }
-                } else {
-                    $itemRoute .= '/index';
-                }
-            }
-            // Check if active
-            $isActive = ($currentRoute === $itemRoute);
-            $hasActiveSubmenu = (isset($item['submenu']) && self::submenuIsActive($item['submenu'], $currentRoute));
-
             // Renderiza item simples
             if (!isset($item['submenu'])) {
+                // URL pode ser string, array [route] ou function — só necessária em itens folha
+                $urlParams = is_callable($item['url']) ? $item['url']() : $item['url'];
+
+                // Extract route from array or string
+                $itemRoute = is_array($urlParams) ? trim($urlParams[0], '/') : trim($urlParams, '/');
+                if (empty($itemRoute)) {
+                    $itemRoute = 'site/index';
+                }
+
+                // Append /index if it's just a controller or module name
+                if (strpos($itemRoute, '/') === false) {
+                    $modules = array_keys(Yii::app()->modules);
+                    $itemRoute .= in_array($itemRoute, $modules) ? '/default/index' : '/index';
+                }
+
+                $isActive = ($currentRoute === $itemRoute);
                 $activeClass = $isActive ? 'active' : '';
                 $url = Yii::app()->createUrl($itemRoute, is_array($urlParams) && isset($urlParams[1]) ? $urlParams[1] : []);
 
@@ -73,6 +53,7 @@ class TMenu
                 HTML;
             } else {
                 // Renderiza grupo com submenu
+                $hasActiveSubmenu = self::submenuIsActive($item['submenu'], $currentRoute);
                 $activeClass = $hasActiveSubmenu ? 'active' : '';
                 $collapseClass = $hasActiveSubmenu ? 'in' : '';
 

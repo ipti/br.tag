@@ -11,6 +11,8 @@ class CalendarModule extends CWebModule
         $this->baseScriptUrl = Yii::app()->getAssetManager()->publish(Yii::getPathOfAlias('application.modules.calendar.resources'));
 
         $this->setImport([
+
+            'application.modules.calendar.CalendarRoutes',
             'calendar.models.*', 'calendar.components.*',
         ]);
     }

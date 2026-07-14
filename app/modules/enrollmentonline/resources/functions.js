@@ -128,7 +128,7 @@ $(".js-confirm-enrollment").on("click", function () {
                     let mensagemLimpa = DOMPurify.sanitize(result.message);
                     let nomeTurma = DOMPurify.sanitize(result.data.classroomName);
 
-                    link = "?r=classroom/update&id=" + result.data.classroomId;
+                    link = "?r=classroom/default/update&id=" + result.data.classroomId;
                     mensagem = mensagemLimpa +
                         " Acesse a turma: " +
                         "<a href='" + link + "' target='_blank' style='text-decoration: underline;'>" +

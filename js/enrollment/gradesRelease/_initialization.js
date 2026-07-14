@@ -13,7 +13,7 @@ $('#classroom').change(function () {
     if ($(this).val() !== "") {
         $.ajax({
             type: "POST",
-            url: "?r=enrollment/getDisciplines",
+            url: "?r=grades/entry/getDisciplines",
             cache: false,
             data: {
                 classroom: $("#classroom").val(),
@@ -302,7 +302,7 @@ $("#close-grades-diary").on("click", function (e) {
     e.preventDefault();
     $.ajax({
         type: "POST",
-        url: "?r=enrollment/calculateFinalMedia",
+        url: "?r=grades/entry/calculateFinalMedia",
         cache: false,
         data: {
             classroomId: $("#classroom").val(),

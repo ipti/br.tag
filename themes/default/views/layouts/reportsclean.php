@@ -7,12 +7,20 @@
     <head>
         <title><?php echo CHtml::encode($this->pageTitle); ?></title>
         <meta charset="UTF-8" />
-        <!-- Bootstrap -->
-        <link href="<?php echo Yii::app()->theme->baseUrl; ?>/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
-        <link href="<?php echo Yii::app()->theme->baseUrl; ?>/css/template.css?v=1.0" rel="stylesheet" type="text/css" />
-        <link href="<?php echo Yii::app()->theme->baseUrl; ?>/css/print.css" rel="stylesheet" type="text/css" />
-        <link rel='stylesheet' type='text/css' href='<?php echo Yii::app()->theme->baseUrl; ?>/css/font-awesome.min.css' />
-
+        <?php
+        $themeUrl = Yii::app()->theme->baseUrl;
+        $baseUrl  = Yii::app()->baseUrl;
+        $cs = Yii::app()->getClientScript();
+        $cs->registerCssFile($themeUrl . '/css/bootstrap.min.css');
+        $cs->registerCssFile($themeUrl . '/css/template.css?v=' . TAG_VERSION);
+        $cs->registerCssFile($themeUrl . '/css/print.css', 'print');
+        $cs->registerCssFile($themeUrl . '/css/font-awesome.min.css');
+        $cs->registerCssFile($themeUrl . '/css/glyphicons.min.css');
+        $cs->registerCssFile($themeUrl . '/css/select2.css');
+        $cs->registerCssFile($themeUrl . '/css/jquery-ui-1.9.2.custom.min.css');
+        $cs->registerCssFile($baseUrl  . '/css/form.css?v=' . TAG_VERSION);
+        $cs->registerCssFile($baseUrl  . '/sass/css/main.css?v=' . TAG_VERSION);
+        ?>
     </head>
     <body>
             <?php echo $content; ?>

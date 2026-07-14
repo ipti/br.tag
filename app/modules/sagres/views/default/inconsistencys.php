@@ -45,10 +45,10 @@ foreach ($models as $model): ?>
         '3' => '?r=instructor/update&id=' . $model->idProfessional,
         '4' => '?r=school/school/update&id=' . $model->idSchool,
         '9' => '?r=student/student/update&id=' . $model->idStudent,
-        '10' => '?r=classroom/update&id=' . $model->idClass,
+        '10' => '?r=classroom/default/update&id=' . $model->idClass,
         '11' => '?r=lunch/lunch/update&id=' . $model->idLunch,
         '12' => '?r=stages/default/update&id=' . $model->idClass,
-        '13' => '?r=classroom/batchupdatetotal&id=' . $model->idClass,
+        '13' => '?r=classroom/default/batchupdatetotal&id=' . $model->idClass,
         '0' => '?r=sagres/default/createorupdate',
     ];
 

@@ -13,6 +13,8 @@ class StudentModule extends CWebModule
 
     /** @var string Layout used by all controllers in this module */
     public $layout = 'webroot.themes.default.views.layouts.fullmenu';
+    public $baseScriptUrl;
+    public $baseUrl;
 
     /**
      * Initializes the module.
@@ -21,8 +23,17 @@ class StudentModule extends CWebModule
      */
     public function init()
     {
-        // Models are in app/models/ (shared across modules) — no local import needed.
-        $this->setImport([]);
+        $this->baseUrl = Yii::app()->createUrl('student');
+        $this->baseScriptUrl = Yii::app()->getAssetManager()->publish(
+            Yii::getPathOfAlias('application.modules.student.resources')
+        );
+
+        $this->setImport([
+
+            'application.modules.student.StudentRoutes',
+            'application.modules.student.models.*',
+            'application.modules.grades.usecases.*',
+        ]);
     }
 
     /**

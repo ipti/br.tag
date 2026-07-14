@@ -25,7 +25,7 @@ define('STUDENT_STRONG', '<strong>ESTUDANTE<strong>');
 define('DATA_MATRICULA_INV', 'Data da matrícula no formato inválido: ');
 define('DATE_FORMAT', 'd/m/Y');
 //Variavéis de inconsistência
-define('INCONSISTENCY_BIRTH_AFTER_LIMIT', 'A data de nascimento não pode ser posterior a 30 de agosto de 2024');
+define('INCONSISTENCY_BIRTH_AFTER_LIMIT', 'A data de nascimento não pode ser posterior a 30 de agosto de 2025');
 define('INCONSISTENCY_BIRTH_BEFORE_LIMIT', 'A data de nascimento não pode ser inferior a 01 de janeiro de 1930');
 define('INCONSISTENCY_STUDENT_NAME_TOO_SHORT', 'Nome do estudante com menos de 5 caracteres');
 define('INCONSISTENCY_ACTION_STUDENT_NAME_TOO_SHORT', 'Adicione um nome para o estudante com pelo menos 5 caracteres');
@@ -308,7 +308,6 @@ class SagresConsultModel
     private function getSchoolsValidation($diretor, $school)
     {
         $strMaxLength = 100;
-        $inconsistencies = [];
 
         if ($diretor->getNrAto() == null) {
             $inconsistencyModel = new ValidationSagresModel();
@@ -354,7 +353,7 @@ class SagresConsultModel
             $inconsistencyModel->insert();
         }
 
-        if (is_null($inconsistencies)) {
+        if ($diretor->getCpfDiretor() === null && $diretor->getNrAto() === null) {
             $inconsistencyModel = new ValidationSagresModel();
             $inconsistencyModel->enrollment = 'DIRETOR';
             $inconsistencyModel->school = $school['name'];
@@ -547,8 +546,8 @@ class SagresConsultModel
             }
         } elseif (count($results) > 2) {
             $modalityCount = 0;
-            foreach ($results as $infoStudent) {
-                if ($infoStudent['modality'] == 1) {
+            foreach ($results as $resultRow) {
+                if ($resultRow['modality'] == 1) {
                     $modalityCount++;
                 }
             }
@@ -585,7 +584,6 @@ class SagresConsultModel
 
         $command = Yii::app()->db->createCommand($sql);
         $command->bindParam(':id', $id);
-        $result = $command->queryRow();
 
         return $command->queryRow();
     }
@@ -697,12 +695,11 @@ class SagresConsultModel
 
         if ($authAssignment === 'manager') {
             $idSchool = Yii::app()->user->school;
-            $query = "SELECT count(*) FROM inconsistency_sagres is2 WHERE is2.idSchool = $idSchool";
-        } else {
-            $query = 'SELECT count(*) FROM inconsistency_sagres';
+            $query = 'SELECT count(*) FROM inconsistency_sagres is2 WHERE is2.idSchool = :idSchool';
+            return Yii::app()->db->createCommand($query)->bindValue(':idSchool', $idSchool)->queryScalar();
         }
 
-        return Yii::app()->db->createCommand($query)->queryScalar();
+        return Yii::app()->db->createCommand('SELECT count(*) FROM inconsistency_sagres')->queryScalar();
     }
 
     /**
@@ -2169,7 +2166,7 @@ class SagresConsultModel
         ];
         $modality = $enrollment['modality'];
         //3 - EJA
-        if ($modality === 3) {
+        if ((int) $modality === 3) {
             $educationLevel = (int) $this->getStageById($enrollment['edcenso_stage_vs_modality_fk']);
             $age = $this->calculateAge($birthdate);
             $this->checkAge($age, $educationLevel, $arrayStudentInfo);
@@ -2586,7 +2583,7 @@ class SagresConsultModel
             $inconsistencyModel = new ValidationSagresModel();
             $inconsistencyModel->enrollment = 'MATRÍCULA';
             $inconsistencyModel->school = $schoolName;
-            $inconsistencyModel->description = INCONSISTENCY_ACTION_INVALID_ABSENCE_VALUE;
+            $inconsistencyModel->description = INCONSISTENCY_INVALID_APPROVED_STATUS_VALUE;
             $inconsistencyModel->action = INCONSISTENCY_ACTION_INVALID_APPROVED_STATUS_VALUE . ': ' . $studentType->getNome();
             $inconsistencyModel->idClass = $classId;
             $inconsistencyModel->insert();
@@ -2776,7 +2773,7 @@ class SagresConsultModel
         $path = './app/export/SagresEdu/' . $inst;
 
         if (!file_exists($path)) {
-            mkdir($path);
+            mkdir($path, 0755, true);
         }
 
         $fileDir = './app/export/SagresEdu/' . $inst . $fileName;
@@ -2805,7 +2802,7 @@ class SagresConsultModel
     {
         // get the validator
         $builder = Validation::createValidatorBuilder();
-        foreach (glob('C:\Users\JoseNatan\Documents\Developer\br.tag\app\modules\sagres\soap\metadata\sagresEduMetadata') as $file) {
+        foreach (glob(Yii::getPathOfAlias('application') . '/modules/sagres/soap/metadata/sagresEduMetadata') as $file) {
             $builder->addYamlMapping($file);
         }
         $validator = $builder->getValidator();
