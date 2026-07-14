@@ -1,3 +1,16 @@
+## [Versão 3.13.17]
+- Corrigido bug no Registro 00 (identificação da escola) do Censo Escolar onde a ausência das datas de "Início do Período Letivo" ou "Final do Período Letivo" no cadastro da escola fazia o sistema preencher automaticamente uma data padrão na exportação, gerando período letivo incorreto no arquivo do Censo. Agora a exportação é bloqueada e é exibida uma mensagem pedindo o preenchimento dessas datas no cadastro da escola
+
+## [Versão 3.13.16]
+- Corrigida lentidão no cadastro de Plano de Curso: os detalhes de metodologia, habilidades e recursos de cada aula agora são carregados sob demanda (ao abrir a aula) em vez de junto com a listagem completa de aulas do plano, e as consultas de aulas passaram a usar eager loading para evitar consultas N+1
+
+## [Versão 3.13.15]
+- Corrigido campo "Educação em tempo integral" (`other_courses_full_time_education`) ausente no formulário de vínculo do professor, que causava erro de validação obrigatória ao atualizar o vínculo
+- Corrigido falso positivo no painel de inconsistências do Educacenso: campo "Nº de Salas de Aula em Uso" acusava pendência mesmo estando vazio, pois o valor antigo persistia no banco enquanto o campo ficava desabilitado pelo JavaScript
+- Campo "Nº de Salas de Aula em Uso" agora exibe o valor salvo no banco quando "Prédio Escolar" está marcado, permitindo que o usuário apague o valor manualmente antes de salvar
+- Adicionada validação no formulário de escola que bloqueia o save quando "Prédio Escolar" está marcado e "Nº de Salas de Aula em Uso" ainda tem valor preenchido
+- Removida validação duplicada de "Esfera do Órgão Regulador" que gerava falso positivo ao salvar escola, exibindo o erro mesmo com o campo preenchido
+
 ## [Versão 3.13.14]
 - Corrigidos múltiplos problemas no layout do Educacenso 2026: registros 00, 10, 20, 301 e 302 alinhados ao spec INEP 2026
 - Adicionado campo "Turma de Formação por Alternância" (campo 29 do Registro 20) no cadastro de turma, com obrigatoriedade e inconsistência no painel do censo

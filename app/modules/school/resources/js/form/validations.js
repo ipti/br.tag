@@ -267,10 +267,6 @@ $(".save-school-button").click(function () {
         error = true;
         message += "Campo <b>Órgãos que a escola está vinculadao</b> é obrigatório. Selecione ao menos uma opção<br>";
     }
-    if (!$("#SchoolIdentification_regulation_organ_sphere").val()) {
-        error = true;
-        message += "Campo <b>Esfera do Órgão regulador</b> é obrigatório.<br>";
-    }
     if ($("#SchoolIdentification_edcenso_uf_fk").val() === "") {
         error = true;
         message += "Campo <b>Estado</b> é obrigatório.<br>";
@@ -363,6 +359,10 @@ $(".save-school-button").click(function () {
     if (!$("#SchoolStructure_operation_location_building").is(":checked") && ($("#SchoolStructure_used_classroom_count").val() === "" || $("#SchoolStructure_used_classroom_count").val() === 0 || $("#SchoolStructure_used_classroom_count").val() > 9999)) {
         error = true;
         message += "Quando o Local de Funcionamento não é um Prédio Escolar, o campo <b>Nº de Salas de Aula utilizadas</b> é obrigatório. Informe um número válido.<br>";
+    }
+    if ($("#SchoolStructure_operation_location_building").is(":checked") && $("#SchoolStructure_used_classroom_count").val() !== "") {
+        error = true;
+        message += "Quando o Local de Funcionamento é um Prédio Escolar, o campo <b>Nº de Salas de Aula em Uso</b> deve ficar vazio.<br>";
     }
     if (Number($("#SchoolStructure_dependencies_climate_roomspublic").val()) > (Number($("#SchoolStructure_classroom_count").val()) + Number($("#SchoolStructure_dependencies_outside_roomspublic").val()))) {
         error = true;
