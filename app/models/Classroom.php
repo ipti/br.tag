@@ -283,6 +283,12 @@ class Classroom extends AltActiveRecord
                 'classroom_fk',
                 'condition' => 'status IN (1, 6, 7, 8, 9, 10) or status IS NULL'
             ],
+            'activeStudentEnrollmentsCount' => [
+                self::STAT,
+                'StudentEnrollment',
+                'classroom_fk',
+                'condition' => 'status IN (1, 2, 6, 7, 8, 9, 10) or status IS NULL'
+            ],
             'room' => [self::BELONGS_TO, 'SchoolRoom', 'room_fk'],
         ];
     }

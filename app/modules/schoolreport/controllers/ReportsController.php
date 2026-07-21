@@ -460,11 +460,12 @@ class ReportsController extends Controller
     {
         // Construíndo condicionais e definindo ordenação para a consulta
         $criteria = new CDbCriteria();
-        $criteria->order = 'edcenso_stage_vs_modality_fk, name ASC';
-        $criteria->condition = 'school_year = :year';
+        $criteria->select = 't.id, t.school_inep_fk, t.edcenso_stage_vs_modality_fk';
+        $criteria->order = 't.edcenso_stage_vs_modality_fk, t.name ASC';
+        $criteria->condition = 't.school_year = :year';
         $criteria->params = ['year' => Yii::app()->user->year];
         //Consulta todas as classes abertas no ano atual
-        $classrooms = Classroom::model()->findAll($criteria);
+        $classrooms = Classroom::model()->with('edcensoStageVsModalityFk', 'schoolInepFk')->findAll($criteria);
         $stages = [];
         $schools = [];
         foreach ($classrooms as $classroom) {
@@ -504,7 +505,7 @@ class ReportsController extends Controller
 
         //Para cada classe incrementa o contador de matriculas em cada celular dos estágios
         foreach ($classrooms as $classroom) {
-            $schoolStages[$classroom->schoolInepFk->name][$classroom->edcensoStageVsModalityFk->stage][$classroom->edcensoStageVsModalityFk->name] += count($classroom->activeStudentEnrollments);
+            $schoolStages[$classroom->schoolInepFk->name][$classroom->edcensoStageVsModalityFk->stage][$classroom->edcensoStageVsModalityFk->name] += $classroom->activeStudentEnrollmentsCount;
         }
 
         $this->render('EnrollmentStatisticsByYearReport', [
