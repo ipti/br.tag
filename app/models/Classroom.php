@@ -465,14 +465,13 @@ class Classroom extends AltActiveRecord
 
     public function checkIsStageMinorEducation()
     {
-        $isMinor = TagUtils::isStageMinorEducation($this->edcensoStageVsModalityFk->edcenso_associated_stage_id);
+        $isMinor = $this->edcensoStageVsModalityFk->unified_frequency == 1;
 
         if (!$isMinor && TagUtils::isMultiStage($this->edcensoStageVsModalityFk->edcenso_associated_stage_id)) {
             $enrollments = StudentEnrollment::model()->findAllByAttributes(['classroom_fk' => $this->id]);
 
             foreach ($enrollments as $enrollment) {
-                if (!$enrollment->edcensoStageVsModalityFk->edcenso_associated_stage_id ||
-                    !TagUtils::isStageMinorEducation($enrollment->edcensoStageVsModalityFk->edcenso_associated_stage_id)) {
+                if ($enrollment->edcensoStageVsModalityFk->unified_frequency != 1) {
                     return false;
                 }
             }

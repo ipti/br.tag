@@ -1,3 +1,6 @@
+## [Versão 3.13.21]
+- Município agora tem controle total sobre a unificação de frequência por etapa: a decisão de turma com "frequência unificada/polivalente" (registro único por dia, sem separação por disciplina) passou a depender exclusivamente do campo "Unificar Frequência" configurável na tela de Etapas, em vez de também usar uma lista fixa de etapas no código
+
 ## [Versão 3.13.17]
 - Corrigido bug no Registro 00 (identificação da escola) do Censo Escolar onde a ausência das datas de "Início do Período Letivo" ou "Final do Período Letivo" no cadastro da escola fazia o sistema preencher automaticamente uma data padrão na exportação, gerando período letivo incorreto no arquivo do Censo. Agora a exportação é bloqueada e é exibida uma mensagem pedindo o preenchimento dessas datas no cadastro da escola
 
