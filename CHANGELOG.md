@@ -1,3 +1,6 @@
+## [Versão 3.13.21]
+- Adicionada coluna "Etapa (Matrícula)" no relatório "Alunos Por Turma" para turmas multisseriadas ("Multi"), detalhando a etapa individual de cada aluno segundo sua matrícula — não aparece em turmas normais, onde a etapa do aluno já é a mesma da turma
+
 ## [Versão 3.13.17]
 - Corrigido bug no Registro 00 (identificação da escola) do Censo Escolar onde a ausência das datas de "Início do Período Letivo" ou "Final do Período Letivo" no cadastro da escola fazia o sistema preencher automaticamente uma data padrão na exportação, gerando período letivo incorreto no arquivo do Censo. Agora a exportação é bloqueada e é exibida uma mensagem pedindo o preenchimento dessas datas no cadastro da escola
 
