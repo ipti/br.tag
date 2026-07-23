@@ -162,7 +162,7 @@ class ClassesController extends Controller
         $disciplineId = Yii::app()->request->getPost('discipline');
 
         $students = $this->getStudentsByClassroom($classroomId);
-        $isMinorEducation = $classroom->edcensoStageVsModalityFk->unified_frequency == 1 ? true : $classroom->checkIsStageMinorEducation();
+        $isMinorEducation = $classroom->checkIsStageMinorEducation();
         $totalClasses = $this->getTotalClassesByMonth($classroomId, $month, $year, $disciplineId);
         $totalClassContents = $this->getTotalClassContentsByMonth($classroomId, $month, $year, $disciplineId);
 
@@ -466,7 +466,7 @@ class ClassesController extends Controller
         $discipline = $_POST['discipline'];
 
         $modelClassroom = Classroom::model()->findByPk($classroom);
-        $isMinor = $modelClassroom->edcensoStageVsModalityFk->unified_frequency == 1 ? true : $modelClassroom->checkIsStageMinorEducation();
+        $isMinor = $modelClassroom->checkIsStageMinorEducation();
         $isMajorStage = !$isMinor;
 
         $schedules = $this->loadSchedulesByStage($isMajorStage, $classroom, $month, $year, $discipline);
@@ -615,7 +615,7 @@ class ClassesController extends Controller
     public function actionGetFrequency()
     {
         $classroom = Classroom::model()->findByPk($_POST['classroom']);
-        $isMinor = $classroom->edcensoStageVsModalityFk->unified_frequency == 1 ? true : $classroom->checkIsStageMinorEducation();
+        $isMinor = $classroom->checkIsStageMinorEducation();
 
         $instructorFilter = $this->getInstructorFilter($classroom);
 
@@ -763,7 +763,7 @@ class ClassesController extends Controller
     public function actionSaveFrequency()
     {
         $classroom = Classroom::model()->findByPk($_POST['classroomId']);
-        $isMinor = $classroom->edcensoStageVsModalityFk->unified_frequency == 1 ? true : $classroom->checkIsStageMinorEducation();
+        $isMinor = $classroom->checkIsStageMinorEducation();
         if ($isMinor === false) {
             $schedule = Schedule::model()->find('classroom_fk = :classroom_fk and day = :day and year = :year and month = :month and schedule = :schedule', ['classroom_fk' => $_POST['classroomId'], 'day' => $_POST['day'], 'month' => $_POST['month'], 'year' => $_POST['year'], 'schedule' => $_POST['schedule']]);
             $this->saveFrequency($schedule);
@@ -854,7 +854,7 @@ class ClassesController extends Controller
     public function actionSaveJustification()
     {
         $classroom = Classroom::model()->findByPk($_POST['classroomId']);
-        $isMinor = $classroom->edcensoStageVsModalityFk->unified_frequency == 1 ? true : $classroom->checkIsStageMinorEducation();
+        $isMinor = $classroom->checkIsStageMinorEducation();
         if ($isMinor === false) {
             $schedule = Schedule::model()->find('classroom_fk = :classroom_fk and day = :day and month = :month and year = :year and schedule = :schedule', ['classroom_fk' => $_POST['classroomId'], 'day' => $_POST['day'], 'month' => $_POST['month'], 'year' => $_POST['year'], 'schedule' => $_POST['schedule']]);
             $classFault = ClassFaults::model()->find(SCHEDULE_STUDENT_FILTER, ['schedule_fk' => $schedule->id, 'student_fk' => $_POST['studentId']]);
@@ -877,7 +877,7 @@ class ClassesController extends Controller
     {
         $result = [];
         $classroom = Classroom::model()->findByPk($_POST['classroom']);
-        $isMinor = $classroom->edcensoStageVsModalityFk->unified_frequency == 1 ? true : $classroom->checkIsStageMinorEducation();
+        $isMinor = $classroom->checkIsStageMinorEducation();
         if ($classroom->calendar_fk != null) {
             $result['months'] = [];
             $calendar = $classroom->calendarFk;
