@@ -158,7 +158,7 @@ class StudentIMCController extends Controller
         $model = $this->loadModel($id);
         $studentId = $model->student_fk;
 
-        $model->height = number_format((float) $model->height, 2, '.', '');
+        $model->height = (int) $model->height;
         $model->weight = number_format((float) $model->weight, 2, '.', '');
         $model->IMC = number_format((float) $model->IMC, 2, '.', '');
 
