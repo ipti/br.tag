@@ -1,3 +1,6 @@
+## [Versão 3.13.20]
+- Campo "Altura" do módulo Acompanhamento de Saúde (IMC do aluno) alterado de metros para centímetros, com valores inteiros — atualizado no formulário de coleta, na listagem/histórico, no relatório de turma e no relatório individual de histórico. O cálculo de IMC continua correto (converte cm para m internamente) e os dados já cadastrados foram convertidos automaticamente por migration
+
 ## [Versão 3.13.19]
 - Adicionada coluna "Etapa (Matrícula)" no relatório "Alunos Por Turma" para turmas multisseriadas ("Multi"), detalhando a etapa individual de cada aluno segundo sua matrícula — não aparece em turmas normais, onde a etapa do aluno já é a mesma da turma
 

@@ -1,12 +1,15 @@
 $('.js-height, .js-weight').on('input', function () {
-    let height = parseFloat($('.js-height').val());
+    let heightMeters = parseFloat($('.js-height').val()) / 100;
     let weight = parseFloat($('.js-weight').val());
-    let imc = weight / (height * height);
+    let imc = weight / (heightMeters * heightMeters);
     $('.js-imc').val(isNaN(imc) ? '' : imc.toFixed(2));
 });
 
+$('.js-height').on('input', function () {
+    $(this).val($(this).val().replace(/[^0-9]/g, ''))
+});
 
-$('.js-height, .js-weight').on('input', function () {
+$('.js-weight').on('input', function () {
     $(this).val($(this).val().replace(/[^0-9.]/g, ''))
 });
 
