@@ -37,8 +37,8 @@ class StudentImc extends CActiveRecord
         // will receive user inputs.
         return [
             ['height, weight, IMC, student_fk', 'required'],
-            ['student_fk, student_imc_classification_fk', 'numerical', 'integerOnly' => true],
-            ['height, weight, IMC', 'numerical'],
+            ['student_fk, student_imc_classification_fk, height', 'numerical', 'integerOnly' => true],
+            ['weight, IMC', 'numerical'],
             ['observations', 'length', 'max' => 500],
             ['created_at, updated_at', 'safe'],
             ['id, height, weight, IMC, observations, student_fk, created_at, updated_at, student_imc_classification_fk', 'safe', 'on' => 'search'],
