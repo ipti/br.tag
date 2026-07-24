@@ -1434,9 +1434,10 @@ class ReportsRepository
     {
         $school = SchoolIdentification::model()->findByPk($this->currentSchool);
 
-        $sql = 'SELECT c.*, q.modality,q.stage
+        $sql = 'SELECT c.*, q.modality,q.stage,esvm.edcenso_associated_stage_id
                     FROM classroom AS c
                 JOIN classroom_qtd_students AS q ON c.school_inep_fk = q.school_inep_fk
+                LEFT JOIN edcenso_stage_vs_modality AS esvm ON esvm.id = c.edcenso_stage_vs_modality_fk
                 WHERE c.school_year = :school_year AND
                       q.school_year = :school_year AND
                       c.school_inep_fk = :school_inep_fk AND
@@ -1449,10 +1450,11 @@ class ReportsRepository
             ->bindParam(':school_inep_fk', $this->currentSchool)
             ->queryAll();
 
-        $sql = 'SELECT DISTINCT se.classroom_fk,si.inep_id,si.name,si.birthday
+        $sql = 'SELECT DISTINCT se.classroom_fk,si.inep_id,si.name,si.birthday,esvm.name AS enrollment_stage_name
                     FROM student_identification AS si
                 JOIN student_enrollment AS se ON si.id = se.student_fk
                 JOIN classroom AS c ON se.classroom_fk = c.id
+                LEFT JOIN edcenso_stage_vs_modality AS esvm ON esvm.id = se.edcenso_stage_vs_modality_fk
                 WHERE se.school_inep_id_fk = :school_inep_id_fk AND
                       c.school_year = :school_year AND
                       ((`se`.`status` IN (1, 6, 7, 8, 9, 10) or `se`.`status` is null))
