@@ -1,4 +1,7 @@
-## [Versão 3.13.21]
+## [Versão 3.13.19]
+- Adicionada coluna "Etapa (Matrícula)" no relatório "Alunos Por Turma" para turmas multisseriadas ("Multi"), detalhando a etapa individual de cada aluno segundo sua matrícula — não aparece em turmas normais, onde a etapa do aluno já é a mesma da turma
+
+## [Versão 3.13.18]
 - Município agora tem controle total sobre a unificação de frequência por etapa: a decisão de turma com "frequência unificada/polivalente" (registro único por dia, sem separação por disciplina) passou a depender exclusivamente do campo "Unificar Frequência" configurável na tela de Etapas, em vez de também usar uma lista fixa de etapas no código
 
 ## [Versão 3.13.17]
