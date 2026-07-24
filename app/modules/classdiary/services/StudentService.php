@@ -6,7 +6,7 @@ class StudentService
     {
         // Fundamental menor
         $classroom = Classroom::model()->findByPk($classroomFk);
-        $isMinorSchooling = $classroom->edcensoStageVsModalityFk->unified_frequency == 1 ? true : Yii::app()->utils->isStageMinorEducation($stageFk);
+        $isMinorSchooling = $classroom->checkIsStageMinorEducation();
         if ($isMinorSchooling) {
             $schedule = Schedule::model()->find('classroom_fk = :classroom_fk and day = :day and month = :month and
             unavailable = 0 group by day order by day, schedule', [
@@ -134,7 +134,7 @@ class StudentService
     {
         // Fundamental menor
         $classroom = Classroom::model()->findByPk($classroomId);
-        $isMinorSchooling = $classroom->edcensoStageVsModalityFk->unified_frequency == 1 ? true : Yii::app()->utils->isStageMinorEducation($stageFk);
+        $isMinorSchooling = $classroom->checkIsStageMinorEducation();
         if ($isMinorSchooling) {
             $schedules = Schedule::model()->findAll('classroom_fk = :classroom_fk and day = :day and month = :month', [
                 'classroom_fk' => $classroomId,
@@ -171,7 +171,7 @@ class StudentService
     {
         // Fundamental menor
         $classroom = Classroom::model()->findByPk($classroomId);
-        $isMinorSchooling = $classroom->edcensoStageVsModalityFk->unified_frequency == 1 ? true : Yii::app()->utils->isStageMinorEducation($stageFk);
+        $isMinorSchooling = $classroom->checkIsStageMinorEducation();
         if ($isMinorSchooling) {
             $schedules = Schedule::model()->findAll('classroom_fk = :classroom_fk and day = :day and month = :month', [
                 'classroom_fk' => $classroomId,
@@ -205,7 +205,7 @@ class StudentService
     {
         // Fundamental menor
         $classroom = Classroom::model()->findByPk($classroomFk);
-        $isMinorSchooling = $classroom->edcensoStageVsModalityFk->unified_frequency == 1 ? true : Yii::app()->utils->isStageMinorEducation($stageFk);
+        $isMinorSchooling = $classroom->checkIsStageMinorEducation();
         if ($isMinorSchooling) {
             $schedule = Schedule::model()->find('classroom_fk = :classroom_fk and day = :day and month = :month and
             unavailable = 0 group by day order by day, schedule', [
@@ -230,7 +230,7 @@ class StudentService
     {
         // Fundamental menor
         $classroom = Classroom::model()->findByPk($classroomFk);
-        $isMinorSchooling = $classroom->edcensoStageVsModalityFk->unified_frequency == 1 ? true : Yii::app()->utils->isStageMinorEducation($stageFk);
+        $isMinorSchooling = $classroom->checkIsStageMinorEducation();
         if ($isMinorSchooling == '1') {
             $schedule = Schedule::model()->find('classroom_fk = :classroom_fk and day = :day and month = :month and unavailable = 0 group by day order by day, schedule', [
                 'classroom_fk' => $classroomFk,
@@ -269,7 +269,7 @@ class StudentService
     {
         // Fundamental menor
         $classroom = Classroom::model()->findByPk($classroomFk);
-        $isMinorSchooling = $classroom->edcensoStageVsModalityFk->unified_frequency == 1 ? true : Yii::app()->utils->isStageMinorEducation($stageFk);
+        $isMinorSchooling = $classroom->checkIsStageMinorEducation();
         if ($isMinorSchooling == '1') {
             $schedule = Schedule::model()->find('classroom_fk = :classroom_fk and day = :day and month = :month and unavailable = 0 group by day order by schedule, schedule', [
                 'classroom_fk' => $classroomFk,
