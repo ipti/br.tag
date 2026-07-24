@@ -24,6 +24,6 @@ START TRANSACTION;
 
 UPDATE edcenso_stage_vs_modality
     SET unified_frequency = 1
-    WHERE edcenso_associated_stage_id IN (1, 2, 3, 4, 5, 6, 7, 8, 14, 15, 16, 17, 18);
+    WHERE id IN (1, 2, 3, 4, 5, 6, 7, 8, 14, 15, 16, 17, 18);
 
 COMMIT;
