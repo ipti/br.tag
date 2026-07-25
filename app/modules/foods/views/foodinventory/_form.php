@@ -104,7 +104,10 @@ $isNutritionist = Yii::app()->getAuthManager()->checkAccess('nutritionist', Yii:
                 </button>
             </div>
             <form method="post">
-                <div class="t-modal__body">
+                <div class="t-modal__body" style="position: relative;">
+                    <div class="loading-save-food" style="display:none; position:absolute; top:0; left:0; right:0; bottom:0; align-items:center; justify-content:center; background: rgba(255,255,255,0.75); z-index: 10;">
+                        <img height="50px" width="50px" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/loadingTag.gif" alt="TAG Loading">
+                    </div>
                     <p>Selecione os itens e quantidades para adicionar ao estoque</p>
                     <div class="row">
                         <div class="column clearfix">

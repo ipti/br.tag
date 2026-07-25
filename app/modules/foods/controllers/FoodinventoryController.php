@@ -96,7 +96,13 @@ class FoodinventoryController extends Controller
     {
         $foodsOnStock = Yii::app()->request->getPost('foodsOnStock');
 
-        if (!empty($foodsOnStock)) {
+        if (empty($foodsOnStock)) {
+            return;
+        }
+
+        $transaction = Yii::app()->db->beginTransaction();
+
+        try {
             foreach ($foodsOnStock as $foodData) {
                 $existingFood = FoodInventory::model()->findByAttributes(['food_fk' => $foodData['id'], 'school_fk' => Yii::app()->user->school]);
                 $expirationDate = null;
@@ -113,18 +119,20 @@ class FoodinventoryController extends Controller
                     $FoodInventory->measurementUnit = $foodData['measurementUnit'];
                     $FoodInventory->expiration_date = $expirationDate;
 
-                    if ($FoodInventory->save()) {
-                        $FoodInventoryReceived = new FoodInventoryReceived();
-                        $FoodInventoryReceived->food_fk = $foodData['id'];
-                        $FoodInventoryReceived->food_inventory_fk = $FoodInventory->id;
-                        $FoodInventoryReceived->amount = $foodData['amount'];
-
-                        $FoodInventoryReceived->save();
-                    } else {
+                    if (!$FoodInventory->save()) {
+                        $transaction->rollback();
                         Yii::app()->request->sendStatusCode(400);
                         $errors = $FoodInventory->getErrors();
                         echo json_encode(['error' => 'Ocorreu um erro ao salvar: ' . reset($errors)[0]]);
+                        return;
                     }
+
+                    $FoodInventoryReceived = new FoodInventoryReceived();
+                    $FoodInventoryReceived->food_fk = $foodData['id'];
+                    $FoodInventoryReceived->food_inventory_fk = $FoodInventory->id;
+                    $FoodInventoryReceived->amount = $foodData['amount'];
+
+                    $FoodInventoryReceived->save();
                 } else {
                     $FoodInventoryReceived = new FoodInventoryReceived();
                     $FoodInventoryReceived->food_fk = $foodData['id'];
@@ -145,6 +153,13 @@ class FoodinventoryController extends Controller
                     $existingFood->save();
                 }
             }
+
+            $transaction->commit();
+        } catch (Exception $e) {
+            $transaction->rollback();
+            Yii::log('Erro ao salvar estoque: ' . $e->getMessage(), CLogger::LEVEL_ERROR);
+            Yii::app()->request->sendStatusCode(400);
+            echo json_encode(['error' => 'Ocorreu um erro ao salvar o estoque.']);
         }
     }
 
