@@ -24,6 +24,7 @@ $(document).ready(function () {
                 })
             );
         });
+        foodSelect.select2("destroy").select2({ width: "resolve" });
     });
 });
 
@@ -99,6 +100,10 @@ $(document).on("click", "#js-entry-stock-button", function () {
     }).success(function (response) {
         let foods_description = JSON.parse(response);
 
+        foodSelect.empty().append(
+            $("<option>", { value: "alimento", text: "Selecione o Alimento" })
+        );
+
         Object.entries(foods_description).forEach(function ([id, value]) {
             let description = value.description
                 .replace(/,/g, "")
@@ -111,6 +116,7 @@ $(document).on("click", "#js-entry-stock-button", function () {
                 })
             );
         });
+        foodSelect.select2("destroy").select2({ width: "resolve" });
     });
 });
 
@@ -136,6 +142,7 @@ $(document).on("click", "#add-food", function () {
     let foodId = $("#food").val().split(",")[0];
     let amount = $(".js-amount").val();
     let expiration_date = $(".js-expiration-date").val();
+    let supplier = $(".js-supplier").val();
 
     if (foodId == "alimento" || amount == "") {
         $("#stock-modal-alert")
@@ -152,6 +159,7 @@ $(document).on("click", "#add-food", function () {
             foodsOnStock.push({
                 id: foodId,
                 foodDescription: food,
+                supplier: supplier,
                 amount: amount,
                 measurementUnit: measurementUnit,
                 expiration_date: expiration_date,
@@ -192,6 +200,7 @@ $(document).on("click", "#save-food", function () {
                 $("#js-entry-stock-modal").modal("hide");
                 $(".js-expiration-date").val("");
                 $(".js-amount").val("");
+                $(".js-supplier").val("");
                 $("#info-alert")
                     .removeClass("hide")
                     .addClass("alert-success")

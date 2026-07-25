@@ -1,3 +1,7 @@
+## [Versão 3.13.21]
+- Adicionado campo "Fornecedor" no Lançamento de Estoque da Merenda Escolar (Acompanhamento de Saúde/Estoque), preenchido no momento do lançamento e exibido como nova coluna na listagem de estoque
+- Campo "Selecione o Alimento" do Lançamento de Estoque agora permite buscar por texto corretamente (o Select2 não estava reconhecendo as opções carregadas via AJAX); corrigida também duplicação de opções ao reabrir o modal mais de uma vez
+
 ## [Versão 3.13.20]
 - Campo "Altura" do módulo Acompanhamento de Saúde (IMC do aluno) alterado de metros para centímetros, com valores inteiros — atualizado no formulário de coleta, na listagem/histórico, no relatório de turma e no relatório individual de histórico. O cálculo de IMC continua correto (converte cm para m internamente) e os dados já cadastrados foram convertidos automaticamente por migration
 
