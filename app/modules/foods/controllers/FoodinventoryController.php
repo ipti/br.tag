@@ -118,6 +118,7 @@ class FoodinventoryController extends Controller
                     $FoodInventory->amount = $foodData['amount'];
                     $FoodInventory->measurementUnit = $foodData['measurementUnit'];
                     $FoodInventory->expiration_date = $expirationDate;
+                    $FoodInventory->supplier = $foodData['supplier'] ?? null;
 
                     if (!$FoodInventory->save()) {
                         $transaction->rollback();
@@ -149,6 +150,7 @@ class FoodinventoryController extends Controller
                         $existingFood->amount += $foodData['amount'];
                     }
                     $existingFood->expiration_date = $expirationDate;
+                    $existingFood->supplier = $foodData['supplier'] ?? null;
                     $existingFood->status = 'Disponivel';
                     $existingFood->save();
                 }
@@ -258,6 +260,7 @@ class FoodinventoryController extends Controller
                 'id' => $stock->id,
                 'foodId' => $stock->food_fk,
                 'description' => $stock->foodRelation->description,
+                'supplier' => $stock->supplier,
                 'amount' => $stock->amount,
                 'measurementUnit' => $stock->measurementUnit,
                 'expiration_date' => ($stock->expiration_date != null) ? date('d/m/Y', strtotime($stock->expiration_date)) : 'Não informada',

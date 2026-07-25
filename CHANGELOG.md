@@ -1,6 +1,10 @@
 ## [Versão 3.13.22]
 - Corrigida duplicidade de itens no Lançamento de Estoque da Merenda Escolar: o botão "Adicionar ao estoque" agora trava durante o processamento (com indicador de carregamento sobre o modal), evitando que múltiplos cliques disparem o mesmo lançamento mais de uma vez. O salvamento no backend passou a rodar em transação e interrompe imediatamente se algum item falhar, em vez de continuar processando os demais
 
+## [Versão 3.13.21]
+- Adicionado campo "Fornecedor" no Lançamento de Estoque da Merenda Escolar (Acompanhamento de Saúde/Estoque), preenchido no momento do lançamento e exibido como nova coluna na listagem de estoque
+- Campo "Selecione o Alimento" do Lançamento de Estoque agora permite buscar por texto corretamente (o Select2 não estava reconhecendo as opções carregadas via AJAX); corrigida também duplicação de opções ao reabrir o modal mais de uma vez
+
 ## [Versão 3.13.20]
 - Campo "Altura" do módulo Acompanhamento de Saúde (IMC do aluno) alterado de metros para centímetros, com valores inteiros — atualizado no formulário de coleta, na listagem/histórico, no relatório de turma e no relatório individual de histórico. O cálculo de IMC continua correto (converte cm para m internamente) e os dados já cadastrados foram convertidos automaticamente por migration
 

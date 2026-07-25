@@ -14,7 +14,8 @@ function renderSelectedFoods(foodsOnStock) {
     foodsOnStock.forEach(function(food, index) {
         let stock = `
         <div class="mobile-row t-list-content show--tabletDesktop" id="food_stock_${index}">
-            <div class="column is-two-fifths clearfix">${food.foodDescription}</div>
+            <div class="column is-one-fifth clearfix">${food.foodDescription}</div>
+            <div class="column is-one-fifth clearleft--on-mobile clearfix">${food.supplier || ''}</div>
             <div class="column is-one-tenth clearleft--on-mobile clearfix">${food.amount}</div>
             <div class="column is-one-fifth clearleft--on-mobile clearfix">${food.measurementUnit}</div>
             <div class="column is-one-tenth clearleft--on-mobile clearfix">${food.expiration_date}</div>
@@ -28,6 +29,7 @@ function renderSelectedFoods(foodsOnStock) {
                 <span class="t-icon-close t-icon" id="stock_button" data-buttonId="${index}"></span>
             </div>
             <div class="mobile-row"><label>Item:</label>${food.foodDescription}</div>
+            <div class="mobile-row"><label>Fornecedor:</label>${food.supplier || ''}</div>
             <div class="mobile-row"><label>Quantidade:</label>${food.amount}</div>
             <div class="mobile-row"><label>Unidade:</label>${food.measurementUnit}</div>
             <div class="mobile-row"><label>Validade:</label>${food.expiration_date}</div>
@@ -44,6 +46,7 @@ function renderStockTable(foodsOnStock, id, status) {
 
     let head = $('<tr>').addClass('');
     $('<th>').text('Item').appendTo(head);
+    $('<th>').text('Fornecedor').appendTo(head);
     $('<th>').text('Quantidade').appendTo(head);
     $('<th>').text('Validade').appendTo(head);
     $('<th style="width: 18%">').text('Status').appendTo(head);
@@ -63,7 +66,7 @@ function renderStockTable(foodsOnStock, id, status) {
 
     if (!found) {
         let row = $('<tr>').addClass('');
-        let infoAlert = $('<td colspan="5">').html('<div class="t-badge-info"><span class="t-info_positive t-badge-info__icon"></span> Esse alimento não está no estoque </div>');
+        let infoAlert = $('<td colspan="6">').html('<div class="t-badge-info"><span class="t-info_positive t-badge-info__icon"></span> Esse alimento não está no estoque </div>');
         infoAlert.appendTo(row);
         table.append(row);
     }
@@ -89,6 +92,7 @@ function renderStockTableRow(stock) {
     }
 
     $('<td>').text(foodDescription).appendTo(row);
+    $('<td>').text(stock.supplier || '').appendTo(row);
     $('<td>').text(stock.amount + measurementUnit).appendTo(row);
     $('<td>').text(stock.expiration_date).appendTo(row);
     if(stock.status == "Emfalta") {
@@ -168,6 +172,10 @@ function renderStockListRow(stock) {
         <div class="mobile-row">
                 <label class="t-margin-small--right text-bold">Item:</label>
                 ${foodDescription}
+        </div>
+        <div class="mobile-row">
+                <label class="t-margin-small--right text-bold">Fornecedor:</label>
+                ${stock.supplier || ''}
         </div>
         <div class="mobile-row">
             <div class="column is-half clearfix">

@@ -115,11 +115,16 @@ $isNutritionist = Yii::app()->getAuthManager()->checkAccess('nutritionist', Yii:
                         </div>
                     </div>
                     <div class="tablet-row bottom-margin">
-                        <div class="column is-two-fifths t-field-select t-margin-none--bottom clearfix">
+                        <div class="column is-one-fifth t-field-select t-margin-none--bottom clearfix">
                             <?php echo CHtml::label('Selecione o Alimento', 'food_fk', ['class' => 't-field-select__label--required']); ?>
                             <select class="select-search-on t-field-select__input select2-container" id="food" name="food">
                                 <option value="alimento">Selecione o Alimento</option>
                             </select>
+                        </div>
+                        <div class="column is-one-fifth clearleft--on-mobile t-field-text t-margin-none--bottom clearfix">
+                            <?php echo $form->label($model, 'supplier', ['class' => 't-field-text__label']); ?>
+                            <?php echo $form->textField($model, 'supplier', ['class' => 't-field-text__input t-margin-none js-supplier', 'placeholder' => 'Fornecedor']); ?>
+                            <?php echo $form->error($model, 'supplier'); ?>
                         </div>
                         <div class="column is-one-tenth clearleft--on-mobile t-field-text t-margin-none--bottom clearfix">
                             <?php echo $form->label($model, 'amount', ['class' => 't-field-text__label--required']); ?>
