@@ -183,7 +183,11 @@ $(document).on("click", "#stock_button", function () {
 });
 
 $(document).on("click", "#save-food", function () {
-    console.log(foodsOnStock);
+    let saveButton = $(this);
+    if (saveButton.prop("disabled")) {
+        return;
+    }
+
     if (foodsOnStock != 0) {
         $.ajax({
             type: "POST",
@@ -191,6 +195,14 @@ $(document).on("click", "#save-food", function () {
             cache: false,
             data: {
                 foodsOnStock: foodsOnStock,
+            },
+            beforeSend: function () {
+                saveButton.prop("disabled", true);
+                $(".loading-save-food").css("display", "flex");
+            },
+            complete: function () {
+                saveButton.prop("disabled", false);
+                $(".loading-save-food").hide();
             },
         })
             .success(function (response) {
