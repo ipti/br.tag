@@ -1,3 +1,8 @@
+## [Versão 3.14.21]
+- Adicionado o módulo MACETE ao Diário Eletrônico para criação de planos e registros de aula vinculados a etapas, componentes curriculares e habilidades BNCC
+- Os textos pedagógicos dos planos e registros agora possuem editor rico Quill com formatação segura
+- Adicionadas validações de acesso, escola, ano letivo, professor, turma, etapa e componente curricular para os fluxos do MACETE
+
 ## [Versão 3.13.17]
 - Corrigido bug no Registro 00 (identificação da escola) do Censo Escolar onde a ausência das datas de "Início do Período Letivo" ou "Final do Período Letivo" no cadastro da escola fazia o sistema preencher automaticamente uma data padrão na exportação, gerando período letivo incorreto no arquivo do Censo. Agora a exportação é bloqueada e é exibida uma mensagem pedindo o preenchimento dessas datas no cadastro da escola
 
@@ -1430,5 +1435,4 @@ com cache do style
 **Bugs Corrigidos:**
 - Correção na página inicial de turmas
 - Removido função que eliminava duplo espaço na busca por nome, por motivos de compatibilidade.
-
 

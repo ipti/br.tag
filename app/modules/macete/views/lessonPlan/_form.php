@@ -243,7 +243,10 @@ $selectedAbilitiesCount = count($selectedAbilities);
                                 <?php echo $form->error($lessonPlan, 'knowledge_object'); ?>
                             </div>
                         </div>
-                        <div class="column is-two-fifths">
+                    </div>
+
+                    <div class="row">
+                        <div class="column is-full">
                             <div class="t-field-select">
                                 <label class="t-field-select__label">Habilidades BNCC</label>
                                 <input type="hidden" class="js-macete-ability-search">
@@ -338,7 +341,7 @@ $selectedAbilitiesCount = count($selectedAbilities);
                     </div>
 
                     <div class="row">
-                        <div class="column is-three-fifths">
+                        <div class="column is-full">
                             <div class="t-field-tarea">
                                 <label class="t-field-tarea__label">Objetivos de aprendizagem</label>
                                 <?php echo CHtml::textArea(

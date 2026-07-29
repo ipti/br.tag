@@ -2,6 +2,10 @@
 
 /**
  * ActiveRecord for table macete_lesson_plan_stage.
+ *
+ * @property integer $lesson_plan_fk
+ * @property integer $edcenso_stage_vs_modality_fk
+ * @property integer $edcenso_discipline_fk
  */
 class MaceteLessonPlanStage extends TagModel
 {
@@ -26,7 +30,7 @@ class MaceteLessonPlanStage extends TagModel
     public function rules()
     {
         return [
-            ['lesson_plan_fk, edcenso_stage_vs_modality_fk', 'required'],
+            ['lesson_plan_fk, edcenso_stage_vs_modality_fk, edcenso_discipline_fk', 'required'],
             ['lesson_plan_fk, edcenso_stage_vs_modality_fk, edcenso_discipline_fk', 'numerical', 'integerOnly' => true],
             ['id, lesson_plan_fk, edcenso_stage_vs_modality_fk, edcenso_discipline_fk, created_at, updated_at', 'safe', 'on' => 'search'],
         ];

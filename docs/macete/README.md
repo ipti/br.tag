@@ -11,10 +11,10 @@ produção antes da conclusão das etapas 1 a 3.
 
 ## Execução atual
 
-- Criada a migration segura
-  `app/migrations/3.14.20/macete_lesson_plan_safe.sql`. Ela não apaga dados e
-  deve ser usada em novas instalações; a migration legada 3.13.13 não foi
-  executada nem alterada.
+- Criada a migration consolidada e segura
+  `app/migrations/3.14.21/macete.sql`. Ela não apaga dados e reúne a estrutura
+  necessária do módulo para novas instalações; a migration legada 3.13.13 não
+  deve ser usada como caminho de instalação.
 - Implementado o escopo de escola, ano letivo e autor docente para carregar
   planos, registros e turmas, além da validação das features do Diário
   Eletrônico nos endpoints MACETE.
