@@ -27,8 +27,8 @@ class MaceteLessonPlanStage extends TagModel
     {
         return [
             ['lesson_plan_fk, edcenso_stage_vs_modality_fk', 'required'],
-            ['lesson_plan_fk, edcenso_stage_vs_modality_fk', 'numerical', 'integerOnly' => true],
-            ['id, lesson_plan_fk, edcenso_stage_vs_modality_fk, created_at, updated_at', 'safe', 'on' => 'search'],
+            ['lesson_plan_fk, edcenso_stage_vs_modality_fk, edcenso_discipline_fk', 'numerical', 'integerOnly' => true],
+            ['id, lesson_plan_fk, edcenso_stage_vs_modality_fk, edcenso_discipline_fk, created_at, updated_at', 'safe', 'on' => 'search'],
         ];
     }
 
@@ -37,6 +37,7 @@ class MaceteLessonPlanStage extends TagModel
         return [
             'lessonPlanFk' => [self::BELONGS_TO, 'MaceteLessonPlan', 'lesson_plan_fk'],
             'stageFk' => [self::BELONGS_TO, 'EdcensoStageVsModality', 'edcenso_stage_vs_modality_fk'],
+            'disciplineFk' => [self::BELONGS_TO, 'EdcensoDiscipline', 'edcenso_discipline_fk'],
         ];
     }
 
@@ -46,6 +47,7 @@ class MaceteLessonPlanStage extends TagModel
             'id' => 'ID',
             'lesson_plan_fk' => 'Plano MACETE',
             'edcenso_stage_vs_modality_fk' => 'Etapa',
+            'edcenso_discipline_fk' => 'Componente curricular',
             'created_at' => 'Criado em',
             'updated_at' => 'Atualizado em',
         ];

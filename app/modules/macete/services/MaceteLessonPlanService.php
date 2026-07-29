@@ -4,9 +4,12 @@ class MaceteLessonPlanService
 {
     private MaceteAbilityService $abilityService;
 
-    public function __construct(?MaceteAbilityService $abilityService = null)
+    private MaceteAccessService $accessService;
+
+    public function __construct(?MaceteAbilityService $abilityService = null, ?MaceteAccessService $accessService = null)
     {
         $this->abilityService = $abilityService ?? new MaceteAbilityService();
+        $this->accessService = $accessService ?? new MaceteAccessService();
     }
 
     public function save(MaceteLessonPlan $lessonPlan, array $request): MaceteLessonPlan
@@ -15,17 +18,29 @@ class MaceteLessonPlanService
 
         try {
             $planData = $request['MaceteLessonPlan'] ?? [];
-            $stageIds = $this->normalizeStageIds($request['stage_ids'] ?? ($planData['edcenso_stage_vs_modality_fk'] ?? []));
-            if (empty($stageIds)) {
-                throw new CException('Selecione pelo menos uma etapa.');
+            $stageComponents = $this->normalizeStageComponents($request['stage_components'] ?? []);
+            if (empty($stageComponents)) {
+                throw new CException('Adicione pelo menos uma etapa e seu componente curricular.');
             }
 
-            $lessonPlan->attributes = $this->normalizePlanData($planData);
-            $lessonPlan->edcenso_stage_vs_modality_fk = $stageIds[0];
+            $lessonPlan->attributes = $this->editablePlanData($planData);
+            $lessonPlan->edcenso_stage_vs_modality_fk = $stageComponents[0]['stage_id'];
+            $lessonPlan->edcenso_discipline_fk = $stageComponents[0]['discipline_id'];
+
+            if ($lessonPlan->classroom_fk !== null) {
+                $classroom = $this->accessService->findClassroom((int) $lessonPlan->classroom_fk);
+                if ($classroom === null) {
+                    throw new CException('Turma não encontrada ou não disponível para o usuário atual.');
+                }
+
+                if (!in_array((int) $classroom->edcenso_stage_vs_modality_fk, $this->getStageIdsFromComponents($stageComponents), true)) {
+                    throw new CException('A turma selecionada não pertence a uma etapa prevista no plano MACETE.');
+                }
+            }
 
             if ($lessonPlan->isNewRecord) {
                 $lessonPlan->school_inep_fk = Yii::app()->user->school;
-                $lessonPlan->users_fk = Yii::app()->user->loginInfos->id;
+                $lessonPlan->users_fk = $this->accessService->currentUserId();
                 $lessonPlan->school_year = Yii::app()->user->year;
             }
 
@@ -37,7 +52,7 @@ class MaceteLessonPlanService
                 throw new CException('Não foi possível salvar o plano MACETE.');
             }
 
-            $this->syncStages($lessonPlan, $stageIds);
+            $this->syncStages($lessonPlan, $stageComponents);
             $this->syncAbilities($lessonPlan, $request['abilities'] ?? []);
             $this->syncSections($lessonPlan, $request['sections'] ?? []);
             $this->syncResources($lessonPlan, $request['resources'] ?? []);
@@ -141,10 +156,11 @@ class MaceteLessonPlanService
     public function getClassrooms(): array
     {
         $criteria = new CDbCriteria();
-        $criteria->condition = 'school_inep_fk = :school AND school_year = :school_year';
+        $criteria->addCondition('school_inep_fk = :macete_school');
+        $criteria->addCondition('school_year = :macete_school_year');
         $criteria->params = [
-            ':school' => Yii::app()->user->school,
-            ':school_year' => Yii::app()->user->year,
+            ':macete_school' => Yii::app()->user->school,
+            ':macete_school_year' => Yii::app()->user->year,
         ];
         $criteria->order = 'name ASC';
 
@@ -191,6 +207,26 @@ class MaceteLessonPlanService
         return $lessonPlan->getStageIds();
     }
 
+    public function getStageComponents(MaceteLessonPlan $lessonPlan): array
+    {
+        $components = [];
+        foreach ($lessonPlan->planStages as $planStage) {
+            $components[] = [
+                'stage_id' => (int) $planStage->edcenso_stage_vs_modality_fk,
+                'discipline_id' => $planStage->edcenso_discipline_fk !== null ? (int) $planStage->edcenso_discipline_fk : null,
+            ];
+        }
+
+        if (empty($components) && $lessonPlan->edcenso_stage_vs_modality_fk !== null) {
+            $components[] = [
+                'stage_id' => (int) $lessonPlan->edcenso_stage_vs_modality_fk,
+                'discipline_id' => $lessonPlan->edcenso_discipline_fk !== null ? (int) $lessonPlan->edcenso_discipline_fk : null,
+            ];
+        }
+
+        return $components;
+    }
+
     public function getStagesByIds(array $stageIds): array
     {
         $stageIds = $this->normalizeStageIds($stageIds);
@@ -226,6 +262,30 @@ class MaceteLessonPlanService
         return $planData;
     }
 
+    private function editablePlanData(array $planData): array
+    {
+        $allowedAttributes = [
+            'name',
+            'theme',
+            'classroom_fk',
+            'unit',
+            'territory_context',
+            'knowledge_object',
+            'evaluation',
+            'references_text',
+            'status',
+        ];
+
+        $planData = $this->normalizePlanData(array_intersect_key($planData, array_flip($allowedAttributes)));
+        foreach (['territory_context', 'knowledge_object', 'evaluation', 'references_text'] as $attribute) {
+            if (array_key_exists($attribute, $planData)) {
+                $planData[$attribute] = MaceteRichTextSanitizer::sanitize((string) $planData[$attribute]);
+            }
+        }
+
+        return $planData;
+    }
+
     public function normalizeStageIds($stageIds): array
     {
         if (!is_array($stageIds)) {
@@ -246,22 +306,64 @@ class MaceteLessonPlanService
         return array_values(array_unique($normalized));
     }
 
-    private function syncStages(MaceteLessonPlan $lessonPlan, array $stageIds): void
+    public function normalizeStageComponents($stageComponents): array
+    {
+        if (!is_array($stageComponents)) {
+            return [];
+        }
+
+        $normalized = [];
+        foreach ($stageComponents as $component) {
+            if (!is_array($component)) {
+                continue;
+            }
+
+            $stageId = (int) ($component['stage_id'] ?? 0);
+            $disciplineId = (int) ($component['discipline_id'] ?? 0);
+            if ($stageId <= 0 || $disciplineId <= 0) {
+                continue;
+            }
+            if (isset($normalized[$stageId])) {
+                throw new CException('Cada etapa pode ser associada a apenas um componente curricular.');
+            }
+
+            $allowedDisciplines = $this->getDisciplines([$stageId]);
+            $allowedDisciplineIds = array_map(static fn (array $discipline): int => (int) $discipline['id'], $allowedDisciplines);
+            if (!in_array($disciplineId, $allowedDisciplineIds, true)) {
+                throw new CException('O componente curricular selecionado não pertence à etapa informada.');
+            }
+
+            $normalized[$stageId] = [
+                'stage_id' => $stageId,
+                'discipline_id' => $disciplineId,
+            ];
+        }
+
+        return array_values($normalized);
+    }
+
+    private function syncStages(MaceteLessonPlan $lessonPlan, array $stageComponents): void
     {
         MaceteLessonPlanStage::model()->deleteAll(
             'lesson_plan_fk = :lesson_plan_fk',
             [':lesson_plan_fk' => $lessonPlan->id]
         );
 
-        foreach ($stageIds as $stageId) {
+        foreach ($stageComponents as $stageComponent) {
             $stage = new MaceteLessonPlanStage();
             $stage->lesson_plan_fk = $lessonPlan->id;
-            $stage->edcenso_stage_vs_modality_fk = $stageId;
+            $stage->edcenso_stage_vs_modality_fk = $stageComponent['stage_id'];
+            $stage->edcenso_discipline_fk = $stageComponent['discipline_id'];
 
             if (!$stage->save()) {
                 throw new CException('Não foi possível salvar uma etapa do plano MACETE.');
             }
         }
+    }
+
+    private function getStageIdsFromComponents(array $stageComponents): array
+    {
+        return array_map(static fn (array $component): int => $component['stage_id'], $stageComponents);
     }
 
     private function syncAbilities(MaceteLessonPlan $lessonPlan, array $abilityIds): void
@@ -296,7 +398,8 @@ class MaceteLessonPlanService
                 $targets = ['general' => $targets];
             }
             foreach ($targets as $targetGroup => $content) {
-                if (trim((string) $content) === '') {
+                $content = MaceteRichTextSanitizer::sanitize((string) $content);
+                if ($content === '') {
                     continue;
                 }
 
@@ -323,7 +426,8 @@ class MaceteLessonPlanService
         );
 
         foreach ($resources as $type => $description) {
-            if (trim((string) $description) === '') {
+            $description = MaceteRichTextSanitizer::sanitize((string) $description);
+            if ($description === '') {
                 continue;
             }
 
@@ -352,7 +456,7 @@ class MaceteLessonPlanService
             }
 
             $title = trim((string) ($materialData['title'] ?? ''));
-            $description = trim((string) ($materialData['description'] ?? ''));
+            $description = MaceteRichTextSanitizer::sanitize((string) ($materialData['description'] ?? ''));
             $filePath = trim((string) ($materialData['file_path'] ?? ''));
 
             if ($title === '' && $description === '' && $filePath === '') {

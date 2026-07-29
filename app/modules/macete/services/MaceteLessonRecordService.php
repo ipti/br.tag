@@ -4,9 +4,12 @@ class MaceteLessonRecordService
 {
     private MaceteAbilityService $abilityService;
 
-    public function __construct(?MaceteAbilityService $abilityService = null)
+    private MaceteAccessService $accessService;
+
+    public function __construct(?MaceteAbilityService $abilityService = null, ?MaceteAccessService $accessService = null)
     {
         $this->abilityService = $abilityService ?? new MaceteAbilityService();
+        $this->accessService = $accessService ?? new MaceteAccessService();
     }
 
     public function save(MaceteLessonRecord $lessonRecord, array $request): MaceteLessonRecord
@@ -15,23 +18,33 @@ class MaceteLessonRecordService
 
         try {
             $recordData = $this->normalizeRecordData($request['MaceteLessonRecord'] ?? []);
-            $lessonRecord->attributes = $recordData;
+            $lessonRecord->attributes = $this->editableRecordData($recordData);
 
             if ($lessonRecord->isNewRecord) {
                 $lessonRecord->school_inep_fk = Yii::app()->user->school;
-                $lessonRecord->users_fk = Yii::app()->user->loginInfos->id;
+                $lessonRecord->users_fk = $this->accessService->currentUserId();
             }
 
-            $plan = MaceteLessonPlan::model()->findByPk($lessonRecord->lesson_plan_fk);
-            if ($plan !== null) {
-                $lessonRecord->edcenso_stage_vs_modality_fk = $plan->edcenso_stage_vs_modality_fk;
-                $lessonRecord->edcenso_discipline_fk = $plan->edcenso_discipline_fk;
+            $plan = $this->accessService->findPlan((int) $lessonRecord->lesson_plan_fk);
+            if ($plan === null) {
+                throw new CException('Plano MACETE não encontrado ou não disponível para o usuário atual.');
             }
 
-            $classroom = Classroom::model()->findByPk($lessonRecord->classroom_fk);
-            if ($classroom !== null && $classroom->edcenso_stage_vs_modality_fk !== null) {
-                $lessonRecord->edcenso_stage_vs_modality_fk = $classroom->edcenso_stage_vs_modality_fk;
+            $classroom = $this->accessService->findClassroom((int) $lessonRecord->classroom_fk);
+            if ($classroom === null) {
+                throw new CException('Turma não encontrada ou não disponível para o usuário atual.');
             }
+
+            $planStage = MaceteLessonPlanStage::model()->findByAttributes([
+                'lesson_plan_fk' => $plan->id,
+                'edcenso_stage_vs_modality_fk' => $classroom->edcenso_stage_vs_modality_fk,
+            ]);
+            if ($planStage === null) {
+                throw new CException('A turma selecionada não pertence a uma etapa prevista no plano MACETE.');
+            }
+
+            $lessonRecord->edcenso_stage_vs_modality_fk = $classroom->edcenso_stage_vs_modality_fk;
+            $lessonRecord->edcenso_discipline_fk = $planStage->edcenso_discipline_fk;
 
             if ($lessonRecord->status === null || $lessonRecord->status === '') {
                 $lessonRecord->status = MaceteLessonRecord::STATUS_DRAFT;
@@ -70,16 +83,7 @@ class MaceteLessonRecordService
     public function getPlans(): array
     {
         $criteria = new CDbCriteria();
-        $criteria->condition = 'school_inep_fk = :school AND school_year = :school_year';
-        $criteria->params = [
-            ':school' => Yii::app()->user->school,
-            ':school_year' => Yii::app()->user->year,
-        ];
-
-        if (TagUtils::isInstructor()) {
-            $criteria->addCondition('users_fk = :user_id');
-            $criteria->params[':user_id'] = Yii::app()->user->loginInfos->id;
-        }
+        $this->accessService->applyPlanScope($criteria);
 
         $criteria->order = 'name ASC';
 
@@ -127,12 +131,48 @@ class MaceteLessonRecordService
     private function normalizeRecordData(array $recordData): array
     {
         if (array_key_exists('lesson_date', $recordData)) {
+            if (!self::isValidViewDate((string) $recordData['lesson_date'])) {
+                throw new CException('Informe uma data de aula válida no formato DD/MM/AAAA.');
+            }
+
             $recordData['lesson_date'] = self::convertDateToDatabase($recordData['lesson_date']);
         }
 
         foreach (['edcenso_discipline_fk'] as $nullableField) {
             if (array_key_exists($nullableField, $recordData) && $recordData[$nullableField] === '') {
                 $recordData[$nullableField] = null;
+            }
+        }
+
+        return $recordData;
+    }
+
+    private static function isValidViewDate(string $date): bool
+    {
+        $dateObject = DateTime::createFromFormat('!d/m/Y', $date);
+        $errors = DateTime::getLastErrors();
+
+        return $dateObject !== false
+            && ($errors === false || ($errors['warning_count'] === 0 && $errors['error_count'] === 0));
+    }
+
+    private function editableRecordData(array $recordData): array
+    {
+        $allowedAttributes = [
+            'lesson_plan_fk',
+            'classroom_fk',
+            'lesson_date',
+            'executed_content',
+            'methodology_notes',
+            'evaluation_notes',
+            'adaptation_notes',
+            'status',
+        ];
+
+        $recordData = array_intersect_key($recordData, array_flip($allowedAttributes));
+        foreach (['executed_content', 'methodology_notes', 'evaluation_notes', 'adaptation_notes'] as $attribute) {
+            if (array_key_exists($attribute, $recordData)) {
+                $recordData[$attribute] = MaceteRichTextSanitizer::sanitize((string) $recordData[$attribute]);
             }
         }
 

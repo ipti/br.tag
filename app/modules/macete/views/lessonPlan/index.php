@@ -112,7 +112,7 @@ $this->setPageTitle('TAG - Planos MACETE');
                         [
                             'header' => 'Componente',
                             'name' => 'edcenso_discipline_fk',
-                            'value' => '$data->disciplineFk !== null ? $data->disciplineFk->name : ""',
+                            'value' => '$data->getDisciplineNames()',
                             'htmlOptions' => ['width' => '12%'],
                         ],
                         [

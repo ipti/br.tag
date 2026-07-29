@@ -1,6 +1,9 @@
 -- =============================================================================
--- TAG Migration v3.13.13 - MACETE lesson plans and lesson records
+-- TAG Migration v3.14.20 - MACETE safe schema installation
 -- =============================================================================
+-- This migration is idempotent and does not remove business data.
+-- Use it instead of the destructive 3.13.13 initial script on new databases.
+
 CREATE TABLE IF NOT EXISTS `macete_lesson_plan` (
     `id` INT(11) NOT NULL AUTO_INCREMENT,
     `name` VARCHAR(150) NOT NULL,
@@ -25,38 +28,11 @@ CREATE TABLE IF NOT EXISTS `macete_lesson_plan` (
     KEY `idx_macete_lesson_plan_stage` (`edcenso_stage_vs_modality_fk`),
     KEY `idx_macete_lesson_plan_discipline` (`edcenso_discipline_fk`),
     KEY `idx_macete_lesson_plan_user` (`users_fk`),
-    CONSTRAINT `fk_macete_lesson_plan_school`
-        FOREIGN KEY (`school_inep_fk`) REFERENCES `school_identification` (`inep_id`)
-        ON DELETE CASCADE ON UPDATE CASCADE,
-    CONSTRAINT `fk_macete_lesson_plan_classroom`
-        FOREIGN KEY (`classroom_fk`) REFERENCES `classroom` (`id`)
-        ON DELETE SET NULL ON UPDATE CASCADE,
-    CONSTRAINT `fk_macete_lesson_plan_stage`
-        FOREIGN KEY (`edcenso_stage_vs_modality_fk`) REFERENCES `edcenso_stage_vs_modality` (`id`)
-        ON DELETE RESTRICT ON UPDATE CASCADE,
-    CONSTRAINT `fk_macete_lesson_plan_discipline`
-        FOREIGN KEY (`edcenso_discipline_fk`) REFERENCES `edcenso_discipline` (`id`)
-        ON DELETE SET NULL ON UPDATE CASCADE,
-    CONSTRAINT `fk_macete_lesson_plan_user`
-        FOREIGN KEY (`users_fk`) REFERENCES `users` (`id`)
-        ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
-CREATE TABLE IF NOT EXISTS `macete_lesson_plan_ability` (
-    `id` INT(11) NOT NULL AUTO_INCREMENT,
-    `lesson_plan_fk` INT(11) NOT NULL,
-    `ability_fk` INT(11) NOT NULL,
-    `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    `updated_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    PRIMARY KEY (`id`),
-    UNIQUE KEY `uk_macete_lesson_plan_ability` (`lesson_plan_fk`, `ability_fk`),
-    KEY `idx_macete_lesson_plan_ability_ability` (`ability_fk`),
-    CONSTRAINT `fk_macete_lesson_plan_ability_plan`
-        FOREIGN KEY (`lesson_plan_fk`) REFERENCES `macete_lesson_plan` (`id`)
-        ON DELETE CASCADE ON UPDATE CASCADE,
-    CONSTRAINT `fk_macete_lesson_plan_ability_ability`
-        FOREIGN KEY (`ability_fk`) REFERENCES `course_class_abilities` (`id`)
-        ON DELETE RESTRICT ON UPDATE CASCADE
+    CONSTRAINT `fk_macete_lesson_plan_school` FOREIGN KEY (`school_inep_fk`) REFERENCES `school_identification` (`inep_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+    CONSTRAINT `fk_macete_lesson_plan_classroom` FOREIGN KEY (`classroom_fk`) REFERENCES `classroom` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
+    CONSTRAINT `fk_macete_lesson_plan_stage` FOREIGN KEY (`edcenso_stage_vs_modality_fk`) REFERENCES `edcenso_stage_vs_modality` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE,
+    CONSTRAINT `fk_macete_lesson_plan_discipline` FOREIGN KEY (`edcenso_discipline_fk`) REFERENCES `edcenso_discipline` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
+    CONSTRAINT `fk_macete_lesson_plan_user` FOREIGN KEY (`users_fk`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 CREATE TABLE IF NOT EXISTS `macete_lesson_plan_stage` (
@@ -70,15 +46,22 @@ CREATE TABLE IF NOT EXISTS `macete_lesson_plan_stage` (
     UNIQUE KEY `uk_macete_lesson_plan_stage` (`lesson_plan_fk`, `edcenso_stage_vs_modality_fk`),
     KEY `idx_macete_lesson_plan_stage_stage` (`edcenso_stage_vs_modality_fk`),
     KEY `idx_macete_lesson_plan_stage_discipline` (`edcenso_discipline_fk`),
-    CONSTRAINT `fk_macete_lesson_plan_stage_plan`
-        FOREIGN KEY (`lesson_plan_fk`) REFERENCES `macete_lesson_plan` (`id`)
-        ON DELETE CASCADE ON UPDATE CASCADE,
-    CONSTRAINT `fk_macete_lesson_plan_stage_stage`
-        FOREIGN KEY (`edcenso_stage_vs_modality_fk`) REFERENCES `edcenso_stage_vs_modality` (`id`)
-        ON DELETE RESTRICT ON UPDATE CASCADE,
-    CONSTRAINT `fk_macete_lesson_plan_stage_discipline`
-        FOREIGN KEY (`edcenso_discipline_fk`) REFERENCES `edcenso_discipline` (`id`)
-        ON DELETE RESTRICT ON UPDATE CASCADE
+    CONSTRAINT `fk_macete_lesson_plan_stage_plan` FOREIGN KEY (`lesson_plan_fk`) REFERENCES `macete_lesson_plan` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+    CONSTRAINT `fk_macete_lesson_plan_stage_stage` FOREIGN KEY (`edcenso_stage_vs_modality_fk`) REFERENCES `edcenso_stage_vs_modality` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE,
+    CONSTRAINT `fk_macete_lesson_plan_stage_discipline` FOREIGN KEY (`edcenso_discipline_fk`) REFERENCES `edcenso_discipline` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE IF NOT EXISTS `macete_lesson_plan_ability` (
+    `id` INT(11) NOT NULL AUTO_INCREMENT,
+    `lesson_plan_fk` INT(11) NOT NULL,
+    `ability_fk` INT(11) NOT NULL,
+    `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    `updated_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    PRIMARY KEY (`id`),
+    UNIQUE KEY `uk_macete_lesson_plan_ability` (`lesson_plan_fk`, `ability_fk`),
+    KEY `idx_macete_lesson_plan_ability_ability` (`ability_fk`),
+    CONSTRAINT `fk_macete_lesson_plan_ability_plan` FOREIGN KEY (`lesson_plan_fk`) REFERENCES `macete_lesson_plan` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+    CONSTRAINT `fk_macete_lesson_plan_ability_ability` FOREIGN KEY (`ability_fk`) REFERENCES `course_class_abilities` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 CREATE TABLE IF NOT EXISTS `macete_lesson_plan_section` (
@@ -94,9 +77,7 @@ CREATE TABLE IF NOT EXISTS `macete_lesson_plan_section` (
     PRIMARY KEY (`id`),
     KEY `idx_macete_lesson_plan_section_plan` (`lesson_plan_fk`),
     KEY `idx_macete_lesson_plan_section_type` (`section_type`),
-    CONSTRAINT `fk_macete_lesson_plan_section_plan`
-        FOREIGN KEY (`lesson_plan_fk`) REFERENCES `macete_lesson_plan` (`id`)
-        ON DELETE CASCADE ON UPDATE CASCADE
+    CONSTRAINT `fk_macete_lesson_plan_section_plan` FOREIGN KEY (`lesson_plan_fk`) REFERENCES `macete_lesson_plan` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 CREATE TABLE IF NOT EXISTS `macete_lesson_plan_resource` (
@@ -110,9 +91,7 @@ CREATE TABLE IF NOT EXISTS `macete_lesson_plan_resource` (
     `updated_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     PRIMARY KEY (`id`),
     KEY `idx_macete_lesson_plan_resource_plan` (`lesson_plan_fk`),
-    CONSTRAINT `fk_macete_lesson_plan_resource_plan`
-        FOREIGN KEY (`lesson_plan_fk`) REFERENCES `macete_lesson_plan` (`id`)
-        ON DELETE CASCADE ON UPDATE CASCADE
+    CONSTRAINT `fk_macete_lesson_plan_resource_plan` FOREIGN KEY (`lesson_plan_fk`) REFERENCES `macete_lesson_plan` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 CREATE TABLE IF NOT EXISTS `macete_lesson_material` (
@@ -126,9 +105,7 @@ CREATE TABLE IF NOT EXISTS `macete_lesson_material` (
     `updated_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     PRIMARY KEY (`id`),
     KEY `idx_macete_lesson_material_plan` (`lesson_plan_fk`),
-    CONSTRAINT `fk_macete_lesson_material_plan`
-        FOREIGN KEY (`lesson_plan_fk`) REFERENCES `macete_lesson_plan` (`id`)
-        ON DELETE CASCADE ON UPDATE CASCADE
+    CONSTRAINT `fk_macete_lesson_material_plan` FOREIGN KEY (`lesson_plan_fk`) REFERENCES `macete_lesson_plan` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 CREATE TABLE IF NOT EXISTS `macete_lesson_record` (
@@ -154,24 +131,12 @@ CREATE TABLE IF NOT EXISTS `macete_lesson_record` (
     KEY `idx_macete_lesson_record_stage` (`edcenso_stage_vs_modality_fk`),
     KEY `idx_macete_lesson_record_discipline` (`edcenso_discipline_fk`),
     KEY `idx_macete_lesson_record_user` (`users_fk`),
-    CONSTRAINT `fk_macete_lesson_record_plan`
-        FOREIGN KEY (`lesson_plan_fk`) REFERENCES `macete_lesson_plan` (`id`)
-        ON DELETE CASCADE ON UPDATE CASCADE,
-    CONSTRAINT `fk_macete_lesson_record_school`
-        FOREIGN KEY (`school_inep_fk`) REFERENCES `school_identification` (`inep_id`)
-        ON DELETE CASCADE ON UPDATE CASCADE,
-    CONSTRAINT `fk_macete_lesson_record_classroom`
-        FOREIGN KEY (`classroom_fk`) REFERENCES `classroom` (`id`)
-        ON DELETE RESTRICT ON UPDATE CASCADE,
-    CONSTRAINT `fk_macete_lesson_record_stage`
-        FOREIGN KEY (`edcenso_stage_vs_modality_fk`) REFERENCES `edcenso_stage_vs_modality` (`id`)
-        ON DELETE RESTRICT ON UPDATE CASCADE,
-    CONSTRAINT `fk_macete_lesson_record_discipline`
-        FOREIGN KEY (`edcenso_discipline_fk`) REFERENCES `edcenso_discipline` (`id`)
-        ON DELETE SET NULL ON UPDATE CASCADE,
-    CONSTRAINT `fk_macete_lesson_record_user`
-        FOREIGN KEY (`users_fk`) REFERENCES `users` (`id`)
-        ON DELETE CASCADE ON UPDATE CASCADE
+    CONSTRAINT `fk_macete_lesson_record_plan` FOREIGN KEY (`lesson_plan_fk`) REFERENCES `macete_lesson_plan` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+    CONSTRAINT `fk_macete_lesson_record_school` FOREIGN KEY (`school_inep_fk`) REFERENCES `school_identification` (`inep_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+    CONSTRAINT `fk_macete_lesson_record_classroom` FOREIGN KEY (`classroom_fk`) REFERENCES `classroom` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE,
+    CONSTRAINT `fk_macete_lesson_record_stage` FOREIGN KEY (`edcenso_stage_vs_modality_fk`) REFERENCES `edcenso_stage_vs_modality` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE,
+    CONSTRAINT `fk_macete_lesson_record_discipline` FOREIGN KEY (`edcenso_discipline_fk`) REFERENCES `edcenso_discipline` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
+    CONSTRAINT `fk_macete_lesson_record_user` FOREIGN KEY (`users_fk`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 CREATE TABLE IF NOT EXISTS `macete_lesson_record_ability` (
@@ -183,10 +148,12 @@ CREATE TABLE IF NOT EXISTS `macete_lesson_record_ability` (
     PRIMARY KEY (`id`),
     UNIQUE KEY `uk_macete_lesson_record_ability` (`lesson_record_fk`, `ability_fk`),
     KEY `idx_macete_lesson_record_ability_ability` (`ability_fk`),
-    CONSTRAINT `fk_macete_lesson_record_ability_record`
-        FOREIGN KEY (`lesson_record_fk`) REFERENCES `macete_lesson_record` (`id`)
-        ON DELETE CASCADE ON UPDATE CASCADE,
-    CONSTRAINT `fk_macete_lesson_record_ability_ability`
-        FOREIGN KEY (`ability_fk`) REFERENCES `course_class_abilities` (`id`)
-        ON DELETE RESTRICT ON UPDATE CASCADE
+    CONSTRAINT `fk_macete_lesson_record_ability_record` FOREIGN KEY (`lesson_record_fk`) REFERENCES `macete_lesson_record` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+    CONSTRAINT `fk_macete_lesson_record_ability_ability` FOREIGN KEY (`ability_fk`) REFERENCES `course_class_abilities` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+INSERT IGNORE INTO `macete_lesson_plan_stage` (`lesson_plan_fk`, `edcenso_stage_vs_modality_fk`, `edcenso_discipline_fk`)
+SELECT `id`, `edcenso_stage_vs_modality_fk`, `edcenso_discipline_fk`
+FROM `macete_lesson_plan`
+WHERE `edcenso_stage_vs_modality_fk` IS NOT NULL
+    AND `edcenso_discipline_fk` IS NOT NULL;

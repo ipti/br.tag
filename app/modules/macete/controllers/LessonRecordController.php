@@ -5,6 +5,7 @@ class LessonRecordController extends Controller
     private ?MaceteLessonRecordService $lessonRecordService = null;
     private ?MaceteLessonPlanService $lessonPlanService = null;
     private ?MaceteAbilityService $abilityService = null;
+    private ?MaceteAccessService $accessService = null;
 
     public function filters()
     {
@@ -31,18 +32,10 @@ class LessonRecordController extends Controller
 
     public function actionIndex()
     {
+        $this->accessService()->requireLessonRecordFeature();
         $criteria = new CDbCriteria();
-        $criteria->condition = 'school_inep_fk = :school AND YEAR(lesson_date) = :school_year';
-        $criteria->params = [
-            ':school' => Yii::app()->user->school,
-            ':school_year' => Yii::app()->user->year,
-        ];
+        $this->accessService()->applyRecordScope($criteria);
         $criteria->order = 'lesson_date DESC, updated_at DESC';
-
-        if (TagUtils::isInstructor()) {
-            $criteria->addCondition('users_fk = :user_id');
-            $criteria->params[':user_id'] = Yii::app()->user->loginInfos->id;
-        }
 
         $dataProvider = new CActiveDataProvider('MaceteLessonRecord', [
             'criteria' => $criteria,
@@ -56,13 +49,14 @@ class LessonRecordController extends Controller
 
     public function actionCreate()
     {
+        $this->accessService()->requireLessonRecordFeature();
         $lessonRecord = new MaceteLessonRecord();
         $lessonRecord->status = MaceteLessonRecord::STATUS_DRAFT;
         $lessonRecord->lesson_date = date('d/m/Y');
 
         $lessonPlanId = Yii::app()->request->getQuery('lessonPlanId');
         if ($lessonPlanId !== null && $lessonPlanId !== '') {
-            $lessonPlan = MaceteLessonPlan::model()->findByPk($lessonPlanId);
+            $lessonPlan = $this->accessService()->findPlan((int) $lessonPlanId);
             if ($lessonPlan !== null) {
                 $lessonRecord->lesson_plan_fk = $lessonPlan->id;
                 $lessonRecord->classroom_fk = $lessonPlan->classroom_fk;
@@ -88,6 +82,7 @@ class LessonRecordController extends Controller
 
     public function actionUpdate($id)
     {
+        $this->accessService()->requireLessonRecordFeature();
         $lessonRecord = $this->loadModel($id);
         $lessonRecord->lesson_date = MaceteLessonRecordService::convertDateToView($lessonRecord->lesson_date);
 
@@ -108,6 +103,7 @@ class LessonRecordController extends Controller
 
     public function actionDelete($id)
     {
+        $this->accessService()->requireLessonRecordFeature();
         $lessonRecord = $this->loadModel($id);
         $lessonRecord->delete();
 
@@ -117,7 +113,7 @@ class LessonRecordController extends Controller
 
     public function loadModel($id): MaceteLessonRecord
     {
-        $model = MaceteLessonRecord::model()->findByPk($id);
+        $model = $this->accessService()->findRecord((int) $id);
         if ($model === null) {
             throw new CHttpException(404, 'Registro de aula MACETE não encontrado.');
         }
@@ -167,5 +163,14 @@ class LessonRecordController extends Controller
         }
 
         return $this->abilityService;
+    }
+
+    private function accessService(): MaceteAccessService
+    {
+        if ($this->accessService === null) {
+            $this->accessService = new MaceteAccessService();
+        }
+
+        return $this->accessService;
     }
 }

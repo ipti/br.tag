@@ -11,24 +11,27 @@
         }
     }
 
-    function normalizeIds(value) {
-        if ($.isArray(value)) {
-            return $.grep(value, function (item) {
-                return item !== null && item !== "";
-            });
+    function initSelect(select) {
+        if (typeof select.select2 === "function" && !select.data("select2")) {
+            select.select2({ width: "resolve" });
         }
-
-        if (value === null || value === undefined || value === "") {
-            return [];
-        }
-
-        return [value];
     }
 
-    function refreshStageFields(stageIds) {
+    function getStageIds() {
+        var ids = [];
+        $("select.js-macete-stage-component-stage").each(function () {
+            var value = $(this).val();
+            if (value) {
+                ids.push(String(value));
+            }
+        });
+        return ids;
+    }
+
+    function refreshStageFields() {
         var selected = {};
-        $.each(stageIds, function (_, stageId) {
-            selected[String(stageId)] = true;
+        $.each(getStageIds(), function (_, stageId) {
+            selected[stageId] = true;
         });
 
         $(".js-macete-stage-field").each(function () {
@@ -38,116 +41,123 @@
             field.find(":input").prop("disabled", !active);
         });
 
-        $(".js-macete-stage-empty").toggleClass("hide", stageIds.length > 0);
+        $(".js-macete-stage-empty").toggleClass("hide", getStageIds().length > 0);
+
+        if (window.Macete && typeof window.Macete.initRichText === "function") {
+            window.Macete.initRichText();
+        }
     }
 
-    function updateDisciplines(stageIds) {
-        stageIds = normalizeIds(stageIds);
-        var disciplineSelect = $("select.js-macete-discipline");
-        if (!disciplineSelect.length) {
+    function loadDisciplines(row, selectedValue, selectedStageId) {
+        var stage = row.find("select.js-macete-stage-component-stage").first();
+        var discipline = row.find("select.js-macete-stage-component-discipline").first();
+        var stageId = selectedStageId || stage.val();
+
+        if (!selectedValue && row.data("macete-loaded-stage-id") === String(stageId || "")) {
+            return;
+        }
+        row.data("macete-loaded-stage-id", String(stageId || ""));
+
+        if (discipline.data("select2")) {
+            discipline.select2("destroy");
+        }
+        discipline.html('<option value="">Selecione a etapa primeiro</option>').val("");
+        if (!stageId) {
             return;
         }
 
-        disciplineSelect.val("");
-        if (!stageIds.length) {
-            disciplineSelect.html("<option value=\"\">Selecione o componente</option>");
-            if (typeof disciplineSelect.select2 === "function") {
-                disciplineSelect.select2("val", "");
-            } else {
-                disciplineSelect.val("");
-            }
-            return;
-        }
+        var requestToken = (row.data("macete-discipline-request-token") || 0) + 1;
+        row.data("macete-discipline-request-token", requestToken);
 
         $.ajax({
             type: "POST",
             url: "?r=macete/lessonPlan/getDisciplines",
             dataType: "json",
             cache: false,
-            data: { stage: stageIds },
+            data: { stage: [stageId] },
         }).done(function (response) {
-            var data = parseResponse(response);
-            var initialValue = disciplineSelect.attr("data-initial-value") || "";
-            var selectedValue = "";
-            var options = "<option value=\"\">Selecione o componente</option>";
-
-            $.each(data, function () {
-                var selected = initialValue !== "" && String(initialValue) === String(this.id);
-                selectedValue = selected ? String(this.id) : selectedValue;
-                options += "<option value=\"" + window.Macete.escapeHtml(this.id) + "\"" + (selected ? " selected" : "") + ">" + window.Macete.escapeHtml(this.name) + "</option>";
-            });
-
-            disciplineSelect.html(options);
-            if (typeof disciplineSelect.select2 === "function") {
-                disciplineSelect.select2("val", selectedValue);
-            } else {
-                disciplineSelect.val(selectedValue);
+            if (row.data("macete-discipline-request-token") !== requestToken) {
+                return;
             }
-            disciplineSelect.trigger("change.select2");
-            disciplineSelect.attr("data-initial-value", "");
+            var options = '<option value="">Selecione o componente</option>';
+            $.each(parseResponse(response), function () {
+                var selected = String(selectedValue || "") === String(this.id) ? " selected" : "";
+                options += '<option value="' + window.Macete.escapeHtml(this.id) + '"' + selected + '>'
+                    + window.Macete.escapeHtml(this.name) + '</option>';
+            });
+            discipline.html(options);
+            initSelect(discipline);
+            discipline.select2("val", selectedValue || "");
+            updateSidebar();
         });
     }
 
     function updateSidebar() {
-        var disciplineSelect = $("select.js-macete-discipline");
-        var stageSelect = $("select.js-macete-stage");
         var statusSelect = $("select.js-macete-status");
         var unitInput = $("input.js-macete-unit");
         var abilitiesCount = $(".js-macete-abilities-selected .ability-panel-option").length;
+        var associations = [];
 
-        var disciplineText = disciplineSelect.find("option:selected").text().trim();
-        $(".js-macete-summary-discipline").text(disciplineText || "—");
+        $(".js-macete-stage-component-row").each(function () {
+            var row = $(this);
+            var stage = row.find("select.js-macete-stage-component-stage option:selected").text().trim();
+            var discipline = row.find("select.js-macete-stage-component-discipline option:selected").text().trim();
+            if (stage && stage !== "Selecione a etapa") {
+                associations.push(stage + (discipline && discipline !== "Selecione o componente" ? " — " + discipline : ""));
+            }
+        });
 
-        var stageOptions = stageSelect.find("option:selected");
-        var stageText = $.map(stageOptions, function (el) {
-            return $(el).text().trim();
-        }).join(", ");
-        $(".js-macete-summary-stage").text(stageText || "—");
+        $(".js-macete-summary-discipline").text(associations.join(", ") || "—");
+        $(".js-macete-summary-stage").text(associations.length + (associations.length === 1 ? " etapa" : " etapas"));
+        $(".js-macete-summary-unit").text(unitInput.val() ? unitInput.val().trim() : "—");
+        $(".js-macete-summary-status").text(statusSelect.find("option:selected").text().trim() || "—");
+        $(".js-macete-summary-abilities").text(abilitiesCount + (abilitiesCount === 1 ? " habilidade" : " habilidades"));
+    }
 
-        var unitText = unitInput.val() ? unitInput.val().trim() : "";
-        $(".js-macete-summary-unit").text(unitText || "—");
+    function addStageComponent() {
+        var template = $("#macete-stage-component-template").html();
+        var index = $(".js-macete-stage-component-row").length;
+        var row = $(template.replace(/__index__/g, index));
+        $(".js-macete-stage-components").append(row);
+        initSelect(row.find("select.js-macete-stage-component-stage"));
+        initSelect(row.find("select.js-macete-stage-component-discipline"));
+        bindStageComponentRow(row);
+        updateSidebar();
+    }
 
-        var statusOption = statusSelect.find("option:selected");
-        var statusText = statusOption.text().trim();
-        $(".js-macete-summary-status").text(statusText || "—");
-
-        $(".js-macete-summary-abilities").text(
-            abilitiesCount + (abilitiesCount === 1 ? " habilidade" : " habilidades")
-        );
+    function bindStageComponentRow(row) {
+        row.find("select.js-macete-stage-component-stage").on("change", function () {
+            loadDisciplines(row, null, $(this).val());
+            refreshStageFields();
+            updateSidebar();
+        });
+        row.find("select.js-macete-stage-component-discipline").on("change", updateSidebar);
     }
 
     $(document).ready(function () {
-        var stage = $("select.js-macete-stage");
-        if (!stage.length) {
-            return;
-        }
-
-        function handleStageChange() {
-            var stageIds = normalizeIds(stage.val());
-            refreshStageFields(stageIds);
-            updateDisciplines(stageIds);
-            updateSidebar();
-        }
-
-        // Binding direto ao elemento é necessário para funcionar com select2 v3.
-        // O listener delegado via $(document) não captura corretamente o change
-        // disparado pelo select2 após a inicialização.
-        stage.on("change", handleStageChange);
-
-        $("select.js-macete-discipline, select.js-macete-status").on("change", updateSidebar);
-        $("input.js-macete-unit").on("input", updateSidebar);
-
-        $(document).on("click", ".js-macete-remove-ability", function () {
-            setTimeout(updateSidebar, 0);
+        $(".js-macete-stage-component-row").each(function () {
+            bindStageComponentRow($(this));
         });
+        if (!$(".js-macete-stage-component-row").length) {
+            addStageComponent();
+        }
 
-        // Observa adições de habilidades via mutação no container
+        $(document).on("click", ".js-macete-add-stage-component", addStageComponent);
+        $(document).on("click", ".js-macete-remove-stage-component", function () {
+            $(this).closest(".js-macete-stage-component-row").remove();
+            refreshStageFields();
+            updateSidebar();
+        });
+        $("select.js-macete-status").on("change", updateSidebar);
+        $("input.js-macete-unit").on("input", updateSidebar);
+        $(document).on("click", ".js-macete-remove-ability", function () { setTimeout(updateSidebar, 0); });
+
         var abilitiesContainer = $(".js-macete-abilities-selected")[0];
         if (abilitiesContainer && window.MutationObserver) {
             new MutationObserver(updateSidebar).observe(abilitiesContainer, { childList: true });
         }
 
-        handleStageChange();
+        refreshStageFields();
         updateSidebar();
     });
 })(jQuery);

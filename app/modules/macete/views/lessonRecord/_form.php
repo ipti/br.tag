@@ -6,8 +6,12 @@
 /* @var $selectedAbilities CourseClassAbilities[] */
 
 $baseScriptUrl = Yii::app()->controller->module->baseScriptUrl;
+$themeUrl = Yii::app()->theme->baseUrl;
 $cs = Yii::app()->getClientScript();
+$cs->registerCssFile($themeUrl . '/css/quill.snow.css?v=' . TAG_VERSION);
+$cs->registerScriptFile($themeUrl . '/js/quill.min.js?v=' . TAG_VERSION, CClientScript::POS_END);
 $cs->registerScriptFile($baseScriptUrl . '/macete.js?v=' . TAG_VERSION, CClientScript::POS_END);
+$cs->registerScriptFile($baseScriptUrl . '/rich-text.js?v=' . TAG_VERSION, CClientScript::POS_END);
 $cs->registerScriptFile($baseScriptUrl . '/lesson-record.js?v=' . TAG_VERSION, CClientScript::POS_END);
 
 $form = $this->beginWidget('CActiveForm', [
@@ -114,7 +118,7 @@ $selectedPlan = $lessonRecord->lessonPlanFk;
             <div class="row">
                 <div class="column t-field-select clearfix is-three-fifths">
                     <label class="t-field-select__label">Habilidades BNCC registradas</label>
-                    <input type="hidden" class="js-macete-ability-search" style="width:100%;">
+                    <input type="hidden" class="js-macete-ability-search">
                     <div class="courseplan-abilities-selected js-macete-abilities-selected">
                         <?php foreach ($selectedAbilities as $ability): ?>
                             <div class="ability-panel-option">
@@ -135,7 +139,7 @@ $selectedPlan = $lessonRecord->lessonPlanFk;
                     <h2 class="t-cards-title">Plano selecionado</h2>
                     <p><b>Tema:</b> <span data-summary-field="theme"><?php echo $selectedPlan !== null ? CHtml::encode($selectedPlan->theme) : ''; ?></span></p>
                     <p><b>Etapa:</b> <span data-summary-field="stage"><?php echo $selectedPlan !== null && $selectedPlan->stageFk !== null ? CHtml::encode($selectedPlan->stageFk->name) : ''; ?></span></p>
-                    <p><b>Componente:</b> <span data-summary-field="discipline"><?php echo $selectedPlan !== null && $selectedPlan->disciplineFk !== null ? CHtml::encode($selectedPlan->disciplineFk->name) : ''; ?></span></p>
+                    <p><b>Componentes:</b> <span data-summary-field="discipline"><?php echo $selectedPlan !== null ? CHtml::encode($selectedPlan->getDisciplineNames()) : ''; ?></span></p>
                     <p><b>Turma:</b> <span data-summary-field="classroom"><?php echo $selectedPlan !== null && $selectedPlan->classroomFk !== null ? CHtml::encode($selectedPlan->classroomFk->name) : ''; ?></span></p>
                     <p><b>Habilidades:</b> <span data-summary-field="abilities"><?php echo $selectedPlan !== null ? CHtml::encode($selectedPlan->getAbilityCodes()) : ''; ?></span></p>
                 </div>

@@ -4,6 +4,7 @@ class LessonPlanController extends Controller
 {
     private ?MaceteLessonPlanService $lessonPlanService = null;
     private ?MaceteAbilityService $abilityService = null;
+    private ?MaceteAccessService $accessService = null;
 
     public function filters()
     {
@@ -30,18 +31,10 @@ class LessonPlanController extends Controller
 
     public function actionIndex()
     {
+        $this->accessService()->requireLessonPlanFeature();
         $criteria = new CDbCriteria();
-        $criteria->condition = 'school_inep_fk = :school AND school_year = :school_year';
-        $criteria->params = [
-            ':school' => Yii::app()->user->school,
-            ':school_year' => Yii::app()->user->year,
-        ];
+        $this->accessService()->applyPlanScope($criteria);
         $criteria->order = 'updated_at DESC';
-
-        if (TagUtils::isInstructor()) {
-            $criteria->addCondition('users_fk = :user_id');
-            $criteria->params[':user_id'] = Yii::app()->user->loginInfos->id;
-        }
 
         $stage = Yii::app()->request->getQuery('stage');
         if ($stage !== null && $stage !== '') {
@@ -56,7 +49,12 @@ class LessonPlanController extends Controller
 
         $discipline = Yii::app()->request->getQuery('discipline');
         if ($discipline !== null && $discipline !== '') {
-            $criteria->addCondition('edcenso_discipline_fk = :discipline');
+            $criteria->addCondition('EXISTS (
+                SELECT 1
+                FROM macete_lesson_plan_stage mlps
+                WHERE mlps.lesson_plan_fk = t.id
+                    AND mlps.edcenso_discipline_fk = :discipline
+            )');
             $criteria->params[':discipline'] = (int) $discipline;
         }
 
@@ -85,6 +83,7 @@ class LessonPlanController extends Controller
 
     public function actionCreate()
     {
+        $this->accessService()->requireLessonPlanFeature();
         $lessonPlan = new MaceteLessonPlan();
         $lessonPlan->status = MaceteLessonPlan::STATUS_DRAFT;
 
@@ -105,6 +104,7 @@ class LessonPlanController extends Controller
 
     public function actionUpdate($id)
     {
+        $this->accessService()->requireLessonPlanFeature();
         $lessonPlan = $this->loadModel($id);
 
         if (isset($_POST['MaceteLessonPlan'])) {
@@ -124,6 +124,7 @@ class LessonPlanController extends Controller
 
     public function actionDelete($id)
     {
+        $this->accessService()->requireLessonPlanFeature();
         $lessonPlan = $this->loadModel($id);
         $lessonPlan->delete();
 
@@ -133,6 +134,7 @@ class LessonPlanController extends Controller
 
     public function actionGetDisciplines()
     {
+        $this->accessService()->requireLessonPlanFeature();
         $stageIds = Yii::app()->request->getPost('stage');
         $stageIds = $stageIds !== null ? $this->lessonPlanService()->normalizeStageIds($stageIds) : [];
 
@@ -142,14 +144,15 @@ class LessonPlanController extends Controller
 
     public function actionGetPlan($id)
     {
+        $this->accessService()->requireLessonPlanFeature();
         $lessonPlan = $this->loadModel($id);
 
         echo CJSON::encode([
             'id' => (int) $lessonPlan->id,
             'name' => $lessonPlan->name,
             'theme' => $lessonPlan->theme,
-            'stage' => $lessonPlan->getStageNames(),
-            'discipline' => $lessonPlan->disciplineFk !== null ? $lessonPlan->disciplineFk->name : '',
+            'stage' => $lessonPlan->getStageComponentLabels(),
+            'discipline' => $lessonPlan->getDisciplineNames(),
             'classroom' => $lessonPlan->classroomFk !== null ? $lessonPlan->classroomFk->name : '',
             'abilities' => $lessonPlan->getAbilityCodes(),
         ]);
@@ -158,7 +161,7 @@ class LessonPlanController extends Controller
 
     public function loadModel($id): MaceteLessonPlan
     {
-        $model = MaceteLessonPlan::model()->findByPk($id);
+        $model = $this->accessService()->findPlan((int) $id);
         if ($model === null) {
             throw new CHttpException(404, 'Plano MACETE não encontrado.');
         }
@@ -169,10 +172,15 @@ class LessonPlanController extends Controller
     private function buildFormData(MaceteLessonPlan $lessonPlan): array
     {
         $abilityIds = $this->lessonPlanService()->getAbilityIds($lessonPlan);
-        $postedStageIds = Yii::app()->request->getPost('stage_ids');
-        $selectedStageIds = $postedStageIds !== null
-            ? $this->lessonPlanService()->normalizeStageIds($postedStageIds)
-            : $this->lessonPlanService()->getStageIds($lessonPlan);
+        $postedStageComponents = Yii::app()->request->getPost('stage_components');
+        $stageComponents = $postedStageComponents !== null
+            ? $this->lessonPlanService()->normalizeStageComponents($postedStageComponents)
+            : $this->lessonPlanService()->getStageComponents($lessonPlan);
+        $selectedStageIds = array_map(static fn (array $component): int => $component['stage_id'], $stageComponents);
+        $stageComponentDisciplines = [];
+        foreach ($stageComponents as $index => $component) {
+            $stageComponentDisciplines[$index] = $this->lessonPlanService()->getDisciplines([$component['stage_id']]);
+        }
 
         $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
         $loginInfos = Yii::app()->user->loginInfos;
@@ -180,9 +188,9 @@ class LessonPlanController extends Controller
         return [
             'lessonPlan' => $lessonPlan,
             'stages' => $this->lessonPlanService()->getStages(),
+            'stageComponents' => $stageComponents,
+            'stageComponentDisciplines' => $stageComponentDisciplines,
             'selectedStageIds' => $selectedStageIds,
-            'selectedStages' => $this->lessonPlanService()->getStagesByIds($selectedStageIds),
-            'disciplines' => $this->lessonPlanService()->getDisciplines($selectedStageIds),
             'sectionValues' => $this->lessonPlanService()->getSectionValues($lessonPlan),
             'resourceValues' => $this->lessonPlanService()->getResourceValues($lessonPlan),
             'materialValues' => $this->lessonPlanService()->getMaterialValues($lessonPlan),
@@ -208,5 +216,14 @@ class LessonPlanController extends Controller
         }
 
         return $this->abilityService;
+    }
+
+    private function accessService(): MaceteAccessService
+    {
+        if ($this->accessService === null) {
+            $this->accessService = new MaceteAccessService();
+        }
+
+        return $this->accessService;
     }
 }

@@ -3,6 +3,7 @@
 class AbilityController extends Controller
 {
     private ?MaceteAbilityService $abilityService = null;
+    private ?MaceteAccessService $accessService = null;
 
     public function filters()
     {
@@ -28,12 +29,14 @@ class AbilityController extends Controller
 
     public function actionSearch($q = '')
     {
+        $this->accessService()->requireMaceteFeature();
         echo CJSON::encode($this->abilityService()->search((string) $q));
         Yii::app()->end();
     }
 
     public function actionInitialStructure()
     {
+        $this->accessService()->requireMaceteFeature();
         $disciplineId = Yii::app()->request->getPost('discipline');
         $disciplineId = $disciplineId !== null && $disciplineId !== '' ? (int) $disciplineId : null;
 
@@ -43,6 +46,7 @@ class AbilityController extends Controller
 
     public function actionNextStructure()
     {
+        $this->accessService()->requireMaceteFeature();
         $parentId = (int) Yii::app()->request->getPost('id');
 
         echo CJSON::encode($this->abilityService()->nextStructure($parentId));
@@ -57,5 +61,13 @@ class AbilityController extends Controller
 
         return $this->abilityService;
     }
-}
 
+    private function accessService(): MaceteAccessService
+    {
+        if ($this->accessService === null) {
+            $this->accessService = new MaceteAccessService();
+        }
+
+        return $this->accessService;
+    }
+}

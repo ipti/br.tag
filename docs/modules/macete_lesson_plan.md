@@ -60,7 +60,7 @@ O documento modelo indica que o plano deve registrar, no minimo:
 
 ### Plano de aula MACETE
 
-Permitir que professor ou equipe pedagogica cadastre um plano estruturado, com selecao de escola, uma ou mais etapas, turma opcional, componente curricular e habilidades BNCC.
+Permitir que professor ou equipe pedagogica cadastre um plano estruturado, com selecao de escola, uma ou mais associacoes entre etapa e componente curricular, turma opcional e habilidades BNCC.
 
 O plano deve suportar secoes textuais extensas, pois a metodologia depende de contextualizacao territorial, adaptacoes e estrategias por etapa selecionada.
 
@@ -150,15 +150,21 @@ Observacao: `edcenso_stage_vs_modality_fk` permanece como etapa principal de com
 
 ### `macete_lesson_plan_stage`
 
-Relacionamento entre plano MACETE e as etapas escolhidas pelo professor.
+Relacionamento entre plano MACETE, cada etapa escolhida e seu componente curricular.
 
 Campos sugeridos:
 
 - `id`
 - `lesson_plan_fk`
 - `edcenso_stage_vs_modality_fk`
+- `edcenso_discipline_fk`
 - `created_at`
 - `updated_at`
+
+Cada etapa pode aparecer uma unica vez no plano e deve ter um componente
+curricular valido para ela. O campo `edcenso_discipline_fk` da tabela principal
+permanece apenas como compatibilidade com fluxos legados; a associacao da tabela
+de relacionamento e a fonte de verdade do plano.
 
 ### `macete_lesson_plan_ability`
 
@@ -302,6 +308,13 @@ Classes preferenciais:
 - Badges: `t-badge-info`, `t-badge-success`, `t-badge-warning`, `t-badge-critical`
 
 Evitar adicionar novas classes Bootstrap. Classes legadas podem aparecer por compatibilidade, mas nao devem guiar a UI nova.
+
+Na identificacao do plano, usar uma lista dinamica de linhas etapa–componente:
+
+1. O usuario adiciona uma linha.
+2. Seleciona uma etapa.
+3. O sistema carrega apenas os componentes permitidos para aquela etapa.
+4. O usuario pode adicionar ou remover outra associacao.
 
 Se forem adicionados estilos SCSS, rodar:
 

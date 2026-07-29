@@ -11,7 +11,7 @@ class MaceteModule extends CWebModule
         $this->baseUrl = Yii::app()->createUrl('macete');
 
         $this->baseScriptUrl = Yii::app()->getAssetManager()
-            ->publish(Yii::getPathOfAlias('application.modules.macete.resources'), false, -1, YII_DEBUG);
+            ->publish(Yii::getPathOfAlias('application.modules.macete.resources'), false, -1, true);
 
         $this->setImport([
             'application.modules.macete.MaceteRoutes',

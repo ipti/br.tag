@@ -183,6 +183,36 @@ class MaceteLessonPlan extends TagModel
         return implode(', ', array_unique($names));
     }
 
+    public function getStageComponentLabels(): string
+    {
+        $labels = [];
+        foreach ($this->planStages as $planStage) {
+            if ($planStage->stageFk === null) {
+                continue;
+            }
+
+            $label = $planStage->stageFk->name;
+            if ($planStage->disciplineFk !== null) {
+                $label .= ' — ' . $planStage->disciplineFk->name;
+            }
+            $labels[] = $label;
+        }
+
+        return implode(', ', array_unique($labels));
+    }
+
+    public function getDisciplineNames(): string
+    {
+        $names = [];
+        foreach ($this->planStages as $planStage) {
+            if ($planStage->disciplineFk !== null) {
+                $names[] = $planStage->disciplineFk->name;
+            }
+        }
+
+        return implode(', ', array_unique($names));
+    }
+
     public static function statusLabels(): array
     {
         return [
