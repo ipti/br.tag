@@ -32,19 +32,19 @@ $this->setPageTitle('TAG - Planos MACETE');
 
     <form method="get" class="mobile-row align-items--end">
         <input type="hidden" name="r" value="macete/lessonPlan/index">
-        <div class="column t-field-select clearfix is-one-quarter">
+        <div class="column t-field-select clearleft is-one-quarter">
             <?php echo CHtml::label('Etapa', 'stage', ['class' => 't-field-select__label']); ?>
             <?php echo CHtml::dropDownList(
-                'stage',
-                $filters['stage'],
-                CHtml::listData($stages, 'id', 'name'),
-                [
-                    'class' => 'select-search-on t-field-select__input',
-                    'prompt' => 'Todas as etapas',
-                ]
-            ); ?>
+    'stage',
+    $filters['stage'],
+    CHtml::listData($stages, 'id', 'name'),
+    [
+        'class' => 'select-search-on t-field-select__input',
+        'prompt' => 'Todas as etapas',
+    ]
+); ?>
         </div>
-        <div class="column t-field-select clearfix is-one-quarter">
+        <div class="column t-field-select is-one-quarter">
             <?php echo CHtml::label('Componente', 'discipline', ['class' => 't-field-select__label']); ?>
             <?php echo CHtml::dropDownList(
                 'discipline',
@@ -56,7 +56,7 @@ $this->setPageTitle('TAG - Planos MACETE');
                 ]
             ); ?>
         </div>
-        <div class="column t-field-select clearfix is-one-quarter">
+        <div class="column t-field-select is-one-quarter">
             <?php echo CHtml::label('Status', 'status', ['class' => 't-field-select__label']); ?>
             <?php echo CHtml::dropDownList(
                 'status',
@@ -68,7 +68,7 @@ $this->setPageTitle('TAG - Planos MACETE');
                 ]
             ); ?>
         </div>
-        <div class="column t-buttons-container clearfix">
+        <div class="column t-buttons-container">
             <button type="submit" class="t-button-primary">Filtrar</button>
             <a class="t-button-secondary" href="<?php echo MaceteRoutes::url(MaceteRoutes::LESSONPLAN_INDEX); ?>">Limpar</a>
         </div>

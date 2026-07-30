@@ -86,11 +86,13 @@ $selectedAbilitiesCount = count($selectedAbilities);
                         <a class="t-tabs__link js-macete-tab-link" href="#macete-identification">
                             <span class="t-tabs__numeration">1</span> Identificação
                         </a>
+                        <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/seta-tabs.svg" alt="seta">
                     </li>
                     <li class="t-tabs__item">
                         <a class="t-tabs__link js-macete-tab-link" href="#macete-methodology">
                             <span class="t-tabs__numeration">2</span> Metodologia
                         </a>
+                        <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/seta-tabs.svg" alt="seta">
                     </li>
                     <li class="t-tabs__item">
                         <a class="t-tabs__link js-macete-tab-link" href="#macete-complementary">
@@ -100,7 +102,7 @@ $selectedAbilitiesCount = count($selectedAbilities);
                 </ul>
             </div>
 
-            <div class="tag-inner">
+            <div class="tag-inner t-margin-large--top">
 
                 <!-- Tab 1: Identificação -->
                 <div id="macete-identification" class="js-macete-tab-panel">
@@ -117,7 +119,7 @@ $selectedAbilitiesCount = count($selectedAbilities);
                                 <?php echo $form->error($lessonPlan, 'name'); ?>
                             </div>
                         </div>
-                        <div class="column is-one-fifth">
+                        <div class="column is-two-fifths">
                             <div class="t-field-text">
                                 <?php echo $form->labelEx($lessonPlan, 'unit', ['class' => 't-field-text__label']); ?>
                                 <?php echo $form->textField($lessonPlan, 'unit', [
@@ -126,55 +128,6 @@ $selectedAbilitiesCount = count($selectedAbilities);
                                     'placeholder' => 'Ex.: II Unidade',
                                 ]); ?>
                                 <?php echo $form->error($lessonPlan, 'unit'); ?>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="row align-items--start">
-                        <div class="column is-three-fifths">
-                            <div class="t-field-select">
-                                <label class="t-field-select__label--required">Etapas e componentes curriculares</label>
-                                <div class="js-macete-stage-components">
-                                    <?php foreach ($stageComponents as $index => $stageComponent): ?>
-                                        <div class="row js-macete-stage-component-row">
-                                            <div class="column is-one-third ">
-                                                <div class="t-field-select">
-                                                    <label class="t-field-select__label">Etapa</label>
-                                                    <?php echo CHtml::dropDownList(
-                                                        'stage_components[' . $index . '][stage_id]',
-                                                        $stageComponent['stage_id'],
-                                                        CHtml::listData($stages, 'id', 'name'),
-                                                        [
-                                                            'class' => 'select-search-on t-field-select__input js-macete-stage-component-stage',
-                                                            'prompt' => 'Selecione a etapa',
-                                                        ]
-                                                    ); ?>
-                                                </div>
-                                            </div>
-                                            <div class="column is-one-third ">
-                                                <div class="t-field-select">
-                                                    <label class="t-field-select__label">Componente curricular</label>
-                                                    <?php echo CHtml::dropDownList(
-                                                        'stage_components[' . $index . '][discipline_id]',
-                                                        $stageComponent['discipline_id'],
-                                                        CHtml::listData($stageComponentDisciplines[$index] ?? [], 'id', 'name'),
-                                                        [
-                                                            'class' => 'select-search-on t-field-select__input js-macete-stage-component-discipline',
-                                                            'prompt' => 'Selecione o componente',
-                                                        ]
-                                                    ); ?>
-                                                </div>
-                                            </div>
-                                            <div class="column is-one-third">
-                                                <button type="button"
-                                                    class="t-button-secondary js-macete-remove-stage-component">Remover</button>
-                                            </div>
-                                        </div>
-                                    <?php endforeach; ?>
-                                </div>
-                                <button type="button" class="t-button-secondary js-macete-add-stage-component">Adicionar
-                                    etapa</button>
-                                <?php echo $form->error($lessonPlan, 'edcenso_stage_vs_modality_fk'); ?>
                             </div>
                         </div>
                         <div class="column is-one-fifth">
@@ -193,11 +146,60 @@ $selectedAbilitiesCount = count($selectedAbilities);
                         </div>
                     </div>
 
+                    <div class="row">
+                        <div class="column">
+                            <div class="t-field-select macete-stage-repeater">
+                                <label class="t-field-select__label--required">Etapas e componentes curriculares</label>
+                                <div class="js-macete-stage-components">
+                                    <?php foreach ($stageComponents as $index => $stageComponent): ?>
+                                        <div class="row align-items--end js-macete-stage-component-row">
+                                            <div class="column is-two-fifths clearleft">
+                                                <div class="t-field-select">
+                                                    <label class="t-field-select__label">Etapa</label>
+                                                    <?php echo CHtml::dropDownList(
+                                    'stage_components[' . $index . '][stage_id]',
+                                    $stageComponent['stage_id'],
+                                    CHtml::listData($stages, 'id', 'name'),
+                                    [
+                                        'class' => 'select-search-on t-field-select__input js-macete-stage-component-stage',
+                                        'prompt' => 'Selecione a etapa',
+                                    ]
+                                ); ?>
+                                                </div>
+                                            </div>
+                                            <div class="column is-two-fifths">
+                                                <div class="t-field-select">
+                                                    <label class="t-field-select__label">Componente curricular</label>
+                                                    <?php echo CHtml::dropDownList(
+                                                        'stage_components[' . $index . '][discipline_id]',
+                                                        $stageComponent['discipline_id'],
+                                                        CHtml::listData($stageComponentDisciplines[$index] ?? [], 'id', 'name'),
+                                                        [
+                                                            'class' => 'select-search-on t-field-select__input js-macete-stage-component-discipline',
+                                                            'prompt' => 'Selecione o componente',
+                                                        ]
+                                                    ); ?>
+                                                </div>
+                                            </div>
+                                            <div class="column is-one-fifth">
+                                                <button type="button"
+                                                    class="t-button-secondary js-macete-remove-stage-component">Remover</button>
+                                            </div>
+                                        </div>
+                                    <?php endforeach; ?>
+                                </div>
+                                <button type="button" class="t-button-secondary js-macete-add-stage-component">Adicionar
+                                    etapa</button>
+                                <?php echo $form->error($lessonPlan, 'edcenso_stage_vs_modality_fk'); ?>
+                            </div>
+                        </div>
+                    </div>
+
                     <script type="text/template" id="macete-stage-component-template">
                         <div class="row align-items--end js-macete-stage-component-row">
-                            <div class="column is-one-third"><div class="t-field-select"><label class="t-field-select__label">Etapa</label><select class="select-search-on t-field-select__input js-macete-stage-component-stage" name="stage_components[__index__][stage_id]"><option value="">Selecione a etapa</option><?php foreach ($stages as $stage): ?><option value="<?php echo (int) $stage['id']; ?>"><?php echo CHtml::encode($stage['name']); ?></option><?php endforeach; ?></select></div></div>
-                            <div class="column is-one-third"><div class="t-field-select"><label class="t-field-select__label">Componente curricular</label><select class="select-search-on t-field-select__input js-macete-stage-component-discipline" name="stage_components[__index__][discipline_id]"><option value="">Selecione a etapa primeiro</option></select></div></div>
-                            <div class="column is-one-third"><button style="margin-bottom: 14px;" type="button" class="t-button-secondary js-macete-remove-stage-component">Remover</button></div>
+                            <div class="column is-two-fifths clearleft"><div class="t-field-select"><label class="t-field-select__label">Etapa</label><select class="select-search-on t-field-select__input js-macete-stage-component-stage" name="stage_components[__index__][stage_id]"><option value="">Selecione a etapa</option><?php foreach ($stages as $stage): ?><option value="<?php echo (int) $stage['id']; ?>"><?php echo CHtml::encode($stage['name']); ?></option><?php endforeach; ?></select></div></div>
+                            <div class="column is-two-fifths"><div class="t-field-select"><label class="t-field-select__label">Componente curricular</label><select class="select-search-on t-field-select__input js-macete-stage-component-discipline" name="stage_components[__index__][discipline_id]"><option value="">Selecione a etapa primeiro</option></select></div></div>
+                            <div class="column is-one-fifth"><button type="button" class="t-button-secondary js-macete-remove-stage-component">Remover</button></div>
                         </div>
                     </script>
 
@@ -206,8 +208,8 @@ $selectedAbilitiesCount = count($selectedAbilities);
                 <!-- Tab 2: Metodologia -->
                 <div id="macete-methodology" class="js-macete-tab-panel hide">
 
-                    <div class="row">
-                        <div class="column is-two-fifths">
+                    <div class="row align-items--start">
+                        <div class="column">
                             <div class="t-field-text">
                                 <?php echo $form->label($lessonPlan, 'theme', ['class' => 't-field-text__label--required']); ?>
                                 <?php echo $form->textField($lessonPlan, 'theme', [
@@ -218,21 +220,12 @@ $selectedAbilitiesCount = count($selectedAbilities);
                                 <?php echo $form->error($lessonPlan, 'theme'); ?>
                             </div>
                         </div>
-                        <div class="column is-two-fifths">
-                            <div class="t-field-tarea">
-                                <?php echo $form->labelEx($lessonPlan, 'territory_context', ['class' => 't-field-tarea__label']); ?>
-                                <?php echo $form->textArea($lessonPlan, 'territory_context', [
-                                    'class' => 't-field-tarea__input',
-                                    'rows' => 3,
-                                    'placeholder' => 'Contextualize a escola, comunidade e território.',
-                                ]); ?>
-                                <?php echo $form->error($lessonPlan, 'territory_context'); ?>
-                            </div>
+                        <div class="column">
                         </div>
                     </div>
 
                     <div class="row">
-                        <div class="column is-three-fifths">
+                        <div class="column">
                             <div class="t-field-tarea">
                                 <?php echo $form->labelEx($lessonPlan, 'knowledge_object', ['class' => 't-field-tarea__label']); ?>
                                 <?php echo $form->textArea($lessonPlan, 'knowledge_object', [
@@ -243,13 +236,24 @@ $selectedAbilitiesCount = count($selectedAbilities);
                                 <?php echo $form->error($lessonPlan, 'knowledge_object'); ?>
                             </div>
                         </div>
+                        <div class="column">
+                            <div class="t-field-tarea">
+                                <?php echo $form->labelEx($lessonPlan, 'territory_context', ['class' => 't-field-tarea__label']); ?>
+                                <?php echo $form->textArea($lessonPlan, 'territory_context', [
+                                    'class' => 't-field-tarea__input',
+                                    'rows' => 4,
+                                    'placeholder' => 'Contextualize a escola, comunidade e território.',
+                                ]); ?>
+                                <?php echo $form->error($lessonPlan, 'territory_context'); ?>
+                            </div>
+                        </div>
                     </div>
 
                     <div class="row">
-                        <div class="column is-full">
+                        <div class="column">
                             <div class="t-field-select">
                                 <label class="t-field-select__label">Habilidades BNCC</label>
-                                <input type="hidden" class="js-macete-ability-search">
+                                <input type="hidden" class="js-macete-ability-search t-field-select__input">
                                 <div class="courseplan-abilities-selected js-macete-abilities-selected">
                                     <?php foreach ($selectedAbilities as $ability): ?>
                                         <div class="ability-panel-option">
@@ -264,11 +268,14 @@ $selectedAbilitiesCount = count($selectedAbilities);
                                 </div>
                             </div>
                         </div>
+                        <div class="column"></div>
+                    </div>
+                    <div class="column">
+
+                        <h2>Metodologia MACETE (Aprendizagem Baseada em Desafios)</h2>
                     </div>
 
-                    <h2>Metodologia MACETE (Aprendizagem Baseada em Desafios)</h2>
-
-                    <div class="macete-phase-cards">
+                    <div class="column macete-phase-cards">
                         <?php foreach ([
                             MaceteLessonPlanSection::TYPE_METHODOLOGY_INVOLVE => ['title' => 'Envolver', 'icon' => 'fa-users'],
                             MaceteLessonPlanSection::TYPE_METHODOLOGY_INVESTIGATE => ['title' => 'Investigar', 'icon' => 'fa-search'],
@@ -295,21 +302,22 @@ $selectedAbilitiesCount = count($selectedAbilities);
                                             <label
                                                 class="t-field-tarea__label"><?php echo CHtml::encode($stage['name']); ?></label>
                                             <?php echo CHtml::textArea(
-                                                'sections[' . $type . '][' . $target . ']',
-                                                $sectionValue($type, $target),
-                                                array_merge(
+                                            'sections[' . $type . '][' . $target . ']',
+                                            $sectionValue($type, $target),
+                                            array_merge(
                                                     ['class' => 't-field-tarea__input', 'rows' => 5],
                                                     $selected ? [] : ['disabled' => 'disabled']
                                                 )
-                                            ); ?>
+                                        ); ?>
                                         </div>
                                     <?php endforeach; ?>
                                 </div>
                             </div>
                         <?php endforeach; ?>
                     </div>
-
-                    <h3>Contextualização por etapa</h3>
+                    <div class="column">
+                        <h3>Contextualização por etapa</h3>
+                    </div>
                     <div class="row wrap">
                         <div
                             class="column is-full js-macete-stage-empty <?php echo empty($selectedStageIds) ? '' : 'hide'; ?>">
@@ -328,13 +336,13 @@ $selectedAbilitiesCount = count($selectedAbilities);
                                         Contextualização — <?php echo CHtml::encode($stage['name']); ?>
                                     </label>
                                     <?php echo CHtml::textArea(
-                                        'sections[' . MaceteLessonPlanSection::TYPE_YEAR_CONTEXT . '][' . $target . ']',
-                                        $sectionValue(MaceteLessonPlanSection::TYPE_YEAR_CONTEXT, $target),
-                                        array_merge(
+                                'sections[' . MaceteLessonPlanSection::TYPE_YEAR_CONTEXT . '][' . $target . ']',
+                                $sectionValue(MaceteLessonPlanSection::TYPE_YEAR_CONTEXT, $target),
+                                array_merge(
                                             ['class' => 't-field-tarea__input', 'rows' => 4],
                                             $selected ? [] : ['disabled' => 'disabled']
                                         )
-                                    ); ?>
+                            ); ?>
                                 </div>
                             </div>
                         <?php endforeach; ?>
@@ -345,10 +353,10 @@ $selectedAbilitiesCount = count($selectedAbilities);
                             <div class="t-field-tarea">
                                 <label class="t-field-tarea__label">Objetivos de aprendizagem</label>
                                 <?php echo CHtml::textArea(
-                                    'sections[' . MaceteLessonPlanSection::TYPE_LEARNING_OBJECTIVE . '][general]',
-                                    $sectionValue(MaceteLessonPlanSection::TYPE_LEARNING_OBJECTIVE),
-                                    ['class' => 't-field-tarea__input large', 'rows' => 5]
-                                ); ?>
+                                        'sections[' . MaceteLessonPlanSection::TYPE_LEARNING_OBJECTIVE . '][general]',
+                                        $sectionValue(MaceteLessonPlanSection::TYPE_LEARNING_OBJECTIVE),
+                                        ['class' => 't-field-tarea__input large', 'rows' => 5]
+                                    ); ?>
                             </div>
                         </div>
                     </div>
@@ -357,10 +365,11 @@ $selectedAbilitiesCount = count($selectedAbilities);
 
                 <!-- Tab 3: Complementar — recursos, materiais, adaptações, avaliação, referências -->
                 <div id="macete-complementary" class="js-macete-tab-panel hide">
-
-                    <h2>Recursos</h2>
+                    <div class="column">
+                        <h2>Recursos</h2>
+                    </div>
                     <div class="row">
-                        <div class="column is-two-fifths">
+                        <div class="column">
                             <div class="t-field-tarea">
                                 <label class="t-field-tarea__label">Caixa MACETE</label>
                                 <?php echo CHtml::textArea(
@@ -370,7 +379,7 @@ $selectedAbilitiesCount = count($selectedAbilities);
                                 ); ?>
                             </div>
                         </div>
-                        <div class="column is-two-fifths">
+                        <div class="column">
                             <div class="t-field-tarea">
                                 <label class="t-field-tarea__label">Materiais adicionais</label>
                                 <?php echo CHtml::textArea(
@@ -383,19 +392,21 @@ $selectedAbilitiesCount = count($selectedAbilities);
                     </div>
 
                     <?php foreach (MaceteLessonMaterial::typeLabels() as $type => $label): ?>
-                        <h3><?php echo CHtml::encode($label); ?></h3>
-                        <div class="row">
-                            <div class="column is-one-quarter">
+                        <div class="column">
+                            <h3><?php echo CHtml::encode($label); ?></h3>
+                        </div>
+                        <div class="row align-items--start">
+                            <div class="column">
                                 <div class="t-field-text">
                                     <label class="t-field-text__label">Título</label>
                                     <?php echo CHtml::textField(
-                                        'materials[' . $type . '][title]',
-                                        $materialValue($type, 'title'),
-                                        ['class' => 't-field-text__input', 'maxlength' => 150]
-                                    ); ?>
+                                    'materials[' . $type . '][title]',
+                                    $materialValue($type, 'title'),
+                                    ['class' => 't-field-text__input', 'maxlength' => 150]
+                                ); ?>
                                 </div>
                             </div>
-                            <div class="column is-one-quarter">
+                            <div class="column">
                                 <div class="t-field-text">
                                     <label class="t-field-text__label">Arquivo / link</label>
                                     <?php echo CHtml::textField(
@@ -405,7 +416,10 @@ $selectedAbilitiesCount = count($selectedAbilities);
                                     ); ?>
                                 </div>
                             </div>
-                            <div class="column is-two-fifths">
+
+                        </div>
+                        <div class="row align-items--start">
+                            <div class="column">
                                 <div class="t-field-tarea">
                                     <label class="t-field-tarea__label">Descrição</label>
                                     <?php echo CHtml::textArea(
@@ -417,20 +431,21 @@ $selectedAbilitiesCount = count($selectedAbilities);
                             </div>
                         </div>
                     <?php endforeach; ?>
-
-                    <h2>Adaptações</h2>
+                    <div class="column">
+                        <h2>Adaptações</h2>
+                    </div>
                     <div class="row">
-                        <div class="column is-two-fifths">
+                        <div class="column">
                             <div class="t-field-tarea">
                                 <label class="t-field-tarea__label">Crianças neurodivergentes</label>
                                 <?php echo CHtml::textArea(
-                                    'sections[' . MaceteLessonPlanSection::TYPE_ADAPTATION_NEURODIVERGENT . '][general]',
-                                    $sectionValue(MaceteLessonPlanSection::TYPE_ADAPTATION_NEURODIVERGENT),
-                                    ['class' => 't-field-tarea__input', 'rows' => 5]
-                                ); ?>
+                                        'sections[' . MaceteLessonPlanSection::TYPE_ADAPTATION_NEURODIVERGENT . '][general]',
+                                        $sectionValue(MaceteLessonPlanSection::TYPE_ADAPTATION_NEURODIVERGENT),
+                                        ['class' => 't-field-tarea__input', 'rows' => 5]
+                                    ); ?>
                             </div>
                         </div>
-                        <div class="column is-two-fifths">
+                        <div class="column">
                             <div class="t-field-tarea">
                                 <label class="t-field-tarea__label">Recomposição de aprendizagem</label>
                                 <?php echo CHtml::textArea(
@@ -442,7 +457,7 @@ $selectedAbilitiesCount = count($selectedAbilities);
                         </div>
                     </div>
                     <div class="row">
-                        <div class="column is-two-fifths">
+                        <div class="column">
                             <div class="t-field-tarea">
                                 <label class="t-field-tarea__label">Turma multisseriada</label>
                                 <?php echo CHtml::textArea(
@@ -452,7 +467,7 @@ $selectedAbilitiesCount = count($selectedAbilities);
                                 ); ?>
                             </div>
                         </div>
-                        <div class="column is-two-fifths">
+                        <div class="column">
                             <div class="t-field-tarea">
                                 <label class="t-field-tarea__label">Caso falte material</label>
                                 <?php echo CHtml::textArea(
@@ -464,15 +479,13 @@ $selectedAbilitiesCount = count($selectedAbilities);
                         </div>
                     </div>
                     <div class="row">
-                        <div class="column is-three-fifths">
+                        <div class="column">
                             <div class="t-field-tarea">
                                 <?php echo $form->labelEx($lessonPlan, 'evaluation', ['class' => 't-field-tarea__label']); ?>
                                 <?php echo $form->textArea($lessonPlan, 'evaluation', ['class' => 't-field-tarea__input', 'rows' => 5]); ?>
                             </div>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="column is-three-fifths">
+                        <div class="column">
                             <div class="t-field-tarea">
                                 <?php echo $form->labelEx($lessonPlan, 'references_text', ['class' => 't-field-tarea__label']); ?>
                                 <?php echo $form->textArea($lessonPlan, 'references_text', ['class' => 't-field-tarea__input', 'rows' => 5]); ?>

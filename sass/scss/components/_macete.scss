@@ -32,12 +32,39 @@
     }
 }
 
+// Groups the stage/component repeater in a bordered card, matching the
+// macete-phase-card treatment elsewhere in this form instead of leaving the
+// selects and Remover button floating directly on the page background.
+.macete-stage-repeater {
+    box-sizing: border-box;
+    border: $borderWidthCard solid $colorsBaseCloudDark;
+    border-radius: $borderRadiusLarge;
+    padding: $SizeMedium;
+    background: $colorsBaseCloudLight;
+}
+
 // Stage/component repeater rows — flex items default to a content-based
 // min-width, so a long selected option (e.g. a stage name) can force its
 // column wider than the same column on other rows. Force min-width: 0 so
 // is-half columns split evenly regardless of selected text length.
 .js-macete-stage-component-row > .column {
     min-width: 0;
+}
+
+.js-macete-stage-component-row {
+    margin-bottom: $SizeSmall;
+
+    &:last-child {
+        margin-bottom: 0;
+    }
+}
+
+// The Remover button sits alone in its column (no label above it), while its
+// siblings are .t-field-select fields with a $SizeNormal margin-bottom. With
+// align-items--end on the row, matching that margin here lines its bottom
+// edge up with the select fields instead of the labels.
+.js-macete-remove-stage-component {
+    margin-bottom: $SizeNormal;
 }
 
 // Methodology phase cards
@@ -106,25 +133,77 @@
 
 // Quill editor used by the pedagogical narrative fields. The textarea remains
 // in the form as a no-JavaScript fallback and submission source.
+//
+// rich-text.js mounts Quill inside .macete-rich-text__editor, nested in this
+// wrapper; Quill inserts its own .ql-toolbar as a preceding sibling of the
+// editor within the same parent, so both are reachable here for a single
+// bordered TAG-style field instead of Quill's default "snow" theme chrome.
 .macete-rich-text {
     margin-bottom: $SizeSmall;
+    border: $borderWidthCard solid $colorsBaseCloudDark;
+    border-radius: $borderRadiusLarge;
+    overflow: hidden;
+
+    &:focus-within {
+        border-color: $colorsBaseProductNormal;
+    }
+
+    .ql-toolbar.ql-snow {
+        box-sizing: border-box;
+        border: none;
+        border-bottom: $borderWidthCard solid $colorsBaseCloudDark;
+        background: $colorsBaseCloudLight;
+        padding: $SizeXSmall $SizeSmall;
+
+        .ql-stroke {
+            stroke: $colorsTextSecondary;
+        }
+
+        .ql-fill {
+            fill: $colorsTextSecondary;
+        }
+
+        button:hover,
+        button.ql-active {
+            .ql-stroke {
+                stroke: $colorsBaseProductNormal;
+            }
+
+            .ql-fill {
+                fill: $colorsBaseProductNormal;
+            }
+        }
+    }
+
+    .ql-container.ql-snow {
+        border: none;
+        font-family: $FontFamilyTextNormal;
+        font-size: $FontSizeTextNormal;
+    }
 
     .ql-editor {
-    min-height: 110px;
-    padding: $SizeSmall;
-    overflow-wrap: break-word;
+        // Overridden inline by rich-text.js from the source textarea's
+        // `rows`; this is only the fallback when that's not set.
+        min-height: 110px;
+        padding: $SizeSmall;
+        overflow-wrap: break-word;
 
-    p:first-child,
-    ul:first-child,
-    ol:first-child {
-        margin-top: 0;
-    }
+        &.ql-blank::before {
+            font-style: normal;
+            color: $colorsTextSecondary;
+        }
 
-    p:last-child,
-    ul:last-child,
-    ol:last-child {
-        margin-bottom: 0;
-    }
+        p:first-child,
+        ul:first-child,
+        ol:first-child {
+            margin-top: 0;
+        }
+
+        p:last-child,
+        ul:last-child,
+        ol:last-child {
+            margin-bottom: 0;
+        }
     }
 }
 

@@ -20,8 +20,10 @@
             return;
         }
 
-        var container = $('<div class="macete-rich-text" aria-label="Editor de texto pedagógico"></div>');
-        textarea.before(container);
+        var wrapper = $('<div class="macete-rich-text" aria-label="Editor de texto pedagógico"></div>');
+        var container = $('<div class="macete-rich-text__editor"></div>');
+        wrapper.append(container);
+        textarea.before(wrapper);
 
         var editor = new window.Quill(container[0], {
             theme: 'snow',
@@ -35,6 +37,10 @@
                 ],
             },
         });
+        var rows = parseInt(textarea.attr('rows'), 10);
+        var editorMinHeight = isNaN(rows) ? 110 : Math.max(70, rows * 22);
+        editor.root.style.minHeight = editorMinHeight + 'px';
+
         var initialContent = sanitizeForEditor(textarea.val());
         if (initialContent) {
             editor.clipboard.dangerouslyPasteHTML(initialContent, 'silent');
