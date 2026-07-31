@@ -18,7 +18,12 @@ class MaceteRichTextSanitizer
 
         $document = new DOMDocument('1.0', 'UTF-8');
         $previousErrors = libxml_use_internal_errors(true);
+        // DOMDocument::loadHTML() ignores the constructor encoding and, with no
+        // <meta charset> in the markup, falls back to ISO-8859-1, mangling any
+        // multi-byte UTF-8 content. The XML encoding declaration below is the
+        // standard workaround to force it to parse the input as UTF-8.
         $document->loadHTML(
+            '<?xml encoding="UTF-8">' .
             '<!DOCTYPE html><html><body><div id="macete-rich-text-root">' . $content . '</div></body></html>',
             LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD
         );

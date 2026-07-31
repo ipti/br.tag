@@ -43,6 +43,15 @@
     background: $colorsBaseCloudLight;
 }
 
+// Divider between material entries in the same repeater — only kicks in from
+// the second entry onward, so it also applies correctly to rows added later
+// via JS without needing to special-case the first/last row server-side.
+.js-macete-material-row + .js-macete-material-row {
+    margin-top: $SizeMedium;
+    padding-top: $SizeMedium;
+    border-top: $borderWidthCard solid $colorsBaseCloudDark;
+}
+
 // Stage/component repeater rows — flex items default to a content-based
 // min-width, so a long selected option (e.g. a stage name) can force its
 // column wider than the same column on other rows. Force min-width: 0 so

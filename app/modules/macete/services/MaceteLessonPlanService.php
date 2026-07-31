@@ -192,7 +192,7 @@ class MaceteLessonPlanService
     {
         $values = [];
         foreach ($lessonPlan->materials as $material) {
-            $values[$material->material_type] = [
+            $values[$material->material_type][] = [
                 'title' => $material->title,
                 'description' => $material->description,
                 'file_path' => $material->file_path,
@@ -450,28 +450,40 @@ class MaceteLessonPlanService
             [':lesson_plan_fk' => $lessonPlan->id]
         );
 
-        foreach ($materials as $type => $materialData) {
-            if (!is_array($materialData)) {
+        foreach ($materials as $type => $entries) {
+            if (!is_array($entries)) {
                 continue;
             }
 
-            $title = trim((string) ($materialData['title'] ?? ''));
-            $description = MaceteRichTextSanitizer::sanitize((string) ($materialData['description'] ?? ''));
-            $filePath = trim((string) ($materialData['file_path'] ?? ''));
-
-            if ($title === '' && $description === '' && $filePath === '') {
-                continue;
+            // Entries are keyed by repeater index (materials[type][index][field]);
+            // a non-list entry here means legacy single-entry-per-type data.
+            if (array_key_exists('title', $entries) || array_key_exists('description', $entries) || array_key_exists('file_path', $entries)) {
+                $entries = [$entries];
             }
 
-            $material = new MaceteLessonMaterial();
-            $material->lesson_plan_fk = $lessonPlan->id;
-            $material->material_type = $type;
-            $material->title = $title !== '' ? $title : (MaceteLessonMaterial::typeLabels()[$type] ?? $type);
-            $material->description = $description;
-            $material->file_path = $filePath !== '' ? $filePath : null;
+            foreach ($entries as $materialData) {
+                if (!is_array($materialData)) {
+                    continue;
+                }
 
-            if (!$material->save()) {
-                throw new CException('Não foi possível salvar um material do plano MACETE.');
+                $title = trim((string) ($materialData['title'] ?? ''));
+                $description = MaceteRichTextSanitizer::sanitize((string) ($materialData['description'] ?? ''));
+                $filePath = trim((string) ($materialData['file_path'] ?? ''));
+
+                if ($title === '' && $description === '' && $filePath === '') {
+                    continue;
+                }
+
+                $material = new MaceteLessonMaterial();
+                $material->lesson_plan_fk = $lessonPlan->id;
+                $material->material_type = $type;
+                $material->title = $title !== '' ? $title : (MaceteLessonMaterial::typeLabels()[$type] ?? $type);
+                $material->description = $description;
+                $material->file_path = $filePath !== '' ? $filePath : null;
+
+                if (!$material->save()) {
+                    throw new CException('Não foi possível salvar um material do plano MACETE.');
+                }
             }
         }
     }

@@ -134,6 +134,22 @@
         row.find("select.js-macete-stage-component-discipline").on("change", updateSidebar);
     }
 
+    function addMaterialRow(type) {
+        var container = $(".js-macete-material-rows[data-material-type=\"" + type + "\"]");
+        if (!container.length) {
+            return;
+        }
+
+        var index = container.find(".js-macete-material-row").length;
+        var template = $("#macete-material-template").html();
+        var row = $(template.replace(/__type__/g, type).replace(/__index__/g, index));
+        container.append(row);
+
+        if (window.Macete && typeof window.Macete.initRichText === "function") {
+            window.Macete.initRichText(row);
+        }
+    }
+
     $(document).ready(function () {
         $(".js-macete-stage-component-row").each(function () {
             bindStageComponentRow($(this));
@@ -147,6 +163,13 @@
             $(this).closest(".js-macete-stage-component-row").remove();
             refreshStageFields();
             updateSidebar();
+        });
+
+        $(document).on("click", ".js-macete-add-material", function () {
+            addMaterialRow($(this).data("material-type"));
+        });
+        $(document).on("click", ".js-macete-remove-material", function () {
+            $(this).closest(".js-macete-material-row").remove();
         });
         $("select.js-macete-status").on("change", updateSidebar);
         $("input.js-macete-unit").on("input", updateSidebar);
