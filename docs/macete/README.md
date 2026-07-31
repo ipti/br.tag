@@ -4,6 +4,10 @@ Status: em execução — etapas 1 e 2 implementadas em código; etapa 3 parcial
 
 Base: revisão de código e design realizada em 29/07/2026.
 
+Especificação planejada do assistente pedagógico com IA:
+[docs/macete/ai/README.md](ai/README.md). Essa integração ainda não está
+implementada.
+
 Este plano organiza a evolução do módulo `app/modules/macete` de modo que os
 riscos para dados e permissões sejam resolvidos antes de melhorias visuais ou
 de produtividade. O módulo não deve ser considerado pronto para uso em
