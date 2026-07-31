@@ -17,9 +17,10 @@ O ambiente do TAG deve fornecer estas variáveis, sem versionar valores reais:
 MACETE_AI_SERVICE_URL=https://macete-ai.internal
 MACETE_AI_SERVICE_TOKEN=<token-interno>
 MACETE_AI_SERVICE_TIMEOUT_SECONDS=60
+MACETE_AI_ACTOR_PSEUDONYM_KEY=<segredo-longo-e-rotacionável>
 ```
 
-Sem URL ou token, `MaceteAiAssistantGateway::isConfigured()` retorna `false` e o recurso deve permanecer oculto/desabilitado no formulário. O gateway normaliza erros de rede e respostas HTTP sem incluir o token ou o corpo de erro do serviço na mensagem exibida ao usuário.
+Sem URL, token ou chave de pseudonimização, o recurso deve permanecer oculto/desabilitado no formulário. `MaceteAiPlanContextResolver` gera o identificador do ator por HMAC; portanto, o ID interno do usuário não sai do TAG. O gateway normaliza erros de rede e respostas HTTP sem incluir o token ou o corpo de erro do serviço na mensagem exibida ao usuário.
 
 ## Rotas novas no TAG
 
