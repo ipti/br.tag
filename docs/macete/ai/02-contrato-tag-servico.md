@@ -1,6 +1,6 @@
 # Contrato de integração: TAG e serviço de IA
 
-Status: proposta de contrato — não implementado.
+Status: parcialmente implementado. O gateway interno `MaceteAiAssistantGateway` existe, mas os endpoints AJAX, o resolvedor de contexto e o frontend do TAG ainda não foram ativados.
 
 ## Princípios
 
@@ -8,6 +8,18 @@ Status: proposta de contrato — não implementado.
 - `LessonsplanController` permanece fino. Um serviço do módulo, por exemplo `MaceteAiAssistantGateway`, monta o contexto, chama a API interna e normaliza erros.
 - O TAG aplica suas regras atuais de feature, escola, ano letivo, autoria e visibilidade antes de chamar o serviço.
 - O serviço recebe contexto mínimo e devolve sugestões; não recebe acesso ao MySQL do TAG.
+
+## Configuração do TAG
+
+O ambiente do TAG deve fornecer estas variáveis, sem versionar valores reais:
+
+```dotenv
+MACETE_AI_SERVICE_URL=https://macete-ai.internal
+MACETE_AI_SERVICE_TOKEN=<token-interno>
+MACETE_AI_SERVICE_TIMEOUT_SECONDS=60
+```
+
+Sem URL ou token, `MaceteAiAssistantGateway::isConfigured()` retorna `false` e o recurso deve permanecer oculto/desabilitado no formulário. O gateway normaliza erros de rede e respostas HTTP sem incluir o token ou o corpo de erro do serviço na mensagem exibida ao usuário.
 
 ## Rotas novas no TAG
 
