@@ -26,6 +26,8 @@ class MaceteRoutes
     public const LESSONSPLAN_GETDISCIPLINES = 'macete/lessonsplan/getDisciplines';
     public const LESSONSPLAN_GETPLAN = 'macete/lessonsplan/getPlan';
     public const LESSONSPLAN_INDEX = 'macete/lessonsplan/index';
+    public const LESSONSPLAN_SENDASSISTANTMESSAGE = 'macete/lessonsplan/sendAssistantMessage';
+    public const LESSONSPLAN_STARTASSISTANTCONVERSATION = 'macete/lessonsplan/startAssistantConversation';
     public const LESSONSPLAN_UPDATE = 'macete/lessonsplan/update';
 
     // LessonsrecordController

@@ -5,12 +5,14 @@ class LessonsplanController extends Controller
     private ?MaceteLessonPlanService $lessonPlanService = null;
     private ?MaceteAbilityService $abilityService = null;
     private ?MaceteAccessService $accessService = null;
+    private ?MaceteAiAssistantGateway $assistantGateway = null;
+    private ?MaceteAiPlanContextResolver $assistantContextResolver = null;
 
     public function filters()
     {
         return [
             'accessControl',
-            'postOnly + delete',
+            'postOnly + delete, startAssistantConversation, sendAssistantMessage',
         ];
     }
 
@@ -19,7 +21,16 @@ class LessonsplanController extends Controller
         return [
             [
                 'allow',
-                'actions' => ['index', 'create', 'update', 'delete', 'getDisciplines', 'getPlan'],
+                'actions' => [
+                    'index',
+                    'create',
+                    'update',
+                    'delete',
+                    'getDisciplines',
+                    'getPlan',
+                    'startAssistantConversation',
+                    'sendAssistantMessage',
+                ],
                 'users' => ['@'],
             ],
             [
@@ -159,6 +170,67 @@ class LessonsplanController extends Controller
         Yii::app()->end();
     }
 
+    public function actionStartAssistantConversation()
+    {
+        $this->accessService()->requireLessonPlanFeature();
+        if (!$this->validateAssistantCsrf()) {
+            return;
+        }
+        $lessonPlan = $this->findAssistantPlan();
+        if ($lessonPlan === null) {
+            return;
+        }
+
+        if (!$this->isAssistantConfigured()) {
+            $this->renderAssistantJson(['code' => 'assistant_not_configured'], 503);
+            return;
+        }
+
+        try {
+            $response = $this->assistantGateway()->startConversation(
+                $this->assistantContextResolver()->createConversationPayload($lessonPlan)
+            );
+            $this->renderAssistantJson($response, 201);
+        } catch (MaceteAiAssistantGatewayException $exception) {
+            TLog::error('Não foi possível iniciar a conversa do assistente MACETE.', $exception->errorCode);
+            $this->renderAssistantJson(['code' => $exception->errorCode], $this->assistantStatusCode($exception));
+        }
+    }
+
+    public function actionSendAssistantMessage()
+    {
+        $this->accessService()->requireLessonPlanFeature();
+        if (!$this->validateAssistantCsrf()) {
+            return;
+        }
+        $lessonPlan = $this->findAssistantPlan();
+        if ($lessonPlan === null) {
+            return;
+        }
+        $conversationId = trim((string) Yii::app()->request->getPost('conversation_id'));
+        $message = trim((string) Yii::app()->request->getPost('message'));
+
+        if ($conversationId === '' || $message === '') {
+            $this->renderAssistantJson(['code' => 'assistant_invalid_request'], 422);
+            return;
+        }
+        if (!$this->isAssistantConfigured()) {
+            $this->renderAssistantJson(['code' => 'assistant_not_configured'], 503);
+            return;
+        }
+
+        try {
+            $response = $this->assistantGateway()->sendMessage(
+                $conversationId,
+                $this->assistantContextResolver()->sendMessagePayload($lessonPlan, $message)
+            );
+            $this->renderAssistantJson($this->validateAssistantReply($response));
+        } catch (MaceteAiAssistantGatewayException $exception) {
+            TLog::error('Não foi possível enviar a mensagem ao assistente MACETE.', $exception->errorCode);
+            $this->renderAssistantJson(['code' => $exception->errorCode], $this->assistantStatusCode($exception));
+        }
+    }
+
     public function loadModel($id): MaceteLessonPlan
     {
         $model = $this->accessService()->findPlan((int) $id);
@@ -225,5 +297,84 @@ class LessonsplanController extends Controller
         }
 
         return $this->accessService;
+    }
+
+    private function assistantGateway(): MaceteAiAssistantGateway
+    {
+        if ($this->assistantGateway === null) {
+            $this->assistantGateway = new MaceteAiAssistantGateway();
+        }
+
+        return $this->assistantGateway;
+    }
+
+    private function assistantContextResolver(): MaceteAiPlanContextResolver
+    {
+        if ($this->assistantContextResolver === null) {
+            $this->assistantContextResolver = new MaceteAiPlanContextResolver();
+        }
+
+        return $this->assistantContextResolver;
+    }
+
+    private function isAssistantConfigured(): bool
+    {
+        return $this->assistantGateway()->isConfigured() && $this->assistantContextResolver()->isConfigured();
+    }
+
+    private function findAssistantPlan(): ?MaceteLessonPlan
+    {
+        $id = (int) Yii::app()->request->getPost('lesson_plan_id');
+        if ($id <= 0) {
+            $this->renderAssistantJson(['code' => 'assistant_invalid_request'], 422);
+            return null;
+        }
+
+        $lessonPlan = $this->accessService()->findPlan($id);
+        if ($lessonPlan === null) {
+            $this->renderAssistantJson(['code' => 'assistant_plan_not_found'], 404);
+            return null;
+        }
+
+        return $lessonPlan;
+    }
+
+    private function validateAssistantReply(array $response): array
+    {
+        foreach (['message', 'proposals', 'sources', 'warnings'] as $requiredField) {
+            if (!array_key_exists($requiredField, $response)) {
+                throw new MaceteAiAssistantGatewayException('assistant_invalid_response');
+            }
+        }
+        if (!is_string($response['message']) || !is_array($response['proposals']) || !is_array($response['sources']) || !is_array($response['warnings'])) {
+            throw new MaceteAiAssistantGatewayException('assistant_invalid_response');
+        }
+
+        return $response;
+    }
+
+    private function assistantStatusCode(MaceteAiAssistantGatewayException $exception): int
+    {
+        return $exception->statusCode > 0 ? $exception->statusCode : 503;
+    }
+
+    private function renderAssistantJson(array $payload, int $statusCode = 200): void
+    {
+        http_response_code($statusCode);
+        header('Content-Type: application/json; charset=UTF-8');
+        echo CJSON::encode($payload);
+        Yii::app()->end();
+    }
+
+    private function validateAssistantCsrf(): bool
+    {
+        try {
+            Yii::app()->request->validateCsrfToken(new CEvent($this));
+        } catch (CHttpException) {
+            $this->renderAssistantJson(['code' => 'assistant_invalid_csrf'], 400);
+            return false;
+        }
+
+        return true;
     }
 }

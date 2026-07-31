@@ -1,6 +1,6 @@
 # Contrato de integração: TAG e serviço de IA
 
-Status: parcialmente implementado. O gateway interno `MaceteAiAssistantGateway` existe, mas os endpoints AJAX, o resolvedor de contexto e o frontend do TAG ainda não foram ativados.
+Status: parcialmente implementado. Gateway, resolvedor de contexto e endpoints AJAX internos existem; o frontend do TAG ainda não foi implementado nem o recurso foi ativado para usuários.
 
 ## Princípios
 
@@ -28,10 +28,10 @@ As rotas abaixo são internas ao módulo e exigem usuário autenticado com `FEAT
 
 | Rota | Método | Finalidade |
 | --- | --- | --- |
-| `macete/lessonsplan/startAssistantConversation` | POST | Cria ou retoma a conversa associada ao rascunho/plano autorizado. |
+| `macete/lessonsplan/startAssistantConversation` | POST | Cria conversa associada ao plano autorizado. |
 | `macete/lessonsplan/sendAssistantMessage` | POST | Encaminha uma mensagem ao serviço e retorna a resposta completa. |
 
-Essas ações devem ser adicionadas ao controller, às regras de acesso e então o arquivo `MaceteRoutes.php` deve ser regenerado com `composer run routes:generate -- macete`.
+Essas ações estão em `LessonsplanController`, exigem usuário autenticado, feature, POST e token CSRF do Yii. `MaceteRoutes.php` foi regenerado com `composer run routes:generate -- macete`. O cliente ainda precisa ser implementado para enviar `lesson_plan_id`, `conversation_id` e `message` sem expor configuração interna.
 
 ## Contrato TAG → serviço
 
