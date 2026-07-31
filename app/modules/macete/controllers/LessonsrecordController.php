@@ -1,6 +1,6 @@
 <?php
 
-class LessonRecordController extends Controller
+class LessonsrecordController extends Controller
 {
     private ?MaceteLessonRecordService $lessonRecordService = null;
     private ?MaceteLessonPlanService $lessonPlanService = null;

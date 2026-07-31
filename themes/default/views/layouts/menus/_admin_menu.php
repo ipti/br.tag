@@ -116,7 +116,7 @@ $menuItems = [
             ],
             [
                 'label' => 'Plano MACETE',
-                'url' => ['macete/lessonPlan/index'],
+                'url' => ['macete/lessonsplan/index'],
                 'icon' => 't-icon-diary',
                 'roles' => [TRole::ADMIN, TRole::MANAGER, TRole::INSTRUCTOR, TRole::READER],
                 'feature' => TFeature::FEAT_DIARY_LESSON_PLAN,
@@ -130,7 +130,7 @@ $menuItems = [
             ],
             [
                 'label' => 'Registros MACETE',
-                'url' => ['macete/lessonRecord/index'],
+                'url' => ['macete/lessonsrecord/index'],
                 'icon' => 't-icon-topics',
                 'roles' => [TRole::ADMIN, TRole::MANAGER, TRole::INSTRUCTOR, TRole::READER],
                 'feature' => TFeature::FEAT_DIARY_CLASSES,
@@ -190,7 +190,7 @@ $menuItems = [
     ],
     [
         'label' => 'Registros MACETE',
-        'url' => ['macete/lessonRecord/index'],
+        'url' => ['macete/lessonsrecord/index'],
         'icon' => 't-icon-topics',
         'roles' => [TRole::COORDINATOR],
         'feature' => TTask::TASK_DIARY_RECORD,
@@ -204,7 +204,7 @@ $menuItems = [
     ],
     [
         'label' => 'Plano MACETE',
-        'url' => ['macete/lessonPlan/index'],
+        'url' => ['macete/lessonsplan/index'],
         'icon' => 't-icon-diary',
         'roles' => [TRole::COORDINATOR],
         'feature' => TTask::TASK_DIARY_RECORD,

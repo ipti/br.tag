@@ -1,5 +1,5 @@
 <?php
-/* @var $this LessonRecordController */
+/* @var $this LessonsrecordController */
 /* @var $lessonRecord MaceteLessonRecord */
 /* @var $plans MaceteLessonPlan[] */
 /* @var $classrooms Classroom[] */
@@ -28,7 +28,7 @@ $selectedPlan = $lessonRecord->lessonPlanFk;
             <h1><?php echo $lessonRecord->isNewRecord ? 'Registrar Aula MACETE' : 'Editar Registro MACETE'; ?></h1>
         </div>
         <div class="column  align-items--center justify-content--end show--desktop">
-            <a class="t-button-secondary" href="<?php echo MaceteRoutes::url(MaceteRoutes::LESSONRECORD_INDEX); ?>">Voltar</a>
+            <a class="t-button-secondary" href="<?php echo MaceteRoutes::url(MaceteRoutes::LESSONSRECORD_INDEX); ?>">Voltar</a>
             <button class="t-button-primary" type="submit">Salvar registro</button>
         </div>
     </div>
@@ -157,7 +157,7 @@ $selectedPlan = $lessonRecord->lessonPlanFk;
 
     <div class="row reverse show--tablet">
         <div class="t-buttons-container">
-            <a class="t-button-secondary" href="<?php echo MaceteRoutes::url(MaceteRoutes::LESSONRECORD_INDEX); ?>">Voltar</a>
+            <a class="t-button-secondary" href="<?php echo MaceteRoutes::url(MaceteRoutes::LESSONSRECORD_INDEX); ?>">Voltar</a>
             <button class="t-button-primary" type="submit">Salvar registro</button>
         </div>
     </div>

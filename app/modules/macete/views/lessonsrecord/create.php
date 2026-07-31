@@ -1,5 +1,5 @@
 <?php
-/* @var $this LessonRecordController */
+/* @var $this LessonsrecordController */
 /* @var $lessonRecord MaceteLessonRecord */
 
 $this->setPageTitle('TAG - Registrar Aula MACETE');

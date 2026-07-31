@@ -20,19 +20,19 @@ class MaceteRoutes
     public const ABILITY_NEXTSTRUCTURE = 'macete/ability/nextStructure';
     public const ABILITY_SEARCH = 'macete/ability/search';
 
-    // LessonPlanController
-    public const LESSONPLAN_CREATE = 'macete/lessonPlan/create';
-    public const LESSONPLAN_DELETE = 'macete/lessonPlan/delete';
-    public const LESSONPLAN_GETDISCIPLINES = 'macete/lessonPlan/getDisciplines';
-    public const LESSONPLAN_GETPLAN = 'macete/lessonPlan/getPlan';
-    public const LESSONPLAN_INDEX = 'macete/lessonPlan/index';
-    public const LESSONPLAN_UPDATE = 'macete/lessonPlan/update';
+    // LessonsplanController
+    public const LESSONSPLAN_CREATE = 'macete/lessonsplan/create';
+    public const LESSONSPLAN_DELETE = 'macete/lessonsplan/delete';
+    public const LESSONSPLAN_GETDISCIPLINES = 'macete/lessonsplan/getDisciplines';
+    public const LESSONSPLAN_GETPLAN = 'macete/lessonsplan/getPlan';
+    public const LESSONSPLAN_INDEX = 'macete/lessonsplan/index';
+    public const LESSONSPLAN_UPDATE = 'macete/lessonsplan/update';
 
-    // LessonRecordController
-    public const LESSONRECORD_CREATE = 'macete/lessonRecord/create';
-    public const LESSONRECORD_DELETE = 'macete/lessonRecord/delete';
-    public const LESSONRECORD_INDEX = 'macete/lessonRecord/index';
-    public const LESSONRECORD_UPDATE = 'macete/lessonRecord/update';
+    // LessonsrecordController
+    public const LESSONSRECORD_CREATE = 'macete/lessonsrecord/create';
+    public const LESSONSRECORD_DELETE = 'macete/lessonsrecord/delete';
+    public const LESSONSRECORD_INDEX = 'macete/lessonsrecord/index';
+    public const LESSONSRECORD_UPDATE = 'macete/lessonsrecord/update';
 
     public static function url(string $route, array $params = []): string
     {

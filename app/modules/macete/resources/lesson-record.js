@@ -7,7 +7,7 @@
 
         $.ajax({
             type: "GET",
-            url: "?r=macete/lessonPlan/getPlan&id=" + encodeURIComponent(planId),
+            url: "?r=macete/lessonsplan/getPlan&id=" + encodeURIComponent(planId),
         }).done(function (response) {
             var data = JSON.parse(response);
             $(".js-macete-plan-summary [data-summary-field='theme']").text(data.theme || "");

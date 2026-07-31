@@ -1,5 +1,5 @@
 <?php
-/* @var $this LessonRecordController */
+/* @var $this LessonsrecordController */
 /* @var $dataProvider CActiveDataProvider */
 
 $this->setPageTitle('TAG - Registros MACETE');
@@ -10,10 +10,10 @@ $this->setPageTitle('TAG - Registros MACETE');
         <div class="span12">
             <h1>Registros de Aula MACETE</h1>
             <div class="t-buttons-container">
-                <a class="t-button-primary" href="<?php echo MaceteRoutes::url(MaceteRoutes::LESSONRECORD_CREATE); ?>">
+                <a class="t-button-primary" href="<?php echo MaceteRoutes::url(MaceteRoutes::LESSONSRECORD_CREATE); ?>">
                     Registrar aula
                 </a>
-                <a class="t-button-secondary" href="<?php echo MaceteRoutes::url(MaceteRoutes::LESSONPLAN_INDEX); ?>">
+                <a class="t-button-secondary" href="<?php echo MaceteRoutes::url(MaceteRoutes::LESSONSPLAN_INDEX); ?>">
                     Planos MACETE
                 </a>
             </div>
@@ -47,7 +47,7 @@ $this->setPageTitle('TAG - Registros MACETE');
                             'header' => 'Plano',
                             'name' => 'lesson_plan_fk',
                             'type' => 'raw',
-                            'value' => 'CHtml::link(CHtml::encode($data->lessonPlanFk->name), MaceteRoutes::url(MaceteRoutes::LESSONRECORD_UPDATE, ["id" => $data->id]))',
+                            'value' => 'CHtml::link(CHtml::encode($data->lessonPlanFk->name), MaceteRoutes::url(MaceteRoutes::LESSONSRECORD_UPDATE, ["id" => $data->id]))',
                             'htmlOptions' => ['width' => '20%', 'class' => 'link-update-grid-view'],
                         ],
                         [
@@ -87,11 +87,11 @@ $this->setPageTitle('TAG - Registros MACETE');
                             'buttons' => [
                                 'update' => [
                                     'imageUrl' => Yii::app()->theme->baseUrl . '/img/editar.svg',
-                                    'url' => 'MaceteRoutes::url(MaceteRoutes::LESSONRECORD_UPDATE, ["id" => $data->id])',
+                                    'url' => 'MaceteRoutes::url(MaceteRoutes::LESSONSRECORD_UPDATE, ["id" => $data->id])',
                                 ],
                                 'delete' => [
                                     'imageUrl' => Yii::app()->theme->baseUrl . '/img/deletar.svg',
-                                    'url' => 'MaceteRoutes::url(MaceteRoutes::LESSONRECORD_DELETE, ["id" => $data->id])',
+                                    'url' => 'MaceteRoutes::url(MaceteRoutes::LESSONSRECORD_DELETE, ["id" => $data->id])',
                                 ],
                             ],
                             'updateButtonOptions' => ['style' => 'margin-right: 20px;'],

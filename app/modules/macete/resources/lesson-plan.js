@@ -71,7 +71,7 @@
 
         $.ajax({
             type: "POST",
-            url: "?r=macete/lessonPlan/getDisciplines",
+            url: "?r=macete/lessonsplan/getDisciplines",
             dataType: "json",
             cache: false,
             data: { stage: [stageId] },

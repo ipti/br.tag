@@ -1,8 +1,8 @@
 <?php
-/* @var $this LessonPlanController */
+/* @var $this LessonsplanController */
 /* @var $lessonPlan MaceteLessonPlan */
 
-$this->setPageTitle('TAG - Novo Plano MACETE');
+$this->setPageTitle('TAG - Editar Plano MACETE');
 echo $this->renderPartial('_form', [
     'lessonPlan' => $lessonPlan,
     'stages' => $stages,

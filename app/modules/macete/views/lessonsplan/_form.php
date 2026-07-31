@@ -1,5 +1,5 @@
 <?php
-/** @var $this LessonPlanController
+/** @var $this LessonsplanController
  *  @var $lessonPlan MaceteLessonPlan
  *  @var $stages array
  *  @var $selectedStageIds array
@@ -53,10 +53,10 @@ $selectedAbilitiesCount = count($selectedAbilities);
         </div>
         <div class="column clearfix align-items--center justify-content--end show--desktop">
             <a class="t-button-secondary"
-                href="<?php echo MaceteRoutes::url(MaceteRoutes::LESSONPLAN_INDEX); ?>">Voltar</a>
+                href="<?php echo MaceteRoutes::url(MaceteRoutes::LESSONSPLAN_INDEX); ?>">Voltar</a>
             <?php if (!$lessonPlan->isNewRecord): ?>
                 <a class="t-button-secondary"
-                    href="<?php echo MaceteRoutes::url(MaceteRoutes::LESSONRECORD_CREATE, ['lessonPlanId' => $lessonPlan->id]); ?>">
+                    href="<?php echo MaceteRoutes::url(MaceteRoutes::LESSONSRECORD_CREATE, ['lessonPlanId' => $lessonPlan->id]); ?>">
                     Registrar aula
                 </a>
             <?php endif; ?>
@@ -571,7 +571,7 @@ $selectedAbilitiesCount = count($selectedAbilities);
     <div class="row reverse show--tablet">
         <div class="t-buttons-container">
             <a class="t-button-secondary"
-                href="<?php echo MaceteRoutes::url(MaceteRoutes::LESSONPLAN_INDEX); ?>">Voltar</a>
+                href="<?php echo MaceteRoutes::url(MaceteRoutes::LESSONSPLAN_INDEX); ?>">Voltar</a>
             <button class="t-button-primary" type="submit">Salvar</button>
         </div>
     </div>

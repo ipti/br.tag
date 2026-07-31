@@ -1,5 +1,5 @@
 <?php
-/* @var $this LessonPlanController */
+/* @var $this LessonsplanController */
 /* @var $dataProvider CActiveDataProvider */
 /* @var $stages array */
 /* @var $disciplines array */
@@ -13,10 +13,10 @@ $this->setPageTitle('TAG - Planos MACETE');
         <div class="span12">
             <h1>Planos MACETE</h1>
             <div class="t-buttons-container">
-                <a class="t-button-primary" href="<?php echo MaceteRoutes::url(MaceteRoutes::LESSONPLAN_CREATE); ?>">
+                <a class="t-button-primary" href="<?php echo MaceteRoutes::url(MaceteRoutes::LESSONSPLAN_CREATE); ?>">
                     Novo plano
                 </a>
-                <a class="t-button-secondary" href="<?php echo MaceteRoutes::url(MaceteRoutes::LESSONRECORD_CREATE); ?>">
+                <a class="t-button-secondary" href="<?php echo MaceteRoutes::url(MaceteRoutes::LESSONSRECORD_CREATE); ?>">
                     Registrar aula
                 </a>
             </div>
@@ -31,7 +31,7 @@ $this->setPageTitle('TAG - Planos MACETE');
     <?php endif; ?>
 
     <form method="get" class="mobile-row align-items--end">
-        <input type="hidden" name="r" value="macete/lessonPlan/index">
+        <input type="hidden" name="r" value="macete/lessonsplan/index">
         <div class="column t-field-select clearleft is-one-quarter">
             <?php echo CHtml::label('Etapa', 'stage', ['class' => 't-field-select__label']); ?>
             <?php echo CHtml::dropDownList(
@@ -70,7 +70,7 @@ $this->setPageTitle('TAG - Planos MACETE');
         </div>
         <div class="column t-buttons-container">
             <button type="submit" class="t-button-primary">Filtrar</button>
-            <a class="t-button-secondary" href="<?php echo MaceteRoutes::url(MaceteRoutes::LESSONPLAN_INDEX); ?>">Limpar</a>
+            <a class="t-button-secondary" href="<?php echo MaceteRoutes::url(MaceteRoutes::LESSONSPLAN_INDEX); ?>">Limpar</a>
         </div>
     </form>
 
@@ -88,7 +88,7 @@ $this->setPageTitle('TAG - Planos MACETE');
                             'header' => 'Plano',
                             'name' => 'name',
                             'type' => 'raw',
-                            'value' => 'CHtml::link(CHtml::encode($data->name), MaceteRoutes::url(MaceteRoutes::LESSONPLAN_UPDATE, ["id" => $data->id]))',
+                            'value' => 'CHtml::link(CHtml::encode($data->name), MaceteRoutes::url(MaceteRoutes::LESSONSPLAN_UPDATE, ["id" => $data->id]))',
                             'htmlOptions' => ['width' => '20%', 'class' => 'link-update-grid-view'],
                         ],
                         [
@@ -134,16 +134,16 @@ $this->setPageTitle('TAG - Planos MACETE');
                             'buttons' => [
                                 'update' => [
                                     'imageUrl' => Yii::app()->theme->baseUrl . '/img/editar.svg',
-                                    'url' => 'MaceteRoutes::url(MaceteRoutes::LESSONPLAN_UPDATE, ["id" => $data->id])',
+                                    'url' => 'MaceteRoutes::url(MaceteRoutes::LESSONSPLAN_UPDATE, ["id" => $data->id])',
                                 ],
                                 'record' => [
                                     'imageUrl' => Yii::app()->theme->baseUrl . '/img/buttonIcon/start.svg',
-                                    'url' => 'MaceteRoutes::url(MaceteRoutes::LESSONRECORD_CREATE, ["lessonPlanId" => $data->id])',
+                                    'url' => 'MaceteRoutes::url(MaceteRoutes::LESSONSRECORD_CREATE, ["lessonPlanId" => $data->id])',
                                     'options' => ['title' => 'Registrar aula'],
                                 ],
                                 'delete' => [
                                     'imageUrl' => Yii::app()->theme->baseUrl . '/img/deletar.svg',
-                                    'url' => 'MaceteRoutes::url(MaceteRoutes::LESSONPLAN_DELETE, ["id" => $data->id])',
+                                    'url' => 'MaceteRoutes::url(MaceteRoutes::LESSONSPLAN_DELETE, ["id" => $data->id])',
                                 ],
                             ],
                             'updateButtonOptions' => ['style' => 'margin-right: 12px;'],

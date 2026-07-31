@@ -2,7 +2,7 @@
 
 class MaceteModule extends CWebModule
 {
-    public $defaultController = 'lessonPlan';
+    public $defaultController = 'lessonsplan';
     public $baseScriptUrl;
     public $baseUrl;
 
