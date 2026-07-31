@@ -1,6 +1,6 @@
 # Backlog de implementação — assistente pedagógico MACETE
 
-Status: planejamento. Todas as tarefas abaixo estão pendentes, salvo indicação explícita em issue/PR futura.
+Status: execução iniciada em 31/07/2026. Os checkboxes continuam representando o aceite completo de cada atividade; o quadro abaixo registra o estágio real de implementação.
 
 ## Convenções
 
@@ -17,6 +17,36 @@ Status: planejamento. Todas as tarefas abaixo estão pendentes, salvo indicaçã
 | Compartilhadas | AI-001 a AI-004, AI-063 e AI-064 | Documentação, infraestrutura e homologação. |
 | Serviço de IA | AI-010 a AI-034, AI-060 e AI-061 | Repositório independente `macete-ai-service`. |
 | TAG | AI-040 a AI-053 e AI-062 | Este repositório, em `app/modules/macete/`. |
+
+## Atualização de execução
+
+Implementação técnica realizada no repositório independente `C:\Users\CoordenacaoTI\Projetos\macete-ai-service`. Nenhuma integração foi ativada no TAG, nenhum plano é salvo pelo serviço e nenhuma fonte BNCC foi ativada sem revisão humana.
+
+| ID | Situação | Evidência / pendência para aceite |
+| --- | --- | --- |
+| AI-004 | Em andamento | Repositório criado, Docker Compose, imagem, CI, lint e testes configurados. Falta definir convenção de branches/PR e confirmar o pipeline remoto. |
+| AI-010 | Em andamento | FastAPI, configuração tipada e `GET /health` implementados. Falta correlação de requisição e padronização abrangente de erros. |
+| AI-011 | Em andamento | PostgreSQL isolado, pgvector e migrations `0001` a `0004` criadas para conversas, mensagens, auditoria, documentos, chunks e revisões. Falta documentar estratégia formal de rollback. |
+| AI-012 | Em andamento | Conversas persistidas com tenant, ator pseudonimizado, expiração e consulta restrita ao tenant. Falta ampliar os testes de contrato para todos os cenários de isolamento. |
+| AI-013 | Em andamento | Token Bearer entre serviços e segredos por variáveis de ambiente implementados. TLS, rede interna e secret manager dependem da infraestrutura de implantação. |
+| AI-020 | Em andamento | Catálogo editorial, estados de documento e decisão de revisão registrados no banco. Falta definir papéis operacionais e tela/processo administrativo. |
+| AI-021 | Em andamento | pgvector, chunks, índices curriculares e filtros de recuperação implementados e testados. |
+| AI-022 | Em andamento | Ingestão de Markdown curado com hash, versão, metadados editoriais e embeddings implementada. Extração de PDF, OCR e conferência humana permanecem operacionais. |
+| AI-023 | Em andamento | Busca híbrida implementada: documento ativo/vigente, tenant, idioma, etapa, componente, habilidade exata, similaridade e deduplicação. Falta validar contra corpus curado e conjunto de avaliação. |
+| AI-024 | Em andamento | Metadado da fonte oficial BNCC e roteiro de curadoria cadastrados em `references/bncc/`. Falta extrair, revisar, indexar e aprovar o corpus; por isso não há fonte BNCC ativa. |
+| AI-030 | Em andamento | Schemas do contexto, resposta, propostas e citações implementados; propostas restringem campos e operações permitidos. Falta validar o mapeamento final contra os campos do formulário Yii. |
+| AI-031 | Em andamento | Adaptadores Qwen de geração e embedding implementados em modo não-streaming; conexão real validada. Kimi, tentativas controladas e comparação formal de provedores permanecem pendentes. |
+| AI-032 | Em andamento | Prompt versionado com guardrails, resposta JSON e bloqueio de fontes/campos inventados implementado e testado. |
+| AI-033 | Em andamento | Orquestração RAG → Qwen → resposta validada, com auditoria de mensagens, modelo e recuperação. Histórico limitado de conversa e tratamento completo de falhas ainda precisam ser implementados. |
+| AI-034 | Em andamento | Rotas de conversa, autenticação, tenant e resposta completa implementadas. Faltam limites de uso e cobertura de contrato para todos os códigos previstos. |
+| AI-040 a AI-053 | Pendente | Nenhuma alteração de integração, endpoint AJAX ou frontend foi feita no TAG. |
+| AI-060 | Em andamento | Lint, testes unitários, migrations e testes de fumaça Docker executados. Faltam testes de contrato completos e provedor falso para todos os erros. |
+| AI-061 | Pendente | Depende de corpus BNCC curado/ativo e avaliação pedagógica com perguntas anonimizadas. |
+| AI-062 a AI-064 | Pendente | Dependem da implementação no TAG, homologação autorizada e decisões de operação/piloto. |
+
+### Decisão de dados confirmada
+
+O TAG já mantém as habilidades BNCC em `CourseClassAbilities`, acessadas pelo `MaceteAbilityService`. Essa tabela permanece a fonte estruturada dos campos `id`, `code` e `description` enviados no contexto autorizado do plano. O serviço IA não replica as habilidades, não acessa o MySQL do TAG e usa o corpus RAG apenas para fundamentação normativa, páginas, seções e citações.
 
 ## Tarefas compartilhadas — decisões e preparação
 
