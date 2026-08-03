@@ -55,7 +55,7 @@ Uma falha de extração não deve permitir que um PDF seja ativado automaticamen
 
 ## Operação administrativa
 
-O serviço de IA possui um painel editorial server-rendered em `/admin`, protegido por token administrativo próprio, cookie de sessão assinado e CSRF. Ele aceita Markdown UTF-8 por texto ou arquivo, cria a versão como `DRAFT` e permite registrar submissão, aprovação/ativação ou rejeição. O token do painel é diferente da credencial de serviço usada pelo TAG; enquanto a configuração administrativa não existe, a rota retorna `404`.
+O serviço de IA possui um painel editorial server-rendered em `/admin`, protegido por token administrativo próprio, cookie de sessão assinado e CSRF. Ele aceita Markdown UTF-8, PDF com texto selecionável, XLSX/XLS e CSV; o processamento gera trechos por seção/aba e preserva páginas extraídas do PDF. A versão é criada como `DRAFT` e o painel permite registrar submissão, aprovação/ativação ou rejeição. O token do painel é diferente da credencial de serviço usada pelo TAG; enquanto a configuração administrativa não existe, a rota retorna `404`.
 
 ## Recuperação em tempo de conversa
 
