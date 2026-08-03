@@ -17,12 +17,17 @@
 $baseScriptUrl = Yii::app()->controller->module->baseScriptUrl;
 $themeUrl = Yii::app()->theme->baseUrl;
 $cs = Yii::app()->getClientScript();
+$assistantScriptPath = dirname(__DIR__, 2) . '/resources/lesson-plan-assistant.js';
+$assistantScriptVersion = TAG_VERSION . '-' . (is_file($assistantScriptPath) ? filemtime($assistantScriptPath) : time());
 $cs->registerCssFile($themeUrl . '/css/quill.snow.css?v=' . TAG_VERSION);
 $cs->registerScriptFile($themeUrl . '/js/quill.min.js?v=' . TAG_VERSION, CClientScript::POS_END);
 $cs->registerScriptFile($baseScriptUrl . '/macete.js?v=' . TAG_VERSION, CClientScript::POS_END);
 $cs->registerScriptFile($baseScriptUrl . '/rich-text.js?v=' . TAG_VERSION, CClientScript::POS_END);
 $cs->registerScriptFile($baseScriptUrl . '/lesson-plan.js?v=' . TAG_VERSION, CClientScript::POS_END);
-$cs->registerScriptFile($baseScriptUrl . '/lesson-plan-assistant.js?v=' . TAG_VERSION, CClientScript::POS_END);
+$cs->registerScriptFile(
+    $baseScriptUrl . '/lesson-plan-assistant.js?v=' . $assistantScriptVersion,
+    CClientScript::POS_END
+);
 
 $form = $this->beginWidget('CActiveForm', [
     'id' => 'macete-lesson-plan-form',
