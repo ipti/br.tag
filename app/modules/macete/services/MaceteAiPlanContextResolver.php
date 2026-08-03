@@ -41,7 +41,6 @@ class MaceteAiPlanContextResolver
         return [
             'tenant_id' => 'school:' . $lessonPlan->school_inep_fk,
             'message' => trim($message),
-            'plan_snapshot' => $this->resolvePlan($lessonPlan),
         ];
     }
 
