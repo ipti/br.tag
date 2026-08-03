@@ -1,10 +1,10 @@
 # Frontend do assistente no formulário MACETE
 
-Status: especificação de experiência e integração — não implementado.
+Status: parcialmente implementado. Há um painel lateral básico no formulário de planos já salvos, com conversa síncrona, CSRF, mensagens escapadas, fontes e estados de carregamento/erro. Propostas ainda não podem ser aplicadas ao rascunho e o painel não envia campos ainda não salvos.
 
 ## Ponto de entrada
 
-O assistente aparece apenas nas páginas de criação e edição de plano MACETE, como painel lateral recolhível em desktop e área expansível abaixo do formulário em telas menores. O design deve reutilizar classes e componentes do TAG; não introduzir Bootstrap novo.
+O assistente aparece na edição de planos MACETE já salvos, no painel lateral do formulário. Sem a configuração do serviço, informa que está indisponível; em planos novos, informa que é preciso salvar antes de iniciar a conversa. O design reutiliza classes e componentes do TAG, sem Bootstrap novo.
 
 O acesso ao painel segue a mesma feature já exigida para o plano de aula. A invisibilidade do botão nunca substitui a autorização do endpoint.
 
@@ -12,10 +12,10 @@ O acesso ao painel segue a mesma feature já exigida para o plano de aula. A inv
 
 1. O professor preenche ou seleciona o mínimo necessário: etapa, componente curricular e tema; habilidades são recomendadas para sugestões alinhadas.
 2. Clica em “Assistente pedagógico”.
-3. O TAG cria/retoma uma conversa enviando um snapshot do rascunho atual.
+3. O TAG cria/retoma uma conversa usando o contexto seguro da versão já salva do plano.
 4. O professor envia uma pergunta ou escolhe uma ação rápida, por exemplo “Gerar metodologia”, “Adaptar para multisseriada” ou “Sugerir avaliação”.
 5. A interface aguarda a resposta completa e mostra a mensagem, fontes e propostas separadas.
-6. O professor pode aplicar uma proposta, descartá-la ou continuar a conversa.
+6. Nesta etapa, o professor revisa a proposta e pode continuar a conversa; a aplicação ao formulário será uma etapa posterior.
 7. O botão normal “Salvar” persiste somente o que estiver no formulário e passar pelas validações existentes.
 
 ## Estados da interface
@@ -60,7 +60,7 @@ Não permitir proposta para `school_inep_fk`, `users_fk`, `school_year`, `status
 Criar um recurso próprio, por exemplo `app/modules/macete/resources/lesson-plan-assistant.js`, registrado apenas no formulário de plano. Ele deve:
 
 - iniciar conversa e manter `conversation_id` somente na página atual;
-- serializar um snapshot saneado dos campos aptos;
+  - usar o contexto saneado da versão persistida do plano; o envio do rascunho ainda não salvo será uma evolução posterior;
 - enviar POST com token CSRF às rotas do próprio TAG;
 - escapar toda mensagem e fonte exibida, inserindo texto com APIs seguras;
 - aplicar propostas por uma lista explícita de mapeamentos campo → seletor;

@@ -269,6 +269,7 @@ class LessonsplanController extends Controller
             'selectedAbilities' => $this->abilityService()->getByIds($abilityIds),
             'schoolName' => $school !== null ? (string) $school->name : '',
             'professorName' => $loginInfos !== null ? (string) $loginInfos->name : '',
+            'assistantEnabled' => !$lessonPlan->isNewRecord && $this->isAssistantConfigured(),
         ];
     }
 

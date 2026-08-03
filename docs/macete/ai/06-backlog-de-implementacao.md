@@ -39,7 +39,14 @@ Implementação técnica realizada no repositório independente `C:\Users\Coorde
 | AI-032 | Em andamento | Prompt versionado com guardrails, resposta JSON e bloqueio de fontes/campos inventados implementado e testado. |
 | AI-033 | Em andamento | Orquestração RAG → Qwen → resposta validada, com auditoria de mensagens, modelo e recuperação. Histórico limitado de conversa e tratamento completo de falhas ainda precisam ser implementados. |
 | AI-034 | Em andamento | Rotas de conversa, autenticação, tenant e resposta completa implementadas. Faltam limites de uso e cobertura de contrato para todos os códigos previstos. |
-| AI-040 a AI-053 | Pendente | Nenhuma alteração de integração, endpoint AJAX ou frontend foi feita no TAG. |
+| AI-040 | Em andamento | Configuração por variáveis de ambiente e desativação segura sem configuração implementadas. Faltam teste automatizado e configuração da instância de homologação. |
+| AI-041 | Em andamento | `MaceteAiAssistantGateway` implementado com POST JSON, Bearer, timeout e normalização de falhas sem expor segredo. Faltam testes com cliente falso. |
+| AI-042 | Em andamento | `MaceteAiPlanContextResolver` usa serviços MACETE e pseudonimiza o ator por HMAC; habilidades vêm do `CourseClassAbilities`. Faltam testes de escopo e o snapshot de alterações ainda não salvas. |
+| AI-043 | Em andamento | Endpoints POST/CSRF e rotas geradas implementados; não salvam o plano. Faltam testes de integração e homologação com a instância configurada. |
+| AI-050 | Em andamento | Painel lateral básico, pré-requisito, carregamento, resposta, fontes e erro implementados com componentes TAG. Faltam ações rápidas e comportamento recolhível/expansível previsto na experiência final. |
+| AI-051 | Em andamento | `lesson-plan-assistant.js` chama somente rotas TAG, mantém a conversa na página e renderiza texto de forma segura. Falta enviar snapshot do rascunho salvo localmente. |
+| AI-052 | Pendente | Propostas são exibidas apenas para revisão; nenhuma alteração automática do formulário foi implementada. |
+| AI-053 | Em andamento | Labels, foco para validação, mensagens textuais e regiões `aria-live` implementados. Falta validação por teclado com a futura aplicação de propostas. |
 | AI-060 | Em andamento | Lint, testes unitários, migrations e testes de fumaça Docker executados. Faltam testes de contrato completos e provedor falso para todos os erros. |
 | AI-061 | Pendente | Depende de corpus BNCC curado/ativo e avaliação pedagógica com perguntas anonimizadas. |
 | AI-062 a AI-064 | Pendente | Dependem da implementação no TAG, homologação autorizada e decisões de operação/piloto. |

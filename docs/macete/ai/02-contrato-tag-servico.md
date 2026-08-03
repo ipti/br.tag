@@ -1,6 +1,6 @@
 # Contrato de integração: TAG e serviço de IA
 
-Status: parcialmente implementado. Gateway, resolvedor de contexto e endpoints AJAX internos existem; o frontend do TAG ainda não foi implementado nem o recurso foi ativado para usuários.
+Status: parcialmente implementado. Gateway, resolvedor de contexto, endpoints AJAX internos e painel básico de conversa existem. O recurso continua desabilitado sem configuração de ambiente e ainda depende de homologação antes de ser ativado para usuários.
 
 ## Princípios
 
@@ -31,7 +31,7 @@ As rotas abaixo são internas ao módulo e exigem usuário autenticado com `FEAT
 | `macete/lessonsplan/startAssistantConversation` | POST | Cria conversa associada ao plano autorizado. |
 | `macete/lessonsplan/sendAssistantMessage` | POST | Encaminha uma mensagem ao serviço e retorna a resposta completa. |
 
-Essas ações estão em `LessonsplanController`, exigem usuário autenticado, feature, POST e token CSRF do Yii. `MaceteRoutes.php` foi regenerado com `composer run routes:generate -- macete`. O cliente ainda precisa ser implementado para enviar `lesson_plan_id`, `conversation_id` e `message` sem expor configuração interna.
+Essas ações estão em `LessonsplanController`, exigem usuário autenticado, feature, POST e token CSRF do Yii. `MaceteRoutes.php` foi regenerado com `composer run routes:generate -- macete`. O painel do formulário envia `lesson_plan_id`, `conversation_id` e `message` somente para essas rotas internas; o `conversation_id` fica apenas na memória da página.
 
 ## Contrato TAG → serviço
 
@@ -87,7 +87,7 @@ Resposta: `201 Created`, com `conversation_id`, `expires_at` e `assistant_versio
 }
 ```
 
-O snapshot em toda mensagem evita que o agente trabalhe com uma versão desatualizada quando o professor edita o formulário durante a conversa.
+O snapshot em toda mensagem evita que o agente trabalhe com uma versão desatualizada quando o professor edita o formulário durante a conversa. Na implementação atual do TAG, o snapshot é reconstruído exclusivamente a partir da versão persistida e autorizada do plano; o envio de alterações ainda não salvas permanece pendente.
 
 Resposta: `200 OK` com o schema `AssistantReply` descrito em [01-servico-agente-rag.md](01-servico-agente-rag.md).
 
