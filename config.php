@@ -8,7 +8,9 @@ defined('YII_DEBUG') or define('YII_DEBUG', $debug ?? false);
 // Sessão (1h por padrão)
 defined('SESSION_MAX_LIFETIME') or define('SESSION_MAX_LIFETIME', 3600);
 
-define("TAG_VERSION", '3.13.22');
+
+define("TAG_VERSION", '3.13.23');
+
 
 $buildConfig = require __DIR__ . '/app/config/build.php';
 defined('TAG_BUILD_COMMIT') or define('TAG_BUILD_COMMIT', isset($buildConfig['commit']) ? (string) $buildConfig['commit'] : '');
