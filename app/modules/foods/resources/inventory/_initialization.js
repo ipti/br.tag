@@ -3,6 +3,17 @@ let table = $("#foodStockTable");
 let food_inventory = [];
 var movements;
 
+// Bootstrap's modal re-focuses itself whenever focus moves to an element
+// outside the modal's own DOM (see enforceFocus/"focusin.modal" in
+// bootstrap.min.js). Select2 (v3) appends its search dropdown to <body>,
+// outside the modal, so every keystroke in a select2 search box gets
+// immediately yanked back to the modal, making the search look frozen.
+// Dropping bootstrap's focus trap while any modal in this screen is open
+// lets select2's own search input keep focus normally.
+$(document).on("shown", ".modal", function () {
+    $(document).off("focusin.modal");
+});
+
 $(document).ready(function () {
     getFoodInventory();
     let foodSelect = $("#foodStockSelect");
