@@ -15,4 +15,5 @@ echo $this->renderPartial('_form', [
     'selectedAbilities' => $selectedAbilities,
     'schoolName' => $schoolName,
     'professorName' => $professorName,
+    'assistantEnabled' => $assistantEnabled,
 ], true);
