@@ -53,6 +53,10 @@ Documentos substituídos não são apagados do histórico: tornam-se `INACTIVE` 
 
 Uma falha de extração não deve permitir que um PDF seja ativado automaticamente.
 
+## Operação administrativa
+
+O serviço de IA possui um painel editorial server-rendered em `/admin`, protegido por token administrativo próprio, cookie de sessão assinado e CSRF. Ele aceita Markdown UTF-8 por texto ou arquivo, cria a versão como `DRAFT` e permite registrar submissão, aprovação/ativação ou rejeição. O token do painel é diferente da credencial de serviço usada pelo TAG; enquanto a configuração administrativa não existe, a rota retorna `404`.
+
 ## Recuperação em tempo de conversa
 
 1. Transformar a pergunta e o snapshot do plano em consulta.

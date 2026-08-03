@@ -29,9 +29,9 @@ Implementação técnica realizada no repositório independente `C:\Users\Coorde
 | AI-011 | Em andamento | PostgreSQL isolado, pgvector e migrations `0001` a `0004` criadas para conversas, mensagens, auditoria, documentos, chunks e revisões. Falta documentar estratégia formal de rollback. |
 | AI-012 | Em andamento | Conversas persistidas com tenant, ator pseudonimizado, expiração e consulta restrita ao tenant. Falta ampliar os testes de contrato para todos os cenários de isolamento. |
 | AI-013 | Em andamento | Token Bearer entre serviços e segredos por variáveis de ambiente implementados. TLS, rede interna e secret manager dependem da infraestrutura de implantação. |
-| AI-020 | Em andamento | Catálogo editorial, estados de documento e decisão de revisão registrados no banco. Falta definir papéis operacionais e tela/processo administrativo. |
+| AI-020 | Em andamento | Catálogo editorial, estados de documento, decisões de revisão e painel administrativo server-rendered implementados. O painel cria rascunhos e registra submissão, aprovação/ativação ou rejeição com CSRF e token próprio. Faltam gestão de usuários/papéis e homologação do processo pedagógico. |
 | AI-021 | Em andamento | pgvector, chunks, índices curriculares e filtros de recuperação implementados e testados. |
-| AI-022 | Em andamento | Ingestão de Markdown curado com hash, versão, metadados editoriais e embeddings implementada. Extração de PDF, OCR e conferência humana permanecem operacionais. |
+| AI-022 | Em andamento | Ingestão de Markdown UTF-8 curado por CLI e painel, com hash, versão, metadados editoriais e embeddings implementada. Extração de PDF, OCR e conferência humana permanecem operacionais. |
 | AI-023 | Em andamento | Busca híbrida implementada: documento ativo/vigente, tenant, idioma, etapa, componente, habilidade exata, similaridade e deduplicação. Falta validar contra corpus curado e conjunto de avaliação. |
 | AI-024 | Em andamento | Metadado da fonte oficial BNCC e roteiro de curadoria cadastrados em `references/bncc/`. Falta extrair, revisar, indexar e aprovar o corpus; por isso não há fonte BNCC ativa. |
 | AI-030 | Em andamento | Schemas do contexto, resposta, propostas e citações implementados; propostas restringem campos e operações permitidos. Falta validar o mapeamento final contra os campos do formulário Yii. |
