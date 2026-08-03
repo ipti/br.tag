@@ -20,6 +20,10 @@ services:
       PWD_FIREBASE: ''
       YII_DEBUG: 1
       PHP_ENABLE_XDEBUG: 0
+      MACETE_AI_SERVICE_URL: "${MACETE_AI_SERVICE_URL:-}"
+      MACETE_AI_SERVICE_TOKEN: "${MACETE_AI_SERVICE_TOKEN:-}"
+      MACETE_AI_SERVICE_TIMEOUT_SECONDS: "${MACETE_AI_SERVICE_TIMEOUT_SECONDS:-60}"
+      MACETE_AI_ACTOR_PSEUDONYM_KEY: "${MACETE_AI_ACTOR_PSEUDONYM_KEY:-}"
       # XDEBUG_MODE: 'off'
       SEDSP_URL: "https://homologacaointegracaosed.educacao.sp.gov.br"
     volumes:
@@ -96,4 +100,3 @@ networks:
 
 volumes:
   db-volume:
-
