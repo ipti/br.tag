@@ -1,11 +1,26 @@
 (function ($) {
     'use strict';
 
-    function appendMessage($container, label, content) {
-        var $message = $('<div>', { 'class': 't-margin-small--bottom' });
+    function scrollMessages($container) {
+        $container.stop(true).animate({ scrollTop: $container.prop('scrollHeight') }, 160);
+    }
+
+    function appendMessage($container, label, content, allowHtml) {
+        var messageClass = 'macete-assistant__message';
+        if (label === 'Assistente') {
+            messageClass += ' macete-assistant__message--assistant';
+        }
+        var $message = $('<div>', { 'class': messageClass });
         $message.append($('<strong>').text(label + ': '));
-        $message.append($('<span>').text(content));
+        var $content = $('<div>');
+        if (allowHtml) {
+            $content.html(safeAssistantHtml(content));
+        } else {
+            $content.text(content);
+        }
+        $message.append($content);
         $container.append($message);
+        scrollMessages($container);
     }
 
     function proposalTarget(field) {
@@ -94,6 +109,7 @@
             if (applied > 0) {
                 $status.text(applied + ' sugestão(ões) aplicada(s). Revise e salve o plano para confirmar as alterações.');
             }
+            scrollMessages($container);
         }
     }
 
@@ -161,6 +177,20 @@
         var $send = $panel.find('.js-macete-assistant-send');
         var $messages = $panel.find('.js-macete-assistant-messages');
         var $status = $panel.find('.js-macete-assistant-status');
+        var $toggle = $panel.find('.js-macete-assistant-toggle');
+
+        $toggle.on('click', function () {
+            var minimized = !$panel.hasClass('is-minimized');
+            $panel.toggleClass('is-minimized', minimized);
+            $toggle.attr('aria-expanded', minimized ? 'false' : 'true')
+                .attr('title', minimized ? 'Expandir assistente' : 'Minimizar assistente')
+                .find('.fa').toggleClass('fa-minus', !minimized).toggleClass('fa-plus', minimized);
+            $toggle.find('.sr-only').text(minimized ? 'Expandir assistente' : 'Minimizar assistente');
+            if (!minimized) {
+                $message.trigger('focus');
+                scrollMessages($messages);
+            }
+        });
 
         $send.on('click', function () {
             var userMessage = $.trim($message.val());
@@ -195,8 +225,8 @@
             }
 
             function showReply(reply) {
-                appendMessage($messages, 'Você', userMessage);
-                appendMessage($messages, 'Assistente', reply.message || 'Não foi possível gerar uma resposta.');
+                appendMessage($messages, 'Você', userMessage, false);
+                appendMessage($messages, 'Assistente', reply.message || 'Não foi possível gerar uma resposta.', true);
                 appendProposals($messages, reply.proposals, $status);
                 appendSources($messages, reply.sources);
 
@@ -206,6 +236,7 @@
                     $status.text('Sugestão recebida. Revise-a antes de aplicar ao plano.');
                 }
                 $message.val('');
+                scrollMessages($messages);
             }
 
             requestReply(false).done(showReply).fail(function (xhr) {
@@ -223,6 +254,13 @@
             }).done(function () {
                 $send.prop('disabled', false);
             });
+        });
+
+        $message.on('keydown', function (event) {
+            if ((event.ctrlKey || event.metaKey) && event.key === 'Enter') {
+                event.preventDefault();
+                $send.trigger('click');
+            }
         });
     });
 }(jQuery));

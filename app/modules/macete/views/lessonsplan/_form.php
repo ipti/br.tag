@@ -532,30 +532,6 @@ $selectedAbilitiesCount = count($selectedAbilities);
 
         <!-- Sidebar: Resumo do plano -->
         <aside class="macete-form-layout__sidebar">
-            <div class="t-cards t-margin-small--bottom js-macete-assistant"
-                data-enabled="<?php echo $assistantEnabled ? 'true' : 'false'; ?>"
-                data-lesson-plan-id="<?php echo $lessonPlan->isNewRecord ? '' : (int) $lessonPlan->id; ?>"
-                data-start-url="<?php echo CHtml::encode(MaceteRoutes::url(MaceteRoutes::LESSONSPLAN_STARTASSISTANTCONVERSATION)); ?>"
-                data-message-url="<?php echo CHtml::encode(MaceteRoutes::url(MaceteRoutes::LESSONSPLAN_SENDASSISTANTMESSAGE)); ?>"
-                data-csrf-name="<?php echo CHtml::encode(Yii::app()->request->csrfTokenName); ?>"
-                data-csrf-token="<?php echo CHtml::encode(Yii::app()->request->csrfToken); ?>">
-                <div class="t-cards-content">
-                    <h2 class="t-cards-title">Assistente pedagógico</h2>
-                    <?php if ($assistantEnabled): ?>
-                        <p>Use sugestões e fontes como apoio à decisão pedagógica. As respostas consideram a versão salva do plano.</p>
-                        <div class="js-macete-assistant-messages" aria-live="polite" aria-relevant="additions"></div>
-                        <label class="t-field-tarea__label" for="macete-assistant-message">Como posso ajudar?</label>
-                        <textarea id="macete-assistant-message" class="t-field-tarea__input js-macete-assistant-input" rows="4"
-                            maxlength="4000" placeholder="Ex.: Sugira uma atividade investigativa sem uso de internet."></textarea>
-                        <div class="t-buttons-container t-margin-small--top">
-                            <button type="button" class="t-button-primary js-macete-assistant-send">Gerar sugestão</button>
-                        </div>
-                        <p class="js-macete-assistant-status" role="status"></p>
-                    <?php else: ?>
-                        <p>O assistente estará disponível após salvar o plano e configurar o serviço para esta instância.</p>
-                    <?php endif; ?>
-                </div>
-            </div>
             <div class="t-cards">
                 <div class="t-cards-content">
                     <h2 class="t-cards-title">Resumo do plano</h2>
@@ -598,6 +574,39 @@ $selectedAbilitiesCount = count($selectedAbilities);
         </aside>
 
     </div><!-- .macete-form-layout -->
+
+    <section class="macete-assistant js-macete-assistant"
+        data-enabled="<?php echo $assistantEnabled ? 'true' : 'false'; ?>"
+        data-lesson-plan-id="<?php echo $lessonPlan->isNewRecord ? '' : (int) $lessonPlan->id; ?>"
+        data-start-url="<?php echo CHtml::encode(MaceteRoutes::url(MaceteRoutes::LESSONSPLAN_STARTASSISTANTCONVERSATION)); ?>"
+        data-message-url="<?php echo CHtml::encode(MaceteRoutes::url(MaceteRoutes::LESSONSPLAN_SENDASSISTANTMESSAGE)); ?>"
+        data-csrf-name="<?php echo CHtml::encode(Yii::app()->request->csrfTokenName); ?>"
+        data-csrf-token="<?php echo CHtml::encode(Yii::app()->request->csrfToken); ?>">
+        <header class="macete-assistant__header">
+            <div><i class="fa fa-comments" aria-hidden="true"></i> Assistente pedagógico</div>
+            <button type="button" class="macete-assistant__toggle js-macete-assistant-toggle"
+                aria-expanded="true" aria-controls="macete-assistant-body" title="Minimizar assistente">
+                <i class="fa fa-minus" aria-hidden="true"></i><span class="sr-only">Minimizar assistente</span>
+            </button>
+        </header>
+        <div id="macete-assistant-body" class="macete-assistant__body">
+            <?php if ($assistantEnabled): ?>
+                <p class="macete-assistant__intro">Sugestões são aplicadas ao formulário e só são confirmadas ao salvar.</p>
+                <div class="macete-assistant__messages js-macete-assistant-messages" aria-live="polite"
+                    aria-relevant="additions"></div>
+                <label class="sr-only" for="macete-assistant-message">Como posso ajudar?</label>
+                <textarea id="macete-assistant-message" class="t-field-tarea__input js-macete-assistant-input" rows="3"
+                    maxlength="4000" placeholder="Como posso ajudar com este plano?"></textarea>
+                <div class="macete-assistant__actions">
+                    <span class="macete-assistant__shortcut">Ctrl + Enter para enviar</span>
+                    <button type="button" class="t-button-primary js-macete-assistant-send">Enviar</button>
+                </div>
+                <p class="js-macete-assistant-status macete-assistant__status" role="status"></p>
+            <?php else: ?>
+                <p class="macete-assistant__intro">Salve o plano e configure o serviço para ativar o assistente.</p>
+            <?php endif; ?>
+        </div>
+    </section>
 
     <div class="row reverse show--tablet">
         <div class="t-buttons-container">

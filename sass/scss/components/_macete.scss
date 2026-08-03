@@ -219,3 +219,131 @@
 .macete-rich-text__source {
     display: none;
 }
+
+// Floating pedagogical assistant: intentionally independent from the form
+// sidebar so it remains available while the teacher navigates the plan tabs.
+.macete-assistant {
+    position: fixed;
+    z-index: 50;
+    right: $SizeLarge;
+    bottom: $SizeLarge;
+    display: flex;
+    flex-direction: column;
+    width: min(420px, calc(100vw - #{$SizeLarge * 2}));
+    max-height: min(680px, calc(100vh - #{$SizeLarge * 2}));
+    border: $borderWidthCard solid $colorsBaseCloudDark;
+    border-radius: $borderRadiusLarge;
+    overflow: hidden;
+    background: #fff;
+    box-shadow: 0 12px 36px rgba(31, 49, 59, 0.22);
+
+    &.is-minimized {
+        width: auto;
+
+        .macete-assistant__body {
+            display: none;
+        }
+    }
+
+    @media (max-width: 600px) {
+        right: $SizeSmall;
+        bottom: $SizeSmall;
+        width: calc(100vw - #{$SizeSmall * 2});
+        max-height: calc(100vh - #{$SizeSmall * 2});
+    }
+}
+
+.macete-assistant__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: $SizeSmall;
+    padding: $SizeSmall $SizeMedium;
+    color: #fff;
+    background: $colorsBaseProductNormal;
+    font-weight: $fontWeightSemiBold;
+}
+
+.macete-assistant__toggle {
+    min-width: 32px;
+    min-height: 32px;
+    border: 0;
+    border-radius: $borderRadiusSmall;
+    color: inherit;
+    background: transparent;
+    cursor: pointer;
+
+    &:hover,
+    &:focus {
+        background: rgba(255, 255, 255, 0.18);
+    }
+}
+
+.macete-assistant__body {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    min-height: 0;
+    padding: $SizeMedium;
+}
+
+.macete-assistant__intro,
+.macete-assistant__shortcut,
+.macete-assistant__status {
+    color: $colorsTextSecondary;
+    font-size: $FontSizeTextSmall;
+}
+
+.macete-assistant__intro {
+    margin: 0 0 $SizeSmall;
+}
+
+.macete-assistant__messages {
+    min-height: 120px;
+    max-height: 320px;
+    margin-bottom: $SizeSmall;
+    padding-right: $SizeXSmall;
+    overflow-y: auto;
+    overflow-wrap: break-word;
+}
+
+.macete-assistant__message {
+    margin-bottom: $SizeSmall;
+    padding: $SizeSmall;
+    border-radius: $borderRadiusSmall;
+    background: $colorsBaseCloudLight;
+
+    strong {
+        display: block;
+        margin-bottom: $SizeXXSmall;
+    }
+
+    &--assistant {
+        background: #e8f5f3;
+    }
+
+    p:first-child,
+    ul:first-child,
+    ol:first-child {
+        margin-top: 0;
+    }
+
+    p:last-child,
+    ul:last-child,
+    ol:last-child {
+        margin-bottom: 0;
+    }
+}
+
+.macete-assistant__actions {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: $SizeSmall;
+    margin-top: $SizeSmall;
+}
+
+.macete-assistant__status {
+    min-height: 1.2em;
+    margin: $SizeSmall 0 0;
+}
