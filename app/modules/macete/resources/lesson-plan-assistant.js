@@ -60,6 +60,16 @@
         return true;
     }
 
+    function applyAllProposals(proposals) {
+        var applied = 0;
+        $.each(proposals, function (_, proposal) {
+            if (applyProposal(proposal)) {
+                applied += 1;
+            }
+        });
+        return applied;
+    }
+
     function appendProposals($container, proposals, $status) {
         if (!$.isArray(proposals) || proposals.length === 0) {
             return;
@@ -69,39 +79,17 @@
         $.each(proposals, function (_, proposal) {
             var content = proposal && (proposal.rationale || proposal.value || proposal.title);
             if (content) {
-                var $item = $('<li>').text(content + ' ');
-                var $apply = $('<button>', { type: 'button', 'class': 't-button-secondary' }).text('Aplicar');
-                $apply.data('proposal', proposal);
-                $apply.on('click', function () {
-                    if (applyProposal(proposal)) {
-                        $apply.prop('disabled', true).text('Aplicada');
-                        $status.text('Sugestão aplicada ao formulário. Salve o plano para confirmar a alteração.');
-                    } else {
-                        $status.text('Esta sugestão não corresponde a um campo disponível no formulário atual.');
-                    }
-                });
-                $item.append($apply);
-                $list.append($item);
+                $list.append($('<li>').text(content));
             }
         });
 
         if ($list.children().length > 0) {
-            $container.append($('<strong>').text('Sugestões para avaliar:'));
-            var $applyAll = $('<button>', { type: 'button', 'class': 't-button-secondary t-margin-small--left' })
-                .text('Aplicar todas as sugestões');
-            $applyAll.on('click', function () {
-                var applied = 0;
-                $list.find('button').each(function () {
-                    var $button = $(this);
-                    if (!$button.prop('disabled') && applyProposal($button.data('proposal'))) {
-                        $button.prop('disabled', true).text('Aplicada');
-                        applied += 1;
-                    }
-                });
-                $status.text(applied + ' sugestão(ões) aplicada(s). Salve o plano para confirmar as alterações.');
-            });
-            $container.append($applyAll);
+            var applied = applyAllProposals(proposals);
+            $container.append($('<strong>').text('Sugestões aplicadas ao formulário:'));
             $container.append($list);
+            if (applied > 0) {
+                $status.text(applied + ' sugestão(ões) aplicada(s). Revise e salve o plano para confirmar as alterações.');
+            }
         }
     }
 
