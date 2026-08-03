@@ -20,6 +20,10 @@
         }
 
         var modelField = {
+            name: '#MaceteLessonPlan_name',
+            theme: '#MaceteLessonPlan_theme',
+            unit: '#MaceteLessonPlan_unit',
+            territory_context: '#MaceteLessonPlan_territory_context',
             knowledge_object: '#MaceteLessonPlan_knowledge_object',
             evaluation: '#MaceteLessonPlan_evaluation',
             references_text: '#MaceteLessonPlan_references_text'
