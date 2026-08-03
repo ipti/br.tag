@@ -76,6 +76,10 @@
         });
     }
 
+    function assistantErrorCode(xhr) {
+        return xhr && xhr.responseJSON ? xhr.responseJSON.code : null;
+    }
+
     $(function () {
         var $panel = $('.js-macete-assistant');
         if ($panel.length === 0 || $panel.data('enabled') !== true) {
@@ -99,20 +103,28 @@
             $send.prop('disabled', true);
             $status.text('Gerando sugestão...');
 
-            var startRequest = conversationId
-                ? $.Deferred().resolve({ conversation_id: conversationId }).promise()
-                : sendRequest($panel, $panel.data('start-url'), {
-                    lesson_plan_id: $panel.data('lesson-plan-id')
-                });
+            function requestReply(forceNewConversation) {
+                if (forceNewConversation) {
+                    conversationId = null;
+                }
 
-            startRequest.then(function (conversation) {
-                conversationId = conversation.conversation_id;
-                return sendRequest($panel, $panel.data('message-url'), {
-                    lesson_plan_id: $panel.data('lesson-plan-id'),
-                    conversation_id: conversationId,
-                    message: userMessage
+                var startRequest = conversationId
+                    ? $.Deferred().resolve({ conversation_id: conversationId }).promise()
+                    : sendRequest($panel, $panel.data('start-url'), {
+                        lesson_plan_id: $panel.data('lesson-plan-id')
+                    });
+
+                return startRequest.then(function (conversation) {
+                    conversationId = conversation.conversation_id;
+                    return sendRequest($panel, $panel.data('message-url'), {
+                        lesson_plan_id: $panel.data('lesson-plan-id'),
+                        conversation_id: conversationId,
+                        message: userMessage
+                    });
                 });
-            }).done(function (reply) {
+            }
+
+            function showReply(reply) {
                 appendMessage($messages, 'Você', userMessage);
                 appendMessage($messages, 'Assistente', reply.message || 'Não foi possível gerar uma resposta.');
                 appendProposals($messages, reply.proposals);
@@ -124,9 +136,21 @@
                     $status.text('Sugestão recebida. Revise-a antes de aplicar ao plano.');
                 }
                 $message.val('');
-            }).fail(function () {
+            }
+
+            requestReply(false).done(showReply).fail(function (xhr) {
+                if (assistantErrorCode(xhr) === 'assistant_conversation_context_missing') {
+                    $status.text('Atualizando o contexto do plano...');
+                    requestReply(true).done(showReply).fail(function () {
+                        $status.text('Não foi possível consultar o assistente agora. Tente novamente em instantes.');
+                    }).always(function () {
+                        $send.prop('disabled', false);
+                    });
+                    return;
+                }
                 $status.text('Não foi possível consultar o assistente agora. Tente novamente em instantes.');
-            }).always(function () {
+                $send.prop('disabled', false);
+            }).done(function () {
                 $send.prop('disabled', false);
             });
         });

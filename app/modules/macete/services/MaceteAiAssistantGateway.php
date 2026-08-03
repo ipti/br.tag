@@ -92,6 +92,7 @@ class MaceteAiAssistantGateway
         return match ($statusCode) {
             401, 403 => 'assistant_unauthorized',
             404 => 'assistant_conversation_not_found',
+            409 => 'assistant_conversation_context_missing',
             422 => 'assistant_invalid_context',
             429 => 'assistant_rate_limited',
             503 => 'assistant_unavailable',
