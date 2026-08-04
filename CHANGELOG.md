@@ -1,3 +1,6 @@
+## [Versão 3.13.23]
+- Corrigida a "Média da Unidade" exibida na tela de Notas, que em algumas turmas/disciplinas aparecia na linha do período errado (ex.: a média do 1º Período mostrava, na verdade, a média do 2º Período). O valor calculado e salvo sempre esteve correto; o problema era de leitura, causado pela unidade de Recuperação Final sendo contada na numeração dos períodos quando criada antes deles na estrutura de notas
+
 ## [Versão 3.13.22]
 - Corrigida duplicidade de itens no Lançamento de Estoque da Merenda Escolar: o botão "Adicionar ao estoque" agora trava durante o processamento (com indicador de carregamento sobre o modal), evitando que múltiplos cliques disparem o mesmo lançamento mais de uma vez. O salvamento no backend passou a rodar em transação e interrompe imediatamente se algum item falhar, em vez de continuar processando os demais
 
