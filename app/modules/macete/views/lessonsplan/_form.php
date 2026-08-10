@@ -52,15 +52,15 @@ $selectedAbilitiesCount = count($selectedAbilities);
             <h1><?php echo $lessonPlan->isNewRecord ? 'Novo Plano MACETE' : 'Editar Plano MACETE'; ?></h1>
         </div>
         <div class="column clearfix align-items--center justify-content--end show--desktop">
-            <a class="t-button-secondary"
-                href="<?php echo MaceteRoutes::url(MaceteRoutes::LESSONSPLAN_INDEX); ?>">Voltar</a>
+            <button type="button" class="t-button-secondary js-macete-prev hide">Voltar</button>
             <?php if (!$lessonPlan->isNewRecord): ?>
                 <a class="t-button-secondary"
                     href="<?php echo MaceteRoutes::url(MaceteRoutes::LESSONSRECORD_CREATE, ['lessonPlanId' => $lessonPlan->id]); ?>">
                     Registrar aula
                 </a>
             <?php endif; ?>
-            <button class="t-button-primary" type="submit">Salvar</button>
+            <button type="button" class="t-button-primary js-macete-next">Próximo</button>
+            <button class="t-button-primary js-macete-save hide" type="submit">Salvar</button>
         </div>
     </div>
 
@@ -104,7 +104,7 @@ $selectedAbilitiesCount = count($selectedAbilities);
                 <div id="macete-identification" class="js-macete-tab-panel">
 
                     <div class="row">
-                        <div class="column is-two-fifths">
+                        <div class="column is-half clearleft">
                             <div class="t-field-text">
                                 <?php echo $form->label($lessonPlan, 'name', ['class' => 't-field-text__label--required']); ?>
                                 <?php echo $form->textField($lessonPlan, 'name', [
@@ -115,7 +115,21 @@ $selectedAbilitiesCount = count($selectedAbilities);
                                 <?php echo $form->error($lessonPlan, 'name'); ?>
                             </div>
                         </div>
-                        <div class="column is-two-fifths">
+                        <div class="column is-half">
+                            <div class="t-field-text">
+                                <?php echo $form->label($lessonPlan, 'code', ['class' => 't-field-text__label']); ?>
+                                <?php echo $form->textField($lessonPlan, 'code', [
+                                    'class' => 't-field-text__input',
+                                    'maxlength' => 50,
+                                    'placeholder' => 'Ex.: MAT-001',
+                                ]); ?>
+                                <?php echo $form->error($lessonPlan, 'code'); ?>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="column is-half clearleft">
                             <div class="t-field-text">
                                 <?php echo $form->labelEx($lessonPlan, 'unit', ['class' => 't-field-text__label']); ?>
                                 <?php echo $form->textField($lessonPlan, 'unit', [
@@ -126,7 +140,7 @@ $selectedAbilitiesCount = count($selectedAbilities);
                                 <?php echo $form->error($lessonPlan, 'unit'); ?>
                             </div>
                         </div>
-                        <div class="column is-one-fifth">
+                        <div class="column is-half">
                             <div class="t-field-select">
                                 <?php echo $form->label($lessonPlan, 'status', ['class' => 't-field-select__label--required']); ?>
                                 <?php echo $form->dropDownList(
@@ -367,12 +381,21 @@ $selectedAbilitiesCount = count($selectedAbilities);
                     </div>
                     <div class="row">
                         <div class="column">
-                            <div class="t-field-tarea">
-                                <label class="t-field-tarea__label">Caixa MACETE</label>
-                                <?php echo CHtml::textArea(
-                                    'resources[' . MaceteLessonPlanResource::TYPE_MACETE_BOX . ']',
-                                    $resourceValue(MaceteLessonPlanResource::TYPE_MACETE_BOX),
-                                    ['class' => 't-field-tarea__input', 'rows' => 6, 'placeholder' => 'Liste os materiais da caixa MACETE usados na aula.']
+                            <div class="t-field-select">
+                                <label class="t-field-select__label">Caixa MACETE</label>
+                                <?php
+                                $maceteBoxValue = $resourceValue(MaceteLessonPlanResource::TYPE_MACETE_BOX);
+                                $maceteBoxSelected = $maceteBoxValue !== '' ? array_map('trim', explode(',', $maceteBoxValue)) : [];
+                                ?>
+                                <?php echo CHtml::dropDownList(
+                                    'resources[' . MaceteLessonPlanResource::TYPE_MACETE_BOX . '][]',
+                                    $maceteBoxSelected,
+                                    array_combine(MaceteLessonPlanResource::maceteBoxItems(), MaceteLessonPlanResource::maceteBoxItems()),
+                                    [
+                                        'class' => 'select-search-on t-multiselect t-field-select__input select2-container',
+                                        'multiple' => 'multiple',
+                                        'placeholder' => 'Selecione os materiais usados na aula',
+                                    ]
                                 ); ?>
                             </div>
                         </div>
@@ -570,9 +593,9 @@ $selectedAbilitiesCount = count($selectedAbilities);
 
     <div class="row reverse show--tablet">
         <div class="t-buttons-container">
-            <a class="t-button-secondary"
-                href="<?php echo MaceteRoutes::url(MaceteRoutes::LESSONSPLAN_INDEX); ?>">Voltar</a>
-            <button class="t-button-primary" type="submit">Salvar</button>
+            <button type="button" class="t-button-secondary js-macete-prev hide">Voltar</button>
+            <button type="button" class="t-button-primary js-macete-next">Próximo</button>
+            <button class="t-button-primary js-macete-save hide" type="submit">Salvar</button>
         </div>
     </div>
 </div>
