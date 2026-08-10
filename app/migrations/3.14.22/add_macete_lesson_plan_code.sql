@@ -19,4 +19,7 @@ SET @macete_lesson_plan_code_sql := IF(
 );
 PREPARE macete_lesson_plan_code_statement FROM @macete_lesson_plan_code_sql;
 EXECUTE macete_lesson_plan_code_statement;
-DEALLOCATE PREPARE macete_lesson_plan_code_statement;
+-- No DEALLOCATE PREPARE: MySQL releases it automatically when the session ends,
+-- and explicitly deallocating here fails with "Unknown prepared statement handler"
+-- on tools/pools that don't guarantee PREPARE and this statement run on the same
+-- connection (observed when running this script manually against production).
