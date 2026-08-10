@@ -6,16 +6,54 @@
     };
 
     window.Macete.initTabs = function () {
-        $(document).on("click", ".js-macete-tab-link", function (event) {
-            event.preventDefault();
+        var tabOrder = $(".js-macete-tab-link").map(function () {
+            return $(this).attr("href");
+        }).get();
 
-            var target = $(this).attr("href");
+        function currentTab() {
+            return $(".js-macete-tab-link").closest(".t-tabs__item.active").find(".js-macete-tab-link").attr("href");
+        }
+
+        function activateTab(target) {
+            var link = $(".js-macete-tab-link[href='" + target + "']");
             $(".js-macete-tab-link").closest(".t-tabs__item").removeClass("active");
-            $(this).closest(".t-tabs__item").addClass("active");
+            link.closest(".t-tabs__item").addClass("active");
 
             $(".js-macete-tab-panel").addClass("hide");
             $(target).removeClass("hide");
+
+            var index = tabOrder.indexOf(target);
+            var isFirstTab = index === 0;
+            var isLastTab = index === tabOrder.length - 1;
+            $(".js-macete-prev").toggleClass("hide", isFirstTab);
+            $(".js-macete-next").toggleClass("hide", isLastTab);
+            $(".js-macete-save").toggleClass("hide", !isLastTab);
+        }
+
+        $(document).on("click", ".js-macete-tab-link", function (event) {
+            event.preventDefault();
+            activateTab($(this).attr("href"));
         });
+
+        $(document).on("click", ".js-macete-next", function (event) {
+            event.preventDefault();
+            var index = tabOrder.indexOf(currentTab());
+            if (index > -1 && index < tabOrder.length - 1) {
+                activateTab(tabOrder[index + 1]);
+            }
+        });
+
+        $(document).on("click", ".js-macete-prev", function (event) {
+            event.preventDefault();
+            var index = tabOrder.indexOf(currentTab());
+            if (index > 0) {
+                activateTab(tabOrder[index - 1]);
+            }
+        });
+
+        if (tabOrder.length) {
+            activateTab(tabOrder[0]);
+        }
     };
 
     window.Macete.initAbilitySelector = function () {

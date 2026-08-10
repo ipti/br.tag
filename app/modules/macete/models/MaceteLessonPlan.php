@@ -5,6 +5,7 @@
  *
  * @property integer $id
  * @property string $name
+ * @property string $code
  * @property string $theme
  * @property string $school_inep_fk
  * @property integer $classroom_fk
@@ -52,12 +53,13 @@ class MaceteLessonPlan extends TagModel
             ['name, theme, school_inep_fk, edcenso_stage_vs_modality_fk, users_fk, school_year, status', 'required'],
             ['classroom_fk, edcenso_stage_vs_modality_fk, edcenso_discipline_fk, users_fk, school_year', 'numerical', 'integerOnly' => true],
             ['name', 'length', 'max' => 150],
+            ['code', 'length', 'max' => 50],
             ['theme', 'length', 'max' => 255],
             ['school_inep_fk', 'length', 'max' => 8],
             ['unit', 'length', 'max' => 50],
             ['status', 'length', 'max' => 20],
-            ['territory_context, knowledge_object, evaluation, references_text, created_at, updated_at', 'safe'],
-            ['id, name, theme, school_inep_fk, classroom_fk, edcenso_stage_vs_modality_fk, edcenso_discipline_fk, users_fk, school_year, unit, territory_context, knowledge_object, evaluation, references_text, status, created_at, updated_at', 'safe', 'on' => 'search'],
+            ['code, territory_context, knowledge_object, evaluation, references_text, created_at, updated_at', 'safe'],
+            ['id, name, code, theme, school_inep_fk, classroom_fk, edcenso_stage_vs_modality_fk, edcenso_discipline_fk, users_fk, school_year, unit, territory_context, knowledge_object, evaluation, references_text, status, created_at, updated_at', 'safe', 'on' => 'search'],
         ];
     }
 
@@ -82,7 +84,8 @@ class MaceteLessonPlan extends TagModel
     {
         return [
             'id' => 'ID',
-            'name' => 'Nome',
+            'name' => 'Título do Plano',
+            'code' => 'Código do plano',
             'theme' => 'Tema da aula',
             'school_inep_fk' => 'Escola',
             'classroom_fk' => 'Turma',
@@ -107,6 +110,7 @@ class MaceteLessonPlan extends TagModel
 
         $criteria->compare('id', $this->id);
         $criteria->compare('name', $this->name, true);
+        $criteria->compare('code', $this->code, true);
         $criteria->compare('theme', $this->theme, true);
         $criteria->compare('school_inep_fk', $this->school_inep_fk, true);
         $criteria->compare('classroom_fk', $this->classroom_fk);

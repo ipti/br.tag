@@ -68,6 +68,40 @@ class MaceteLessonPlanResource extends TagModel
         ];
     }
 
+    public static function maceteBoxItems(): array
+    {
+        return [
+            'Giz de cera',
+            'Lápis de cor',
+            'Tinta guache',
+            'Barbante',
+            'Fita adesiva colorida',
+            'Fita adesiva transparente',
+            'Fita crepe',
+            'Grampo',
+            'Papel fotográfico',
+            'Papel Opaline',
+            'Apontador',
+            'Borracha',
+            'Caixa de lápis',
+            'Cortador circular',
+            'Estilete',
+            'Kit escolar de réguas',
+            'Piloto de quadro',
+            'Pincel fino',
+            'Régua 30 cm',
+            'Tesoura',
+            'Balança',
+            'Cola branca',
+            'Cola de isopor',
+            'Lupa',
+            'Pistola de cola quente',
+            'Régua geométrica',
+            'Saco de elástico',
+            'Pranchet',
+        ];
+    }
+
     public static function model($className = __CLASS__)
     {
         return parent::model($className);

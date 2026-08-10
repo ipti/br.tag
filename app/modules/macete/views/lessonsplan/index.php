@@ -89,13 +89,19 @@ $this->setPageTitle('TAG - Planos MACETE');
                             'name' => 'name',
                             'type' => 'raw',
                             'value' => 'CHtml::link(CHtml::encode($data->name), MaceteRoutes::url(MaceteRoutes::LESSONSPLAN_UPDATE, ["id" => $data->id]))',
-                            'htmlOptions' => ['width' => '20%', 'class' => 'link-update-grid-view'],
+                            'htmlOptions' => ['width' => '18%', 'class' => 'link-update-grid-view'],
+                        ],
+                        [
+                            'header' => 'Código',
+                            'name' => 'code',
+                            'value' => 'CHtml::encode($data->code)',
+                            'htmlOptions' => ['width' => '8%'],
                         ],
                         [
                             'header' => 'Tema',
                             'name' => 'theme',
                             'value' => '$data->theme',
-                            'htmlOptions' => ['width' => '22%'],
+                            'htmlOptions' => ['width' => '18%'],
                         ],
                         [
                             'header' => 'Professor',

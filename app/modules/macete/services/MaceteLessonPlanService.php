@@ -266,6 +266,7 @@ class MaceteLessonPlanService
     {
         $allowedAttributes = [
             'name',
+            'code',
             'theme',
             'classroom_fk',
             'unit',
@@ -426,6 +427,10 @@ class MaceteLessonPlanService
         );
 
         foreach ($resources as $type => $description) {
+            if (is_array($description)) {
+                $description = implode(', ', array_filter(array_map('trim', $description), static fn (string $item): bool => $item !== ''));
+            }
+
             $description = MaceteRichTextSanitizer::sanitize((string) $description);
             if ($description === '') {
                 continue;
