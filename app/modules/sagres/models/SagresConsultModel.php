@@ -1096,6 +1096,7 @@ class SagresConsultModel
         JOIN  edcenso_stage_vs_modality esvm on esvm.id = se.edcenso_stage_vs_modality_fk
         WHERE
             c.id = :id
+        And (se.status = 1 or se.status is null)
         And esvm.edcenso_associated_stage_id is not NULL
         GROUP by se.edcenso_stage_vs_modality_fk'
             :
