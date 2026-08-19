@@ -1,3 +1,6 @@
+## [Versão 3.13.24]
+- Corrigido falso positivo na inconsistência "Turmas multiseriadas apenas aceitam 3 etapas de ensino diferentes" do Sagres: turmas AEE contavam a Etapa Individual de matrículas CANCELADO/TRANSFERIDO (e outros status não ativos) ao verificar a quantidade de etapas da turma, gerando erro mesmo quando os alunos com matrícula ativa respeitavam o limite de 3 etapas
+
 ## [Versão 3.13.23]
 - Corrigida a "Média da Unidade" exibida na tela de Notas, que em algumas turmas/disciplinas aparecia na linha do período errado (ex.: a média do 1º Período mostrava, na verdade, a média do 2º Período). O valor calculado e salvo sempre esteve correto; o problema era de leitura, causado pela unidade de Recuperação Final sendo contada na numeração dos períodos quando criada antes deles na estrutura de notas
 
