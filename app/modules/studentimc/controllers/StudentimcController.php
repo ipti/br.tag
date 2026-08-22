@@ -111,6 +111,7 @@ class StudentIMCController extends Controller
                     $modelStudentIdentification->save(false);
                     $disorderHistory->student_imc_fk = $model->id;
                     $disorderHistory->save(false);
+                    $this->syncFoodAllergies($studentId, $modelStudentDisorder->food_allergies);
 
                     $transaction->commit();
                     Yii::app()->user->setFlash('success', Yii::t('default', 'Student IMC successfully created.'));
@@ -127,6 +128,7 @@ class StudentIMCController extends Controller
             'model' => $model,
             'disorder' => $modelStudentDisorder,
             'studentIdentification' => $modelStudentIdentification,
+            'foodAllergies' => $this->getFoodAllergies($studentId),
         ]);
     }
 
@@ -196,6 +198,7 @@ class StudentIMCController extends Controller
             }
 
             if ($model->save() && $modelStudentDisorderHistory->save() && $modelStudentIdentification->save()) {
+                $this->syncFoodAllergies($studentId, $modelStudentDisorderHistory->food_allergies);
                 $this->redirect(['index', 'studentId' => $studentId]);
             }
         }
@@ -208,7 +211,61 @@ class StudentIMCController extends Controller
             'model' => $model,
             'disorder' => $modelStudentDisorderHistory,
             'studentIdentification' => $modelStudentIdentification,
+            'foodAllergies' => $this->getFoodAllergies($studentId),
         ]);
+    }
+
+    /**
+     * Loads the current food allergy detail for a student.
+     *
+     * @param int $studentId
+     * @return array{types: string[], other: string} selected allergy_type codes and the free-text "Outras" description.
+     */
+    private function getFoodAllergies($studentId): array
+    {
+        $allergies = StudentFoodAllergy::model()->findAllByAttributes(['student_fk' => $studentId]);
+
+        $types = [];
+        $other = '';
+        foreach ($allergies as $allergy) {
+            $types[] = $allergy->allergy_type;
+            if ($allergy->allergy_type === StudentFoodAllergy::TYPE_OTHER) {
+                $other = (string) $allergy->description;
+            }
+        }
+
+        return ['types' => $types, 'other' => $other];
+    }
+
+    /**
+     * Replaces the student's food allergy detail rows with the ones just submitted.
+     *
+     * @param int $studentId
+     * @param bool $foodAllergiesEnabled whether the "Alergias Alimentares" checkbox was checked.
+     */
+    private function syncFoodAllergies($studentId, $foodAllergiesEnabled): void
+    {
+        StudentFoodAllergy::model()->deleteAll('student_fk = :student_fk', [':student_fk' => $studentId]);
+
+        if (!$foodAllergiesEnabled) {
+            return;
+        }
+
+        $postedTypes = Yii::app()->request->getPost('food_allergy_types', []);
+        $otherDescription = trim((string) Yii::app()->request->getPost('food_allergy_other', ''));
+        $validTypes = array_keys(StudentFoodAllergy::typeLabels());
+
+        foreach (array_intersect($postedTypes, $validTypes) as $type) {
+            if ($type === StudentFoodAllergy::TYPE_OTHER && $otherDescription === '') {
+                continue;
+            }
+
+            $allergy = new StudentFoodAllergy();
+            $allergy->student_fk = $studentId;
+            $allergy->allergy_type = $type;
+            $allergy->description = $type === StudentFoodAllergy::TYPE_OTHER ? $otherDescription : null;
+            $allergy->save(false);
+        }
     }
 
     /**

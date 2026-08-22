@@ -308,10 +308,112 @@ class FoodmenuController extends Controller
         $this->render(
             'viewlunch',
             [
-                'studentsByTurn' => $result
+                'studentsByTurn' => $result,
+                'studentsByAllergy' => $this->getStudentsAllergiesCount(),
+                'totalAllergicStudents' => $this->getTotalAllergicStudents(),
             ]
         );
         Yii::app()->end();
+    }
+
+    /**
+     * Lista, para cada aluno matriculado (matrícula ativa) da escola/ano corrente com
+     * alguma alergia alimentar registrada, o nome, turma, turno e a lista de alimentos.
+     */
+    public function actionStudentAllergies()
+    {
+        $sql = "SELECT si.id as student_id, si.name as student_name, c.name as classroom_name, c.turn,
+                       sfa.allergy_type, sfa.description
+                FROM student_food_allergy sfa
+                INNER JOIN student_enrollment se ON se.student_fk = sfa.student_fk
+                INNER JOIN classroom c ON se.classroom_fk = c.id
+                INNER JOIN student_identification si ON si.id = sfa.student_fk
+                WHERE
+                    (se.status IN (1, 6, 7, 8, 9, 10) OR se.status IS NULL) AND
+                    (c.school_year = :user_year AND se.school_inep_id_fk = :user_school)
+                ORDER BY si.name, c.name";
+
+        $rows = Yii::app()->db->createCommand($sql)
+            ->bindParam(':user_year', Yii::app()->user->year)
+            ->bindParam(':user_school', Yii::app()->user->school)
+            ->queryAll();
+
+        $turnLabels = ['M' => 'Manhã', 'T' => 'Tarde', 'N' => 'Noite', 'I' => 'Integral'];
+        $labels = StudentFoodAllergy::typeLabels();
+
+        $students = [];
+        foreach ($rows as $row) {
+            $studentId = $row['student_id'];
+            if (!isset($students[$studentId])) {
+                $students[$studentId] = [
+                    'name' => $row['student_name'],
+                    'classroom' => $row['classroom_name'],
+                    'turn' => $turnLabels[$row['turn']] ?? $row['turn'],
+                    'allergies' => [],
+                ];
+            }
+
+            $students[$studentId]['allergies'][] = $row['allergy_type'] === StudentFoodAllergy::TYPE_OTHER && !empty($row['description'])
+                ? $row['description']
+                : ($labels[$row['allergy_type']] ?? $row['allergy_type']);
+        }
+
+        $this->render('studentAllergies', [
+            'students' => $students,
+        ]);
+    }
+
+    /**
+     * Conta quantos alunos matriculados (matrícula ativa) da escola/ano corrente
+     * possuem ao menos uma alergia alimentar registrada.
+     */
+    private function getTotalAllergicStudents(): int
+    {
+        $sql = "SELECT COUNT(DISTINCT sfa.student_fk) as total
+        FROM student_food_allergy sfa
+        INNER JOIN student_enrollment se ON se.student_fk = sfa.student_fk
+        INNER JOIN classroom c ON se.classroom_fk = c.id
+        WHERE
+            (se.status IN (1, 6, 7, 8, 9, 10) OR se.status IS NULL) AND
+            (c.school_year = :user_year AND se.school_inep_id_fk = :user_school)";
+
+        return (int) Yii::app()->db->createCommand($sql)
+            ->bindParam(':user_year', Yii::app()->user->year)
+            ->bindParam(':user_school', Yii::app()->user->school)
+            ->queryScalar();
+    }
+
+    /**
+     * Conta, por tipo de alergia alimentar, quantos alunos matriculados (matrícula ativa)
+     * da escola/ano corrente possuem aquela alergia.
+     *
+     * @return array<string, int> label do alimento => quantidade de alunos
+     */
+    private function getStudentsAllergiesCount(): array
+    {
+        $counts = array_fill_keys(StudentFoodAllergy::typeLabels(), 0);
+
+        $sql = "SELECT sfa.allergy_type, COUNT(DISTINCT sfa.student_fk) as total
+        FROM student_food_allergy sfa
+        INNER JOIN student_enrollment se ON se.student_fk = sfa.student_fk
+        INNER JOIN classroom c ON se.classroom_fk = c.id
+        WHERE
+            (se.status IN (1, 6, 7, 8, 9, 10) OR se.status IS NULL) AND
+            (c.school_year = :user_year AND se.school_inep_id_fk = :user_school)
+        GROUP BY sfa.allergy_type";
+
+        $rows = Yii::app()->db->createCommand($sql)
+            ->bindParam(':user_year', Yii::app()->user->year)
+            ->bindParam(':user_school', Yii::app()->user->school)
+            ->queryAll();
+
+        $labels = StudentFoodAllergy::typeLabels();
+        foreach ($rows as $row) {
+            $label = $labels[$row['allergy_type']] ?? $row['allergy_type'];
+            $counts[$label] = (int) $row['total'];
+        }
+
+        return $counts;
     }
 
     public function actionGetMealsOfWeek()

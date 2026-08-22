@@ -180,6 +180,7 @@ class StudentIdentification extends AltActiveRecord
         return [
             'edcensoNationFk' => [self::BELONGS_TO, 'EdcensoNation', 'edcenso_nation_fk'],
             'studentDisorders' => [self::HAS_ONE, 'StudentDisorder', 'student_fk'],
+            'foodAllergies' => [self::HAS_MANY, 'StudentFoodAllergy', 'student_fk'],
             'edcensoUfFk' => [self::BELONGS_TO, 'EdcensoUf', 'edcenso_uf_fk'],
             'edcensoCityFk' => [self::BELONGS_TO, 'EdcensoCity', 'edcenso_city_fk'],
             'schoolInepIdFk' => [self::BELONGS_TO, 'SchoolIdentification', 'school_inep_id_fk'],

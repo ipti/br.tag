@@ -796,6 +796,10 @@ class FormsRepository
         $student['studentEnrollment'] = $lastEnrollment;
         $student['age'] = $this->calculateAge($studentIdentification->birthday);
         $student['variationRate'] = $this->calculateVariationRate($studentId);
+        $student['foodAllergiesDetail'] = implode(', ', array_map(
+            static fn ($allergy) => $allergy->getTypeLabel(),
+            StudentFoodAllergy::model()->findAllByAttributes(['student_fk' => $studentId])
+        ));
 
         $classroom = $lastEnrollment ? $lastEnrollment->classroomFk : null;
         // 🔹 Monta resposta final

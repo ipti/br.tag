@@ -19,4 +19,4 @@ $this->menu = [
 $title = 'Atualizar IMC';
 ?>
 
-<?php $this->renderPartial('_form', ['model' => $model, 'disorder' => $disorder, 'studentIdentification' => $studentIdentification,  'title' => $title]); ?>
+<?php $this->renderPartial('_form', ['model' => $model, 'disorder' => $disorder, 'studentIdentification' => $studentIdentification,  'title' => $title, 'foodAllergies' => $foodAllergies]); ?>
