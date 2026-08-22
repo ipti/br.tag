@@ -423,6 +423,10 @@ $turns = ['M' => 'Manhã', 'T' => 'Tarde', 'N' => 'Noite'];
                             $result .= ($result ? ', ' : '') . $data['others'];
                         }
 
+                        if (!empty($data['food_allergies_detail'])) {
+                            $result .= ($result ? ', ' : '') . 'Alergia a ' . $data['food_allergies_detail'];
+                        }
+
                         echo $result;
                         ?>
                     </div>

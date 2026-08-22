@@ -185,7 +185,11 @@ function getDisorders()
                         $activeDisorders = [];
                         foreach ($imc["history"] as $key => $hasDisorder) {
                             if ($hasDisorder && isset($disordersMap[$key])) {
-                                $activeDisorders[] = $disordersMap[$key];
+                                $label = $disordersMap[$key];
+                                if ($key === 'food_allergies' && !empty($response['student']['foodAllergiesDetail'])) {
+                                    $label .= ' (' . $response['student']['foodAllergiesDetail'] . ')';
+                                }
+                                $activeDisorders[] = $label;
                             }
                         }
                         if (

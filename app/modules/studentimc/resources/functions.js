@@ -23,6 +23,14 @@ function showReportbutton(classroom) {
     $('.js-report-button').show();
 }
 
+$(document).on('change', '.js-food-allergies-toggle', function () {
+    $('.js-food-allergies-detail').toggleClass('hide', !$(this).is(':checked'));
+});
+
+$(document).on('change', '#food_allergy_type_OUTRAS', function () {
+    $('.js-food-allergy-other').toggleClass('hide', !$(this).is(':checked'));
+});
+
 $('.js-classroom').on('change', function () {
     let classroom = $(this).val();
 

@@ -1,3 +1,9 @@
+## [Versão 3.13.25]
+- Adicionado detalhamento de Alergias Alimentares em Acompanhamento de Saúde → Doenças e Distúrbios: ao marcar "Alergias alimentares", é possível selecionar quais alimentos (Leite, Ovo, Peixe, Crustáceos e molusco, Amendoim, Abacaxi, Castanhas e outras oleaginosas, Soja, Trigo, Gergelim ou Outras, com campo de texto livre)
+- Os alimentos selecionados agora aparecem na Ficha do Aluno e no Relatório de Histórico de Saúde (entre parênteses, ao lado de "Alergias alimentares")
+- Na tela de Merenda Escolar, um card de resumo (mesmo componente visual usado no Plano de Aula do MACETE, com destaque em laranja) mostra quantos alunos matriculados possuem alergia alimentar e a quantidade por alimento, com um botão para uma nova tela de listagem individual (aluno, turma, turno e alergias)
+- Corrigido bug no `js-tag-table`/DataTables onde qualquer rota contendo a palavra "student" (mesmo sem relação com a listagem principal de alunos) era inicializada com paginação via AJAX incorreta, causando exibição bugada da busca
+
 ## [Versão 3.13.24]
 - Corrigido falso positivo na inconsistência "Turmas multiseriadas apenas aceitam 3 etapas de ensino diferentes" do Sagres: turmas AEE contavam a Etapa Individual de matrículas CANCELADO/TRANSFERIDO (e outros status não ativos) ao verificar a quantidade de etapas da turma, gerando erro mesmo quando os alunos com matrícula ativa respeitavam o limite de 3 etapas
 

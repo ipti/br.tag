@@ -235,9 +235,31 @@ $cs->registerScriptFile($baseScriptUrl . '/pagination.js', CClientScript::POS_EN
                                     <?php echo $form->error($disorder, 'celiac_disease'); ?>
                                 </div>
                                 <div class="t-field-checkbox">
-                                    <?php echo $form->checkBox($disorder, 'food_allergies', ['class' => '', 'value' => 1, 'uncheckValue' => 0]); ?>
+                                    <?php echo $form->checkBox($disorder, 'food_allergies', ['class' => 'js-food-allergies-toggle', 'value' => 1, 'uncheckValue' => 0]); ?>
                                     <?php echo $form->labelEx($disorder, 'food_allergies', ['class' => 't-field-checkbox']); ?>
                                     <?php echo $form->error($disorder, 'food_allergies'); ?>
+                                </div>
+                                <div class="t-field-checkbox-group js-food-allergies-detail <?php echo $disorder->food_allergies ? '' : 'hide'; ?>">
+                                    <label class="t-field-checkbox__label">A quais alimentos?</label>
+                                    <?php foreach (StudentFoodAllergy::typeLabels() as $type => $label): ?>
+                                        <div class="t-field-checkbox">
+                                            <?php echo CHtml::checkBox(
+                                                'food_allergy_types[]',
+                                                in_array($type, $foodAllergies['types'], true),
+                                                ['value' => $type, 'uncheckValue' => null, 'id' => 'food_allergy_type_' . $type]
+                                            ); ?>
+                                            <label for="food_allergy_type_<?php echo $type; ?>" class="t-field-checkbox">
+                                                <?php echo CHtml::encode($label); ?>
+                                            </label>
+                                        </div>
+                                    <?php endforeach; ?>
+                                    <div class="t-field-text js-food-allergy-other <?php echo in_array(StudentFoodAllergy::TYPE_OTHER, $foodAllergies['types'], true) ? '' : 'hide'; ?>">
+                                        <?php echo CHtml::textField('food_allergy_other', $foodAllergies['other'], [
+                                            'class' => 't-field-text__input',
+                                            'maxlength' => 255,
+                                            'placeholder' => 'Descreva a outra alergia',
+                                        ]); ?>
+                                    </div>
                                 </div>
                             </div>
                         </div>
