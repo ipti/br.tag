@@ -57,7 +57,7 @@ function renderStockTable(foodsOnStock, id, status) {
     let found = false;
 
     $.each(foodsOnStock, function(index, stock) {
-        if ((typeof id === 'undefined' || stock.foodId == id) && 
+        if ((typeof id === 'undefined' || stock.foodId == id) &&
             (typeof status === 'undefined' || stock.status == status)) {
             found = true;
             table.append(renderStockTableRow(stock));
@@ -111,6 +111,7 @@ function renderMovementsTable(movements, foodName) {
     let head = $('<tr>').addClass('');
     $('<th>').text('Tipo').appendTo(head);
     $('<th>').text('Item').appendTo(head);
+    $('<th>').text('Fornecedor').appendTo(head);
     $('<th>').text('Quantidade').appendTo(head);
     $('<th>').text('Data').appendTo(head);
 
@@ -123,6 +124,7 @@ function renderMovementsTable(movements, foodName) {
 
         $('<td class="' + textColor + '">').text(foodInventory.type).appendTo(row);
         $('<td>').text(foodName).appendTo(row);
+        $('<td>').text(foodInventory.supplier || '-').appendTo(row);
         $('<td>').text(foodInventory.amount + measurementUnit).appendTo(row);
         $('<td>').text(foodInventory.date).appendTo(row);
 

@@ -1,3 +1,7 @@
+## [Versão 3.13.26]
+- Corrigido o Lançamento de Estoque da Merenda Escolar (TCDA-1244): lançar um produto que já tinha estoque não soma mais a quantidade nem sobrescreve fornecedor/validade do lançamento anterior. Cada lançamento agora é tratado como uma entrada independente, mantendo seu próprio fornecedor, validade e quantidade, mesmo sendo o mesmo produto — permitindo múltiplos lotes do mesmo item coexistindo (necessário para controle de validade por lote)
+- Na tela de "Movimentações" do estoque, adicionada a coluna Fornecedor, já que agora cada entrada pode vir de um fornecedor diferente. Corrigido também um bug onde essa tela não filtrava por escola, podendo misturar lançamentos de escolas diferentes que compartilham o mesmo alimento
+
 ## [Versão 3.13.25]
 - Adicionado detalhamento de Alergias Alimentares em Acompanhamento de Saúde → Doenças e Distúrbios: ao marcar "Alergias alimentares", é possível selecionar quais alimentos (Leite, Ovo, Peixe, Crustáceos e molusco, Amendoim, Abacaxi, Castanhas e outras oleaginosas, Soja, Trigo, Gergelim ou Outras, com campo de texto livre)
 - Os alimentos selecionados agora aparecem na Ficha do Aluno e no Relatório de Histórico de Saúde (entre parênteses, ao lado de "Alergias alimentares")
