@@ -82,7 +82,7 @@ function buildExpirationWarningBadge(stock) {
         ? "Produto próximo de vencer (" + stock.daysUntilExpiration + (stock.daysUntilExpiration === 1 ? " dia)" : " dias)")
         : "Produto vencido há " + Math.abs(stock.daysUntilExpiration) + (Math.abs(stock.daysUntilExpiration) === 1 ? " dia" : " dias");
 
-    return ' <span class="t-badge-warning t-badge-warning--inline" data-toggle="tooltip" title="' + message + '">Vence em breve</span>';
+    return ' <span class="t-badge-warning clearfix t-badge-warning--inline" data-toggle="tooltip" title="' + message + '">Vence em breve</span>';
 }
 
 function initExpirationTooltips() {
@@ -183,7 +183,7 @@ function renderStockList(foodsOnStock, id, status) {
     let found = false;
 
     $.each(foodsOnStock, function(index, stock) {
-        if ((typeof id === 'undefined' || stock.foodId == id) && 
+        if ((typeof id === 'undefined' || stock.foodId == id) &&
             (typeof status === 'undefined' || stock.status == status)) {
             found = true;
             foodStockList.innerHTML += renderStockListRow(stock);

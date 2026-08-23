@@ -48,10 +48,11 @@ $form = $this->beginWidget('CActiveForm', [
                 <?php echo $form->error($model, 'alert_days'); ?>
             </div>
             <div class="column t-field-select is-one-third">
-                <label class="t-field-select__label--required">
-                    Alimentos deste grupo
-                    <span class="t-icon t-icon-info" data-toggle="tooltip" data-placement="right" title="Um alimento só pode estar em um grupo por vez. Se ele já estiver em outro grupo, será movido para este."></span>
-                </label>
+                <label class="t-field-select__label--required">Alimentos deste grupo</label>
+                <div class="t-badge-info t-margin-none--left">
+                    <span class="t-info_positive t-badge-info__icon"></span>
+                    Um alimento só pode estar em um grupo por vez. Se ele já estiver em outro grupo, será movido para este.
+                </div>
                 <?php echo CHtml::dropDownList(
                     'foods',
                     $assignedFoodIds,

@@ -29,9 +29,11 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Alerta de Vencimento'));
     <div class="tag-inner">
         <div class="row">
             <div class="column clearleft">
-                <h2>Prazo padrão
-                    <span class="t-icon t-icon-info" data-toggle="tooltip" data-placement="right" title="Vale para todo alimento que não estiver em nenhum grupo abaixo."></span>
-                </h2>
+                <h2>Prazo padrão</h2>
+                <div class="t-badge-info t-margin-none--left">
+                    <span class="t-info_positive t-badge-info__icon"></span>
+                    Vale para todo alimento que não estiver em nenhum grupo abaixo.
+                </div>
             </div>
         </div>
         <form method="post" action="<?php echo Yii::app()->createUrl('foods/foodalert/saveDefaultDays'); ?>" class="mobile-row align-items--end">
