@@ -122,6 +122,63 @@ function updateExpirationAlert(foodInventory) {
     alertBox.removeClass('hide alert-error alert-success').html(message);
 }
 
+function formatStockAmount(amount) {
+    let rounded = Math.round(amount * 100) / 100;
+    return String(rounded);
+}
+
+function renderStockTotals(foodInventory) {
+    let activeLots = foodInventory.filter(function (stock) {
+        return stock.status !== 'Emfalta';
+    });
+
+    let totalsByFood = {};
+
+    activeLots.forEach(function (stock) {
+        let description = stock.description.replace(/,/g, '').replace(/\b(cru[ao]?)\b/g, '').trim();
+        let unit = stock.measurementUnit || '';
+
+        if (!totalsByFood[stock.foodId]) {
+            totalsByFood[stock.foodId] = { description: description, unitTotals: {} };
+        }
+
+        totalsByFood[stock.foodId].unitTotals[unit] = (totalsByFood[stock.foodId].unitTotals[unit] || 0) + parseFloat(stock.amount);
+    });
+
+    let foods = Object.values(totalsByFood).sort(function (a, b) {
+        return a.description.localeCompare(b.description);
+    });
+
+    let table = $('#stockTotalsTable');
+    table.empty();
+
+    let head = $('<tr>');
+    $('<th>').text('Alimento').appendTo(head);
+    $('<th>').text('Total em estoque').appendTo(head);
+    table.append(head);
+
+    if (foods.length === 0) {
+        let row = $('<tr>');
+        $('<td colspan="2">').html('<div class="t-badge-info"><span class="t-info_positive t-badge-info__icon"></span> Nenhum item disponível em estoque </div>').appendTo(row);
+        table.append(row);
+        return;
+    }
+
+    foods.forEach(function (food) {
+        let totalText = Object.keys(food.unitTotals)
+            .sort()
+            .map(function (unit) {
+                return formatStockAmount(food.unitTotals[unit]) + (unit !== '' ? ' ' + unit : '');
+            })
+            .join(' + ');
+
+        let row = $('<tr>');
+        $('<td>').text(food.description).appendTo(row);
+        $('<td>').text(totalText).appendTo(row);
+        table.append(row);
+    });
+}
+
 function renderStockTableRow(stock) {
     let row = $('<tr>').addClass('');
     let foodDescription = stock.description;

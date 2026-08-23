@@ -49,6 +49,7 @@ function getFoodInventory() {
         food_inventory.sort((a, b) => b.amount - a.amount);
         renderStockTable(food_inventory);
         renderStockList(food_inventory);
+        renderStockTotals(food_inventory);
         updateExpirationAlert(food_inventory);
         initExpirationTooltips();
     });
