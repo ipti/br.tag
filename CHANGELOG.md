@@ -1,3 +1,8 @@
+## [Versão 3.13.27]
+- Adicionado alerta de vencimento no Estoque da Merenda Escolar (TCDA-1244): itens cujo lote esteja a poucos dias de vencer (ou já vencido) ganham um destaque "Vence em breve" na coluna Validade, com tooltip informando quantos dias faltam (ou há quantos dias venceu); o alerta não aparece para itens marcados como "Em falta"
+- Adicionado banner no topo da tela de Estoque avisando quando há algum lote próximo do vencimento ou vencido, considerando apenas itens ainda com status "Disponível" ou "Acabando"
+- Adicionada tela de configuração (Estoque → Configurar Alerta de Vencimento) para definir o prazo padrão de alerta do município e cadastrar grupos de alimentos com prazo próprio (ex.: Hortaliças = 15 dias); cada alimento pode pertencer a, no máximo, um grupo — os demais usam o prazo padrão. O sistema não vem com nenhum prazo pré-definido: o alerta só passa a valer depois que o próprio município o configura
+
 ## [Versão 3.13.26]
 - Corrigido o Lançamento de Estoque da Merenda Escolar (TCDA-1244): lançar um produto que já tinha estoque não soma mais a quantidade nem sobrescreve fornecedor/validade do lançamento anterior. Cada lançamento agora é tratado como uma entrada independente, mantendo seu próprio fornecedor, validade e quantidade, mesmo sendo o mesmo produto — permitindo múltiplos lotes do mesmo item coexistindo (necessário para controle de validade por lote)
 - Na tela de "Movimentações" do estoque, adicionada a coluna Fornecedor, já que agora cada entrada pode vir de um fornecedor diferente. Corrigido também um bug onde essa tela não filtrava por escola, podendo misturar lançamentos de escolas diferentes que compartilham o mesmo alimento
