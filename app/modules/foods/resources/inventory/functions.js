@@ -78,9 +78,14 @@ function buildExpirationWarningBadge(stock) {
         return "";
     }
 
-    let message = stock.daysUntilExpiration >= 0
-        ? "Produto próximo de vencer (" + stock.daysUntilExpiration + (stock.daysUntilExpiration === 1 ? " dia)" : " dias)")
-        : "Produto vencido há " + Math.abs(stock.daysUntilExpiration) + (Math.abs(stock.daysUntilExpiration) === 1 ? " dia" : " dias");
+    if (stock.daysUntilExpiration < 0) {
+        let daysExpired = Math.abs(stock.daysUntilExpiration);
+        let message = "Item vencido há " + daysExpired + (daysExpired === 1 ? " dia" : " dias");
+
+        return ' <span class="t-badge-critical clearfix t-badge-critical--inline" data-toggle="tooltip" title="' + message + '">Vencido</span>';
+    }
+
+    let message = "Produto próximo de vencer (" + stock.daysUntilExpiration + (stock.daysUntilExpiration === 1 ? " dia)" : " dias)");
 
     return ' <span class="t-badge-warning clearfix t-badge-warning--inline" data-toggle="tooltip" title="' + message + '">Vence em breve</span>';
 }

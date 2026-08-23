@@ -43,6 +43,14 @@
     border: 0.1rem solid $colorsTextError;
     background-color: $colorsTextError;
     color: $colorsBaseWhiteNormal;
+
+    // Variante inline — mesmo caso de uso do .t-badge-warning--inline, para
+    // itens já vencidos (não apenas próximos do vencimento).
+    &--inline {
+        display: inline-flex;
+        margin: 0;
+        white-space: nowrap;
+    }
 }
 .t-badge-success {
     @extend .t-badge;

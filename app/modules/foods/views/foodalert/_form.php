@@ -37,7 +37,7 @@ $form = $this->beginWidget('CActiveForm', [
             </div>
         </div>
         <div class="row">
-            <div class="column t-field-text is-half clearleft">
+            <div class="column t-field-text is-two-fifths clearleft">
                 <?php echo $form->label($model, 'name', ['class' => 't-field-text__label--required']); ?>
                 <?php echo $form->textField($model, 'name', [
                     'class' => 't-field-text__input',
@@ -46,7 +46,7 @@ $form = $this->beginWidget('CActiveForm', [
                 ]); ?>
                 <?php echo $form->error($model, 'name'); ?>
             </div>
-            <div class="column t-field-text is-half">
+            <div class="column t-field-text is-two-fifths">
                 <?php echo $form->label($model, 'alert_days', ['class' => 't-field-text__label--required']); ?>
                 <?php echo $form->numberField($model, 'alert_days', [
                     'class' => 't-field-text__input',
@@ -57,7 +57,7 @@ $form = $this->beginWidget('CActiveForm', [
             </div>
         </div>
         <div class="row">
-            <div class="column t-field-select is-half clearleft">
+            <div class="column t-field-select is-two-fifths clearleft ">
                 <label class="t-field-select__label--required">Alimentos deste grupo</label>
                 <?php echo CHtml::dropDownList(
                     'foods',
@@ -70,7 +70,7 @@ $form = $this->beginWidget('CActiveForm', [
                     ]
                 ); ?>
             </div>
-            <div class="column is-half"></div>
+            <div class="column is-two-fifths"></div>
         </div>
     </div>
 </div>
