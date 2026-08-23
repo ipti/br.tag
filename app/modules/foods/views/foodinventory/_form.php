@@ -16,6 +16,9 @@ $form = $this->beginWidget('CActiveForm', [
 ]);
 
 $isNutritionist = Yii::app()->getAuthManager()->checkAccess('nutritionist', Yii::app()->user->loginInfos->id);
+$canConfigureExpirationAlert = Yii::app()->getAuthManager()->checkAccess('manager', Yii::app()->user->loginInfos->id)
+    || Yii::app()->getAuthManager()->checkAccess('nutritionist', Yii::app()->user->loginInfos->id)
+    || Yii::app()->getAuthManager()->checkAccess('admin', Yii::app()->user->loginInfos->id);
 ?>
 
 <div class="form">
@@ -40,6 +43,8 @@ $isNutritionist = Yii::app()->getAuthManager()->checkAccess('nutritionist', Yii:
             if (!$isNutritionist):
                 ?>
         <a class="t-button-primary" id="js-entry-stock-button" type="button">Lançamento de Estoque</a>
+        <?php endif; ?>
+        <?php if ($canConfigureExpirationAlert): ?>
         <a class="t-button-secondary" href="<?php echo Yii::app()->createUrl('foods/foodalert/index'); ?>">Configurar Alerta de Vencimento</a>
         <?php endif; ?>
         <a class="t-button-secondary hide"><span class="t-icon-printer"></span>Relatório de Estoque</a>
