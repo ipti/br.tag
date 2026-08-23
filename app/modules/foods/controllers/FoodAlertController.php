@@ -63,7 +63,7 @@ class FoodAlertController extends Controller
         $this->render('_form', [
             'model' => $model,
             'assignedFoodIds' => [],
-            'foods' => Food::model()->findAll(['order' => 'description']),
+            'foods' => $this->getSelectableFoods(),
         ]);
     }
 
@@ -86,7 +86,7 @@ class FoodAlertController extends Controller
         $this->render('_form', [
             'model' => $model,
             'assignedFoodIds' => $assignedFoodIds,
-            'foods' => Food::model()->findAll(['order' => 'description']),
+            'foods' => $this->getSelectableFoods(),
         ]);
     }
 
@@ -144,6 +144,31 @@ class FoodAlertController extends Controller
                 ['expiration_alert_group_fk' => $group->id]
             );
         }
+    }
+
+    /**
+     * Lista de alimentos para o seletor de grupo: apenas o alimento "canônico"
+     * de cada alias (mesmo critério usado no Lançamento de Estoque), sem
+     * repetir a mesma comida uma vez por preparo (cru/cozido/etc.) e sem esse
+     * sufixo no nome exibido.
+     *
+     * @return Food[]
+     */
+    private function getSelectableFoods(): array
+    {
+        $criteria = new CDbCriteria();
+        $criteria->select = 'id, description';
+        $criteria->condition = 'alias_id = t.id';
+
+        $foods = Food::model()->findAll($criteria);
+
+        foreach ($foods as $food) {
+            $food->description = trim(preg_replace('/,|\b(cru[ao]?)\b/', '', $food->description));
+        }
+
+        usort($foods, static fn (Food $a, Food $b): int => strcmp($a->description, $b->description));
+
+        return $foods;
     }
 
     /**
