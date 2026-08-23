@@ -65,7 +65,7 @@ $canConfigureExpirationAlert = Yii::app()->getAuthManager()->checkAccess('manage
         </div>
     </div>
     <div class="row show--tabletDesktop">
-        <div class="column is-four-fifths clearfix">
+        <div class="column clearfix">
             <table id="foodStockTable"  aria-describedby="FoodStockTable" role="table" class="tag-table-secondary align-start">
              <tr>
                 <th></th>
