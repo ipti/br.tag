@@ -82,16 +82,16 @@ function buildExpirationWarningBadge(stock) {
         let daysExpired = Math.abs(stock.daysUntilExpiration);
         let message = "Item vencido há " + daysExpired + (daysExpired === 1 ? " dia" : " dias");
 
-        return ' <span class="t-badge-critical clearfix t-badge-critical--inline" data-toggle="tooltip" title="' + message + '">Vencido</span>';
+        return '<span class="t-badge-critical clearfix t-badge-critical--inline" data-toggle="tooltip" data-placement="right" title="' + message + '">Vencido</span>';
     }
 
     let message = "Produto próximo de vencer (" + stock.daysUntilExpiration + (stock.daysUntilExpiration === 1 ? " dia)" : " dias)");
 
-    return ' <span class="t-badge-warning clearfix t-badge-warning--inline" data-toggle="tooltip" title="' + message + '">Vence em breve</span>';
+    return '<span class="t-badge-warning clearfix t-badge-warning--inline" data-toggle="tooltip" data-placement="right" title="' + message + '">Vence em breve</span>';
 }
 
 function initExpirationTooltips() {
-    $('[data-toggle="tooltip"]').tooltip({ container: 'body' });
+    $('[data-toggle="tooltip"]').tooltip({ container: 'body', placement: 'right' });
 }
 
 function updateExpirationAlert(foodInventory) {
@@ -143,7 +143,7 @@ function renderStockTableRow(stock) {
     $('<td>').text(foodDescription).appendTo(row);
     $('<td>').text(stock.supplier || '').appendTo(row);
     $('<td>').text(stock.amount + measurementUnit).appendTo(row);
-    $('<td>').html(stock.expiration_date + buildExpirationWarningBadge(stock)).appendTo(row);
+    $('<td>').html('<div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">' + stock.expiration_date + buildExpirationWarningBadge(stock) + '</div>').appendTo(row);
     if(stock.status == "Emfalta") {
         $('<td style="padding-right: 25px">').html(`<button disabled class="t-button-quaternary full--width t-margin-none--right" id="js-status-button" ${isNutritionist ? 'disabled': ''} type="button" data-foodStatus="${stock.status}" data-foodInventoryId="${stock.id}" data-amount="${stock.amount}">${statusValue}</button>`).appendTo(row);
     } else {
@@ -236,7 +236,7 @@ function renderStockListRow(stock) {
                 </div>
             </div>
             <div class="column is-half">
-                <div class="mobile-row">
+                <div class="mobile-row" style="align-items:center; gap:8px; flex-wrap:wrap;">
                     <label class="t-margin-small--right text-bold">Validade:</label>
                     ${stock.expiration_date}${buildExpirationWarningBadge(stock)}
                 </div>
