@@ -5,7 +5,9 @@
 -- vencimento no estoque da Merenda Escolar. Cada alimento pode pertencer a, no
 -- máximo, um "grupo de alerta" com seu próprio prazo (ex.: Hortaliças, 15 dias).
 -- Alimentos sem grupo usam o prazo padrão do município, configurado em
--- instance_config (FOODS_EXPIRATION_ALERT_DAYS_DEFAULT).
+-- instance_config (FOODS_EXPIRATION_ALERT_DAYS_DEFAULT). Sem prazo padrão
+-- configurado pelo próprio município, o alerta simplesmente não dispara para
+-- esses alimentos — não existe um valor padrão pré-definido pelo sistema.
 
 CREATE TABLE IF NOT EXISTS `food_expiration_alert_group` (
     `id` INT(11) NOT NULL AUTO_INCREMENT,
@@ -40,9 +42,7 @@ EXECUTE food_alert_group_col_stmt;
 -- ao fim da sessão, e desalocar aqui falha em ferramentas que não garantem a
 -- mesma conexão entre statements (já visto em migration anterior).
 
--- Prazo padrão do município (30 dias), só se ainda não existir.
-INSERT INTO `instance_config` (`parameter_key`, `parameter_name`, `value`)
-SELECT 'FOODS_EXPIRATION_ALERT_DAYS_DEFAULT', 'Estoque da Merenda - Dias de antecedência para alerta de vencimento (padrão)', '30'
-WHERE NOT EXISTS (
-    SELECT 1 FROM `instance_config` WHERE `parameter_key` = 'FOODS_EXPIRATION_ALERT_DAYS_DEFAULT'
-);
+-- Nenhuma linha padrão é inserida em instance_config aqui de propósito: cada
+-- município deve configurar o próprio prazo padrão pela tela de Alerta de
+-- Vencimento (foods/foodalert). Enquanto isso não for feito, o alerta fica
+-- desligado para alimentos sem grupo.

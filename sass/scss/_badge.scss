@@ -54,6 +54,15 @@
     @extend .t-badge;
     background-color: $colorsAlertWarningBackground;
     color: $colorsAlertWarningText;
+
+    // Variante inline — para uso ao lado de outro texto na mesma linha
+    // (ex.: badge de "vence em breve" ao lado da data de validade), sem o
+    // display:flex/margin de bloco herdados de .t-badge.
+    &--inline {
+        display: inline-flex;
+        margin: 0;
+        white-space: nowrap;
+    }
 }
 
 .t-badge-content {

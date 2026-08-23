@@ -1,21 +1,21 @@
 <?php
 /* @var $this FoodAlertController */
 /* @var $groups FoodExpirationAlertGroup[] */
-/* @var $defaultDays int */
+/* @var $defaultDays int|null */
 
 $this->setPageTitle('TAG - ' . Yii::t('default', 'Alerta de Vencimento'));
 ?>
 
 <div id="mainPage" class="main">
-    <div class="row-fluid">
-        <div class="span12">
-            <h1>Alerta de Vencimento do Estoque</h1>
+    <div class="mobile-row">
+        <div class="column clearleft">
+            <h1 class="clear-padding--bottom">Alerta de Vencimento do Estoque</h1>
             <p>Configure com quantos dias de antecedência a Merenda Escolar deve ser avisada de que um produto está próximo de vencer.</p>
-            <div class="t-buttons-container">
-                <a class="t-button-secondary" href="<?php echo Yii::app()->createUrl('foods/foodinventory'); ?>">
-                    Voltar para o Estoque
-                </a>
-            </div>
+        </div>
+        <div class="column clearfix align-items--center justify-content--end show--desktop">
+            <a class="t-button-secondary" href="<?php echo Yii::app()->createUrl('foods/foodinventory'); ?>">
+                Voltar para o Estoque
+            </a>
         </div>
     </div>
 
@@ -28,15 +28,16 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Alerta de Vencimento'));
 
     <div class="tag-inner">
         <div class="row">
-            <div class="column">
-                <h2>Prazo padrão</h2>
-                <p>Vale para todo alimento que não estiver em nenhum grupo abaixo.</p>
+            <div class="column clearleft">
+                <h2>Prazo padrão
+                    <span class="t-icon t-icon-info" data-toggle="tooltip" data-placement="right" title="Vale para todo alimento que não estiver em nenhum grupo abaixo."></span>
+                </h2>
             </div>
         </div>
         <form method="post" action="<?php echo Yii::app()->createUrl('foods/foodalert/saveDefaultDays'); ?>" class="mobile-row align-items--end">
             <div class="column t-field-text clearleft is-one-fifth">
                 <label class="t-field-text__label" for="defaultDays">Dias de antecedência</label>
-                <input type="number" min="1" id="defaultDays" name="defaultDays" class="t-field-text__input" value="<?php echo (int) $defaultDays; ?>">
+                <input type="number" min="1" id="defaultDays" name="defaultDays" class="t-field-text__input" placeholder="Não configurado" value="<?php echo $defaultDays !== null ? (int) $defaultDays : ''; ?>">
             </div>
             <div class="column t-buttons-container">
                 <button type="submit" class="t-button-primary">Salvar prazo padrão</button>

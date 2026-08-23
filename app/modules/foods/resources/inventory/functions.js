@@ -82,7 +82,7 @@ function buildExpirationWarningBadge(stock) {
         ? "Produto próximo de vencer (" + stock.daysUntilExpiration + (stock.daysUntilExpiration === 1 ? " dia)" : " dias)")
         : "Produto vencido há " + Math.abs(stock.daysUntilExpiration) + (Math.abs(stock.daysUntilExpiration) === 1 ? " dia" : " dias");
 
-    return ' <span class="t-badge-warning" data-toggle="tooltip" title="' + message + '">Vence em breve</span>';
+    return ' <span class="t-badge-warning t-badge-warning--inline" data-toggle="tooltip" title="' + message + '">Vence em breve</span>';
 }
 
 function initExpirationTooltips() {

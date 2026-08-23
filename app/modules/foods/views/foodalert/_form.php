@@ -13,15 +13,15 @@ $form = $this->beginWidget('CActiveForm', [
 ?>
 
 <div id="mainPage" class="main">
-    <div class="row-fluid">
-        <div class="span12">
-            <h1><?php echo $model->isNewRecord ? 'Novo Grupo de Alerta' : 'Editar Grupo de Alerta'; ?></h1>
-            <div class="t-buttons-container">
-                <a class="t-button-secondary" href="<?php echo Yii::app()->createUrl('foods/foodalert/index'); ?>">
-                    Voltar
-                </a>
-                <button class="t-button-primary" type="submit">Salvar</button>
-            </div>
+    <div class="mobile-row">
+        <div class="column clearleft">
+            <h1 class="clear-padding--bottom"><?php echo $model->isNewRecord ? 'Novo Grupo de Alerta' : 'Editar Grupo de Alerta'; ?></h1>
+        </div>
+        <div class="column clearfix align-items--center justify-content--end show--desktop">
+            <a class="t-button-secondary" href="<?php echo Yii::app()->createUrl('foods/foodalert/index'); ?>">
+                Voltar
+            </a>
+            <button class="t-button-primary" type="submit">Salvar</button>
         </div>
     </div>
 
@@ -29,7 +29,7 @@ $form = $this->beginWidget('CActiveForm', [
 
     <div class="tag-inner">
         <div class="row">
-            <div class="column t-field-text is-two-fifths clearleft">
+            <div class="column t-field-text is-one-third clearleft">
                 <?php echo $form->label($model, 'name', ['class' => 't-field-text__label--required']); ?>
                 <?php echo $form->textField($model, 'name', [
                     'class' => 't-field-text__input',
@@ -38,7 +38,7 @@ $form = $this->beginWidget('CActiveForm', [
                 ]); ?>
                 <?php echo $form->error($model, 'name'); ?>
             </div>
-            <div class="column t-field-text is-one-fifth">
+            <div class="column t-field-text is-one-third">
                 <?php echo $form->label($model, 'alert_days', ['class' => 't-field-text__label--required']); ?>
                 <?php echo $form->numberField($model, 'alert_days', [
                     'class' => 't-field-text__input',
@@ -47,11 +47,11 @@ $form = $this->beginWidget('CActiveForm', [
                 ]); ?>
                 <?php echo $form->error($model, 'alert_days'); ?>
             </div>
-        </div>
-
-        <div class="row">
-            <div class="column t-field-select clearleft">
-                <label class="t-field-select__label--required">Alimentos deste grupo</label>
+            <div class="column t-field-select is-one-third">
+                <label class="t-field-select__label--required">
+                    Alimentos deste grupo
+                    <span class="t-icon t-icon-info" data-toggle="tooltip" data-placement="right" title="Um alimento só pode estar em um grupo por vez. Se ele já estiver em outro grupo, será movido para este."></span>
+                </label>
                 <?php echo CHtml::dropDownList(
                     'foods',
                     $assignedFoodIds,
@@ -62,7 +62,6 @@ $form = $this->beginWidget('CActiveForm', [
                         'placeholder' => 'Selecione os alimentos deste grupo',
                     ]
                 ); ?>
-                <p>Um alimento só pode estar em um grupo por vez. Se ele já estiver em outro grupo, será movido para este.</p>
             </div>
         </div>
     </div>

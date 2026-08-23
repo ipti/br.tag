@@ -262,7 +262,7 @@ class FoodinventoryController extends Controller
                 'status' => $stock->status,
                 'spent' => ($stock->amount > 0) ? false : true,
                 'daysUntilExpiration' => $daysUntilExpiration,
-                'isNearExpiration' => $daysUntilExpiration !== null && $daysUntilExpiration <= $alertDays,
+                'isNearExpiration' => $daysUntilExpiration !== null && $alertDays !== null && $daysUntilExpiration <= $alertDays,
             ];
         }
 

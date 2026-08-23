@@ -18,14 +18,17 @@ class FoodExpirationAlertGroup extends TagModel
     public const DEFAULT_DAYS_PARAMETER_KEY = 'FOODS_EXPIRATION_ALERT_DAYS_DEFAULT';
 
     /**
-     * @return int prazo padrão (em dias) configurado para o município, usado
-     * por qualquer alimento que não pertença a nenhum grupo de alerta.
+     * @return int|null prazo padrão (em dias) configurado para o município,
+     * usado por qualquer alimento que não pertença a nenhum grupo de alerta.
+     * Retorna null quando o município ainda não configurou nenhum prazo —
+     * nesse caso, o alerta de vencimento fica desligado para esses alimentos
+     * até que o próprio município o configure.
      */
-    public static function getDefaultAlertDays(): int
+    public static function getDefaultAlertDays(): ?int
     {
         $config = InstanceConfig::model()->findByAttributes(['parameter_key' => self::DEFAULT_DAYS_PARAMETER_KEY]);
 
-        return $config !== null ? (int) $config->value : 30;
+        return $config !== null ? (int) $config->value : null;
     }
 
     /**
