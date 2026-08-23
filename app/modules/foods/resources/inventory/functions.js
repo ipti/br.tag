@@ -44,11 +44,14 @@ function renderStockTable(foodsOnStock, id, status) {
     let table = $('#foodStockTable');
     table.empty();
 
+    let stockTotals = computeStockTotals(foodsOnStock);
+
     let head = $('<tr>').addClass('');
     $('<th>').text('Item').appendTo(head);
     $('<th>').text('Fornecedor').appendTo(head);
     $('<th>').text('Quantidade').appendTo(head);
     $('<th>').text('Validade').appendTo(head);
+    $('<th>').text('Total em Estoque').appendTo(head);
     $('<th style="width: 18%">').text('Status').appendTo(head);
     $('<th>').text('Entrada/Saída').appendTo(head);
 
@@ -60,13 +63,13 @@ function renderStockTable(foodsOnStock, id, status) {
         if ((typeof id === 'undefined' || stock.foodId == id) &&
             (typeof status === 'undefined' || stock.status == status)) {
             found = true;
-            table.append(renderStockTableRow(stock));
+            table.append(renderStockTableRow(stock, stockTotals));
         }
     });
 
     if (!found) {
         let row = $('<tr>').addClass('');
-        let infoAlert = $('<td colspan="6">').html('<div class="t-badge-info"><span class="t-info_positive t-badge-info__icon"></span> Esse alimento não está no estoque </div>');
+        let infoAlert = $('<td colspan="7">').html('<div class="t-badge-info"><span class="t-info_positive t-badge-info__icon"></span> Esse alimento não está no estoque </div>');
         infoAlert.appendTo(row);
         table.append(row);
     }
@@ -127,59 +130,49 @@ function formatStockAmount(amount) {
     return String(rounded);
 }
 
-function renderStockTotals(foodInventory) {
-    let activeLots = foodInventory.filter(function (stock) {
-        return stock.status !== 'Emfalta';
-    });
+// Um lote só entra no total em estoque de um alimento se ainda estiver
+// realmente disponível: nem "Em falta" nem já vencido (mesmo que o status
+// ainda não tenha sido atualizado manualmente para "Em falta").
+function isCountedInStockTotal(stock) {
+    let isExpired = stock.daysUntilExpiration !== null && stock.daysUntilExpiration < 0;
+    return stock.status !== 'Emfalta' && !isExpired;
+}
 
+// Soma a quantidade em estoque por alimento, agrupando por unidade de
+// medida em vez de tentar converter entre elas (ex.: Kg não é somado com
+// unidade). Retorna um mapa foodId -> { unidade: quantidade }.
+function computeStockTotals(foodsOnStock) {
     let totalsByFood = {};
 
-    activeLots.forEach(function (stock) {
-        let description = stock.description.replace(/,/g, '').replace(/\b(cru[ao]?)\b/g, '').trim();
+    foodsOnStock.filter(isCountedInStockTotal).forEach(function (stock) {
         let unit = stock.measurementUnit || '';
 
         if (!totalsByFood[stock.foodId]) {
-            totalsByFood[stock.foodId] = { description: description, unitTotals: {} };
+            totalsByFood[stock.foodId] = {};
         }
 
-        totalsByFood[stock.foodId].unitTotals[unit] = (totalsByFood[stock.foodId].unitTotals[unit] || 0) + parseFloat(stock.amount);
+        totalsByFood[stock.foodId][unit] = (totalsByFood[stock.foodId][unit] || 0) + parseFloat(stock.amount);
     });
 
-    let foods = Object.values(totalsByFood).sort(function (a, b) {
-        return a.description.localeCompare(b.description);
-    });
-
-    let table = $('#stockTotalsTable');
-    table.empty();
-
-    let head = $('<tr>');
-    $('<th>').text('Alimento').appendTo(head);
-    $('<th>').text('Total em estoque').appendTo(head);
-    table.append(head);
-
-    if (foods.length === 0) {
-        let row = $('<tr>');
-        $('<td colspan="2">').html('<div class="t-badge-info"><span class="t-info_positive t-badge-info__icon"></span> Nenhum item disponível em estoque </div>').appendTo(row);
-        table.append(row);
-        return;
-    }
-
-    foods.forEach(function (food) {
-        let totalText = Object.keys(food.unitTotals)
-            .sort()
-            .map(function (unit) {
-                return formatStockAmount(food.unitTotals[unit]) + (unit !== '' ? ' ' + unit : '');
-            })
-            .join(' + ');
-
-        let row = $('<tr>');
-        $('<td>').text(food.description).appendTo(row);
-        $('<td>').text(totalText).appendTo(row);
-        table.append(row);
-    });
+    return totalsByFood;
 }
 
-function renderStockTableRow(stock) {
+function formatFoodTotal(stockTotals, foodId) {
+    let unitTotals = stockTotals[foodId];
+
+    if (!unitTotals) {
+        return '0';
+    }
+
+    return Object.keys(unitTotals)
+        .sort()
+        .map(function (unit) {
+            return formatStockAmount(unitTotals[unit]) + (unit !== '' ? ' ' + unit : '');
+        })
+        .join(' + ');
+}
+
+function renderStockTableRow(stock, stockTotals) {
     let row = $('<tr>').addClass('');
     let foodDescription = stock.description;
     foodDescription = foodDescription.replace(/,/g, '').replace(/\b(cru[ao]?)\b/g, '');
@@ -201,6 +194,7 @@ function renderStockTableRow(stock) {
     $('<td>').text(stock.supplier || '').appendTo(row);
     $('<td>').text(stock.amount + measurementUnit).appendTo(row);
     $('<td>').html('<div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">' + stock.expiration_date + buildExpirationWarningBadge(stock) + '</div>').appendTo(row);
+    $('<td>').text(formatFoodTotal(stockTotals, stock.foodId)).appendTo(row);
     if(stock.status == "Emfalta") {
         $('<td style="padding-right: 25px">').html(`<button disabled class="t-button-quaternary full--width t-margin-none--right" id="js-status-button" ${isNutritionist ? 'disabled': ''} type="button" data-foodStatus="${stock.status}" data-foodInventoryId="${stock.id}" data-amount="${stock.amount}">${statusValue}</button>`).appendTo(row);
     } else {
@@ -242,13 +236,15 @@ function renderStockList(foodsOnStock, id, status) {
     let foodStockList = document.getElementById("foodStockList");
     foodStockList.innerHTML = '';
 
+    let stockTotals = computeStockTotals(foodsOnStock);
+
     let found = false;
 
     $.each(foodsOnStock, function(index, stock) {
         if ((typeof id === 'undefined' || stock.foodId == id) &&
             (typeof status === 'undefined' || stock.status == status)) {
             found = true;
-            foodStockList.innerHTML += renderStockListRow(stock);
+            foodStockList.innerHTML += renderStockListRow(stock, stockTotals);
         }
     });
 
@@ -258,7 +254,7 @@ function renderStockList(foodsOnStock, id, status) {
     }
 };
 
-function renderStockListRow(stock) {
+function renderStockListRow(stock, stockTotals) {
     let foodDescription = stock.description;
     foodDescription = foodDescription.replace(/,/g, '').replace(/\b(cru[ao]?)\b/g, '');
     let measurementUnit = stock.measurementUnit !== null ? (" (" + stock.measurementUnit + ") ") : "";
@@ -298,6 +294,10 @@ function renderStockListRow(stock) {
                     ${stock.expiration_date}${buildExpirationWarningBadge(stock)}
                 </div>
             </div>
+        </div>
+        <div class="mobile-row">
+                <label class="t-margin-small--right text-bold">Total em Estoque:</label>
+                ${formatFoodTotal(stockTotals, stock.foodId)}
         </div>
         <hr class="t-separator-primary">
         <div class="mobile-row">

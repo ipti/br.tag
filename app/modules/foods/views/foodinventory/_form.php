@@ -47,28 +47,7 @@ $canConfigureExpirationAlert = Yii::app()->getAuthManager()->checkAccess('manage
         <?php if ($canConfigureExpirationAlert): ?>
         <a class="t-button-secondary" href="<?php echo Yii::app()->createUrl('foods/foodalert/index'); ?>">Configurar Alerta de Vencimento</a>
         <?php endif; ?>
-        <a class="t-button-secondary" data-toggle="collapse" href="#stock-totals-panel">
-            <span class="t-icon-bar_graph t-icon"></span>Ver Totais em Estoque
-        </a>
         <a class="t-button-secondary hide"><span class="t-icon-printer"></span>Relatório de Estoque</a>
-    </div>
-    <div id="stock-totals-panel" class="collapse row">
-        <div class="column clearfix">
-            <div class="widget clearmargin">
-                <div class="widget-body">
-                    <div class="t-badge-info t-margin-none--left">
-                        <span class="t-info_positive t-badge-info__icon"></span>
-                        Soma da quantidade em estoque por alimento, considerando apenas lotes Disponível/Acabando. Alimentos com lotes em unidades diferentes (ex.: Kg e unidade) mostram um total por unidade.
-                    </div>
-                    <table id="stockTotalsTable" aria-describedby="Totais em estoque" role="table" class="tag-table-secondary align-start">
-                        <tr>
-                            <th></th>
-                            <th></th>
-                        </tr>
-                    </table>
-                </div>
-            </div>
-        </div>
     </div>
     <div class="row">
         <div class="t-field-select column is-one-fifth clearfix">
