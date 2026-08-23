@@ -38,6 +38,8 @@ class FoodAlertController extends Controller
 
     public function actionIndex()
     {
+        $this->assertCanManageAlerts();
+
         $groups = FoodExpirationAlertGroup::model()->findAll(['order' => 'name']);
 
         $this->render('index', [
@@ -48,6 +50,8 @@ class FoodAlertController extends Controller
 
     public function actionCreate()
     {
+        $this->assertCanManageAlerts();
+
         $model = new FoodExpirationAlertGroup();
 
         if (isset($_POST['FoodExpirationAlertGroup'])) {
@@ -69,6 +73,8 @@ class FoodAlertController extends Controller
 
     public function actionUpdate($id)
     {
+        $this->assertCanManageAlerts();
+
         $model = $this->loadModel($id);
 
         if (isset($_POST['FoodExpirationAlertGroup'])) {
@@ -92,6 +98,8 @@ class FoodAlertController extends Controller
 
     public function actionDelete($id)
     {
+        $this->assertCanManageAlerts();
+
         // Alimentos vinculados voltam a usar o prazo padrão do município
         // automaticamente (FK com ON DELETE SET NULL).
         $this->loadModel($id)->delete();
@@ -102,6 +110,8 @@ class FoodAlertController extends Controller
 
     public function actionSaveDefaultDays()
     {
+        $this->assertCanManageAlerts();
+
         $days = (int) Yii::app()->request->getPost('defaultDays');
 
         if ($days < 1) {
@@ -120,6 +130,23 @@ class FoodAlertController extends Controller
 
         Yii::app()->user->setFlash('success', 'Prazo padrão de alerta atualizado com sucesso!');
         $this->redirect(['index']);
+    }
+
+    /**
+     * @throws CHttpException se o usuário não for gestor, nutricionista ou
+     * administrador — só esses papéis podem configurar o alerta de vencimento.
+     */
+    private function assertCanManageAlerts(): void
+    {
+        $userId = Yii::app()->user->loginInfos->id;
+        $authManager = Yii::app()->getAuthManager();
+        $canManageAlerts = $authManager->checkAccess('manager', $userId)
+            || $authManager->checkAccess('nutritionist', $userId)
+            || $authManager->checkAccess('admin', $userId);
+
+        if (!$canManageAlerts) {
+            throw new CHttpException(403, 'Você não tem permissão para configurar o alerta de vencimento.');
+        }
     }
 
     /**
