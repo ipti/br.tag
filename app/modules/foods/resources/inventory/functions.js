@@ -73,6 +73,50 @@ function renderStockTable(foodsOnStock, id, status) {
 }
 
 
+function buildExpirationWarningBadge(stock) {
+    if (!stock.isNearExpiration || stock.status === "Emfalta") {
+        return "";
+    }
+
+    let message = stock.daysUntilExpiration >= 0
+        ? "Produto próximo de vencer (" + stock.daysUntilExpiration + (stock.daysUntilExpiration === 1 ? " dia)" : " dias)")
+        : "Produto vencido há " + Math.abs(stock.daysUntilExpiration) + (Math.abs(stock.daysUntilExpiration) === 1 ? " dia" : " dias");
+
+    return ' <span class="t-badge-warning" data-toggle="tooltip" title="' + message + '">Vence em breve</span>';
+}
+
+function initExpirationTooltips() {
+    $('[data-toggle="tooltip"]').tooltip({ container: 'body' });
+}
+
+function updateExpirationAlert(foodInventory) {
+    let alertBox = $('#expiration-alert');
+
+    let nearExpirationItems = foodInventory.filter(function (stock) {
+        return stock.isNearExpiration && stock.status !== 'Emfalta';
+    });
+
+    if (nearExpirationItems.length === 0) {
+        alertBox.addClass('hide').removeClass('alert-error alert-success').html('');
+        return;
+    }
+
+    let names = nearExpirationItems
+        .map(function (stock) {
+            return stock.description.replace(/,/g, '').replace(/\b(cru[ao]?)\b/g, '').trim();
+        })
+        .filter(function (name, index, all) {
+            return all.indexOf(name) === index;
+        });
+
+    let message = (nearExpirationItems.length === 1
+        ? '1 lote em estoque está próximo do vencimento ou já venceu: '
+        : nearExpirationItems.length + ' lotes em estoque estão próximos do vencimento ou já venceram: ')
+        + names.join(', ') + '.';
+
+    alertBox.removeClass('hide alert-error alert-success').html(message);
+}
+
 function renderStockTableRow(stock) {
     let row = $('<tr>').addClass('');
     let foodDescription = stock.description;
@@ -94,7 +138,7 @@ function renderStockTableRow(stock) {
     $('<td>').text(foodDescription).appendTo(row);
     $('<td>').text(stock.supplier || '').appendTo(row);
     $('<td>').text(stock.amount + measurementUnit).appendTo(row);
-    $('<td>').text(stock.expiration_date).appendTo(row);
+    $('<td>').html(stock.expiration_date + buildExpirationWarningBadge(stock)).appendTo(row);
     if(stock.status == "Emfalta") {
         $('<td style="padding-right: 25px">').html(`<button disabled class="t-button-quaternary full--width t-margin-none--right" id="js-status-button" ${isNutritionist ? 'disabled': ''} type="button" data-foodStatus="${stock.status}" data-foodInventoryId="${stock.id}" data-amount="${stock.amount}">${statusValue}</button>`).appendTo(row);
     } else {
@@ -189,7 +233,7 @@ function renderStockListRow(stock) {
             <div class="column is-half">
                 <div class="mobile-row">
                     <label class="t-margin-small--right text-bold">Validade:</label>
-                    ${stock.expiration_date}
+                    ${stock.expiration_date}${buildExpirationWarningBadge(stock)}
                 </div>
             </div>
         </div>

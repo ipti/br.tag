@@ -31,6 +31,7 @@ $isNutritionist = Yii::app()->getAuthManager()->checkAccess('nutritionist', Yii:
     <div class="row">
         <div class="column clearfix">
             <div id="info-alert" class="alert hide"></div>
+            <div id="expiration-alert" class="alert hide"></div>
         </div>
     </div>
 
@@ -39,6 +40,7 @@ $isNutritionist = Yii::app()->getAuthManager()->checkAccess('nutritionist', Yii:
             if (!$isNutritionist):
                 ?>
         <a class="t-button-primary" id="js-entry-stock-button" type="button">Lançamento de Estoque</a>
+        <a class="t-button-secondary" href="<?php echo Yii::app()->createUrl('foods/foodalert/index'); ?>">Configurar Alerta de Vencimento</a>
         <?php endif; ?>
         <a class="t-button-secondary hide"><span class="t-icon-printer"></span>Relatório de Estoque</a>
     </div>

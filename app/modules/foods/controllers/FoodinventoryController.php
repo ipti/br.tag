@@ -235,13 +235,22 @@ class FoodinventoryController extends Controller
         $schoolFk = Yii::app()->user->school;
 
         $criteria = new CDbCriteria();
-        $criteria->with = ['foodRelation'];
+        $criteria->with = ['foodRelation', 'foodRelation.expirationAlertGroupFk'];
         $criteria->compare('school_fk', $schoolFk);
 
         $foodInventoryData = FoodInventory::model()->findAll($criteria);
+        $defaultAlertDays = FoodExpirationAlertGroup::getDefaultAlertDays();
 
         $values = [];
         foreach ($foodInventoryData as $stock) {
+            $alertDays = $stock->foodRelation->expirationAlertGroupFk !== null
+                ? (int) $stock->foodRelation->expirationAlertGroupFk->alert_days
+                : $defaultAlertDays;
+
+            $daysUntilExpiration = $stock->expiration_date !== null
+                ? (int) floor((strtotime($stock->expiration_date) - strtotime(date('Y-m-d'))) / 86400)
+                : null;
+
             $values[] = [
                 'id' => $stock->id,
                 'foodId' => $stock->food_fk,
@@ -251,7 +260,9 @@ class FoodinventoryController extends Controller
                 'measurementUnit' => $stock->measurementUnit,
                 'expiration_date' => ($stock->expiration_date != null) ? date('d/m/Y', strtotime($stock->expiration_date)) : 'Não informada',
                 'status' => $stock->status,
-                'spent' => ($stock->amount > 0) ? false : true
+                'spent' => ($stock->amount > 0) ? false : true,
+                'daysUntilExpiration' => $daysUntilExpiration,
+                'isNearExpiration' => $daysUntilExpiration !== null && $daysUntilExpiration <= $alertDays,
             ];
         }
 

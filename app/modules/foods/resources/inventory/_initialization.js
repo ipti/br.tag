@@ -49,6 +49,8 @@ function getFoodInventory() {
         food_inventory.sort((a, b) => b.amount - a.amount);
         renderStockTable(food_inventory);
         renderStockList(food_inventory);
+        updateExpirationAlert(food_inventory);
+        initExpirationTooltips();
     });
 }
 
@@ -61,6 +63,7 @@ $(document).on("change", "#foodStockSelect, #foodStatusFilter", function () {
 
     renderStockTable(food_inventory, id, status);
     renderStockList(food_inventory, id, status);
+    initExpirationTooltips();
 });
 
 $(document).on("click", "#js-movements-button", function () {
