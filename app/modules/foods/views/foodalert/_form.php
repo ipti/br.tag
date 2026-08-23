@@ -28,8 +28,16 @@ $form = $this->beginWidget('CActiveForm', [
     <?php echo $form->errorSummary($model); ?>
 
     <div class="tag-inner">
+        <div class="row margin-large--bottom">
+            <div class="column clearleft">
+                <div class="t-badge-info t-margin-none--left">
+                    <span class="t-info_positive t-badge-info__icon"></span>
+                    Um alimento só pode estar em um grupo por vez. Se ele já estiver em outro grupo, será movido para este.
+                </div>
+            </div>
+        </div>
         <div class="row">
-            <div class="column t-field-text is-one-third clearleft">
+            <div class="column t-field-text is-half clearleft">
                 <?php echo $form->label($model, 'name', ['class' => 't-field-text__label--required']); ?>
                 <?php echo $form->textField($model, 'name', [
                     'class' => 't-field-text__input',
@@ -38,7 +46,7 @@ $form = $this->beginWidget('CActiveForm', [
                 ]); ?>
                 <?php echo $form->error($model, 'name'); ?>
             </div>
-            <div class="column t-field-text is-one-third">
+            <div class="column t-field-text is-half">
                 <?php echo $form->label($model, 'alert_days', ['class' => 't-field-text__label--required']); ?>
                 <?php echo $form->numberField($model, 'alert_days', [
                     'class' => 't-field-text__input',
@@ -47,12 +55,10 @@ $form = $this->beginWidget('CActiveForm', [
                 ]); ?>
                 <?php echo $form->error($model, 'alert_days'); ?>
             </div>
-            <div class="column t-field-select is-one-third">
+        </div>
+        <div class="row">
+            <div class="column t-field-select is-half clearleft">
                 <label class="t-field-select__label--required">Alimentos deste grupo</label>
-                <div class="t-badge-info t-margin-none--left">
-                    <span class="t-info_positive t-badge-info__icon"></span>
-                    Um alimento só pode estar em um grupo por vez. Se ele já estiver em outro grupo, será movido para este.
-                </div>
                 <?php echo CHtml::dropDownList(
                     'foods',
                     $assignedFoodIds,
@@ -64,6 +70,7 @@ $form = $this->beginWidget('CActiveForm', [
                     ]
                 ); ?>
             </div>
+            <div class="column is-half"></div>
         </div>
     </div>
 </div>

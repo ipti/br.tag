@@ -10,7 +10,6 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Alerta de Vencimento'));
     <div class="mobile-row">
         <div class="column clearleft">
             <h1 class="clear-padding--bottom">Alerta de Vencimento do Estoque</h1>
-            <p>Configure com quantos dias de antecedência a Merenda Escolar deve ser avisada de que um produto está próximo de vencer.</p>
         </div>
         <div class="column clearfix align-items--center justify-content--end show--desktop">
             <a class="t-button-secondary" href="<?php echo Yii::app()->createUrl('foods/foodinventory'); ?>">
