@@ -18,7 +18,8 @@ $form = $this->beginWidget('CActiveForm', [
 $isNutritionist = Yii::app()->getAuthManager()->checkAccess('nutritionist', Yii::app()->user->loginInfos->id);
 $canConfigureExpirationAlert = Yii::app()->getAuthManager()->checkAccess('manager', Yii::app()->user->loginInfos->id)
     || Yii::app()->getAuthManager()->checkAccess('nutritionist', Yii::app()->user->loginInfos->id)
-    || Yii::app()->getAuthManager()->checkAccess('admin', Yii::app()->user->loginInfos->id);
+    || Yii::app()->getAuthManager()->checkAccess('admin', Yii::app()->user->loginInfos->id)
+    || Yii::app()->getAuthManager()->checkAccess('foodServiceWorker', Yii::app()->user->loginInfos->id);
 ?>
 
 <div class="form">

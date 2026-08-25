@@ -1,11 +1,11 @@
 <?php
 
 /**
- * Configuração de alerta de vencimento do estoque da Merenda Escolar:
- * prazo padrão do município e grupos de alimentos com prazo próprio
+ * Configuração de alerta de vencimento do estoque da Merenda Escolar, por
+ * escola: prazo padrão da escola e grupos de alimentos com prazo próprio
  * (ex.: Hortaliças = 15 dias).
  */
-class FoodAlertController extends Controller
+class FoodalertController extends Controller
 {
     /**
      * @return array action filters
@@ -40,11 +40,13 @@ class FoodAlertController extends Controller
     {
         $this->assertCanManageAlerts();
 
-        $groups = FoodExpirationAlertGroup::model()->findAll(['order' => 'name']);
+        $schoolFk = Yii::app()->user->school;
+
+        $groups = FoodExpirationAlertGroup::model()->findAllByAttributes(['school_fk' => $schoolFk], ['order' => 'name']);
 
         $this->render('index', [
             'groups' => $groups,
-            'defaultDays' => FoodExpirationAlertGroup::getDefaultAlertDays(),
+            'defaultDays' => FoodExpirationAlertSchoolConfig::getDefaultAlertDays($schoolFk),
         ]);
     }
 
@@ -53,9 +55,11 @@ class FoodAlertController extends Controller
         $this->assertCanManageAlerts();
 
         $model = new FoodExpirationAlertGroup();
+        $model->school_fk = Yii::app()->user->school;
 
         if (isset($_POST['FoodExpirationAlertGroup'])) {
             $model->attributes = $_POST['FoodExpirationAlertGroup'];
+            $model->school_fk = Yii::app()->user->school;
 
             if ($model->save()) {
                 $this->assignFoods($model, $_POST['foods'] ?? []);
@@ -79,6 +83,7 @@ class FoodAlertController extends Controller
 
         if (isset($_POST['FoodExpirationAlertGroup'])) {
             $model->attributes = $_POST['FoodExpirationAlertGroup'];
+            $model->school_fk = Yii::app()->user->school;
 
             if ($model->save()) {
                 $this->assignFoods($model, $_POST['foods'] ?? []);
@@ -100,8 +105,6 @@ class FoodAlertController extends Controller
     {
         $this->assertCanManageAlerts();
 
-        // Alimentos vinculados voltam a usar o prazo padrão do município
-        // automaticamente (FK com ON DELETE SET NULL).
         $this->loadModel($id)->delete();
 
         Yii::app()->user->setFlash('success', 'Grupo de alerta excluído com sucesso!');
@@ -112,6 +115,7 @@ class FoodAlertController extends Controller
     {
         $this->assertCanManageAlerts();
 
+        $schoolFk = Yii::app()->user->school;
         $days = (int) Yii::app()->request->getPost('defaultDays');
 
         if ($days < 1) {
@@ -119,13 +123,12 @@ class FoodAlertController extends Controller
             $this->redirect(['index']);
         }
 
-        $config = InstanceConfig::model()->findByAttributes(['parameter_key' => FoodExpirationAlertGroup::DEFAULT_DAYS_PARAMETER_KEY]);
+        $config = FoodExpirationAlertSchoolConfig::model()->findByPk($schoolFk);
         if ($config === null) {
-            $config = new InstanceConfig();
-            $config->parameter_key = FoodExpirationAlertGroup::DEFAULT_DAYS_PARAMETER_KEY;
-            $config->parameter_name = 'Estoque da Merenda - Dias de antecedência para alerta de vencimento (padrão)';
+            $config = new FoodExpirationAlertSchoolConfig();
+            $config->school_fk = $schoolFk;
         }
-        $config->value = (string) $days;
+        $config->default_days = $days;
         $config->save(false);
 
         Yii::app()->user->setFlash('success', 'Prazo padrão de alerta atualizado com sucesso!');
@@ -133,8 +136,9 @@ class FoodAlertController extends Controller
     }
 
     /**
-     * @throws CHttpException se o usuário não for gestor, nutricionista ou
-     * administrador — só esses papéis podem configurar o alerta de vencimento.
+     * @throws CHttpException se o usuário não for merendeira, gestor,
+     * nutricionista ou administrador — só esses papéis podem configurar o
+     * alerta de vencimento.
      */
     private function assertCanManageAlerts(): void
     {
@@ -142,7 +146,8 @@ class FoodAlertController extends Controller
         $authManager = Yii::app()->getAuthManager();
         $canManageAlerts = $authManager->checkAccess('manager', $userId)
             || $authManager->checkAccess('nutritionist', $userId)
-            || $authManager->checkAccess('admin', $userId);
+            || $authManager->checkAccess('admin', $userId)
+            || $authManager->checkAccess('foodServiceWorker', $userId);
 
         if (!$canManageAlerts) {
             throw new CHttpException(403, 'Você não tem permissão para configurar o alerta de vencimento.');
@@ -150,26 +155,47 @@ class FoodAlertController extends Controller
     }
 
     /**
-     * Reatribui, dentro do grupo salvo, exatamente a lista de alimentos enviada
-     * pelo formulário — remove os que saíram, adiciona os que entraram. Um
-     * alimento só pode estar em um grupo por vez (se já estiver em outro
-     * grupo, passa a pertencer a este).
+     * Reatribui, dentro do grupo salvo, exatamente a lista de alimentos
+     * enviada pelo formulário — remove os que saíram, adiciona os que
+     * entraram. Dentro da mesma escola, um alimento só pode estar em um
+     * grupo por vez (se já estiver em outro grupo desta escola, passa a
+     * pertencer a este).
      */
     private function assignFoods(FoodExpirationAlertGroup $group, array $foodIds): void
     {
-        $foodIds = array_map('intval', $foodIds);
+        $foodIds = array_values(array_unique(array_map('intval', $foodIds)));
+        $db = Yii::app()->db;
 
-        Food::model()->updateAll(
-            ['expiration_alert_group_fk' => null],
-            'expiration_alert_group_fk = :groupId',
+        $db->createCommand()->delete(
+            'food_expiration_alert_group_food',
+            'group_fk = :groupId',
             [':groupId' => $group->id]
         );
 
-        if (!empty($foodIds)) {
-            Food::model()->updateByPk(
-                $foodIds,
-                ['expiration_alert_group_fk' => $group->id]
-            );
+        if (empty($foodIds)) {
+            return;
+        }
+
+        $params = [':schoolFk' => $group->school_fk];
+        $foodPlaceholders = [];
+        foreach ($foodIds as $index => $foodId) {
+            $placeholder = ':food' . $index;
+            $foodPlaceholders[] = $placeholder;
+            $params[$placeholder] = $foodId;
+        }
+
+        $db->createCommand()->delete(
+            'food_expiration_alert_group_food',
+            'food_fk IN (' . implode(',', $foodPlaceholders) . ') AND group_fk IN (SELECT id FROM food_expiration_alert_group WHERE school_fk = :schoolFk)',
+            $params
+        );
+
+        $command = $db->createCommand();
+        foreach ($foodIds as $foodId) {
+            $command->insert('food_expiration_alert_group_food', [
+                'group_fk' => $group->id,
+                'food_fk' => $foodId,
+            ]);
         }
     }
 
@@ -199,12 +225,13 @@ class FoodAlertController extends Controller
     }
 
     /**
-     * @throws CHttpException
+     * @throws CHttpException se o grupo não existir ou não pertencer à
+     * escola atual (evita que uma escola configure o grupo de outra).
      */
     public function loadModel($id): FoodExpirationAlertGroup
     {
         $model = FoodExpirationAlertGroup::model()->findByPk($id);
-        if ($model === null) {
+        if ($model === null || $model->school_fk !== Yii::app()->user->school) {
             throw new CHttpException(404, 'Grupo de alerta não encontrado.');
         }
 

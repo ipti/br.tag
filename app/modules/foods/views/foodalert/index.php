@@ -1,5 +1,5 @@
 <?php
-/* @var $this FoodAlertController */
+/* @var $this FoodalertController */
 /* @var $groups FoodExpirationAlertGroup[] */
 /* @var $defaultDays int|null */
 
