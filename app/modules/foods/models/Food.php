@@ -33,7 +33,6 @@
  * @property string $pyridoxine_mg
  * @property string $niacin_mg
  * @property string $vitaminC_mg
- * @property integer $expiration_alert_group_fk
  */
 class Food extends TagModel
 {
@@ -53,7 +52,7 @@ class Food extends TagModel
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return [
-            ['id, expiration_alert_group_fk', 'numerical', 'integerOnly' => true],
+            ['id', 'numerical', 'integerOnly' => true],
             ['description, category, humidity_percents, energy_kcal, energy_kj, protein_g, lipidius_g, cholesterol_mg, carbohydrate_g, fiber_g, ashes_g, calcium_mg, magnesium_mg, manganese_mg, phosphorus_mg, iron_mg, sodium_mg, potassium_mg, copper_mg, zinc_mg, retinol_mcg, re_mcg, rae_mcg, tiamina_mg, riboflavin_mg, pyridoxine_mg, niacin_mg, vitaminC_mg', 'length', 'max' => 512],
             ['id, description, category, humidity_percents, energy_kcal, energy_kj, protein_g, lipidius_g, cholesterol_mg, carbohydrate_g, fiber_g, ashes_g, calcium_mg, magnesium_mg, manganese_mg, phosphorus_mg, iron_mg, sodium_mg, potassium_mg, copper_mg, zinc_mg, retinol_mcg, re_mcg, rae_mcg, tiamina_mg, riboflavin_mg, pyridoxine_mg, niacin_mg, vitaminC_mg', 'safe', 'on' => 'search'],
         ];
@@ -64,9 +63,7 @@ class Food extends TagModel
      */
     public function relations()
     {
-        return [
-            'expirationAlertGroupFk' => [self::BELONGS_TO, 'FoodExpirationAlertGroup', 'expiration_alert_group_fk'],
-        ];
+        return [];
     }
 
     /**
@@ -104,7 +101,6 @@ class Food extends TagModel
             'pyridoxine_mg' => 'Pyridoxine Mg',
             'niacin_mg' => 'Niacin Mg',
             'vitaminC_mg' => 'Vitamin C Mg',
-            'expiration_alert_group_fk' => 'Grupo de alerta de vencimento',
         ];
     }
 

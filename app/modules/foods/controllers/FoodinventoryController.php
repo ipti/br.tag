@@ -235,17 +235,16 @@ class FoodinventoryController extends Controller
         $schoolFk = Yii::app()->user->school;
 
         $criteria = new CDbCriteria();
-        $criteria->with = ['foodRelation', 'foodRelation.expirationAlertGroupFk'];
+        $criteria->with = ['foodRelation'];
         $criteria->compare('school_fk', $schoolFk);
 
         $foodInventoryData = FoodInventory::model()->findAll($criteria);
-        $defaultAlertDays = FoodExpirationAlertGroup::getDefaultAlertDays();
+        $foodAlertDaysMap = FoodExpirationAlertGroup::getFoodAlertDaysMap($schoolFk);
+        $defaultAlertDays = FoodExpirationAlertSchoolConfig::getDefaultAlertDays($schoolFk);
 
         $values = [];
         foreach ($foodInventoryData as $stock) {
-            $alertDays = $stock->foodRelation->expirationAlertGroupFk !== null
-                ? (int) $stock->foodRelation->expirationAlertGroupFk->alert_days
-                : $defaultAlertDays;
+            $alertDays = $foodAlertDaysMap[(int) $stock->food_fk] ?? $defaultAlertDays;
 
             $daysUntilExpiration = $stock->expiration_date !== null
                 ? (int) floor((strtotime($stock->expiration_date) - strtotime(date('Y-m-d'))) / 86400)

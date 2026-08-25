@@ -5,6 +5,7 @@
  *
  * The followings are the available columns in table 'food_expiration_alert_group':
  * @property integer $id
+ * @property string $school_fk
  * @property string $name
  * @property integer $alert_days
  * @property string $created_at
@@ -15,22 +16,6 @@
  */
 class FoodExpirationAlertGroup extends TagModel
 {
-    public const DEFAULT_DAYS_PARAMETER_KEY = 'FOODS_EXPIRATION_ALERT_DAYS_DEFAULT';
-
-    /**
-     * @return int|null prazo padrão (em dias) configurado para o município,
-     * usado por qualquer alimento que não pertença a nenhum grupo de alerta.
-     * Retorna null quando o município ainda não configurou nenhum prazo —
-     * nesse caso, o alerta de vencimento fica desligado para esses alimentos
-     * até que o próprio município o configure.
-     */
-    public static function getDefaultAlertDays(): ?int
-    {
-        $config = InstanceConfig::model()->findByAttributes(['parameter_key' => self::DEFAULT_DAYS_PARAMETER_KEY]);
-
-        return $config !== null ? (int) $config->value : null;
-    }
-
     /**
      * @return string the associated database table name
      */
@@ -45,11 +30,12 @@ class FoodExpirationAlertGroup extends TagModel
     public function rules()
     {
         return [
-            ['name, alert_days', 'required'],
+            ['school_fk, name, alert_days', 'required'],
+            ['school_fk', 'length', 'max' => 8],
             ['alert_days', 'numerical', 'integerOnly' => true, 'min' => 1],
             ['name', 'length', 'max' => 100],
             ['created_at, updated_at', 'safe'],
-            ['id, name, alert_days, created_at, updated_at', 'safe', 'on' => 'search'],
+            ['id, school_fk, name, alert_days, created_at, updated_at', 'safe', 'on' => 'search'],
         ];
     }
 
@@ -59,7 +45,7 @@ class FoodExpirationAlertGroup extends TagModel
     public function relations()
     {
         return [
-            'foods' => [self::HAS_MANY, 'Food', 'expiration_alert_group_fk'],
+            'foods' => [self::MANY_MANY, 'Food', 'food_expiration_alert_group_food(group_fk, food_fk)'],
         ];
     }
 
@@ -70,6 +56,7 @@ class FoodExpirationAlertGroup extends TagModel
     {
         return [
             'id' => 'ID',
+            'school_fk' => 'Escola',
             'name' => 'Nome do grupo',
             'alert_days' => 'Dias de antecedência',
             'created_at' => 'Criado em',
@@ -86,6 +73,7 @@ class FoodExpirationAlertGroup extends TagModel
         $criteria = new CDbCriteria();
 
         $criteria->compare('id', $this->id);
+        $criteria->compare('school_fk', $this->school_fk);
         $criteria->compare('name', $this->name, true);
         $criteria->compare('alert_days', $this->alert_days);
 
@@ -93,6 +81,31 @@ class FoodExpirationAlertGroup extends TagModel
             'criteria' => $criteria,
             'pagination' => false,
         ]);
+    }
+
+    /**
+     * Mapa food_fk => alert_days considerando apenas os grupos da escola
+     * informada. Usado para descobrir o prazo de um alimento sem precisar de
+     * uma relação direta em `food` (o mesmo alimento pode estar em grupos
+     * diferentes em escolas diferentes).
+     *
+     * @return array<int, int>
+     */
+    public static function getFoodAlertDaysMap(string $schoolFk): array
+    {
+        $rows = Yii::app()->db->createCommand()
+            ->select('gf.food_fk AS food_fk, g.alert_days AS alert_days')
+            ->from('food_expiration_alert_group g')
+            ->join('food_expiration_alert_group_food gf', 'gf.group_fk = g.id')
+            ->where('g.school_fk = :schoolFk', [':schoolFk' => $schoolFk])
+            ->queryAll();
+
+        $map = [];
+        foreach ($rows as $row) {
+            $map[(int) $row['food_fk']] = (int) $row['alert_days'];
+        }
+
+        return $map;
     }
 
     /**
