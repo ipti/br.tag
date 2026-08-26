@@ -193,7 +193,7 @@ function renderStockTableRow(stock, stockTotals) {
     $('<td>').text(foodDescription).appendTo(row);
     $('<td>').text(stock.supplier || '').appendTo(row);
     $('<td>').text(stock.amount + measurementUnit).appendTo(row);
-    $('<td>').html('<div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">' + stock.expiration_date + buildExpirationWarningBadge(stock) + '</div>').appendTo(row);
+    $('<td>').html('<div style="display:flex; align-items:center; gap:8px; flex-wrap:nowrap; white-space:nowrap;">' + stock.expiration_date + buildExpirationWarningBadge(stock) + '</div>').appendTo(row);
     $('<td>').text(formatFoodTotal(stockTotals, stock.foodId)).appendTo(row);
     if(stock.status == "Emfalta") {
         $('<td style="padding-right: 25px">').html(`<button disabled class="t-button-quaternary full--width t-margin-none--right" id="js-status-button" ${isNutritionist ? 'disabled': ''} type="button" data-foodStatus="${stock.status}" data-foodInventoryId="${stock.id}" data-amount="${stock.amount}">${statusValue}</button>`).appendTo(row);
