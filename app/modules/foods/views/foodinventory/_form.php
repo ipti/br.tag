@@ -26,7 +26,6 @@ $canConfigureExpirationAlert = Yii::app()->getAuthManager()->checkAccess('manage
     <div class="mobile-row">
         <div class="column clearleft">
             <h1 class="clear-padding--bottom"><?php echo $model->isNewRecord ? 'Estoque' : '' ?></h1>
-            <p>Cardápio semanal da sua escola</p>
         </div>
     </div>
 

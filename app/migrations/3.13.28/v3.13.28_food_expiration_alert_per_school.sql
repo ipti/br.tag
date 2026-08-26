@@ -90,5 +90,26 @@ CREATE TABLE IF NOT EXISTS `food_expiration_alert_group_food` (
 CREATE TABLE IF NOT EXISTS `food_expiration_alert_school_config` (
     `school_fk` VARCHAR(8) NOT NULL COLLATE utf8_unicode_ci,
     `default_days` INT(11) NULL,
+    `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    `updated_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     PRIMARY KEY (`school_fk`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Guarda idempotente para quem ja rodou esta migration antes desta correcao
+-- (a tabela ja existia sem created_at/updated_at). TagModel exige essas duas
+-- colunas em toda tabela (CTimestampBehavior), senao o save() quebra com
+-- "a propriedade X.created_at nao esta definida".
+SET @food_expiration_alert_school_config_has_created_at := (
+    SELECT COUNT(*)
+    FROM information_schema.COLUMNS
+    WHERE TABLE_SCHEMA = DATABASE()
+        AND TABLE_NAME = 'food_expiration_alert_school_config'
+        AND COLUMN_NAME = 'created_at'
+);
+SET @add_school_config_timestamps_sql := IF(
+    @food_expiration_alert_school_config_has_created_at = 0,
+    'ALTER TABLE `food_expiration_alert_school_config` ADD COLUMN `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP, ADD COLUMN `updated_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP',
+    'DO 0'
+);
+PREPARE add_school_config_timestamps_stmt FROM @add_school_config_timestamps_sql;
+EXECUTE add_school_config_timestamps_stmt;
