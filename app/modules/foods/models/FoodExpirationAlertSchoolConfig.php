@@ -6,6 +6,8 @@
  * The followings are the available columns in table 'food_expiration_alert_school_config':
  * @property string $school_fk
  * @property integer $default_days
+ * @property string $created_at
+ * @property string $updated_at
  */
 class FoodExpirationAlertSchoolConfig extends TagModel
 {
@@ -26,6 +28,7 @@ class FoodExpirationAlertSchoolConfig extends TagModel
             ['school_fk', 'required'],
             ['school_fk', 'length', 'max' => 8],
             ['default_days', 'numerical', 'integerOnly' => true, 'min' => 1],
+            ['created_at, updated_at', 'safe'],
         ];
     }
 
@@ -45,6 +48,8 @@ class FoodExpirationAlertSchoolConfig extends TagModel
         return [
             'school_fk' => 'Escola',
             'default_days' => 'Dias de antecedência (padrão)',
+            'created_at' => 'Criado em',
+            'updated_at' => 'Atualizado em',
         ];
     }
 
