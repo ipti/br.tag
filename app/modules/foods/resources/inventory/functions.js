@@ -1,5 +1,20 @@
 let isNutritionist = null
 
+let STOCK_STATUS_ORDER = { 'Disponivel': 0, 'Acabando': 1, 'Emfalta': 2 };
+
+function getStockItemDisplayName(stock) {
+    return stock.description.replace(/,/g, '').replace(/\b(cru[ao]?)\b/g, '').trim();
+}
+
+function compareByStatusThenName(a, b) {
+    let statusDiff = STOCK_STATUS_ORDER[a.status] - STOCK_STATUS_ORDER[b.status];
+    if (statusDiff !== 0) {
+        return statusDiff;
+    }
+
+    return getStockItemDisplayName(a).localeCompare(getStockItemDisplayName(b), 'pt-BR');
+}
+
 $.ajax({
     type:'POST',
     url:'?r=foods/foodinventory/getIsNutritionist'
@@ -110,9 +125,7 @@ function updateExpirationAlert(foodInventory) {
     }
 
     let names = nearExpirationItems
-        .map(function (stock) {
-            return stock.description.replace(/,/g, '').replace(/\b(cru[ao]?)\b/g, '').trim();
-        })
+        .map(getStockItemDisplayName)
         .filter(function (name, index, all) {
             return all.indexOf(name) === index;
         });
@@ -174,8 +187,7 @@ function formatFoodTotal(stockTotals, foodId) {
 
 function renderStockTableRow(stock, stockTotals) {
     let row = $('<tr>').addClass('');
-    let foodDescription = stock.description;
-    foodDescription = foodDescription.replace(/,/g, '').replace(/\b(cru[ao]?)\b/g, '');
+    let foodDescription = getStockItemDisplayName(stock);
     let measurementUnit = stock.measurementUnit !== null ? (" (" + stock.measurementUnit + ") ") : "";
     let statusValue;
 
@@ -255,8 +267,7 @@ function renderStockList(foodsOnStock, id, status) {
 };
 
 function renderStockListRow(stock, stockTotals) {
-    let foodDescription = stock.description;
-    foodDescription = foodDescription.replace(/,/g, '').replace(/\b(cru[ao]?)\b/g, '');
+    let foodDescription = getStockItemDisplayName(stock);
     let measurementUnit = stock.measurementUnit !== null ? (" (" + stock.measurementUnit + ") ") : "";
     let statusValue;
 

@@ -46,7 +46,7 @@ function getFoodInventory() {
         cache: false,
     }).success(function (response) {
         food_inventory = JSON.parse(response);
-        food_inventory.sort((a, b) => b.amount - a.amount);
+        food_inventory.sort(compareByStatusThenName);
         renderStockTable(food_inventory);
         renderStockList(food_inventory);
         updateExpirationAlert(food_inventory);
