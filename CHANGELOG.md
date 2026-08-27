@@ -1,3 +1,6 @@
+## [Versão 3.13.28]
+- Corrigidas duas inconsistências do validador do Sagres Edu que o Validador SAGRES do TCE detectava e o TAG deixava passar (TCDA-1246): turma marcada como multiseriada com apenas uma etapa de ensino agora gera inconsistência; CPF de aluno com matrícula ativa duplicada em turmas de Educação Infantil ou EJA (modalidades que não eram verificadas pela checagem de duplicidade) também passou a ser sinalizado
+
 ## [Versão 3.13.27]
 - Adicionado alerta de vencimento no Estoque da Merenda Escolar (TCDA-1244): itens cujo lote esteja a poucos dias de vencer (ou já vencido) ganham um destaque "Vence em breve" na coluna Validade, com tooltip informando quantos dias faltam (ou há quantos dias venceu); o alerta não aparece para itens marcados como "Em falta"
 - Adicionado banner no topo da tela de Estoque avisando quando há algum lote próximo do vencimento ou vencido, considerando apenas itens ainda com status "Disponível" ou "Acabando"
