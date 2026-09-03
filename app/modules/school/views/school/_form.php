@@ -183,6 +183,33 @@ $form = $this->beginWidget('CActiveForm', [
                             </div>
                         </div>
                     </div>
+                    <?php if (Yii::app()->features->isEnable(TFeature::FEAT_DIARY_LESSON_PLAN) || Yii::app()->features->isEnable(TFeature::FEAT_DIARY_CLASSES)): ?>
+                        <div class="row">
+                            <div class="column is-two-fifths clearleft">
+                                <div class="t-field-tarea">
+                                    <?php echo $form->label(
+                                        $modelSchoolIdentification,
+                                        'territory_context',
+                                        ['class' => 't-field-tarea__label']
+                                    ); ?>
+                                    <?php echo $form->textArea(
+                                        $modelSchoolIdentification,
+                                        'territory_context',
+                                        [
+                                            'rows' => 3,
+                                            'placeholder' => 'Contextualize a escola, comunidade e território.',
+                                            'class' => 't-field-tarea__input',
+                                            'disabled' => $disabledFields
+                                        ]
+                                    ); ?>
+                                    <?php echo $form->error(
+                                        $modelSchoolIdentification,
+                                        'territory_context'
+                                    ); ?>
+                                </div>
+                            </div>
+                        </div>
+                    <?php endif; ?>
                     <div class="row">
                         <div class="column is-two-fifths clearleft">
                             <div class="t-field-select">

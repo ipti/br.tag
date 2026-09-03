@@ -1,3 +1,6 @@
+## [Versão 3.14.23]
+- Ajustes no MACETE (TCDA-1248): a Contextualização do território deixou de ser um campo do Plano de Aula e passou a ser um campo opcional fixo da própria escola, exibido no formulário de escola apenas quando o MACETE está habilitado para o município e mostrado como referência no resumo do plano, logo abaixo do nome da escola; a Contextualização por etapa foi mantida como estava. O quadrante "Jogo Pedagógico" do item Complementar passou a se chamar "Material pedagógico". Na tela de Registrar Aula MACETE, os campos de registro foram unificados em uma única caixa de texto, renomeada de "Conteúdo executado" para "Anotações de Aula"
+
 ## [Versão 3.14.21]
 - Adicionado o módulo MACETE ao Diário Eletrônico para criação de planos e registros de aula vinculados a etapas, componentes curriculares e habilidades BNCC
 - Os textos pedagógicos dos planos e registros agora possuem editor rico Quill com formatação segura

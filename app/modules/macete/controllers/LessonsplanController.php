@@ -196,6 +196,7 @@ class LessonsplanController extends Controller
             'materialValues' => $this->lessonPlanService()->getMaterialValues($lessonPlan),
             'selectedAbilities' => $this->abilityService()->getByIds($abilityIds),
             'schoolName' => $school !== null ? (string) $school->name : '',
+            'territoryContext' => $school !== null ? (string) $school->territory_context : '',
             'professorName' => $loginInfos !== null ? (string) $loginInfos->name : '',
         ];
     }
