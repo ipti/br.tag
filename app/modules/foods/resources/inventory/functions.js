@@ -115,8 +115,13 @@ function initExpirationTooltips() {
 function updateExpirationAlert(foodInventory) {
     let alertBox = $('#expiration-alert');
 
+    // Um lote só deve continuar gerando alerta enquanto ainda houver
+    // quantidade real dele em estoque. Sem essa checagem, um lote já
+    // consumido por completo (mas nunca marcado manualmente como "Em
+    // falta") seguia aparecendo no aviso do topo mesmo depois de um novo
+    // lançamento seguro do mesmo alimento ser adicionado.
     let nearExpirationItems = foodInventory.filter(function (stock) {
-        return stock.isNearExpiration && stock.status !== 'Emfalta';
+        return stock.isNearExpiration && stock.status !== 'Emfalta' && parseFloat(stock.amount) > 0;
     });
 
     if (nearExpirationItems.length === 0) {
