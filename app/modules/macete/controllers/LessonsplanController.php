@@ -146,6 +146,7 @@ class LessonsplanController extends Controller
     {
         $this->accessService()->requireLessonPlanFeature();
         $lessonPlan = $this->loadModel($id);
+        $abilityIds = $this->lessonPlanService()->getAbilityIds($lessonPlan);
 
         echo CJSON::encode([
             'id' => (int) $lessonPlan->id,
@@ -155,6 +156,7 @@ class LessonsplanController extends Controller
             'discipline' => $lessonPlan->getDisciplineNames(),
             'classroom' => $lessonPlan->classroomFk !== null ? $lessonPlan->classroomFk->name : '',
             'abilities' => $lessonPlan->getAbilityCodes(),
+            'abilityList' => $this->abilityService()->getByIds($abilityIds),
         ]);
         Yii::app()->end();
     }
@@ -196,6 +198,7 @@ class LessonsplanController extends Controller
             'materialValues' => $this->lessonPlanService()->getMaterialValues($lessonPlan),
             'selectedAbilities' => $this->abilityService()->getByIds($abilityIds),
             'schoolName' => $school !== null ? (string) $school->name : '',
+            'territoryContext' => $school !== null ? (string) $school->territory_context : '',
             'professorName' => $loginInfos !== null ? (string) $loginInfos->name : '',
         ];
     }

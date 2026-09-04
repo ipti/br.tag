@@ -65,7 +65,7 @@ class MaceteLessonMaterial extends TagModel
     {
         return [
             self::TYPE_ACTIVITY_SHEET => 'Ficha de atividade',
-            self::TYPE_GAME => 'Jogo pedagógico',
+            self::TYPE_GAME => 'Material pedagógico',
             self::TYPE_SUPPORT_MATERIAL => 'Material de apoio',
         ];
     }

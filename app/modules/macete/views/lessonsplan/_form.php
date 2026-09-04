@@ -10,6 +10,7 @@
  *  @var $materialValues array
  *  @var $selectedAbilities CourseClassAbilities[]
  *  @var $schoolName string
+ *  @var $territoryContext string
  *  @var $professorName string
  */
 
@@ -159,20 +160,20 @@ $selectedAbilitiesCount = count($selectedAbilities);
                     <div class="row">
                         <div class="column">
                             <div class="t-field-select macete-stage-repeater">
-                                <label class="t-field-select__label--required">Etapas e componentes curriculares</label>
+                                <label class="t-field-select__label--required">Anos/Séries e componentes curriculares</label>
                                 <div class="js-macete-stage-components">
                                     <?php foreach ($stageComponents as $index => $stageComponent): ?>
                                         <div class="row align-items--end js-macete-stage-component-row">
                                             <div class="column is-two-fifths clearleft">
                                                 <div class="t-field-select">
-                                                    <label class="t-field-select__label">Etapa</label>
+                                                    <label class="t-field-select__label">Ano/Série</label>
                                                     <?php echo CHtml::dropDownList(
                                     'stage_components[' . $index . '][stage_id]',
                                     $stageComponent['stage_id'],
                                     CHtml::listData($stages, 'id', 'name'),
                                     [
                                         'class' => 'select-search-on t-field-select__input js-macete-stage-component-stage',
-                                        'prompt' => 'Selecione a etapa',
+                                        'prompt' => 'Selecione o Ano/Série',
                                     ]
                                 ); ?>
                                                 </div>
@@ -199,7 +200,7 @@ $selectedAbilitiesCount = count($selectedAbilities);
                                     <?php endforeach; ?>
                                 </div>
                                 <button type="button" class="t-button-secondary js-macete-add-stage-component">Adicionar
-                                    etapa</button>
+                                    Ano/Série</button>
                                 <?php echo $form->error($lessonPlan, 'edcenso_stage_vs_modality_fk'); ?>
                             </div>
                         </div>
@@ -207,8 +208,8 @@ $selectedAbilitiesCount = count($selectedAbilities);
 
                     <script type="text/template" id="macete-stage-component-template">
                         <div class="row align-items--end js-macete-stage-component-row">
-                            <div class="column is-two-fifths clearleft"><div class="t-field-select"><label class="t-field-select__label">Etapa</label><select class="select-search-on t-field-select__input js-macete-stage-component-stage" name="stage_components[__index__][stage_id]"><option value="">Selecione a etapa</option><?php foreach ($stages as $stage): ?><option value="<?php echo (int) $stage['id']; ?>"><?php echo CHtml::encode($stage['name']); ?></option><?php endforeach; ?></select></div></div>
-                            <div class="column is-two-fifths"><div class="t-field-select"><label class="t-field-select__label">Componente curricular</label><select class="select-search-on t-field-select__input js-macete-stage-component-discipline" name="stage_components[__index__][discipline_id]"><option value="">Selecione a etapa primeiro</option></select></div></div>
+                            <div class="column is-two-fifths clearleft"><div class="t-field-select"><label class="t-field-select__label">Ano/Série</label><select class="select-search-on t-field-select__input js-macete-stage-component-stage" name="stage_components[__index__][stage_id]"><option value="">Selecione o Ano/Série</option><?php foreach ($stages as $stage): ?><option value="<?php echo (int) $stage['id']; ?>"><?php echo CHtml::encode($stage['name']); ?></option><?php endforeach; ?></select></div></div>
+                            <div class="column is-two-fifths"><div class="t-field-select"><label class="t-field-select__label">Componente curricular</label><select class="select-search-on t-field-select__input js-macete-stage-component-discipline" name="stage_components[__index__][discipline_id]"><option value="">Selecione o Ano/Série primeiro</option></select></div></div>
                             <div class="column is-one-fifth"><button type="button" class="t-button-secondary js-macete-remove-stage-component">Remover</button></div>
                         </div>
                     </script>
@@ -217,22 +218,6 @@ $selectedAbilitiesCount = count($selectedAbilities);
 
                 <!-- Tab 2: Metodologia -->
                 <div id="macete-methodology" class="js-macete-tab-panel hide">
-
-                    <div class="row align-items--start">
-                        <div class="column">
-                            <div class="t-field-text">
-                                <?php echo $form->label($lessonPlan, 'theme', ['class' => 't-field-text__label--required']); ?>
-                                <?php echo $form->textField($lessonPlan, 'theme', [
-                                    'class' => 't-field-text__input',
-                                    'maxlength' => 255,
-                                    'placeholder' => 'Tema da aula',
-                                ]); ?>
-                                <?php echo $form->error($lessonPlan, 'theme'); ?>
-                            </div>
-                        </div>
-                        <div class="column">
-                        </div>
-                    </div>
 
                     <div class="row">
                         <div class="column">
@@ -247,15 +232,6 @@ $selectedAbilitiesCount = count($selectedAbilities);
                             </div>
                         </div>
                         <div class="column">
-                            <div class="t-field-tarea">
-                                <?php echo $form->labelEx($lessonPlan, 'territory_context', ['class' => 't-field-tarea__label']); ?>
-                                <?php echo $form->textArea($lessonPlan, 'territory_context', [
-                                    'class' => 't-field-tarea__input',
-                                    'rows' => 4,
-                                    'placeholder' => 'Contextualize a escola, comunidade e território.',
-                                ]); ?>
-                                <?php echo $form->error($lessonPlan, 'territory_context'); ?>
-                            </div>
                         </div>
                     </div>
 
@@ -299,7 +275,7 @@ $selectedAbilitiesCount = count($selectedAbilities);
                                 <div class="macete-phase-card__body">
                                     <div
                                         class="js-macete-stage-empty <?php echo empty($selectedStageIds) ? '' : 'hide'; ?>">
-                                        Selecione etapas na aba Identificação.
+                                        Selecione Anos/Séries na aba Identificação.
                                     </div>
                                     <?php foreach ($stages as $stage): ?>
                                         <?php
@@ -326,12 +302,12 @@ $selectedAbilitiesCount = count($selectedAbilities);
                         <?php endforeach; ?>
                     </div>
                     <div class="column">
-                        <h3>Contextualização por etapa</h3>
+                        <h3>Contextualização por Ano/Série</h3>
                     </div>
                     <div class="row">
                         <div
                             class="column is-full js-macete-stage-empty <?php echo empty($selectedStageIds) ? '' : 'hide'; ?>">
-                            <p>Selecione etapas na aba Identificação para preencher os textos por etapa.</p>
+                            <p>Selecione Anos/Séries na aba Identificação para preencher os textos por Ano/Série.</p>
                         </div>
                     </div>
                     <?php foreach ($stages as $stage): ?>
@@ -556,13 +532,17 @@ $selectedAbilitiesCount = count($selectedAbilities);
                         <p><b>Escola:</b> <?php echo CHtml::encode($schoolName); ?></p>
                     <?php endif; ?>
 
+                    <?php if ($territoryContext !== ''): ?>
+                        <p><b>Contextualização do território:</b> <?php echo nl2br(CHtml::encode($territoryContext)); ?></p>
+                    <?php endif; ?>
+
                     <?php if ($professorName !== ''): ?>
                         <p><b>Professor(a):</b> <?php echo CHtml::encode($professorName); ?></p>
                     <?php endif; ?>
 
                     <p><b>Componente curricular:</b> <span class="js-macete-summary-discipline">—</span></p>
 
-                    <p><b>Etapa / Ano:</b> <span class="js-macete-summary-stage">—</span></p>
+                    <p><b>Ano/Série:</b> <span class="js-macete-summary-stage">—</span></p>
 
                     <p><b>Unidade:</b> <span class="js-macete-summary-unit">—</span></p>
 

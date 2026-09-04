@@ -62,7 +62,7 @@ class MaceteLessonRecord extends TagModel
             'edcenso_discipline_fk' => 'Componente curricular',
             'users_fk' => 'Professor',
             'lesson_date' => 'Data da aula',
-            'executed_content' => 'Conteúdo executado',
+            'executed_content' => 'Anotações de Aula',
             'methodology_notes' => 'Aplicação da metodologia',
             'evaluation_notes' => 'Evidências/observações',
             'adaptation_notes' => 'Adaptações realizadas',

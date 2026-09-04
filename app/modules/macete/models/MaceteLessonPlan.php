@@ -84,7 +84,7 @@ class MaceteLessonPlan extends TagModel
     {
         return [
             'id' => 'ID',
-            'name' => 'Título do Plano',
+            'name' => 'Tema da aula',
             'code' => 'Código do plano',
             'theme' => 'Tema da aula',
             'school_inep_fk' => 'Escola',

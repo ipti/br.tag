@@ -24,6 +24,11 @@ class MaceteLessonPlanService
             }
 
             $lessonPlan->attributes = $this->editablePlanData($planData);
+            // O campo "theme" não é mais preenchido pelo usuário (a tela
+            // de metodologia removeu o campo duplicado "Tema da aula"),
+            // mas continua existindo para não quebrar telas/relatórios
+            // que já dependem dele, então espelha sempre o valor de "name".
+            $lessonPlan->theme = $lessonPlan->name;
             $lessonPlan->edcenso_stage_vs_modality_fk = $stageComponents[0]['stage_id'];
             $lessonPlan->edcenso_discipline_fk = $stageComponents[0]['discipline_id'];
 
@@ -267,7 +272,6 @@ class MaceteLessonPlanService
         $allowedAttributes = [
             'name',
             'code',
-            'theme',
             'classroom_fk',
             'unit',
             'territory_context',
