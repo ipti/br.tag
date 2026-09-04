@@ -115,13 +115,25 @@ function initExpirationTooltips() {
 function updateExpirationAlert(foodInventory) {
     let alertBox = $('#expiration-alert');
 
-    // Um lote só deve continuar gerando alerta enquanto ainda houver
-    // quantidade real dele em estoque. Sem essa checagem, um lote já
-    // consumido por completo (mas nunca marcado manualmente como "Em
-    // falta") seguia aparecendo no aviso do topo mesmo depois de um novo
-    // lançamento seguro do mesmo alimento ser adicionado.
+    // Um lote só conta pro alerta enquanto ainda houver quantidade real
+    // dele em estoque (lote já consumido, mesmo sem status atualizado
+    // manualmente para "Em falta", não deveria continuar gerando aviso).
+    let isInStock = function (stock) {
+        return stock.status !== 'Emfalta' && parseFloat(stock.amount) > 0;
+    };
+
+    // Se já existe outro lote do mesmo alimento dentro da validade (e
+    // ainda em estoque), esse alimento não entra no alerta: o lote seguro
+    // cobre a necessidade, mesmo que o lote antigo ainda esteja vencendo.
+    let foodsWithSafeLot = {};
+    foodInventory.filter(isInStock).forEach(function (stock) {
+        if (!stock.isNearExpiration) {
+            foodsWithSafeLot[stock.foodId] = true;
+        }
+    });
+
     let nearExpirationItems = foodInventory.filter(function (stock) {
-        return stock.isNearExpiration && stock.status !== 'Emfalta' && parseFloat(stock.amount) > 0;
+        return isInStock(stock) && stock.isNearExpiration && !foodsWithSafeLot[stock.foodId];
     });
 
     if (nearExpirationItems.length === 0) {
