@@ -4,6 +4,7 @@
 /* @var $plans MaceteLessonPlan[] */
 /* @var $classrooms Classroom[] */
 /* @var $selectedAbilities CourseClassAbilities[] */
+/* @var $territoryContext string */
 
 $baseScriptUrl = Yii::app()->controller->module->baseScriptUrl;
 $themeUrl = Yii::app()->theme->baseUrl;
@@ -62,7 +63,7 @@ $selectedPlan = $lessonRecord->lessonPlanFk;
     'classroom_fk',
     CHtml::listData($classrooms, 'id', 'name'),
     [
-        'class' => 'select-search-on t-field-select__input',
+        'class' => 'select-search-on t-field-select__input js-macete-record-classroom',
         'prompt' => 'Selecione a turma',
     ]
 ); ?>
@@ -130,10 +131,11 @@ $selectedPlan = $lessonRecord->lessonPlanFk;
             <div class="t-cards js-macete-plan-summary">
                 <div class="t-cards-content">
                     <h2 class="t-cards-title">Plano selecionado</h2>
+                        <p><b>Contextualização do território:</b> <?php echo nl2br(CHtml::encode($territoryContext)); ?></p>
                     <p><b>Tema:</b> <span data-summary-field="theme"><?php echo $selectedPlan !== null ? CHtml::encode($selectedPlan->theme) : ''; ?></span></p>
                     <p><b>Ano/Série:</b> <span data-summary-field="stage"><?php echo $selectedPlan !== null && $selectedPlan->stageFk !== null ? CHtml::encode($selectedPlan->stageFk->name) : ''; ?></span></p>
                     <p><b>Componentes:</b> <span data-summary-field="discipline"><?php echo $selectedPlan !== null ? CHtml::encode($selectedPlan->getDisciplineNames()) : ''; ?></span></p>
-                    <p><b>Turma:</b> <span data-summary-field="classroom"><?php echo $selectedPlan !== null && $selectedPlan->classroomFk !== null ? CHtml::encode($selectedPlan->classroomFk->name) : ''; ?></span></p>
+                    <p><b>Turma:</b> <span data-summary-field="classroom"><?php echo $lessonRecord->classroomFk !== null ? CHtml::encode($lessonRecord->classroomFk->name) : ''; ?></span></p>
                     <p><b>Habilidades:</b> <span data-summary-field="abilities"><?php echo $selectedPlan !== null ? CHtml::encode($selectedPlan->getAbilityCodes()) : ''; ?></span></p>
                 </div>
             </div>

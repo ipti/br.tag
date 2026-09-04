@@ -14,5 +14,6 @@ echo $this->renderPartial('_form', [
     'materialValues' => $materialValues,
     'selectedAbilities' => $selectedAbilities,
     'schoolName' => $schoolName,
+    'territoryContext' => $territoryContext,
     'professorName' => $professorName,
 ], true);

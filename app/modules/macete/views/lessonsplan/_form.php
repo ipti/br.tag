@@ -219,22 +219,6 @@ $selectedAbilitiesCount = count($selectedAbilities);
                 <!-- Tab 2: Metodologia -->
                 <div id="macete-methodology" class="js-macete-tab-panel hide">
 
-                    <div class="row align-items--start">
-                        <div class="column">
-                            <div class="t-field-text">
-                                <?php echo $form->label($lessonPlan, 'theme', ['class' => 't-field-text__label--required']); ?>
-                                <?php echo $form->textField($lessonPlan, 'theme', [
-                                    'class' => 't-field-text__input',
-                                    'maxlength' => 255,
-                                    'placeholder' => 'Tema da aula',
-                                ]); ?>
-                                <?php echo $form->error($lessonPlan, 'theme'); ?>
-                            </div>
-                        </div>
-                        <div class="column">
-                        </div>
-                    </div>
-
                     <div class="row">
                         <div class="column">
                             <div class="t-field-tarea">

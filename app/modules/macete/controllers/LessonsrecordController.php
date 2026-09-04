@@ -130,11 +130,14 @@ class LessonsrecordController extends Controller
             }
         }
 
+        $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
+
         return [
             'lessonRecord' => $lessonRecord,
             'plans' => $this->lessonRecordService()->getPlans(),
             'classrooms' => $this->lessonPlanService()->getClassrooms(),
             'selectedAbilities' => $this->abilityService()->getByIds($abilityIds),
+            'territoryContext' => $school !== null ? (string) $school->territory_context : '',
         ];
     }
 

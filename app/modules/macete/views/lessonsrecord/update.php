@@ -8,5 +8,6 @@ echo $this->renderPartial('_form', [
     'plans' => $plans,
     'classrooms' => $classrooms,
     'selectedAbilities' => $selectedAbilities,
+    'territoryContext' => $territoryContext,
 ], true);
 
