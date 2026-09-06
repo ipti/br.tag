@@ -1,3 +1,6 @@
+## [Versão 3.13.30]
+- Corrigidas médias redondas exibidas sem casa decimal (TCDA-1127): na Ata de Notas, na Ficha de Notas (média final e notas por bimestre/unidade, incluindo recuperações) e na tela de Notas, uma nota redonda (ex.: 7) passou a ser exibida como "7.0"; valores que já têm casas decimais (ex.: 8.67) continuam exibidos exatamente como calculados, sem arredondamento
+
 ## [Versão 3.13.28]
 - Corrigidas duas inconsistências do validador do Sagres Edu que o Validador SAGRES do TCE detectava e o TAG deixava passar (TCDA-1246): turma marcada como multiseriada com apenas uma etapa de ensino agora gera inconsistência; CPF de aluno com matrícula ativa duplicada em turmas de Educação Infantil ou EJA (modalidades que não eram verificadas pela checagem de duplicidade) também passou a ser sinalizado
 
