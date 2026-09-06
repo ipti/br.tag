@@ -27,6 +27,19 @@ function calculateFrequence($numClasses, $numFalts): int
     return round((($aulasdadas - $faltas) * 100) / $aulasdadas);
 }
 
+// Garante a casa decimal em notas redondas (ex.: 7 -> "7.0") sem
+// arredondar valores que já têm casas decimais (ex.: 6.67 continua "6.67").
+function formatGradeKeepingDecimals($value)
+{
+    if (!is_numeric($value)) {
+        return $value;
+    }
+
+    $number = (float) $value;
+
+    return $number == (int) $number ? number_format($number, 1) : $value;
+}
+
 ?>
 
 <div class="row-fluid hidden-print">
@@ -153,7 +166,7 @@ function calculateFrequence($numClasses, $numFalts): int
                                 <?php if ($discipline["requires_exam"] === 0) { ?>
                                     <td style="text-align: center;"><?= $discipline["report_text"] ?></td>
                                 <?php } elseif ($unities[$i - 1]->type == 'RF') { ?>
-                                    <td style="text-align: center;"><?= $gradeResult['rec_final'] ?></td>
+                                    <td style="text-align: center;"><?= formatGradeKeepingDecimals($gradeResult['rec_final']) ?></td>
                                 <?php } elseif ($unities[$i - 1]->type == 'FC') {
                                     $finalConcept = GradeConcept::model()->findByPk($gradeResult['final_concept']);
                                     ?>
@@ -168,9 +181,9 @@ function calculateFrequence($numClasses, $numFalts): int
                                     in_array('grade_' . $i, $result[$j]["partial_recoveries"]["rec_partial_" . $i])
                                 ) {
                                     ?>
-                                    <td style="text-align: center;"><?= $gradeResult['rec_partial_' . $i] ?></td>
+                                    <td style="text-align: center;"><?= formatGradeKeepingDecimals($gradeResult['rec_partial_' . $i]) ?></td>
                                 <?php } else { ?>
-                                    <td style="text-align: center;"><?= $gradeResult['grade_' . $i] ?></td>
+                                    <td style="text-align: center;"><?= formatGradeKeepingDecimals($gradeResult['grade_' . $i]) ?></td>
                                 <?php } ?>
                             <?php } ?>
                             <?php if ($unities[$i - 1]->type != 'RF') { ?>

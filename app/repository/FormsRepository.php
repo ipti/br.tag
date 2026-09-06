@@ -280,7 +280,7 @@ class FormsRepository
 
                     array_push($result, [
                         'discipline_id' => $gradeResult->disciplineFk->id,
-                        'final_media' => $gradeResult->final_media,
+                        'final_media' => $this->formatGradeKeepingDecimals($gradeResult->final_media),
                         'grade_result' => $gradeResult,
                         'partial_recoveries' => $partialRecoveries,
                         'total_number_of_classes' => $totalContentsPerDiscipline,
@@ -1170,6 +1170,8 @@ class FormsRepository
                         if ($r['grade_concept_1'] != null && $r['grade_concept_1'] != '') {
                             $finalconcept = GradeConcept::model()->findByPk($r['final_concept']);
                             $finalMedia = $finalconcept ? $finalconcept->name : $this->checkConceptGradeRange($finalMedia, $concepts);
+                        } else {
+                            $finalMedia = $this->formatGradeKeepingDecimals($finalMedia);
                         }
                         $r['situation'] = mb_strtoupper($r['situation']);
                         if ($s->getCurrentStatus() == 'DEIXOU DE FREQUENTAR') {
@@ -1229,6 +1231,25 @@ class FormsRepository
             return $matchedConcept;
         }
         return $finalMedia;
+    }
+
+    /**
+     * Garante a casa decimal em médias redondas (ex.: 8 -> "8.0") sem
+     * arredondar valores que já têm casas decimais (ex.: 8.67 continua
+     * "8.67", não vira "8.7").
+     *
+     * @param mixed $value
+     * @return mixed
+     */
+    private function formatGradeKeepingDecimals($value)
+    {
+        if (!is_numeric($value)) {
+            return $value;
+        }
+
+        $number = (float) $value;
+
+        return $number == (int) $number ? number_format($number, 1) : $value;
     }
 
     /**
