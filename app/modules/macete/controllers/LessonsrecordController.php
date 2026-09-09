@@ -74,6 +74,11 @@ class LessonsrecordController extends Controller
             } catch (Exception $exception) {
                 TLog::error('Erro ao salvar registro de aula MACETE.', $exception->getMessage());
                 Yii::app()->user->setFlash('error', $exception->getMessage());
+                // O service já converte lesson_date para o formato do banco
+                // antes de validar; se a validação falhar, o campo precisa
+                // voltar pro formato de exibição (DD/MM/AAAA) antes de
+                // re-renderizar o formulário, senão a máscara de data bugra.
+                $lessonRecord->lesson_date = MaceteLessonRecordService::convertDateToView($lessonRecord->lesson_date);
             }
         }
 
@@ -95,6 +100,9 @@ class LessonsrecordController extends Controller
             } catch (Exception $exception) {
                 TLog::error('Erro ao atualizar registro de aula MACETE.', $exception->getMessage());
                 Yii::app()->user->setFlash('error', $exception->getMessage());
+                // Mesmo motivo do actionCreate: o service converte lesson_date
+                // para o formato do banco antes de validar.
+                $lessonRecord->lesson_date = MaceteLessonRecordService::convertDateToView($lessonRecord->lesson_date);
             }
         }
 
