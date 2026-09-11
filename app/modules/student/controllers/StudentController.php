@@ -883,6 +883,7 @@ class StudentController extends Controller implements AuthenticateSEDTokenInterf
 
             $identification = $this->loadModel($id, $this->studentIdentification);
             $inNumRA = $identification->gov_id;
+            $studentName = $identification->name;
 
             if (isset($identification->id) && $identification->id > 0) {
                 $identification->delete();
@@ -892,6 +893,8 @@ class StudentController extends Controller implements AuthenticateSEDTokenInterf
                 if (Yii::app()->features->isEnable(TFeature::FEAT_INTEGRATIONS_SEDSP)) {
                     $this->excluirMatriculaFromSED($classes, $inNumRA);
                 }
+
+                Log::model()->saveAction('student', $id, 'D', $studentName);
 
                 Yii::app()->user->setFlash('success', Yii::t('default', 'Aluno excluído com sucesso!'));
                 $this->redirect(['index']);
