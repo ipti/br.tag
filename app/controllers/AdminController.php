@@ -283,16 +283,49 @@ SELECT
 
         $result = [];
 
-        $classrooms = Classroom::model()->findAllByAttributes(['school_year' => Yii::app()->user->year]);
-        foreach ($classrooms as $classroom) {
-            if ($classroom->calendar_fk == null) {
-                continue;
-            }
+        $classrooms = Yii::app()->db->createCommand(
+            'select c.id, c.name, cal.start_date, cal.end_date, esvm.edcenso_associated_stage_id
+             from classroom c
+             join calendar cal on cal.id = c.calendar_fk
+             left join edcenso_stage_vs_modality esvm on esvm.id = c.edcenso_stage_vs_modality_fk
+             where c.school_year = :school_year and c.calendar_fk is not null'
+        )->queryAll(true, [':school_year' => Yii::app()->user->year]);
 
-            $dates = Yii::app()->db->createCommand('select start_date, end_date from calendar where id = :calendar_fk')
-                ->queryRow(true, [':calendar_fk' => $classroom->calendar_fk]);
-            $start = (new DateTime($dates['start_date']))->modify('first day of this month');
-            $end = (new DateTime($dates['end_date']))->modify('first day of next month');
+        if (empty($classrooms)) {
+            $this->exportToCSV($result, $pathFile);
+            return;
+        }
+
+        $classroomIds = array_column($classrooms, 'id');
+        $placeholders = implode(',', array_fill(0, count($classroomIds), '?'));
+
+        $students = Yii::app()->db->createCommand(
+            "select se.classroom_fk, se.student_fk, si.inep_id, si.name
+             from student_enrollment se
+             join student_identification si on si.id = se.student_fk
+             where se.classroom_fk in ($placeholders)"
+        )->queryAll(true, $classroomIds);
+
+        $faults = Yii::app()->db->createCommand(
+            "select s.classroom_fk, cf.student_fk, s.day, s.month, s.year
+             from class_faults cf
+             join schedule s on s.id = cf.schedule_fk
+             where s.classroom_fk in ($placeholders)"
+        )->queryAll(true, $classroomIds);
+
+        $studentsByClassroom = [];
+        foreach ($students as $student) {
+            $studentsByClassroom[$student['classroom_fk']][] = $student;
+        }
+
+        $faultsByClassroom = [];
+        foreach ($faults as $fault) {
+            $faultsByClassroom[$fault['classroom_fk']][] = $fault;
+        }
+
+        foreach ($classrooms as $classroom) {
+            $start = (new DateTime($classroom['start_date']))->modify('first day of this month');
+            $end = (new DateTime($classroom['end_date']))->modify('first day of next month');
             $interval = DateInterval::createFromDateString('1 month');
             $period = new DatePeriod($start, $interval, $end);
             $months = [];
@@ -300,25 +333,11 @@ SELECT
                 array_push($months, $dt->format('m/Y'));
             }
 
-            $isMinorEducation = TagUtils::isStageMinorEducation($classroom->edcensoStageVsModalityFk->edcenso_associated_stage_id ?? null);
-
-            $students = Yii::app()->db->createCommand(
-                'select se.student_fk, si.inep_id, si.name
-                 from student_enrollment se
-                 join student_identification si on si.id = se.student_fk
-                 where se.classroom_fk = :classroom_fk'
-            )->queryAll(true, [':classroom_fk' => $classroom->id]);
-
-            $faults = Yii::app()->db->createCommand(
-                'select cf.student_fk, s.day, s.month, s.year
-                 from class_faults cf
-                 join schedule s on s.id = cf.schedule_fk
-                 where s.classroom_fk = :classroom_fk'
-            )->queryAll(true, [':classroom_fk' => $classroom->id]);
+            $isMinorEducation = TagUtils::isStageMinorEducation($classroom['edcenso_associated_stage_id']);
 
             $totalsByStudentAndMonth = [];
             $usedDaysForMinorEducation = [];
-            foreach ($faults as $fault) {
+            foreach ($faultsByClassroom[$classroom['id']] ?? [] as $fault) {
                 $month = str_pad($fault['month'], 2, '0', STR_PAD_LEFT) . '/' . $fault['year'];
                 $studentFk = $fault['student_fk'];
 
@@ -333,12 +352,12 @@ SELECT
                 $totalsByStudentAndMonth[$studentFk][$month] = ($totalsByStudentAndMonth[$studentFk][$month] ?? 0) + 1;
             }
 
-            foreach ($students as $student) {
+            foreach ($studentsByClassroom[$classroom['id']] ?? [] as $student) {
                 foreach ($months as $month) {
                     array_push($result, [
                         'inep_aluno' => $student['inep_id'],
                         'nome_aluno' => $student['name'],
-                        'turma' => $classroom->name,
+                        'turma' => $classroom['name'],
                         'mes' => $month,
                         'total_faltas' => $totalsByStudentAndMonth[$student['student_fk']][$month] ?? 0,
                     ]);
