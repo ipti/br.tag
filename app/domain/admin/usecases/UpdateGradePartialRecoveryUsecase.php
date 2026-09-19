@@ -16,15 +16,22 @@ class UpdateGradePartialRecoveryUsecase
 
     public function exec()
     {
+        $gradeRules = GradeRules::model()->findByPk($this->gradeRules);
+        $gradeRulesName = $gradeRules !== null ? $gradeRules->name : '';
+
         foreach ($this->partialRecoveries as  $partialRecovery) {
             $modelPartialRecovery = GradePartialRecovery::model()->findByPk($partialRecovery['id']);
 
             if ($partialRecovery['operation'] === 'delete') {
+                $recoveryId = $partialRecovery['id'];
+                $recoveryName = $modelPartialRecovery !== null ? $modelPartialRecovery->name : null;
                 $this->deleteRecovery($modelPartialRecovery);
+                Log::model()->saveAction('grade_structure', $recoveryId, 'D', $gradeRulesName . ' - Recuperação parcial: ' . $recoveryName);
                 echo json_encode(['valid' => true]);
                 Yii::app()->end();
             }
 
+            $isNewRecovery = $modelPartialRecovery === null;
             if ($modelPartialRecovery === null) {
                 $modelPartialRecovery = new GradePartialRecovery();
             }
@@ -41,6 +48,13 @@ class UpdateGradePartialRecoveryUsecase
             }
 
             if ($modelPartialRecovery->save()) {
+                Log::model()->saveAction(
+                    'grade_structure',
+                    $modelPartialRecovery->id,
+                    $isNewRecovery ? 'C' : 'U',
+                    $gradeRulesName . ' - Recuperação parcial: ' . $modelPartialRecovery->name
+                );
+
                 if ($partialRecovery['weights'] != null) {
                     $this->savePartialRecoveryWeights($partialRecovery['weights'], $modelPartialRecovery->id);
                 }

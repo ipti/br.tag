@@ -718,9 +718,25 @@ class ClassesController extends Controller
     public function actionSaveFrequencies()
     {
         $schedules = Schedule::model()->findAll('classroom_fk = :classroom_fk and day = :day and year = :year and month = :month', ['classroom_fk' => $_POST['classroomId'], 'day' => $_POST['day'], 'month' => $_POST['month'], 'year' => $_POST['year']]);
+        $classroom = Classroom::model()->findByPk($_POST['classroomId']);
         foreach ($schedules as $schedule) {
-            $this->saveFrequency($schedule);
+            $this->saveFrequency($schedule, $classroom);
         }
+    }
+
+    private function monthName($month)
+    {
+        $meses = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'];
+        return $meses[((int) $month) - 1] ?? '';
+    }
+
+    private function logFrequency($crud, $referenceId, $classroom)
+    {
+        if ($classroom === null) {
+            return;
+        }
+        $additionalInfo = $classroom->name . '|' . $_POST['year'] . '|' . $this->monthName($_POST['month']);
+        Log::model()->saveAction('frequency', $referenceId, $crud, $additionalInfo);
     }
 
     private function gerateDate($day, $month, $year, $usecase)
@@ -766,30 +782,34 @@ class ClassesController extends Controller
         $isMinor = $classroom->checkIsStageMinorEducation();
         if ($isMinor === false) {
             $schedule = Schedule::model()->find('classroom_fk = :classroom_fk and day = :day and year = :year and month = :month and schedule = :schedule', ['classroom_fk' => $_POST['classroomId'], 'day' => $_POST['day'], 'month' => $_POST['month'], 'year' => $_POST['year'], 'schedule' => $_POST['schedule']]);
-            $this->saveFrequency($schedule);
+            $this->saveFrequency($schedule, $classroom);
         } else {
             $schedules = Schedule::model()->findAll('classroom_fk = :classroom_fk and day = :day and year = :year and month = :month', ['classroom_fk' => $_POST['classroomId'], 'day' => $_POST['day'], 'month' => $_POST['month'], 'year' => $_POST['year']]);
             foreach ($schedules as $schedule) {
-                $this->saveFrequency($schedule);
+                $this->saveFrequency($schedule, $classroom);
             }
         }
     }
 
-    private function saveFrequency($schedule)
+    private function saveFrequency($schedule, $classroom = null)
     {
         if ($_POST['studentId'] != null) {
             if ($_POST['fault'] == '1') {
                 $classFault = new ClassFaults();
                 $classFault->student_fk = $_POST['studentId'];
                 $classFault->schedule_fk = $schedule->id;
-                $classFault->save();
+                if ($classFault->save()) {
+                    $this->logFrequency('C', $_POST['studentId'], $classroom);
+                }
             } else {
                 ClassFaults::model()->deleteAll(SCHEDULE_STUDENT_FILTER, ['schedule_fk' => $schedule->id, 'student_fk' => $_POST['studentId']]);
+                $this->logFrequency('D', $_POST['studentId'], $classroom);
             }
         } else {
             if ($_POST['fault'] == '1') {
                 $enrollments = StudentEnrollment::model()->findAll('classroom_fk = :classroom_fk', ['classroom_fk' => $_POST['classroomId']]);
 
+                $created = false;
                 foreach ($enrollments as $enrollment) {
                     $classFault = ClassFaults::model()->find(SCHEDULE_STUDENT_FILTER, ['schedule_fk' => $schedule->id, 'student_fk' => $enrollment->student_fk]);
                     $valid = $this->verifyStatusEnrollment($enrollment, $schedule);
@@ -797,11 +817,17 @@ class ClassesController extends Controller
                         $classFault = new ClassFaults();
                         $classFault->student_fk = $enrollment->student_fk;
                         $classFault->schedule_fk = $schedule->id;
-                        $classFault->save();
+                        if ($classFault->save()) {
+                            $created = true;
+                        }
                     }
+                }
+                if ($created) {
+                    $this->logFrequency('C', $schedule->id, $classroom);
                 }
             } else {
                 ClassFaults::model()->deleteAll('schedule_fk = :schedule_fk', ['schedule_fk' => $schedule->id]);
+                $this->logFrequency('D', $schedule->id, $classroom);
             }
         }
     }
@@ -844,10 +870,13 @@ class ClassesController extends Controller
     public function actionSaveJustifications()
     {
         $schedules = Schedule::model()->findAll('classroom_fk = :classroom_fk and day = :day and month = :month and year = :year ', ['classroom_fk' => $_POST['classroomId'], 'day' => $_POST['day'], 'month' => $_POST['month'], 'year' => $_POST['year']]);
+        $classroom = Classroom::model()->findByPk($_POST['classroomId']);
         foreach ($schedules as $schedule) {
             $classFault = ClassFaults::model()->find(SCHEDULE_STUDENT_FILTER, ['schedule_fk' => $schedule->id, 'student_fk' => $_POST['studentId']]);
             $classFault->justification = $_POST['justification'] == '' ? null : $_POST['justification'];
-            $classFault->save();
+            if ($classFault->save()) {
+                $this->logFrequency('U', $_POST['studentId'], $classroom);
+            }
         }
     }
 
@@ -859,13 +888,17 @@ class ClassesController extends Controller
             $schedule = Schedule::model()->find('classroom_fk = :classroom_fk and day = :day and month = :month and year = :year and schedule = :schedule', ['classroom_fk' => $_POST['classroomId'], 'day' => $_POST['day'], 'month' => $_POST['month'], 'year' => $_POST['year'], 'schedule' => $_POST['schedule']]);
             $classFault = ClassFaults::model()->find(SCHEDULE_STUDENT_FILTER, ['schedule_fk' => $schedule->id, 'student_fk' => $_POST['studentId']]);
             $classFault->justification = $_POST['justification'] == '' ? null : $_POST['justification'];
-            $classFault->save();
+            if ($classFault->save()) {
+                $this->logFrequency('U', $_POST['studentId'], $classroom);
+            }
         } else {
             $schedules = Schedule::model()->findAll('classroom_fk = :classroom_fk and day = :day and month = :month and year = :year ', ['classroom_fk' => $_POST['classroomId'], 'day' => $_POST['day'], 'month' => $_POST['month'], 'year' => $_POST['year']]);
             foreach ($schedules as $schedule) {
                 $classFault = ClassFaults::model()->find(SCHEDULE_STUDENT_FILTER, ['schedule_fk' => $schedule->id, 'student_fk' => $_POST['studentId']]);
                 $classFault->justification = $_POST['justification'] == '' ? null : $_POST['justification'];
-                $classFault->save();
+                if ($classFault->save()) {
+                    $this->logFrequency('U', $_POST['studentId'], $classroom);
+                }
             }
         }
     }

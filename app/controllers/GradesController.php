@@ -226,6 +226,7 @@ class GradesController extends Controller
     public function actionSaveGradesReportCard()
     {
         $discipline = $_POST['discipline'];
+        $classroomId = $_POST['classroom'];
         $students = $_POST['students'];
         $rule = $_POST['rule'];
 
@@ -272,6 +273,11 @@ class GradesController extends Controller
                     'GradeResult' => $gradeResult->id
                 ]);
             }
+        }
+
+        $classroom = Classroom::model()->findByPk($classroomId);
+        if ($classroom !== null) {
+            Log::model()->saveAction('grade', $classroomId, 'U', $classroom->name);
         }
 
         echo json_encode(['valid' => true]);
@@ -382,6 +388,8 @@ class GradesController extends Controller
             $timeElapsedSecs = microtime(true) - $start;
             Yii::log($std['enrollmentId'] . ' - ' . $timeElapsedSecs / 60, CLogger::LEVEL_INFO);
         }
+
+        Log::model()->saveAction('grade', $classroomId, 'U', $classroom->name);
 
         echo CJSON::encode(['valid' => true]);
     }
@@ -612,6 +620,12 @@ class GradesController extends Controller
             }
             self::saveGradeResults($classroomId, $disciplineId, $stage);
             $transaction->commit();
+
+            $classroom = Classroom::model()->findByPk($classroomId);
+            if ($classroom !== null) {
+                Log::model()->saveAction('grade', $classroomId, 'U', $classroom->name);
+            }
+
             header('HTTP/1.1 200 OK');
             echo json_encode(['valid' => true]);
         } catch (UndefinedRuleTypeException $e) {
@@ -706,6 +720,8 @@ class GradesController extends Controller
 
                 $classroom->is_closed = 1;
                 $classroom->save();
+
+                Log::model()->saveAction('grade', $classroom->id, 'U', $classroom->name);
             }
         }
 
@@ -786,6 +802,8 @@ class GradesController extends Controller
                 }
             }
             $transaction->commit();
+
+            Log::model()->saveAction('grade', $classroom->id, 'U', $classroom->name);
         } catch (Exception $e) {
             $transaction->rollback();
             TLog::error('Erro ao atualizar status da matrícula', ['Exception' => $e]);

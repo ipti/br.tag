@@ -240,6 +240,10 @@ class Log extends TagModel
                 $text = 'Estrutura de avaliação da turma "' . $log->additional_info . '" foi alterada.';
                 $icon = 'turmas';
                 break;
+            case 'grade_structure':
+                $text = 'A estrutura de avaliação "' . $log->additional_info . '" foi ' . $crud . '.';
+                $icon = 'notas';
+                break;
             case 'wizard_classroom':
                 $text = 'Turmas de ' . $log->additional_info . ' foram reaproveitadas.';
                 $icon = 'turmas';

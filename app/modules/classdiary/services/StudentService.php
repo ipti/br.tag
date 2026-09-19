@@ -142,7 +142,7 @@ class StudentService
                 'month' => DateTime::createFromFormat('d/m/Y', $date)->format('m')
             ]);
             foreach ($schedules as $schedule) {
-                $this->saveFrequency($schedule, $studentId, $fault);
+                $this->saveFrequency($schedule, $studentId, $fault, $classroom, $date);
             }
         } else {
             $schedule = Schedule::model()->find('classroom_fk = :classroom_fk and day = :day and month = :month and schedule = :schedule', [
@@ -151,20 +151,37 @@ class StudentService
                 'month' => DateTime::createFromFormat('d/m/Y', $date)->format('m'),
                 'schedule' => $schedule
             ]);
-            $this->saveFrequency($schedule, $studentId, $fault);
+            $this->saveFrequency($schedule, $studentId, $fault, $classroom, $date);
         }
     }
 
-    private function saveFrequency($schedule, $studentId, $fault)
+    private function saveFrequency($schedule, $studentId, $fault, $classroom = null, $date = null)
     {
         if ($fault == '1') {
             $classFault = new ClassFaults();
             $classFault->student_fk = $studentId;
             $classFault->schedule_fk = $schedule->id;
-            $classFault->save();
+            if ($classFault->save()) {
+                $this->logFrequency('C', $studentId, $classroom, $date);
+            }
         } else {
             ClassFaults::model()->deleteAll('schedule_fk = :schedule_fk and student_fk = :student_fk', ['schedule_fk' => $schedule->id, 'student_fk' => $studentId]);
+            $this->logFrequency('D', $studentId, $classroom, $date);
         }
+    }
+
+    private function logFrequency($crud, $referenceId, $classroom, $date)
+    {
+        if ($classroom === null || $date === null) {
+            return;
+        }
+        $dateObject = DateTime::createFromFormat('d/m/Y', $date);
+        if ($dateObject === false) {
+            return;
+        }
+        $meses = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'];
+        $additionalInfo = $classroom->name . '|' . $dateObject->format('Y') . '|' . $meses[(int) $dateObject->format('n') - 1];
+        Log::model()->saveAction('frequency', $referenceId, $crud, $additionalInfo);
     }
 
     public function saveJustification($studentId, $stageFk, $classroomId, $schedule, $date, $justification)
@@ -181,7 +198,9 @@ class StudentService
             foreach ($schedules as $schedule) {
                 $classFault = ClassFaults::model()->find('schedule_fk = :schedule_fk and student_fk = :student_fk', ['schedule_fk' => $schedule->id, 'student_fk' => $studentId]);
                 $classFault->justification = $justification == '' ? null : $justification;
-                $classFault->save();
+                if ($classFault->save()) {
+                    $this->logFrequency('U', $studentId, $classroom, $date);
+                }
             }
         } else {
             $schedule = Schedule::model()->find('classroom_fk = :classroom_fk and day = :day and month = :month and schedule = :schedule', [
@@ -192,7 +211,9 @@ class StudentService
             ]);
             $classFault = ClassFaults::model()->find('schedule_fk = :schedule_fk and student_fk = :student_fk', ['schedule_fk' => $schedule->id, 'student_fk' => $studentId]);
             $classFault->justification = $justification == '' ? null : $justification;
-            $classFault->save();
+            if ($classFault->save()) {
+                $this->logFrequency('U', $studentId, $classroom, $date);
+            }
         }
     }
 

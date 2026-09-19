@@ -142,11 +142,13 @@ class GradesStructureController extends Controller
 
         $transaction = Yii::app()->db->beginTransaction();
         try {
+            $gradeRulesName = $gradeRules->name;
             GradeRulesVsEdcensoStageVsModality::model()->deleteAllByAttributes(['grade_rules_fk' => $id]);
             $this->deletePartialRecoveries($id);
             $this->deleteUnities($id);
             $gradeRules->delete();
             $transaction->commit();
+            Log::model()->saveAction('grade_structure', $id, 'D', $gradeRulesName);
             Yii::app()->user->setFlash('notice', Yii::t('default', 'Estrutura apagada com sucesso!'));
         } catch (Exception $e) {
             $transaction->rollback();
@@ -322,6 +324,7 @@ class GradesStructureController extends Controller
         set_time_limit(0);
         ignore_user_abort();
         $gradeRulesId = Yii::app()->request->getPost('grade_rules_id');
+        $isNewGradeRules = empty($gradeRulesId);
         $gradeRulesName = Yii::app()->request->getPost('grade_rules_name');
         $reply = Yii::app()->request->getPost('reply');
         $stages = Yii::app()->request->getPost('stage');
@@ -358,13 +361,20 @@ class GradesStructureController extends Controller
                 $gradeRules->save(false);
             }
 
+            Log::model()->saveAction('grade_structure', $gradeRules->id, $isNewGradeRules ? 'C' : 'U', $gradeRulesName);
+
             $this->handleFinalConcept($gradeRules);
 
             if ($hasFinalRecovery === true) {
                 $this->handleFinalRecovery($gradeRulesId, $finalRecovery, true);
             } elseif ($hasFinalRecovery === false && $finalRecovery['operation'] === 'delete' && $gradeRules->rule_type === 'N') {
                 $recoveryUnity = GradeUnity::model()->findByPk((int) $finalRecovery['id']);
-                $recoveryUnity?->delete();
+                if ($recoveryUnity !== null) {
+                    $recoveryUnityName = $recoveryUnity->name;
+                    $recoveryUnityId = $recoveryUnity->id;
+                    $recoveryUnity->delete();
+                    Log::model()->saveAction('grade_structure', $recoveryUnityId, 'D', $gradeRulesName . ' - Recuperação final: ' . $recoveryUnityName);
+                }
                 echo json_encode(['valid' => true, 'gradeRules' => $gradeRules->id]);
                 Yii::app()->end();
             }
@@ -394,6 +404,7 @@ class GradesStructureController extends Controller
                     throw new CHttpException(400, "Não foi possivel salvar dados do conceito final: \n" . $msg, 1);
                 }
                 $unity->save();
+                Log::model()->saveAction('grade_structure', $unity->id, 'C', $gradeRules->name . ' - Unidade: ' . $unity->name);
 
                 $modality = new GradeUnityModality();
                 $modality->name = 'AVALIAÇÃO';
@@ -404,6 +415,7 @@ class GradesStructureController extends Controller
                     throw new CantSaveGradeUnityModalityException($modality);
                 }
                 $modality->save();
+                Log::model()->saveAction('grade_structure', $modality->id, 'C', $gradeRules->name . ' - Unidade: ' . $unity->name . ' - Modalidade: ' . $modality->name);
             }
         } elseif ($gradeRules->rule_type === 'N') {
             $concepts = GradeUnity::model()->findAllByAttributes(
@@ -415,8 +427,10 @@ class GradesStructureController extends Controller
                     if ($modalityModel != null) {
                         Grade::model()->deleteAllByAttributes(['grade_unity_modality_fk' => $modalityModel->id]);
                         $modalityModel->delete();
+                        Log::model()->saveAction('grade_structure', $modalityModel->id, 'D', $gradeRules->name . ' - Unidade: ' . $concept->name . ' - Modalidade: ' . $modalityModel->name);
                     }
                     $concept->delete();
+                    Log::model()->saveAction('grade_structure', $concept->id, 'D', $gradeRules->name . ' - Unidade: ' . $concept->name);
                 }
             }
         }
@@ -424,7 +438,11 @@ class GradesStructureController extends Controller
 
     private function handleFinalRecovery($gradeRulesId, $finalRecovery, $hasFinalRecovery): void
     {
+        $gradeRules = GradeRules::model()->findByPk($gradeRulesId);
+        $gradeRulesName = $gradeRules !== null ? $gradeRules->name : '';
+
         $recoveryUnity = GradeUnity::model()->findByPk($finalRecovery['id']);
+        $isNewRecoveryUnity = $recoveryUnity === null;
         if ($recoveryUnity === null) {
             $recoveryUnity = new GradeUnity();
         }
@@ -444,8 +462,15 @@ class GradesStructureController extends Controller
             throw new CHttpException(400, "Não foi possivel salvar dados da recuperação final: \n" . $msg, 1);
         }
         $recoveryUnity->save();
+        Log::model()->saveAction(
+            'grade_structure',
+            $recoveryUnity->id,
+            $isNewRecoveryUnity ? 'C' : 'U',
+            $gradeRulesName . ' - Recuperação final: ' . $recoveryUnity->name
+        );
 
         $modalityModel = GradeUnityModality::model()->findByAttributes(['grade_unity_fk' => $recoveryUnity->id]);
+        $isNewRecoveryModality = $modalityModel == null;
         if ($modalityModel == null) {
             $modalityModel = new GradeUnityModality();
         }
@@ -457,6 +482,12 @@ class GradesStructureController extends Controller
             throw new CantSaveGradeUnityModalityException($modalityModel);
         }
         $modalityModel->save();
+        Log::model()->saveAction(
+            'grade_structure',
+            $modalityModel->id,
+            $isNewRecoveryModality ? 'C' : 'U',
+            $gradeRulesName . ' - Recuperação final: ' . $recoveryUnity->name . ' - Modalidade: ' . $modalityModel->name
+        );
     }
 
     // -------------------------------------------------------
@@ -469,7 +500,8 @@ class GradesStructureController extends Controller
 
         try {
             $usecase = new CopyGradeStructUsecase($id, $effectiveYear);
-            $usecase->exec();
+            $newGradeRules = $usecase->exec();
+            Log::model()->saveAction('grade_structure', $newGradeRules->id, 'C', $newGradeRules->name);
             Yii::app()->user->setFlash('notice', 'Estrutura copiada com sucesso!');
         } catch (CHttpException $e) {
             throw $e;

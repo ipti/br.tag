@@ -78,6 +78,7 @@ class UpdateGradeJustOneStructUsecase
         foreach ($unities as $unity) {
             if ($unity['operation'] === self::OP_CREATE || $unity['operation'] === self::OP_UPDATE) {
                 $unityModel = GradeUnity::model()->find('id = :id', [':id' => $unity['id']]);
+                $isNewUnity = $unityModel == null;
 
                 if ($unityModel == null) {
                     $unityModel = new GradeUnity();
@@ -96,9 +97,19 @@ class UpdateGradeJustOneStructUsecase
 
                 $unityModel->save();
 
+                Log::model()->saveAction(
+                    'grade_structure',
+                    $unityModel->id,
+                    $isNewUnity ? 'C' : 'U',
+                    $this->gradeRulesName . ' - Unidade: ' . $unityModel->name
+                );
+
                 $this->buildAvaliationModalities($unityModel, $unity['modalities']);
             } elseif ($unity['operation'] === self::OP_REMOVE) {
+                $unityToRemove = GradeUnity::model()->findByPk($unity['id']);
+                $unityName = $unityToRemove !== null ? $unityToRemove->name : null;
                 GradeUnity::model()->deleteByPk($unity['id']);
+                Log::model()->saveAction('grade_structure', $unity['id'], 'D', $this->gradeRulesName . ' - Unidade: ' . $unityName);
             }
         }
     }
@@ -112,6 +123,7 @@ class UpdateGradeJustOneStructUsecase
 
             if ($m['operation'] === self::OP_CREATE || $m['operation'] === self::OP_UPDATE) {
                 $modalityModel = GradeUnityModality::model()->find('id = :id', [':id' => $m['id']]);
+                $isNewModality = $modalityModel == null;
                 if ($modalityModel == null) {
                     $modalityModel = new GradeUnityModality();
                 }
@@ -125,8 +137,23 @@ class UpdateGradeJustOneStructUsecase
                 }
 
                 $modalityModel->save();
+
+                Log::model()->saveAction(
+                    'grade_structure',
+                    $modalityModel->id,
+                    $isNewModality ? 'C' : 'U',
+                    $this->gradeRulesName . ' - Unidade: ' . $unity->name . ' - Modalidade: ' . $modalityModel->name
+                );
             } elseif ($m['operation'] === self::OP_REMOVE) {
+                $modalityToRemove = GradeUnityModality::model()->findByPk($m['id']);
+                $modalityName = $modalityToRemove !== null ? $modalityToRemove->name : null;
                 GradeUnityModality::model()->deleteByPk($m['id']);
+                Log::model()->saveAction(
+                    'grade_structure',
+                    $m['id'],
+                    'D',
+                    $this->gradeRulesName . ' - Unidade: ' . $unity->name . ' - Modalidade: ' . $modalityName
+                );
             }
         }
     }
