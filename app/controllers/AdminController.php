@@ -285,43 +285,63 @@ SELECT
 
         $classrooms = Classroom::model()->findAllByAttributes(['school_year' => Yii::app()->user->year]);
         foreach ($classrooms as $classroom) {
-            if ($classroom->calendar_fk != null) {
-                $dates = Yii::app()->db->createCommand('select start_date, end_date from calendar join classroom on calendar.id = classroom.calendar_fk where classroom.id = ' . $classroom->id)->queryRow();
-                $start = (new DateTime($dates['start_date']))->modify('first day of this month');
-                $end = (new DateTime($dates['end_date']))->modify('first day of next month');
-                $interval = DateInterval::createFromDateString('1 month');
-                $period = new DatePeriod($start, $interval, $end);
-                $months = [];
-                foreach ($period as $dt) {
-                    array_push($months, $dt->format('m/Y'));
+            if ($classroom->calendar_fk == null) {
+                continue;
+            }
+
+            $dates = Yii::app()->db->createCommand('select start_date, end_date from calendar where id = :calendar_fk')
+                ->queryRow(true, [':calendar_fk' => $classroom->calendar_fk]);
+            $start = (new DateTime($dates['start_date']))->modify('first day of this month');
+            $end = (new DateTime($dates['end_date']))->modify('first day of next month');
+            $interval = DateInterval::createFromDateString('1 month');
+            $period = new DatePeriod($start, $interval, $end);
+            $months = [];
+            foreach ($period as $dt) {
+                array_push($months, $dt->format('m/Y'));
+            }
+
+            $isMinorEducation = TagUtils::isStageMinorEducation($classroom->edcensoStageVsModalityFk->edcenso_associated_stage_id ?? null);
+
+            $students = Yii::app()->db->createCommand(
+                'select se.student_fk, si.inep_id, si.name
+                 from student_enrollment se
+                 join student_identification si on si.id = se.student_fk
+                 where se.classroom_fk = :classroom_fk'
+            )->queryAll(true, [':classroom_fk' => $classroom->id]);
+
+            $faults = Yii::app()->db->createCommand(
+                'select cf.student_fk, s.day, s.month, s.year
+                 from class_faults cf
+                 join schedule s on s.id = cf.schedule_fk
+                 where s.classroom_fk = :classroom_fk'
+            )->queryAll(true, [':classroom_fk' => $classroom->id]);
+
+            $totalsByStudentAndMonth = [];
+            $usedDaysForMinorEducation = [];
+            foreach ($faults as $fault) {
+                $month = str_pad($fault['month'], 2, '0', STR_PAD_LEFT) . '/' . $fault['year'];
+                $studentFk = $fault['student_fk'];
+
+                if ($isMinorEducation) {
+                    $dayKey = $studentFk . '-' . $fault['day'] . '-' . $fault['month'] . '-' . $fault['year'];
+                    if (isset($usedDaysForMinorEducation[$dayKey])) {
+                        continue;
+                    }
+                    $usedDaysForMinorEducation[$dayKey] = true;
                 }
 
-                foreach ($classroom->studentEnrollments as $studentEnrollment) {
-                    $usedDaysForMinorEducation = [];
-                    foreach ($months as $month) {
-                        $studentIdentification = $studentEnrollment->studentFk;
-                        $row['inep_aluno'] = $studentIdentification->inep_id;
-                        $row['nome_aluno'] = $studentIdentification->name;
-                        $row['turma'] = $classroom->name;
-                        $row['mes'] = $month;
-                        $row['total_faltas'] = 0;
-                        $classFaults = ClassFaults::model()->findAllBySql('select cf.* from class_faults cf join schedule s on s.id = cf.schedule_fk where s.classroom_fk = :classroom_fk and cf.student_fk = :student_fk', ['classroom_fk' => $classroom->id, 'student_fk' => $studentIdentification->id]);
-                        foreach ($classFaults as $classFault) {
-                            $schedule = $classFault->scheduleFk;
-                            if ($month == str_pad($schedule->month, 2, '0', STR_PAD_LEFT) . '/' . $schedule->year) {
-                                if (TagUtils::isStageMinorEducation($classroom->edcenso_stage_vs_modality_fk)) {
-                                    if (!in_array($schedule->day . $schedule->month . $schedule->year, $usedDaysForMinorEducation)) {
-                                        $row['total_faltas']++;
-                                        array_push($usedDaysForMinorEducation, $schedule->day . $schedule->month . $schedule->year);
-                                    }
-                                } else {
-                                    $row['total_faltas']++;
-                                }
-                            }
-                        }
+                $totalsByStudentAndMonth[$studentFk][$month] = ($totalsByStudentAndMonth[$studentFk][$month] ?? 0) + 1;
+            }
 
-                        array_push($result, $row);
-                    }
+            foreach ($students as $student) {
+                foreach ($months as $month) {
+                    array_push($result, [
+                        'inep_aluno' => $student['inep_id'],
+                        'nome_aluno' => $student['name'],
+                        'turma' => $classroom->name,
+                        'mes' => $month,
+                        'total_faltas' => $totalsByStudentAndMonth[$student['student_fk']][$month] ?? 0,
+                    ]);
                 }
             }
         }
