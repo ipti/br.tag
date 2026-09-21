@@ -70,13 +70,36 @@
         if (proposal.operation === 'append' && $target.val()) {
             value = $target.val() + value;
         }
-        $target.val(value).trigger('change');
 
         var editor = $target.data('macete-rich-text');
-        if (editor) {
-            editor.clipboard.dangerouslyPasteHTML(value, 'silent');
+        if (!editor && window.Macete && typeof window.Macete.initRichText === 'function') {
+            window.Macete.initRichText($target.parent());
+            editor = $target.data('macete-rich-text');
         }
+        if (editor) {
+            editor.setText('', 'silent');
+            editor.clipboard.dangerouslyPasteHTML(value, 'silent');
+            value = editor.root.innerHTML;
+        }
+        $target.val(value).trigger('change');
         return true;
+    }
+
+    function chatInputValue($input) {
+        var editor = $input.data('macete-rich-text');
+        return editor ? editor.root.innerHTML : $input.val();
+    }
+
+    function clearChatInput($input) {
+        var editor = $input.data('macete-rich-text');
+        if (editor) {
+            editor.setText('', 'silent');
+        }
+        $input.val('');
+    }
+
+    function hasChatContent(value) {
+        return $.trim($('<div>').html(value || '').text()) !== '';
     }
 
     function applyAllProposals(proposals) {
@@ -166,6 +189,17 @@
         return xhr && xhr.responseJSON ? xhr.responseJSON.code : null;
     }
 
+    function assistantValidationMessage(xhr) {
+        var errors = xhr && xhr.responseJSON ? xhr.responseJSON.validation_errors : null;
+        if (!$.isArray(errors) || errors.length === 0) {
+            return 'Não foi possível consultar o assistente agora. Tente novamente em instantes.';
+        }
+        var fields = $.map(errors, function (error) {
+            return $.isArray(error.location) ? error.location.join('.') : '';
+        });
+        return 'O contexto do plano precisa ser revisado: ' + fields.join(', ') + '.';
+    }
+
     $(function () {
         var $panel = $('.js-macete-assistant');
         if ($panel.length === 0 || $panel.data('enabled') !== true) {
@@ -178,6 +212,12 @@
         var $messages = $panel.find('.js-macete-assistant-messages');
         var $status = $panel.find('.js-macete-assistant-status');
         var $toggle = $panel.find('.js-macete-assistant-toggle');
+        var sendLabel = $.trim($send.text()) || 'Enviar';
+
+        function setSending(isSending) {
+            $send.prop('disabled', isSending);
+            $send.text(isSending ? 'Gerando resposta…' : sendLabel);
+        }
 
         $toggle.on('click', function () {
             var minimized = !$panel.hasClass('is-minimized');
@@ -193,14 +233,17 @@
         });
 
         $send.on('click', function () {
-            var userMessage = $.trim($message.val());
-            if (!userMessage) {
+            if ($send.prop('disabled')) {
+                return;
+            }
+            var userMessage = $.trim(chatInputValue($message));
+            if (!hasChatContent(userMessage)) {
                 $status.text('Escreva uma mensagem para continuar.');
                 $message.trigger('focus');
                 return;
             }
 
-            $send.prop('disabled', true);
+            setSending(true);
             $status.text('Gerando sugestão...');
 
             function requestReply(forceNewConversation) {
@@ -225,7 +268,7 @@
             }
 
             function showReply(reply) {
-                appendMessage($messages, 'Você', userMessage, false);
+                appendMessage($messages, 'Você', userMessage, true);
                 appendMessage($messages, 'Assistente', reply.message || 'Não foi possível gerar uma resposta.', true);
                 appendProposals($messages, reply.proposals, $status);
                 appendSources($messages, reply.sources);
@@ -235,7 +278,7 @@
                 } else {
                     $status.text('Sugestão recebida. Revise-a antes de aplicar ao plano.');
                 }
-                $message.val('');
+                clearChatInput($message);
                 scrollMessages($messages);
             }
 
@@ -245,21 +288,23 @@
                     requestReply(true).done(showReply).fail(function () {
                         $status.text('Não foi possível consultar o assistente agora. Tente novamente em instantes.');
                     }).always(function () {
-                        $send.prop('disabled', false);
+                        setSending(false);
                     });
                     return;
                 }
-                $status.text('Não foi possível consultar o assistente agora. Tente novamente em instantes.');
-                $send.prop('disabled', false);
+                $status.text(assistantValidationMessage(xhr));
+                setSending(false);
             }).done(function () {
-                $send.prop('disabled', false);
+                setSending(false);
             });
         });
 
-        $message.on('keydown', function (event) {
+        $message.add($message.prev('.macete-rich-text').find('.ql-editor')).on('keydown', function (event) {
             if ((event.ctrlKey || event.metaKey) && event.key === 'Enter') {
                 event.preventDefault();
-                $send.trigger('click');
+                if (!$send.prop('disabled')) {
+                    $send.trigger('click');
+                }
             }
         });
     });

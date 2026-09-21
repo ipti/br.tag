@@ -46,9 +46,14 @@ class MaceteAiPlanContextResolver
 
     private function resolvePlan(MaceteLessonPlan $lessonPlan): array
     {
+        $schoolYear = (int) $lessonPlan->school_year;
+        if ($schoolYear < 2000) {
+            $schoolYear = (int) Yii::app()->user->year;
+        }
+
         return [
             'external_id' => $lessonPlan->isNewRecord ? null : (int) $lessonPlan->id,
-            'school_year' => (int) $lessonPlan->school_year,
+            'school_year' => $schoolYear,
             'name' => (string) $lessonPlan->name,
             'theme' => (string) $lessonPlan->theme,
             'unit' => (string) $lessonPlan->unit,
@@ -57,8 +62,8 @@ class MaceteAiPlanContextResolver
             'draft' => [
                 'territory_context' => (string) $lessonPlan->territory_context,
                 'knowledge_object' => (string) $lessonPlan->knowledge_object,
-                'sections' => $this->lessonPlanService->getSectionValues($lessonPlan),
-                'resources' => $this->lessonPlanService->getResourceValues($lessonPlan),
+                'sections' => $this->normalizeSections($this->lessonPlanService->getSectionValues($lessonPlan)),
+                'resources' => $this->normalizeTextValues($this->lessonPlanService->getResourceValues($lessonPlan)),
                 'evaluation' => (string) $lessonPlan->evaluation,
                 'references_text' => (string) $lessonPlan->references_text,
             ],
@@ -90,9 +95,9 @@ class MaceteAiPlanContextResolver
 
         return [
             'stage_id' => (int) $stage->id,
-            'stage_name' => (string) $stage->name,
+            'stage_name' => (string) ($stage->name ?? ''),
             'discipline_id' => (int) $discipline->id,
-            'discipline_name' => (string) $discipline->name,
+            'discipline_name' => (string) ($discipline->name ?? ''),
         ];
     }
 
@@ -108,6 +113,24 @@ class MaceteAiPlanContextResolver
         }
 
         return $abilities;
+    }
+
+    private function normalizeSections(array $sections): array
+    {
+        $normalized = [];
+        foreach ($sections as $section => $targets) {
+            if (!is_array($targets)) {
+                $targets = ['general' => $targets];
+            }
+            $normalized[(string) $section] = $this->normalizeTextValues($targets);
+        }
+
+        return $normalized;
+    }
+
+    private function normalizeTextValues(array $values): array
+    {
+        return array_map(static fn ($value): string => $value === null ? '' : (string) $value, $values);
     }
 
     private function pseudonymizeActor(int $userId): string

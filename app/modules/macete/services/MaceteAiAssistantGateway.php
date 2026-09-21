@@ -65,7 +65,18 @@ class MaceteAiAssistantGateway
             throw new MaceteAiAssistantGatewayException('assistant_connection_failed');
         }
         if ($statusCode < 200 || $statusCode >= 300) {
-            throw new MaceteAiAssistantGatewayException($this->normalizeErrorCode($statusCode), $statusCode);
+            $validationErrors = [];
+            if ($statusCode === 422) {
+                $validationErrors = $this->validationErrorsFromResponse($response);
+                TLog::warning('O serviço MACETE IA rejeitou o formato do contexto.', [
+                    'validation_errors' => $validationErrors,
+                ]);
+            }
+            throw new MaceteAiAssistantGatewayException(
+                $this->normalizeErrorCode($statusCode),
+                $statusCode,
+                $validationErrors
+            );
         }
 
         try {
@@ -99,5 +110,26 @@ class MaceteAiAssistantGateway
             504 => 'assistant_timeout',
             default => 'assistant_request_failed',
         };
+    }
+
+    private function validationErrorsFromResponse(string $response): array
+    {
+        try {
+            $payload = json_decode($response, true, 512, JSON_THROW_ON_ERROR);
+        } catch (JsonException) {
+            return [];
+        }
+
+        if (!is_array($payload) || !is_array($payload['detail'] ?? null)) {
+            return [];
+        }
+
+        return array_map(
+            static fn (array $error): array => [
+                'location' => $error['loc'] ?? [],
+                'type' => $error['type'] ?? '',
+            ],
+            array_filter($payload['detail'], 'is_array')
+        );
     }
 }

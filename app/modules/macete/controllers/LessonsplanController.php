@@ -100,9 +100,9 @@ class LessonsplanController extends Controller
 
         if (isset($_POST['MaceteLessonPlan'])) {
             try {
-                $lessonPlan = $this->lessonPlanService()->save($lessonPlan, $_POST);
-                TLog::info('Plano MACETE salvo com sucesso.', ['MaceteLessonPlan' => $lessonPlan->id]);
-                Yii::app()->user->setFlash('success', 'Plano MACETE salvo com sucesso!');
+                $lessonPlan = $this->lessonPlanService()->createDraft($_POST);
+                TLog::info('Rascunho de plano MACETE criado com sucesso.', ['MaceteLessonPlan' => $lessonPlan->id]);
+                Yii::app()->user->setFlash('success', 'Rascunho criado. Complete o plano com os recursos disponíveis.');
                 $this->redirect(['update', 'id' => $lessonPlan->id]);
             } catch (Exception $exception) {
                 TLog::error('Erro ao salvar plano MACETE.', $exception->getMessage());
@@ -180,6 +180,7 @@ class LessonsplanController extends Controller
         if ($lessonPlan === null) {
             return;
         }
+        $lessonPlan->refresh();
 
         if (!$this->isAssistantConfigured()) {
             $this->renderAssistantJson(['code' => 'assistant_not_configured'], 503);
@@ -193,7 +194,11 @@ class LessonsplanController extends Controller
             $this->renderAssistantJson($response, 201);
         } catch (MaceteAiAssistantGatewayException $exception) {
             TLog::error('Não foi possível iniciar a conversa do assistente MACETE.', $exception->errorCode);
-            $this->renderAssistantJson(['code' => $exception->errorCode], $this->assistantStatusCode($exception));
+            $payload = ['code' => $exception->errorCode];
+            if (!empty($exception->validationErrors)) {
+                $payload['validation_errors'] = $exception->validationErrors;
+            }
+            $this->renderAssistantJson($payload, $this->assistantStatusCode($exception));
         }
     }
 
@@ -227,7 +232,11 @@ class LessonsplanController extends Controller
             $this->renderAssistantJson($this->validateAssistantReply($response));
         } catch (MaceteAiAssistantGatewayException $exception) {
             TLog::error('Não foi possível enviar a mensagem ao assistente MACETE.', $exception->errorCode);
-            $this->renderAssistantJson(['code' => $exception->errorCode], $this->assistantStatusCode($exception));
+            $payload = ['code' => $exception->errorCode];
+            if (!empty($exception->validationErrors)) {
+                $payload['validation_errors'] = $exception->validationErrors;
+            }
+            $this->renderAssistantJson($payload, $this->assistantStatusCode($exception));
         }
     }
 

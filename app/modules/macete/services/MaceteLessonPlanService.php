@@ -70,6 +70,23 @@ class MaceteLessonPlanService
         }
     }
 
+    public function createDraft(array $request): MaceteLessonPlan
+    {
+        $planData = $request['MaceteLessonPlan'] ?? [];
+        $theme = trim((string) ($planData['theme'] ?? ''));
+        if ($theme === '') {
+            throw new CException('Informe o tema para criar o rascunho do plano MACETE.');
+        }
+
+        if (trim((string) ($planData['name'] ?? '')) === '') {
+            $planData['name'] = 'Plano: ' . mb_substr($theme, 0, 140);
+        }
+        $planData['status'] = MaceteLessonPlan::STATUS_DRAFT;
+        $request['MaceteLessonPlan'] = $planData;
+
+        return $this->save(new MaceteLessonPlan(), $request);
+    }
+
     public function getStages(): array
     {
         if (TagUtils::isInstructor()) {
