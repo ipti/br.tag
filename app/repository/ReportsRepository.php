@@ -151,6 +151,88 @@ class ReportsRepository
     }
 
     /**
+     * Relação nominal de alunos ativos com infrequência acumulada superior a 30%.
+     *
+     * A carga horária considera os horários válidos da turma e as faltas sem
+     * justificativa. Nas etapas menores, horários e faltas são agrupados por
+     * dia letivo, seguindo a mesma regra aplicada em StudentEnrollment e no
+     * relatório do Bolsa Família.
+     */
+    public function getInfrequentStudentsReport(): array
+    {
+        $sql = 'SELECT
+                    school.name AS school_name,
+                    classroom.name AS classroom_name,
+                    COALESCE(enrollment_stage.name, classroom_stage.name) AS stage_name,
+                    classroom.turn AS classroom_turn,
+                    student.name AS student_name,
+                    student.birthday AS birthday,
+                    documents.cpf AS cpf,
+                    documents.address AS address,
+                    documents.number AS address_number,
+                    documents.complement AS address_complement,
+                    documents.neighborhood AS neighborhood,
+                    student.responsable_name AS responsable_name,
+                    student.responsable_telephone AS responsable_telephone,
+                    schedule_totals.total_classes,
+                    COALESCE(fault_totals.total_faults, 0) AS total_faults,
+                    ROUND((COALESCE(fault_totals.total_faults, 0) / schedule_totals.total_classes) * 100, 2) AS absence_percentage
+                FROM student_enrollment enrollment
+                INNER JOIN student_identification student ON student.id = enrollment.student_fk
+                INNER JOIN classroom classroom ON classroom.id = enrollment.classroom_fk
+                INNER JOIN school_identification school ON school.inep_id = classroom.school_inep_fk
+                LEFT JOIN edcenso_stage_vs_modality enrollment_stage ON enrollment_stage.id = enrollment.edcenso_stage_vs_modality_fk
+                LEFT JOIN edcenso_stage_vs_modality classroom_stage ON classroom_stage.id = classroom.edcenso_stage_vs_modality_fk
+                LEFT JOIN student_documents_and_address documents ON documents.id = student.id
+                INNER JOIN (
+                    SELECT schedule.classroom_fk,
+                        CASE
+                            WHEN classroom_stage.edcenso_associated_stage_id IN (1, 2, 3, 4, 5, 6, 7, 8, 14, 15, 16, 17, 18)
+                                THEN COUNT(DISTINCT CONCAT(schedule.year, LPAD(schedule.month, 2, 0), LPAD(schedule.day, 2, 0)))
+                            ELSE COUNT(*)
+                        END AS total_classes
+                    FROM schedule
+                    INNER JOIN classroom ON classroom.id = schedule.classroom_fk
+                    LEFT JOIN edcenso_stage_vs_modality classroom_stage ON classroom_stage.id = classroom.edcenso_stage_vs_modality_fk
+                    WHERE schedule.unavailable = 0 AND schedule.year = :schedule_year
+                    GROUP BY schedule.classroom_fk, classroom_stage.edcenso_associated_stage_id
+                ) schedule_totals ON schedule_totals.classroom_fk = classroom.id
+                LEFT JOIN (
+                    SELECT schedule.classroom_fk,
+                        class_faults.student_fk,
+                        CASE
+                            WHEN classroom_stage.edcenso_associated_stage_id IN (1, 2, 3, 4, 5, 6, 7, 8, 14, 15, 16, 17, 18)
+                                THEN COUNT(DISTINCT CONCAT(schedule.year, LPAD(schedule.month, 2, 0), LPAD(schedule.day, 2, 0)))
+                            ELSE COUNT(DISTINCT class_faults.id)
+                        END AS total_faults
+                    FROM class_faults
+                    INNER JOIN schedule ON schedule.id = class_faults.schedule_fk
+                    INNER JOIN classroom ON classroom.id = schedule.classroom_fk
+                    LEFT JOIN edcenso_stage_vs_modality classroom_stage ON classroom_stage.id = classroom.edcenso_stage_vs_modality_fk
+                    WHERE schedule.unavailable = 0
+                        AND schedule.year = :fault_year
+                        AND class_faults.justification IS NULL
+                    GROUP BY schedule.classroom_fk, class_faults.student_fk, classroom_stage.edcenso_associated_stage_id
+                ) fault_totals ON fault_totals.classroom_fk = classroom.id
+                    AND fault_totals.student_fk = enrollment.student_fk
+                WHERE classroom.school_year = :school_year
+                    AND (enrollment.status = 1 OR enrollment.status IS NULL)
+                    AND (COALESCE(fault_totals.total_faults, 0) / schedule_totals.total_classes) > 0.30
+                ORDER BY school.name, classroom.name, student.name';
+
+        $result = Yii::app()->db->createCommand($sql)
+            ->bindValue(':schedule_year', $this->currentYear)
+            ->bindValue(':fault_year', $this->currentYear)
+            ->bindValue(':school_year', $this->currentYear)
+            ->queryAll();
+
+        return [
+            'report' => $result,
+            'title' => 'RELAÇÃO DE ALUNOS ATIVOS COM INFREQUÊNCIA SUPERIOR A 30%',
+        ];
+    }
+
+    /**
      * Número de Alunos Matriculados por Período em todas as Escolas
      */
     public function getNumberOfStudentsEnrolledPerPeriodAllSchools(CHttpRequest $request): array

@@ -31,7 +31,8 @@ class ReportsController extends Controller
                     'NumberOfStudentsEnrolledPerPeriodPerSchool', 'NumberOfStudentsEnrolledPerPeriodAllSchools',
                     'AllSchoolsReportOfStudentsBenefitingFromTheBF', 'AllClassroomsReportOfStudentsBenefitingFromTheBF',
                     'ReportOfStudentsBenefitingFromTheBFPerClassroom', 'TeachersByStage', 'TeachersBySchool', 'StatisticalData',
-                    'NumberOfClassesPerSchool', 'NumberOfClassesPerSchool', 'StudentCpfRgNisPerClassroom', 'FoodMenu'],
+                    'NumberOfClassesPerSchool', 'NumberOfClassesPerSchool', 'StudentCpfRgNisPerClassroom',
+                    'InfrequentStudentsReport', 'FoodMenu'],
                 'users' => ['@'],
             ],
             ['deny', // deny all users
@@ -77,6 +78,13 @@ class ReportsController extends Controller
         $repository = new ReportsRepository();
         $query = $repository->getStudentCpfRgNisPerClassroom(Yii::app()->request);
         $this->render('StudentCpfRgNis', $query);
+    }
+
+    public function actionInfrequentStudentsReport()
+    {
+        $repository = new ReportsRepository();
+        $query = $repository->getInfrequentStudentsReport();
+        $this->render('InfrequentStudentsReport', $query);
     }
 
     public function actionNumberOfStudentsEnrolledPerPeriodAllSchools()

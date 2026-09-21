@@ -125,6 +125,18 @@ $this->breadcrumbs = array(
                     </button>
                 </a>
 
+                <a href="<?php echo Yii::app()->createUrl('reports/infrequentstudentsreport') ?>" target="_blank" rel="noopener">
+                    <button type="button" class="report-box-container">
+                        <div class="pull-left" style="margin-right: 20px;">
+                            <span class="t-icon-percentage t-reports_icons"></span>
+                        </div>
+                        <div class="pull-left">
+                            <span class="title">Alunos infrequentes</span><br>
+                            <span class="subtitle">Alunos ativos com mais de 30% de faltas acumuladas</span>
+                        </div>
+                    </button>
+                </a>
+
                 <a href="<?php echo Yii::app()->createUrl('reports/studentsbyclassroomreport') ?>" target="_blank" rel="noopener">
                     <button type="button" class="report-box-container">
                         <div class="pull-left" style="margin-right: 20px;">
