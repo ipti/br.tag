@@ -3,6 +3,7 @@
 class LessonsplanController extends Controller
 {
     private ?MaceteLessonPlanService $lessonPlanService = null;
+    private ?MaceteLessonPlanTemplateService $lessonPlanTemplateService = null;
     private ?MaceteAbilityService $abilityService = null;
     private ?MaceteAccessService $accessService = null;
 
@@ -58,12 +59,6 @@ class LessonsplanController extends Controller
             $criteria->params[':discipline'] = (int) $discipline;
         }
 
-        $status = Yii::app()->request->getQuery('status');
-        if ($status !== null && $status !== '') {
-            $criteria->addCondition('status = :status');
-            $criteria->params[':status'] = $status;
-        }
-
         $dataProvider = new CActiveDataProvider('MaceteLessonPlan', [
             'criteria' => $criteria,
             'pagination' => false,
@@ -76,7 +71,6 @@ class LessonsplanController extends Controller
             'filters' => [
                 'stage' => $stage,
                 'discipline' => $discipline,
-                'status' => $status,
             ],
         ]);
     }
@@ -85,7 +79,15 @@ class LessonsplanController extends Controller
     {
         $this->accessService()->requireLessonPlanFeature();
         $lessonPlan = new MaceteLessonPlan();
-        $lessonPlan->status = MaceteLessonPlan::STATUS_DRAFT;
+        $template = null;
+
+        $templateId = Yii::app()->request->getQuery('templateId');
+        if ($templateId !== null && $templateId !== '') {
+            $template = $this->lessonPlanTemplateService()->loadModel((int) $templateId);
+            if ($template !== null) {
+                $lessonPlan->origin_template_fk = $template->id;
+            }
+        }
 
         if (isset($_POST['MaceteLessonPlan'])) {
             try {
@@ -99,7 +101,7 @@ class LessonsplanController extends Controller
             }
         }
 
-        $this->render('create', $this->buildFormData($lessonPlan));
+        $this->render('create', $this->buildFormData($lessonPlan, $template));
     }
 
     public function actionUpdate($id)
@@ -171,13 +173,27 @@ class LessonsplanController extends Controller
         return $model;
     }
 
-    private function buildFormData(MaceteLessonPlan $lessonPlan): array
+    private function buildFormData(MaceteLessonPlan $lessonPlan, ?MaceteLessonPlanTemplate $template = null): array
     {
-        $abilityIds = $this->lessonPlanService()->getAbilityIds($lessonPlan);
+        // Um modelo só é usado para pré-preencher um plano novo, ainda sem
+        // dados próprios; se o formulário já foi reenviado (erro de
+        // validação, por exemplo), os dados postados/salvos do próprio
+        // plano prevalecem.
+        $useTemplateData = $template !== null && $lessonPlan->isNewRecord && !isset($_POST['MaceteLessonPlan']);
+
+        $abilityIds = $useTemplateData
+            ? $this->lessonPlanTemplateService()->getAbilityIds($template)
+            : $this->lessonPlanService()->getAbilityIds($lessonPlan);
+
         $postedStageComponents = Yii::app()->request->getPost('stage_components');
-        $stageComponents = $postedStageComponents !== null
-            ? $this->lessonPlanService()->normalizeStageComponents($postedStageComponents)
-            : $this->lessonPlanService()->getStageComponents($lessonPlan);
+        if ($postedStageComponents !== null) {
+            $stageComponents = $this->lessonPlanService()->normalizeStageComponents($postedStageComponents);
+        } elseif ($useTemplateData) {
+            $stageComponents = $this->lessonPlanTemplateService()->getStageComponents($template);
+        } else {
+            $stageComponents = $this->lessonPlanService()->getStageComponents($lessonPlan);
+        }
+
         $selectedStageIds = array_map(static fn (array $component): int => $component['stage_id'], $stageComponents);
         $stageComponentDisciplines = [];
         foreach ($stageComponents as $index => $component) {
@@ -187,15 +203,30 @@ class LessonsplanController extends Controller
         $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
         $loginInfos = Yii::app()->user->loginInfos;
 
+        if ($useTemplateData) {
+            $lessonPlan->name = $template->name;
+            $lessonPlan->code = $template->code;
+            $lessonPlan->unit = $template->unit;
+            $lessonPlan->knowledge_object = $template->knowledge_object;
+            $lessonPlan->evaluation = $template->evaluation;
+            $lessonPlan->references_text = $template->references_text;
+        }
+
         return [
             'lessonPlan' => $lessonPlan,
             'stages' => $this->lessonPlanService()->getStages(),
             'stageComponents' => $stageComponents,
             'stageComponentDisciplines' => $stageComponentDisciplines,
             'selectedStageIds' => $selectedStageIds,
-            'sectionValues' => $this->lessonPlanService()->getSectionValues($lessonPlan),
-            'resourceValues' => $this->lessonPlanService()->getResourceValues($lessonPlan),
-            'materialValues' => $this->lessonPlanService()->getMaterialValues($lessonPlan),
+            'sectionValues' => $useTemplateData
+                ? $this->lessonPlanTemplateService()->getSectionValues($template)
+                : $this->lessonPlanService()->getSectionValues($lessonPlan),
+            'resourceValues' => $useTemplateData
+                ? $this->lessonPlanTemplateService()->getResourceValues($template)
+                : $this->lessonPlanService()->getResourceValues($lessonPlan),
+            'materialValues' => $useTemplateData
+                ? $this->lessonPlanTemplateService()->getMaterialValues($template)
+                : $this->lessonPlanService()->getMaterialValues($lessonPlan),
             'selectedAbilities' => $this->abilityService()->getByIds($abilityIds),
             'schoolName' => $school !== null ? (string) $school->name : '',
             'territoryContext' => $school !== null ? (string) $school->territory_context : '',
@@ -210,6 +241,15 @@ class LessonsplanController extends Controller
         }
 
         return $this->lessonPlanService;
+    }
+
+    private function lessonPlanTemplateService(): MaceteLessonPlanTemplateService
+    {
+        if ($this->lessonPlanTemplateService === null) {
+            $this->lessonPlanTemplateService = new MaceteLessonPlanTemplateService();
+        }
+
+        return $this->lessonPlanTemplateService;
     }
 
     private function abilityService(): MaceteAbilityService

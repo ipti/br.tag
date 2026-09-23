@@ -20,6 +20,11 @@ class MaceteRoutes
     public const ABILITY_NEXTSTRUCTURE = 'macete/ability/nextStructure';
     public const ABILITY_SEARCH = 'macete/ability/search';
 
+    // DiaryController
+    public const DIARY_GETDISCIPLINES = 'macete/diary/getDisciplines';
+    public const DIARY_GETSUMMARY = 'macete/diary/getSummary';
+    public const DIARY_INDEX = 'macete/diary/index';
+
     // LessonsplanController
     public const LESSONSPLAN_CREATE = 'macete/lessonsplan/create';
     public const LESSONSPLAN_DELETE = 'macete/lessonsplan/delete';
@@ -33,6 +38,13 @@ class MaceteRoutes
     public const LESSONSRECORD_DELETE = 'macete/lessonsrecord/delete';
     public const LESSONSRECORD_INDEX = 'macete/lessonsrecord/index';
     public const LESSONSRECORD_UPDATE = 'macete/lessonsrecord/update';
+
+    // TemplatesController
+    public const TEMPLATES_CREATE = 'macete/templates/create';
+    public const TEMPLATES_DELETE = 'macete/templates/delete';
+    public const TEMPLATES_GETDISCIPLINES = 'macete/templates/getDisciplines';
+    public const TEMPLATES_INDEX = 'macete/templates/index';
+    public const TEMPLATES_UPDATE = 'macete/templates/update';
 
     public static function url(string $route, array $params = []): string
     {

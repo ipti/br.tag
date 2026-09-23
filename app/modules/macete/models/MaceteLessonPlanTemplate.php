@@ -1,32 +1,27 @@
 <?php
 
 /**
- * ActiveRecord for table macete_lesson_plan.
+ * ActiveRecord for table macete_lesson_plan_template.
  *
  * @property integer $id
  * @property string $name
  * @property string $code
- * @property integer $origin_template_fk
  * @property string $theme
- * @property string $school_inep_fk
- * @property integer $classroom_fk
  * @property integer $edcenso_stage_vs_modality_fk
  * @property integer $edcenso_discipline_fk
- * @property integer $users_fk
- * @property integer $school_year
+ * @property integer $created_by_users_fk
  * @property string $unit
- * @property string $territory_context
  * @property string $knowledge_object
  * @property string $evaluation
  * @property string $references_text
  * @property string $created_at
  * @property string $updated_at
  */
-class MaceteLessonPlan extends TagModel
+class MaceteLessonPlanTemplate extends TagModel
 {
     public function tableName()
     {
-        return 'macete_lesson_plan';
+        return 'macete_lesson_plan_template';
     }
 
     public function behaviors()
@@ -45,33 +40,29 @@ class MaceteLessonPlan extends TagModel
     public function rules()
     {
         return [
-            ['name, theme, school_inep_fk, edcenso_stage_vs_modality_fk, users_fk, school_year', 'required'],
-            ['classroom_fk, edcenso_stage_vs_modality_fk, edcenso_discipline_fk, users_fk, school_year, origin_template_fk', 'numerical', 'integerOnly' => true],
+            ['name, theme, edcenso_stage_vs_modality_fk', 'required'],
+            ['edcenso_stage_vs_modality_fk, edcenso_discipline_fk, created_by_users_fk', 'numerical', 'integerOnly' => true],
             ['name', 'length', 'max' => 150],
             ['code', 'length', 'max' => 50],
             ['theme', 'length', 'max' => 255],
-            ['school_inep_fk', 'length', 'max' => 8],
             ['unit', 'length', 'max' => 50],
-            ['code, origin_template_fk, territory_context, knowledge_object, evaluation, references_text, created_at, updated_at', 'safe'],
-            ['id, name, code, origin_template_fk, theme, school_inep_fk, classroom_fk, edcenso_stage_vs_modality_fk, edcenso_discipline_fk, users_fk, school_year, unit, territory_context, knowledge_object, evaluation, references_text, created_at, updated_at', 'safe', 'on' => 'search'],
+            ['code, knowledge_object, evaluation, references_text, created_at, updated_at', 'safe'],
+            ['id, name, code, theme, edcenso_stage_vs_modality_fk, edcenso_discipline_fk, created_by_users_fk, unit, knowledge_object, evaluation, references_text, created_at, updated_at', 'safe', 'on' => 'search'],
         ];
     }
 
     public function relations()
     {
         return [
-            'abilities' => [self::HAS_MANY, 'MaceteLessonPlanAbility', 'lesson_plan_fk'],
-            'planStages' => [self::HAS_MANY, 'MaceteLessonPlanStage', 'lesson_plan_fk'],
-            'sections' => [self::HAS_MANY, 'MaceteLessonPlanSection', 'lesson_plan_fk', 'order' => 'sections.position ASC, sections.id ASC'],
-            'resources' => [self::HAS_MANY, 'MaceteLessonPlanResource', 'lesson_plan_fk'],
-            'materials' => [self::HAS_MANY, 'MaceteLessonMaterial', 'lesson_plan_fk'],
-            'records' => [self::HAS_MANY, 'MaceteLessonRecord', 'lesson_plan_fk'],
-            'usersFk' => [self::BELONGS_TO, 'Users', 'users_fk'],
-            'schoolInepFk' => [self::BELONGS_TO, 'SchoolIdentification', 'school_inep_fk'],
-            'classroomFk' => [self::BELONGS_TO, 'Classroom', 'classroom_fk'],
+            'abilities' => [self::HAS_MANY, 'MaceteLessonPlanTemplateAbility', 'lesson_plan_template_fk'],
+            'planStages' => [self::HAS_MANY, 'MaceteLessonPlanTemplateStage', 'lesson_plan_template_fk'],
+            'sections' => [self::HAS_MANY, 'MaceteLessonPlanTemplateSection', 'lesson_plan_template_fk', 'order' => 'sections.position ASC, sections.id ASC'],
+            'resources' => [self::HAS_MANY, 'MaceteLessonPlanTemplateResource', 'lesson_plan_template_fk'],
+            'materials' => [self::HAS_MANY, 'MaceteLessonMaterialTemplate', 'lesson_plan_template_fk'],
+            'plans' => [self::HAS_MANY, 'MaceteLessonPlan', 'origin_template_fk'],
+            'createdByUsersFk' => [self::BELONGS_TO, 'Users', 'created_by_users_fk'],
             'stageFk' => [self::BELONGS_TO, 'EdcensoStageVsModality', 'edcenso_stage_vs_modality_fk'],
             'disciplineFk' => [self::BELONGS_TO, 'EdcensoDiscipline', 'edcenso_discipline_fk'],
-            'originTemplateFk' => [self::BELONGS_TO, 'MaceteLessonPlanTemplate', 'origin_template_fk'],
         ];
     }
 
@@ -80,17 +71,12 @@ class MaceteLessonPlan extends TagModel
         return [
             'id' => 'ID',
             'name' => 'Tema da aula',
-            'code' => 'Código do plano',
-            'origin_template_fk' => 'Modelo de origem',
+            'code' => 'Código do modelo',
             'theme' => 'Tema da aula',
-            'school_inep_fk' => 'Escola',
-            'classroom_fk' => 'Turma',
             'edcenso_stage_vs_modality_fk' => 'Etapa',
             'edcenso_discipline_fk' => 'Componente curricular',
-            'users_fk' => 'Professor',
-            'school_year' => 'Ano escolar',
+            'created_by_users_fk' => 'Criado por',
             'unit' => 'Unidade',
-            'territory_context' => 'Contextualização do território',
             'knowledge_object' => 'Objeto do conhecimento',
             'evaluation' => 'Avaliação',
             'references_text' => 'Referências',
@@ -106,14 +92,10 @@ class MaceteLessonPlan extends TagModel
         $criteria->compare('id', $this->id);
         $criteria->compare('name', $this->name, true);
         $criteria->compare('code', $this->code, true);
-        $criteria->compare('origin_template_fk', $this->origin_template_fk);
         $criteria->compare('theme', $this->theme, true);
-        $criteria->compare('school_inep_fk', $this->school_inep_fk, true);
-        $criteria->compare('classroom_fk', $this->classroom_fk);
         $criteria->compare('edcenso_stage_vs_modality_fk', $this->edcenso_stage_vs_modality_fk);
         $criteria->compare('edcenso_discipline_fk', $this->edcenso_discipline_fk);
-        $criteria->compare('users_fk', $this->users_fk);
-        $criteria->compare('school_year', $this->school_year);
+        $criteria->compare('created_by_users_fk', $this->created_by_users_fk);
         $criteria->compare('unit', $this->unit, true);
 
         return new CActiveDataProvider($this, [
@@ -161,24 +143,6 @@ class MaceteLessonPlan extends TagModel
         }
 
         return implode(', ', array_unique($names));
-    }
-
-    public function getStageComponentLabels(): string
-    {
-        $labels = [];
-        foreach ($this->planStages as $planStage) {
-            if ($planStage->stageFk === null) {
-                continue;
-            }
-
-            $label = $planStage->stageFk->name;
-            if ($planStage->disciplineFk !== null) {
-                $label .= ' — ' . $planStage->disciplineFk->name;
-            }
-            $labels[] = $label;
-        }
-
-        return implode(', ', array_unique($labels));
     }
 
     public function getDisciplineNames(): string

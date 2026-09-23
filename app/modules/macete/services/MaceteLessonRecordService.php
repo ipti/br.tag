@@ -63,11 +63,6 @@ class MaceteLessonRecordService
 
             $this->syncAbilities($lessonRecord, $abilityIds);
 
-            if ($lessonRecord->status === MaceteLessonRecord::STATUS_DONE && $plan !== null) {
-                $plan->status = MaceteLessonPlan::STATUS_REGISTERED;
-                $plan->save(false, ['status', 'updated_at']);
-            }
-
             $transaction->commit();
 
             return $lessonRecord;
@@ -88,6 +83,32 @@ class MaceteLessonRecordService
         $criteria->order = 'name ASC';
 
         return MaceteLessonPlan::model()->findAll($criteria);
+    }
+
+    public function getTotalRecordsByMonth(int $classroomId, ?int $disciplineId, int $month, int $year): int
+    {
+        return count($this->getRecordsByMonth($classroomId, $disciplineId, $month, $year));
+    }
+
+    public function getRecordsByMonth(int $classroomId, ?int $disciplineId, int $month, int $year): array
+    {
+        $criteria = new CDbCriteria();
+        $this->accessService->applyRecordScope($criteria);
+        $criteria->addCondition('classroom_fk = :macete_diary_classroom');
+        $criteria->addCondition('MONTH(lesson_date) = :macete_diary_month');
+        $criteria->addCondition('YEAR(lesson_date) = :macete_diary_year');
+        $criteria->params[':macete_diary_classroom'] = $classroomId;
+        $criteria->params[':macete_diary_month'] = $month;
+        $criteria->params[':macete_diary_year'] = $year;
+
+        if ($disciplineId !== null) {
+            $criteria->addCondition('edcenso_discipline_fk = :macete_diary_discipline');
+            $criteria->params[':macete_diary_discipline'] = $disciplineId;
+        }
+
+        $criteria->order = 'lesson_date ASC';
+
+        return MaceteLessonRecord::model()->findAll($criteria);
     }
 
     public function getAbilityIds(MaceteLessonRecord $lessonRecord): array

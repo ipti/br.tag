@@ -19,6 +19,11 @@ $this->setPageTitle('TAG - Planos MACETE');
                 <a class="t-button-secondary" href="<?php echo MaceteRoutes::url(MaceteRoutes::LESSONSRECORD_CREATE); ?>">
                     Registrar aula
                 </a>
+                <?php if (TagUtils::checkAccess(TRole::ADMIN)): ?>
+                    <a class="t-button-secondary" href="<?php echo MaceteRoutes::url(MaceteRoutes::TEMPLATES_INDEX); ?>">
+                        Planos modelo
+                    </a>
+                <?php endif; ?>
             </div>
         </div>
     </div>
@@ -53,18 +58,6 @@ $this->setPageTitle('TAG - Planos MACETE');
                 [
                     'class' => 'select-search-on t-field-select__input',
                     'prompt' => 'Todos os componentes',
-                ]
-            ); ?>
-        </div>
-        <div class="column t-field-select is-one-quarter">
-            <?php echo CHtml::label('Status', 'status', ['class' => 't-field-select__label']); ?>
-            <?php echo CHtml::dropDownList(
-                'status',
-                $filters['status'],
-                MaceteLessonPlan::statusLabels(),
-                [
-                    'class' => 'select-search-on t-field-select__input',
-                    'prompt' => 'Todos os status',
                 ]
             ); ?>
         </div>
@@ -126,12 +119,6 @@ $this->setPageTitle('TAG - Planos MACETE');
                             'type' => 'raw',
                             'value' => 'CHtml::encode($data->getAbilityCodes())',
                             'htmlOptions' => ['width' => '10%'],
-                        ],
-                        [
-                            'header' => 'Status',
-                            'type' => 'raw',
-                            'value' => '"<span class=\"" . $data->getStatusBadgeClass() . "\">" . CHtml::encode($data->getStatusLabel()) . "</span>"',
-                            'htmlOptions' => ['width' => '8%'],
                         ],
                         [
                             'header' => 'Acoes',
