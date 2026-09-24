@@ -136,13 +136,6 @@ $menuItems = [
                 'feature' => TFeature::FEAT_DIARY_CLASSES,
             ],
             [
-                'label' => 'Planos Modelo MACETE',
-                'url' => ['macete/templates/index'],
-                'icon' => 't-icon-diary',
-                'roles' => [TRole::ADMIN],
-                'feature' => TFeature::FEAT_DIARY_LESSON_PLAN,
-            ],
-            [
                 'label' => 'Frequência',
                 'url' => ['classdiary/classes/frequency'],
                 'icon' => 't-icon-checklist',
