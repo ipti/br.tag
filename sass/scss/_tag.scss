@@ -28,4 +28,10 @@
         color: $colorsAlertSuccessBackground;
         background-color: $colorsAlertSuccessText;
     }
+
+    &-warning {
+        @extend .t-tag;
+        color: $colorsAlertWarningText;
+        background-color: $colorsAlertWarningBackground;
+    }
 }

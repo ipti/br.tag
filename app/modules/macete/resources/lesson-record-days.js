@@ -64,7 +64,7 @@
             var container = $('#macete-record-days');
             $.each(data.days, function () {
                 var day = this;
-                var badgeClass = day.registered ? 't-badge-success' : 't-badge-warning';
+                var badgeClass = day.registered ? 't-tag-success' : 't-tag-warning';
                 var badgeText = day.registered ? 'Registrada' : 'Pendente';
                 var dateParts = day.date.split('-');
                 var formattedDate = dateParts[2] + '/' + dateParts[1] + '/' + dateParts[0];
@@ -79,9 +79,9 @@
                 var card = $('<div class="column clearfix no-grow">').append(
                     $('<a class="t-cards">').attr('href', url).append(
                         $('<div class="t-cards-content">').append(
-                            $('<div>').css({ display: 'flex', 'align-items': 'center', 'justify-content': 'space-between', gap: '8px' }).append(
-                                $('<div class="t-tag-primary">').text(day.weekDay),
-                                $('<div>').addClass(badgeClass).text(badgeText)
+                            $('<div>').css({ display: 'flex', 'align-items': 'center' }).append(
+                                $('<div>').addClass(badgeClass).text(badgeText),
+                                $('<div class="t-tag-primary">').text(day.weekDay)
                             ),
                             $('<div class="t-cards-title">').text(formattedDate)
                         )

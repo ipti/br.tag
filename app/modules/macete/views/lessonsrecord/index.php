@@ -40,6 +40,7 @@ $this->setPageTitle('TAG - Registrar Aula MACETE');
             </select>
         </div>
         <div class="column t-buttons-container">
+            <label class="t-field-select__label" style="visibility: hidden;">Imprimir</label>
             <a id="macete-record-print" class="t-button-secondary hide" target="_blank" rel="noopener">
                 <span class="t-icon-printer"></span> Imprimir relatório do mês
             </a>
