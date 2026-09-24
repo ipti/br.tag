@@ -348,18 +348,18 @@ $selectedAbilitiesCount = count($selectedAbilities);
                                 <label class="t-field-select__label">Caixa MACETE</label>
                                 <?php
                                 $maceteBoxValue = $resourceValue(MaceteLessonPlanResource::TYPE_MACETE_BOX);
-                                $maceteBoxSelected = $maceteBoxValue !== '' ? array_map('trim', explode(',', $maceteBoxValue)) : [];
-                                ?>
+$maceteBoxSelected = $maceteBoxValue !== '' ? array_map('trim', explode(',', $maceteBoxValue)) : [];
+?>
                                 <?php echo CHtml::dropDownList(
-                                    'resources[' . MaceteLessonPlanResource::TYPE_MACETE_BOX . '][]',
-                                    $maceteBoxSelected,
-                                    array_combine(MaceteLessonPlanResource::maceteBoxItems(), MaceteLessonPlanResource::maceteBoxItems()),
-                                    [
-                                        'class' => 'select-search-on t-multiselect t-field-select__input select2-container',
-                                        'multiple' => 'multiple',
-                                        'placeholder' => 'Selecione os materiais usados na aula',
-                                    ]
-                                ); ?>
+    'resources[' . MaceteLessonPlanResource::TYPE_MACETE_BOX . '][]',
+    $maceteBoxSelected,
+    array_combine(MaceteLessonPlanResource::maceteBoxItems(), MaceteLessonPlanResource::maceteBoxItems()),
+    [
+        'class' => 'select-search-on t-multiselect t-field-select__input select2-container',
+        'multiple' => 'multiple',
+        'placeholder' => 'Selecione os materiais usados na aula',
+    ]
+); ?>
                             </div>
                         </div>
                         <div class="column">

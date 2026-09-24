@@ -57,4 +57,3 @@ class MaceteLessonPlanAbility extends TagModel
         return parent::model($className);
     }
 }
-

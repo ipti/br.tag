@@ -1,4 +1,5 @@
 <?php
+
 /* @var $this LessonsplanController */
 /* @var $lessonPlan MaceteLessonPlan */
 
