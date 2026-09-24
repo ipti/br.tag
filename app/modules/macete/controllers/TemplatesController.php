@@ -51,24 +51,12 @@ class TemplatesController extends Controller
         ]);
     }
 
+    // A criação de um modelo agora acontece na própria tela de "Novo plano"
+    // (macete/lessonsplan/create), marcando o checkbox "é um plano modelo"
+    // — mantido aqui só para não quebrar links antigos.
     public function actionCreate()
     {
-        $this->accessService()->requireLessonPlanFeature();
-        $template = new MaceteLessonPlanTemplate();
-
-        if (isset($_POST['MaceteLessonPlanTemplate'])) {
-            try {
-                $template = $this->templateService()->save($template, $_POST);
-                TLog::info('Modelo de plano MACETE salvo com sucesso.', ['MaceteLessonPlanTemplate' => $template->id]);
-                Yii::app()->user->setFlash('success', 'Modelo de plano MACETE salvo com sucesso!');
-                $this->redirect(['update', 'id' => $template->id]);
-            } catch (Exception $exception) {
-                TLog::error('Erro ao salvar modelo de plano MACETE.', $exception->getMessage());
-                Yii::app()->user->setFlash('error', $exception->getMessage());
-            }
-        }
-
-        $this->render('create', $this->buildFormData($template));
+        $this->redirect(MaceteRoutes::url(MaceteRoutes::LESSONSPLAN_CREATE));
     }
 
     public function actionUpdate($id)

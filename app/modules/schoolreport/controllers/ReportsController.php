@@ -635,7 +635,7 @@ class ReportsController extends Controller
         $year = (int) $year;
         $disciplineIdInt = $disciplineId !== null ? (int) $disciplineId : null;
 
-        $totalScheduled = (int) ClassContents::model()->getTotalClassesByMonth($classroomId, $month, $year, $disciplineIdInt);
+        $instructionalDays = (new MaceteInstructionalDaysService())->getInstructionalDays($classroom, $month, $year);
         $records = (new MaceteLessonRecordService())->getRecordsByMonth((int) $classroomId, $disciplineIdInt, $month, $year);
 
         $recordsByDay = [];
@@ -648,19 +648,8 @@ class ReportsController extends Controller
             ];
         }
 
-        $sql = 'select distinct day from schedule
-                where classroom_fk = :classroom_fk and month = :month and year = :year and unavailable = 0';
-        $params = [':classroom_fk' => $classroomId, ':month' => $month, ':year' => $year];
-        if ($disciplineIdInt !== null) {
-            $sql .= ' and discipline_fk = :discipline_fk';
-            $params[':discipline_fk'] = $disciplineIdInt;
-        }
-        $sql .= ' order by day';
-        $scheduledDays = Yii::app()->db->createCommand($sql)->queryColumn($params);
-
         $days = [];
-        foreach ($scheduledDays as $scheduledDay) {
-            $day = (int) $scheduledDay;
+        foreach ($instructionalDays as $day) {
             $days[$day] = [
                 'day' => $day,
                 'registered' => isset($recordsByDay[$day]),
@@ -670,7 +659,7 @@ class ReportsController extends Controller
 
         $this->render('MaceteDiaryReport', [
             'days' => $days,
-            'totalScheduled' => $totalScheduled,
+            'totalScheduled' => count($instructionalDays),
             'totalRegistered' => count($records),
             'instructorName' => $instructorName,
             'disciplineName' => $disciplineName,

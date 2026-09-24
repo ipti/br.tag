@@ -5,6 +5,7 @@
 /* @var $classrooms Classroom[] */
 /* @var $selectedAbilities CourseClassAbilities[] */
 /* @var $territoryContext string */
+/* @var $existingDayRecords MaceteLessonRecord[] */
 
 $baseScriptUrl = Yii::app()->controller->module->baseScriptUrl;
 $themeUrl = Yii::app()->theme->baseUrl;
@@ -42,6 +43,22 @@ $selectedPlan = $lessonRecord->lessonPlanFk;
     <?php endif; ?>
 
     <?php echo $form->errorSummary($lessonRecord); ?>
+
+    <?php if (!empty($existingDayRecords)): ?>
+        <div class="alert alert-info">
+            Já existe registro de aula nesta turma para este dia:
+            <ul class="clear-margin--bottom">
+                <?php foreach ($existingDayRecords as $existingRecord): ?>
+                    <li>
+                        <a href="<?php echo MaceteRoutes::url(MaceteRoutes::LESSONSRECORD_UPDATE, ['id' => $existingRecord->id]); ?>">
+                            <?php echo $existingRecord->lessonPlanFk !== null ? CHtml::encode($existingRecord->lessonPlanFk->name) : 'Ver registro'; ?>
+                            (<?php echo CHtml::encode($existingRecord->getStatusLabel()); ?>)
+                        </a>
+                    </li>
+                <?php endforeach; ?>
+            </ul>
+        </div>
+    <?php endif; ?>
 
     <div class="macete-form-layout">
         <div class="macete-form-layout__content">

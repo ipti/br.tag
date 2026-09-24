@@ -111,6 +111,22 @@ class MaceteLessonRecordService
         return MaceteLessonRecord::model()->findAll($criteria);
     }
 
+    public function getRecordsForDay(int $classroomId, ?string $date): array
+    {
+        if ($date === null) {
+            return [];
+        }
+
+        $criteria = new CDbCriteria();
+        $this->accessService->applyRecordScope($criteria);
+        $criteria->addCondition('classroom_fk = :macete_day_classroom');
+        $criteria->addCondition('lesson_date = :macete_day_date');
+        $criteria->params[':macete_day_classroom'] = $classroomId;
+        $criteria->params[':macete_day_date'] = $date;
+
+        return MaceteLessonRecord::model()->findAll($criteria);
+    }
+
     public function getAbilityIds(MaceteLessonRecord $lessonRecord): array
     {
         $ids = [];

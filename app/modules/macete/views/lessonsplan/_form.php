@@ -144,6 +144,18 @@ $selectedAbilitiesCount = count($selectedAbilities);
                         </div>
                     </div>
 
+                    <?php if ($lessonPlan->isNewRecord && TagUtils::checkAccess(TRole::ADMIN)): ?>
+                        <div class="row">
+                            <div class="column">
+                                <label class="t-checkbox">
+                                    <input type="checkbox" name="is_template" value="1" class="js-macete-is-template">
+                                    Este plano é um <b>modelo</b> — fica disponível para professores de toda a rede
+                                    usarem como base (não será vinculado a nenhuma turma/professor específico).
+                                </label>
+                            </div>
+                        </div>
+                    <?php endif; ?>
+
                     <div class="row">
                         <div class="column">
                             <div class="t-field-select macete-stage-repeater">

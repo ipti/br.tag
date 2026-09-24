@@ -53,7 +53,7 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
                 <th><b>Eixo/Disciplina: </b><?= $disciplineName ?></th>
             </tr>
             <tr>
-                <th class="tableHead"><b>Total de aulas previstas (quadro de horário): </b><?= $totalScheduled ?></th>
+                <th class="tableHead"><b>Total de dias letivos (Calendário Escolar): </b><?= $totalScheduled ?></th>
                 <th><b>Total de aulas registradas no MACETE: </b><?= $totalRegistered ?></th>
             </tr>
         </thead>

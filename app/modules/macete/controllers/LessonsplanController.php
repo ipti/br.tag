@@ -20,7 +20,7 @@ class LessonsplanController extends Controller
         return [
             [
                 'allow',
-                'actions' => ['index', 'create', 'update', 'delete', 'getDisciplines', 'getPlan'],
+                'actions' => ['index', 'create', 'update', 'delete', 'getDisciplines', 'getPlan', 'getTemplates'],
                 'users' => ['@'],
             ],
             [
@@ -90,18 +90,51 @@ class LessonsplanController extends Controller
         }
 
         if (isset($_POST['MaceteLessonPlan'])) {
-            try {
-                $lessonPlan = $this->lessonPlanService()->save($lessonPlan, $_POST);
-                TLog::info('Plano MACETE salvo com sucesso.', ['MaceteLessonPlan' => $lessonPlan->id]);
-                Yii::app()->user->setFlash('success', 'Plano MACETE salvo com sucesso!');
-                $this->redirect(['update', 'id' => $lessonPlan->id]);
-            } catch (Exception $exception) {
-                TLog::error('Erro ao salvar plano MACETE.', $exception->getMessage());
-                Yii::app()->user->setFlash('error', $exception->getMessage());
+            $saveAsTemplate = Yii::app()->request->getPost('is_template')
+                && TagUtils::checkAccess(TRole::ADMIN);
+
+            if ($saveAsTemplate) {
+                try {
+                    $templateRequest = $_POST;
+                    $templateRequest['MaceteLessonPlanTemplate'] = $_POST['MaceteLessonPlan'] ?? [];
+                    $newTemplate = $this->lessonPlanTemplateService()->save(new MaceteLessonPlanTemplate(), $templateRequest);
+                    TLog::info('Modelo de plano MACETE salvo com sucesso.', ['MaceteLessonPlanTemplate' => $newTemplate->id]);
+                    Yii::app()->user->setFlash('success', 'Plano modelo MACETE salvo com sucesso!');
+                    $this->redirect(MaceteRoutes::url(MaceteRoutes::TEMPLATES_UPDATE, ['id' => $newTemplate->id]));
+                } catch (Exception $exception) {
+                    TLog::error('Erro ao salvar modelo de plano MACETE.', $exception->getMessage());
+                    Yii::app()->user->setFlash('error', $exception->getMessage());
+                }
+            } else {
+                try {
+                    $lessonPlan = $this->lessonPlanService()->save($lessonPlan, $_POST);
+                    TLog::info('Plano MACETE salvo com sucesso.', ['MaceteLessonPlan' => $lessonPlan->id]);
+                    Yii::app()->user->setFlash('success', 'Plano MACETE salvo com sucesso!');
+                    $this->redirect(['update', 'id' => $lessonPlan->id]);
+                } catch (Exception $exception) {
+                    TLog::error('Erro ao salvar plano MACETE.', $exception->getMessage());
+                    Yii::app()->user->setFlash('error', $exception->getMessage());
+                }
             }
         }
 
         $this->render('create', $this->buildFormData($lessonPlan, $template));
+    }
+
+    public function actionGetTemplates()
+    {
+        $this->accessService()->requireLessonPlanFeature();
+
+        $templates = MaceteLessonPlanTemplate::model()->findAll(['order' => 'name ASC']);
+
+        echo CJSON::encode(array_map(static fn (MaceteLessonPlanTemplate $template): array => [
+            'id' => (int) $template->id,
+            'name' => $template->name,
+            'code' => $template->code,
+            'stage' => $template->getStageNames(),
+            'discipline' => $template->getDisciplineNames(),
+        ], $templates));
+        Yii::app()->end();
     }
 
     public function actionUpdate($id)

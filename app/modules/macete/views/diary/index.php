@@ -67,7 +67,7 @@ $currentYear = (int) Yii::app()->user->year;
     <div id="macete-diary-summary" class="row hide">
         <div class="column">
             <div class="t-badge-info">
-                <b>Total de aulas previstas (quadro de horário): </b>
+                <b>Total de dias letivos (Calendário Escolar): </b>
                 <span id="macete-diary-total-scheduled"></span>
             </div>
         </div>

@@ -10,7 +10,7 @@ $this->setPageTitle('TAG - Planos Modelo MACETE');
         <div class="span12">
             <h1>Planos Modelo MACETE</h1>
             <div class="t-buttons-container">
-                <a class="t-button-primary" href="<?php echo MaceteRoutes::url(MaceteRoutes::TEMPLATES_CREATE); ?>">
+                <a class="t-button-primary" href="<?php echo MaceteRoutes::url(MaceteRoutes::LESSONSPLAN_CREATE); ?>">
                     Novo modelo
                 </a>
                 <a class="t-button-secondary" href="<?php echo MaceteRoutes::url(MaceteRoutes::LESSONSPLAN_INDEX); ?>">

@@ -4,6 +4,7 @@ class LessonsrecordController extends Controller
 {
     private ?MaceteLessonRecordService $lessonRecordService = null;
     private ?MaceteLessonPlanService $lessonPlanService = null;
+    private ?MaceteInstructionalDaysService $instructionalDaysService = null;
     private ?MaceteAbilityService $abilityService = null;
     private ?MaceteAccessService $accessService = null;
 
@@ -20,7 +21,7 @@ class LessonsrecordController extends Controller
         return [
             [
                 'allow',
-                'actions' => ['index', 'create', 'update', 'delete'],
+                'actions' => ['index', 'create', 'update', 'delete', 'getMonths', 'getDays'],
                 'users' => ['@'],
             ],
             [
@@ -33,18 +34,82 @@ class LessonsrecordController extends Controller
     public function actionIndex()
     {
         $this->accessService()->requireLessonRecordFeature();
-        $criteria = new CDbCriteria();
-        $this->accessService()->applyRecordScope($criteria);
-        $criteria->order = 'lesson_date DESC, updated_at DESC';
-
-        $dataProvider = new CActiveDataProvider('MaceteLessonRecord', [
-            'criteria' => $criteria,
-            'pagination' => false,
-        ]);
 
         $this->render('index', [
-            'dataProvider' => $dataProvider,
+            'classrooms' => $this->lessonPlanService()->getClassrooms(),
         ]);
+    }
+
+    public function actionGetMonths()
+    {
+        $this->accessService()->requireLessonRecordFeature();
+        $classroom = $this->accessService()->findClassroom((int) Yii::app()->request->getPost('classroom'));
+
+        if ($classroom === null) {
+            echo CJSON::encode(['valid' => false, 'error' => 'Turma não encontrada.']);
+            Yii::app()->end();
+        }
+
+        $months = $this->instructionalDaysService()->getAvailableMonths($classroom);
+        if (empty($months)) {
+            echo CJSON::encode(['valid' => false, 'error' => 'A turma está sem Calendário Escolar vinculado.']);
+            Yii::app()->end();
+        }
+
+        echo CJSON::encode(['valid' => true, 'months' => $months]);
+        Yii::app()->end();
+    }
+
+    public function actionGetDays()
+    {
+        $this->accessService()->requireLessonRecordFeature();
+        $classroomId = (int) Yii::app()->request->getPost('classroom');
+        $month = (int) Yii::app()->request->getPost('month');
+        $year = (int) Yii::app()->request->getPost('year');
+
+        $classroom = $this->accessService()->findClassroom($classroomId);
+        if ($classroom === null || $month < 1 || $month > 12 || $year < 2000) {
+            echo CJSON::encode(['valid' => false, 'error' => 'Selecione turma e mês válidos.']);
+            Yii::app()->end();
+        }
+
+        $instructionalDays = $this->instructionalDaysService()->getInstructionalDays($classroom, $month, $year);
+        if (empty($instructionalDays)) {
+            echo CJSON::encode(['valid' => false, 'error' => 'Nenhum dia letivo encontrado no Calendário Escolar da turma para esse mês.']);
+            Yii::app()->end();
+        }
+
+        $monthRecords = $this->lessonRecordService()->getRecordsByMonth($classroomId, null, $month, $year);
+        $recordsByDay = [];
+        foreach ($monthRecords as $record) {
+            $day = (int) date('j', strtotime((string) $record->lesson_date));
+            $recordsByDay[$day][] = [
+                'id' => (int) $record->id,
+                'plan' => $record->lessonPlanFk !== null ? $record->lessonPlanFk->name : '',
+                'status' => $record->getStatusLabel(),
+            ];
+        }
+
+        $weekDayNames = ['Domingo', 'Segunda-feira', 'Terça-feira', 'Quarta-feira', 'Quinta-feira', 'Sexta-feira', 'Sábado'];
+        $days = [];
+        foreach ($instructionalDays as $day) {
+            $date = sprintf('%04d-%02d-%02d', $year, $month, $day);
+            $days[] = [
+                'day' => $day,
+                'date' => $date,
+                'weekDay' => $weekDayNames[(int) date('w', strtotime($date))],
+                'registered' => isset($recordsByDay[$day]),
+                'records' => $recordsByDay[$day] ?? [],
+            ];
+        }
+
+        echo CJSON::encode([
+            'valid' => true,
+            'classroom_fk' => $classroomId,
+            'classroom_name' => $classroom->name,
+            'days' => $days,
+        ]);
+        Yii::app()->end();
     }
 
     public function actionCreate()
@@ -53,6 +118,7 @@ class LessonsrecordController extends Controller
         $lessonRecord = new MaceteLessonRecord();
         $lessonRecord->status = MaceteLessonRecord::STATUS_DRAFT;
         $lessonRecord->lesson_date = date('d/m/Y');
+        $existingDayRecords = [];
 
         $lessonPlanId = Yii::app()->request->getQuery('lessonPlanId');
         if ($lessonPlanId !== null && $lessonPlanId !== '') {
@@ -63,6 +129,21 @@ class LessonsrecordController extends Controller
                 $lessonRecord->edcenso_stage_vs_modality_fk = $lessonPlan->edcenso_stage_vs_modality_fk;
                 $lessonRecord->edcenso_discipline_fk = $lessonPlan->edcenso_discipline_fk;
             }
+        }
+
+        $classroomId = Yii::app()->request->getQuery('classroomId');
+        $date = Yii::app()->request->getQuery('date');
+        if ($classroomId !== null && $classroomId !== '') {
+            $lessonRecord->classroom_fk = (int) $classroomId;
+        }
+        if ($date !== null && $date !== '') {
+            $lessonRecord->lesson_date = MaceteLessonRecordService::convertDateToView($date);
+        }
+        if ($lessonRecord->classroom_fk && $lessonRecord->lesson_date) {
+            $existingDayRecords = $this->lessonRecordService()->getRecordsForDay(
+                (int) $lessonRecord->classroom_fk,
+                MaceteLessonRecordService::convertDateToDatabase($lessonRecord->lesson_date)
+            );
         }
 
         if (isset($_POST['MaceteLessonRecord'])) {
@@ -82,7 +163,7 @@ class LessonsrecordController extends Controller
             }
         }
 
-        $this->render('create', $this->buildFormData($lessonRecord));
+        $this->render('create', $this->buildFormData($lessonRecord, $existingDayRecords));
     }
 
     public function actionUpdate($id)
@@ -129,7 +210,7 @@ class LessonsrecordController extends Controller
         return $model;
     }
 
-    private function buildFormData(MaceteLessonRecord $lessonRecord): array
+    private function buildFormData(MaceteLessonRecord $lessonRecord, array $existingDayRecords = []): array
     {
         $abilityIds = $this->lessonRecordService()->getAbilityIds($lessonRecord);
         if (empty($abilityIds) && $lessonRecord->lessonPlanFk !== null) {
@@ -146,7 +227,20 @@ class LessonsrecordController extends Controller
             'classrooms' => $this->lessonPlanService()->getClassrooms(),
             'selectedAbilities' => $this->abilityService()->getByIds($abilityIds),
             'territoryContext' => $school !== null ? (string) $school->territory_context : '',
+            'existingDayRecords' => array_filter(
+                $existingDayRecords,
+                static fn (MaceteLessonRecord $record): bool => $record->id !== $lessonRecord->id
+            ),
         ];
+    }
+
+    private function instructionalDaysService(): MaceteInstructionalDaysService
+    {
+        if ($this->instructionalDaysService === null) {
+            $this->instructionalDaysService = new MaceteInstructionalDaysService();
+        }
+
+        return $this->instructionalDaysService;
     }
 
     private function lessonRecordService(): MaceteLessonRecordService

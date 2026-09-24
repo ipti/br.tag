@@ -4,6 +4,7 @@ class DiaryController extends Controller
 {
     private ?MaceteLessonPlanService $lessonPlanService = null;
     private ?MaceteLessonRecordService $lessonRecordService = null;
+    private ?MaceteInstructionalDaysService $instructionalDaysService = null;
     private ?MaceteAccessService $accessService = null;
 
     public function filters()
@@ -66,7 +67,7 @@ class DiaryController extends Controller
             Yii::app()->end();
         }
 
-        $totalScheduled = (int) ClassContents::model()->getTotalClassesByMonth($classroomId, $month, $year, $disciplineId);
+        $instructionalDays = $this->instructionalDaysService()->getInstructionalDays($classroom, $month, $year);
         $records = $this->lessonRecordService()->getRecordsByMonth($classroomId, $disciplineId, $month, $year);
 
         $recordsByDay = [];
@@ -79,19 +80,8 @@ class DiaryController extends Controller
             ];
         }
 
-        $sql = 'select distinct day from schedule
-                where classroom_fk = :classroom and month = :month and year = :year and unavailable = 0';
-        $params = [':classroom' => $classroomId, ':month' => $month, ':year' => $year];
-        if ($disciplineId !== null) {
-            $sql .= ' and discipline_fk = :discipline';
-            $params[':discipline'] = $disciplineId;
-        }
-        $sql .= ' order by day';
-        $scheduledDays = Yii::app()->db->createCommand($sql)->queryColumn($params);
-
         $days = [];
-        foreach ($scheduledDays as $scheduledDay) {
-            $day = (int) $scheduledDay;
+        foreach ($instructionalDays as $day) {
             $days[] = [
                 'day' => $day,
                 'registered' => isset($recordsByDay[$day]),
@@ -101,11 +91,20 @@ class DiaryController extends Controller
 
         echo CJSON::encode([
             'valid' => true,
-            'totalScheduled' => $totalScheduled,
+            'totalScheduled' => count($instructionalDays),
             'totalRegistered' => count($records),
             'days' => $days,
         ]);
         Yii::app()->end();
+    }
+
+    private function instructionalDaysService(): MaceteInstructionalDaysService
+    {
+        if ($this->instructionalDaysService === null) {
+            $this->instructionalDaysService = new MaceteInstructionalDaysService();
+        }
+
+        return $this->instructionalDaysService;
     }
 
     private function lessonPlanService(): MaceteLessonPlanService
