@@ -111,12 +111,6 @@ endif ?>
                     <span class="t-menu-item__text">Registros MACETE</span>
                 </a>
             </li>
-            <li class="t-menu-item <?= strpos($_SERVER['REQUEST_URI'], " ?r=macete/diary") || strpos($_SERVER['REQUEST_URI'], "?r=macete/diary") ? 'active' : '' ?>">
-                <a class="t-menu-item__link" href="<?php echo Yii::app()->createUrl('macete/diary/index')?>">
-                    <span class="t-icon-topics t-menu-item__icon"></span>
-                    <span class="t-menu-item__text">Diário do MACETE</span>
-                </a>
-            </li>
             <li class="t-menu-item <?= strpos($_SERVER['REQUEST_URI'], " ?r=macete/templates") || strpos($_SERVER['REQUEST_URI'], "?r=macete/templates") ? 'active' : '' ?>">
                 <a class="t-menu-item__link" href="<?php echo Yii::app()->createUrl('macete/templates/index')?>">
                     <span class="t-icon-diary t-menu-item__icon"></span>
@@ -210,12 +204,6 @@ endif ?>
         <a class="t-menu-item__link" href="<?php echo Yii::app()->createUrl('macete/lessonsrecord/index')?>">
             <span class="t-icon-topics t-menu-item__icon"></span>
             <span class="t-menu-item__text">Registros MACETE</span>
-        </a>
-    </li>
-    <li class="t-menu-item <?= strpos($_SERVER['REQUEST_URI'], " ?r=macete/diary") || strpos($_SERVER['REQUEST_URI'], "?r=macete/diary") ? 'active' : '' ?>">
-        <a class="t-menu-item__link" href="<?php echo Yii::app()->createUrl('macete/diary/index')?>">
-            <span class="t-icon-topics t-menu-item__icon"></span>
-            <span class="t-menu-item__text">Diário do MACETE</span>
         </a>
     </li>
     <?php

@@ -136,13 +136,6 @@ $menuItems = [
                 'feature' => TFeature::FEAT_DIARY_CLASSES,
             ],
             [
-                'label' => 'Diário do MACETE',
-                'url' => ['macete/diary/index'],
-                'icon' => 't-icon-topics',
-                'roles' => [TRole::ADMIN, TRole::MANAGER, TRole::INSTRUCTOR, TRole::READER],
-                'feature' => TFeature::FEAT_DIARY_CLASSES,
-            ],
-            [
                 'label' => 'Planos Modelo MACETE',
                 'url' => ['macete/templates/index'],
                 'icon' => 't-icon-diary',
@@ -205,13 +198,6 @@ $menuItems = [
     [
         'label' => 'Registros MACETE',
         'url' => ['macete/lessonsrecord/index'],
-        'icon' => 't-icon-topics',
-        'roles' => [TRole::COORDINATOR],
-        'feature' => TTask::TASK_DIARY_RECORD,
-    ],
-    [
-        'label' => 'Diário do MACETE',
-        'url' => ['macete/diary/index'],
         'icon' => 't-icon-topics',
         'roles' => [TRole::COORDINATOR],
         'feature' => TTask::TASK_DIARY_RECORD,

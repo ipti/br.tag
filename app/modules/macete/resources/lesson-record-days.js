@@ -4,6 +4,7 @@
         monthSelect.prop('disabled', true).html('<option value="">Selecione a turma primeiro</option>');
         $('#macete-record-days').empty();
         $('.js-macete-record-subtitle').addClass('hide');
+        $('#macete-record-print').addClass('hide');
     }
 
     function loadMonths(classroomId) {
@@ -40,6 +41,7 @@
         $('#macete-record-days').empty();
         $('.js-macete-record-subtitle').addClass('hide');
         $('#macete-record-error').addClass('hide');
+        $('#macete-record-print').addClass('hide');
 
         $.ajax({
             type: 'POST',
@@ -51,6 +53,13 @@
                 $('#macete-record-error').removeClass('hide').text(data.error || 'Não há dias letivos nesse mês.');
                 return;
             }
+
+            var printUrl = '?r=schoolreport/reports/MaceteDiaryReport'
+                + '&classroomId=' + encodeURIComponent(data.classroom_fk)
+                + '&month=' + encodeURIComponent(month)
+                + '&year=' + encodeURIComponent(year)
+                + '&disciplineId=null';
+            $('#macete-record-print').attr('href', printUrl).removeClass('hide');
 
             var container = $('#macete-record-days');
             $.each(data.days, function () {

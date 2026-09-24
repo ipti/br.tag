@@ -20,11 +20,6 @@ class MaceteRoutes
     public const ABILITY_NEXTSTRUCTURE = 'macete/ability/nextStructure';
     public const ABILITY_SEARCH = 'macete/ability/search';
 
-    // DiaryController
-    public const DIARY_GETDISCIPLINES = 'macete/diary/getDisciplines';
-    public const DIARY_GETSUMMARY = 'macete/diary/getSummary';
-    public const DIARY_INDEX = 'macete/diary/index';
-
     // LessonsplanController
     public const LESSONSPLAN_CREATE = 'macete/lessonsplan/create';
     public const LESSONSPLAN_DELETE = 'macete/lessonsplan/delete';
