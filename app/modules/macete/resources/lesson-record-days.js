@@ -66,6 +66,8 @@
                 var day = this;
                 var badgeClass = day.registered ? 't-badge-success' : 't-badge-warning';
                 var badgeText = day.registered ? 'Registrada' : 'Pendente';
+                var dateParts = day.date.split('-');
+                var formattedDate = dateParts[2] + '/' + dateParts[1] + '/' + dateParts[0];
                 var url = '?r=macete/lessonsrecord/create'
                     + '&classroomId=' + encodeURIComponent(data.classroom_fk)
                     + '&date=' + encodeURIComponent(day.date);
@@ -78,7 +80,7 @@
                     $('<a class="t-cards">').attr('href', url).append(
                         $('<div class="t-cards-content">').append(
                             $('<div class="t-tag-primary">').text(day.weekDay),
-                            $('<div class="t-cards-title">').text(day.day),
+                            $('<div class="t-cards-title">').text(formattedDate),
                             $('<div>').addClass(badgeClass).text(badgeText)
                         )
                     )
