@@ -79,9 +79,11 @@
                 var card = $('<div class="column clearfix no-grow">').append(
                     $('<a class="t-cards">').attr('href', url).append(
                         $('<div class="t-cards-content">').append(
-                            $('<div class="t-tag-primary">').text(day.weekDay),
-                            $('<div class="t-cards-title">').text(formattedDate),
-                            $('<div>').addClass(badgeClass).text(badgeText)
+                            $('<div>').css({ display: 'flex', 'align-items': 'center', 'justify-content': 'space-between', gap: '8px' }).append(
+                                $('<div class="t-tag-primary">').text(day.weekDay),
+                                $('<div>').addClass(badgeClass).text(badgeText)
+                            ),
+                            $('<div class="t-cards-title">').text(formattedDate)
                         )
                     )
                 );
