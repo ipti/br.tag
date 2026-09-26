@@ -56,7 +56,7 @@ $selectedAbilitiesCount = count($selectedAbilities);
             <button type="button" class="t-button-secondary js-macete-prev hide">Voltar</button>
             <?php if (!$lessonPlan->isNewRecord): ?>
                 <a class="t-button-secondary"
-                    href="<?php echo MaceteRoutes::url(MaceteRoutes::LESSONSRECORD_CREATE, ['lessonPlanId' => $lessonPlan->id]); ?>">
+                    href="<?php echo MaceteRoutes::url(MaceteRoutes::LESSONSRECORD_INDEX); ?>">
                     Registrar aula
                 </a>
             <?php endif; ?>

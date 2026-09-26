@@ -34,4 +34,10 @@
         color: $colorsAlertWarningText;
         background-color: $colorsAlertWarningBackground;
     }
+
+    &-brand {
+        @extend .t-tag;
+        color: $colorsBaseWhiteNormal;
+        background-color: $colorsBaseProductNormal;
+    }
 }

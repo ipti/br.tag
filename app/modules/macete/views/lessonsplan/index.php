@@ -16,7 +16,7 @@ $this->setPageTitle('TAG - Planos MACETE');
                 <a class="t-button-primary" href="<?php echo MaceteRoutes::url(MaceteRoutes::LESSONSPLAN_CREATE); ?>">
                     Novo plano
                 </a>
-                <a class="t-button-secondary" href="<?php echo MaceteRoutes::url(MaceteRoutes::LESSONSRECORD_CREATE); ?>">
+                <a class="t-button-secondary" href="<?php echo MaceteRoutes::url(MaceteRoutes::LESSONSRECORD_INDEX); ?>">
                     Registrar aula
                 </a>
                 <a class="t-button-secondary" href="#" data-toggle="modal" data-target="#js-macete-use-template">
@@ -134,7 +134,7 @@ $this->setPageTitle('TAG - Planos MACETE');
                                 ],
                                 'record' => [
                                     'imageUrl' => Yii::app()->theme->baseUrl . '/img/buttonIcon/start.svg',
-                                    'url' => 'MaceteRoutes::url(MaceteRoutes::LESSONSRECORD_CREATE, ["lessonPlanId" => $data->id])',
+                                    'url' => 'MaceteRoutes::url(MaceteRoutes::LESSONSRECORD_INDEX)',
                                     'options' => ['title' => 'Registrar aula'],
                                 ],
                                 'delete' => [

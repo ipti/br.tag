@@ -15,24 +15,37 @@ class TemplatesController extends Controller
         ];
     }
 
-    // Templates são cadastrados pelo administrador e valem para a rede
-    // inteira (sem dono/escola para restringir o dado), então, diferente
-    // do resto do módulo MACETE (que só esconde os links no menu), aqui a
-    // checagem de papel é feita de verdade pelo próprio CAccessControlFilter
-    // do Yii.
     public function accessRules()
     {
         return [
             [
                 'allow',
                 'actions' => ['index', 'create', 'update', 'delete', 'getDisciplines'],
-                'roles' => ['admin'],
+                'users' => ['@'],
             ],
             [
                 'deny',
                 'users' => ['*'],
             ],
         ];
+    }
+
+    // Templates são cadastrados pelo administrador e valem para a rede
+    // inteira (sem dono/escola para restringir o dado), então, diferente
+    // do resto do módulo MACETE (que só esconde os links no menu), aqui a
+    // checagem de papel é feita de verdade. Não dá pra usar o 'roles' do
+    // CAccessControlFilter nativo do Yii: ele resolve o usuário via
+    // Yii::app()->user->getId(), que aqui devolve o username (string),
+    // enquanto auth_assignment guarda o id numérico de users — nunca bate,
+    // então TODO admin cairia em 403. TagUtils::checkAccess() usa o id
+    // certo (loginInfos->id), então a checagem é feita manualmente aqui.
+    public function beforeAction($action)
+    {
+        if (!TagUtils::checkAccess(TRole::ADMIN)) {
+            throw new CHttpException(403, 'Você não tem permissão para acessar esta funcionalidade.');
+        }
+
+        return parent::beforeAction($action);
     }
 
     public function actionIndex()

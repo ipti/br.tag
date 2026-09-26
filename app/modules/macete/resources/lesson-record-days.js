@@ -64,7 +64,7 @@
             var container = $('#macete-record-days');
             $.each(data.days, function () {
                 var day = this;
-                var badgeClass = day.registered ? 't-tag-success' : 't-tag-warning';
+                var badgeClass = day.registered ? 't-tag-brand' : 't-tag-warning';
                 var badgeText = day.registered ? 'Registrada' : 'Pendente';
                 var dateParts = day.date.split('-');
                 var formattedDate = dateParts[2] + '/' + dateParts[1] + '/' + dateParts[0];
