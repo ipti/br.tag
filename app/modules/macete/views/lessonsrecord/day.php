@@ -12,6 +12,11 @@ $createUrl = MaceteRoutes::url(MaceteRoutes::LESSONSRECORD_CREATE, [
     'classroomId' => $classroom->id,
     'date' => $date,
 ]);
+
+$dataProvider = new CArrayDataProvider($records, [
+    'id' => 'macete-day-records',
+    'pagination' => false,
+]);
 ?>
 
 <div id="mainPage" class="main">
@@ -38,65 +43,63 @@ $createUrl = MaceteRoutes::url(MaceteRoutes::LESSONSRECORD_CREATE, [
         <div class="alert alert-error"><?php echo Yii::app()->user->getFlash('error'); ?></div>
     <?php endif; ?>
 
-    <div class="tag-inner">
-        <div class="widget clearmargin">
-            <div class="widget-body">
-                <?php if (empty($records)): ?>
+    <?php if (empty($records)): ?>
+        <div class="tag-inner">
+            <div class="widget clearmargin">
+                <div class="widget-body">
                     <p>Nenhuma aula registrada neste dia ainda.</p>
-                <?php else: ?>
-                    <table class="js-tag-table tag-table-primary tag-table table table-condensed table-striped table-hover table-primary table-vertical-center">
-                        <thead>
-                            <tr>
-                                <th>Plano</th>
-                                <th>Componente</th>
-                                <th>Conteúdo executado</th>
-                                <th>Ações</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php foreach ($records as $record): ?>
-                                <tr>
-                                    <td>
-                                        <a class="link-update-grid-view" href="<?php echo MaceteRoutes::url(MaceteRoutes::LESSONSRECORD_UPDATE, ['id' => $record->id]); ?>">
-                                            <?php echo $record->lessonPlanFk !== null ? CHtml::encode($record->lessonPlanFk->name) : '—'; ?>
-                                        </a>
-                                    </td>
-                                    <td><?php echo $record->disciplineFk !== null ? CHtml::encode($record->disciplineFk->name) : '—'; ?></td>
-                                    <td><?php echo CHtml::encode(mb_substr(strip_tags((string) $record->executed_content), 0, 150)); ?></td>
-                                    <td style="text-align: center; width: 90px;">
-                                        <a href="<?php echo MaceteRoutes::url(MaceteRoutes::LESSONSRECORD_UPDATE, ['id' => $record->id]); ?>" title="Editar" style="margin-right: 12px;">
-                                            <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/editar.svg" alt="Editar">
-                                        </a>
-                                        <a href="#" class="js-macete-delete-record" title="Excluir"
-                                            data-url="<?php echo MaceteRoutes::url(MaceteRoutes::LESSONSRECORD_DELETE, ['id' => $record->id]); ?>">
-                                            <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/deletar.svg" alt="Excluir">
-                                        </a>
-                                    </td>
-                                </tr>
-                            <?php endforeach; ?>
-                        </tbody>
-                    </table>
-                <?php endif; ?>
+                </div>
             </div>
         </div>
-    </div>
+    <?php else: ?>
+        <div class="tag-inner">
+            <div class="widget clearmargin">
+                <div class="widget-body">
+                    <?php $this->widget('zii.widgets.grid.CGridView', [
+                        'dataProvider' => $dataProvider,
+                        'enablePagination' => false,
+                        'enableSorting' => false,
+                        'ajaxUpdate' => false,
+                        'itemsCssClass' => 'js-tag-table tag-table-primary tag-table table table-condensed table-striped table-hover table-primary table-vertical-center',
+                        'columns' => [
+                            [
+                                'header' => 'Plano',
+                                'type' => 'raw',
+                                'value' => 'CHtml::link(CHtml::encode($data->lessonPlanFk !== null ? $data->lessonPlanFk->name : "—"), MaceteRoutes::url(MaceteRoutes::LESSONSRECORD_UPDATE, ["id" => $data->id]))',
+                                'htmlOptions' => ['width' => '30%', 'class' => 'link-update-grid-view'],
+                            ],
+                            [
+                                'header' => 'Componente',
+                                'value' => '$data->disciplineFk !== null ? $data->disciplineFk->name : "—"',
+                                'htmlOptions' => ['width' => '20%'],
+                            ],
+                            [
+                                'header' => 'Conteúdo executado',
+                                'type' => 'raw',
+                                'value' => 'CHtml::encode(mb_substr(strip_tags((string) $data->executed_content), 0, 150))',
+                            ],
+                            [
+                                'header' => 'Acoes',
+                                'class' => 'CButtonColumn',
+                                'template' => '{update}{delete}',
+                                'buttons' => [
+                                    'update' => [
+                                        'imageUrl' => Yii::app()->theme->baseUrl . '/img/editar.svg',
+                                        'url' => 'MaceteRoutes::url(MaceteRoutes::LESSONSRECORD_UPDATE, ["id" => $data->id])',
+                                    ],
+                                    'delete' => [
+                                        'imageUrl' => Yii::app()->theme->baseUrl . '/img/deletar.svg',
+                                        'url' => 'MaceteRoutes::url(MaceteRoutes::LESSONSRECORD_DELETE, ["id" => $data->id])',
+                                    ],
+                                ],
+                                'updateButtonOptions' => ['style' => 'margin-right: 12px;'],
+                                'deleteButtonOptions' => ['style' => 'cursor: pointer;'],
+                                'htmlOptions' => ['width' => '90px', 'style' => 'text-align: center'],
+                            ],
+                        ],
+                    ]); ?>
+                </div>
+            </div>
+        </div>
+    <?php endif; ?>
 </div>
-
-<script>
-    (function ($) {
-        $(document).on('click', '.js-macete-delete-record', function (event) {
-            event.preventDefault();
-            var link = $(this);
-
-            if (!window.confirm('Excluir este registro de aula? Essa ação não pode ser desfeita.')) {
-                return;
-            }
-
-            $.post(link.data('url')).done(function () {
-                window.location.reload();
-            }).fail(function () {
-                window.alert('Não foi possível excluir o registro.');
-            });
-        });
-    })(jQuery);
-</script>
