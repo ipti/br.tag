@@ -40,6 +40,14 @@ if ($lessonRecord->classroom_fk && $lessonRecord->lesson_date) {
         </div>
         <div class="column  align-items--center justify-content--end show--desktop">
             <a class="t-button-secondary" href="<?php echo MaceteRoutes::url(MaceteRoutes::LESSONSRECORD_INDEX); ?>">Voltar</a>
+            <?php if (!$lessonRecord->isNewRecord): ?>
+                <a class="t-button-secondary js-macete-delete-record"
+                    href="#"
+                    data-url="<?php echo MaceteRoutes::url(MaceteRoutes::LESSONSRECORD_DELETE, ['id' => $lessonRecord->id]); ?>"
+                    data-redirect="<?php echo MaceteRoutes::url(MaceteRoutes::LESSONSRECORD_INDEX); ?>">
+                    Excluir registro
+                </a>
+            <?php endif; ?>
             <button class="t-button-primary" type="submit">Salvar registro</button>
         </div>
     </div>
@@ -61,6 +69,11 @@ if ($lessonRecord->classroom_fk && $lessonRecord->lesson_date) {
                     <li>
                         <a href="<?php echo MaceteRoutes::url(MaceteRoutes::LESSONSRECORD_UPDATE, ['id' => $existingRecord->id]); ?>">
                             <?php echo $existingRecord->lessonPlanFk !== null ? CHtml::encode($existingRecord->lessonPlanFk->name) : 'Ver registro'; ?>
+                        </a>
+                        &mdash;
+                        <a href="#" class="js-macete-delete-record"
+                            data-url="<?php echo MaceteRoutes::url(MaceteRoutes::LESSONSRECORD_DELETE, ['id' => $existingRecord->id]); ?>">
+                            Excluir
                         </a>
                     </li>
                 <?php endforeach; ?>

@@ -43,6 +43,29 @@
 
     $(document).on("change", ".js-macete-record-classroom", updateClassroomSummary);
 
+    // Delete não pode ser um <form> aninhado (a tela inteira já está dentro
+    // do form de salvar/editar o registro), então dispara a exclusão via
+    // AJAX a partir de um link/botão comum.
+    $(document).on("click", ".js-macete-delete-record", function (event) {
+        event.preventDefault();
+        var link = $(this);
+
+        if (!window.confirm("Excluir este registro de aula? Essa ação não pode ser desfeita.")) {
+            return;
+        }
+
+        $.post(link.data("url")).done(function () {
+            var redirect = link.data("redirect");
+            if (redirect) {
+                window.location.href = redirect;
+            } else {
+                window.location.reload();
+            }
+        }).fail(function () {
+            window.alert("Não foi possível excluir o registro.");
+        });
+    });
+
     $(document).ready(function () {
         if (typeof $(".js-macete-date").mask === "function") {
             $(".js-macete-date").mask("99/99/9999", { placeholder: "DD/MM/AAAA" });
