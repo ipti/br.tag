@@ -25,16 +25,15 @@ $dataProvider = new CArrayDataProvider($records, [
             <h1>Aulas registradas</h1>
             <div class="t-buttons-container">
                 <a class="t-button-secondary" href="<?php echo MaceteRoutes::url(MaceteRoutes::LESSONSRECORD_INDEX); ?>">Voltar</a>
-                <a class="t-button-primary" href="<?php echo $createUrl; ?>">+ Registrar nova aula</a>
+                <a class="t-button-primary" href="<?php echo $createUrl; ?>">Registrar nova aula</a>
             </div>
         </div>
     </div>
 
-    <p>
-        <b>Turma:</b> <?php echo CHtml::encode($classroom->name); ?>
-        &nbsp;&mdash;&nbsp;
-        <b>Data:</b> <?php echo $formattedDate; ?>
-    </p>
+    <div class="mobile-row">
+        <div class="t-badge-info"><b>Turma: </b><?php echo CHtml::encode($classroom->name); ?></div>
+        <div class="t-badge-info"><b>Data: </b><?php echo $formattedDate; ?></div>
+    </div>
 
     <?php if (Yii::app()->user->hasFlash('success')): ?>
         <div class="alert alert-success"><?php echo Yii::app()->user->getFlash('success'); ?></div>
