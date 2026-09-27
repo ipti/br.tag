@@ -23,6 +23,14 @@ $form = $this->beginWidget('CActiveForm', [
 ]);
 
 $selectedPlan = $lessonRecord->lessonPlanFk;
+
+$newRecordForDayUrl = null;
+if ($lessonRecord->classroom_fk && $lessonRecord->lesson_date) {
+    $newRecordForDayUrl = MaceteRoutes::url(MaceteRoutes::LESSONSRECORD_CREATE, [
+        'classroomId' => $lessonRecord->classroom_fk,
+        'date' => MaceteLessonRecordService::convertDateToDatabase($lessonRecord->lesson_date),
+    ]);
+}
 ?>
 
 <div class="main">
@@ -47,7 +55,7 @@ $selectedPlan = $lessonRecord->lessonPlanFk;
 
     <?php if (!empty($existingDayRecords)): ?>
         <div class="alert alert-info">
-            Já existe registro de aula nesta turma para este dia:
+            Outras aulas já registradas nesta turma para este dia (é possível registrar mais de um plano/componente no mesmo dia):
             <ul class="clear-margin--bottom">
                 <?php foreach ($existingDayRecords as $existingRecord): ?>
                     <li>
@@ -57,6 +65,14 @@ $selectedPlan = $lessonRecord->lessonPlanFk;
                     </li>
                 <?php endforeach; ?>
             </ul>
+        </div>
+    <?php endif; ?>
+
+    <?php if ($newRecordForDayUrl !== null && !$lessonRecord->isNewRecord): ?>
+        <div class="t-buttons-container">
+            <a class="t-button-secondary" href="<?php echo $newRecordForDayUrl; ?>">
+                + Registrar outra aula neste dia
+            </a>
         </div>
     <?php endif; ?>
 

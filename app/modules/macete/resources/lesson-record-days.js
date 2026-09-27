@@ -66,6 +66,9 @@
                 var day = this;
                 var badgeClass = day.registered ? 't-tag-brand' : 't-tag-warning';
                 var badgeText = day.registered ? 'Registrada' : 'Pendente';
+                if (day.records.length > 1) {
+                    badgeText += ' (' + day.records.length + ')';
+                }
                 var dateParts = day.date.split('-');
                 var formattedDate = dateParts[2] + '/' + dateParts[1] + '/' + dateParts[0];
                 var url = '?r=macete/lessonsrecord/create'

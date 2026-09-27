@@ -169,6 +169,10 @@ class LessonsrecordController extends Controller
     {
         $this->accessService()->requireLessonRecordFeature();
         $lessonRecord = $this->loadModel($id);
+        $existingDayRecords = $this->lessonRecordService()->getRecordsForDay(
+            (int) $lessonRecord->classroom_fk,
+            (string) $lessonRecord->lesson_date
+        );
         $lessonRecord->lesson_date = MaceteLessonRecordService::convertDateToView($lessonRecord->lesson_date);
 
         if (isset($_POST['MaceteLessonRecord'])) {
@@ -186,7 +190,7 @@ class LessonsrecordController extends Controller
             }
         }
 
-        $this->render('update', $this->buildFormData($lessonRecord, [], true));
+        $this->render('update', $this->buildFormData($lessonRecord, $existingDayRecords, true));
     }
 
     public function actionDelete($id)
