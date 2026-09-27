@@ -31,7 +31,7 @@ $dataProvider = new CArrayDataProvider($records, [
     </div>
 
     <div class="mobile-row">
-        <div class="t-badge-info"><b>Turma: </b><?php echo CHtml::encode($classroom->name); ?></div>
+        <div class="t-badge-info" style="margin-left: 0;"><b>Turma: </b><?php echo CHtml::encode($classroom->name); ?></div>
         <div class="t-badge-info"><b>Data: </b><?php echo $formattedDate; ?></div>
     </div>
 
