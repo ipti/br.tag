@@ -621,7 +621,6 @@ class ReportsController extends Controller
 
         $classroom = Classroom::model()->findByPk($classroomId);
         $classroomName = $classroom->name;
-        $stageName = $classroom->edcensoStageVsModalityFk->name ?? '';
         $disciplineId = $disciplineId === 'null' ? null : $disciplineId;
         $instructorName = null;
         if (TagUtils::isInstructor()) {
@@ -659,7 +658,6 @@ class ReportsController extends Controller
             'totalRegistered' => count($records),
             'instructorName' => $instructorName,
             'classroomName' => $classroomName,
-            'stageName' => $stageName,
             'month' => str_pad((string) $month, 2, '0', STR_PAD_LEFT),
             'year' => $year,
         ]);
