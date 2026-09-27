@@ -13,6 +13,11 @@ $this->setPageTitle('TAG - Registrar Aula MACETE');
     <div class="row-fluid">
         <div class="span12">
             <h1>Registrar Aula MACETE</h1>
+            <div class="t-buttons-container">
+                <a id="macete-record-print" class="t-button-secondary hide" target="_blank" rel="noopener">
+                    <span class="t-icon-printer"></span> Imprimir relatório do mês
+                </a>
+            </div>
         </div>
     </div>
 
@@ -38,12 +43,6 @@ $this->setPageTitle('TAG - Registrar Aula MACETE');
             <select id="macete-record-month" class="select-search-on t-field-select__input" disabled>
                 <option value="">Selecione a turma primeiro</option>
             </select>
-        </div>
-        <div class="column t-buttons-container">
-            <label class="t-field-select__label" style="visibility: hidden;">Imprimir</label>
-            <a id="macete-record-print" class="t-button-secondary hide" target="_blank" rel="noopener">
-                <span class="t-icon-printer"></span> Imprimir relatório do mês
-            </a>
         </div>
     </div>
 
