@@ -6,6 +6,7 @@
  * @var int $totalRegistered
  * @var string $instructorName
  * @var string $classroomName
+ * @var string $stageName
  * @var string $month
  * @var int $year
  */
@@ -48,7 +49,8 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
                 <th><b>Mês/Ano: </b><?= $month ?>/<?= $year ?></th>
             </tr>
             <tr>
-                <th class="tableHead" colspan="2"><b>Professor: </b><?= $instructorName ?></th>
+                <th class="tableHead"><b>Professor: </b><?= $instructorName ?></th>
+                <th><b>Etapa: </b><?= $stageName ?></th>
             </tr>
             <tr>
                 <th class="tableHead"><b>Total de dias letivos (Calendário Escolar): </b><?= $totalScheduled ?></th>
