@@ -86,7 +86,6 @@ class LessonsrecordController extends Controller
             $recordsByDay[$day][] = [
                 'id' => (int) $record->id,
                 'plan' => $record->lessonPlanFk !== null ? $record->lessonPlanFk->name : '',
-                'status' => $record->getStatusLabel(),
             ];
         }
 
@@ -116,7 +115,6 @@ class LessonsrecordController extends Controller
     {
         $this->accessService()->requireLessonRecordFeature();
         $lessonRecord = new MaceteLessonRecord();
-        $lessonRecord->status = MaceteLessonRecord::STATUS_DRAFT;
         $lessonRecord->lesson_date = date('d/m/Y');
         $existingDayRecords = [];
 

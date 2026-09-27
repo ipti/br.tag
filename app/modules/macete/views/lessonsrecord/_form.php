@@ -52,7 +52,6 @@ $selectedPlan = $lessonRecord->lessonPlanFk;
                     <li>
                         <a href="<?php echo MaceteRoutes::url(MaceteRoutes::LESSONSRECORD_UPDATE, ['id' => $existingRecord->id]); ?>">
                             <?php echo $existingRecord->lessonPlanFk !== null ? CHtml::encode($existingRecord->lessonPlanFk->name) : 'Ver registro'; ?>
-                            (<?php echo CHtml::encode($existingRecord->getStatusLabel()); ?>)
                         </a>
                     </li>
                 <?php endforeach; ?>
@@ -90,11 +89,6 @@ $selectedPlan = $lessonRecord->lessonPlanFk;
                 </div>
 
                 <div class="row">
-                    <div class="column t-field-select">
-                        <?php echo $form->label($lessonRecord, 'status', ['class' => 't-field-select__label--required']); ?>
-                        <?php echo $form->dropDownList($lessonRecord, 'status', MaceteLessonRecord::statusLabels(), ['class' => 'select-search-on t-field-select__input']); ?>
-                        <?php echo $form->error($lessonRecord, 'status'); ?>
-                    </div>
                     <div class="column t-field-select">
                         <?php echo $form->label($lessonRecord, 'lesson_plan_fk', ['class' => 't-field-select__label--required']); ?>
                         <?php echo $form->dropDownList(

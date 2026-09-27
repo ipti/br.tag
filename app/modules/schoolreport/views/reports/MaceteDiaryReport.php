@@ -65,14 +65,13 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
                 <th>Dia</th>
                 <th>Situação</th>
                 <th>Plano usado</th>
-                <th>Status do registro</th>
                 <th>Conteúdo executado</th>
             </tr>
         </thead>
         <tbody>
             <?php if (empty($days)): ?>
                 <tr>
-                    <td colspan="5">Nenhuma aula prevista no quadro de horário para o período selecionado.</td>
+                    <td colspan="4">Nenhuma aula prevista no quadro de horário para o período selecionado.</td>
                 </tr>
             <?php endif; ?>
             <?php foreach ($days as $day): ?>
@@ -82,7 +81,6 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
                         <td><?= $day['registered'] ? 'Registrada' : 'Pendente' ?></td>
                         <td>—</td>
                         <td>—</td>
-                        <td>—</td>
                     </tr>
                 <?php else: ?>
                     <?php foreach ($day['records'] as $record): ?>
@@ -90,7 +88,6 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
                             <td><?= $day['day'] ?>/<?= $month ?></td>
                             <td><?= $day['registered'] ? 'Registrada' : 'Pendente' ?></td>
                             <td><?= CHtml::encode($record['plan']) ?></td>
-                            <td><?= CHtml::encode($record['status']) ?></td>
                             <td style="text-align: left !important;"><?= CHtml::encode(mb_substr(strip_tags((string) $record['content']), 0, 300)) ?></td>
                         </tr>
                     <?php endforeach; ?>

@@ -643,7 +643,6 @@ class ReportsController extends Controller
             $day = (int) date('j', strtotime((string) $record->lesson_date));
             $recordsByDay[$day][] = [
                 'plan' => $record->lessonPlanFk !== null ? $record->lessonPlanFk->name : '',
-                'status' => $record->getStatusLabel(),
                 'content' => $record->executed_content,
             ];
         }

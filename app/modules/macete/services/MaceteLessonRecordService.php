@@ -46,10 +46,6 @@ class MaceteLessonRecordService
             $lessonRecord->edcenso_stage_vs_modality_fk = $classroom->edcenso_stage_vs_modality_fk;
             $lessonRecord->edcenso_discipline_fk = $planStage->edcenso_discipline_fk;
 
-            if ($lessonRecord->status === null || $lessonRecord->status === '') {
-                $lessonRecord->status = MaceteLessonRecord::STATUS_DRAFT;
-            }
-
             if (!$lessonRecord->save()) {
                 throw new CException('Não foi possível salvar o registro de aula MACETE.');
             }
@@ -203,7 +199,6 @@ class MaceteLessonRecordService
             'methodology_notes',
             'evaluation_notes',
             'adaptation_notes',
-            'status',
         ];
 
         $recordData = array_intersect_key($recordData, array_flip($allowedAttributes));
