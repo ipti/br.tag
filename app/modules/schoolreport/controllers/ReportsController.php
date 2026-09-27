@@ -622,11 +622,7 @@ class ReportsController extends Controller
         $classroom = Classroom::model()->findByPk($classroomId);
         $classroomName = $classroom->name;
         $disciplineId = $disciplineId === 'null' ? null : $disciplineId;
-        $disciplineName = null;
         $instructorName = null;
-        if ($disciplineId !== null) {
-            $disciplineName = EdcensoDiscipline::model()->findByAttributes(['id' => $disciplineId])->name ?? null;
-        }
         if (TagUtils::isInstructor()) {
             $instructorName = InstructorIdentification::model()->findByAttributes(['users_fk' => Yii::app()->user->loginInfos->id])->name ?? null;
         }
@@ -661,7 +657,6 @@ class ReportsController extends Controller
             'totalScheduled' => count($instructionalDays),
             'totalRegistered' => count($records),
             'instructorName' => $instructorName,
-            'disciplineName' => $disciplineName,
             'classroomName' => $classroomName,
             'month' => str_pad((string) $month, 2, '0', STR_PAD_LEFT),
             'year' => $year,
