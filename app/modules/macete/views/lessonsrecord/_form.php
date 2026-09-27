@@ -5,8 +5,8 @@
 /* @var $classrooms Classroom[] */
 /* @var $selectedAbilities CourseClassAbilities[] */
 /* @var $territoryContext string */
-/* @var $existingDayRecords MaceteLessonRecord[] */
 /* @var $lessonDateLocked bool */
+/* @var $backUrl string */
 
 $baseScriptUrl = Yii::app()->controller->module->baseScriptUrl;
 $themeUrl = Yii::app()->theme->baseUrl;
@@ -23,14 +23,6 @@ $form = $this->beginWidget('CActiveForm', [
 ]);
 
 $selectedPlan = $lessonRecord->lessonPlanFk;
-
-$newRecordForDayUrl = null;
-if ($lessonRecord->classroom_fk && $lessonRecord->lesson_date) {
-    $newRecordForDayUrl = MaceteRoutes::url(MaceteRoutes::LESSONSRECORD_CREATE, [
-        'classroomId' => $lessonRecord->classroom_fk,
-        'date' => MaceteLessonRecordService::convertDateToDatabase($lessonRecord->lesson_date),
-    ]);
-}
 ?>
 
 <div class="main">
@@ -39,12 +31,12 @@ if ($lessonRecord->classroom_fk && $lessonRecord->lesson_date) {
             <h1><?php echo $lessonRecord->isNewRecord ? 'Registrar Aula MACETE' : 'Editar Registro MACETE'; ?></h1>
         </div>
         <div class="column  align-items--center justify-content--end show--desktop">
-            <a class="t-button-secondary" href="<?php echo MaceteRoutes::url(MaceteRoutes::LESSONSRECORD_INDEX); ?>">Voltar</a>
+            <a class="t-button-secondary" href="<?php echo $backUrl; ?>">Voltar</a>
             <?php if (!$lessonRecord->isNewRecord): ?>
                 <a class="t-button-secondary js-macete-delete-record"
                     href="#"
                     data-url="<?php echo MaceteRoutes::url(MaceteRoutes::LESSONSRECORD_DELETE, ['id' => $lessonRecord->id]); ?>"
-                    data-redirect="<?php echo MaceteRoutes::url(MaceteRoutes::LESSONSRECORD_INDEX); ?>">
+                    data-redirect="<?php echo $backUrl; ?>">
                     Excluir registro
                 </a>
             <?php endif; ?>
@@ -60,34 +52,6 @@ if ($lessonRecord->classroom_fk && $lessonRecord->lesson_date) {
     <?php endif; ?>
 
     <?php echo $form->errorSummary($lessonRecord); ?>
-
-    <?php if (!empty($existingDayRecords)): ?>
-        <div class="alert alert-info">
-            Outras aulas já registradas nesta turma para este dia (é possível registrar mais de um plano/componente no mesmo dia):
-            <ul class="clear-margin--bottom">
-                <?php foreach ($existingDayRecords as $existingRecord): ?>
-                    <li>
-                        <a href="<?php echo MaceteRoutes::url(MaceteRoutes::LESSONSRECORD_UPDATE, ['id' => $existingRecord->id]); ?>">
-                            <?php echo $existingRecord->lessonPlanFk !== null ? CHtml::encode($existingRecord->lessonPlanFk->name) : 'Ver registro'; ?>
-                        </a>
-                        &mdash;
-                        <a href="#" class="js-macete-delete-record"
-                            data-url="<?php echo MaceteRoutes::url(MaceteRoutes::LESSONSRECORD_DELETE, ['id' => $existingRecord->id]); ?>">
-                            Excluir
-                        </a>
-                    </li>
-                <?php endforeach; ?>
-            </ul>
-        </div>
-    <?php endif; ?>
-
-    <?php if ($newRecordForDayUrl !== null && !$lessonRecord->isNewRecord): ?>
-        <div class="t-buttons-container">
-            <a class="t-button-secondary" href="<?php echo $newRecordForDayUrl; ?>">
-                + Registrar outra aula neste dia
-            </a>
-        </div>
-    <?php endif; ?>
 
     <div class="macete-form-layout">
         <div class="macete-form-layout__content">
@@ -188,7 +152,7 @@ if ($lessonRecord->classroom_fk && $lessonRecord->lesson_date) {
 
     <div class="row reverse show--tablet">
         <div class="t-buttons-container">
-            <a class="t-button-secondary" href="<?php echo MaceteRoutes::url(MaceteRoutes::LESSONSRECORD_INDEX); ?>">Voltar</a>
+            <a class="t-button-secondary" href="<?php echo $backUrl; ?>">Voltar</a>
             <button class="t-button-primary" type="submit">Salvar registro</button>
         </div>
     </div>

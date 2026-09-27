@@ -10,6 +10,6 @@ echo $this->renderPartial('_form', [
     'classrooms' => $classrooms,
     'selectedAbilities' => $selectedAbilities,
     'territoryContext' => $territoryContext,
-    'existingDayRecords' => $existingDayRecords,
     'lessonDateLocked' => $lessonDateLocked,
+    'backUrl' => $backUrl,
 ], true);

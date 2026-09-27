@@ -71,13 +71,9 @@
                 }
                 var dateParts = day.date.split('-');
                 var formattedDate = dateParts[2] + '/' + dateParts[1] + '/' + dateParts[0];
-                var url = '?r=macete/lessonsrecord/create'
+                var url = '?r=macete/lessonsrecord/day'
                     + '&classroomId=' + encodeURIComponent(data.classroom_fk)
                     + '&date=' + encodeURIComponent(day.date);
-
-                if (day.registered && day.records.length === 1) {
-                    url = '?r=macete/lessonsrecord/update&id=' + encodeURIComponent(day.records[0].id);
-                }
 
                 var card = $('<div class="column clearfix no-grow">').append(
                     $('<a class="t-cards">').attr('href', url).append(

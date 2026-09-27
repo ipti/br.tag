@@ -21,7 +21,7 @@ class LessonsrecordController extends Controller
         return [
             [
                 'allow',
-                'actions' => ['index', 'create', 'update', 'delete', 'getMonths', 'getDays'],
+                'actions' => ['index', 'day', 'create', 'update', 'delete', 'getMonths', 'getDays'],
                 'users' => ['@'],
             ],
             [
@@ -111,12 +111,35 @@ class LessonsrecordController extends Controller
         Yii::app()->end();
     }
 
+    /**
+     * Listagem (tabela) das aulas já registradas numa turma/dia específicos,
+     * com ações de editar/excluir por linha e atalho pra registrar mais uma.
+     */
+    public function actionDay()
+    {
+        $this->accessService()->requireLessonRecordFeature();
+        $classroomId = (int) Yii::app()->request->getQuery('classroomId');
+        $date = (string) Yii::app()->request->getQuery('date');
+
+        $classroom = $this->accessService()->findClassroom($classroomId);
+        if ($classroom === null || $date === '') {
+            throw new CHttpException(404, 'Turma ou data inválida.');
+        }
+
+        $records = $this->lessonRecordService()->getRecordsForDay($classroomId, $date);
+
+        $this->render('day', [
+            'classroom' => $classroom,
+            'date' => $date,
+            'records' => $records,
+        ]);
+    }
+
     public function actionCreate()
     {
         $this->accessService()->requireLessonRecordFeature();
         $lessonRecord = new MaceteLessonRecord();
         $lessonRecord->lesson_date = date('d/m/Y');
-        $existingDayRecords = [];
 
         $lessonPlanId = Yii::app()->request->getQuery('lessonPlanId');
         if ($lessonPlanId !== null && $lessonPlanId !== '') {
@@ -138,19 +161,13 @@ class LessonsrecordController extends Controller
         if ($lessonDateLocked) {
             $lessonRecord->lesson_date = MaceteLessonRecordService::convertDateToView($date);
         }
-        if ($lessonRecord->classroom_fk && $lessonRecord->lesson_date) {
-            $existingDayRecords = $this->lessonRecordService()->getRecordsForDay(
-                (int) $lessonRecord->classroom_fk,
-                MaceteLessonRecordService::convertDateToDatabase($lessonRecord->lesson_date)
-            );
-        }
 
         if (isset($_POST['MaceteLessonRecord'])) {
             try {
                 $lessonRecord = $this->lessonRecordService()->save($lessonRecord, $_POST);
                 TLog::info('Registro de aula MACETE salvo com sucesso.', ['MaceteLessonRecord' => $lessonRecord->id]);
                 Yii::app()->user->setFlash('success', 'Registro de aula MACETE salvo com sucesso!');
-                $this->redirect(['update', 'id' => $lessonRecord->id]);
+                $this->redirect($this->dayOrIndexUrl($lessonRecord));
             } catch (Exception $exception) {
                 TLog::error('Erro ao salvar registro de aula MACETE.', $exception->getMessage());
                 Yii::app()->user->setFlash('error', $exception->getMessage());
@@ -162,17 +179,13 @@ class LessonsrecordController extends Controller
             }
         }
 
-        $this->render('create', $this->buildFormData($lessonRecord, $existingDayRecords, $lessonDateLocked));
+        $this->render('create', $this->buildFormData($lessonRecord, $lessonDateLocked));
     }
 
     public function actionUpdate($id)
     {
         $this->accessService()->requireLessonRecordFeature();
         $lessonRecord = $this->loadModel($id);
-        $existingDayRecords = $this->lessonRecordService()->getRecordsForDay(
-            (int) $lessonRecord->classroom_fk,
-            (string) $lessonRecord->lesson_date
-        );
         $lessonRecord->lesson_date = MaceteLessonRecordService::convertDateToView($lessonRecord->lesson_date);
 
         if (isset($_POST['MaceteLessonRecord'])) {
@@ -180,7 +193,7 @@ class LessonsrecordController extends Controller
                 $lessonRecord = $this->lessonRecordService()->save($lessonRecord, $_POST);
                 TLog::info('Registro de aula MACETE atualizado com sucesso.', ['MaceteLessonRecord' => $lessonRecord->id]);
                 Yii::app()->user->setFlash('success', 'Registro de aula MACETE atualizado com sucesso!');
-                $this->redirect(['update', 'id' => $lessonRecord->id]);
+                $this->redirect($this->dayOrIndexUrl($lessonRecord));
             } catch (Exception $exception) {
                 TLog::error('Erro ao atualizar registro de aula MACETE.', $exception->getMessage());
                 Yii::app()->user->setFlash('error', $exception->getMessage());
@@ -190,17 +203,18 @@ class LessonsrecordController extends Controller
             }
         }
 
-        $this->render('update', $this->buildFormData($lessonRecord, $existingDayRecords, true));
+        $this->render('update', $this->buildFormData($lessonRecord, true));
     }
 
     public function actionDelete($id)
     {
         $this->accessService()->requireLessonRecordFeature();
         $lessonRecord = $this->loadModel($id);
+        $redirectUrl = $this->dayOrIndexUrl($lessonRecord);
         $lessonRecord->delete();
 
         Yii::app()->user->setFlash('success', 'Registro de aula MACETE excluído com sucesso!');
-        $this->redirect(['index']);
+        $this->redirect($redirectUrl);
     }
 
     public function loadModel($id): MaceteLessonRecord
@@ -213,7 +227,31 @@ class LessonsrecordController extends Controller
         return $model;
     }
 
-    private function buildFormData(MaceteLessonRecord $lessonRecord, array $existingDayRecords = [], bool $lessonDateLocked = false): array
+    /**
+     * Depois de salvar/excluir um registro, volta pra listagem de aulas
+     * daquele dia (contexto em que o usuário estava) quando dá pra saber
+     * turma+data; sem esse contexto, cai na tela inicial de Registrar Aula.
+     */
+    private function dayOrIndexUrl(MaceteLessonRecord $lessonRecord): string
+    {
+        if ($lessonRecord->classroom_fk && $lessonRecord->lesson_date) {
+            // lesson_date pode chegar aqui em dois formatos, dependendo de
+            // quem chamou: DD/MM/AAAA (exibição, ainda não salvo/convertido)
+            // ou AAAA-MM-DD (banco, logo após save()/loadModel()).
+            $date = strpos((string) $lessonRecord->lesson_date, '/') !== false
+                ? MaceteLessonRecordService::convertDateToDatabase($lessonRecord->lesson_date)
+                : $lessonRecord->lesson_date;
+
+            return MaceteRoutes::url(MaceteRoutes::LESSONSRECORD_DAY, [
+                'classroomId' => $lessonRecord->classroom_fk,
+                'date' => $date,
+            ]);
+        }
+
+        return MaceteRoutes::url(MaceteRoutes::LESSONSRECORD_INDEX);
+    }
+
+    private function buildFormData(MaceteLessonRecord $lessonRecord, bool $lessonDateLocked = false): array
     {
         $abilityIds = $this->lessonRecordService()->getAbilityIds($lessonRecord);
         if (empty($abilityIds) && $lessonRecord->lessonPlanFk !== null) {
@@ -230,11 +268,8 @@ class LessonsrecordController extends Controller
             'classrooms' => $this->lessonPlanService()->getClassrooms(),
             'selectedAbilities' => $this->abilityService()->getByIds($abilityIds),
             'territoryContext' => $school !== null ? (string) $school->territory_context : '',
-            'existingDayRecords' => array_filter(
-                $existingDayRecords,
-                static fn (MaceteLessonRecord $record): bool => $record->id !== $lessonRecord->id
-            ),
             'lessonDateLocked' => $lessonDateLocked,
+            'backUrl' => $this->dayOrIndexUrl($lessonRecord),
         ];
     }
 

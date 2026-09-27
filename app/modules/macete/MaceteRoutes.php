@@ -31,6 +31,7 @@ class MaceteRoutes
 
     // LessonsrecordController
     public const LESSONSRECORD_CREATE = 'macete/lessonsrecord/create';
+    public const LESSONSRECORD_DAY = 'macete/lessonsrecord/day';
     public const LESSONSRECORD_DELETE = 'macete/lessonsrecord/delete';
     public const LESSONSRECORD_GETDAYS = 'macete/lessonsrecord/getDays';
     public const LESSONSRECORD_GETMONTHS = 'macete/lessonsrecord/getMonths';
