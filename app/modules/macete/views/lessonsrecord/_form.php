@@ -5,7 +5,7 @@
 /* @var $classrooms Classroom[] */
 /* @var $selectedAbilities CourseClassAbilities[] */
 /* @var $territoryContext string */
-/* @var $lessonDateLocked bool */
+/* @var $dayContextLocked bool */
 /* @var $backUrl string */
 
 $baseScriptUrl = Yii::app()->controller->module->baseScriptUrl;
@@ -65,21 +65,35 @@ $selectedPlan = $lessonRecord->lessonPlanFk;
                         <?php echo $form->label($lessonRecord, 'lesson_date', ['class' => 't-field-text__label--required']); ?>
                         <?php echo $form->textField($lessonRecord, 'lesson_date', array_merge(
     ['class' => 't-field-text__input js-date js-macete-date', 'placeholder' => 'DD/MM/AAAA'],
-    $lessonDateLocked ? ['readonly' => 'readonly', 'title' => 'A data já foi escolhida na tela anterior e não pode ser alterada aqui.'] : []
+    $dayContextLocked ? ['readonly' => 'readonly', 'title' => 'A data já foi escolhida na tela anterior e não pode ser alterada aqui.'] : []
 )); ?>
                         <?php echo $form->error($lessonRecord, 'lesson_date'); ?>
                     </div>
                     <div class="column t-field-select">
                         <?php echo $form->label($lessonRecord, 'classroom_fk', ['class' => 't-field-select__label--required']); ?>
-                        <?php echo $form->dropDownList(
+                        <?php if ($dayContextLocked): ?>
+                            <?php echo $form->dropDownList(
                             $lessonRecord,
                             'classroom_fk',
                             CHtml::listData($classrooms, 'id', 'name'),
                             [
                                 'class' => 'select-search-on t-field-select__input js-macete-record-classroom',
-                                'prompt' => 'Selecione a turma',
+                                'disabled' => 'disabled',
+                                'title' => 'A turma já foi escolhida na tela anterior e não pode ser alterada aqui.',
                             ]
                         ); ?>
+                            <?php echo $form->hiddenField($lessonRecord, 'classroom_fk'); ?>
+                        <?php else: ?>
+                            <?php echo $form->dropDownList(
+                                $lessonRecord,
+                                'classroom_fk',
+                                CHtml::listData($classrooms, 'id', 'name'),
+                                [
+                                    'class' => 'select-search-on t-field-select__input js-macete-record-classroom',
+                                    'prompt' => 'Selecione a turma',
+                                ]
+                            ); ?>
+                        <?php endif; ?>
                         <?php echo $form->error($lessonRecord, 'classroom_fk'); ?>
                     </div>
 
@@ -89,14 +103,14 @@ $selectedPlan = $lessonRecord->lessonPlanFk;
                     <div class="column t-field-select">
                         <?php echo $form->label($lessonRecord, 'lesson_plan_fk', ['class' => 't-field-select__label--required']); ?>
                         <?php echo $form->dropDownList(
-                            $lessonRecord,
-                            'lesson_plan_fk',
-                            CHtml::listData($plans, 'id', 'name'),
-                            [
-                                'class' => 'select-search-on t-field-select__input js-macete-plan-select',
-                                'prompt' => 'Selecione o plano MACETE',
-                            ]
-                        ); ?>
+                                $lessonRecord,
+                                'lesson_plan_fk',
+                                CHtml::listData($plans, 'id', 'name'),
+                                [
+                                    'class' => 'select-search-on t-field-select__input js-macete-plan-select',
+                                    'prompt' => 'Selecione o plano MACETE',
+                                ]
+                            ); ?>
                         <?php echo $form->error($lessonRecord, 'lesson_plan_fk'); ?>
                     </div>
                 </div>

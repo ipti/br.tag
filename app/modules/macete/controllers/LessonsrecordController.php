@@ -154,11 +154,11 @@ class LessonsrecordController extends Controller
 
         $classroomId = Yii::app()->request->getQuery('classroomId');
         $date = Yii::app()->request->getQuery('date');
-        $lessonDateLocked = $date !== null && $date !== '';
+        $dayContextLocked = $date !== null && $date !== '';
         if ($classroomId !== null && $classroomId !== '') {
             $lessonRecord->classroom_fk = (int) $classroomId;
         }
-        if ($lessonDateLocked) {
+        if ($dayContextLocked) {
             $lessonRecord->lesson_date = MaceteLessonRecordService::convertDateToView($date);
         }
 
@@ -179,7 +179,7 @@ class LessonsrecordController extends Controller
             }
         }
 
-        $this->render('create', $this->buildFormData($lessonRecord, $lessonDateLocked));
+        $this->render('create', $this->buildFormData($lessonRecord, $dayContextLocked));
     }
 
     public function actionUpdate($id)
@@ -251,7 +251,7 @@ class LessonsrecordController extends Controller
         return MaceteRoutes::url(MaceteRoutes::LESSONSRECORD_INDEX);
     }
 
-    private function buildFormData(MaceteLessonRecord $lessonRecord, bool $lessonDateLocked = false): array
+    private function buildFormData(MaceteLessonRecord $lessonRecord, bool $dayContextLocked = false): array
     {
         $abilityIds = $this->lessonRecordService()->getAbilityIds($lessonRecord);
         if (empty($abilityIds) && $lessonRecord->lessonPlanFk !== null) {
@@ -268,7 +268,7 @@ class LessonsrecordController extends Controller
             'classrooms' => $this->lessonPlanService()->getClassrooms(),
             'selectedAbilities' => $this->abilityService()->getByIds($abilityIds),
             'territoryContext' => $school !== null ? (string) $school->territory_context : '',
-            'lessonDateLocked' => $lessonDateLocked,
+            'dayContextLocked' => $dayContextLocked,
             'backUrl' => $this->dayOrIndexUrl($lessonRecord),
         ];
     }
