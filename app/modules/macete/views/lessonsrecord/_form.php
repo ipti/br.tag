@@ -6,6 +6,7 @@
 /* @var $selectedAbilities CourseClassAbilities[] */
 /* @var $territoryContext string */
 /* @var $existingDayRecords MaceteLessonRecord[] */
+/* @var $lessonDateLocked bool */
 
 $baseScriptUrl = Yii::app()->controller->module->baseScriptUrl;
 $themeUrl = Yii::app()->theme->baseUrl;
@@ -69,20 +70,23 @@ $selectedPlan = $lessonRecord->lessonPlanFk;
                 <div class="row">
                     <div class="column t-field-text">
                         <?php echo $form->label($lessonRecord, 'lesson_date', ['class' => 't-field-text__label--required']); ?>
-                        <?php echo $form->textField($lessonRecord, 'lesson_date', ['class' => 't-field-text__input js-date js-macete-date', 'placeholder' => 'DD/MM/AAAA']); ?>
+                        <?php echo $form->textField($lessonRecord, 'lesson_date', array_merge(
+    ['class' => 't-field-text__input js-date js-macete-date', 'placeholder' => 'DD/MM/AAAA'],
+    $lessonDateLocked ? ['readonly' => 'readonly', 'title' => 'A data já foi escolhida na tela anterior e não pode ser alterada aqui.'] : []
+)); ?>
                         <?php echo $form->error($lessonRecord, 'lesson_date'); ?>
                     </div>
                     <div class="column t-field-select">
                         <?php echo $form->label($lessonRecord, 'classroom_fk', ['class' => 't-field-select__label--required']); ?>
                         <?php echo $form->dropDownList(
-    $lessonRecord,
-    'classroom_fk',
-    CHtml::listData($classrooms, 'id', 'name'),
-    [
-        'class' => 'select-search-on t-field-select__input js-macete-record-classroom',
-        'prompt' => 'Selecione a turma',
-    ]
-); ?>
+                            $lessonRecord,
+                            'classroom_fk',
+                            CHtml::listData($classrooms, 'id', 'name'),
+                            [
+                                'class' => 'select-search-on t-field-select__input js-macete-record-classroom',
+                                'prompt' => 'Selecione a turma',
+                            ]
+                        ); ?>
                         <?php echo $form->error($lessonRecord, 'classroom_fk'); ?>
                     </div>
 

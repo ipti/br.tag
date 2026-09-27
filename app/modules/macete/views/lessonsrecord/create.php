@@ -11,4 +11,5 @@ echo $this->renderPartial('_form', [
     'selectedAbilities' => $selectedAbilities,
     'territoryContext' => $territoryContext,
     'existingDayRecords' => $existingDayRecords,
+    'lessonDateLocked' => $lessonDateLocked,
 ], true);

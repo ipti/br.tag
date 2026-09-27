@@ -131,10 +131,11 @@ class LessonsrecordController extends Controller
 
         $classroomId = Yii::app()->request->getQuery('classroomId');
         $date = Yii::app()->request->getQuery('date');
+        $lessonDateLocked = $date !== null && $date !== '';
         if ($classroomId !== null && $classroomId !== '') {
             $lessonRecord->classroom_fk = (int) $classroomId;
         }
-        if ($date !== null && $date !== '') {
+        if ($lessonDateLocked) {
             $lessonRecord->lesson_date = MaceteLessonRecordService::convertDateToView($date);
         }
         if ($lessonRecord->classroom_fk && $lessonRecord->lesson_date) {
@@ -161,7 +162,7 @@ class LessonsrecordController extends Controller
             }
         }
 
-        $this->render('create', $this->buildFormData($lessonRecord, $existingDayRecords));
+        $this->render('create', $this->buildFormData($lessonRecord, $existingDayRecords, $lessonDateLocked));
     }
 
     public function actionUpdate($id)
@@ -185,7 +186,7 @@ class LessonsrecordController extends Controller
             }
         }
 
-        $this->render('update', $this->buildFormData($lessonRecord));
+        $this->render('update', $this->buildFormData($lessonRecord, [], true));
     }
 
     public function actionDelete($id)
@@ -208,7 +209,7 @@ class LessonsrecordController extends Controller
         return $model;
     }
 
-    private function buildFormData(MaceteLessonRecord $lessonRecord, array $existingDayRecords = []): array
+    private function buildFormData(MaceteLessonRecord $lessonRecord, array $existingDayRecords = [], bool $lessonDateLocked = false): array
     {
         $abilityIds = $this->lessonRecordService()->getAbilityIds($lessonRecord);
         if (empty($abilityIds) && $lessonRecord->lessonPlanFk !== null) {
@@ -229,6 +230,7 @@ class LessonsrecordController extends Controller
                 $existingDayRecords,
                 static fn (MaceteLessonRecord $record): bool => $record->id !== $lessonRecord->id
             ),
+            'lessonDateLocked' => $lessonDateLocked,
         ];
     }
 
