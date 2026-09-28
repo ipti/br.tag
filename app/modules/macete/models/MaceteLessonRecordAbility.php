@@ -57,4 +57,3 @@ class MaceteLessonRecordAbility extends TagModel
         return parent::model($className);
     }
 }
-

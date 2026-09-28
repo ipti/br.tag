@@ -1,20 +1,21 @@
 <?php
 /* @var $this LessonsrecordController */
-/* @var $dataProvider CActiveDataProvider */
+/* @var $classrooms Classroom[] */
 
-$this->setPageTitle('TAG - Registros MACETE');
+$baseScriptUrl = Yii::app()->controller->module->baseScriptUrl;
+$cs = Yii::app()->getClientScript();
+$cs->registerScriptFile($baseScriptUrl . '/lesson-record-days.js?v=' . TAG_VERSION, CClientScript::POS_END);
+
+$this->setPageTitle('TAG - Registrar Aula MACETE');
 ?>
 
 <div id="mainPage" class="main">
     <div class="row-fluid">
         <div class="span12">
-            <h1>Registros de Aula MACETE</h1>
+            <h1>Registrar Aula MACETE</h1>
             <div class="t-buttons-container">
-                <a class="t-button-primary" href="<?php echo MaceteRoutes::url(MaceteRoutes::LESSONSRECORD_CREATE); ?>">
-                    Registrar aula
-                </a>
-                <a class="t-button-secondary" href="<?php echo MaceteRoutes::url(MaceteRoutes::LESSONSPLAN_INDEX); ?>">
-                    Planos MACETE
+                <a id="macete-record-print" class="t-button-secondary hide" target="_blank" rel="noopener">
+                    <span class="t-icon-printer"></span> Imprimir relatório do mês
                 </a>
             </div>
         </div>
@@ -27,81 +28,28 @@ $this->setPageTitle('TAG - Registros MACETE');
         <div class="alert alert-error"><?php echo Yii::app()->user->getFlash('error'); ?></div>
     <?php endif; ?>
 
-    <div class="tag-inner">
-        <div class="widget clearmargin">
-            <div class="widget-body">
-                <?php $this->widget('zii.widgets.grid.CGridView', [
-                    'dataProvider' => $dataProvider,
-                    'enablePagination' => false,
-                    'enableSorting' => false,
-                    'ajaxUpdate' => false,
-                    'itemsCssClass' => 'js-tag-table tag-table-primary tag-table table table-condensed table-striped table-hover table-primary table-vertical-center',
-                    'columns' => [
-                        [
-                            'header' => 'Data',
-                            'name' => 'lesson_date',
-                            'value' => 'date("d/m/Y", strtotime($data->lesson_date))',
-                            'htmlOptions' => ['width' => '10%'],
-                        ],
-                        [
-                            'header' => 'Plano',
-                            'name' => 'lesson_plan_fk',
-                            'type' => 'raw',
-                            'value' => 'CHtml::link(CHtml::encode($data->lessonPlanFk->name), MaceteRoutes::url(MaceteRoutes::LESSONSRECORD_UPDATE, ["id" => $data->id]))',
-                            'htmlOptions' => ['width' => '20%', 'class' => 'link-update-grid-view'],
-                        ],
-                        [
-                            'header' => 'Turma',
-                            'name' => 'classroom_fk',
-                            'value' => '$data->classroomFk !== null ? $data->classroomFk->name : ""',
-                            'htmlOptions' => ['width' => '14%'],
-                        ],
-                        [
-                            'header' => 'Componente',
-                            'name' => 'edcenso_discipline_fk',
-                            'value' => '$data->disciplineFk !== null ? $data->disciplineFk->name : ""',
-                            'htmlOptions' => ['width' => '14%'],
-                        ],
-                        [
-                            'header' => 'Professor',
-                            'name' => 'users_fk',
-                            'value' => '$data->usersFk !== null ? $data->usersFk->name : ""',
-                            'htmlOptions' => ['width' => '16%'],
-                        ],
-                        [
-                            'header' => 'Habilidades',
-                            'type' => 'raw',
-                            'value' => 'CHtml::encode($data->getAbilityCodes())',
-                            'htmlOptions' => ['width' => '12%'],
-                        ],
-                        [
-                            'header' => 'Status',
-                            'type' => 'raw',
-                            'value' => '"<span class=\"" . $data->getStatusBadgeClass() . "\">" . CHtml::encode($data->getStatusLabel()) . "</span>"',
-                            'htmlOptions' => ['width' => '8%'],
-                        ],
-                        [
-                            'header' => 'Acoes',
-                            'class' => 'CButtonColumn',
-                            'template' => '{update}{delete}',
-                            'buttons' => [
-                                'update' => [
-                                    'imageUrl' => Yii::app()->theme->baseUrl . '/img/editar.svg',
-                                    'url' => 'MaceteRoutes::url(MaceteRoutes::LESSONSRECORD_UPDATE, ["id" => $data->id])',
-                                ],
-                                'delete' => [
-                                    'imageUrl' => Yii::app()->theme->baseUrl . '/img/deletar.svg',
-                                    'url' => 'MaceteRoutes::url(MaceteRoutes::LESSONSRECORD_DELETE, ["id" => $data->id])',
-                                ],
-                            ],
-                            'updateButtonOptions' => ['style' => 'margin-right: 20px;'],
-                            'deleteButtonOptions' => ['style' => 'cursor: pointer;'],
-                            'htmlOptions' => ['width' => '80px', 'style' => 'text-align: center'],
-                        ],
-                    ],
-                ]); ?>
-            </div>
+    <div class="mobile-row align-items--end">
+        <div class="column t-field-select clearleft is-one-quarter">
+            <label class="t-field-select__label--required">Turma</label>
+            <select id="macete-record-classroom" class="select-search-on t-field-select__input">
+                <option value="">Selecione a turma</option>
+                <?php foreach ($classrooms as $classroom): ?>
+                    <option value="<?php echo (int) $classroom->id; ?>"><?php echo CHtml::encode($classroom->name); ?></option>
+                <?php endforeach; ?>
+            </select>
+        </div>
+        <div class="column t-field-select is-one-quarter">
+            <label class="t-field-select__label--required">Mês</label>
+            <select id="macete-record-month" class="select-search-on t-field-select__input" disabled>
+                <option value="">Selecione a turma primeiro</option>
+            </select>
         </div>
     </div>
-</div>
 
+    <div id="macete-record-error" class="alert alert-error hide"></div>
+
+    <div class="js-macete-record-subtitle hide">
+        <h3>Selecione um dia para registrar ou ver a aula</h3>
+    </div>
+    <div id="macete-record-days" class="row wrap"></div>
+</div>

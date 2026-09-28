@@ -5,6 +5,8 @@
 /* @var $classrooms Classroom[] */
 /* @var $selectedAbilities CourseClassAbilities[] */
 /* @var $territoryContext string */
+/* @var $dayContextLocked bool */
+/* @var $backUrl string */
 
 $baseScriptUrl = Yii::app()->controller->module->baseScriptUrl;
 $themeUrl = Yii::app()->theme->baseUrl;
@@ -29,7 +31,15 @@ $selectedPlan = $lessonRecord->lessonPlanFk;
             <h1><?php echo $lessonRecord->isNewRecord ? 'Registrar Aula MACETE' : 'Editar Registro MACETE'; ?></h1>
         </div>
         <div class="column  align-items--center justify-content--end show--desktop">
-            <a class="t-button-secondary" href="<?php echo MaceteRoutes::url(MaceteRoutes::LESSONSRECORD_INDEX); ?>">Voltar</a>
+            <a class="t-button-secondary" href="<?php echo $backUrl; ?>">Voltar</a>
+            <?php if (!$lessonRecord->isNewRecord): ?>
+                <a class="t-button-secondary js-macete-delete-record"
+                    href="#"
+                    data-url="<?php echo MaceteRoutes::url(MaceteRoutes::LESSONSRECORD_DELETE, ['id' => $lessonRecord->id]); ?>"
+                    data-redirect="<?php echo $backUrl; ?>">
+                    Excluir registro
+                </a>
+            <?php endif; ?>
             <button class="t-button-primary" type="submit">Salvar registro</button>
         </div>
     </div>
@@ -53,20 +63,37 @@ $selectedPlan = $lessonRecord->lessonPlanFk;
                 <div class="row">
                     <div class="column t-field-text">
                         <?php echo $form->label($lessonRecord, 'lesson_date', ['class' => 't-field-text__label--required']); ?>
-                        <?php echo $form->textField($lessonRecord, 'lesson_date', ['class' => 't-field-text__input js-date js-macete-date', 'placeholder' => 'DD/MM/AAAA']); ?>
+                        <?php echo $form->textField($lessonRecord, 'lesson_date', array_merge(
+    ['class' => 't-field-text__input js-date js-macete-date', 'placeholder' => 'DD/MM/AAAA'],
+    $dayContextLocked ? ['readonly' => 'readonly', 'title' => 'A data já foi escolhida na tela anterior e não pode ser alterada aqui.'] : []
+)); ?>
                         <?php echo $form->error($lessonRecord, 'lesson_date'); ?>
                     </div>
                     <div class="column t-field-select">
                         <?php echo $form->label($lessonRecord, 'classroom_fk', ['class' => 't-field-select__label--required']); ?>
-                        <?php echo $form->dropDownList(
-    $lessonRecord,
-    'classroom_fk',
-    CHtml::listData($classrooms, 'id', 'name'),
-    [
-        'class' => 'select-search-on t-field-select__input js-macete-record-classroom',
-        'prompt' => 'Selecione a turma',
-    ]
-); ?>
+                        <?php if ($dayContextLocked): ?>
+                            <?php echo $form->dropDownList(
+                            $lessonRecord,
+                            'classroom_fk',
+                            CHtml::listData($classrooms, 'id', 'name'),
+                            [
+                                'class' => 'select-search-on t-field-select__input js-macete-record-classroom',
+                                'disabled' => 'disabled',
+                                'title' => 'A turma já foi escolhida na tela anterior e não pode ser alterada aqui.',
+                            ]
+                        ); ?>
+                            <?php echo $form->hiddenField($lessonRecord, 'classroom_fk'); ?>
+                        <?php else: ?>
+                            <?php echo $form->dropDownList(
+                                $lessonRecord,
+                                'classroom_fk',
+                                CHtml::listData($classrooms, 'id', 'name'),
+                                [
+                                    'class' => 'select-search-on t-field-select__input js-macete-record-classroom',
+                                    'prompt' => 'Selecione a turma',
+                                ]
+                            ); ?>
+                        <?php endif; ?>
                         <?php echo $form->error($lessonRecord, 'classroom_fk'); ?>
                     </div>
 
@@ -74,21 +101,16 @@ $selectedPlan = $lessonRecord->lessonPlanFk;
 
                 <div class="row">
                     <div class="column t-field-select">
-                        <?php echo $form->label($lessonRecord, 'status', ['class' => 't-field-select__label--required']); ?>
-                        <?php echo $form->dropDownList($lessonRecord, 'status', MaceteLessonRecord::statusLabels(), ['class' => 'select-search-on t-field-select__input']); ?>
-                        <?php echo $form->error($lessonRecord, 'status'); ?>
-                    </div>
-                    <div class="column t-field-select">
                         <?php echo $form->label($lessonRecord, 'lesson_plan_fk', ['class' => 't-field-select__label--required']); ?>
                         <?php echo $form->dropDownList(
-                            $lessonRecord,
-                            'lesson_plan_fk',
-                            CHtml::listData($plans, 'id', 'name'),
-                            [
-                                'class' => 'select-search-on t-field-select__input js-macete-plan-select',
-                                'prompt' => 'Selecione o plano MACETE',
-                            ]
-                        ); ?>
+                                $lessonRecord,
+                                'lesson_plan_fk',
+                                CHtml::listData($plans, 'id', 'name'),
+                                [
+                                    'class' => 'select-search-on t-field-select__input js-macete-plan-select',
+                                    'prompt' => 'Selecione o plano MACETE',
+                                ]
+                            ); ?>
                         <?php echo $form->error($lessonRecord, 'lesson_plan_fk'); ?>
                     </div>
                 </div>
@@ -144,7 +166,7 @@ $selectedPlan = $lessonRecord->lessonPlanFk;
 
     <div class="row reverse show--tablet">
         <div class="t-buttons-container">
-            <a class="t-button-secondary" href="<?php echo MaceteRoutes::url(MaceteRoutes::LESSONSRECORD_INDEX); ?>">Voltar</a>
+            <a class="t-button-secondary" href="<?php echo $backUrl; ?>">Voltar</a>
             <button class="t-button-primary" type="submit">Salvar registro</button>
         </div>
     </div>

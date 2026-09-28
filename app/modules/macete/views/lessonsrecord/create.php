@@ -1,4 +1,5 @@
 <?php
+
 /* @var $this LessonsrecordController */
 /* @var $lessonRecord MaceteLessonRecord */
 
@@ -9,5 +10,6 @@ echo $this->renderPartial('_form', [
     'classrooms' => $classrooms,
     'selectedAbilities' => $selectedAbilities,
     'territoryContext' => $territoryContext,
+    'dayContextLocked' => $dayContextLocked,
+    'backUrl' => $backUrl,
 ], true);
-

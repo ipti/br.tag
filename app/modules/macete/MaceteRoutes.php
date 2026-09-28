@@ -25,14 +25,25 @@ class MaceteRoutes
     public const LESSONSPLAN_DELETE = 'macete/lessonsplan/delete';
     public const LESSONSPLAN_GETDISCIPLINES = 'macete/lessonsplan/getDisciplines';
     public const LESSONSPLAN_GETPLAN = 'macete/lessonsplan/getPlan';
+    public const LESSONSPLAN_GETTEMPLATES = 'macete/lessonsplan/getTemplates';
     public const LESSONSPLAN_INDEX = 'macete/lessonsplan/index';
     public const LESSONSPLAN_UPDATE = 'macete/lessonsplan/update';
 
     // LessonsrecordController
     public const LESSONSRECORD_CREATE = 'macete/lessonsrecord/create';
+    public const LESSONSRECORD_DAY = 'macete/lessonsrecord/day';
     public const LESSONSRECORD_DELETE = 'macete/lessonsrecord/delete';
+    public const LESSONSRECORD_GETDAYS = 'macete/lessonsrecord/getDays';
+    public const LESSONSRECORD_GETMONTHS = 'macete/lessonsrecord/getMonths';
     public const LESSONSRECORD_INDEX = 'macete/lessonsrecord/index';
     public const LESSONSRECORD_UPDATE = 'macete/lessonsrecord/update';
+
+    // TemplatesController
+    public const TEMPLATES_CREATE = 'macete/templates/create';
+    public const TEMPLATES_DELETE = 'macete/templates/delete';
+    public const TEMPLATES_GETDISCIPLINES = 'macete/templates/getDisciplines';
+    public const TEMPLATES_INDEX = 'macete/templates/index';
+    public const TEMPLATES_UPDATE = 'macete/templates/update';
 
     public static function url(string $route, array $params = []): string
     {

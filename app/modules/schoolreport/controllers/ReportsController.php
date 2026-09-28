@@ -70,7 +70,8 @@ class ReportsController extends Controller
                     'NumberOfClassesPerSchool',
                     'NumberOfClassesPerSchool',
                     'StudentCpfRgNisPerClassroom',
-                    'FoodMenu'
+                    'FoodMenu',
+                    'MaceteDiaryReport'
                 ],
                 'users' => ['@'],
             ],
@@ -101,7 +102,7 @@ class ReportsController extends Controller
             return 'webroot.themes.default.views.layouts.fullmenu';
         }
 
-        if (in_array($actionId, ['studentsbetween5and14yearsoldreport', 'classcontentsreport'], true)) {
+        if (in_array($actionId, ['studentsbetween5and14yearsoldreport', 'classcontentsreport', 'macetediaryreport'], true)) {
             return 'webroot.themes.default.views.layouts.reportsclean';
         }
 
@@ -606,6 +607,60 @@ class ReportsController extends Controller
             $frequency[$schedule->day]['attendance'] = round(100 - (($frequency[$schedule->day]['totalAbsentStudents'] / $frequency[$schedule->day]['totalStudents']) * 100), 2);
         }
         return $frequency;
+    }
+
+    /**
+     * Relatório do Diário do MACETE: aulas previstas no quadro de horário
+     * (mesma fonte do Diário de Classe) vs. aulas efetivamente registradas
+     * via macete_lesson_record no mês/turma/componente selecionados.
+     */
+    public function actionMaceteDiaryReport($classroomId, $month, $year, $disciplineId)
+    {
+        Yii::import('application.modules.macete.services.*');
+        Yii::import('application.modules.macete.models.*');
+
+        $classroom = Classroom::model()->findByPk($classroomId);
+        $classroomName = $classroom->name;
+        $disciplineId = $disciplineId === 'null' ? null : $disciplineId;
+        $instructorName = null;
+        if (TagUtils::isInstructor()) {
+            $instructorName = InstructorIdentification::model()->findByAttributes(['users_fk' => Yii::app()->user->loginInfos->id])->name ?? null;
+        }
+
+        $month = (int) $month;
+        $year = (int) $year;
+        $disciplineIdInt = $disciplineId !== null ? (int) $disciplineId : null;
+
+        $instructionalDays = (new MaceteInstructionalDaysService())->getInstructionalDays($classroom, $month, $year);
+        $records = (new MaceteLessonRecordService())->getRecordsByMonth((int) $classroomId, $disciplineIdInt, $month, $year);
+
+        $recordsByDay = [];
+        foreach ($records as $record) {
+            $day = (int) date('j', strtotime((string) $record->lesson_date));
+            $recordsByDay[$day][] = [
+                'plan' => $record->lessonPlanFk !== null ? $record->lessonPlanFk->name : '',
+                'content' => $record->executed_content,
+            ];
+        }
+
+        $days = [];
+        foreach ($instructionalDays as $day) {
+            $days[$day] = [
+                'day' => $day,
+                'registered' => isset($recordsByDay[$day]),
+                'records' => $recordsByDay[$day] ?? [],
+            ];
+        }
+
+        $this->render('MaceteDiaryReport', [
+            'days' => $days,
+            'totalScheduled' => count($instructionalDays),
+            'totalRegistered' => count($records),
+            'instructorName' => $instructorName,
+            'classroomName' => $classroomName,
+            'month' => str_pad((string) $month, 2, '0', STR_PAD_LEFT),
+            'year' => $year,
+        ]);
     }
 
     private function translateStageNumbers($stageNumber)

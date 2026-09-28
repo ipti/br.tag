@@ -1,13 +1,13 @@
 <?php
 
 /**
- * ActiveRecord for table macete_lesson_plan_ability.
+ * ActiveRecord for table macete_lesson_plan_template_ability.
  */
-class MaceteLessonPlanAbility extends TagModel
+class MaceteLessonPlanTemplateAbility extends TagModel
 {
     public function tableName()
     {
-        return 'macete_lesson_plan_ability';
+        return 'macete_lesson_plan_template_ability';
     }
 
     public function behaviors()
@@ -26,17 +26,17 @@ class MaceteLessonPlanAbility extends TagModel
     public function rules()
     {
         return [
-            ['lesson_plan_fk, ability_fk', 'required'],
-            ['lesson_plan_fk, ability_fk', 'numerical', 'integerOnly' => true],
+            ['lesson_plan_template_fk, ability_fk', 'required'],
+            ['lesson_plan_template_fk, ability_fk', 'numerical', 'integerOnly' => true],
             ['created_at, updated_at', 'safe'],
-            ['id, lesson_plan_fk, ability_fk, created_at, updated_at', 'safe', 'on' => 'search'],
+            ['id, lesson_plan_template_fk, ability_fk, created_at, updated_at', 'safe', 'on' => 'search'],
         ];
     }
 
     public function relations()
     {
         return [
-            'lessonPlanFk' => [self::BELONGS_TO, 'MaceteLessonPlan', 'lesson_plan_fk'],
+            'lessonPlanTemplateFk' => [self::BELONGS_TO, 'MaceteLessonPlanTemplate', 'lesson_plan_template_fk'],
             'abilityFk' => [self::BELONGS_TO, 'CourseClassAbilities', 'ability_fk'],
         ];
     }
@@ -45,7 +45,7 @@ class MaceteLessonPlanAbility extends TagModel
     {
         return [
             'id' => 'ID',
-            'lesson_plan_fk' => 'Plano MACETE',
+            'lesson_plan_template_fk' => 'Modelo de plano MACETE',
             'ability_fk' => 'Habilidade BNCC',
             'created_at' => 'Criado em',
             'updated_at' => 'Atualizado em',

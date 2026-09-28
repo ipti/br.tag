@@ -69,9 +69,12 @@
         var requestToken = (row.data("macete-discipline-request-token") || 0) + 1;
         row.data("macete-discipline-request-token", requestToken);
 
+        var getDisciplinesUrl = (window.MaceteFormConfig && window.MaceteFormConfig.getDisciplinesUrl)
+            || "?r=macete/lessonsplan/getDisciplines";
+
         $.ajax({
             type: "POST",
-            url: "?r=macete/lessonsplan/getDisciplines",
+            url: getDisciplinesUrl,
             dataType: "json",
             cache: false,
             data: { stage: [stageId] },
@@ -93,7 +96,6 @@
     }
 
     function updateSidebar() {
-        var statusSelect = $("select.js-macete-status");
         var unitInput = $("input.js-macete-unit");
         var abilitiesCount = $(".js-macete-abilities-selected .ability-panel-option").length;
         var associations = [];
@@ -110,7 +112,6 @@
         $(".js-macete-summary-discipline").text(associations.join(", ") || "—");
         $(".js-macete-summary-stage").text(associations.length + (associations.length === 1 ? " etapa" : " etapas"));
         $(".js-macete-summary-unit").text(unitInput.val() ? unitInput.val().trim() : "—");
-        $(".js-macete-summary-status").text(statusSelect.find("option:selected").text().trim() || "—");
         $(".js-macete-summary-abilities").text(abilitiesCount + (abilitiesCount === 1 ? " habilidade" : " habilidades"));
     }
 
@@ -171,7 +172,6 @@
         $(document).on("click", ".js-macete-remove-material", function () {
             $(this).closest(".js-macete-material-row").remove();
         });
-        $("select.js-macete-status").on("change", updateSidebar);
         $("input.js-macete-unit").on("input", updateSidebar);
         $(document).on("click", ".js-macete-remove-ability", function () { setTimeout(updateSidebar, 0); });
 

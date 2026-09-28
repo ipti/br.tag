@@ -47,10 +47,11 @@ class MaceteLessonPlanService
                 $lessonPlan->school_inep_fk = Yii::app()->user->school;
                 $lessonPlan->users_fk = $this->accessService->currentUserId();
                 $lessonPlan->school_year = Yii::app()->user->year;
-            }
 
-            if ($lessonPlan->status === null || $lessonPlan->status === '') {
-                $lessonPlan->status = MaceteLessonPlan::STATUS_DRAFT;
+                $originTemplateId = $request['origin_template_fk'] ?? null;
+                if ($originTemplateId !== null && $originTemplateId !== '') {
+                    $lessonPlan->origin_template_fk = (int) $originTemplateId;
+                }
             }
 
             if (!$lessonPlan->save()) {
@@ -278,7 +279,6 @@ class MaceteLessonPlanService
             'knowledge_object',
             'evaluation',
             'references_text',
-            'status',
         ];
 
         $planData = $this->normalizePlanData(array_intersect_key($planData, array_flip($allowedAttributes)));

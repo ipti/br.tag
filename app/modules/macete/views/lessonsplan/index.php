@@ -16,9 +16,17 @@ $this->setPageTitle('TAG - Planos MACETE');
                 <a class="t-button-primary" href="<?php echo MaceteRoutes::url(MaceteRoutes::LESSONSPLAN_CREATE); ?>">
                     Novo plano
                 </a>
-                <a class="t-button-secondary" href="<?php echo MaceteRoutes::url(MaceteRoutes::LESSONSRECORD_CREATE); ?>">
+                <a class="t-button-secondary" href="<?php echo MaceteRoutes::url(MaceteRoutes::LESSONSRECORD_INDEX); ?>">
                     Registrar aula
                 </a>
+                <a class="t-button-secondary" href="#" data-toggle="modal" data-target="#js-macete-use-template">
+                    Usar modelo
+                </a>
+                <?php if (TagUtils::checkAccess(TRole::ADMIN)): ?>
+                    <a class="t-button-secondary" href="<?php echo MaceteRoutes::url(MaceteRoutes::TEMPLATES_INDEX); ?>">
+                        Gerenciar modelos
+                    </a>
+                <?php endif; ?>
             </div>
         </div>
     </div>
@@ -53,18 +61,6 @@ $this->setPageTitle('TAG - Planos MACETE');
                 [
                     'class' => 'select-search-on t-field-select__input',
                     'prompt' => 'Todos os componentes',
-                ]
-            ); ?>
-        </div>
-        <div class="column t-field-select is-one-quarter">
-            <?php echo CHtml::label('Status', 'status', ['class' => 't-field-select__label']); ?>
-            <?php echo CHtml::dropDownList(
-                'status',
-                $filters['status'],
-                MaceteLessonPlan::statusLabels(),
-                [
-                    'class' => 'select-search-on t-field-select__input',
-                    'prompt' => 'Todos os status',
                 ]
             ); ?>
         </div>
@@ -128,12 +124,6 @@ $this->setPageTitle('TAG - Planos MACETE');
                             'htmlOptions' => ['width' => '10%'],
                         ],
                         [
-                            'header' => 'Status',
-                            'type' => 'raw',
-                            'value' => '"<span class=\"" . $data->getStatusBadgeClass() . "\">" . CHtml::encode($data->getStatusLabel()) . "</span>"',
-                            'htmlOptions' => ['width' => '8%'],
-                        ],
-                        [
                             'header' => 'Acoes',
                             'class' => 'CButtonColumn',
                             'template' => '{update}{record}{delete}',
@@ -144,7 +134,7 @@ $this->setPageTitle('TAG - Planos MACETE');
                                 ],
                                 'record' => [
                                     'imageUrl' => Yii::app()->theme->baseUrl . '/img/buttonIcon/start.svg',
-                                    'url' => 'MaceteRoutes::url(MaceteRoutes::LESSONSRECORD_CREATE, ["lessonPlanId" => $data->id])',
+                                    'url' => 'MaceteRoutes::url(MaceteRoutes::LESSONSRECORD_INDEX)',
                                     'options' => ['title' => 'Registrar aula'],
                                 ],
                                 'delete' => [
@@ -161,4 +151,81 @@ $this->setPageTitle('TAG - Planos MACETE');
             </div>
         </div>
     </div>
+
+    <div class="modal fade t-modal-container" id="js-macete-use-template" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="t-modal__header">
+                <h4 class="t-title">Usar plano modelo</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/Close.svg" alt="">
+                </button>
+            </div>
+            <div class="t-modal__body">
+                <div class="js-macete-template-loading">Carregando modelos...</div>
+                <div class="js-macete-template-empty hide">Nenhum plano modelo cadastrado ainda.</div>
+                <div class="t-field-select js-macete-template-select-container hide">
+                    <label class="t-field-select__label">Modelo</label>
+                    <select id="js-macete-template-select" class="select-search-on t-field-select__input"></select>
+                </div>
+                <div class="t-modal__footer row reverse">
+                    <div class="t-buttons-container justify-content--center">
+                        <button type="button" class="t-button-secondary" data-dismiss="modal">Cancelar</button>
+                    </div>
+                    <div class="t-buttons-container justify-content--center">
+                        <button type="button" class="t-button-primary js-macete-use-template-confirm hide">
+                            Usar este modelo
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
+
+<script>
+    (function ($) {
+        var templatesLoaded = false;
+
+        function loadTemplates() {
+            if (templatesLoaded) {
+                return;
+            }
+            templatesLoaded = true;
+
+            $.ajax({
+                type: 'POST',
+                url: '?r=macete/lessonsplan/getTemplates',
+                dataType: 'json',
+            }).done(function (templates) {
+                $('.js-macete-template-loading').addClass('hide');
+
+                if (!templates || !templates.length) {
+                    $('.js-macete-template-empty').removeClass('hide');
+                    return;
+                }
+
+                var select = $('#js-macete-template-select');
+                $.each(templates, function () {
+                    var label = this.name + (this.stage ? ' — ' + this.stage : '') + (this.discipline ? ' — ' + this.discipline : '');
+                    select.append($('<option>').val(this.id).text(label));
+                });
+
+                $('.js-macete-template-select-container').removeClass('hide');
+                $('.js-macete-use-template-confirm').removeClass('hide');
+                if (select.select2) {
+                    select.select2({ width: 'resolve', dropdownParent: $('#js-macete-use-template') });
+                }
+            });
+        }
+
+        $('#js-macete-use-template').on('show.bs.modal shown.bs.modal', loadTemplates);
+
+        $(document).on('click', '.js-macete-use-template-confirm', function () {
+            var templateId = $('#js-macete-template-select').val();
+            if (!templateId) {
+                return;
+            }
+            window.location.href = '?r=macete/lessonsplan/create&templateId=' + encodeURIComponent(templateId);
+        });
+    })(jQuery);
+</script>

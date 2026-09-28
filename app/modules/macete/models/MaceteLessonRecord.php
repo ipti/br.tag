@@ -5,9 +5,6 @@
  */
 class MaceteLessonRecord extends TagModel
 {
-    public const STATUS_DRAFT = 'DRAFT';
-    public const STATUS_DONE = 'DONE';
-
     public function tableName()
     {
         return 'macete_lesson_record';
@@ -29,12 +26,11 @@ class MaceteLessonRecord extends TagModel
     public function rules()
     {
         return [
-            ['lesson_plan_fk, school_inep_fk, classroom_fk, edcenso_stage_vs_modality_fk, users_fk, lesson_date, executed_content, status', 'required'],
+            ['lesson_plan_fk, school_inep_fk, classroom_fk, edcenso_stage_vs_modality_fk, users_fk, lesson_date, executed_content', 'required'],
             ['lesson_plan_fk, classroom_fk, edcenso_stage_vs_modality_fk, edcenso_discipline_fk, users_fk', 'numerical', 'integerOnly' => true],
             ['school_inep_fk', 'length', 'max' => 8],
-            ['status', 'length', 'max' => 20],
             ['methodology_notes, evaluation_notes, adaptation_notes, created_at, updated_at', 'safe'],
-            ['id, lesson_plan_fk, school_inep_fk, classroom_fk, edcenso_stage_vs_modality_fk, edcenso_discipline_fk, users_fk, lesson_date, executed_content, methodology_notes, evaluation_notes, adaptation_notes, status, created_at, updated_at', 'safe', 'on' => 'search'],
+            ['id, lesson_plan_fk, school_inep_fk, classroom_fk, edcenso_stage_vs_modality_fk, edcenso_discipline_fk, users_fk, lesson_date, executed_content, methodology_notes, evaluation_notes, adaptation_notes, created_at, updated_at', 'safe', 'on' => 'search'],
         ];
     }
 
@@ -66,22 +62,9 @@ class MaceteLessonRecord extends TagModel
             'methodology_notes' => 'Aplicação da metodologia',
             'evaluation_notes' => 'Evidências/observações',
             'adaptation_notes' => 'Adaptações realizadas',
-            'status' => 'Status',
             'created_at' => 'Criado em',
             'updated_at' => 'Atualizado em',
         ];
-    }
-
-    public function getStatusLabel(): string
-    {
-        $labels = self::statusLabels();
-
-        return $labels[$this->status] ?? $this->status;
-    }
-
-    public function getStatusBadgeClass(): string
-    {
-        return $this->status === self::STATUS_DONE ? 't-badge-success' : 't-badge-info';
     }
 
     public function getAbilityCodes(): string
@@ -94,14 +77,6 @@ class MaceteLessonRecord extends TagModel
         }
 
         return implode(', ', $codes);
-    }
-
-    public static function statusLabels(): array
-    {
-        return [
-            self::STATUS_DRAFT => 'Rascunho',
-            self::STATUS_DONE => 'Concluído',
-        ];
     }
 
     public static function model($className = __CLASS__)

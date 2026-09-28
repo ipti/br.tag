@@ -1,11 +1,11 @@
 <?php
 
-/* @var $this LessonsplanController */
-/* @var $lessonPlan MaceteLessonPlan */
+/* @var $this TemplatesController */
+/* @var $template MaceteLessonPlanTemplate */
 
-$this->setPageTitle('TAG - Editar Plano MACETE');
+$this->setPageTitle('TAG - Editar Modelo de Plano MACETE');
 echo $this->renderPartial('_form', [
-    'lessonPlan' => $lessonPlan,
+    'template' => $template,
     'stages' => $stages,
     'stageComponents' => $stageComponents,
     'stageComponentDisciplines' => $stageComponentDisciplines,
@@ -14,7 +14,4 @@ echo $this->renderPartial('_form', [
     'resourceValues' => $resourceValues,
     'materialValues' => $materialValues,
     'selectedAbilities' => $selectedAbilities,
-    'schoolName' => $schoolName,
-    'territoryContext' => $territoryContext,
-    'professorName' => $professorName,
 ], true);
