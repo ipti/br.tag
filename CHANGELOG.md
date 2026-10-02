@@ -1,3 +1,6 @@
+## [Versão 3.13.31]
+- Removido o botão "Mover/Excluir" (seleção de matrículas em lote para mover de turma ou excluir) na aba Alunos da Turma (TCDA-1198): o recurso estava causando confusão e podia gerar exclusões/movimentações indevidas de matrícula. A rota correspondente no backend também foi removida por não ser mais utilizada em nenhuma outra tela
+
 ## [Versão 3.13.30]
 - Corrigidas médias redondas exibidas sem casa decimal (TCDA-1127): na Ata de Notas, na Ficha de Notas (média final e notas por bimestre/unidade, incluindo recuperações) e na tela de Notas, uma nota redonda (ex.: 7) passou a ser exibida como "7.0"; valores que já têm casas decimais (ex.: 8.67) continuam exibidos exatamente como calculados, sem arredondamento
 

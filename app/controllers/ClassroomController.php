@@ -678,45 +678,6 @@ class ClassroomController extends Controller
             $disableFieldsWhenItsUBATUBA = true;
         }
 
-        if (isset($_POST['enrollments']) && isset($_POST['toclassroom'])) {
-            $enrollments = $_POST['enrollments'];
-            if (!empty($_POST['toclassroom'])) {
-                $classroom = Classroom::model()->findByPk($_POST['toclassroom']);
-                foreach ($enrollments as $enrollment) {
-                    $enro = StudentEnrollment::model()->findByPk($enrollment);
-                    $enro->classroom_fk = $classroom->id;
-                    $enro->classroom_inep_id = $classroom->inep_id;
-                    $enro->status = 2;
-                    $enro->create_date = date('Y-m-d');
-                    $enro->update(['classroom_fk', 'classroom_inep_id', 'status', 'create_date']);
-                }
-            } else {
-                foreach ($enrollments as $enrollment) {
-                    $studentEnrollment = StudentEnrollment::model()->findByPk($enrollment);
-
-                    $frequencyAndMean = FrequencyAndMeanByDiscipline::model()
-                        ->findAllByAttributes(['enrollment_fk' => $studentEnrollment->id]);
-                    $gradeResults = GradeResults::model()
-                        ->findAllByAttributes(['enrollment_fk' => $studentEnrollment->id]);
-                    $frequencyByExam = FrequencyByExam::model()
-                        ->findAllByAttributes(['enrollment_fk' => $studentEnrollment->id]);
-
-                    foreach ($gradeResults as $gradeResult) {
-                        $gradeResult->delete();
-                    }
-                    foreach ($frequencyAndMean as $eachFrequencyAndMean) {
-                        $eachFrequencyAndMean->delete();
-                    }
-                    foreach ($frequencyByExam as $frequencyExam) {
-                        $frequencyExam->delete();
-                    }
-                    StudentEnrollmentHistory::model()->deleteAll('student_enrollment_fk = :enrollment_fk', [':enrollment_fk' => $studentEnrollment->id]);
-                    $studentEnrollment->delete();
-                    Yii::app()->user->setFlash('success', 'Matrículas de alunos excluídas com sucesso');
-                }
-            }
-            $this->redirect(['index']);
-        }
         if (isset($_POST['Classroom']) && isset($_POST['teachingData']) && isset($_POST['disciplines'])) {
             foreach ($modelTeachingData as $key => $td) {
                 $td->delete();
