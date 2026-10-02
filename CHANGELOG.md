@@ -1,3 +1,6 @@
+## [Versão 3.13.32]
+- Adicionada seleção de matrícula de origem na Transferência de Aluno (TCDA-1250): quando o aluno possui mais de uma matrícula ativa (em turmas diferentes), o sistema agora exige que o usuário escolha explicitamente qual matrícula está sendo transferida, em vez de assumir automaticamente a mais recente. Isso evita que uma transferência afete a matrícula errada
+
 ## [Versão 3.13.30]
 - Corrigidas médias redondas exibidas sem casa decimal (TCDA-1127): na Ata de Notas, na Ficha de Notas (média final e notas por bimestre/unidade, incluindo recuperações) e na tela de Notas, uma nota redonda (ex.: 7) passou a ser exibida como "7.0"; valores que já têm casas decimais (ex.: 8.67) continuam exibidos exatamente como calculados, sem arredondamento
 
