@@ -41,12 +41,6 @@ if (Yii::app()->user->hasFlash('success')) {
         <h1><?php echo Yii::t('default', 'Transferir Aluno'); ?>: <?php echo CHtml::encode($modelStudentIdentification->name); ?></h1>
     </div>
 
-    <div class="row">
-        <a class="t-button-secondary" href="<?php echo Yii::app()->createUrl('student/student/update', ['id' => $modelStudentIdentification->id]); ?>">
-            <?php echo Yii::t('default', '&laquo; Voltar'); ?>
-        </a>
-    </div>
-
     <?php $form = $this->beginWidget('CActiveForm', [
         'id' => 'transfer-form',
         'enableAjaxValidation' => false,
@@ -68,9 +62,7 @@ if (Yii::app()->user->hasFlash('success')) {
                 ); ?>
             </div>
         </div>
-    </div>
 
-    <div class="row">
         <div class="column is-two-fifths">
             <div class="t-field-select js-select-school-classroom">
                 <?php echo $form->label($modelEnrollment, 'school_inep_id_fk', ['class' => 't-field-select__label']); ?>
@@ -86,7 +78,9 @@ if (Yii::app()->user->hasFlash('success')) {
                 <?php echo $form->error($modelEnrollment, 'school_inep_id_fk'); ?>
             </div>
         </div>
+    </div>
 
+    <div class="row">
         <div class="column is-two-fifths">
             <div class="t-field-select">
                 <?php echo $form->label($modelEnrollment, 'classroom_fk', ['class' => 't-field-select__label']); ?>
@@ -103,9 +97,7 @@ if (Yii::app()->user->hasFlash('success')) {
                 <?php echo $form->error($modelEnrollment, 'classroom_fk'); ?>
             </div>
         </div>
-    </div>
 
-    <div class="row">
         <div class="column is-two-fifths">
             <div class="t-field-text">
                 <?php echo $form->label($modelEnrollment, 'transfer_date', ['class' => 't-field-text__label']); ?>
