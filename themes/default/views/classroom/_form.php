@@ -997,7 +997,7 @@ $form = $this->beginWidget(
                         </div>
                         <div id="widget-StudentsList" class="widget" style="margin-top: 8px;">
                             <?php
-                            $columnCount = Yii::app()->features->isEnable(TFeature::FEAT_INTEGRATIONS_SEDSP) ? 6 : 5;
+                            $columnCount = Yii::app()->features->isEnable(TFeature::FEAT_INTEGRATIONS_SEDSP) ? 5 : 4;
                             ?>
                             <style type="text/css" media="print">
                                 a[href]:after {
@@ -1007,9 +1007,6 @@ $form = $this->beginWidget(
                             <table id="StudentsList" class="table table-bordered table-striped" style="display: table;">
                                 <thead>
                                     <tr>
-                                        <th class='span1'>
-                                            <?= Yii::t('default', 'Mover/Cancelar') ?>
-                                        </th>
                                         <th>
                                             <?= Yii::t('default', 'Ordem') ?>
                                         </th>
@@ -1035,10 +1032,6 @@ $form = $this->beginWidget(
                                         $i = 1;
                                         foreach ($modelEnrollments as $enrollment): ?>
                                             <tr>
-                                                <td text-align="center">
-                                                    <input value="<?= $enrollment["enrollmentId"] ?>" name="enrollments[]"
-                                                        type='checkbox' />
-                                                </td>
                                                 <td width="30">
                                                     <?= $enrollment["daily_order"] ?? $i ?>
                                                 </td>
@@ -1086,20 +1079,6 @@ $form = $this->beginWidget(
                                 <tfooter>
                                     <?php
                                     echo "<tr><td>Total:</td><td colspan='" . ($columnCount - 1) . "'>" . count($modelEnrollments) . "</td></tr>";
-                                    echo '<tr><td colspan="' . $columnCount . '">';
-                                    echo chtml::dropDownList(
-                                        'toclassroom',
-                                        "",
-                                        CHtml::listData(Classroom::model()->findAll(
-                                            "school_year = :sy AND school_inep_fk = :si order by name",
-                                            array("sy" => (Yii::app()->user->year), "si" => yii::app()->user->school)
-                                        ), 'id', 'name'),
-                                        array(
-                                            'class' => 'span5',
-                                            'empty' => '**EXCLUIR MATRICULAS**'
-                                        )
-                                    );
-                                    echo '<input value="Mover/Excluir" type="submit" class="t-button-primary " style="margin-left:10px"><i></i></input></td></tr>';
                                     ?>
                                 </tfooter>
                             </table>
