@@ -112,7 +112,9 @@ if (Yii::app()->user->hasFlash('success')) {
     </div>
 
     <div class="row">
-        <button type="submit" class="t-button-primary"><?php echo Yii::t('default', 'Transferir'); ?></button>
+        <div class="column is-two-fifths">
+            <button type="submit" class="t-button-primary"><?php echo Yii::t('default', 'Transferir'); ?></button>
+        </div>
     </div>
 
     <?php $this->endWidget(); ?>
