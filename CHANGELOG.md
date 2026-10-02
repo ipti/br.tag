@@ -1,3 +1,6 @@
+## [Versão 3.13.32]
+- Adicionada seleção de matrícula de origem na Transferência de Aluno (TCDA-1250): quando o aluno possui mais de uma matrícula ativa (em turmas diferentes), o sistema agora exige que o usuário escolha explicitamente qual matrícula está sendo transferida, em vez de assumir automaticamente a mais recente. Isso evita que uma transferência afete a matrícula errada
+
 ## [Versão 3.13.31]
 - Removido o botão "Mover/Excluir" (seleção de matrículas em lote para mover de turma ou excluir) na aba Alunos da Turma (TCDA-1198): o recurso estava causando confusão e podia gerar exclusões/movimentações indevidas de matrícula. A rota correspondente no backend também foi removida por não ser mais utilizada em nenhuma outra tela
 

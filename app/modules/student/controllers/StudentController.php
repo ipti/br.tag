@@ -749,37 +749,45 @@ class StudentController extends Controller implements AuthenticateSEDTokenInterf
         $modelStudentIdentification = $this->loadModel($id, $this->studentIdentification);
         $modelEnrollment = new StudentEnrollment();
         $modelSchool = SchoolIdentification::model()->findAll();
-        if (isset($_POST['StudentEnrollment'])) {
-            $currentEnrollment = StudentEnrollment::model()->findByAttributes(['student_fk' => $modelStudentIdentification->id, 'current_enrollment' => 1]);
-            $currentEnrollment = $currentEnrollment == null ? StudentEnrollment::model()->findByPk($modelStudentIdentification->lastEnrollment->id) : $currentEnrollment;
-            if ($currentEnrollment != null) {
-                $currentEnrollmentHistory = new StudentEnrollmentHistory();
-                $currentEnrollmentHistory->student_enrollment_fk = $currentEnrollment->id;
-                $currentEnrollmentHistory->status = $currentEnrollment->status;
-                $currentEnrollmentHistory->enrollment_date = $currentEnrollment->enrollment_date;
-                if ($currentEnrollment->status == 2) {
-                    $currentEnrollmentHistory->transfer_date = $currentEnrollment->transfer_date;
-                }
-                if ($currentEnrollment->status == 13) {
-                    $currentEnrollmentHistory->class_transfer_date = $currentEnrollment->class_transfer_date;
-                    $currentEnrollmentHistory->school_readmission_date = $currentEnrollment->school_readmission_date;
-                }
-                $currentEnrollmentHistory->save();
+        $originEnrollments = array_filter(
+            $modelStudentIdentification->studentEnrollments,
+            function ($enrollment) {
+                return $enrollment->isActive();
+            }
+        );
 
-                $currentEnrollment->status = 2;
-                $currentEnrollment->transfer_date = date_create_from_format(
-                    'd/m/Y',
-                    $_POST['StudentEnrollment']['transfer_date']
-                )->format('Y-m-d');
-                $currentEnrollment->current_enrollment = 0;
-                if ($currentEnrollment->save()) {
-                    Log::model()->saveAction(
-                        'enrollment',
-                        $currentEnrollment->id,
-                        'U',
-                        $currentEnrollment->studentFk->name . '|' . $currentEnrollment->classroomFk->name
-                    );
-                }
+        if (isset($_POST['StudentEnrollment'])) {
+            $currentEnrollment = StudentEnrollment::model()->findByPk($_POST['origin_enrollment_id'] ?? null);
+            if ($currentEnrollment == null || $currentEnrollment->student_fk != $modelStudentIdentification->id) {
+                Yii::app()->user->setFlash('error', Yii::t('default', 'Selecione qual matrícula do aluno será transferida.'));
+                $this->redirect(['transfer', 'id' => $modelStudentIdentification->id]);
+            }
+            $currentEnrollmentHistory = new StudentEnrollmentHistory();
+            $currentEnrollmentHistory->student_enrollment_fk = $currentEnrollment->id;
+            $currentEnrollmentHistory->status = $currentEnrollment->status;
+            $currentEnrollmentHistory->enrollment_date = $currentEnrollment->enrollment_date;
+            if ($currentEnrollment->status == 2) {
+                $currentEnrollmentHistory->transfer_date = $currentEnrollment->transfer_date;
+            }
+            if ($currentEnrollment->status == 13) {
+                $currentEnrollmentHistory->class_transfer_date = $currentEnrollment->class_transfer_date;
+                $currentEnrollmentHistory->school_readmission_date = $currentEnrollment->school_readmission_date;
+            }
+            $currentEnrollmentHistory->save();
+
+            $currentEnrollment->status = 2;
+            $currentEnrollment->transfer_date = date_create_from_format(
+                'd/m/Y',
+                $_POST['StudentEnrollment']['transfer_date']
+            )->format('Y-m-d');
+            $currentEnrollment->current_enrollment = 0;
+            if ($currentEnrollment->save()) {
+                Log::model()->saveAction(
+                    'enrollment',
+                    $currentEnrollment->id,
+                    'U',
+                    $currentEnrollment->studentFk->name . '|' . $currentEnrollment->classroomFk->name
+                );
             }
 
             $modelEnrollment = StudentEnrollment::model()->findByAttributes(['student_fk' => $modelStudentIdentification->id, 'classroom_fk' => $_POST['StudentEnrollment']['classroom_fk']]);
@@ -820,6 +828,7 @@ class StudentController extends Controller implements AuthenticateSEDTokenInterf
                 'modelStudentIdentification' => $modelStudentIdentification,
                 'modelEnrollment' => $modelEnrollment,
                 'modelSchool' => $modelSchool,
+                'originEnrollments' => $originEnrollments,
             ]);
         }
     }
