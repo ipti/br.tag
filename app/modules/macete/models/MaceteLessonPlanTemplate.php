@@ -13,6 +13,7 @@
  * @property string $unit
  * @property string $knowledge_object
  * @property string $evaluation
+ * @property string $adaptations
  * @property string $references_text
  * @property string $created_at
  * @property string $updated_at
@@ -46,8 +47,8 @@ class MaceteLessonPlanTemplate extends TagModel
             ['code', 'length', 'max' => 50],
             ['theme', 'length', 'max' => 255],
             ['unit', 'length', 'max' => 50],
-            ['code, knowledge_object, evaluation, references_text, created_at, updated_at', 'safe'],
-            ['id, name, code, theme, edcenso_stage_vs_modality_fk, edcenso_discipline_fk, created_by_users_fk, unit, knowledge_object, evaluation, references_text, created_at, updated_at', 'safe', 'on' => 'search'],
+            ['code, knowledge_object, evaluation, adaptations, references_text, created_at, updated_at', 'safe'],
+            ['id, name, code, theme, edcenso_stage_vs_modality_fk, edcenso_discipline_fk, created_by_users_fk, unit, knowledge_object, evaluation, adaptations, references_text, created_at, updated_at', 'safe', 'on' => 'search'],
         ];
     }
 
@@ -79,6 +80,7 @@ class MaceteLessonPlanTemplate extends TagModel
             'unit' => 'Unidade',
             'knowledge_object' => 'Objeto do conhecimento',
             'evaluation' => 'Avaliação',
+            'adaptations' => 'Adaptações',
             'references_text' => 'Referências',
             'created_at' => 'Criado em',
             'updated_at' => 'Atualizado em',

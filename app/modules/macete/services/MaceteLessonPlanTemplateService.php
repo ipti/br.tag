@@ -40,7 +40,6 @@ class MaceteLessonPlanTemplateService
             $this->syncAbilities($template, $request['abilities'] ?? []);
             $this->syncSections($template, $request['sections'] ?? []);
             $this->syncResources($template, $request['resources'] ?? []);
-            $this->syncMaterials($template, $request['materials'] ?? []);
 
             $transaction->commit();
 
@@ -100,20 +99,6 @@ class MaceteLessonPlanTemplateService
         return $values;
     }
 
-    public function getMaterialValues(MaceteLessonPlanTemplate $template): array
-    {
-        $values = [];
-        foreach ($template->materials as $material) {
-            $values[$material->material_type][] = [
-                'title' => $material->title,
-                'description' => $material->description,
-                'file_path' => $material->file_path,
-            ];
-        }
-
-        return $values;
-    }
-
     public function getAbilityIds(MaceteLessonPlanTemplate $template): array
     {
         $ids = [];
@@ -132,11 +117,12 @@ class MaceteLessonPlanTemplateService
             'unit',
             'knowledge_object',
             'evaluation',
+            'adaptations',
             'references_text',
         ];
 
         $templateData = array_intersect_key($templateData, array_flip($allowedAttributes));
-        foreach (['knowledge_object', 'evaluation', 'references_text'] as $attribute) {
+        foreach (['knowledge_object', 'evaluation', 'adaptations', 'references_text'] as $attribute) {
             if (array_key_exists($attribute, $templateData)) {
                 $templateData[$attribute] = MaceteRichTextSanitizer::sanitize((string) $templateData[$attribute]);
             }
@@ -245,46 +231,4 @@ class MaceteLessonPlanTemplateService
         }
     }
 
-    private function syncMaterials(MaceteLessonPlanTemplate $template, array $materials): void
-    {
-        MaceteLessonMaterialTemplate::model()->deleteAll(
-            'lesson_plan_template_fk = :lesson_plan_template_fk',
-            [':lesson_plan_template_fk' => $template->id]
-        );
-
-        foreach ($materials as $type => $entries) {
-            if (!is_array($entries)) {
-                continue;
-            }
-
-            if (array_key_exists('title', $entries) || array_key_exists('description', $entries) || array_key_exists('file_path', $entries)) {
-                $entries = [$entries];
-            }
-
-            foreach ($entries as $materialData) {
-                if (!is_array($materialData)) {
-                    continue;
-                }
-
-                $title = trim((string) ($materialData['title'] ?? ''));
-                $description = MaceteRichTextSanitizer::sanitize((string) ($materialData['description'] ?? ''));
-                $filePath = trim((string) ($materialData['file_path'] ?? ''));
-
-                if ($title === '' && $description === '' && $filePath === '') {
-                    continue;
-                }
-
-                $material = new MaceteLessonMaterialTemplate();
-                $material->lesson_plan_template_fk = $template->id;
-                $material->material_type = $type;
-                $material->title = $title !== '' ? $title : (MaceteLessonMaterialTemplate::typeLabels()[$type] ?? $type);
-                $material->description = $description;
-                $material->file_path = $filePath !== '' ? $filePath : null;
-
-                if (!$material->save()) {
-                    throw new CException('Não foi possível salvar um material do modelo de plano MACETE.');
-                }
-            }
-        }
-    }
 }

@@ -143,7 +143,6 @@ class TemplatesController extends Controller
             'selectedStageIds' => $selectedStageIds,
             'sectionValues' => $this->templateService()->getSectionValues($template),
             'resourceValues' => $this->templateService()->getResourceValues($template),
-            'materialValues' => $this->templateService()->getMaterialValues($template),
             'selectedAbilities' => $this->abilityService()->getByIds($abilityIds),
         ];
     }
