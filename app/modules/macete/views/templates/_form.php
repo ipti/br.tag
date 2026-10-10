@@ -7,7 +7,6 @@
  *  @var $stageComponentDisciplines array
  *  @var $sectionValues array
  *  @var $resourceValues array
- *  @var $materialValues array
  *  @var $selectedAbilities CourseClassAbilities[]
  */
 
@@ -332,10 +331,10 @@ $selectedAbilitiesCount = count($selectedAbilities);
                     </div>
                 </div>
 
-                <!-- Tab 3: Complementar — recursos, materiais, adaptações, avaliação, referências -->
+                <!-- Tab 3: Complementar — recursos didáticos, avaliação, adaptações, referências -->
                 <div id="macete-complementary" class="js-macete-tab-panel hide">
                     <div class="column">
-                        <h2>Recursos</h2>
+                        <h2>Recursos Didáticos</h2>
                     </div>
                     <div class="row">
                         <div class="column">
@@ -379,126 +378,19 @@ $maceteBoxSelected = $maceteBoxValue !== '' ? array_map('trim', explode(',', $ma
                     <div class="row">
                         <div class="column">
                             <div class="t-field-tarea">
+                                <?php echo $form->labelEx($template, 'adaptations', ['class' => 't-field-tarea__label']); ?>
+                                <?php echo $form->textArea($template, 'adaptations', ['class' => 't-field-tarea__input', 'rows' => 5]); ?>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="column">
+                            <div class="t-field-tarea">
                                 <?php echo $form->labelEx($template, 'references_text', ['class' => 't-field-tarea__label']); ?>
                                 <?php echo $form->textArea($template, 'references_text', ['class' => 't-field-tarea__input', 'rows' => 5]); ?>
                             </div>
                         </div>
                     </div>
-                            <div class="column">
-                        <h2>Adaptações</h2>
-                    </div>
-                    <div class="row">
-                        <div class="column">
-                            <div class="t-field-tarea">
-                                <label class="t-field-tarea__label">Crianças neurodivergentes</label>
-                                <?php echo CHtml::textArea(
-                                    'sections[' . MaceteLessonPlanTemplateSection::TYPE_ADAPTATION_NEURODIVERGENT . '][general]',
-                                    $sectionValue(MaceteLessonPlanTemplateSection::TYPE_ADAPTATION_NEURODIVERGENT),
-                                    ['class' => 't-field-tarea__input', 'rows' => 5]
-                                ); ?>
-                            </div>
-                        </div>
-                        <div class="column">
-                            <div class="t-field-tarea">
-                                <label class="t-field-tarea__label">Recomposição de aprendizagem</label>
-                                <?php echo CHtml::textArea(
-                                    'sections[' . MaceteLessonPlanTemplateSection::TYPE_ADAPTATION_RECOVERY . '][general]',
-                                    $sectionValue(MaceteLessonPlanTemplateSection::TYPE_ADAPTATION_RECOVERY),
-                                    ['class' => 't-field-tarea__input', 'rows' => 5]
-                                ); ?>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="column">
-                            <div class="t-field-tarea">
-                                <label class="t-field-tarea__label">Turma multisseriada</label>
-                                <?php echo CHtml::textArea(
-                                    'sections[' . MaceteLessonPlanTemplateSection::TYPE_ADAPTATION_MULTIGRADE . '][general]',
-                                    $sectionValue(MaceteLessonPlanTemplateSection::TYPE_ADAPTATION_MULTIGRADE),
-                                    ['class' => 't-field-tarea__input', 'rows' => 5]
-                                ); ?>
-                            </div>
-                        </div>
-                        <div class="column">
-                            <div class="t-field-tarea">
-                                <label class="t-field-tarea__label">Caso falte material</label>
-                                <?php echo CHtml::textArea(
-                                    'sections[' . MaceteLessonPlanTemplateSection::TYPE_ADAPTATION_MISSING_MATERIAL . '][general]',
-                                    $sectionValue(MaceteLessonPlanTemplateSection::TYPE_ADAPTATION_MISSING_MATERIAL),
-                                    ['class' => 't-field-tarea__input', 'rows' => 5]
-                                ); ?>
-                            </div>
-                        </div>
-                    </div>
-                    <?php foreach (MaceteLessonMaterialTemplate::typeLabels() as $type => $label): ?>
-                        <div class="column">
-                            <h3><?php echo CHtml::encode($label); ?></h3>
-                        </div>
-                        <div class="row">
-                            <div class="column">
-                                <div class="t-field-select macete-stage-repeater">
-                                    <div class="js-macete-material-rows" data-material-type="<?php echo CHtml::encode($type); ?>">
-                                        <?php $materialEntries = $materialValues[$type] ?? [['title' => '', 'file_path' => '', 'description' => '']]; ?>
-                                        <?php foreach ($materialEntries as $materialIndex => $materialEntry): ?>
-                                            <div class="js-macete-material-row">
-                                                <div class="justify-content--end">
-                                                    <button type="button" class="t-button-secondary js-macete-remove-material">Remover</button>
-                                                </div>
-                                                <div class="row">
-                                                    <div class="column">
-                                                        <div class="t-field-text">
-                                                            <label class="t-field-text__label">Título</label>
-                                                            <?php echo CHtml::textField(
-                                    'materials[' . $type . '][' . $materialIndex . '][title]',
-                                    $materialEntry['title'] ?? '',
-                                    ['class' => 't-field-text__input', 'maxlength' => 150]
-                                ); ?>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="row">
-                                                    <div class="column">
-                                                        <div class="t-field-text">
-                                                            <label class="t-field-text__label">Arquivo / link</label>
-                                                            <?php echo CHtml::textField(
-                                                                'materials[' . $type . '][' . $materialIndex . '][file_path]',
-                                                                $materialEntry['file_path'] ?? '',
-                                                                ['class' => 't-field-text__input', 'maxlength' => 255]
-                                                            ); ?>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="row">
-                                                    <div class="column">
-                                                        <div class="t-field-tarea">
-                                                            <label class="t-field-tarea__label">Descrição</label>
-                                                            <?php echo CHtml::textArea(
-                                                                'materials[' . $type . '][' . $materialIndex . '][description]',
-                                                                $materialEntry['description'] ?? '',
-                                                                ['class' => 't-field-tarea__input', 'rows' => 3]
-                                                            ); ?>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        <?php endforeach; ?>
-                                    </div>
-                                    <button type="button" class="t-button-secondary js-macete-add-material"
-                                        data-material-type="<?php echo CHtml::encode($type); ?>">Adicionar</button>
-                                </div>
-                            </div>
-                        </div>
-                    <?php endforeach; ?>
-
-                    <script type="text/template" id="macete-material-template">
-                        <div class="js-macete-material-row">
-                            <div class="justify-content--end"><button type="button" class="t-button-secondary js-macete-remove-material">Remover</button></div>
-                            <div class="row"><div class="column"><div class="t-field-text"><label class="t-field-text__label">Título</label><input type="text" class="t-field-text__input" maxlength="150" name="materials[__type__][__index__][title]"></div></div></div>
-                            <div class="row"><div class="column"><div class="t-field-text"><label class="t-field-text__label">Arquivo / link</label><input type="text" class="t-field-text__input" maxlength="255" name="materials[__type__][__index__][file_path]"></div></div></div>
-                            <div class="row"><div class="column"><div class="t-field-tarea"><label class="t-field-tarea__label">Descrição</label><textarea class="t-field-tarea__input" rows="3" name="materials[__type__][__index__][description]"></textarea></div></div></div>
-                        </div>
-                    </script>
                 </div>
 
             </div><!-- .tag-inner -->

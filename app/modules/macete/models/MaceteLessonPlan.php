@@ -18,6 +18,7 @@
  * @property string $territory_context
  * @property string $knowledge_object
  * @property string $evaluation
+ * @property string $adaptations
  * @property string $references_text
  * @property string $created_at
  * @property string $updated_at
@@ -52,8 +53,8 @@ class MaceteLessonPlan extends TagModel
             ['theme', 'length', 'max' => 255],
             ['school_inep_fk', 'length', 'max' => 8],
             ['unit', 'length', 'max' => 50],
-            ['code, origin_template_fk, territory_context, knowledge_object, evaluation, references_text, created_at, updated_at', 'safe'],
-            ['id, name, code, origin_template_fk, theme, school_inep_fk, classroom_fk, edcenso_stage_vs_modality_fk, edcenso_discipline_fk, users_fk, school_year, unit, territory_context, knowledge_object, evaluation, references_text, created_at, updated_at', 'safe', 'on' => 'search'],
+            ['code, origin_template_fk, territory_context, knowledge_object, evaluation, adaptations, references_text, created_at, updated_at', 'safe'],
+            ['id, name, code, origin_template_fk, theme, school_inep_fk, classroom_fk, edcenso_stage_vs_modality_fk, edcenso_discipline_fk, users_fk, school_year, unit, territory_context, knowledge_object, evaluation, adaptations, references_text, created_at, updated_at', 'safe', 'on' => 'search'],
         ];
     }
 
@@ -93,6 +94,7 @@ class MaceteLessonPlan extends TagModel
             'territory_context' => 'Contextualização do território',
             'knowledge_object' => 'Objeto do conhecimento',
             'evaluation' => 'Avaliação',
+            'adaptations' => 'Adaptações',
             'references_text' => 'Referências',
             'created_at' => 'Criado em',
             'updated_at' => 'Atualizado em',

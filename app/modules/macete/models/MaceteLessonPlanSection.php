@@ -10,10 +10,6 @@ class MaceteLessonPlanSection extends TagModel
     public const TYPE_METHODOLOGY_INVESTIGATE = 'METHODOLOGY_INVESTIGATE';
     public const TYPE_METHODOLOGY_ACT = 'METHODOLOGY_ACT';
     public const TYPE_LEARNING_OBJECTIVE = 'LEARNING_OBJECTIVE';
-    public const TYPE_ADAPTATION_NEURODIVERGENT = 'ADAPTATION_NEURODIVERGENT';
-    public const TYPE_ADAPTATION_RECOVERY = 'ADAPTATION_RECOVERY';
-    public const TYPE_ADAPTATION_MULTIGRADE = 'ADAPTATION_MULTIGRADE';
-    public const TYPE_ADAPTATION_MISSING_MATERIAL = 'ADAPTATION_MISSING_MATERIAL';
 
     public function tableName()
     {
@@ -75,10 +71,6 @@ class MaceteLessonPlanSection extends TagModel
             self::TYPE_METHODOLOGY_INVESTIGATE => 'Investigar',
             self::TYPE_METHODOLOGY_ACT => 'Agir',
             self::TYPE_LEARNING_OBJECTIVE => 'Objetivos de aprendizagem',
-            self::TYPE_ADAPTATION_NEURODIVERGENT => 'Adaptação para crianças neurodivergentes',
-            self::TYPE_ADAPTATION_RECOVERY => 'Recomposição de aprendizagem',
-            self::TYPE_ADAPTATION_MULTIGRADE => 'Turma multisseriada',
-            self::TYPE_ADAPTATION_MISSING_MATERIAL => 'Caso falte material',
         ];
     }
 

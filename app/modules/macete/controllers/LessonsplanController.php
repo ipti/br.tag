@@ -242,6 +242,7 @@ class LessonsplanController extends Controller
             $lessonPlan->unit = $template->unit;
             $lessonPlan->knowledge_object = $template->knowledge_object;
             $lessonPlan->evaluation = $template->evaluation;
+            $lessonPlan->adaptations = $template->adaptations;
             $lessonPlan->references_text = $template->references_text;
         }
 
@@ -257,9 +258,6 @@ class LessonsplanController extends Controller
             'resourceValues' => $useTemplateData
                 ? $this->lessonPlanTemplateService()->getResourceValues($template)
                 : $this->lessonPlanService()->getResourceValues($lessonPlan),
-            'materialValues' => $useTemplateData
-                ? $this->lessonPlanTemplateService()->getMaterialValues($template)
-                : $this->lessonPlanService()->getMaterialValues($lessonPlan),
             'selectedAbilities' => $this->abilityService()->getByIds($abilityIds),
             'schoolName' => $school !== null ? (string) $school->name : '',
             'territoryContext' => $school !== null ? (string) $school->territory_context : '',

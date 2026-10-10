@@ -62,7 +62,6 @@ class MaceteLessonPlanService
             $this->syncAbilities($lessonPlan, $request['abilities'] ?? []);
             $this->syncSections($lessonPlan, $request['sections'] ?? []);
             $this->syncResources($lessonPlan, $request['resources'] ?? []);
-            $this->syncMaterials($lessonPlan, $request['materials'] ?? []);
 
             $transaction->commit();
 
@@ -194,20 +193,6 @@ class MaceteLessonPlanService
         return $values;
     }
 
-    public function getMaterialValues(MaceteLessonPlan $lessonPlan): array
-    {
-        $values = [];
-        foreach ($lessonPlan->materials as $material) {
-            $values[$material->material_type][] = [
-                'title' => $material->title,
-                'description' => $material->description,
-                'file_path' => $material->file_path,
-            ];
-        }
-
-        return $values;
-    }
-
     public function getStageIds(MaceteLessonPlan $lessonPlan): array
     {
         return $lessonPlan->getStageIds();
@@ -278,11 +263,12 @@ class MaceteLessonPlanService
             'territory_context',
             'knowledge_object',
             'evaluation',
+            'adaptations',
             'references_text',
         ];
 
         $planData = $this->normalizePlanData(array_intersect_key($planData, array_flip($allowedAttributes)));
-        foreach (['territory_context', 'knowledge_object', 'evaluation', 'references_text'] as $attribute) {
+        foreach (['territory_context', 'knowledge_object', 'evaluation', 'adaptations', 'references_text'] as $attribute) {
             if (array_key_exists($attribute, $planData)) {
                 $planData[$attribute] = MaceteRichTextSanitizer::sanitize((string) $planData[$attribute]);
             }
@@ -448,51 +434,6 @@ class MaceteLessonPlanService
 
             if (!$resource->save()) {
                 throw new CException('Não foi possível salvar um recurso do plano MACETE.');
-            }
-        }
-    }
-
-    private function syncMaterials(MaceteLessonPlan $lessonPlan, array $materials): void
-    {
-        MaceteLessonMaterial::model()->deleteAll(
-            'lesson_plan_fk = :lesson_plan_fk',
-            [':lesson_plan_fk' => $lessonPlan->id]
-        );
-
-        foreach ($materials as $type => $entries) {
-            if (!is_array($entries)) {
-                continue;
-            }
-
-            // Entries are keyed by repeater index (materials[type][index][field]);
-            // a non-list entry here means legacy single-entry-per-type data.
-            if (array_key_exists('title', $entries) || array_key_exists('description', $entries) || array_key_exists('file_path', $entries)) {
-                $entries = [$entries];
-            }
-
-            foreach ($entries as $materialData) {
-                if (!is_array($materialData)) {
-                    continue;
-                }
-
-                $title = trim((string) ($materialData['title'] ?? ''));
-                $description = MaceteRichTextSanitizer::sanitize((string) ($materialData['description'] ?? ''));
-                $filePath = trim((string) ($materialData['file_path'] ?? ''));
-
-                if ($title === '' && $description === '' && $filePath === '') {
-                    continue;
-                }
-
-                $material = new MaceteLessonMaterial();
-                $material->lesson_plan_fk = $lessonPlan->id;
-                $material->material_type = $type;
-                $material->title = $title !== '' ? $title : (MaceteLessonMaterial::typeLabels()[$type] ?? $type);
-                $material->description = $description;
-                $material->file_path = $filePath !== '' ? $filePath : null;
-
-                if (!$material->save()) {
-                    throw new CException('Não foi possível salvar um material do plano MACETE.');
-                }
             }
         }
     }
