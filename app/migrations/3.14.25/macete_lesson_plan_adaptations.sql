@@ -8,18 +8,10 @@
 -- isso vira um único campo de texto, no mesmo padrão de Avaliação/Referências
 -- (coluna de texto direto em macete_lesson_plan/macete_lesson_plan_template).
 --
--- Esta migration:
--- 1. Adiciona a coluna `adaptations` nas duas tabelas (idempotente).
--- 2. Faz backfill do conteúdo já cadastrado nas 4 subdivisões antigas,
---    concatenando com o título de cada uma, preservando o histórico já
---    preenchido por escolas/professores antes da tela parar de gravar nelas.
---    Só preenche quando `adaptations` ainda está vazio, então é seguro rodar
---    mais de uma vez.
---
--- As linhas antigas em macete_lesson_plan_section/macete_lesson_plan_template_section
--- não são apagadas aqui; elas deixam de ser recriadas a partir do próximo save
--- de cada plano (a tela não envia mais esses 4 tipos), já com o conteúdo
--- correspondente preservado na nova coluna.
+-- O módulo MACETE ainda está em fase de teste/piloto, sem dados reais em
+-- produção, então não há necessidade de backfill: só adiciona a coluna nova
+-- (idempotente) e remove as linhas de teste das 4 subdivisões antigas, que
+-- deixam de ser gravadas pela tela a partir de agora.
 
 -- -----------------------------------------------------------------------------
 -- 1a. macete_lesson_plan.adaptations
@@ -58,68 +50,23 @@ PREPARE macete_template_add_adaptations_statement FROM @macete_lesson_plan_templ
 EXECUTE macete_template_add_adaptations_statement;
 
 -- -----------------------------------------------------------------------------
--- 2a. Backfill de macete_lesson_plan.adaptations a partir das 4 seções antigas
+-- 2. Limpeza das linhas de teste das 4 subdivisões antigas de Adaptações
 -- -----------------------------------------------------------------------------
-UPDATE macete_lesson_plan plan
-JOIN (
-    SELECT
-        s.lesson_plan_fk,
-        GROUP_CONCAT(
-            CONCAT('<p><strong>', s.title, '</strong></p>', s.content)
-            ORDER BY FIELD(
-                s.section_type,
-                'ADAPTATION_NEURODIVERGENT',
-                'ADAPTATION_RECOVERY',
-                'ADAPTATION_MULTIGRADE',
-                'ADAPTATION_MISSING_MATERIAL'
-            )
-            SEPARATOR ''
-        ) AS merged_content
-    FROM macete_lesson_plan_section s
-    WHERE s.section_type IN (
-        'ADAPTATION_NEURODIVERGENT',
-        'ADAPTATION_RECOVERY',
-        'ADAPTATION_MULTIGRADE',
-        'ADAPTATION_MISSING_MATERIAL'
-    )
-        AND s.content IS NOT NULL
-        AND s.content <> ''
-    GROUP BY s.lesson_plan_fk
-) merged ON merged.lesson_plan_fk = plan.id
-SET plan.adaptations = merged.merged_content
-WHERE plan.adaptations IS NULL OR plan.adaptations = '';
+DELETE FROM macete_lesson_plan_section
+WHERE section_type IN (
+    'ADAPTATION_NEURODIVERGENT',
+    'ADAPTATION_RECOVERY',
+    'ADAPTATION_MULTIGRADE',
+    'ADAPTATION_MISSING_MATERIAL'
+);
 
--- -----------------------------------------------------------------------------
--- 2b. Backfill de macete_lesson_plan_template.adaptations (mesma lógica)
--- -----------------------------------------------------------------------------
-UPDATE macete_lesson_plan_template tpl
-JOIN (
-    SELECT
-        s.lesson_plan_template_fk,
-        GROUP_CONCAT(
-            CONCAT('<p><strong>', s.title, '</strong></p>', s.content)
-            ORDER BY FIELD(
-                s.section_type,
-                'ADAPTATION_NEURODIVERGENT',
-                'ADAPTATION_RECOVERY',
-                'ADAPTATION_MULTIGRADE',
-                'ADAPTATION_MISSING_MATERIAL'
-            )
-            SEPARATOR ''
-        ) AS merged_content
-    FROM macete_lesson_plan_template_section s
-    WHERE s.section_type IN (
-        'ADAPTATION_NEURODIVERGENT',
-        'ADAPTATION_RECOVERY',
-        'ADAPTATION_MULTIGRADE',
-        'ADAPTATION_MISSING_MATERIAL'
-    )
-        AND s.content IS NOT NULL
-        AND s.content <> ''
-    GROUP BY s.lesson_plan_template_fk
-) merged ON merged.lesson_plan_template_fk = tpl.id
-SET tpl.adaptations = merged.merged_content
-WHERE tpl.adaptations IS NULL OR tpl.adaptations = '';
+DELETE FROM macete_lesson_plan_template_section
+WHERE section_type IN (
+    'ADAPTATION_NEURODIVERGENT',
+    'ADAPTATION_RECOVERY',
+    'ADAPTATION_MULTIGRADE',
+    'ADAPTATION_MISSING_MATERIAL'
+);
 
 -- No DEALLOCATE PREPARE: MySQL libera automaticamente ao fim da sessão, e
 -- liberar explicitamente aqui falha com "Unknown prepared statement handler"
