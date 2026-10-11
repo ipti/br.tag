@@ -278,7 +278,7 @@ SELECT
             if (gr.grade_concept_6 is null, '', gr.grade_concept_6) conceito_06,
             if (gr.grade_concept_7 is null, '', gr.grade_concept_7) conceito_07,
             if (gr.grade_concept_8 is null, '', gr.grade_concept_8) conceito_08,
-            if (gr.final_concept is null, '', gr.final_concept) conceito_final,
+            if (gc.acronym is null, '', gc.acronym) conceito_final,
             if (gr.final_media is null, '', gr.final_media) media_final,
             if (gr.situation is null, '', gr.situation) situacao
         from student_enrollment se
@@ -294,6 +294,8 @@ SELECT
             on (cm.discipline_fk = ed.id)
             left join grade_results gr
             on (gr.enrollment_fk = se.id and gr.discipline_fk = ed.id)
+            left join grade_concept gc
+            on (gc.id = gr.final_concept)
         where 1=1
         and c.school_year = " . Yii::app()->user->year;
 
