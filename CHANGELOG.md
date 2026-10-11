@@ -1,3 +1,6 @@
+## [Versão 3.13.33]
+- Corrigida a exportação de notas (TCDA-1262) em ?r=admin/exports: o cruzamento com a matriz curricular não filtrava pelo ano letivo, fazendo a consulta multiplicar o resultado por todos os anos letivos já cadastrados para cada etapa e travar a exportação conforme a base crescia. Corrigido também um erro que impedia a geração do arquivo quando a exportação não encontrava nenhum resultado
+
 ## [Versão 3.13.32]
 - Adicionada seleção de matrícula de origem na Transferência de Aluno (TCDA-1250): quando o aluno possui mais de uma matrícula ativa (em turmas diferentes), o sistema agora exige que o usuário escolha explicitamente qual matrícula está sendo transferida, em vez de assumir automaticamente a mais recente. Isso evita que uma transferência afete a matrícula errada
 

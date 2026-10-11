@@ -264,7 +264,7 @@ SELECT
             left join edcenso_stage_vs_modality esvm
             on (c.edcenso_stage_vs_modality_fk = esvm.id)
             left join curricular_matrix cm
-            on (cm.stage_fk = esvm.id)
+            on (cm.stage_fk = esvm.id and cm.school_year = c.school_year)
             left join edcenso_discipline ed
             on (cm.discipline_fk = ed.id)
             left join grade_results gr
@@ -377,13 +377,15 @@ SELECT
             $output = fopen($path, 'w');
 
             if ($output !== false) {
-                // Escrever os cabeçalhos no arquivo CSV
-                fputcsv($output, array_keys($result[0]), ';');
+                if (!empty($result)) {
+                    // Escrever os cabeçalhos no arquivo CSV
+                    fputcsv($output, array_keys($result[0]), ';');
 
-                // Escrever os dados no arquivo CSV
-                foreach ($result as $row) {
-                    $row = array_map('strval', $row); // Converter todos os valores para string
-                    fputcsv($output, $row, ';');
+                    // Escrever os dados no arquivo CSV
+                    foreach ($result as $row) {
+                        $row = array_map('strval', $row); // Converter todos os valores para string
+                        fputcsv($output, $row, ';');
+                    }
                 }
                 // Fechar o arquivo
                 fclose($output);
