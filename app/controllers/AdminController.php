@@ -321,20 +321,25 @@ SELECT
             $columnsByLabel[$label] = $structure['columns'];
         }
 
-        $zipPath = './app/export/InfoTagCSV/grades_' . Yii::app()->user->year . '.zip';
+        $year = Yii::app()->user->year;
+        $zipBaseName = $this->slugifyForFilename($this->resolveNetworkName() . '_Notas_' . $year);
+
+        $zipPath = './app/export/InfoTagCSV/' . $zipBaseName . '.zip';
         $this->createDirectoriesIfNotExist($zipPath);
 
         $zip = new ZipArchive();
         $zip->open($zipPath, ZipArchive::CREATE | ZipArchive::OVERWRITE);
 
         foreach ($rowsByLabel as $label => $groupRows) {
-            $fileName = 'notas_' . $label . '.csv';
+            // Prefixo "pasta/arquivo.csv": a maioria dos descompactadores (Windows,
+            // macOS, 7zip) recria essa pasta automaticamente ao extrair o .zip.
+            $fileName = $zipBaseName . '/' . $this->slugifyForFilename($label . '_' . $year) . '.csv';
             $zip->addFromString($fileName, $this->buildGradesCsvContent($groupRows, $columnsByLabel[$label]));
         }
 
         $zip->close();
 
-        header('Content-Disposition: attachment; filename="' . basename($zipPath) . '"');
+        header('Content-Disposition: attachment; filename="' . $zipBaseName . '.zip"');
         header('Content-Type: application/zip');
         header('Content-Length: ' . filesize($zipPath));
         header('Connection: close');
@@ -344,144 +349,188 @@ SELECT
     }
 
     /**
-     * Resolve a estrutura de avaliação (quantidade de notas, recuperações, conceito)
-     * a partir de grade_rules/grade_unity. $gradeRulesFk null (turma/etapa sem regra
-     * resolvida) cai no grupo "kitchen sink" com todas as colunas possíveis, igual ao
-     * CSV único que existia antes desta mudança — nenhuma linha fica de fora.
+     * Nome da rede/município pra usar no lugar de "escola" no zip — esse export
+     * sempre trouxe a rede inteira de uma vez (várias escolas), nunca uma só, mas
+     * todas as escolas de um tenant pertencem ao mesmo município.
+     */
+    private function resolveNetworkName(): string
+    {
+        $cityName = Yii::app()->db->createCommand(
+            'select ec.name
+             from school_identification si
+             join edcenso_city ec on ec.id = si.edcenso_city_fk
+             limit 1'
+        )->queryScalar();
+
+        if ($cityName === false || trim((string) $cityName) === '') {
+            return 'Rede';
+        }
+
+        return mb_convert_case(mb_strtolower(trim((string) $cityName), 'UTF-8'), MB_CASE_TITLE, 'UTF-8');
+    }
+
+    /**
+     * Deixa um texto seguro pra usar como nome de arquivo/pasta: sem acento
+     * (iconv transliterate), só letras/números, tudo separado por "_".
+     */
+    private function slugifyForFilename(string $text): string
+    {
+        $ascii = iconv('UTF-8', 'ASCII//TRANSLIT', $text);
+        $ascii = $ascii !== false ? $ascii : $text;
+        // O iconv translitera "ç" pra "c'" (apóstrofo literal) neste ambiente — remove
+        // antes de colapsar separadores, senão "Recuperação" vira "Recuperac_ao".
+        $ascii = str_replace(["'", '`', '^', '~'], '', $ascii);
+        $ascii = preg_replace('/[^A-Za-z0-9]+/', '_', $ascii);
+        $ascii = trim((string) $ascii, '_');
+
+        return $ascii !== '' ? $ascii : 'arquivo';
+    }
+
+    /**
+     * Resolve a estrutura de avaliação a partir de grade_rules/grade_unity — a mesma
+     * fonte que o motor de cálculo de notas usa. Os nomes das colunas vêm direto do
+     * que a própria rede cadastrou pra cada unidade/recuperação (grade_unity.name,
+     * grade_partial_recovery.name), em vez de um rótulo genérico tipo "nota_01" que
+     * não diz a que bimestre/etapa aquela nota pertence. $gradeRulesFk null (turma
+     * sem regra resolvida) cai no grupo "kitchen sink" com todas as colunas
+     * possíveis, igual ao CSV único que existia antes desta mudança — nenhuma linha
+     * fica de fora.
      */
     private function describeGradeStructure(?int $gradeRulesFk): array
     {
         if ($gradeRulesFk === null) {
-            return [
-                'label' => 'sem_estrutura_definida',
-                'columns' => $this->buildGradeGroupColumns(8, true, true, [1, 2, 3, 4], 8, true),
-            ];
+            return $this->fallbackGradeStructure();
         }
-
-        $gradeRule = Yii::app()->db->createCommand(
-            'select has_partial_recovery, has_final_recovery from grade_rules where id = :id'
-        )->queryRow(true, [':id' => $gradeRulesFk]);
 
         $unities = Yii::app()->db->createCommand(
-            'select type, semester from grade_unity where grade_rules_fk = :id order by id'
+            'select gu.type, gu.semester, gu.name, gpr.name as recovery_name
+             from grade_unity gu
+             left join grade_partial_recovery gpr on gpr.id = gu.parcial_recovery_fk
+             where gu.grade_rules_fk = :id
+             order by gu.id'
         )->queryAll(true, [':id' => $gradeRulesFk]);
 
+        if (empty($unities)) {
+            // grade_rules cadastrada mas sem nenhuma unidade configurada: cai no
+            // mesmo "kitchen sink" do grupo sem estrutura resolvida.
+            return $this->fallbackGradeStructure();
+        }
+
+        $columns = [];
         $numericCount = 0;
         $conceptCount = 0;
+        $hasPartialRecovery = false;
+        $hasFinalRecovery = false;
+        $hasSemesterRecovery = false;
         $hasFinalConcept = false;
-        $semesters = [];
+
         foreach ($unities as $unity) {
+            $unityLabel = $this->uniqueColumnLabel($columns, trim((string) $unity['name']));
+
             if (in_array($unity['type'], ['U', 'UR'], true)) {
                 $numericCount++;
+                $columns['grade_' . $numericCount] = $unityLabel;
+                if (!empty($unity['recovery_name'])) {
+                    $hasPartialRecovery = true;
+                    $columns['rec_partial_' . $numericCount] = $this->uniqueColumnLabel($columns, trim((string) $unity['recovery_name']));
+                }
+            } elseif ($unity['type'] === 'RF') {
+                $hasFinalRecovery = true;
+                $columns['rec_final'] = $unityLabel;
+            } elseif ($unity['type'] === 'RS' && $unity['semester'] !== null) {
+                $hasSemesterRecovery = true;
+                $columns['sem_rec_partial_' . (int) $unity['semester']] = $unityLabel;
             } elseif ($unity['type'] === 'UC') {
                 $conceptCount++;
+                $columns['grade_concept_' . $conceptCount] = $unityLabel;
             } elseif ($unity['type'] === 'FC') {
                 $hasFinalConcept = true;
-            } elseif ($unity['type'] === 'RS' && $unity['semester'] !== null) {
-                $semesters[(int) $unity['semester']] = true;
+                $columns['conceito_final'] = $unityLabel;
             }
         }
-        $semesters = array_keys($semesters);
-        sort($semesters);
 
-        $hasPartialRecovery = $gradeRule !== false && (bool) $gradeRule['has_partial_recovery'];
-        $hasFinalRecovery = $gradeRule !== false && (bool) $gradeRule['has_final_recovery'];
-
-        // grade_rules sem nenhum grade_unity cadastrado (configuração incompleta):
-        // cai no mesmo "kitchen sink" do grupo sem estrutura resolvida, em vez de
-        // gerar um CSV vazio de colunas.
         if ($numericCount === 0 && $conceptCount === 0) {
-            return [
-                'label' => 'sem_estrutura_definida',
-                'columns' => $this->buildGradeGroupColumns(8, true, true, [1, 2, 3, 4], 8, true),
-            ];
+            return $this->fallbackGradeStructure();
         }
 
         return [
-            'label' => $this->buildGradeGroupLabel($numericCount, $hasPartialRecovery, $hasFinalRecovery, $semesters, $conceptCount, $hasFinalConcept),
-            'columns' => $this->buildGradeGroupColumns($numericCount, $hasPartialRecovery, $hasFinalRecovery, $semesters, $conceptCount, $hasFinalConcept),
+            'label' => $this->buildGradeGroupLabel($numericCount, $hasPartialRecovery, $hasFinalRecovery, $hasSemesterRecovery, $conceptCount, $hasFinalConcept),
+            'columns' => $columns,
         ];
     }
 
     /**
-     * Monta o mapa ordenado "coluna da tabela grade_results" => "cabeçalho no CSV"
-     * pra uma estrutura específica. As posições 1 e 2 de recuperação parcial mantêm
-     * os nomes já usados hoje (recuperacao_semestral_I/II) pra não quebrar quem já
-     * consome esse formato; posições 3+ usam o nome mais literal recuperacao_parcial_0N.
+     * Garante que dois cabeçalhos não saiam idênticos no mesmo CSV (ex: duas
+     * unidades cadastradas com o mesmo nome por engano na rede).
      */
-    private function buildGradeGroupColumns(
-        int $numericCount,
-        bool $hasPartialRecovery,
-        bool $hasFinalRecovery,
-        array $semesters,
-        int $conceptCount,
-        bool $hasFinalConcept
-    ): array {
+    private function uniqueColumnLabel(array $existingColumns, string $label): string
+    {
+        if (!in_array($label, $existingColumns, true)) {
+            return $label;
+        }
+
+        $suffix = 2;
+        while (in_array($label . ' (' . $suffix . ')', $existingColumns, true)) {
+            $suffix++;
+        }
+
+        return $label . ' (' . $suffix . ')';
+    }
+
+    /**
+     * Grupo "kitchen sink" usado quando a turma/etapa não tem grade_rules/grade_unity
+     * resolvível: mantém todas as colunas possíveis (igual ao CSV único de antes),
+     * com rótulos genéricos já que não há nome configurado pra usar.
+     */
+    private function fallbackGradeStructure(): array
+    {
         $columns = [];
-
-        for ($position = 1; $position <= $numericCount; $position++) {
-            $columns['grade_' . $position] = 'nota_' . str_pad((string) $position, 2, '0', STR_PAD_LEFT);
-            if (!$hasPartialRecovery) {
-                continue;
-            }
-            if ($position === 1) {
-                $columns['rec_partial_1'] = 'recuperacao_semestral_I';
-            } elseif ($position === 2) {
-                $columns['rec_partial_2'] = 'recuperacao_semestral_II';
-            } else {
-                $columns['rec_partial_' . $position] = 'recuperacao_parcial_' . str_pad((string) $position, 2, '0', STR_PAD_LEFT);
-            }
+        for ($position = 1; $position <= 8; $position++) {
+            $columns['grade_' . $position] = 'Nota ' . $position;
+            $columns['rec_partial_' . $position] = 'Recuperação Parcial ' . $position;
         }
-
-        if ($hasFinalRecovery) {
-            $columns['rec_final'] = 'recuperacao_final';
+        $columns['rec_final'] = 'Recuperação Final';
+        for ($semester = 1; $semester <= 4; $semester++) {
+            $columns['sem_rec_partial_' . $semester] = 'Recuperação Semestral ' . $semester;
         }
-
-        foreach ($semesters as $semester) {
-            $columns['sem_rec_partial_' . $semester] = 'recuperacao_media_semestral_' . str_pad((string) $semester, 2, '0', STR_PAD_LEFT);
+        for ($position = 1; $position <= 8; $position++) {
+            $columns['grade_concept_' . $position] = 'Conceito ' . $position;
         }
+        $columns['conceito_final'] = 'Conceito Final';
 
-        for ($position = 1; $position <= $conceptCount; $position++) {
-            $columns['grade_concept_' . $position] = 'conceito_' . str_pad((string) $position, 2, '0', STR_PAD_LEFT);
-        }
-
-        if ($hasFinalConcept) {
-            $columns['conceito_final'] = 'conceito_final';
-        }
-
-        return $columns;
+        return ['label' => 'Sem_Estrutura_Definida', 'columns' => $columns];
     }
 
     private function buildGradeGroupLabel(
         int $numericCount,
         bool $hasPartialRecovery,
         bool $hasFinalRecovery,
-        array $semesters,
+        bool $hasSemesterRecovery,
         int $conceptCount,
         bool $hasFinalConcept
     ): string {
         $parts = [];
 
         if ($numericCount > 0) {
-            $parts[] = $numericCount . '_notas';
+            $parts[] = $numericCount . '_Notas';
             if ($hasPartialRecovery) {
-                $parts[] = 'com_recuperacao_parcial';
+                $parts[] = 'com_Recuperacao_Parcial';
             }
         }
         if ($hasFinalRecovery) {
-            $parts[] = 'com_recuperacao_final';
+            $parts[] = 'com_Recuperacao_Final';
         }
-        if (!empty($semesters)) {
-            $parts[] = 'com_recuperacao_semestral';
+        if ($hasSemesterRecovery) {
+            $parts[] = 'com_Recuperacao_Semestral';
         }
         if ($conceptCount > 0) {
-            $parts[] = $conceptCount . '_conceitos';
+            $parts[] = $conceptCount . '_Conceitos';
             if ($hasFinalConcept) {
-                $parts[] = 'com_conceito_final';
+                $parts[] = 'com_Conceito_Final';
             }
         }
 
-        return empty($parts) ? 'sem_notas_lancadas' : implode('_', $parts);
+        return empty($parts) ? 'Sem_Notas_Lancadas' : implode('_', $parts);
     }
 
     /**
