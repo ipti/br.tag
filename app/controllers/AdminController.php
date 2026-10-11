@@ -298,8 +298,10 @@ SELECT
     private function exportGradesAsZip(array $rows): void
     {
         $structureByGradeRulesFk = [];
-        $rowsByLabel = [];
-        $columnsByLabel = [];
+        $rowsByGroup = [];
+        $columnsByGroup = [];
+        $fileNameByGroup = [];
+        $usedFileNames = [];
 
         foreach ($rows as $row) {
             $gradeRulesFk = $row['grade_rules_fk'];
@@ -312,13 +314,24 @@ SELECT
                 ? $structureByGradeRulesFk[$gradeRulesFk]
                 : $this->describeGradeStructure(null);
 
-            // Agrupa pelo rótulo (a estrutura em si: quantidade de notas, recuperações,
-            // conceito), não pelo id de grade_rules — duas turmas com regras diferentes
-            // mas a mesma estrutura caem no mesmo arquivo, em vez de gerar um CSV quase
-            // idêntico pra cada id de regra cadastrado na rede.
-            $label = $structure['label'];
-            $rowsByLabel[$label][] = $row;
-            $columnsByLabel[$label] = $structure['columns'];
+            // Agrupa por grade_rules_fk (cada "Estrutura de unidades..." cadastrada
+            // pela rede vira seu próprio arquivo), mesmo quando duas regras diferentes
+            // resultam no mesmo formato de colunas — é mais fácil de reconhecer pra
+            // quem abre o zip do que um rótulo técnico combinando várias regras.
+            $groupKey = $gradeRulesFk !== null ? 'regra_' . $gradeRulesFk : 'sem_estrutura_definida';
+            $rowsByGroup[$groupKey][] = $row;
+            $columnsByGroup[$groupKey] = $structure['columns'];
+
+            if (!isset($fileNameByGroup[$groupKey])) {
+                $fileName = $this->slugifyForFilename($structure['label']);
+                if (isset($usedFileNames[$fileName])) {
+                    $usedFileNames[$fileName]++;
+                    $fileName .= '_' . $usedFileNames[$fileName];
+                } else {
+                    $usedFileNames[$fileName] = 1;
+                }
+                $fileNameByGroup[$groupKey] = $fileName;
+            }
         }
 
         $year = Yii::app()->user->year;
@@ -330,11 +343,11 @@ SELECT
         $zip = new ZipArchive();
         $zip->open($zipPath, ZipArchive::CREATE | ZipArchive::OVERWRITE);
 
-        foreach ($rowsByLabel as $label => $groupRows) {
+        foreach ($rowsByGroup as $groupKey => $groupRows) {
             // Prefixo "pasta/arquivo.csv": a maioria dos descompactadores (Windows,
             // macOS, 7zip) recria essa pasta automaticamente ao extrair o .zip.
-            $fileName = $zipBaseName . '/' . $this->slugifyForFilename($label . '_' . $year) . '.csv';
-            $zip->addFromString($fileName, $this->buildGradesCsvContent($groupRows, $columnsByLabel[$label]));
+            $fileName = $zipBaseName . '/' . $fileNameByGroup[$groupKey] . '_' . $year . '.csv';
+            $zip->addFromString($fileName, $this->buildGradesCsvContent($groupRows, $columnsByGroup[$groupKey]));
         }
 
         $zip->close();
@@ -388,8 +401,12 @@ SELECT
 
     /**
      * Resolve a estrutura de avaliação a partir de grade_rules/grade_unity — a mesma
-     * fonte que o motor de cálculo de notas usa. Os nomes das colunas vêm direto do
-     * que a própria rede cadastrou pra cada unidade/recuperação (grade_unity.name,
+     * fonte que o motor de cálculo de notas usa. O rótulo do grupo (usado no nome do
+     * arquivo) é o próprio grade_rules.name, cadastrado pela rede na tela "Estrutura
+     * de Unidades e Avaliações" (ex: "Estrutura de unidades da etapa Ensino
+     * Fundamental de 9 anos - 7º Ano") — cai num rótulo técnico só quando a regra não
+     * tem nome preenchido. Os nomes das colunas vêm direto do que a própria rede
+     * cadastrou pra cada unidade/recuperação (grade_unity.name,
      * grade_partial_recovery.name), em vez de um rótulo genérico tipo "nota_01" que
      * não diz a que bimestre/etapa aquela nota pertence. $gradeRulesFk null (turma
      * sem regra resolvida) cai no grupo "kitchen sink" com todas as colunas
@@ -401,6 +418,10 @@ SELECT
         if ($gradeRulesFk === null) {
             return $this->fallbackGradeStructure();
         }
+
+        $gradeRulesName = Yii::app()->db->createCommand(
+            'select name from grade_rules where id = :id'
+        )->queryScalar([':id' => $gradeRulesFk]);
 
         $unities = Yii::app()->db->createCommand(
             'select gu.type, gu.semester, gu.name, gpr.name as recovery_name
@@ -453,8 +474,15 @@ SELECT
             return $this->fallbackGradeStructure();
         }
 
+        $label = $gradeRulesName !== false ? trim((string) $gradeRulesName) : '';
+        if ($label === '') {
+            // Regra sem nome cadastrado: usa um rótulo técnico descrevendo a
+            // estrutura (quantidade de notas, recuperações, conceito) como fallback.
+            $label = $this->buildGradeGroupLabel($numericCount, $hasPartialRecovery, $hasFinalRecovery, $hasSemesterRecovery, $conceptCount, $hasFinalConcept);
+        }
+
         return [
-            'label' => $this->buildGradeGroupLabel($numericCount, $hasPartialRecovery, $hasFinalRecovery, $hasSemesterRecovery, $conceptCount, $hasFinalConcept),
+            'label' => $label,
             'columns' => $columns,
         ];
     }
