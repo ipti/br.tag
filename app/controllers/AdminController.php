@@ -242,45 +242,28 @@ SELECT
 
     public function actionExportGrades()
     {
-        $pathFile = './app/export/InfoTagCSV/grades_' . Yii::app()->user->year . '.csv';
-
-        $sql = "select
-            if (si.inep_id is null, '', si.inep_id) inep_aluno,
-            if (si.name is null, '', si.name) nome_aluno,
-            if (c.name is null, '', c.name) turma,
-            if (ed.name  is null, '', ed.name) disciplina,
-            if (gr.grade_1 is null, '', gr.grade_1) nota_01,
-            if (gr.grade_2  is null, '', gr.grade_2) nota_02,
-            if (gr.rec_partial_1 is null, '', gr.rec_partial_1) recuperacao_semestral_I,
-            if (gr.grade_3  is null, '', gr.grade_3) nota_03,
-            if (gr.grade_4  is null, '', gr.grade_4) nota_04,
-            if (gr.rec_partial_2  is null, '', gr.rec_partial_2) recuperacao_semestral_II,
-            if (gr.rec_final  is null, '', gr.rec_final) recuperacao_final,
-            if (gr.grade_5 is null, '', gr.grade_5) nota_05,
-            if (gr.grade_6 is null, '', gr.grade_6) nota_06,
-            if (gr.grade_7 is null, '', gr.grade_7) nota_07,
-            if (gr.grade_8 is null, '', gr.grade_8) nota_08,
-            if (gr.rec_partial_3 is null, '', gr.rec_partial_3) recuperacao_parcial_03,
-            if (gr.rec_partial_4 is null, '', gr.rec_partial_4) recuperacao_parcial_04,
-            if (gr.rec_partial_5 is null, '', gr.rec_partial_5) recuperacao_parcial_05,
-            if (gr.rec_partial_6 is null, '', gr.rec_partial_6) recuperacao_parcial_06,
-            if (gr.rec_partial_7 is null, '', gr.rec_partial_7) recuperacao_parcial_07,
-            if (gr.rec_partial_8 is null, '', gr.rec_partial_8) recuperacao_parcial_08,
-            if (gr.sem_rec_partial_1 is null, '', gr.sem_rec_partial_1) recuperacao_media_semestral_01,
-            if (gr.sem_rec_partial_2 is null, '', gr.sem_rec_partial_2) recuperacao_media_semestral_02,
-            if (gr.sem_rec_partial_3 is null, '', gr.sem_rec_partial_3) recuperacao_media_semestral_03,
-            if (gr.sem_rec_partial_4 is null, '', gr.sem_rec_partial_4) recuperacao_media_semestral_04,
-            if (gr.grade_concept_1 is null, '', gr.grade_concept_1) conceito_01,
-            if (gr.grade_concept_2 is null, '', gr.grade_concept_2) conceito_02,
-            if (gr.grade_concept_3 is null, '', gr.grade_concept_3) conceito_03,
-            if (gr.grade_concept_4 is null, '', gr.grade_concept_4) conceito_04,
-            if (gr.grade_concept_5 is null, '', gr.grade_concept_5) conceito_05,
-            if (gr.grade_concept_6 is null, '', gr.grade_concept_6) conceito_06,
-            if (gr.grade_concept_7 is null, '', gr.grade_concept_7) conceito_07,
-            if (gr.grade_concept_8 is null, '', gr.grade_concept_8) conceito_08,
-            if (gc.acronym is null, '', gc.acronym) conceito_final,
-            if (gr.final_media is null, '', gr.final_media) media_final,
-            if (gr.situation is null, '', gr.situation) situacao
+        $sql = 'select
+            si.inep_id as inep_aluno,
+            si.name as nome_aluno,
+            c.name as turma,
+            ed.name as disciplina,
+            (select grvesvm.grade_rules_fk
+                from classroom_vs_grade_rules cvgr
+                join grade_rules_vs_edcenso_stage_vs_modality grvesvm
+                    on grvesvm.grade_rules_fk = cvgr.grade_rules_fk
+                where cvgr.classroom_fk = se.classroom_fk
+                    and grvesvm.edcenso_stage_vs_modality_fk = se.edcenso_stage_vs_modality_fk
+                limit 1) as grade_rules_fk,
+            gr.grade_1, gr.grade_2, gr.grade_3, gr.grade_4, gr.grade_5, gr.grade_6, gr.grade_7, gr.grade_8,
+            gr.rec_partial_1, gr.rec_partial_2, gr.rec_partial_3, gr.rec_partial_4,
+            gr.rec_partial_5, gr.rec_partial_6, gr.rec_partial_7, gr.rec_partial_8,
+            gr.sem_rec_partial_1, gr.sem_rec_partial_2, gr.sem_rec_partial_3, gr.sem_rec_partial_4,
+            gr.rec_final,
+            gr.grade_concept_1, gr.grade_concept_2, gr.grade_concept_3, gr.grade_concept_4,
+            gr.grade_concept_5, gr.grade_concept_6, gr.grade_concept_7, gr.grade_concept_8,
+            gc.acronym as conceito_final,
+            gr.final_media as media_final,
+            gr.situation as situacao
         from student_enrollment se
             join student_identification si
             on (se.student_fk = si.id)
@@ -297,11 +280,248 @@ SELECT
             left join grade_concept gc
             on (gc.id = gr.final_concept)
         where 1=1
-        and c.school_year = " . Yii::app()->user->year;
+        and c.school_year = ' . Yii::app()->user->year;
 
         $result = Yii::app()->db->createCommand($sql)->queryAll();
 
-        $this->exportToCSV($result, $pathFile);
+        $this->exportGradesAsZip($result);
+    }
+
+    /**
+     * Agrupa as linhas de notas pela estrutura de avaliação realmente configurada
+     * pra cada turma/etapa (grade_rules + grade_unity — a mesma fonte que o motor
+     * de cálculo de notas usa), e gera um .zip com um CSV por estrutura. Isso evita
+     * um único CSV largo com dezenas de colunas em branco pra quem usa estrutura
+     * simples (ex: 2 notas sem recuperação) só porque outra turma usa 8 notas ou
+     * avaliação por conceito.
+     */
+    private function exportGradesAsZip(array $rows): void
+    {
+        $structureByGradeRulesFk = [];
+        $rowsByLabel = [];
+        $columnsByLabel = [];
+
+        foreach ($rows as $row) {
+            $gradeRulesFk = $row['grade_rules_fk'];
+
+            if ($gradeRulesFk !== null && !isset($structureByGradeRulesFk[$gradeRulesFk])) {
+                $structureByGradeRulesFk[$gradeRulesFk] = $this->describeGradeStructure((int) $gradeRulesFk);
+            }
+
+            $structure = $gradeRulesFk !== null
+                ? $structureByGradeRulesFk[$gradeRulesFk]
+                : $this->describeGradeStructure(null);
+
+            // Agrupa pelo rótulo (a estrutura em si: quantidade de notas, recuperações,
+            // conceito), não pelo id de grade_rules — duas turmas com regras diferentes
+            // mas a mesma estrutura caem no mesmo arquivo, em vez de gerar um CSV quase
+            // idêntico pra cada id de regra cadastrado na rede.
+            $label = $structure['label'];
+            $rowsByLabel[$label][] = $row;
+            $columnsByLabel[$label] = $structure['columns'];
+        }
+
+        $zipPath = './app/export/InfoTagCSV/grades_' . Yii::app()->user->year . '.zip';
+        $this->createDirectoriesIfNotExist($zipPath);
+
+        $zip = new ZipArchive();
+        $zip->open($zipPath, ZipArchive::CREATE | ZipArchive::OVERWRITE);
+
+        foreach ($rowsByLabel as $label => $groupRows) {
+            $fileName = 'notas_' . $label . '.csv';
+            $zip->addFromString($fileName, $this->buildGradesCsvContent($groupRows, $columnsByLabel[$label]));
+        }
+
+        $zip->close();
+
+        header('Content-Disposition: attachment; filename="' . basename($zipPath) . '"');
+        header('Content-Type: application/zip');
+        header('Content-Length: ' . filesize($zipPath));
+        header('Connection: close');
+        readfile($zipPath);
+
+        $this->redirect(['exports']);
+    }
+
+    /**
+     * Resolve a estrutura de avaliação (quantidade de notas, recuperações, conceito)
+     * a partir de grade_rules/grade_unity. $gradeRulesFk null (turma/etapa sem regra
+     * resolvida) cai no grupo "kitchen sink" com todas as colunas possíveis, igual ao
+     * CSV único que existia antes desta mudança — nenhuma linha fica de fora.
+     */
+    private function describeGradeStructure(?int $gradeRulesFk): array
+    {
+        if ($gradeRulesFk === null) {
+            return [
+                'label' => 'sem_estrutura_definida',
+                'columns' => $this->buildGradeGroupColumns(8, true, true, [1, 2, 3, 4], 8, true),
+            ];
+        }
+
+        $gradeRule = Yii::app()->db->createCommand(
+            'select has_partial_recovery, has_final_recovery from grade_rules where id = :id'
+        )->queryRow(true, [':id' => $gradeRulesFk]);
+
+        $unities = Yii::app()->db->createCommand(
+            'select type, semester from grade_unity where grade_rules_fk = :id order by id'
+        )->queryAll(true, [':id' => $gradeRulesFk]);
+
+        $numericCount = 0;
+        $conceptCount = 0;
+        $hasFinalConcept = false;
+        $semesters = [];
+        foreach ($unities as $unity) {
+            if (in_array($unity['type'], ['U', 'UR'], true)) {
+                $numericCount++;
+            } elseif ($unity['type'] === 'UC') {
+                $conceptCount++;
+            } elseif ($unity['type'] === 'FC') {
+                $hasFinalConcept = true;
+            } elseif ($unity['type'] === 'RS' && $unity['semester'] !== null) {
+                $semesters[(int) $unity['semester']] = true;
+            }
+        }
+        $semesters = array_keys($semesters);
+        sort($semesters);
+
+        $hasPartialRecovery = $gradeRule !== false && (bool) $gradeRule['has_partial_recovery'];
+        $hasFinalRecovery = $gradeRule !== false && (bool) $gradeRule['has_final_recovery'];
+
+        // grade_rules sem nenhum grade_unity cadastrado (configuração incompleta):
+        // cai no mesmo "kitchen sink" do grupo sem estrutura resolvida, em vez de
+        // gerar um CSV vazio de colunas.
+        if ($numericCount === 0 && $conceptCount === 0) {
+            return [
+                'label' => 'sem_estrutura_definida',
+                'columns' => $this->buildGradeGroupColumns(8, true, true, [1, 2, 3, 4], 8, true),
+            ];
+        }
+
+        return [
+            'label' => $this->buildGradeGroupLabel($numericCount, $hasPartialRecovery, $hasFinalRecovery, $semesters, $conceptCount, $hasFinalConcept),
+            'columns' => $this->buildGradeGroupColumns($numericCount, $hasPartialRecovery, $hasFinalRecovery, $semesters, $conceptCount, $hasFinalConcept),
+        ];
+    }
+
+    /**
+     * Monta o mapa ordenado "coluna da tabela grade_results" => "cabeçalho no CSV"
+     * pra uma estrutura específica. As posições 1 e 2 de recuperação parcial mantêm
+     * os nomes já usados hoje (recuperacao_semestral_I/II) pra não quebrar quem já
+     * consome esse formato; posições 3+ usam o nome mais literal recuperacao_parcial_0N.
+     */
+    private function buildGradeGroupColumns(
+        int $numericCount,
+        bool $hasPartialRecovery,
+        bool $hasFinalRecovery,
+        array $semesters,
+        int $conceptCount,
+        bool $hasFinalConcept
+    ): array {
+        $columns = [];
+
+        for ($position = 1; $position <= $numericCount; $position++) {
+            $columns['grade_' . $position] = 'nota_' . str_pad((string) $position, 2, '0', STR_PAD_LEFT);
+            if (!$hasPartialRecovery) {
+                continue;
+            }
+            if ($position === 1) {
+                $columns['rec_partial_1'] = 'recuperacao_semestral_I';
+            } elseif ($position === 2) {
+                $columns['rec_partial_2'] = 'recuperacao_semestral_II';
+            } else {
+                $columns['rec_partial_' . $position] = 'recuperacao_parcial_' . str_pad((string) $position, 2, '0', STR_PAD_LEFT);
+            }
+        }
+
+        if ($hasFinalRecovery) {
+            $columns['rec_final'] = 'recuperacao_final';
+        }
+
+        foreach ($semesters as $semester) {
+            $columns['sem_rec_partial_' . $semester] = 'recuperacao_media_semestral_' . str_pad((string) $semester, 2, '0', STR_PAD_LEFT);
+        }
+
+        for ($position = 1; $position <= $conceptCount; $position++) {
+            $columns['grade_concept_' . $position] = 'conceito_' . str_pad((string) $position, 2, '0', STR_PAD_LEFT);
+        }
+
+        if ($hasFinalConcept) {
+            $columns['conceito_final'] = 'conceito_final';
+        }
+
+        return $columns;
+    }
+
+    private function buildGradeGroupLabel(
+        int $numericCount,
+        bool $hasPartialRecovery,
+        bool $hasFinalRecovery,
+        array $semesters,
+        int $conceptCount,
+        bool $hasFinalConcept
+    ): string {
+        $parts = [];
+
+        if ($numericCount > 0) {
+            $parts[] = $numericCount . '_notas';
+            if ($hasPartialRecovery) {
+                $parts[] = 'com_recuperacao_parcial';
+            }
+        }
+        if ($hasFinalRecovery) {
+            $parts[] = 'com_recuperacao_final';
+        }
+        if (!empty($semesters)) {
+            $parts[] = 'com_recuperacao_semestral';
+        }
+        if ($conceptCount > 0) {
+            $parts[] = $conceptCount . '_conceitos';
+            if ($hasFinalConcept) {
+                $parts[] = 'com_conceito_final';
+            }
+        }
+
+        return empty($parts) ? 'sem_notas_lancadas' : implode('_', $parts);
+    }
+
+    /**
+     * @param array $rows Linhas cruas da query (colunas de grade_results, mais
+     * inep_aluno/nome_aluno/turma/disciplina/media_final/situacao).
+     * @param array $columns Mapa "coluna de origem" => "cabeçalho no CSV", na ordem
+     * em que devem aparecer entre disciplina e media_final.
+     */
+    private function buildGradesCsvContent(array $rows, array $columns): string
+    {
+        $handle = fopen('php://temp', 'r+');
+
+        $header = array_merge(
+            ['inep_aluno', 'nome_aluno', 'turma', 'disciplina'],
+            array_values($columns),
+            ['media_final', 'situacao']
+        );
+        fputcsv($handle, $header, ';');
+
+        foreach ($rows as $row) {
+            $line = [
+                (string) ($row['inep_aluno'] ?? ''),
+                (string) ($row['nome_aluno'] ?? ''),
+                (string) ($row['turma'] ?? ''),
+                (string) ($row['disciplina'] ?? ''),
+            ];
+            foreach (array_keys($columns) as $sourceKey) {
+                $line[] = (string) ($row[$sourceKey] ?? '');
+            }
+            $line[] = (string) ($row['media_final'] ?? '');
+            $line[] = (string) ($row['situacao'] ?? '');
+
+            fputcsv($handle, $line, ';');
+        }
+
+        rewind($handle);
+        $content = stream_get_contents($handle);
+        fclose($handle);
+
+        return $content;
     }
 
     public function actionExportFaults()
