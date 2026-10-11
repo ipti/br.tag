@@ -255,7 +255,32 @@ SELECT
             if (gr.grade_3  is null, '', gr.grade_3) nota_03,
             if (gr.grade_4  is null, '', gr.grade_4) nota_04,
             if (gr.rec_partial_2  is null, '', gr.rec_partial_2) recuperacao_semestral_II,
-            if (gr.rec_final  is null, '', gr.rec_final) recuperacao_final
+            if (gr.rec_final  is null, '', gr.rec_final) recuperacao_final,
+            if (gr.grade_5 is null, '', gr.grade_5) nota_05,
+            if (gr.grade_6 is null, '', gr.grade_6) nota_06,
+            if (gr.grade_7 is null, '', gr.grade_7) nota_07,
+            if (gr.grade_8 is null, '', gr.grade_8) nota_08,
+            if (gr.rec_partial_3 is null, '', gr.rec_partial_3) recuperacao_parcial_03,
+            if (gr.rec_partial_4 is null, '', gr.rec_partial_4) recuperacao_parcial_04,
+            if (gr.rec_partial_5 is null, '', gr.rec_partial_5) recuperacao_parcial_05,
+            if (gr.rec_partial_6 is null, '', gr.rec_partial_6) recuperacao_parcial_06,
+            if (gr.rec_partial_7 is null, '', gr.rec_partial_7) recuperacao_parcial_07,
+            if (gr.rec_partial_8 is null, '', gr.rec_partial_8) recuperacao_parcial_08,
+            if (gr.sem_rec_partial_1 is null, '', gr.sem_rec_partial_1) recuperacao_media_semestral_01,
+            if (gr.sem_rec_partial_2 is null, '', gr.sem_rec_partial_2) recuperacao_media_semestral_02,
+            if (gr.sem_rec_partial_3 is null, '', gr.sem_rec_partial_3) recuperacao_media_semestral_03,
+            if (gr.sem_rec_partial_4 is null, '', gr.sem_rec_partial_4) recuperacao_media_semestral_04,
+            if (gr.grade_concept_1 is null, '', gr.grade_concept_1) conceito_01,
+            if (gr.grade_concept_2 is null, '', gr.grade_concept_2) conceito_02,
+            if (gr.grade_concept_3 is null, '', gr.grade_concept_3) conceito_03,
+            if (gr.grade_concept_4 is null, '', gr.grade_concept_4) conceito_04,
+            if (gr.grade_concept_5 is null, '', gr.grade_concept_5) conceito_05,
+            if (gr.grade_concept_6 is null, '', gr.grade_concept_6) conceito_06,
+            if (gr.grade_concept_7 is null, '', gr.grade_concept_7) conceito_07,
+            if (gr.grade_concept_8 is null, '', gr.grade_concept_8) conceito_08,
+            if (gr.final_concept is null, '', gr.final_concept) conceito_final,
+            if (gr.final_media is null, '', gr.final_media) media_final,
+            if (gr.situation is null, '', gr.situation) situacao
         from student_enrollment se
             join student_identification si
             on (se.student_fk = si.id)
