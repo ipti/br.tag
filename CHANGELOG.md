@@ -1,3 +1,6 @@
+## [Versão 3.14.26]
+- Adicionada a Cotação de Preços no Almoxarifado (TCDA-1239): novo cadastro de Fornecedores (Admin > Almoxarifado > Fornecedores) e nova tela de Cotação de Preços (Admin > Almoxarifado > Cotação de Preços), onde é possível registrar, para cada cotação, quais itens do catálogo foram cotados, com quais fornecedores e por qual valor, e comparar os valores cotados por item (o menor valor de cada item fica destacado)
+
 ## [Versão 3.14.25]
 - Ajustes na etapa Complementar do Plano MACETE (TCDA-1263): o campo "Recursos" passou a se chamar "Recursos Didáticos"; os campos Avaliação, Adaptações e Referências agora ficam nessa ordem e usam o mesmo padrão de caixa de texto único (Adaptações deixou de ser dividido em "Crianças neurodivergentes", "Recomposição de aprendizagem", "Turma multisseriada" e "Caso falte material" — o conteúdo já cadastrado nesses subcampos foi migrado automaticamente para o novo campo único); os campos "Ficha de atividade", "Material pedagógico" e "Material de apoio" foram removidos dessa etapa (passarão a compor o Banco de Questões, a ser desenvolvido futuramente)
 

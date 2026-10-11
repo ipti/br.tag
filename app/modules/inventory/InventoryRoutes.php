@@ -29,6 +29,13 @@ class InventoryRoutes
     public const MOVEMENT_INDEX = 'inventory/movement/index';
     public const MOVEMENT_TRANSFER = 'inventory/movement/transfer';
 
+    // QuotationController
+    public const QUOTATION_CREATE = 'inventory/quotation/create';
+    public const QUOTATION_DELETE = 'inventory/quotation/delete';
+    public const QUOTATION_INDEX = 'inventory/quotation/index';
+    public const QUOTATION_UPDATE = 'inventory/quotation/update';
+    public const QUOTATION_VIEW = 'inventory/quotation/view';
+
     // RequestController
     public const REQUEST_ADMIN = 'inventory/request/admin';
     public const REQUEST_APPROVE = 'inventory/request/approve';
@@ -38,6 +45,13 @@ class InventoryRoutes
     public const REQUEST_REJECT = 'inventory/request/reject';
     public const REQUEST_UPDATE = 'inventory/request/update';
     public const REQUEST_VIEW = 'inventory/request/view';
+
+    // SupplierController
+    public const SUPPLIER_CREATE = 'inventory/supplier/create';
+    public const SUPPLIER_DELETE = 'inventory/supplier/delete';
+    public const SUPPLIER_INDEX = 'inventory/supplier/index';
+    public const SUPPLIER_UPDATE = 'inventory/supplier/update';
+    public const SUPPLIER_VIEW = 'inventory/supplier/view';
 
     public static function url(string $route, array $params = []): string
     {

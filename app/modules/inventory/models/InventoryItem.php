@@ -46,6 +46,7 @@ class InventoryItem extends CActiveRecord
             'stocks' => [self::HAS_MANY, 'InventoryStock', 'item_id'],
             'movements' => [self::HAS_MANY, 'InventoryMovement', 'item_id'],
             'requests' => [self::HAS_MANY, 'InventoryRequest', 'item_id'],
+            'quotationItems' => [self::HAS_MANY, 'InventoryQuotationItem', 'item_id'],
         ];
     }
 

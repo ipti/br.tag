@@ -295,6 +295,20 @@ $menuItems = [
                 'roles' => [TRole::ADMIN],
                 'feature' => TFeature::FEAT_INVENTORY_ADMIN,
             ],
+            [
+                'label' => 'Fornecedores',
+                'url' => ['inventory/supplier/index'],
+                'icon' => 't-icon-list',
+                'roles' => [TRole::ADMIN],
+                'feature' => TFeature::FEAT_INVENTORY_SUPPLIER,
+            ],
+            [
+                'label' => 'Cotação de Preços',
+                'url' => ['inventory/quotation/index'],
+                'icon' => 't-icon-shopping-cart',
+                'roles' => [TRole::ADMIN],
+                'feature' => TFeature::FEAT_INVENTORY_QUOTATION,
+            ],
         ],
     ],
     // Acompanhamento de Saúde
