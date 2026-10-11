@@ -245,6 +245,7 @@ SELECT
         $sql = 'select
             si.inep_id as inep_aluno,
             si.name as nome_aluno,
+            si2.name as nome_escola,
             c.name as turma,
             ed.name as disciplina,
             (select grvesvm.grade_rules_fk
@@ -269,6 +270,8 @@ SELECT
             on (se.student_fk = si.id)
             join classroom c
             on (se.classroom_fk = c.id)
+            left join school_identification si2
+            on (se.school_inep_id_fk = si2.inep_id)
             left join edcenso_stage_vs_modality esvm
             on (c.edcenso_stage_vs_modality_fk = esvm.id)
             left join curricular_matrix cm
@@ -563,7 +566,7 @@ SELECT
 
     /**
      * @param array $rows Linhas cruas da query (colunas de grade_results, mais
-     * inep_aluno/nome_aluno/turma/disciplina/media_final/situacao).
+     * inep_aluno/nome_aluno/nome_escola/turma/disciplina/media_final/situacao).
      * @param array $columns Mapa "coluna de origem" => "cabeçalho no CSV", na ordem
      * em que devem aparecer entre disciplina e media_final.
      */
@@ -572,7 +575,7 @@ SELECT
         $handle = fopen('php://temp', 'r+');
 
         $header = array_merge(
-            ['inep_aluno', 'nome_aluno', 'turma', 'disciplina'],
+            ['inep_aluno', 'nome_aluno', 'nome_escola', 'turma', 'disciplina'],
             array_values($columns),
             ['media_final', 'situacao']
         );
@@ -582,6 +585,7 @@ SELECT
             $line = [
                 (string) ($row['inep_aluno'] ?? ''),
                 (string) ($row['nome_aluno'] ?? ''),
+                (string) ($row['nome_escola'] ?? ''),
                 (string) ($row['turma'] ?? ''),
                 (string) ($row['disciplina'] ?? ''),
             ];
