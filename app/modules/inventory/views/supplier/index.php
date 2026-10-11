@@ -18,7 +18,7 @@ $this->breadcrumbs = [
 <div class="row">
     <div class="column is-full">
         <div class="widget clearmargin">
-            <div class="widget-body">
+            <div class="widget-body table-responsive">
                 <?php DataTableGridView::show(
     $this,
     [

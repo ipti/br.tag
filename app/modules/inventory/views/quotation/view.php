@@ -48,6 +48,7 @@ $this->breadcrumbs = [
                 <div class="widget clearmargin">
                     <div class="widget-body">
                         <h2><?php echo CHtml::encode($group['name']); ?></h2>
+                        <div class="table-responsive">
                         <table class="tag-table-primary tag-table table table-condensed table-striped table-hover table-primary table-vertical-center">
                             <thead>
                                 <tr>
@@ -70,6 +71,7 @@ $this->breadcrumbs = [
                                 <?php endforeach; ?>
                             </tbody>
                         </table>
+                        </div>
                     </div>
                 </div>
             </div>
