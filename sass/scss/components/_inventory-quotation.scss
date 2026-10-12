@@ -1,0 +1,156 @@
+// Inventory module — comparação de preços da cotação (tela e relatório)
+
+.inventory-quotation {
+    &__meta {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: $SizeXSmall;
+        margin: $SizeXSmall 0 0;
+        color: $colorsBaseInkLight;
+
+        .t-badge-info,
+        .t-badge-success {
+            margin: 0;
+        }
+    }
+
+    &__observation {
+        margin: $SizeSmall 0 0;
+        color: $colorsBaseInkNormal;
+    }
+
+    &__group {
+        margin-top: $SizeLarge;
+
+        h2 {
+            margin: 0 0 $SizeSmall;
+        }
+    }
+
+    &__table {
+        width: 100%;
+        table-layout: fixed;
+
+        th,
+        td {
+            vertical-align: middle;
+        }
+
+        .is-supplier {
+            width: 50%;
+        }
+
+        .is-value {
+            width: 25%;
+        }
+
+        .is-highlight {
+            width: 25%;
+
+            .t-badge-success {
+                display: inline-flex;
+                margin: 0;
+            }
+        }
+    }
+}
+
+.inventory-quotation-report {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: $SizeLarge;
+    color: $colorsBaseInkNormal;
+
+    &__actions {
+        display: flex;
+        justify-content: flex-end;
+        margin-bottom: $SizeLarge;
+    }
+
+    &__header {
+        text-align: center;
+        margin-bottom: $SizeLarge;
+
+        p {
+            margin: 0;
+            font-weight: $fontWeightBold;
+        }
+
+        h1 {
+            margin: $SizeMedium 0 0;
+            font-size: $FontSizeHeadingTitle1;
+        }
+    }
+
+    &__meta {
+        display: flex;
+        flex-wrap: wrap;
+        gap: $SizeLarge;
+        margin-bottom: $SizeLarge;
+
+        p {
+            margin: 0;
+        }
+    }
+
+    &__group {
+        margin-bottom: $SizeLarge;
+        page-break-inside: avoid;
+
+        h2 {
+            margin: 0 0 $SizeXSmall;
+            font-size: $FontSizeTextNormal;
+        }
+    }
+
+    &__table {
+        width: 100%;
+        table-layout: fixed;
+        border-collapse: collapse;
+
+        th,
+        td {
+            border: 1px solid $colorsBaseInkNormal;
+            padding: $SizeXSmall;
+            font-size: $FontSizeTextNormal;
+        }
+
+        th {
+            background-color: $colorsBaseCloudNormal;
+            text-align: left;
+        }
+
+        .is-supplier {
+            width: 50%;
+        }
+
+        .is-value,
+        .is-highlight {
+            width: 25%;
+        }
+
+        .is-lowest td {
+            font-weight: $fontWeightBold;
+        }
+    }
+
+    &__footer {
+        margin-top: $SizeXXLarge;
+        font-size: $FontSizeTextNormal;
+        color: $colorsBaseInkLight;
+    }
+
+    @media print {
+        padding: 0;
+
+        &__actions {
+            display: none;
+        }
+
+        &__table th {
+            -webkit-print-color-adjust: exact;
+            print-color-adjust: exact;
+        }
+    }
+}
