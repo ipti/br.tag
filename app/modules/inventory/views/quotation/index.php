@@ -8,8 +8,6 @@ $this->breadcrumbs = [
     'Almoxarifado' => ['movement/index'],
     'Cotação de Preços',
 ];
-
-$statusList = InventoryQuotation::getStatusList();
 ?>
 
 <h1>Cotação de Preços</h1>
@@ -20,7 +18,7 @@ $statusList = InventoryQuotation::getStatusList();
 </div>
 
 <div class="row">
-    <div class="column is-full">
+    <div class="column is-full clearfix">
         <div class="widget clearmargin">
             <div class="widget-body">
                 <?php DataTableGridView::show(
@@ -28,7 +26,6 @@ $statusList = InventoryQuotation::getStatusList();
     [
         'id' => 'inventory-quotation-grid',
         'dataProvider' => $model->search(false),
-        'filter' => $model,
         'itemsCssClass' => 'items',
         'enableSorting' => false,
         'columns' => [

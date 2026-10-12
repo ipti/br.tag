@@ -103,6 +103,11 @@
         flex-grow: 0;
     }
 
+    // impede que o conteúdo (ex.: select2 com option longa) alargue a coluna
+    &.no-overflow {
+        min-width: 0;
+    }
+
     //retirar isso
     &.helper {
         max-width: 50%;

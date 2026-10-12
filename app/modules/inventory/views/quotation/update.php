@@ -15,16 +15,6 @@ $this->breadcrumbs = [
 ?>
 
 <div id="mainPage" class="main">
-    <div class="mobile-row">
-        <div class="column clearleft">
-            <h1 class="clear-padding--bottom">Editar Cotação: <?php echo CHtml::encode($model->title); ?></h1>
-        </div>
-    </div>
-
-    <?php if (Yii::app()->user->hasFlash('error')): ?>
-        <div class="alert alert-error"><?php echo Yii::app()->user->getFlash('error'); ?></div>
-    <?php endif; ?>
-
     <?php $this->renderPartial('_form', [
         'model' => $model,
         'items' => $items,

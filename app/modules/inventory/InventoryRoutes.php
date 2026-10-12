@@ -33,6 +33,7 @@ class InventoryRoutes
     public const QUOTATION_CREATE = 'inventory/quotation/create';
     public const QUOTATION_DELETE = 'inventory/quotation/delete';
     public const QUOTATION_INDEX = 'inventory/quotation/index';
+    public const QUOTATION_REPORT = 'inventory/quotation/report';
     public const QUOTATION_UPDATE = 'inventory/quotation/update';
     public const QUOTATION_VIEW = 'inventory/quotation/view';
 

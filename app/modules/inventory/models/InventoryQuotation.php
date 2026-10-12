@@ -80,6 +80,33 @@ class InventoryQuotation extends CActiveRecord
     }
 
     /**
+     * Agrupa os valores cotados por item, destacando o menor valor de cada um —
+     * base da tela de comparação e do relatório da cotação.
+     *
+     * @return array ['item_id' => ['name' => string, 'quotes' => InventoryQuotationItem[], 'lowestValue' => float]]
+     */
+    public function getItemsGrouped()
+    {
+        $quotationItems = InventoryQuotationItem::model()->with('itemFk', 'supplierFk')->findAll([
+            'condition' => 't.quotation_id = :quotation_id',
+            'params' => [':quotation_id' => $this->id],
+            'order' => 'itemFk.name ASC, t.quoted_value ASC',
+        ]);
+
+        $itemsGrouped = [];
+        foreach ($quotationItems as $quotationItem) {
+            $itemsGrouped[$quotationItem->item_id]['name'] = $quotationItem->itemFk->name;
+            $itemsGrouped[$quotationItem->item_id]['quotes'][] = $quotationItem;
+        }
+        foreach ($itemsGrouped as &$group) {
+            $group['lowestValue'] = min(array_map(static fn ($q) => (float) $q->quoted_value, $group['quotes']));
+        }
+        unset($group);
+
+        return $itemsGrouped;
+    }
+
+    /**
      * Returns the static model of the specified AR class.
      * @param string $className active record class name.
      * @return InventoryQuotation the static model class

@@ -9,7 +9,7 @@
         container.attr('data-next-index', index + 1);
 
         if (window.jQuery && $.fn.select2 && row.find('select.select-search-on').length) {
-            row.find('select.select-search-on').select2();
+            row.find('select.select-search-on').select2({ width: 'resolve' });
         }
     }
 

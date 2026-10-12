@@ -14,7 +14,7 @@ class QuotationController extends Controller
         return [
             [
                 'allow',
-                'actions' => ['index', 'view', 'create', 'update', 'delete'],
+                'actions' => ['index', 'view', 'report', 'create', 'update', 'delete'],
                 'users' => ['@'],
             ],
             [
@@ -124,27 +124,22 @@ class QuotationController extends Controller
     {
         $model = $this->loadModel($id);
 
-        $quotationItems = InventoryQuotationItem::model()->with('itemFk', 'supplierFk')->findAll(
-            'quotation_id = :quotation_id',
-            [':quotation_id' => $model->id]
-        );
-
-        // Agrupa por item pra destacar o menor valor cotado de cada um — é o objetivo
-        // central da tela: comparar fornecedores pra decidir a compra.
-        $itemsGrouped = [];
-        foreach ($quotationItems as $quotationItem) {
-            $itemsGrouped[$quotationItem->item_id]['name'] = $quotationItem->itemFk->name;
-            $itemsGrouped[$quotationItem->item_id]['quotes'][] = $quotationItem;
-        }
-        foreach ($itemsGrouped as &$group) {
-            $lowestValue = min(array_map(static fn ($q) => (float) $q->quoted_value, $group['quotes']));
-            $group['lowestValue'] = $lowestValue;
-        }
-        unset($group);
-
         $this->render('view', [
             'model' => $model,
-            'itemsGrouped' => $itemsGrouped,
+            'itemsGrouped' => $model->getItemsGrouped(),
+        ]);
+    }
+
+    public function actionReport($id)
+    {
+        $model = $this->loadModel($id);
+        $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
+
+        $this->layout = 'webroot.themes.default.views.layouts.reportsclean';
+        $this->render('report', [
+            'model' => $model,
+            'itemsGrouped' => $model->getItemsGrouped(),
+            'school' => $school,
         ]);
     }
 
