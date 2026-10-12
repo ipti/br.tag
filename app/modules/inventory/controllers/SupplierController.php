@@ -14,7 +14,7 @@ class SupplierController extends Controller
         return [
             [
                 'allow',
-                'actions' => ['index', 'view', 'create', 'update', 'delete'],
+                'actions' => ['index', 'create', 'update', 'delete'],
                 'users' => ['@'],
             ],
             [
@@ -44,7 +44,7 @@ class SupplierController extends Controller
         if (isset($_POST['InventorySupplier'])) {
             $model->attributes = $_POST['InventorySupplier'];
             if ($model->save()) {
-                $this->redirect(['view', 'id' => $model->id]);
+                $this->redirect(['index']);
             }
         }
 
@@ -60,7 +60,7 @@ class SupplierController extends Controller
         if (isset($_POST['InventorySupplier'])) {
             $model->attributes = $_POST['InventorySupplier'];
             if ($model->save()) {
-                $this->redirect(['view', 'id' => $model->id]);
+                $this->redirect(['index']);
             }
         }
 
@@ -79,13 +79,6 @@ class SupplierController extends Controller
         } else {
             throw new CHttpException(400, 'Invalid request. Please do not repeat this request again.');
         }
-    }
-
-    public function actionView($id)
-    {
-        $this->render('view', [
-            'model' => $this->loadModel($id),
-        ]);
     }
 
     public function loadModel($id)

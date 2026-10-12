@@ -1,3 +1,4 @@
+<div id="mainPage" class="main">
 <?php
 /* @var $this SupplierController */
 /* @var $model InventorySupplier */
@@ -16,15 +17,14 @@ $this->breadcrumbs = [
 </div>
 
 <div class="row">
-    <div class="column is-full">
+    <div class="column is-full clearfix ">
         <div class="widget clearmargin">
-            <div class="widget-body table-responsive">
+            <div class="widget-body">
                 <?php DataTableGridView::show(
     $this,
     [
         'id' => 'inventory-supplier-grid',
         'dataProvider' => $model->search(false),
-        'filter' => $model,
         'itemsCssClass' => 'items',
         'enableSorting' => false,
         'columns' => [
@@ -50,11 +50,8 @@ $this->breadcrumbs = [
             [
                 'header' => 'Ações',
                 'class' => 'CButtonColumn',
-                'template' => '{view}{update}{delete}',
+                'template' => '{update}{delete}',
                 'buttons' => [
-                    'view' => [
-                        'imageUrl' => Yii::app()->theme->baseUrl . '/img/search-icon.svg',
-                    ],
                     'update' => [
                         'imageUrl' => Yii::app()->theme->baseUrl . '/img/editar.svg',
                     ],
@@ -72,4 +69,5 @@ $this->breadcrumbs = [
             </div>
         </div>
     </div>
+</div>
 </div>

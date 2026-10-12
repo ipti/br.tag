@@ -6,8 +6,7 @@ $this->setPageTitle('TAG - Editar Fornecedor');
 $this->breadcrumbs = [
     'Almoxarifado' => ['movement/index'],
     'Fornecedores' => ['index'],
-    $model->name => ['view', 'id' => $model->id],
-    'Editar',
+    'Editar: ' . CHtml::encode($model->name),
 ];
 ?>
 

@@ -1,3 +1,4 @@
+<div id="mainPage" class="main">
 <?php
 /* @var $this QuotationController */
 /* @var $model InventoryQuotation */
@@ -21,7 +22,7 @@ $statusList = InventoryQuotation::getStatusList();
 <div class="row">
     <div class="column is-full">
         <div class="widget clearmargin">
-            <div class="widget-body table-responsive">
+            <div class="widget-body">
                 <?php DataTableGridView::show(
     $this,
     [
@@ -73,4 +74,5 @@ $statusList = InventoryQuotation::getStatusList();
             </div>
         </div>
     </div>
+</div>
 </div>

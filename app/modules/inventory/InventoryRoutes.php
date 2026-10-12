@@ -51,7 +51,6 @@ class InventoryRoutes
     public const SUPPLIER_DELETE = 'inventory/supplier/delete';
     public const SUPPLIER_INDEX = 'inventory/supplier/index';
     public const SUPPLIER_UPDATE = 'inventory/supplier/update';
-    public const SUPPLIER_VIEW = 'inventory/supplier/view';
 
     public static function url(string $route, array $params = []): string
     {
