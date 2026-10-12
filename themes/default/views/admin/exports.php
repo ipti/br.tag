@@ -81,7 +81,7 @@ $this->setPageTitle('TAG - Exportações');
                                 </div>
                                 <div class="pull-left">
                                     <span class="title">Exportar Notas</span><br>
-                                    <span class="subtitle">Exporte as informações de notas dos alunos em CSV</span>
+                                    <span class="subtitle">Exporte as informações de notas dos alunos em um .zip com um CSV por estrutura de avaliação</span>
                                 </div>
                             </button>
                         </a>
