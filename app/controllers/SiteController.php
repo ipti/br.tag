@@ -256,9 +256,8 @@ class SiteController extends Controller
                         array_push($warns, $htmlpart);
                     }
 
-                    //Se houver etapa, verificar se existe estrutura de notas
-                    $listGradeUnities = $stage->gradeUnities;
-                    if (count($listGradeUnities) == 0) {
+                    //Se houver etapa, verificar se a turma possui estrutura de notas vinculada
+                    if (!$classroom->hasGradeStructure()) {
                         $warning = 'Etapa <b>' . $stage->name . '</b> da turma <b>' . $classroom->name . '</b> está sem estrutura de notas.';
                         $htmlpart = '<li class="row justify-content--start  home-page-table-item blue" title=\'' . $warning . '\'>'
                             . '<div  class="column align-items--center warn-div" style="text-overflow: ellipsis;">'
