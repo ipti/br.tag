@@ -372,9 +372,9 @@ SELECT
         $zip->open($zipPath, ZipArchive::CREATE | ZipArchive::OVERWRITE);
 
         foreach ($tempPathByGroup as $groupKey => $tempPath) {
-            // Prefixo "pasta/arquivo.csv": a maioria dos descompactadores (Windows,
-            // macOS, 7zip) recria essa pasta automaticamente ao extrair o .zip.
-            $fileName = $zipBaseName . '/' . $fileNameByGroup[$groupKey] . '_' . $year . '.csv';
+            // CSVs na raiz do zip: os descompactadores (ex: "Extrair tudo" do Windows)
+            // já criam uma pasta com o nome do .zip, então uma pasta interna duplicava.
+            $fileName = $fileNameByGroup[$groupKey] . '_' . $year . '.csv';
             $zip->addFile($tempPath, $fileName);
         }
 
@@ -456,9 +456,11 @@ SELECT
         )->queryScalar([':id' => $gradeRulesFk]);
 
         $unities = Yii::app()->db->createCommand(
-            'select gu.type, gu.semester, gu.name, gpr.name as recovery_name
+            'select gu.type, gu.semester, gu.name, gpr.id as recovery_id, gpr.name as recovery_name,
+                gpr.semester as recovery_semester, gpr.order_partial_recovery, gc.name as recovery_calculation
              from grade_unity gu
              left join grade_partial_recovery gpr on gpr.id = gu.parcial_recovery_fk
+             left join grade_calculation gc on gc.id = gpr.grade_calculation_fk
              where gu.grade_rules_fk = :id
              order by gu.id'
         )->queryAll(true, [':id' => $gradeRulesFk]);
@@ -469,6 +471,17 @@ SELECT
             return $this->fallbackGradeStructure();
         }
 
+        // Uma recuperação parcial pode cobrir várias unidades (ex: "Recuperação
+        // Semestral I" cobre a 1ª e a 2ª unidade), mas o motor de notas grava um
+        // único valor por recuperação — então ela vira uma coluna só, posicionada
+        // logo após a última unidade que substitui.
+        $lastUnityIndexByRecovery = [];
+        foreach ($unities as $index => $unity) {
+            if ($unity['recovery_id'] !== null && in_array($unity['type'], ['U', 'UR'], true)) {
+                $lastUnityIndexByRecovery[$unity['recovery_id']] = $index;
+            }
+        }
+
         $columns = [];
         $numericCount = 0;
         $conceptCount = 0;
@@ -477,20 +490,26 @@ SELECT
         $hasSemesterRecovery = false;
         $hasFinalConcept = false;
 
-        foreach ($unities as $unity) {
+        foreach ($unities as $index => $unity) {
             $unityLabel = $this->uniqueColumnLabel($columns, trim((string) $unity['name']));
 
             if (in_array($unity['type'], ['U', 'UR'], true)) {
                 $numericCount++;
                 $columns['grade_' . $numericCount] = $unityLabel;
-                if (!empty($unity['recovery_name'])) {
-                    $hasPartialRecovery = true;
-                    $columns['rec_partial_' . $numericCount] = $this->uniqueColumnLabel($columns, trim((string) $unity['recovery_name']));
+
+                $isLastUnityOfRecovery = $unity['recovery_id'] !== null
+                    && $lastUnityIndexByRecovery[$unity['recovery_id']] === $index;
+                if ($isLastUnityOfRecovery) {
+                    $recoveryColumn = $this->partialRecoveryResultColumn($unity);
+                    if (!isset($columns[$recoveryColumn])) {
+                        $hasPartialRecovery = true;
+                        $columns[$recoveryColumn] = $this->uniqueColumnLabel($columns, trim((string) $unity['recovery_name']));
+                    }
                 }
             } elseif ($unity['type'] === 'RF') {
                 $hasFinalRecovery = true;
                 $columns['rec_final'] = $unityLabel;
-            } elseif ($unity['type'] === 'RS' && $unity['semester'] !== null) {
+            } elseif ($unity['type'] === 'RS' && $unity['semester'] !== null && !isset($columns['sem_rec_partial_' . (int) $unity['semester']])) {
                 $hasSemesterRecovery = true;
                 $columns['sem_rec_partial_' . (int) $unity['semester']] = $unityLabel;
             } elseif ($unity['type'] === 'UC') {
@@ -517,6 +536,21 @@ SELECT
             'label' => $label,
             'columns' => $columns,
         ];
+    }
+
+    /**
+     * Coluna de grade_results onde o motor de notas grava o resultado da
+     * recuperação parcial (mesma regra de CalculateNumericGradeUsecase::calculatePartialRecovery):
+     * recuperação semestral vai pra sem_rec_partial_{semestre}; as demais (ou a
+     * semestral com cálculo "Subistituir Menor Nota") vão pra rec_partial_{ordem}.
+     */
+    private function partialRecoveryResultColumn(array $unity): string
+    {
+        if ($unity['recovery_semester'] !== null && $unity['recovery_calculation'] !== 'Subistituir Menor Nota') {
+            return 'sem_rec_partial_' . (int) $unity['recovery_semester'];
+        }
+
+        return 'rec_partial_' . (int) $unity['order_partial_recovery'];
     }
 
     /**
