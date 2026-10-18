@@ -1,3 +1,6 @@
+## [Versão 3.13.37]
+- Exportação de notas (TCDA-1262): os CSVs voltam a ficar dentro de uma pasta com o nome do .zip, para não ficarem soltos ao usar "Extrair aqui" (WinRAR/7zip)
+
 ## [Versão 3.13.36]
 - Ajustes na exportação de notas (TCDA-1262) em ?r=admin/exports: as notas de recuperação semestral não eram exportadas (a coluna saía sempre vazia) e cada recuperação aparecia repetida após cada unidade que ela cobre; agora cada recuperação aparece uma única vez, preenchida, logo após a última unidade que ela substitui. Os CSVs passam a ficar direto na raiz do .zip, sem a pasta interna duplicada ao extrair
 

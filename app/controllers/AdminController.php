@@ -372,9 +372,9 @@ SELECT
         $zip->open($zipPath, ZipArchive::CREATE | ZipArchive::OVERWRITE);
 
         foreach ($tempPathByGroup as $groupKey => $tempPath) {
-            // CSVs na raiz do zip: os descompactadores (ex: "Extrair tudo" do Windows)
-            // já criam uma pasta com o nome do .zip, então uma pasta interna duplicava.
-            $fileName = $fileNameByGroup[$groupKey] . '_' . $year . '.csv';
+            // Prefixo "pasta/arquivo.csv": garante que os CSVs fiquem numa pasta com o
+            // nome do .zip mesmo no "Extrair aqui" (WinRAR/7zip), em vez de soltos.
+            $fileName = $zipBaseName . '/' . $fileNameByGroup[$groupKey] . '_' . $year . '.csv';
             $zip->addFile($tempPath, $fileName);
         }
 
