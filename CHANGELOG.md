@@ -1,3 +1,6 @@
+## [Versão 3.13.35]
+- Corrigido erro 500 na exportação de notas (TCDA-1262) em ?r=admin/exports para redes com muitos dados (ex: Nossa Senhora da Glória): a exportação carregava todas as notas da rede na memória de uma vez e ultrapassava o limite do servidor. Agora as notas são gravadas no arquivo conforme são lidas, sem mudança no conteúdo do .zip gerado
+
 ## [Versão 3.13.34]
 - Corrigida a pendência "está sem estrutura de notas" na tela inicial (TCDA-1265): a verificação ainda procurava unidades de avaliação vinculadas diretamente à etapa (modelo antigo), mas hoje a estrutura é vinculada à turma pelo campo "Estrutura de Avaliação" (em Configurações Pedagógicas). Com isso, turmas com estrutura devidamente vinculada apareciam como pendentes. A pendência agora só é exibida quando a turma não possui uma estrutura de avaliação vinculada ou quando a estrutura vinculada não tem nenhuma unidade cadastrada
 

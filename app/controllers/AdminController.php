@@ -285,9 +285,7 @@ SELECT
         where 1=1
         and c.school_year = ' . Yii::app()->user->year;
 
-        $result = Yii::app()->db->createCommand($sql)->queryAll();
-
-        $this->exportGradesAsZip($result);
+        $this->exportGradesAsZip($sql);
     }
 
     /**
@@ -297,48 +295,75 @@ SELECT
      * um único CSV largo com dezenas de colunas em branco pra quem usa estrutura
      * simples (ex: 2 notas sem recuperação) só porque outra turma usa 8 notas ou
      * avaliação por conceito.
+     *
+     * As linhas são lidas em streaming (query não bufferizada) e gravadas direto em
+     * arquivos temporários por grupo: redes grandes passam de 200 mil linhas, e
+     * carregar tudo com queryAll() estourava o memory_limit (erro 500).
      */
-    private function exportGradesAsZip(array $rows): void
+    private function exportGradesAsZip(string $sql): void
     {
+        // Com a query não bufferizada a conexão fica ocupada até o fim da leitura,
+        // então as estruturas de todas as regras precisam ser resolvidas antes.
         $structureByGradeRulesFk = [];
-        $rowsByGroup = [];
-        $columnsByGroup = [];
-        $fileNameByGroup = [];
-        $usedFileNames = [];
-
-        foreach ($rows as $row) {
-            $gradeRulesFk = $row['grade_rules_fk'];
-
-            if ($gradeRulesFk !== null && !isset($structureByGradeRulesFk[$gradeRulesFk])) {
-                $structureByGradeRulesFk[$gradeRulesFk] = $this->describeGradeStructure((int) $gradeRulesFk);
-            }
-
-            $structure = $gradeRulesFk !== null
-                ? $structureByGradeRulesFk[$gradeRulesFk]
-                : $this->describeGradeStructure(null);
-
-            // Agrupa por grade_rules_fk (cada "Estrutura de unidades..." cadastrada
-            // pela rede vira seu próprio arquivo), mesmo quando duas regras diferentes
-            // resultam no mesmo formato de colunas — é mais fácil de reconhecer pra
-            // quem abre o zip do que um rótulo técnico combinando várias regras.
-            $groupKey = $gradeRulesFk !== null ? 'regra_' . $gradeRulesFk : 'sem_estrutura_definida';
-            $rowsByGroup[$groupKey][] = $row;
-            $columnsByGroup[$groupKey] = $structure['columns'];
-
-            if (!isset($fileNameByGroup[$groupKey])) {
-                $fileName = $this->slugifyForFilename($structure['label']);
-                if (isset($usedFileNames[$fileName])) {
-                    $usedFileNames[$fileName]++;
-                    $fileName .= '_' . $usedFileNames[$fileName];
-                } else {
-                    $usedFileNames[$fileName] = 1;
-                }
-                $fileNameByGroup[$groupKey] = $fileName;
-            }
+        $gradeRulesIds = Yii::app()->db->createCommand('select id from grade_rules')->queryColumn();
+        foreach ($gradeRulesIds as $gradeRulesId) {
+            $structureByGradeRulesFk[$gradeRulesId] = $this->describeGradeStructure((int) $gradeRulesId);
         }
 
         $year = Yii::app()->user->year;
         $zipBaseName = $this->slugifyForFilename($this->resolveNetworkName() . '_Notas_' . $year);
+
+        $handleByGroup = [];
+        $tempPathByGroup = [];
+        $columnsByGroup = [];
+        $fileNameByGroup = [];
+        $usedFileNames = [];
+
+        $pdo = Yii::app()->db->getPdoInstance();
+        $pdo->setAttribute(PDO::MYSQL_ATTR_USE_BUFFERED_QUERY, false);
+
+        try {
+            $reader = Yii::app()->db->createCommand($sql)->query();
+
+            foreach ($reader as $row) {
+                $gradeRulesFk = $row['grade_rules_fk'];
+
+                $structure = $gradeRulesFk !== null && isset($structureByGradeRulesFk[$gradeRulesFk])
+                    ? $structureByGradeRulesFk[$gradeRulesFk]
+                    : $this->fallbackGradeStructure();
+
+                // Agrupa por grade_rules_fk (cada "Estrutura de unidades..." cadastrada
+                // pela rede vira seu próprio arquivo), mesmo quando duas regras diferentes
+                // resultam no mesmo formato de colunas — é mais fácil de reconhecer pra
+                // quem abre o zip do que um rótulo técnico combinando várias regras.
+                $groupKey = $gradeRulesFk !== null ? 'regra_' . $gradeRulesFk : 'sem_estrutura_definida';
+
+                if (!isset($handleByGroup[$groupKey])) {
+                    $fileName = $this->slugifyForFilename($structure['label']);
+                    if (isset($usedFileNames[$fileName])) {
+                        $usedFileNames[$fileName]++;
+                        $fileName .= '_' . $usedFileNames[$fileName];
+                    } else {
+                        $usedFileNames[$fileName] = 1;
+                    }
+                    $fileNameByGroup[$groupKey] = $fileName;
+                    $columnsByGroup[$groupKey] = $structure['columns'];
+
+                    $tempPathByGroup[$groupKey] = tempnam(sys_get_temp_dir(), 'tag_notas_');
+                    $handleByGroup[$groupKey] = fopen($tempPathByGroup[$groupKey], 'w');
+                    $this->writeGradesCsvHeader($handleByGroup[$groupKey], $columnsByGroup[$groupKey]);
+                }
+
+                $this->writeGradesCsvRow($handleByGroup[$groupKey], $row, $columnsByGroup[$groupKey]);
+            }
+
+            $reader->close();
+        } finally {
+            $pdo->setAttribute(PDO::MYSQL_ATTR_USE_BUFFERED_QUERY, true);
+            foreach ($handleByGroup as $handle) {
+                fclose($handle);
+            }
+        }
 
         $zipPath = './app/export/InfoTagCSV/' . $zipBaseName . '.zip';
         $this->createDirectoriesIfNotExist($zipPath);
@@ -346,14 +371,18 @@ SELECT
         $zip = new ZipArchive();
         $zip->open($zipPath, ZipArchive::CREATE | ZipArchive::OVERWRITE);
 
-        foreach ($rowsByGroup as $groupKey => $groupRows) {
+        foreach ($tempPathByGroup as $groupKey => $tempPath) {
             // Prefixo "pasta/arquivo.csv": a maioria dos descompactadores (Windows,
             // macOS, 7zip) recria essa pasta automaticamente ao extrair o .zip.
             $fileName = $zipBaseName . '/' . $fileNameByGroup[$groupKey] . '_' . $year . '.csv';
-            $zip->addFromString($fileName, $this->buildGradesCsvContent($groupRows, $columnsByGroup[$groupKey]));
+            $zip->addFile($tempPath, $fileName);
         }
 
         $zip->close();
+
+        foreach ($tempPathByGroup as $tempPath) {
+            unlink($tempPath);
+        }
 
         header('Content-Disposition: attachment; filename="' . $zipBaseName . '.zip"');
         header('Content-Type: application/zip');
@@ -565,44 +594,40 @@ SELECT
     }
 
     /**
-     * @param array $rows Linhas cruas da query (colunas de grade_results, mais
-     * inep_aluno/nome_aluno/nome_escola/turma/disciplina/media_final/situacao).
      * @param array $columns Mapa "coluna de origem" => "cabeçalho no CSV", na ordem
      * em que devem aparecer entre disciplina e media_final.
      */
-    private function buildGradesCsvContent(array $rows, array $columns): string
+    private function writeGradesCsvHeader($handle, array $columns): void
     {
-        $handle = fopen('php://temp', 'r+');
-
         $header = array_merge(
             ['inep_aluno', 'nome_aluno', 'nome_escola', 'turma', 'disciplina'],
             array_values($columns),
             ['media_final', 'situacao']
         );
         fputcsv($handle, $header, ';');
+    }
 
-        foreach ($rows as $row) {
-            $line = [
-                (string) ($row['inep_aluno'] ?? ''),
-                (string) ($row['nome_aluno'] ?? ''),
-                (string) ($row['nome_escola'] ?? ''),
-                (string) ($row['turma'] ?? ''),
-                (string) ($row['disciplina'] ?? ''),
-            ];
-            foreach (array_keys($columns) as $sourceKey) {
-                $line[] = (string) ($row[$sourceKey] ?? '');
-            }
-            $line[] = (string) ($row['media_final'] ?? '');
-            $line[] = (string) ($row['situacao'] ?? '');
-
-            fputcsv($handle, $line, ';');
+    /**
+     * @param array $row Linha crua da query (colunas de grade_results, mais
+     * inep_aluno/nome_aluno/nome_escola/turma/disciplina/media_final/situacao).
+     * @param array $columns Mapa "coluna de origem" => "cabeçalho no CSV".
+     */
+    private function writeGradesCsvRow($handle, array $row, array $columns): void
+    {
+        $line = [
+            (string) ($row['inep_aluno'] ?? ''),
+            (string) ($row['nome_aluno'] ?? ''),
+            (string) ($row['nome_escola'] ?? ''),
+            (string) ($row['turma'] ?? ''),
+            (string) ($row['disciplina'] ?? ''),
+        ];
+        foreach (array_keys($columns) as $sourceKey) {
+            $line[] = (string) ($row[$sourceKey] ?? '');
         }
+        $line[] = (string) ($row['media_final'] ?? '');
+        $line[] = (string) ($row['situacao'] ?? '');
 
-        rewind($handle);
-        $content = stream_get_contents($handle);
-        fclose($handle);
-
-        return $content;
+        fputcsv($handle, $line, ';');
     }
 
     public function actionExportFaults()
