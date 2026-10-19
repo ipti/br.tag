@@ -1,3 +1,7 @@
+## [Versão 3.14.27]
+- Release: une as entregas da dev (módulo MACETE v1 e Cotação de Preços no Almoxarifado) com os hotfixes da main (3.13.18 a 3.13.37)
+- O módulo MACETE agora tem uma flag própria de módulo (TASK_MACETE), que nasce desativada: antes ele dependia só das flags de Plano de Aula/Aulas Ministradas, já ativas em vários municípios, e apareceria automaticamente para eles. Para usar o MACETE, a rede precisa habilitá-lo em Administração > Gerenciar Módulos
+
 ## [Versão 3.14.26]
 - Adicionada a Cotação de Preços no Almoxarifado (TCDA-1239): novo cadastro de Fornecedores (Admin > Almoxarifado > Fornecedores) e nova tela de Cotação de Preços (Admin > Almoxarifado > Cotação de Preços), onde é possível registrar, para cada cotação, quais itens do catálogo foram cotados, com quais fornecedores e por qual valor, e comparar os valores cotados por item (o menor valor de cada item fica destacado)
 

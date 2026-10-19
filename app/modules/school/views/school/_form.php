@@ -183,7 +183,7 @@ $form = $this->beginWidget('CActiveForm', [
                             </div>
                         </div>
                     </div>
-                    <?php if (Yii::app()->features->isEnable(TFeature::FEAT_DIARY_LESSON_PLAN) || Yii::app()->features->isEnable(TFeature::FEAT_DIARY_CLASSES)): ?>
+                    <?php if (Yii::app()->features->isEnable(TTask::TASK_MACETE) && (Yii::app()->features->isEnable(TFeature::FEAT_DIARY_LESSON_PLAN) || Yii::app()->features->isEnable(TFeature::FEAT_DIARY_CLASSES))): ?>
                         <div class="row">
                             <div class="column is-two-fifths clearleft">
                                 <div class="t-field-tarea">

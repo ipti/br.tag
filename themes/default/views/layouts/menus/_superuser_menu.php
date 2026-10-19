@@ -92,12 +92,14 @@ endif ?>
                     <span class="t-menu-item__text">Plano de Aula</span>
                 </a>
             </li>
+            <?php if (Yii::app()->features->isEnable(TTask::TASK_MACETE)): ?>
             <li class="t-menu-item <?= strpos($_SERVER['REQUEST_URI'], " ?r=macete/lessonsplan") || strpos($_SERVER['REQUEST_URI'], "?r=macete/lessonsplan") ? 'active' : '' ?>">
                 <a class="t-menu-item__link" href="<?php echo Yii::app()->createUrl('macete/lessonsplan/index')?>">
                     <span class="t-icon-diary t-menu-item__icon"></span>
                     <span class="t-menu-item__text">Plano MACETE</span>
                 </a>
             </li>
+            <?php endif ?>
             <?php if (TagUtils::checkAccess(['admin', 'reader', 'manager'])): ?>
             <li class="t-menu-item <?= strpos($_SERVER['REQUEST_URI'], " ?r=classdiary/classes/classContents") ? 'active' : '' ?>">
                 <a class="t-menu-item__link" href="<?php echo Yii::app()->createUrl('classdiary/classes/classContents')?>">
@@ -105,12 +107,14 @@ endif ?>
                     <span class="t-menu-item__text">Aulas Ministradas</span>
                 </a>
             </li>
+            <?php if (Yii::app()->features->isEnable(TTask::TASK_MACETE)): ?>
             <li class="t-menu-item <?= strpos($_SERVER['REQUEST_URI'], " ?r=macete/lessonsrecord") || strpos($_SERVER['REQUEST_URI'], "?r=macete/lessonsrecord") ? 'active' : '' ?>">
                 <a class="t-menu-item__link" href="<?php echo Yii::app()->createUrl('macete/lessonsrecord/index')?>">
                     <span class="t-icon-topics t-menu-item__icon"></span>
                     <span class="t-menu-item__text">Registros MACETE</span>
                 </a>
             </li>
+            <?php endif ?>
             <li class="t-menu-item <?= strpos($_SERVER['REQUEST_URI'], " ?r=classdiary/classes/frequency") ? 'active' : '' ?>">
                 <a class="t-menu-item__link" href="<?php echo Yii::app()->createUrl('classdiary/classes/frequency')?>">
                     <span class="t-icon-checklist t-menu-item__icon"></span>
@@ -193,7 +197,7 @@ endif ?>
     </li>
     <?php
 endif ?>
-    <?php if (Yii::app()->getAuthManager()->checkAccess('coordinator', Yii::app()->user->loginInfos->id)): ?>
+    <?php if (Yii::app()->getAuthManager()->checkAccess('coordinator', Yii::app()->user->loginInfos->id) && Yii::app()->features->isEnable(TTask::TASK_MACETE)): ?>
     <li class="t-menu-item <?= strpos($_SERVER['REQUEST_URI'], " ?r=macete/lessonsrecord") || strpos($_SERVER['REQUEST_URI'], "?r=macete/lessonsrecord") ? 'active' : '' ?>">
         <a class="t-menu-item__link" href="<?php echo Yii::app()->createUrl('macete/lessonsrecord/index')?>">
             <span class="t-icon-topics t-menu-item__icon"></span>
@@ -211,7 +215,7 @@ endif ?>
     </li>
     <?php
 endif ?>
-    <?php if (Yii::app()->getAuthManager()->checkAccess('coordinator', Yii::app()->user->loginInfos->id)): ?>
+    <?php if (Yii::app()->getAuthManager()->checkAccess('coordinator', Yii::app()->user->loginInfos->id) && Yii::app()->features->isEnable(TTask::TASK_MACETE)): ?>
     <li class="t-menu-item <?= strpos($_SERVER['REQUEST_URI'], " ?r=macete/lessonsplan") || strpos($_SERVER['REQUEST_URI'], "?r=macete/lessonsplan") ? 'active' : '' ?>">
         <a class="t-menu-item__link" href="<?php echo Yii::app()->createUrl('macete/lessonsplan/index')?>">
             <span class="t-icon-diary t-menu-item__icon"></span>

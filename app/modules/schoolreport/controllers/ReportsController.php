@@ -624,6 +624,10 @@ class ReportsController extends Controller
      */
     public function actionMaceteDiaryReport($classroomId, $month, $year, $disciplineId)
     {
+        if (!Yii::app()->features->isEnable(TTask::TASK_MACETE)) {
+            throw new CHttpException(403, 'O módulo MACETE não está habilitado para este município.');
+        }
+
         Yii::import('application.modules.macete.services.*');
         Yii::import('application.modules.macete.models.*');
 
