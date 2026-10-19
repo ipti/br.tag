@@ -275,7 +275,7 @@ function GradeTableBuilder(data) {
 
                 if (unity.grades.length > 1) {
                     const unityMedia = template`
-                <td>${unity.unityMedia ?? ""}</td>
+                <td>${formatMediaKeepingDecimals(unity.unityMedia)}</td>
                 `;
 
                     unityRow.push(unityMedia);
@@ -335,6 +335,17 @@ function GradeTableBuilder(data) {
             return "";
         }
         return result;
+    }
+
+    // Só garante o ".0" em números redondos (ex.: 10 -> "10.0"), sem
+    // arredondar valores que já têm casas decimais (ex.: 9.166... segue
+    // exibindo "9.17", como o backend calculou, em vez de virar "9.2").
+    function formatMediaKeepingDecimals(val) {
+        const num = parseFloat(val);
+        if (isNaN(num)) {
+            return "";
+        }
+        return Number.isInteger(num) ? num.toFixed(1) : String(num);
     }
 
     function build() {

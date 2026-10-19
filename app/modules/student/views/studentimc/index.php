@@ -72,7 +72,7 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Acompanhamento de Saúde'));
                         [
                             'name' => 'height',
                             'type' => 'raw',
-                            'value' => 'number_format((float) $data->height, 2, ".", "")',
+                            'value' => '(int) $data->height',
                         ],
                         [
                             'name' => 'weight',

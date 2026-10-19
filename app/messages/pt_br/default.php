@@ -624,7 +624,7 @@ return [
     //StudentIMC
     'Student Imc' => 'IMC do Aluno',
     'Weight' => 'Peso (kg)',
-    'Height' => 'Altura (m)',
+    'Height' => 'Altura (cm)',
     'Imc' => 'IMC',
     'Classification' => 'Classificação do IMC',
     'Observations' => 'Observação',

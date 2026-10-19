@@ -16,13 +16,16 @@ $form = $this->beginWidget('CActiveForm', [
 ]);
 
 $isNutritionist = Yii::app()->getAuthManager()->checkAccess('nutritionist', Yii::app()->user->loginInfos->id);
+$canConfigureExpirationAlert = Yii::app()->getAuthManager()->checkAccess('manager', Yii::app()->user->loginInfos->id)
+    || Yii::app()->getAuthManager()->checkAccess('nutritionist', Yii::app()->user->loginInfos->id)
+    || Yii::app()->getAuthManager()->checkAccess('admin', Yii::app()->user->loginInfos->id)
+    || Yii::app()->getAuthManager()->checkAccess('foodServiceWorker', Yii::app()->user->loginInfos->id);
 ?>
 
 <div class="form">
     <div class="mobile-row">
         <div class="column clearleft">
             <h1 class="clear-padding--bottom"><?php echo $model->isNewRecord ? 'Estoque' : '' ?></h1>
-            <p>Cardápio semanal da sua escola</p>
         </div>
     </div>
 
@@ -31,6 +34,7 @@ $isNutritionist = Yii::app()->getAuthManager()->checkAccess('nutritionist', Yii:
     <div class="row">
         <div class="column clearfix">
             <div id="info-alert" class="alert hide"></div>
+            <div id="expiration-alert" class="alert hide"></div>
         </div>
     </div>
 
@@ -39,6 +43,9 @@ $isNutritionist = Yii::app()->getAuthManager()->checkAccess('nutritionist', Yii:
             if (!$isNutritionist):
                 ?>
         <a class="t-button-primary" id="js-entry-stock-button" type="button">Lançamento de Estoque</a>
+        <?php endif; ?>
+        <?php if ($canConfigureExpirationAlert): ?>
+        <a class="t-button-secondary" href="<?php echo Yii::app()->createUrl('foods/foodalert/index'); ?>">Configurar Alerta de Vencimento</a>
         <?php endif; ?>
         <a class="t-button-secondary hide"><span class="t-icon-printer"></span>Relatório de Estoque</a>
     </div>
@@ -58,7 +65,7 @@ $isNutritionist = Yii::app()->getAuthManager()->checkAccess('nutritionist', Yii:
         </div>
     </div>
     <div class="row show--tabletDesktop">
-        <div class="column is-four-fifths clearfix">
+        <div class="column clearfix">
             <table id="foodStockTable"  aria-describedby="FoodStockTable" role="table" class="tag-table-secondary align-start">
              <tr>
                 <th></th>
@@ -104,7 +111,10 @@ $isNutritionist = Yii::app()->getAuthManager()->checkAccess('nutritionist', Yii:
                 </button>
             </div>
             <form method="post">
-                <div class="t-modal__body">
+                <div class="t-modal__body" style="position: relative;">
+                    <div class="loading-save-food" style="display:none; position:absolute; top:0; left:0; right:0; bottom:0; align-items:center; justify-content:center; background: rgba(255,255,255,0.75); z-index: 10;">
+                        <img height="50px" width="50px" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/loadingTag.gif" alt="TAG Loading">
+                    </div>
                     <p>Selecione os itens e quantidades para adicionar ao estoque</p>
                     <div class="row">
                         <div class="column clearfix">
@@ -112,11 +122,16 @@ $isNutritionist = Yii::app()->getAuthManager()->checkAccess('nutritionist', Yii:
                         </div>
                     </div>
                     <div class="tablet-row bottom-margin">
-                        <div class="column is-two-fifths t-field-select t-margin-none--bottom clearfix">
+                        <div class="column is-one-fifth t-field-select t-margin-none--bottom clearfix">
                             <?php echo CHtml::label('Selecione o Alimento', 'food_fk', ['class' => 't-field-select__label--required']); ?>
                             <select class="select-search-on t-field-select__input select2-container" id="food" name="food">
                                 <option value="alimento">Selecione o Alimento</option>
                             </select>
+                        </div>
+                        <div class="column is-one-fifth clearleft--on-mobile t-field-text t-margin-none--bottom clearfix">
+                            <?php echo $form->label($model, 'supplier', ['class' => 't-field-text__label']); ?>
+                            <?php echo $form->textField($model, 'supplier', ['class' => 't-field-text__input t-margin-none js-supplier', 'placeholder' => 'Fornecedor']); ?>
+                            <?php echo $form->error($model, 'supplier'); ?>
                         </div>
                         <div class="column is-one-tenth clearleft--on-mobile t-field-text t-margin-none--bottom clearfix">
                             <?php echo $form->label($model, 'amount', ['class' => 't-field-text__label--required']); ?>

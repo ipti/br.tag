@@ -96,55 +96,54 @@ class FoodinventoryController extends Controller
     {
         $foodsOnStock = Yii::app()->request->getPost('foodsOnStock');
 
-        if (!empty($foodsOnStock)) {
+        if (empty($foodsOnStock)) {
+            return;
+        }
+
+        $transaction = Yii::app()->db->beginTransaction();
+
+        try {
             foreach ($foodsOnStock as $foodData) {
-                $existingFood = FoodInventory::model()->findByAttributes(['food_fk' => $foodData['id'], 'school_fk' => Yii::app()->user->school]);
                 $expirationDate = null;
                 if ($foodData['expiration_date'] != '') {
                     $expirationDate = date('Y-m-d', strtotime(str_replace('/', '-', $foodData['expiration_date'])));
                 }
 
-                if (!$existingFood) {
-                    $FoodInventory = new FoodInventory();
+                // Cada lançamento é um lote novo e independente: nunca soma/mescla
+                // num lote já existente do mesmo produto, mesmo que fornecedor e
+                // validade coincidam. Isso preserva o histórico individual de cada
+                // entrada (necessário para controle de validade por lote).
+                $FoodInventory = new FoodInventory();
 
-                    $FoodInventory->food_fk = $foodData['id'];
-                    $FoodInventory->school_fk = Yii::app()->user->school;
-                    $FoodInventory->amount = $foodData['amount'];
-                    $FoodInventory->measurementUnit = $foodData['measurementUnit'];
-                    $FoodInventory->expiration_date = $expirationDate;
+                $FoodInventory->food_fk = $foodData['id'];
+                $FoodInventory->school_fk = Yii::app()->user->school;
+                $FoodInventory->amount = $foodData['amount'];
+                $FoodInventory->measurementUnit = $foodData['measurementUnit'];
+                $FoodInventory->expiration_date = $expirationDate;
+                $FoodInventory->supplier = $foodData['supplier'] ?? null;
 
-                    if ($FoodInventory->save()) {
-                        $FoodInventoryReceived = new FoodInventoryReceived();
-                        $FoodInventoryReceived->food_fk = $foodData['id'];
-                        $FoodInventoryReceived->food_inventory_fk = $FoodInventory->id;
-                        $FoodInventoryReceived->amount = $foodData['amount'];
-
-                        $FoodInventoryReceived->save();
-                    } else {
-                        Yii::app()->request->sendStatusCode(400);
-                        $errors = $FoodInventory->getErrors();
-                        echo json_encode(['error' => 'Ocorreu um erro ao salvar: ' . reset($errors)[0]]);
-                    }
-                } else {
-                    $FoodInventoryReceived = new FoodInventoryReceived();
-                    $FoodInventoryReceived->food_fk = $foodData['id'];
-                    $FoodInventoryReceived->food_inventory_fk = $existingFood->id;
-                    $FoodInventoryReceived->amount = $foodData['amount'];
-
-                    $FoodInventoryReceived->save();
-
-                    if ($existingFood->measurementUnit == 'Kg' && $foodData['measurementUnit'] == 'g') {
-                        $existingFood->amount += $foodData['amount'] / 1000;
-                    } elseif ($existingFood->measurementUnit == 'g' && $foodData['measurementUnit'] == 'Kg') {
-                        $existingFood->amount += $foodData['amount'] * 1000;
-                    } else {
-                        $existingFood->amount += $foodData['amount'];
-                    }
-                    $existingFood->expiration_date = $expirationDate;
-                    $existingFood->status = 'Disponivel';
-                    $existingFood->save();
+                if (!$FoodInventory->save()) {
+                    $transaction->rollback();
+                    Yii::app()->request->sendStatusCode(400);
+                    $errors = $FoodInventory->getErrors();
+                    echo json_encode(['error' => 'Ocorreu um erro ao salvar: ' . reset($errors)[0]]);
+                    return;
                 }
+
+                $FoodInventoryReceived = new FoodInventoryReceived();
+                $FoodInventoryReceived->food_fk = $foodData['id'];
+                $FoodInventoryReceived->food_inventory_fk = $FoodInventory->id;
+                $FoodInventoryReceived->amount = $foodData['amount'];
+
+                $FoodInventoryReceived->save();
             }
+
+            $transaction->commit();
+        } catch (Exception $e) {
+            $transaction->rollback();
+            Yii::log('Erro ao salvar estoque: ' . $e->getMessage(), CLogger::LEVEL_ERROR);
+            Yii::app()->request->sendStatusCode(400);
+            echo json_encode(['error' => 'Ocorreu um erro ao salvar o estoque.']);
         }
     }
 
@@ -205,12 +204,16 @@ class FoodinventoryController extends Controller
     {
         $foodInventoryFoodId = Yii::app()->request->getPost('foodInventoryFoodId');
 
+        // Histórico consolidado do produto (todos os lotes/fornecedores), não só
+        // de um lote isolado — cada lançamento vira seu próprio lote, então o
+        // fornecedor de cada entrada é exibido para diferenciá-los. Filtra também
+        // pela escola do usuário, já que antes não havia esse filtro de posse.
         $criteria = new CDbCriteria();
         $criteria->select = 'amount, date';
         $criteria->with = ['foodInventoryFk'];
         $criteria->together = true;
-        $criteria->condition = 'foodInventoryFk.food_fk = :foodInventoryFoodId';
-        $criteria->params = [':foodInventoryFoodId' => $foodInventoryFoodId];
+        $criteria->condition = 'foodInventoryFk.food_fk = :foodInventoryFoodId AND foodInventoryFk.school_fk = :schoolFk';
+        $criteria->params = [':foodInventoryFoodId' => $foodInventoryFoodId, ':schoolFk' => Yii::app()->user->school];
 
         $receivedData = FoodInventoryReceived::model()->findAll($criteria);
         $spentData = FoodInventorySpent::model()->findAll($criteria);
@@ -218,10 +221,10 @@ class FoodinventoryController extends Controller
         $values = [];
 
         foreach ($receivedData as $data) {
-            array_push($values, ['type' => 'Entrada', 'amount' => $data->amount, 'date' => date('d/m/Y', strtotime($data->date)), 'measurementUnit' => $data->foodInventoryFk->measurementUnit]);
+            array_push($values, ['type' => 'Entrada', 'amount' => $data->amount, 'date' => date('d/m/Y', strtotime($data->date)), 'measurementUnit' => $data->foodInventoryFk->measurementUnit, 'supplier' => $data->foodInventoryFk->supplier]);
         }
         foreach ($spentData as $data) {
-            array_push($values, ['type' => 'Saída', 'amount' => $data->amount, 'date' => date('d/m/Y', strtotime($data->date)), 'measurementUnit' => $data->foodInventoryFk->measurementUnit]);
+            array_push($values, ['type' => 'Saída', 'amount' => $data->amount, 'date' => date('d/m/Y', strtotime($data->date)), 'measurementUnit' => $data->foodInventoryFk->measurementUnit, 'supplier' => $data->foodInventoryFk->supplier]);
         }
 
         echo json_encode($values);
@@ -236,18 +239,29 @@ class FoodinventoryController extends Controller
         $criteria->compare('school_fk', $schoolFk);
 
         $foodInventoryData = FoodInventory::model()->findAll($criteria);
+        $foodAlertDaysMap = FoodExpirationAlertGroup::getFoodAlertDaysMap($schoolFk);
+        $defaultAlertDays = FoodExpirationAlertSchoolConfig::getDefaultAlertDays($schoolFk);
 
         $values = [];
         foreach ($foodInventoryData as $stock) {
+            $alertDays = $foodAlertDaysMap[(int) $stock->food_fk] ?? $defaultAlertDays;
+
+            $daysUntilExpiration = $stock->expiration_date !== null
+                ? (int) floor((strtotime($stock->expiration_date) - strtotime(date('Y-m-d'))) / 86400)
+                : null;
+
             $values[] = [
                 'id' => $stock->id,
                 'foodId' => $stock->food_fk,
                 'description' => $stock->foodRelation->description,
+                'supplier' => $stock->supplier,
                 'amount' => $stock->amount,
                 'measurementUnit' => $stock->measurementUnit,
                 'expiration_date' => ($stock->expiration_date != null) ? date('d/m/Y', strtotime($stock->expiration_date)) : 'Não informada',
                 'status' => $stock->status,
-                'spent' => ($stock->amount > 0) ? false : true
+                'spent' => ($stock->amount > 0) ? false : true,
+                'daysUntilExpiration' => $daysUntilExpiration,
+                'isNearExpiration' => $daysUntilExpiration !== null && $alertDays !== null && $daysUntilExpiration <= $alertDays,
             ];
         }
 

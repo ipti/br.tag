@@ -40,6 +40,7 @@ $isNutritionist = Yii::app()->getAuthManager()->checkAccess('nutritionist', Yii:
             Alunos Integral: <?php echo $studentsByTurn['Integral'] ?>
         </div>
     </div>
+    <?php $studentsByAllergyPresent = array_filter($studentsByAllergy ?? []); ?>
     <div class="t-buttons-container">
         <a class="t-button-primary"  href="<?php echo yii::app()->createUrl('foods/foodmenu/index') ?>">
             Preparar Cardápio
@@ -107,5 +108,29 @@ $isNutritionist = Yii::app()->getAuthManager()->checkAccess('nutritionist', Yii:
         <div class="js-cards-meals column t-margin-none--left is-half">
 
         </div>
+        <?php if (!empty($studentsByAllergyPresent)): ?>
+            <div class="column is-half">
+                <div class="t-cards t-cards--warning">
+                    <div class="t-cards-content">
+                        <h2 class="t-cards-title">Alunos com Alergia Alimentar</h2>
+                        <p class="t-cards-text clear-margin--left">
+                            <?php echo $totalAllergicStudents; ?>
+                            <?php echo $totalAllergicStudents === 1 ? 'aluno matriculado possui' : 'alunos matriculados possuem'; ?>
+                            alergia alimentar registrada.
+                        </p>
+                        <?php foreach ($studentsByAllergyPresent as $allergyLabel => $studentsCount): ?>
+                            <p class="t-cards-text clear-margin--left">
+                                <b><?php echo CHtml::encode($allergyLabel); ?>:</b> <?php echo $studentsCount; ?>
+                            </p>
+                        <?php endforeach; ?>
+                        <div class="t-cards-link">
+                            <a class="t-button-secondary" href="<?php echo Yii::app()->createUrl('foods/foodmenu/studentAllergies'); ?>">
+                                Ver alunos e alergias
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        <?php endif; ?>
     </div>
 </div>

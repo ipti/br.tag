@@ -24,7 +24,7 @@ function getDatatableConfig(action, $table, isMobile, columnsIndex, indexActionB
     // Configuration map for page-specific DataTables settings
     const pageConfigs = {
         student: {
-            match: () => action.includes("student") && !action.includes("studentimc") && !action.includes("enrollmentonline"),
+            match: () => action.includes("student") && !action.includes("studentimc") && !action.includes("enrollmentonline") && !action.includes("studentAllergies"),
             config: {
                 language: getLanguagePtbr(),
                 serverSide: true,

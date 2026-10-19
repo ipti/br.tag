@@ -172,7 +172,7 @@ function getDisorders()
                 <tr>
                     <th>IMC</th>
                     <th>Classificação</th>
-                    <th>ALTURA (m)</th>
+                    <th>ALTURA (cm)</th>
                     <th>PESO (kg)</th>
                     <th>DATA DE COLETA</th>
                 </tr>
@@ -182,7 +182,7 @@ function getDisorders()
                     <tr>
                         <td><?= CHtml::encode(number_format((float) $imc->IMC, 2, '.', '')) ?></td>
                         <td><?= CHtml::encode($imc->studentImcClassificationFk->classification) ?></td>
-                        <td><?= CHtml::encode(number_format((float) $imc->height, 2, '.', '')) ?></td>
+                        <td><?= CHtml::encode((int) $imc->height) ?></td>
                         <td><?= CHtml::encode(number_format((float) $imc->weight, 2, '.', '')) ?></td>
                         <td><?= date('d/m/Y', strtotime($imc->created_at)) ?></td>
                     </tr>

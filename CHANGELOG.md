@@ -12,6 +12,70 @@
 - Os textos pedagógicos dos planos e registros agora possuem editor rico Quill com formatação segura
 - Adicionadas validações de acesso, escola, ano letivo, professor, turma, etapa e componente curricular para os fluxos do MACETE
 
+## [Versão 3.13.37]
+- Exportação de notas (TCDA-1262): os CSVs voltam a ficar dentro de uma pasta com o nome do .zip, para não ficarem soltos ao usar "Extrair aqui" (WinRAR/7zip)
+
+## [Versão 3.13.36]
+- Ajustes na exportação de notas (TCDA-1262) em ?r=admin/exports: as notas de recuperação semestral não eram exportadas (a coluna saía sempre vazia) e cada recuperação aparecia repetida após cada unidade que ela cobre; agora cada recuperação aparece uma única vez, preenchida, logo após a última unidade que ela substitui. Os CSVs passam a ficar direto na raiz do .zip, sem a pasta interna duplicada ao extrair
+
+## [Versão 3.13.35]
+- Corrigido erro 500 na exportação de notas (TCDA-1262) em ?r=admin/exports para redes com muitos dados (ex: Nossa Senhora da Glória): a exportação carregava todas as notas da rede na memória de uma vez e ultrapassava o limite do servidor. Agora as notas são gravadas no arquivo conforme são lidas, sem mudança no conteúdo do .zip gerado
+
+## [Versão 3.13.34]
+- Corrigida a pendência "está sem estrutura de notas" na tela inicial (TCDA-1265): a verificação ainda procurava unidades de avaliação vinculadas diretamente à etapa (modelo antigo), mas hoje a estrutura é vinculada à turma pelo campo "Estrutura de Avaliação" (em Configurações Pedagógicas). Com isso, turmas com estrutura devidamente vinculada apareciam como pendentes. A pendência agora só é exibida quando a turma não possui uma estrutura de avaliação vinculada ou quando a estrutura vinculada não tem nenhuma unidade cadastrada
+
+## [Versão 3.13.33]
+- Corrigida a exportação de notas (TCDA-1262) em ?r=admin/exports: o cruzamento com a matriz curricular não filtrava pelo ano letivo, fazendo a consulta multiplicar o resultado por todos os anos letivos já cadastrados para cada etapa e travar a exportação conforme a base crescia. Corrigido também um erro que impedia a geração do arquivo quando a exportação não encontrava nenhum resultado. A exportação agora baixa um .zip (nomeado "Rede_Notas_Ano") com uma pasta de mesmo nome contendo um CSV por estrutura de notas cadastrada em "Estrutura de Unidades e Avaliações" (ex: "Estrutura_de_unidades_da_etapa_Ensino_Fundamental_de_9_anos_7º_Ano_Ano.csv"), já que redes e etapas diferentes podem usar estruturas bem diferentes entre si. As colunas de cada CSV usam o nome real cadastrado pela rede pra cada unidade/recuperação (ex: "1º BIMESTRE", "RECUPERAÇÃO FINAL") em vez de rótulos genéricos como "nota_01", e incluem o nome da escola (já que a exportação sempre trouxe a rede inteira de uma vez, nunca uma escola só)
+
+## [Versão 3.13.32]
+- Adicionada seleção de matrícula de origem na Transferência de Aluno (TCDA-1250): quando o aluno possui mais de uma matrícula ativa (em turmas diferentes), o sistema agora exige que o usuário escolha explicitamente qual matrícula está sendo transferida, em vez de assumir automaticamente a mais recente. Isso evita que uma transferência afete a matrícula errada
+
+## [Versão 3.13.31]
+- Removido o botão "Mover/Excluir" (seleção de matrículas em lote para mover de turma ou excluir) na aba Alunos da Turma (TCDA-1198): o recurso estava causando confusão e podia gerar exclusões/movimentações indevidas de matrícula. A rota correspondente no backend também foi removida por não ser mais utilizada em nenhuma outra tela
+
+## [Versão 3.13.30]
+- Corrigidas médias redondas exibidas sem casa decimal (TCDA-1127): na Ata de Notas, na Ficha de Notas (média final e notas por bimestre/unidade, incluindo recuperações) e na tela de Notas, uma nota redonda (ex.: 7) passou a ser exibida como "7.0"; valores que já têm casas decimais (ex.: 8.67) continuam exibidos exatamente como calculados, sem arredondamento
+
+## [Versão 3.13.28]
+- Corrigidas duas inconsistências do validador do Sagres Edu que o Validador SAGRES do TCE detectava e o TAG deixava passar (TCDA-1246): turma marcada como multiseriada com apenas uma etapa de ensino agora gera inconsistência; CPF de aluno com matrícula ativa duplicada em turmas de Educação Infantil ou EJA (modalidades que não eram verificadas pela checagem de duplicidade) também passou a ser sinalizado
+
+## [Versão 3.13.27]
+- Adicionado alerta de vencimento no Estoque da Merenda Escolar (TCDA-1244): itens cujo lote esteja a poucos dias de vencer (ou já vencido) ganham um destaque "Vence em breve" na coluna Validade, com tooltip informando quantos dias faltam (ou há quantos dias venceu); o alerta não aparece para itens marcados como "Em falta"
+- Adicionado banner no topo da tela de Estoque avisando quando há algum lote próximo do vencimento ou vencido, considerando apenas itens ainda com status "Disponível" ou "Acabando"
+- Adicionada tela de configuração (Estoque → Configurar Alerta de Vencimento) para definir o prazo padrão de alerta do município e cadastrar grupos de alimentos com prazo próprio (ex.: Hortaliças = 15 dias); cada alimento pode pertencer a, no máximo, um grupo — os demais usam o prazo padrão. O sistema não vem com nenhum prazo pré-definido: o alerta só passa a valer depois que o próprio município o configura
+
+## [Versão 3.13.26]
+- Corrigido o Lançamento de Estoque da Merenda Escolar (TCDA-1244): lançar um produto que já tinha estoque não soma mais a quantidade nem sobrescreve fornecedor/validade do lançamento anterior. Cada lançamento agora é tratado como uma entrada independente, mantendo seu próprio fornecedor, validade e quantidade, mesmo sendo o mesmo produto — permitindo múltiplos lotes do mesmo item coexistindo (necessário para controle de validade por lote)
+- Na tela de "Movimentações" do estoque, adicionada a coluna Fornecedor, já que agora cada entrada pode vir de um fornecedor diferente. Corrigido também um bug onde essa tela não filtrava por escola, podendo misturar lançamentos de escolas diferentes que compartilham o mesmo alimento
+
+## [Versão 3.13.25]
+- Adicionado detalhamento de Alergias Alimentares em Acompanhamento de Saúde → Doenças e Distúrbios: ao marcar "Alergias alimentares", é possível selecionar quais alimentos (Leite, Ovo, Peixe, Crustáceos e molusco, Amendoim, Abacaxi, Castanhas e outras oleaginosas, Soja, Trigo, Gergelim ou Outras, com campo de texto livre)
+- Os alimentos selecionados agora aparecem na Ficha do Aluno e no Relatório de Histórico de Saúde (entre parênteses, ao lado de "Alergias alimentares")
+- Na tela de Merenda Escolar, um card de resumo (mesmo componente visual usado no Plano de Aula do MACETE, com destaque em laranja) mostra quantos alunos matriculados possuem alergia alimentar e a quantidade por alimento, com um botão para uma nova tela de listagem individual (aluno, turma, turno e alergias)
+- Corrigido bug no `js-tag-table`/DataTables onde qualquer rota contendo a palavra "student" (mesmo sem relação com a listagem principal de alunos) era inicializada com paginação via AJAX incorreta, causando exibição bugada da busca
+
+## [Versão 3.13.24]
+- Corrigido falso positivo na inconsistência "Turmas multiseriadas apenas aceitam 3 etapas de ensino diferentes" do Sagres: turmas AEE contavam a Etapa Individual de matrículas CANCELADO/TRANSFERIDO (e outros status não ativos) ao verificar a quantidade de etapas da turma, gerando erro mesmo quando os alunos com matrícula ativa respeitavam o limite de 3 etapas
+
+## [Versão 3.13.23]
+- Corrigida a "Média da Unidade" exibida na tela de Notas, que em algumas turmas/disciplinas aparecia na linha do período errado (ex.: a média do 1º Período mostrava, na verdade, a média do 2º Período). O valor calculado e salvo sempre esteve correto; o problema era de leitura, causado pela unidade de Recuperação Final sendo contada na numeração dos períodos quando criada antes deles na estrutura de notas
+
+## [Versão 3.13.22]
+- Corrigida duplicidade de itens no Lançamento de Estoque da Merenda Escolar: o botão "Adicionar ao estoque" agora trava durante o processamento (com indicador de carregamento sobre o modal), evitando que múltiplos cliques disparem o mesmo lançamento mais de uma vez. O salvamento no backend passou a rodar em transação e interrompe imediatamente se algum item falhar, em vez de continuar processando os demais
+
+## [Versão 3.13.21]
+- Adicionado campo "Fornecedor" no Lançamento de Estoque da Merenda Escolar (Acompanhamento de Saúde/Estoque), preenchido no momento do lançamento e exibido como nova coluna na listagem de estoque
+- Campo "Selecione o Alimento" do Lançamento de Estoque agora permite buscar por texto corretamente (o Select2 não estava reconhecendo as opções carregadas via AJAX); corrigida também duplicação de opções ao reabrir o modal mais de uma vez
+
+## [Versão 3.13.20]
+- Campo "Altura" do módulo Acompanhamento de Saúde (IMC do aluno) alterado de metros para centímetros, com valores inteiros — atualizado no formulário de coleta, na listagem/histórico, no relatório de turma e no relatório individual de histórico. O cálculo de IMC continua correto (converte cm para m internamente) e os dados já cadastrados foram convertidos automaticamente por migration
+
+## [Versão 3.13.19]
+- Adicionada coluna "Etapa (Matrícula)" no relatório "Alunos Por Turma" para turmas multisseriadas ("Multi"), detalhando a etapa individual de cada aluno segundo sua matrícula — não aparece em turmas normais, onde a etapa do aluno já é a mesma da turma
+
+## [Versão 3.13.18]
+- Município agora tem controle total sobre a unificação de frequência por etapa: a decisão de turma com "frequência unificada/polivalente" (registro único por dia, sem separação por disciplina) passou a depender exclusivamente do campo "Unificar Frequência" configurável na tela de Etapas, em vez de também usar uma lista fixa de etapas no código
+
 ## [Versão 3.13.17]
 - Corrigido bug no Registro 00 (identificação da escola) do Censo Escolar onde a ausência das datas de "Início do Período Letivo" ou "Final do Período Letivo" no cadastro da escola fazia o sistema preencher automaticamente uma data padrão na exportação, gerando período letivo incorreto no arquivo do Censo. Agora a exportação é bloqueada e é exibida uma mensagem pedindo o preenchimento dessas datas no cadastro da escola
 

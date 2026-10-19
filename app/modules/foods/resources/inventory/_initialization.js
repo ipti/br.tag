@@ -3,6 +3,17 @@ let table = $("#foodStockTable");
 let food_inventory = [];
 var movements;
 
+// Bootstrap's modal re-focuses itself whenever focus moves to an element
+// outside the modal's own DOM (see enforceFocus/"focusin.modal" in
+// bootstrap.min.js). Select2 (v3) appends its search dropdown to <body>,
+// outside the modal, so every keystroke in a select2 search box gets
+// immediately yanked back to the modal, making the search look frozen.
+// Dropping bootstrap's focus trap while any modal in this screen is open
+// lets select2's own search input keep focus normally.
+$(document).on("shown", ".modal", function () {
+    $(document).off("focusin.modal");
+});
+
 $(document).ready(function () {
     getFoodInventory();
     let foodSelect = $("#foodStockSelect");
@@ -24,6 +35,7 @@ $(document).ready(function () {
                 })
             );
         });
+        foodSelect.select2("destroy").select2({ width: "resolve" });
     });
 });
 
@@ -34,9 +46,11 @@ function getFoodInventory() {
         cache: false,
     }).success(function (response) {
         food_inventory = JSON.parse(response);
-        food_inventory.sort((a, b) => b.amount - a.amount);
+        food_inventory.sort(compareByStatusThenName);
         renderStockTable(food_inventory);
         renderStockList(food_inventory);
+        updateExpirationAlert(food_inventory);
+        initExpirationTooltips();
     });
 }
 
@@ -49,6 +63,7 @@ $(document).on("change", "#foodStockSelect, #foodStatusFilter", function () {
 
     renderStockTable(food_inventory, id, status);
     renderStockList(food_inventory, id, status);
+    initExpirationTooltips();
 });
 
 $(document).on("click", "#js-movements-button", function () {
@@ -99,6 +114,10 @@ $(document).on("click", "#js-entry-stock-button", function () {
     }).success(function (response) {
         let foods_description = JSON.parse(response);
 
+        foodSelect.empty().append(
+            $("<option>", { value: "alimento", text: "Selecione o Alimento" })
+        );
+
         Object.entries(foods_description).forEach(function ([id, value]) {
             let description = value.description
                 .replace(/,/g, "")
@@ -111,6 +130,7 @@ $(document).on("click", "#js-entry-stock-button", function () {
                 })
             );
         });
+        foodSelect.select2("destroy").select2({ width: "resolve" });
     });
 });
 
@@ -136,6 +156,7 @@ $(document).on("click", "#add-food", function () {
     let foodId = $("#food").val().split(",")[0];
     let amount = $(".js-amount").val();
     let expiration_date = $(".js-expiration-date").val();
+    let supplier = $(".js-supplier").val();
 
     if (foodId == "alimento" || amount == "") {
         $("#stock-modal-alert")
@@ -152,6 +173,7 @@ $(document).on("click", "#add-food", function () {
             foodsOnStock.push({
                 id: foodId,
                 foodDescription: food,
+                supplier: supplier,
                 amount: amount,
                 measurementUnit: measurementUnit,
                 expiration_date: expiration_date,
@@ -175,7 +197,11 @@ $(document).on("click", "#stock_button", function () {
 });
 
 $(document).on("click", "#save-food", function () {
-    console.log(foodsOnStock);
+    let saveButton = $(this);
+    if (saveButton.prop("disabled")) {
+        return;
+    }
+
     if (foodsOnStock != 0) {
         $.ajax({
             type: "POST",
@@ -183,6 +209,14 @@ $(document).on("click", "#save-food", function () {
             cache: false,
             data: {
                 foodsOnStock: foodsOnStock,
+            },
+            beforeSend: function () {
+                saveButton.prop("disabled", true);
+                $(".loading-save-food").css("display", "flex");
+            },
+            complete: function () {
+                saveButton.prop("disabled", false);
+                $(".loading-save-food").hide();
             },
         })
             .success(function (response) {
@@ -192,6 +226,7 @@ $(document).on("click", "#save-food", function () {
                 $("#js-entry-stock-modal").modal("hide");
                 $(".js-expiration-date").val("");
                 $(".js-amount").val("");
+                $(".js-supplier").val("");
                 $("#info-alert")
                     .removeClass("hide")
                     .addClass("alert-success")

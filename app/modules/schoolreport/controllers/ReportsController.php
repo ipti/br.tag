@@ -70,6 +70,7 @@ class ReportsController extends Controller
                     'NumberOfClassesPerSchool',
                     'NumberOfClassesPerSchool',
                     'StudentCpfRgNisPerClassroom',
+                    'InfrequentStudentsReport',
                     'FoodMenu',
                     'MaceteDiaryReport'
                 ],
@@ -135,6 +136,13 @@ class ReportsController extends Controller
         $repository = new ReportsRepository();
         $query = $repository->getStudentCpfRgNisPerClassroom(Yii::app()->request);
         $this->render('StudentCpfRgNis', $query);
+    }
+
+    public function actionInfrequentStudentsReport()
+    {
+        $repository = new ReportsRepository();
+        $query = $repository->getInfrequentStudentsReport();
+        $this->render('InfrequentStudentsReport', $query);
     }
 
     public function actionNumberOfStudentsEnrolledPerPeriodAllSchools()
@@ -532,7 +540,7 @@ class ReportsController extends Controller
         )
             ->bindParam(':classroom_fk', $classroomId)
             ->queryAll();
-        $isMinorEducation = $classroom->edcensoStageVsModalityFk->unified_frequency == 1 ? true : $classroom->checkIsStageMinorEducation();
+        $isMinorEducation = $classroom->checkIsStageMinorEducation();
         $totalClasses = ClassContents::model()->getTotalClassesByMonth($classroomId, $month, $year, $disciplineId);
         $totalClassContents = ClassContents::model()->getTotalClassContentsByMonth($classroomId, $month, $year, $disciplineId);
 

@@ -58,7 +58,22 @@ class GetStudentGradesByDisciplineUsecase
         });
         $unitiesByDiscipline = array_values($unitiesByDiscipline);
 
-        $unityOrder = $this->searchUnityById($unitiesByDisciplineResult);
+        // grade_results.grade_N is written by CalculateNumericGradeUsecase using the
+        // index of this same unit within GetGradeUnitiesByDisciplineUsecase's result,
+        // which only includes TYPE_UNITY/TYPE_UNITY_BY_CONCEPT/TYPE_UNITY_WITH_RECOVERY
+        // (it excludes TYPE_FINAL_RECOVERY). getGradeUnitiesByDiscipline() below returns
+        // every unity type with no such filter, so when a TYPE_FINAL_RECOVERY unity sorts
+        // before the requested one by id, searchUnityById() returns an index one higher
+        // than the write side used — reading the next unit's cached average instead of
+        // this one's. Excluding the same types here keeps both indices in sync.
+        $unitiesForOrder = array_values(array_filter($unitiesByDisciplineResult, function ($unity) {
+            return in_array($unity->type, [
+                GradeUnity::TYPE_UNITY,
+                GradeUnity::TYPE_UNITY_BY_CONCEPT,
+                GradeUnity::TYPE_UNITY_WITH_RECOVERY,
+            ], true);
+        }));
+        $unityOrder = $this->searchUnityById($unitiesForOrder);
 
         if ($studentEnrollments == []) {
             throw new NoActiveStudentsException();

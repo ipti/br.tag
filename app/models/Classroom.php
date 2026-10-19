@@ -412,6 +412,22 @@ class Classroom extends AltActiveRecord
     }
 
     /**
+     * Verifica se a turma possui estrutura de notas: uma regra de avaliação
+     * vinculada (classroom_vs_grade_rules) que tenha ao menos uma unidade.
+     */
+    public function hasGradeStructure(): bool
+    {
+        $sql = 'SELECT 1
+                FROM classroom_vs_grade_rules cvgr
+                JOIN grade_unity gu ON gu.grade_rules_fk = cvgr.grade_rules_fk
+                WHERE cvgr.classroom_fk = :classroom
+                LIMIT 1';
+
+        return (bool) Yii::app()->db->createCommand($sql)
+            ->queryScalar([':classroom' => $this->id]);
+    }
+
+    /**
      * Retrieves a list of models based on the current search/filter conditions.
      *
      * Typical usecase:
@@ -471,14 +487,13 @@ class Classroom extends AltActiveRecord
 
     public function checkIsStageMinorEducation()
     {
-        $isMinor = TagUtils::isStageMinorEducation($this->edcensoStageVsModalityFk->edcenso_associated_stage_id);
+        $isMinor = $this->edcensoStageVsModalityFk->unified_frequency == 1;
 
         if (!$isMinor && TagUtils::isMultiStage($this->edcensoStageVsModalityFk->edcenso_associated_stage_id)) {
             $enrollments = StudentEnrollment::model()->findAllByAttributes(['classroom_fk' => $this->id]);
 
             foreach ($enrollments as $enrollment) {
-                if (!$enrollment->edcensoStageVsModalityFk->edcenso_associated_stage_id ||
-                    !TagUtils::isStageMinorEducation($enrollment->edcensoStageVsModalityFk->edcenso_associated_stage_id)) {
+                if ($enrollment->edcensoStageVsModalityFk->unified_frequency != 1) {
                     return false;
                 }
             }

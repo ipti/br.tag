@@ -60,4 +60,12 @@
         text-decoration: none;
     }
 
+    // Variante alerta (laranja) — usada quando o card precisa se diferenciar
+    // visualmente de outros cards na mesma tela (ex.: informação de atenção
+    // ao lado de cards de conteúdo comum). Combine com a classe base: use
+    // class="t-cards t-cards--warning".
+    &--warning {
+        border-left: 8px solid $colorsAlertWarningIcon;
+    }
+
 }
