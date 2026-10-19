@@ -95,7 +95,7 @@ $this->pageTitle = 'TAG - ' . Yii::t('default', 'Administration');
                     <div class="container-box">
                         <p>Unidades e avaliações</p>
 
-                        <a href="<?php echo Yii::app()->createUrl('gradestructure/default/index') ?>">
+                        <a href="<?php echo Yii::app()->createUrl('grades/structure/index') ?>">
                             <button type="button" class="admin-box-container">
                                 <div class="pull-left" style="margin-right: 20px;">
                                     <span class="t-icon-diary t-reports_icons"></span>
