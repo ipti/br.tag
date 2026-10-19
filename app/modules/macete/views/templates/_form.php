@@ -1,0 +1,437 @@
+<?php
+/** @var $this TemplatesController
+ *  @var $template MaceteLessonPlanTemplate
+ *  @var $stages array
+ *  @var $selectedStageIds array
+ *  @var $stageComponents array
+ *  @var $stageComponentDisciplines array
+ *  @var $sectionValues array
+ *  @var $resourceValues array
+ *  @var $selectedAbilities CourseClassAbilities[]
+ */
+
+$baseScriptUrl = Yii::app()->controller->module->baseScriptUrl;
+$themeUrl = Yii::app()->theme->baseUrl;
+$cs = Yii::app()->getClientScript();
+$cs->registerCssFile($themeUrl . '/css/quill.snow.css?v=' . TAG_VERSION);
+$cs->registerScriptFile($themeUrl . '/js/quill.min.js?v=' . TAG_VERSION, CClientScript::POS_END);
+$cs->registerScriptFile($baseScriptUrl . '/macete.js?v=' . TAG_VERSION, CClientScript::POS_END);
+$cs->registerScriptFile($baseScriptUrl . '/rich-text.js?v=' . TAG_VERSION, CClientScript::POS_END);
+$cs->registerScript(
+    'macete-templates-form-config',
+    'window.MaceteFormConfig = { getDisciplinesUrl: "' . MaceteRoutes::url(MaceteRoutes::TEMPLATES_GETDISCIPLINES) . '" };',
+    CClientScript::POS_HEAD
+);
+$cs->registerScriptFile($baseScriptUrl . '/lesson-plan.js?v=' . TAG_VERSION, CClientScript::POS_END);
+
+$form = $this->beginWidget('CActiveForm', [
+    'id' => 'macete-lesson-plan-template-form',
+    'enableAjaxValidation' => false,
+]);
+
+$sectionValue = static function (string $type, string $target = 'general') use ($sectionValues): string {
+    return $sectionValues[$type][$target] ?? '';
+};
+
+$resourceValue = static function (string $type) use ($resourceValues): string {
+    return $resourceValues[$type] ?? '';
+};
+
+$selectedStageMap = array_flip(array_map('intval', $selectedStageIds ?? []));
+$stageTarget = static function ($stageId): string {
+    return 'stage_' . (int) $stageId;
+};
+$isStageSelected = static function ($stageId) use ($selectedStageMap): bool {
+    return isset($selectedStageMap[(int) $stageId]);
+};
+
+$selectedAbilitiesCount = count($selectedAbilities);
+?>
+
+<div class="main">
+    <div class="mobile-row">
+        <div class="column">
+            <h1><?php echo $template->isNewRecord ? 'Novo Modelo de Plano MACETE' : 'Editar Modelo de Plano MACETE'; ?></h1>
+        </div>
+        <div class="column clearfix align-items--center justify-content--end show--desktop">
+            <button type="button" class="t-button-secondary js-macete-prev hide">Voltar</button>
+            <button type="button" class="t-button-primary js-macete-next">Próximo</button>
+            <button class="t-button-primary js-macete-save hide" type="submit">Salvar</button>
+        </div>
+    </div>
+
+    <?php if (Yii::app()->user->hasFlash('success')): ?>
+        <div class="alert alert-success"><?php echo Yii::app()->user->getFlash('success'); ?></div>
+    <?php endif; ?>
+    <?php if (Yii::app()->user->hasFlash('error')): ?>
+        <div class="alert alert-error"><?php echo Yii::app()->user->getFlash('error'); ?></div>
+    <?php endif; ?>
+
+    <?php echo $form->errorSummary($template); ?>
+
+    <div class="macete-form-layout">
+        <div class="macete-form-layout__content">
+
+            <div class="t-tabs js-macete-tabs">
+                <ul class="t-tabs__list">
+                    <li class="t-tabs__item active">
+                        <a class="t-tabs__link js-macete-tab-link" href="#macete-identification">
+                            <span class="t-tabs__numeration">1</span> Identificação
+                        </a>
+                        <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/seta-tabs.svg" alt="seta">
+                    </li>
+                    <li class="t-tabs__item">
+                        <a class="t-tabs__link js-macete-tab-link" href="#macete-methodology">
+                            <span class="t-tabs__numeration">2</span> Metodologia
+                        </a>
+                        <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/seta-tabs.svg" alt="seta">
+                    </li>
+                    <li class="t-tabs__item">
+                        <a class="t-tabs__link js-macete-tab-link" href="#macete-complementary">
+                            <span class="t-tabs__numeration">3</span> Complementar
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="tag-inner t-margin-large--top">
+
+                <!-- Tab 1: Identificação -->
+                <div id="macete-identification" class="js-macete-tab-panel">
+
+                    <div class="row">
+                        <div class="column is-half clearleft">
+                            <div class="t-field-text">
+                                <?php echo $form->label($template, 'name', ['class' => 't-field-text__label--required']); ?>
+                                <?php echo $form->textField($template, 'name', [
+                                    'class' => 't-field-text__input js-macete-name',
+                                    'maxlength' => 150,
+                                    'placeholder' => 'Ex.: Inglês - Alfabeto no meu lugar',
+                                ]); ?>
+                                <?php echo $form->error($template, 'name'); ?>
+                            </div>
+                        </div>
+                        <div class="column is-half">
+                            <div class="t-field-text">
+                                <?php echo $form->label($template, 'code', ['class' => 't-field-text__label']); ?>
+                                <?php echo $form->textField($template, 'code', [
+                                    'class' => 't-field-text__input',
+                                    'maxlength' => 50,
+                                    'placeholder' => 'Ex.: MAT-001',
+                                ]); ?>
+                                <?php echo $form->error($template, 'code'); ?>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="column is-half clearleft">
+                            <div class="t-field-text">
+                                <?php echo $form->labelEx($template, 'unit', ['class' => 't-field-text__label']); ?>
+                                <?php echo $form->textField($template, 'unit', [
+                                    'class' => 't-field-text__input js-macete-unit',
+                                    'maxlength' => 50,
+                                    'placeholder' => 'Ex.: II Unidade',
+                                ]); ?>
+                                <?php echo $form->error($template, 'unit'); ?>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="column">
+                            <div class="t-field-select macete-stage-repeater">
+                                <label class="t-field-select__label--required">Anos/Séries e componentes curriculares</label>
+                                <div class="js-macete-stage-components">
+                                    <?php foreach ($stageComponents as $index => $stageComponent): ?>
+                                        <div class="row align-items--end js-macete-stage-component-row">
+                                            <div class="column is-two-fifths clearleft">
+                                                <div class="t-field-select">
+                                                    <label class="t-field-select__label">Ano/Série</label>
+                                                    <?php echo CHtml::dropDownList(
+                                    'stage_components[' . $index . '][stage_id]',
+                                    $stageComponent['stage_id'],
+                                    CHtml::listData($stages, 'id', 'name'),
+                                    [
+                                        'class' => 'select-search-on t-field-select__input js-macete-stage-component-stage',
+                                        'prompt' => 'Selecione o Ano/Série',
+                                    ]
+                                ); ?>
+                                                </div>
+                                            </div>
+                                            <div class="column is-two-fifths">
+                                                <div class="t-field-select">
+                                                    <label class="t-field-select__label">Componente curricular</label>
+                                                    <?php echo CHtml::dropDownList(
+                                                        'stage_components[' . $index . '][discipline_id]',
+                                                        $stageComponent['discipline_id'],
+                                                        CHtml::listData($stageComponentDisciplines[$index] ?? [], 'id', 'name'),
+                                                        [
+                                                            'class' => 'select-search-on t-field-select__input js-macete-stage-component-discipline',
+                                                            'prompt' => 'Selecione o componente',
+                                                        ]
+                                                    ); ?>
+                                                </div>
+                                            </div>
+                                            <div class="column is-one-fifth">
+                                                <button type="button"
+                                                    class="t-button-secondary js-macete-remove-stage-component">Remover</button>
+                                            </div>
+                                        </div>
+                                    <?php endforeach; ?>
+                                </div>
+                                <button type="button" class="t-button-secondary js-macete-add-stage-component">Adicionar
+                                    Ano/Série</button>
+                                <?php echo $form->error($template, 'edcenso_stage_vs_modality_fk'); ?>
+                            </div>
+                        </div>
+                    </div>
+
+                    <script type="text/template" id="macete-stage-component-template">
+                        <div class="row align-items--end js-macete-stage-component-row">
+                            <div class="column is-two-fifths clearleft"><div class="t-field-select"><label class="t-field-select__label">Ano/Série</label><select class="select-search-on t-field-select__input js-macete-stage-component-stage" name="stage_components[__index__][stage_id]"><option value="">Selecione o Ano/Série</option><?php foreach ($stages as $stage): ?><option value="<?php echo (int) $stage['id']; ?>"><?php echo CHtml::encode($stage['name']); ?></option><?php endforeach; ?></select></div></div>
+                            <div class="column is-two-fifths"><div class="t-field-select"><label class="t-field-select__label">Componente curricular</label><select class="select-search-on t-field-select__input js-macete-stage-component-discipline" name="stage_components[__index__][discipline_id]"><option value="">Selecione o Ano/Série primeiro</option></select></div></div>
+                            <div class="column is-one-fifth"><button type="button" class="t-button-secondary js-macete-remove-stage-component">Remover</button></div>
+                        </div>
+                    </script>
+
+                </div>
+
+                <!-- Tab 2: Metodologia -->
+                <div id="macete-methodology" class="js-macete-tab-panel hide">
+
+                    <div class="row">
+                        <div class="column">
+                            <div class="t-field-tarea">
+                                <?php echo $form->labelEx($template, 'knowledge_object', ['class' => 't-field-tarea__label']); ?>
+                                <?php echo $form->textArea($template, 'knowledge_object', [
+                                    'class' => 't-field-tarea__input large',
+                                    'rows' => 4,
+                                    'placeholder' => 'Objeto do conhecimento BNCC.',
+                                ]); ?>
+                                <?php echo $form->error($template, 'knowledge_object'); ?>
+                            </div>
+                        </div>
+                        <div class="column">
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="column">
+                            <div class="t-field-select">
+                                <label class="t-field-select__label">Habilidades BNCC</label>
+                                <input type="hidden" class="js-macete-ability-search t-field-select__input">
+                                <div class="courseplan-abilities-selected js-macete-abilities-selected">
+                                    <?php foreach ($selectedAbilities as $ability): ?>
+                                        <div class="ability-panel-option">
+                                            <input type="hidden" class="ability-panel-option-id" name="abilities[]"
+                                                value="<?php echo (int) $ability->id; ?>">
+                                            <i class="fa fa-check-square"></i>
+                                            <span>(<b><?php echo CHtml::encode($ability->code); ?></b>)
+                                                <?php echo CHtml::encode($ability->description); ?></span>
+                                            <i class="fa fa-remove remove-abilitie js-macete-remove-ability"></i>
+                                        </div>
+                                    <?php endforeach; ?>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="column"></div>
+                    </div>
+                    <div class="column">
+
+                        <h2>Metodologia MACETE (Aprendizagem Baseada em Desafios)</h2>
+                    </div>
+
+                    <div class="column macete-phase-cards">
+                        <?php foreach ([
+                            MaceteLessonPlanTemplateSection::TYPE_METHODOLOGY_INVOLVE => ['title' => 'Envolver', 'icon' => 'fa-users'],
+                            MaceteLessonPlanTemplateSection::TYPE_METHODOLOGY_INVESTIGATE => ['title' => 'Investigar', 'icon' => 'fa-search'],
+                            MaceteLessonPlanTemplateSection::TYPE_METHODOLOGY_ACT => ['title' => 'Agir', 'icon' => 'fa-bullseye'],
+                        ] as $type => $phase): ?>
+                            <div class="macete-phase-card">
+                                <div class="macete-phase-card__header">
+                                    <i class="fa <?php echo $phase['icon']; ?>"></i>
+                                    <?php echo CHtml::encode($phase['title']); ?>
+                                </div>
+                                <div class="macete-phase-card__body">
+                                    <div
+                                        class="js-macete-stage-empty <?php echo empty($selectedStageIds) ? '' : 'hide'; ?>">
+                                        Selecione Anos/Séries na aba Identificação.
+                                    </div>
+                                    <?php foreach ($stages as $stage): ?>
+                                        <?php
+                                        $stageId = (int) $stage['id'];
+                                        $target = $stageTarget($stageId);
+                                        $selected = $isStageSelected($stageId);
+                                        ?>
+                                        <div class="js-macete-stage-field <?php echo $selected ? '' : 'hide'; ?>"
+                                            data-stage-id="<?php echo $stageId; ?>">
+                                            <label
+                                                class="t-field-tarea__label"><?php echo CHtml::encode($stage['name']); ?></label>
+                                            <?php echo CHtml::textArea(
+                                            'sections[' . $type . '][' . $target . ']',
+                                            $sectionValue($type, $target),
+                                            array_merge(
+                                                    ['class' => 't-field-tarea__input', 'rows' => 5],
+                                                    $selected ? [] : ['disabled' => 'disabled']
+                                                )
+                                        ); ?>
+                                        </div>
+                                    <?php endforeach; ?>
+                                </div>
+                            </div>
+                        <?php endforeach; ?>
+                    </div>
+                    <div class="column">
+                        <h3>Contextualização por Ano/Série</h3>
+                    </div>
+                    <div class="row">
+                        <div
+                            class="column is-full js-macete-stage-empty <?php echo empty($selectedStageIds) ? '' : 'hide'; ?>">
+                            <p>Selecione Anos/Séries na aba Identificação para preencher os textos por Ano/Série.</p>
+                        </div>
+                    </div>
+                    <?php foreach ($stages as $stage): ?>
+                        <?php
+                        $stageId = (int) $stage['id'];
+                        $target = $stageTarget($stageId);
+                        $selected = $isStageSelected($stageId);
+                        ?>
+                        <div class="row js-macete-stage-field <?php echo $selected ? '' : 'hide'; ?>"
+                            data-stage-id="<?php echo $stageId; ?>">
+                            <div class="column is-full">
+                                <div class="t-field-tarea">
+                                    <label class="t-field-tarea__label">
+                                        Contextualização — <?php echo CHtml::encode($stage['name']); ?>
+                                    </label>
+                                    <?php echo CHtml::textArea(
+                            'sections[' . MaceteLessonPlanTemplateSection::TYPE_YEAR_CONTEXT . '][' . $target . ']',
+                            $sectionValue(MaceteLessonPlanTemplateSection::TYPE_YEAR_CONTEXT, $target),
+                            array_merge(
+                                            ['class' => 't-field-tarea__input', 'rows' => 4],
+                                            $selected ? [] : ['disabled' => 'disabled']
+                                        )
+                        ); ?>
+                                </div>
+                            </div>
+                        </div>
+                    <?php endforeach; ?>
+
+                    <div class="row">
+                        <div class="column is-full">
+                            <div class="t-field-tarea">
+                                <label class="t-field-tarea__label">Objetivos de aprendizagem</label>
+                                <?php echo CHtml::textArea(
+                                        'sections[' . MaceteLessonPlanTemplateSection::TYPE_LEARNING_OBJECTIVE . '][general]',
+                                        $sectionValue(MaceteLessonPlanTemplateSection::TYPE_LEARNING_OBJECTIVE),
+                                        ['class' => 't-field-tarea__input large', 'rows' => 5]
+                                    ); ?>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tab 3: Complementar — recursos didáticos, avaliação, adaptações, referências -->
+                <div id="macete-complementary" class="js-macete-tab-panel hide">
+                    <div class="column">
+                        <h2>Recursos Didáticos</h2>
+                    </div>
+                    <div class="row">
+                        <div class="column">
+                            <div class="t-field-select">
+                                <label class="t-field-select__label">Caixa MACETE</label>
+                                <?php
+                                $maceteBoxValue = $resourceValue(MaceteLessonPlanTemplateResource::TYPE_MACETE_BOX);
+$maceteBoxSelected = $maceteBoxValue !== '' ? array_map('trim', explode(',', $maceteBoxValue)) : [];
+?>
+                                <?php echo CHtml::dropDownList(
+    'resources[' . MaceteLessonPlanTemplateResource::TYPE_MACETE_BOX . '][]',
+    $maceteBoxSelected,
+    array_combine(MaceteLessonPlanTemplateResource::maceteBoxItems(), MaceteLessonPlanTemplateResource::maceteBoxItems()),
+    [
+        'class' => 'select-search-on t-multiselect t-field-select__input select2-container',
+        'multiple' => 'multiple',
+        'placeholder' => 'Selecione os materiais usados na aula',
+    ]
+); ?>
+                            </div>
+                        </div>
+                        <div class="column">
+                            <div class="t-field-tarea">
+                                <label class="t-field-tarea__label">Materiais adicionais</label>
+                                <?php echo CHtml::textArea(
+                                    'resources[' . MaceteLessonPlanTemplateResource::TYPE_ADDITIONAL . ']',
+                                    $resourceValue(MaceteLessonPlanTemplateResource::TYPE_ADDITIONAL),
+                                    ['class' => 't-field-tarea__input', 'rows' => 6, 'placeholder' => 'Flashcards, cartolina, som, imagens etc.']
+                                ); ?>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="column">
+                            <div class="t-field-tarea">
+                                <?php echo $form->labelEx($template, 'evaluation', ['class' => 't-field-tarea__label']); ?>
+                                <?php echo $form->textArea($template, 'evaluation', ['class' => 't-field-tarea__input', 'rows' => 5]); ?>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="column">
+                            <div class="t-field-tarea">
+                                <?php echo $form->labelEx($template, 'adaptations', ['class' => 't-field-tarea__label']); ?>
+                                <?php echo $form->textArea($template, 'adaptations', ['class' => 't-field-tarea__input', 'rows' => 5]); ?>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="column">
+                            <div class="t-field-tarea">
+                                <?php echo $form->labelEx($template, 'references_text', ['class' => 't-field-tarea__label']); ?>
+                                <?php echo $form->textArea($template, 'references_text', ['class' => 't-field-tarea__input', 'rows' => 5]); ?>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div><!-- .tag-inner -->
+        </div><!-- .macete-form-layout__content -->
+
+        <!-- Sidebar: Resumo do modelo -->
+        <aside class="macete-form-layout__sidebar">
+            <div class="t-cards">
+                <div class="t-cards-content">
+                    <h2 class="t-cards-title">Resumo do modelo</h2>
+
+                    <p><b>Componente curricular:</b> <span class="js-macete-summary-discipline">—</span></p>
+
+                    <p><b>Ano/Série:</b> <span class="js-macete-summary-stage">—</span></p>
+
+                    <p><b>Unidade:</b> <span class="js-macete-summary-unit">—</span></p>
+
+                    <p><b>Habilidades selecionadas:</b>
+                        <span class="js-macete-summary-abilities">
+                            <?php echo $selectedAbilitiesCount; ?>
+                            <?php echo $selectedAbilitiesCount === 1 ? 'habilidade' : 'habilidades'; ?>
+                        </span>
+                    </p>
+
+                    <p>
+                        <i class="fa fa-info-circle t-margin-small--right"></i>Este modelo fica disponível para todos
+                        os professores da rede usarem como base ao criar um plano MACETE.
+                    </p>
+                </div>
+            </div>
+        </aside>
+
+    </div><!-- .macete-form-layout -->
+
+    <div class="row reverse show--tablet">
+        <div class="t-buttons-container">
+            <button type="button" class="t-button-secondary js-macete-prev hide">Voltar</button>
+            <button type="button" class="t-button-primary js-macete-next">Próximo</button>
+            <button class="t-button-primary js-macete-save hide" type="submit">Salvar</button>
+        </div>
+    </div>
+</div>
+
+<?php $this->endWidget(); ?>

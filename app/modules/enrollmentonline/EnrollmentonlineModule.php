@@ -11,6 +11,7 @@ class EnrollmentonlineModule extends CWebModule
         $this->baseUrl = Yii::app()->createUrl('enrollmentonline');
         $this->baseScriptUrl = Yii::app()->getAssetManager()->publish(Yii::getPathOfAlias('application.modules.enrollmentonline.resources'));
         $this->setImport([
+            'application.modules.enrollmentonline.EnrollmentonlineRoutes',
             'enrollmentonline.models.*',
             'enrollmentonline.components.*',
         ]);

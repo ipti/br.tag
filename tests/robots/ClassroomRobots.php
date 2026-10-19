@@ -23,7 +23,7 @@ class ClassroomRobots
      */
     public function pageAddClassroom()
     {
-        $this->tester->amOnPage('?r=classroom/create');
+        $this->tester->amOnPage('?r=classroom/default/create');
     }
 
     /**

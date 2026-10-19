@@ -42,7 +42,7 @@ $(document).ready(function() {
 
     $.ajax({
         type: 'POST',
-        url: "?r=foods/farmerregister/getFoodNotice",
+        url: "?r=farmer/default/getFoodNotice",
         cache: false
     }).success(function(response) {
         let data = DOMPurify.sanitize(response);

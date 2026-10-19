@@ -11,6 +11,8 @@ class AbilitiesModule extends CWebModule
         $this->baseUrl = Yii::app()->createUrl('abilities');
 
         $this->setImport([
+
+            'application.modules.abilities.AbilitiesRoutes',
             'abilities.models.*',
             'abilities.components.*',
         ]);

@@ -17,6 +17,8 @@ class LunchModule extends CWebModule
         ]);
 
         $this->setImport([
+
+            'application.modules.lunch.LunchRoutes',
             'lunch.models.*',
             'lunch.components.*',
         ]);

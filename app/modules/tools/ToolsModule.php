@@ -5,6 +5,7 @@ class ToolsModule extends CWebModule
     public function init()
     {
         $this->setImport([
+            'application.modules.tools.ToolsRoutes',
             'tools.models.*',
             'tools.components.*',
         ]);

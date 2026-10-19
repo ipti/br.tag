@@ -101,7 +101,7 @@ $("#classroom").on("change", function () {
         if ($("#classroom > option:selected").attr("fundamentalMaior") === "1") {
             $.ajax({
                 type: "POST",
-                url: "?r=reports/getDisciplines",
+                url: "?r=schoolreport/reports/getDisciplines",
                 cache: false,
                 data: {
                     classroom: $("#classroom").val(),
@@ -128,7 +128,7 @@ $("#classroom").on("change", function () {
 
         $.ajax({
             type: "POST",
-            url: "?r=reports/getEnrollments",
+            url: "?r=schoolreport/reports/getEnrollments",
             cache: false,
             data: {
                 classroom: $("#classroom").val(),
@@ -158,7 +158,7 @@ $("#student").on("change", function () {
     if ($("#classroom > option:selected").attr("isMultiStage") === "1") {
         $.ajax({
             type: "POST",
-            url: "?r=reports/getStagesMulti",
+            url: "?r=schoolreport/reports/getStagesMulti",
             cache: false,
             data: {
                 classroomId: $("#classroom").val(),
@@ -220,7 +220,7 @@ $(document).on("click", "#loadreport", function () {
 function loadReport() {
     $.ajax({
         type: "POST",
-        url: "?r=reports/generateElectronicDiaryReport",
+        url: "?r=schoolreport/reports/generateElectronicDiaryReport",
         cache: false,
         data: {
             type: $("#report").val(),
@@ -367,3 +367,7 @@ $(document).on("click", ".print-report", function () {
         }, 200);
     };
 });
+
+
+
+

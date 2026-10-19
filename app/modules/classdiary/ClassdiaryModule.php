@@ -14,6 +14,7 @@ class ClassdiaryModule extends CWebModule
 
         // import the module-level models and components
         $this->setImport([
+            'application.modules.classdiary.ClassdiaryRoutes',
             'classdiary.models.*',
             'classdiary.components.*',
             'classdiary.services.*',

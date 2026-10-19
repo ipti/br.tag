@@ -12,6 +12,8 @@
             $this->baseScriptUrl = Yii::app()->getAssetManager()->publish(Yii::getPathOfAlias('application.modules.curricularmatrix.resources'));
 
             $this->setImport([
+
+                'application.modules.curricularmatrix.CurricularmatrixRoutes',
                 'curricularmatrix.models.*', 'curricularmatrix.components.*',
             ]);
         }

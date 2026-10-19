@@ -14,6 +14,7 @@ class SedspModule extends CWebModule
 
         // import the module-level models and components
         $this->setImport([
+            'application.modules.sedsp.SedspRoutes',
             'sedsp.models.*',
             'sedsp.models.Student.*',
             'sedsp.models.School.*',

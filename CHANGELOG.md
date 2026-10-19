@@ -1,3 +1,21 @@
+## [Versão 3.14.27]
+- Release: une as entregas da dev (módulo MACETE v1 e Cotação de Preços no Almoxarifado) com os hotfixes da main (3.13.18 a 3.13.37)
+- O módulo MACETE agora tem uma flag própria de módulo (TASK_MACETE), que nasce desativada: antes ele dependia só das flags de Plano de Aula/Aulas Ministradas, já ativas em vários municípios, e apareceria automaticamente para eles. Para usar o MACETE, a rede precisa habilitá-lo em Administração > Gerenciar Módulos
+
+## [Versão 3.14.26]
+- Adicionada a Cotação de Preços no Almoxarifado (TCDA-1239): novo cadastro de Fornecedores (Admin > Almoxarifado > Fornecedores) e nova tela de Cotação de Preços (Admin > Almoxarifado > Cotação de Preços), onde é possível registrar, para cada cotação, quais itens do catálogo foram cotados, com quais fornecedores e por qual valor, e comparar os valores cotados por item (o menor valor de cada item fica destacado)
+
+## [Versão 3.14.25]
+- Ajustes na etapa Complementar do Plano MACETE (TCDA-1263): o campo "Recursos" passou a se chamar "Recursos Didáticos"; os campos Avaliação, Adaptações e Referências agora ficam nessa ordem e usam o mesmo padrão de caixa de texto único (Adaptações deixou de ser dividido em "Crianças neurodivergentes", "Recomposição de aprendizagem", "Turma multisseriada" e "Caso falte material" — o conteúdo já cadastrado nesses subcampos foi migrado automaticamente para o novo campo único); os campos "Ficha de atividade", "Material pedagógico" e "Material de apoio" foram removidos dessa etapa (passarão a compor o Banco de Questões, a ser desenvolvido futuramente)
+
+## [Versão 3.14.23]
+- Ajustes no MACETE (TCDA-1248): a Contextualização do território deixou de ser um campo do Plano de Aula e passou a ser um campo opcional fixo da própria escola, exibido no formulário de escola apenas quando o MACETE está habilitado para o município e mostrado como referência no resumo do plano, logo abaixo do nome da escola; a Contextualização por etapa foi mantida como estava. O quadrante "Jogo Pedagógico" do item Complementar passou a se chamar "Material pedagógico". Na tela de Registrar Aula MACETE, os campos de registro foram unificados em uma única caixa de texto, renomeada de "Conteúdo executado" para "Anotações de Aula"
+
+## [Versão 3.14.21]
+- Adicionado o módulo MACETE ao Diário Eletrônico para criação de planos e registros de aula vinculados a etapas, componentes curriculares e habilidades BNCC
+- Os textos pedagógicos dos planos e registros agora possuem editor rico Quill com formatação segura
+- Adicionadas validações de acesso, escola, ano letivo, professor, turma, etapa e componente curricular para os fluxos do MACETE
+
 ## [Versão 3.13.37]
 - Exportação de notas (TCDA-1262): os CSVs voltam a ficar dentro de uma pasta com o nome do .zip, para não ficarem soltos ao usar "Extrair aqui" (WinRAR/7zip)
 
@@ -1494,5 +1512,4 @@ com cache do style
 **Bugs Corrigidos:**
 - Correção na página inicial de turmas
 - Removido função que eliminava duplo espaço na busca por nome, por motivos de compatibilidade.
-
 

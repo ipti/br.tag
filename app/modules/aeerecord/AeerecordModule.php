@@ -15,6 +15,7 @@ class AeeRecordModule extends CWebModule
             ->publish(Yii::getPathOfAlias('application.modules.aeerecord.resources'));
         // import the module-level models and components
         $this->setImport([
+            'application.modules.aeerecord.AeerecordRoutes',
             'aeerecord.models.*',
             'aeerecord.components.*',
         ]);

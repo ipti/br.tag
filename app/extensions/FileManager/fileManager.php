@@ -40,24 +40,23 @@ class fileManager
     public function write($location, $text)
     {
         try {
-            $mode = 'w+';
-            $file = $this->open($location, $mode);
-            $write = fwrite($file, $text);
-            if ($write === false) {
+            $file = $this->open($location, 'w+');
+            if (!is_resource($file)) {
                 return false;
             }
+            $result = fwrite($file, $text);
             $this->close($file);
+            return $result !== false;
         } catch (Exception $e) {
             return false;
         }
-        return true;
     }
 
     /**
      * Open the file.
      * @param string $location
      * @param string $mode
-     * @return boolean|file
+     * @return resource|false
      */
     public function open($location, $mode = 'r')
     {
@@ -74,10 +73,10 @@ class fileManager
 
     /**
      * Close a file.
-     * @param file $file
+     * @param resource $file
      * @return boolean
      */
-    public function close($file)
+    public function close(mixed $file)
     {
         try {
             fclose($file);

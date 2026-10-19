@@ -35,7 +35,7 @@ $(function () {
     const id = urlParams.get('id');
     $.ajax({
         type: 'POST',
-        url: '?r=classroom/getGradesRulesClassroom',
+        url: '?r=classroom/default/getGradesRulesClassroom',
         data: {
             classroom_id: id
         },
@@ -94,7 +94,7 @@ $('#copy-gov-id').click(function () {
 $('#js-alphabetic-order').click(function () {
     let orderArray = $('#js-t-sortable').sortable("toArray");
     $.ajax({
-        url: `?r=classroom/updateDailyOrder`,
+        url: `?r=classroom/default/updateDailyOrder`,
         type: "POST",
         data: {
             list: orderArray

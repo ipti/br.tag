@@ -287,7 +287,7 @@ for ($i = 0; $i < count($years); $i++) {
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal"
                         style="background: #EFF2F5; color:#252A31;">Voltar</button>
-                    <button class="btn btn-primary" url="<?php echo Yii::app()->createUrl('admin/changeYear'); ?>"
+                    <button class="btn btn-primary" url="<?php echo Yii::app()->createUrl('systemadmin/default/changeYear'); ?>"
                         type="submit" value="Alterar" style="background: #3F45EA; color: #FFFFFF;"> Selecionar Ano
                     </button>
                 </div>

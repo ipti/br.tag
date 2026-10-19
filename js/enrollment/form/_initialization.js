@@ -17,7 +17,7 @@ $(document).on("click", "#delete-enrollment", function () {
     enrollment_id = $(this).attr('enrollment');
 
     $.ajax({
-        url: `${window.location.host}?r=enrollment/checkenrollmentdelete&enrollmentId=${enrollment_id}`,
+        url: `${window.location.host}?r=student/enrollment/checkenrollmentdelete&enrollmentId=${enrollment_id}`,
         success: function (data) {
             response = JSON.parse(data)
             block = response.block;
@@ -28,7 +28,7 @@ $(document).on("click", "#delete-enrollment", function () {
             } else {
                 if (confirm(message)) {
                     $.ajax({
-                        url: `${window.location.host}?r=enrollment/delete&id=${enrollment_id}`,
+                        url: `${window.location.host}?r=student/enrollment/delete&id=${enrollment_id}`,
                         success: function (response) {
                             alert("Matrícula excluída com sucesso!")
                             window.location.reload();

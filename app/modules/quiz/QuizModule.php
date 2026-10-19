@@ -11,6 +11,8 @@ class QuizModule extends CWebModule
         $this->baseScriptUrl = Yii::app()->getAssetManager()->publish(Yii::getPathOfAlias('application.modules.quiz.resources'));
 
         $this->setImport([
+
+            'application.modules.quiz.QuizRoutes',
             'quiz.models.*', 'quiz.components.*',
         ]);
     }
