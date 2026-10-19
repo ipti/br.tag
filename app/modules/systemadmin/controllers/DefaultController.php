@@ -70,7 +70,9 @@ class DefaultController extends Controller
         try {
             RbacSeeder::seed();
         } catch (\Throwable $e) {
-            echo $e;
+            Yii::log('Falha ao restaurar RBAC: ' . $e, CLogger::LEVEL_ERROR);
+            echo 'Erro ao restaurar as permissões. Verifique o log da aplicação.';
+            return;
         }
 
         echo 'Sucesso';

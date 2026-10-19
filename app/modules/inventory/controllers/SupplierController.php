@@ -74,7 +74,7 @@ class SupplierController extends Controller
         if (Yii::app()->request->isPostRequest) {
             $this->loadModel($id)->delete();
             if (!isset($_GET['ajax'])) {
-                $this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : ['index']);
+                $this->redirect(['index']);
             }
         } else {
             throw new CHttpException(400, 'Invalid request. Please do not repeat this request again.');
