@@ -15,7 +15,7 @@ $('#classroom').change(function () {
                 if (response === "") {
                     $("#discipline").html("<option value='-1'></option>").trigger("change").show();
                 } else {
-                    $("#discipline").html(decodeHtml(response)).trigger("change").show();
+                    $("#discipline").html(DOMPurify.sanitize(decodeHtml(response))).trigger("change").show();
                 }
                 $(".js-grades-loading").hide();
                 $("#discipline").removeAttr("disabled");
@@ -164,7 +164,7 @@ $('#discipline').change(function (e, triggerEvent) {
                         html += `</tr>`;
                     });
                     html += "</tbody></table>";
-                    $(".js-grades-container").html(html);
+                    $(".js-grades-container").html(DOMPurify.sanitize(html, { ADD_ATTR: ['concept', 'target'] }));
                     if (triggerEvent === "saveGrades") {
                         $(".js-grades-alert").removeClass("alert-error").addClass("alert-success").text("Notas registradas com sucesso!").show();
                     }
