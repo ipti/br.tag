@@ -4,7 +4,7 @@ services:
     container_name: tag-app
     restart: always
     ports:
-      - 80:8080
+      - 80:80
       - 433:433
       - 9001:9001
     expose:
@@ -94,6 +94,8 @@ services:
 networks:
   tag-v3-network:
 
+
 volumes:
   db-volume:
+
 
