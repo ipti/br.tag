@@ -1,4 +1,4 @@
-## [Versão 3.14.27]
+## [Versão 3.15.26]
 - Release: une as entregas da dev (módulo MACETE v1 e Cotação de Preços no Almoxarifado) com os hotfixes da main (3.13.18 a 3.13.37)
 - O módulo MACETE agora tem uma flag própria de módulo (TASK_MACETE), que nasce desativada: antes ele dependia só das flags de Plano de Aula/Aulas Ministradas, já ativas em vários municípios, e apareceria automaticamente para eles. Para usar o MACETE, a rede precisa habilitá-lo em Administração > Gerenciar Módulos
 

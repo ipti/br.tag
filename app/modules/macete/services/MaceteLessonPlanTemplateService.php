@@ -30,6 +30,7 @@ class MaceteLessonPlanTemplateService
 
             if ($template->isNewRecord) {
                 $template->created_by_users_fk = (int) Yii::app()->user->loginInfos->id;
+                $template->school_year = (int) Yii::app()->user->year;
             }
 
             if (!$template->save()) {
@@ -230,5 +231,4 @@ class MaceteLessonPlanTemplateService
             }
         }
     }
-
 }
