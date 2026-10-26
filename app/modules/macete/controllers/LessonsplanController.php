@@ -1,0 +1,303 @@
+<?php
+
+class LessonsplanController extends Controller
+{
+    private ?MaceteLessonPlanService $lessonPlanService = null;
+    private ?MaceteLessonPlanTemplateService $lessonPlanTemplateService = null;
+    private ?MaceteAbilityService $abilityService = null;
+    private ?MaceteAccessService $accessService = null;
+
+    public function filters()
+    {
+        return [
+            'accessControl',
+            'postOnly + delete',
+        ];
+    }
+
+    public function accessRules()
+    {
+        return [
+            [
+                'allow',
+                'actions' => ['index', 'create', 'update', 'delete', 'getDisciplines', 'getPlan', 'getTemplates'],
+                'users' => ['@'],
+            ],
+            [
+                'deny',
+                'users' => ['*'],
+            ],
+        ];
+    }
+
+    public function actionIndex()
+    {
+        $this->accessService()->requireLessonPlanFeature();
+        $criteria = new CDbCriteria();
+        $this->accessService()->applyPlanScope($criteria);
+        $criteria->order = 'updated_at DESC';
+
+        $stage = Yii::app()->request->getQuery('stage');
+        if ($stage !== null && $stage !== '') {
+            $criteria->addCondition('EXISTS (
+                SELECT 1
+                FROM macete_lesson_plan_stage mlps
+                WHERE mlps.lesson_plan_fk = t.id
+                    AND mlps.edcenso_stage_vs_modality_fk = :stage
+            )');
+            $criteria->params[':stage'] = (int) $stage;
+        }
+
+        $discipline = Yii::app()->request->getQuery('discipline');
+        if ($discipline !== null && $discipline !== '') {
+            $criteria->addCondition('EXISTS (
+                SELECT 1
+                FROM macete_lesson_plan_stage mlps
+                WHERE mlps.lesson_plan_fk = t.id
+                    AND mlps.edcenso_discipline_fk = :discipline
+            )');
+            $criteria->params[':discipline'] = (int) $discipline;
+        }
+
+        $dataProvider = new CActiveDataProvider('MaceteLessonPlan', [
+            'criteria' => $criteria,
+            'pagination' => false,
+        ]);
+
+        $this->render('index', [
+            'dataProvider' => $dataProvider,
+            'stages' => $this->lessonPlanService()->getStages(),
+            'disciplines' => $this->lessonPlanService()->getDisciplines(),
+            'filters' => [
+                'stage' => $stage,
+                'discipline' => $discipline,
+            ],
+        ]);
+    }
+
+    public function actionCreate()
+    {
+        $this->accessService()->requireLessonPlanFeature();
+        $lessonPlan = new MaceteLessonPlan();
+        $template = null;
+
+        $templateId = Yii::app()->request->getQuery('templateId');
+        if ($templateId !== null && $templateId !== '') {
+            $template = $this->lessonPlanTemplateService()->loadModel((int) $templateId);
+            if ($template !== null) {
+                $lessonPlan->origin_template_fk = $template->id;
+            }
+        }
+
+        if (isset($_POST['MaceteLessonPlan'])) {
+            $saveAsTemplate = Yii::app()->request->getPost('is_template')
+                && TagUtils::checkAccess(TRole::ADMIN);
+
+            if ($saveAsTemplate) {
+                try {
+                    $templateRequest = $_POST;
+                    $templateRequest['MaceteLessonPlanTemplate'] = $_POST['MaceteLessonPlan'] ?? [];
+                    $newTemplate = $this->lessonPlanTemplateService()->save(new MaceteLessonPlanTemplate(), $templateRequest);
+                    TLog::info('Modelo de plano MACETE salvo com sucesso.', ['MaceteLessonPlanTemplate' => $newTemplate->id]);
+                    Yii::app()->user->setFlash('success', 'Plano modelo MACETE salvo com sucesso!');
+                    $this->redirect(MaceteRoutes::url(MaceteRoutes::TEMPLATES_UPDATE, ['id' => $newTemplate->id]));
+                } catch (Exception $exception) {
+                    TLog::error('Erro ao salvar modelo de plano MACETE.', $exception->getMessage());
+                    Yii::app()->user->setFlash('error', $exception->getMessage());
+                }
+            } else {
+                try {
+                    $lessonPlan = $this->lessonPlanService()->save($lessonPlan, $_POST);
+                    TLog::info('Plano MACETE salvo com sucesso.', ['MaceteLessonPlan' => $lessonPlan->id]);
+                    Yii::app()->user->setFlash('success', 'Plano MACETE salvo com sucesso!');
+                    $this->redirect(['update', 'id' => $lessonPlan->id]);
+                } catch (Exception $exception) {
+                    TLog::error('Erro ao salvar plano MACETE.', $exception->getMessage());
+                    Yii::app()->user->setFlash('error', $exception->getMessage());
+                }
+            }
+        }
+
+        $this->render('create', $this->buildFormData($lessonPlan, $template));
+    }
+
+    public function actionGetTemplates()
+    {
+        $this->accessService()->requireLessonPlanFeature();
+
+        $templates = MaceteLessonPlanTemplate::model()->findAll(['order' => 'name ASC']);
+
+        echo CJSON::encode(array_map(static fn (MaceteLessonPlanTemplate $template): array => [
+            'id' => (int) $template->id,
+            'name' => $template->name,
+            'code' => $template->code,
+            'stage' => $template->getStageNames(),
+            'discipline' => $template->getDisciplineNames(),
+        ], $templates));
+        Yii::app()->end();
+    }
+
+    public function actionUpdate($id)
+    {
+        $this->accessService()->requireLessonPlanFeature();
+        $lessonPlan = $this->loadModel($id);
+
+        if (isset($_POST['MaceteLessonPlan'])) {
+            try {
+                $lessonPlan = $this->lessonPlanService()->save($lessonPlan, $_POST);
+                TLog::info('Plano MACETE atualizado com sucesso.', ['MaceteLessonPlan' => $lessonPlan->id]);
+                Yii::app()->user->setFlash('success', 'Plano MACETE atualizado com sucesso!');
+                $this->redirect(['update', 'id' => $lessonPlan->id]);
+            } catch (Exception $exception) {
+                TLog::error('Erro ao atualizar plano MACETE.', $exception->getMessage());
+                Yii::app()->user->setFlash('error', $exception->getMessage());
+            }
+        }
+
+        $this->render('update', $this->buildFormData($lessonPlan));
+    }
+
+    public function actionDelete($id)
+    {
+        $this->accessService()->requireLessonPlanFeature();
+        $lessonPlan = $this->loadModel($id);
+        $lessonPlan->delete();
+
+        Yii::app()->user->setFlash('success', 'Plano MACETE excluído com sucesso!');
+        $this->redirect(['index']);
+    }
+
+    public function actionGetDisciplines()
+    {
+        $this->accessService()->requireLessonPlanFeature();
+        $stageIds = Yii::app()->request->getPost('stage');
+        $stageIds = $stageIds !== null ? $this->lessonPlanService()->normalizeStageIds($stageIds) : [];
+
+        echo CJSON::encode($this->lessonPlanService()->getDisciplines($stageIds));
+        Yii::app()->end();
+    }
+
+    public function actionGetPlan($id)
+    {
+        $this->accessService()->requireLessonPlanFeature();
+        $lessonPlan = $this->loadModel($id);
+        $abilityIds = $this->lessonPlanService()->getAbilityIds($lessonPlan);
+
+        echo CJSON::encode([
+            'id' => (int) $lessonPlan->id,
+            'name' => $lessonPlan->name,
+            'theme' => $lessonPlan->theme,
+            'stage' => $lessonPlan->getStageComponentLabels(),
+            'discipline' => $lessonPlan->getDisciplineNames(),
+            'classroom' => $lessonPlan->classroomFk !== null ? $lessonPlan->classroomFk->name : '',
+            'abilities' => $lessonPlan->getAbilityCodes(),
+            'abilityList' => $this->abilityService()->getByIds($abilityIds),
+        ]);
+        Yii::app()->end();
+    }
+
+    public function loadModel($id): MaceteLessonPlan
+    {
+        $model = $this->accessService()->findPlan((int) $id);
+        if ($model === null) {
+            throw new CHttpException(404, 'Plano MACETE não encontrado.');
+        }
+
+        return $model;
+    }
+
+    private function buildFormData(MaceteLessonPlan $lessonPlan, ?MaceteLessonPlanTemplate $template = null): array
+    {
+        // Um modelo só é usado para pré-preencher um plano novo, ainda sem
+        // dados próprios; se o formulário já foi reenviado (erro de
+        // validação, por exemplo), os dados postados/salvos do próprio
+        // plano prevalecem.
+        $useTemplateData = $template !== null && $lessonPlan->isNewRecord && !isset($_POST['MaceteLessonPlan']);
+
+        $abilityIds = $useTemplateData
+            ? $this->lessonPlanTemplateService()->getAbilityIds($template)
+            : $this->lessonPlanService()->getAbilityIds($lessonPlan);
+
+        $postedStageComponents = Yii::app()->request->getPost('stage_components');
+        if ($postedStageComponents !== null) {
+            $stageComponents = $this->lessonPlanService()->normalizeStageComponents($postedStageComponents);
+        } elseif ($useTemplateData) {
+            $stageComponents = $this->lessonPlanTemplateService()->getStageComponents($template);
+        } else {
+            $stageComponents = $this->lessonPlanService()->getStageComponents($lessonPlan);
+        }
+
+        $selectedStageIds = array_map(static fn (array $component): int => $component['stage_id'], $stageComponents);
+        $stageComponentDisciplines = [];
+        foreach ($stageComponents as $index => $component) {
+            $stageComponentDisciplines[$index] = $this->lessonPlanService()->getDisciplines([$component['stage_id']]);
+        }
+
+        $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
+        $loginInfos = Yii::app()->user->loginInfos;
+
+        if ($useTemplateData) {
+            $lessonPlan->name = $template->name;
+            $lessonPlan->code = $template->code;
+            $lessonPlan->unit = $template->unit;
+            $lessonPlan->knowledge_object = $template->knowledge_object;
+            $lessonPlan->evaluation = $template->evaluation;
+            $lessonPlan->adaptations = $template->adaptations;
+            $lessonPlan->references_text = $template->references_text;
+        }
+
+        return [
+            'lessonPlan' => $lessonPlan,
+            'stages' => $this->lessonPlanService()->getStages(),
+            'stageComponents' => $stageComponents,
+            'stageComponentDisciplines' => $stageComponentDisciplines,
+            'selectedStageIds' => $selectedStageIds,
+            'sectionValues' => $useTemplateData
+                ? $this->lessonPlanTemplateService()->getSectionValues($template)
+                : $this->lessonPlanService()->getSectionValues($lessonPlan),
+            'resourceValues' => $useTemplateData
+                ? $this->lessonPlanTemplateService()->getResourceValues($template)
+                : $this->lessonPlanService()->getResourceValues($lessonPlan),
+            'selectedAbilities' => $this->abilityService()->getByIds($abilityIds),
+            'schoolName' => $school !== null ? (string) $school->name : '',
+            'territoryContext' => $school !== null ? (string) $school->territory_context : '',
+            'professorName' => $loginInfos !== null ? (string) $loginInfos->name : '',
+        ];
+    }
+
+    private function lessonPlanService(): MaceteLessonPlanService
+    {
+        if ($this->lessonPlanService === null) {
+            $this->lessonPlanService = new MaceteLessonPlanService();
+        }
+
+        return $this->lessonPlanService;
+    }
+
+    private function lessonPlanTemplateService(): MaceteLessonPlanTemplateService
+    {
+        if ($this->lessonPlanTemplateService === null) {
+            $this->lessonPlanTemplateService = new MaceteLessonPlanTemplateService();
+        }
+
+        return $this->lessonPlanTemplateService;
+    }
+
+    private function abilityService(): MaceteAbilityService
+    {
+        if ($this->abilityService === null) {
+            $this->abilityService = new MaceteAbilityService();
+        }
+
+        return $this->abilityService;
+    }
+
+    private function accessService(): MaceteAccessService
+    {
+        if ($this->accessService === null) {
+            $this->accessService = new MaceteAccessService();
+        }
+
+        return $this->accessService;
+    }
+}

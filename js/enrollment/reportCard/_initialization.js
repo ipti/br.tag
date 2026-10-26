@@ -15,7 +15,7 @@ $('#classroom').change(function () {
                 if (response === "") {
                     $("#discipline").html("<option value='-1'></option>").trigger("change").show();
                 } else {
-                    $("#discipline").html(decodeHtml(response)).trigger("change").show();
+                    $("#discipline").html(DOMPurify.sanitize(decodeHtml(response))).trigger("change").show();
                 }
                 $(".js-grades-loading").hide();
                 $("#discipline").removeAttr("disabled");
@@ -115,7 +115,7 @@ $('#discipline').change(function (e, triggerEvent) {
                             ${order}
                             </td>
                             <td class="final-media">
-                            <a class='t-link-button--info' rel='noopener' target='_blank' href='?r=forms/IndividualRecord&enrollment_id=${this.enrollmentId}'>
+                            <a class='t-link-button--info' rel='noopener' target='_blank' href='?r=schoolreport/forms/IndividualRecord&enrollment_id=${this.enrollmentId}'>
                                 <span class="t-icon-printer"></span>
                             </a>
                             </td>
@@ -164,7 +164,7 @@ $('#discipline').change(function (e, triggerEvent) {
                         html += `</tr>`;
                     });
                     html += "</tbody></table>";
-                    $(".js-grades-container").html(html);
+                    $(".js-grades-container").html(DOMPurify.sanitize(html, { ADD_ATTR: ['concept', 'target'] }));
                     if (triggerEvent === "saveGrades") {
                         $(".js-grades-alert").removeClass("alert-error").addClass("alert-success").text("Notas registradas com sucesso!").show();
                     }
@@ -259,3 +259,4 @@ $(document).on("keyup", "input.grade", function (e) {
     }
     this.value = val;
 });
+

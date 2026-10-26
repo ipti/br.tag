@@ -5,7 +5,7 @@ $(document).on("change", "#quartely_report_classroom_student", function () {
     
     $.ajax({
         type: "GET",
-        url: `${window.location.host}/?r=reports/getstudentclassrooms&id=${classroom_id}`,
+        url: `${window.location.host}/?r=schoolreport/reports/getstudentclassrooms&id=${classroom_id}`,
         success: function (response) {
             $("#student").empty();
             if(response != null && response != '') {

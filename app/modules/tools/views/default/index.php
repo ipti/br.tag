@@ -166,7 +166,25 @@
         <div class="tools-output-footer" id="tools-output-footer"></div>
     </div>
 
+    <!-- Diagnostics section -->
+    <h2 style="font-size: 15px; font-weight: 700; color: #252A31; font-family: 'Inter', sans-serif; margin: 0 0 12px;">Diagnósticos</h2>
+    <div class="tools-grid" style="margin-bottom: 32px;">
+        <?php foreach ($diagnostics as $diag): ?>
+        <a href="<?= CHtml::encode($diag['url']) ?>" class="tools-card" style="text-decoration: none; display: block;">
+            <div class="tools-card-header">
+                <span class="<?= CHtml::encode($diag['icon']) ?>" style="font-size:16px; color:#3f45ea;"></span>
+                <p class="tools-card-title"><?= CHtml::encode($diag['name']) ?></p>
+            </div>
+            <p class="tools-card-desc"><?= CHtml::encode($diag['description']) ?></p>
+            <div class="tools-row">
+                <span class="tools-row-label" style="color: #3f45ea; font-size: 12px;">Abrir →</span>
+            </div>
+        </a>
+        <?php endforeach; ?>
+    </div>
+
     <!-- Command cards -->
+    <h2 style="font-size: 15px; font-weight: 700; color: #252A31; font-family: 'Inter', sans-serif; margin: 0 0 12px;">Comandos de Console</h2>
     <div class="tools-grid">
         <?php foreach ($commands as $cmdName => $cmd): ?>
         <div class="tools-card">

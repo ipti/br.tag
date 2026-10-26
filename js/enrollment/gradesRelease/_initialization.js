@@ -13,7 +13,7 @@ $('#classroom').change(function () {
     if ($(this).val() !== "") {
         $.ajax({
             type: "POST",
-            url: "?r=enrollment/getDisciplines",
+            url: "?r=grades/entry/getDisciplines",
             cache: false,
             data: {
                 classroom: $("#classroom").val(),
@@ -26,7 +26,7 @@ $('#classroom').change(function () {
                 if (response === "") {
                     $("#discipline").html("<option value='-1'></option>").trigger("change").show();
                 } else {
-                    $("#discipline").html(decodeHtml(response)).trigger("change").show();
+                    $("#discipline").html(DOMPurify.sanitize(decodeHtml(response))).trigger("change").show();
                 }
                 $(".js-grades-loading").hide();
                 $("#discipline").removeAttr("disabled");
@@ -204,7 +204,7 @@ $('#discipline').change(function (e, triggerEvent) {
                     });
 
                     html += "</tbody></table>";
-                    $(".js-grades-container").html(html);
+                    $(".js-grades-container").html(DOMPurify.sanitize(html, { ADD_ATTR: ['concept', 'target'] }));
                     if (triggerEvent === "saveGrades") {
                         $(".js-grades-alert").removeClass("alert-error").addClass("alert-success").text("Notas registradas com sucesso!").show();
                     }
@@ -302,7 +302,7 @@ $("#close-grades-diary").on("click", function (e) {
     e.preventDefault();
     $.ajax({
         type: "POST",
-        url: "?r=enrollment/calculateFinalMedia",
+        url: "?r=grades/entry/calculateFinalMedia",
         cache: false,
         data: {
             classroomId: $("#classroom").val(),

@@ -32,9 +32,23 @@ When editing a module:
 2. Reuse the local asset strategy before generalizing.
 3. If a module already publishes `resources/`, prefer using that pattern consistently within the same module.
 
+## View location reality
+
+TAG uses Yii's theme system. Views for root controllers are resolved from `themes/` **before** `app/views/`.
+
+View lookup order for root controllers:
+1. `themes/default/views/<controller>/<view>.php` ← actual location in TAG
+2. `app/views/<controller>/<view>.php` ← fallback (often empty or absent)
+
+**Never assume a root controller's views are in `app/views/`.** Always search `themes/default/views/<controller>/` first.
+
+When a root controller is migrated or deleted:
+- Remove the corresponding `themes/default/views/<controller>/` directory to avoid orphaned view files.
+
 ## Search hotspots
 
 When refactoring routes or assets, always check:
+- `themes/default/views/<controller>/` ← views for root controllers live here
 - `themes/default/views/layouts/`
 - `themes/default/views/layouts/menus/`
 - module `views/`

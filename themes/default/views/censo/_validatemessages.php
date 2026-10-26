@@ -68,7 +68,7 @@
                             <?php echo current($classerror) ?>
                         </span>
                         <?php echo CHtml::link('- Corrigir', array(
-                            'classroom/update',
+                            'classroom/default/update',
                             'id' => $class['info']['id'],
                             'censo' => 1
                         )); ?>
@@ -147,7 +147,7 @@
                             <?php echo current($vberros) ?>
                         </span>
                         <?php echo CHtml::link('- Corrigir', array(
-                            'classroom/update',
+                            'classroom/default/update',
                             'id' => $variabledata['id'],
                             'censo' => 1
                         )); ?>
@@ -223,9 +223,9 @@
                             <?php echo current($eberros) ?>
                         </span>
                         <?php echo CHtml::link('- Corrigir', $eberros["type"] === "batchUpdate"
-                            ? array('classroom/batchupdatetotal', 'id' => $variabledata["id"], 'censo' => 1)
+                            ? array('classroom/default/batchupdatetotal', 'id' => $enrollment['id'], 'censo' => 1)
                             : array(
-                                'enrollment/update',
+                                '/student/enrollment/update',
                                 'id' => $enrollment['id'],
                                 'censo' => 1
                             )); ?>

@@ -12,6 +12,8 @@
             $this->baseScriptUrl = Yii::app()->getAssetManager()->publish(Yii::getPathOfAlias('application.modules.timesheet.resources'));
 
             $this->setImport([
+
+                'application.modules.timesheet.TimesheetRoutes',
                 'timesheet.models.*', 'timesheet.components.*',
             ]);
         }

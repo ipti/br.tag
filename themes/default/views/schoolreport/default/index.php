@@ -1,4 +1,0 @@
-<?php
-/* @var $this DefaultController */
-
-

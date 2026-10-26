@@ -34,6 +34,6 @@ class ClassroomRemoveCest
         sleep(2);
         $robots->btnDelete();
         $teste->acceptPopup();
-        $teste->canSeeInCurrentUrl('?r=classroom/index');
+        $teste->canSeeInCurrentUrl('?r=classroom/default/index');
     }
 }

@@ -14,6 +14,7 @@
  * @property string $initial_date
  * @property string $final_date
  * @property string $name
+ * @property string $territory_context
  * @property string $latitude
  * @property string $longitude
  * @property string $cep
@@ -115,8 +116,8 @@ class SchoolIdentification extends AltActiveRecord
             ['phone_number, other_phone_number', 'length', 'max' => 9],
             ['edcenso_regional_education_organ_fk', 'length', 'max' => 5],
             ['private_school_maintainer_cnpj, private_school_cnpj, ies_code', 'length', 'max' => 14],
-            ['logo_file_content, act_of_acknowledgement', 'safe'],
-            ['register_type, inep_id, manager_cpf, number_ato, manager_name, manager_role, manager_email, situation, initial_date, final_date, name, latitude, longitude, cep, address, address_number, address_complement, address_neighborhood, edcenso_uf_fk, edcenso_city_fk, edcenso_district_fk, ddd, phone_number, public_phone_number, other_phone_number, fax_number, email, edcenso_regional_education_organ_fk, administrative_dependence, location, private_school_category, public_contract, private_school_business_or_individual, private_school_syndicate_or_association, private_school_ong_or_oscip, private_school_non_profit_institutions, private_school_s_system, private_school_maintainer_cnpj, private_school_cnpj, offer_or_linked_unity, inep_head_school, ies_code, regulation, logo_file_name, logo_file_type, logo_file_content, act_of_acknowledgement', 'safe', 'on' => 'search'],
+            ['logo_file_content, act_of_acknowledgement, territory_context', 'safe'],
+            ['register_type, inep_id, manager_cpf, number_ato, manager_name, manager_role, manager_email, situation, initial_date, final_date, name, territory_context, latitude, longitude, cep, address, address_number, address_complement, address_neighborhood, edcenso_uf_fk, edcenso_city_fk, edcenso_district_fk, ddd, phone_number, public_phone_number, other_phone_number, fax_number, email, edcenso_regional_education_organ_fk, administrative_dependence, location, private_school_category, public_contract, private_school_business_or_individual, private_school_syndicate_or_association, private_school_ong_or_oscip, private_school_non_profit_institutions, private_school_s_system, private_school_maintainer_cnpj, private_school_cnpj, offer_or_linked_unity, inep_head_school, ies_code, regulation, logo_file_name, logo_file_type, logo_file_content, act_of_acknowledgement', 'safe', 'on' => 'search'],
         ];
     }
 
@@ -159,6 +160,7 @@ class SchoolIdentification extends AltActiveRecord
             'initial_date' => Yii::t('default', 'Initial Date'),
             'final_date' => Yii::t('default', 'Final Date'),
             'name' => Yii::t('default', 'Name'),
+            'territory_context' => 'Contextualização do território',
             'latitude' => Yii::t('default', 'Latitude'),
             'longitude' => Yii::t('default', 'Longitude'),
             'cep' => Yii::t('default', 'Cep'),

@@ -1,0 +1,15 @@
+<?php
+
+/* @var $this LessonsrecordController */
+/* @var $lessonRecord MaceteLessonRecord */
+
+$this->setPageTitle('TAG - Editar Registro MACETE');
+echo $this->renderPartial('_form', [
+    'lessonRecord' => $lessonRecord,
+    'plans' => $plans,
+    'classrooms' => $classrooms,
+    'selectedAbilities' => $selectedAbilities,
+    'territoryContext' => $territoryContext,
+    'dayContextLocked' => $dayContextLocked,
+    'backUrl' => $backUrl,
+], true);

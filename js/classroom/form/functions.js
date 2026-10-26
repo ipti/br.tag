@@ -397,7 +397,7 @@ $(document).on("change", "#Classroom_edcenso_professional_education_course_fk", 
 $(document).on("change", "#Classroom_edcenso_stage_vs_modality_fk", function () {
     if ($(this).val() !== '') {
         $.ajax({
-            url: "?r=classroom/updateDisciplinesAndCalendars",
+            url: "?r=classroom/default/updateDisciplinesAndCalendars",
             type: "POST",
             data: {
                 id: $("#Classroom_edcenso_stage_vs_modality_fk").val(),
@@ -461,7 +461,7 @@ toggleCenso2026ProfessionalCourseFields();
 $("#js-t-sortable").on("sortupdate", function (event, ui) {
     newOrderArray = $(this).sortable("toArray");
     $.ajax({
-        url: `${window.location.host}?r=classroom/changeenrollments`,
+        url: `${window.location.host}?r=classroom/default/changeenrollments`,
         type: "POST",
         data: {
             list: newOrderArray
@@ -501,7 +501,7 @@ $(document).on("click", ".sync-enrollments", function (e) {
     let button = this;
     e.preventDefault();
     $.ajax({
-        url: "?r=classroom/syncUnsyncedStudents",
+        url: "?r=classroom/default/syncUnsyncedStudents",
         type: "POST",
         data: {
             classroomId: classroomId

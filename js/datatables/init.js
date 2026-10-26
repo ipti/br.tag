@@ -142,7 +142,7 @@ function initDatatable() {
                 let indexActionButtons;
                 if (action.includes("school") || action.includes("activeDisableUser")) {
                     indexActionButtons = [2];
-                } else if (action.includes("instructor") || action.includes("indexGradesStructure") || action.includes("courseplan") || action.includes("manageUsers")) {
+                } else if (action.includes("instructor") || action.includes("gradestructure") || action.includes("courseplan") || action.includes("manageUsers")) {
                     indexActionButtons = [3];
                 } else if (action.includes("classroom") || action.includes("student") || action.includes("curricularmatrix") || action.includes("professional")) {
                     indexActionButtons = [4];
