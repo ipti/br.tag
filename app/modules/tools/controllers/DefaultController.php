@@ -91,7 +91,7 @@ class DefaultController extends Controller
      */
     public function actionOpcache()
     {
-        $this->layout = 'reportsclean';
+        $this->layout = 'webroot.themes.default.views.layouts.reportsclean';
         $opcacheGuiPath = Yii::getPathOfAlias('application.extensions.opcache-gui') . '/index.php';
 
         if (!file_exists($opcacheGuiPath)) {
