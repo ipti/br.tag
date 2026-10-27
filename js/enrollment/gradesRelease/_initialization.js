@@ -42,7 +42,7 @@ $('#discipline').change(function (e, triggerEvent) {
         $(".js-grades-alert").hide();
         $.ajax({
             type: "POST",
-            url: "?r=grades/getGradesRelease",
+            url: "?r=grades/default/getGradesRelease",
             cache: false,
             data: {
                 classroom: $("#classroom").val(),
@@ -256,7 +256,7 @@ $("#save").on("click", function (e) {
 
     $.ajax({
         type: "POST",
-        url: "?r=grades/saveGradesRelease",
+        url: "?r=grades/default/saveGradesRelease",
         cache: false,
         data: {
             classroom: $("#classroom").val(),

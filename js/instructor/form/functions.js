@@ -18,7 +18,7 @@ function updateCep(data) {
     $('#InstructorDocumentsAndAddress_edcenso_city_fk option:not(:contains("Selecione uma cidade"))').remove();
     $.ajax({
         type: "POST",
-        url: "?r=instructor/getCity",
+        url: "?r=instructor/default/getCity",
         data: {
             edcenso_uf_fk: data.UF,
             current_city: $("#InstructorDocumentsAndAddress_edcenso_city_fk").val()
@@ -56,7 +56,7 @@ $(function () {
 function loadCitiesTo(emmiter, citySelector) {
     $.ajax({
         type: "POST",
-        url: "?r=instructor/getCity",
+        url: "?r=instructor/default/getCity",
         data: {
             edcenso_uf_fk: $(emmiter).val(),
             current_city: $(citySelector).val()
@@ -74,7 +74,7 @@ function loadCitiesTo(emmiter, citySelector) {
 function loadIES(iesUfDropDown, iesDropDownPath, currentIES) {
     $.ajax({
         type: "POST",
-        url: "?r=instructor/getinstitution",
+        url: "?r=instructor/default/getinstitution",
         data: {
             edcenso_uf_fk: $(iesUfDropDown).val(),
         },
@@ -97,7 +97,7 @@ function renderClasroomsCards() {
     let instructorId = params.get("id");
     if (instructorId) {
         $.ajax({
-            url: "?r=instructor/getclassrooms",
+            url: "?r=instructor/default/getclassrooms",
             type: "POST",
             data: {
                 instructorId: instructorId

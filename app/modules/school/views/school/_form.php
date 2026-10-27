@@ -536,7 +536,7 @@ $form = $this->beginWidget('CActiveForm', [
                                         'class' => 't-field-text__input',
                                         'ajax' => [
                                             'type' => 'POST',
-                                            'url' => Yii::app()->createUrl('Instructor/getcitybycep'),
+                                            'url' => Yii::app()->createUrl('instructor/default/getCityByCep'),
                                             'data' => ['cep' => 'js:this.value'],
                                             'success' => "function(data){
                                     data = jQuery.parseJSON(data);
@@ -596,7 +596,7 @@ $form = $this->beginWidget('CActiveForm', [
                                         'class' => 'select-search-on t-field-select__input select2-container',
                                         'ajax' => [
                                             'type' => 'POST',
-                                            'url' => Yii::app()->createUrl('school/updateUfDependencies'),
+                                            'url' => Yii::app()->createUrl('school/school/updateUfDependencies'),
                                             'success' => "function(data){
                                         data = jQuery.parseJSON(data);
                                         valR = $('#SchoolIdentification_edcenso_regional_education_organ_fk').val();
@@ -680,7 +680,7 @@ $form = $this->beginWidget('CActiveForm', [
                                         'class' => 'select-search-on t-field-select__input select2-container',
                                         'ajax' => [
                                             'type' => 'POST',
-                                            'url' => Yii::app()->createUrl('school/updateCityDependencies'),
+                                            'url' => Yii::app()->createUrl('school/school/updateCityDependencies'),
                                             'success' => "function(data){
                                         data = jQuery.parseJSON(data);
                                         valD = $('#SchoolIdentification_edcenso_district_fk').val();
@@ -2768,7 +2768,7 @@ $form = $this->beginWidget('CActiveForm', [
                                     [
                                         'ajax' => [
                                             'type' => 'POST',
-                                            'url' => Yii::app()->createUrl('student/getnations'),
+                                            'url' => Yii::app()->createUrl('student/student/getnations'),
                                             'update' => '#ManagerIdentification_edcenso_nation_fk'
                                         ]
                                     ]
