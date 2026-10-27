@@ -530,7 +530,8 @@ $turns = ['M' => 'Manhã', 'T' => 'Tarde', 'N' => 'Noite'];
     @media screen {
         .pageA4V {
             width: 980px;
-            height: 1400px;
+            min-height: 1400px;
+            display: flow-root;
             margin: 0 auto;
         }
 
@@ -567,7 +568,8 @@ $turns = ['M' => 'Manhã', 'T' => 'Tarde', 'N' => 'Noite'];
 
         .pageA4V {
             width: 960px;
-            height: 1200px;
+            min-height: 1200px;
+            display: flow-root;
             margin: 0 auto;
             font-size: 15px;
         }
