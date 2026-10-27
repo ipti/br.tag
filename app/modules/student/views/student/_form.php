@@ -367,7 +367,7 @@ $form = $this->beginWidget(
                                     [
                                         'ajax' => [
                                             'type' => 'POST',
-                                            'url' => Yii::app()->createUrl('student/getcities', ['rt' => 0]),
+                                            'url' => Yii::app()->createUrl('student/student/getcities', ['rt' => 0]),
                                             'update' => '#StudentIdentification_edcenso_city_fk'
                                         ],
                                         'prompt' => 'Selecione um estado',
@@ -1355,7 +1355,7 @@ $form = $this->beginWidget(
                                     [
                                         'ajax' => [
                                             'type' => 'POST',
-                                            'url' => Yii::app()->createUrl('student/getcities', ['rt' => 1]),
+                                            'url' => Yii::app()->createUrl('student/student/getcities', ['rt' => 1]),
                                             'update' => '#StudentDocumentsAndAddress_notary_office_city_fk'
                                         ],
                                         'prompt' => 'Selecione um estado',
@@ -1699,7 +1699,7 @@ $form = $this->beginWidget(
                                     [
                                         'ajax' => [
                                             'type' => 'POST',
-                                            'url' => Yii::app()->createUrl('student/getcities', ['rt' => 2]),
+                                            'url' => Yii::app()->createUrl('student/student/getcities', ['rt' => 2]),
                                             'update' => '#StudentDocumentsAndAddress_edcenso_city_fk'
                                         ],
                                         'prompt' => 'Selecione um estado',

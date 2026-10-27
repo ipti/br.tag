@@ -42,7 +42,7 @@ foreach ($models as $model): ?>
 
     $map = [
         '2' => '?r=professional/default/update&id=' . $model->idProfessional,
-        '3' => '?r=instructor/update&id=' . $model->idProfessional,
+        '3' => '?r=instructor/default/update&id=' . $model->idProfessional,
         '4' => '?r=school/school/update&id=' . $model->idSchool,
         '9' => '?r=student/student/update&id=' . $model->idStudent,
         '10' => '?r=classroom/default/update&id=' . $model->idClass,
