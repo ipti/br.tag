@@ -30,6 +30,7 @@ class MaceteLessonPlanTemplateService
 
             if ($template->isNewRecord) {
                 $template->created_by_users_fk = (int) Yii::app()->user->loginInfos->id;
+                $template->school_year = (int) Yii::app()->user->year;
             }
 
             if (!$template->save()) {
@@ -55,7 +56,45 @@ class MaceteLessonPlanTemplateService
 
     public function loadModel(int $id): ?MaceteLessonPlanTemplate
     {
-        return MaceteLessonPlanTemplate::model()->findByPk($id);
+        $criteria = new CDbCriteria();
+        $this->applyYearScope($criteria);
+
+        return MaceteLessonPlanTemplate::model()->findByPk($id, $criteria);
+    }
+
+    // Cada acervo de modelos pertence a um ano letivo: só aparecem os
+    // modelos do ano em que o usuário está logado.
+    public function applyYearScope(CDbCriteria $criteria): void
+    {
+        $criteria->addCondition('t.school_year = :macete_template_year');
+        $criteria->params[':macete_template_year'] = (int) Yii::app()->user->year;
+    }
+
+    public function applyStageFilter(CDbCriteria $criteria, int $stageId): void
+    {
+        $criteria->addCondition('EXISTS (
+            SELECT 1
+            FROM macete_lesson_plan_template_stage mlpts
+            WHERE mlpts.lesson_plan_template_fk = t.id
+                AND mlpts.edcenso_stage_vs_modality_fk = :macete_template_stage
+        )');
+        $criteria->params[':macete_template_stage'] = $stageId;
+    }
+
+    // Etapas que têm pelo menos um modelo no ano letivo do usuário, para o
+    // filtro da tela de modelos não listar etapas sem nenhum resultado.
+    public function getStagesWithTemplates(): array
+    {
+        return Yii::app()->db->createCommand(
+            'SELECT DISTINCT esvm.id, esvm.name
+            FROM edcenso_stage_vs_modality esvm
+            JOIN macete_lesson_plan_template_stage mlpts ON mlpts.edcenso_stage_vs_modality_fk = esvm.id
+            JOIN macete_lesson_plan_template mlpt ON mlpt.id = mlpts.lesson_plan_template_fk
+            WHERE mlpt.school_year = :school_year
+            ORDER BY esvm.name'
+        )
+            ->bindValue(':school_year', Yii::app()->user->year, PDO::PARAM_INT)
+            ->queryAll();
     }
 
     public function getStageComponents(MaceteLessonPlanTemplate $template): array
@@ -230,5 +269,4 @@ class MaceteLessonPlanTemplateService
             }
         }
     }
-
 }
