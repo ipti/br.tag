@@ -125,7 +125,10 @@ class LessonsplanController extends Controller
     {
         $this->accessService()->requireLessonPlanFeature();
 
-        $templates = MaceteLessonPlanTemplate::model()->findAll(['order' => 'name ASC']);
+        $criteria = new CDbCriteria();
+        $this->lessonPlanTemplateService()->applyYearScope($criteria);
+        $criteria->order = 'name ASC';
+        $templates = MaceteLessonPlanTemplate::model()->findAll($criteria);
 
         echo CJSON::encode(array_map(static fn (MaceteLessonPlanTemplate $template): array => [
             'id' => (int) $template->id,

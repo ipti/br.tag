@@ -1,6 +1,8 @@
 <?php
 /* @var $this TemplatesController */
 /* @var $dataProvider CActiveDataProvider */
+/* @var $stages array */
+/* @var $filters array */
 
 $this->setPageTitle('TAG - Planos Modelo MACETE');
 ?>
@@ -26,6 +28,26 @@ $this->setPageTitle('TAG - Planos Modelo MACETE');
     <?php if (Yii::app()->user->hasFlash('error')): ?>
         <div class="alert alert-error"><?php echo Yii::app()->user->getFlash('error'); ?></div>
     <?php endif; ?>
+
+    <form method="get" class="mobile-row align-items--end">
+        <input type="hidden" name="r" value="<?php echo MaceteRoutes::TEMPLATES_INDEX; ?>">
+        <div class="column t-field-select clearleft is-one-quarter">
+            <?php echo CHtml::label('Etapa', 'stage', ['class' => 't-field-select__label']); ?>
+            <?php echo CHtml::dropDownList(
+    'stage',
+    $filters['stage'],
+    CHtml::listData($stages, 'id', 'name'),
+    [
+        'class' => 'select-search-on t-field-select__input',
+        'prompt' => 'Todas as etapas',
+    ]
+); ?>
+        </div>
+        <div class="column t-buttons-container">
+            <button type="submit" class="t-button-primary">Filtrar</button>
+            <a class="t-button-secondary" href="<?php echo MaceteRoutes::url(MaceteRoutes::TEMPLATES_INDEX); ?>">Limpar</a>
+        </div>
+    </form>
 
     <div class="tag-inner">
         <div class="widget clearmargin">

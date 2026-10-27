@@ -52,7 +52,13 @@ class TemplatesController extends Controller
     {
         $this->accessService()->requireLessonPlanFeature();
         $criteria = new CDbCriteria();
+        $this->templateService()->applyYearScope($criteria);
         $criteria->order = 'updated_at DESC';
+
+        $stage = Yii::app()->request->getQuery('stage');
+        if ($stage !== null && $stage !== '') {
+            $this->templateService()->applyStageFilter($criteria, (int) $stage);
+        }
 
         $dataProvider = new CActiveDataProvider('MaceteLessonPlanTemplate', [
             'criteria' => $criteria,
@@ -61,6 +67,10 @@ class TemplatesController extends Controller
 
         $this->render('index', [
             'dataProvider' => $dataProvider,
+            'stages' => $this->templateService()->getStagesWithTemplates(),
+            'filters' => [
+                'stage' => $stage,
+            ],
         ]);
     }
 
