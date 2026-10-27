@@ -515,7 +515,7 @@ class SchoolController extends Controller
 
     public function actionReports($id)
     {
-        $this->layout = 'reports';
+        $this->layout = 'webroot.themes.default.views.layouts.reports';
         $model = $this->loadModel($id, $this->schoolIdentification);
         $this->render(
             'MonthlySummary',
@@ -527,7 +527,7 @@ class SchoolController extends Controller
 
     public function actionReportsMonthlyTransaction($id, $type)
     {
-        $this->layout = 'reports';
+        $this->layout = 'webroot.themes.default.views.layouts.reports';
         $model = $this->loadModel($id, $this->schoolIdentification);
         $title = '';
 
@@ -558,7 +558,7 @@ class SchoolController extends Controller
 
     public function actionRecord($id, $type)
     {
-        $this->layout = 'reports';
+        $this->layout = 'webroot.themes.default.views.layouts.reports';
         $model = $this->loadModel($id, $this->schoolIdentification);
         $title = '';
 

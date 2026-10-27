@@ -920,7 +920,7 @@ preenchidos';
         }
         unset($link);
 
-        $this->layout = 'reports';
+        $this->layout = 'webroot.themes.default.views.layouts.reports';
         $this->render('printHistory', [
             'instructor' => $instructor,
             'instructorDoc' => $instructorDoc,
@@ -1022,7 +1022,7 @@ preenchidos';
                AND c.school_year   = :year'
         )->queryScalar([':id' => $id, ':year' => $year]);
 
-        $this->layout = 'reports';
+        $this->layout = 'webroot.themes.default.views.layouts.reports';
         $this->render('printYearHistory', [
             'instructor'     => $instructor,
             'instructorDoc'  => $instructorDoc,
