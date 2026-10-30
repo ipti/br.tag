@@ -7,6 +7,15 @@
  */
 class CalculateConceptGradeUsecase
 {
+    // grade_results tem as colunas grade_concept_1 a grade_concept_8
+    private const MAX_CONCEPT_COLUMNS = 8;
+
+    private $classroomId;
+    private $discipline;
+    private $stage;
+    private $unityPositions = null;
+    private $gradeRulesIds = [];
+
     public function __construct($classroom, $discipline, $stage)
     {
         $this->classroomId = $classroom;
@@ -67,17 +76,32 @@ class CalculateConceptGradeUsecase
         //notas por conceito
         $hasAllGrades = true;
         $conceptGradeValues = 0;
+
+        // Só contam as notas das unidades da estrutura ligada à turma, cada
+        // uma na posição da sua unidade. Antes as notas eram gravadas pela
+        // ordem em que vinham, de qualquer estrutura: se a turma trocou de
+        // estrutura no ano, as notas antigas empurravam as atuais para a
+        // coluna seguinte, e uma unidade sem nota deslocava as demais.
+        $unityPositions = $this->getUnityPositions();
+        $numUnities = count($unityPositions);
+
+        for ($position = 1; $position <= self::MAX_CONCEPT_COLUMNS; $position++) {
+            $gradeResult['grade_concept_' . $position] = null;
+        }
+
         $grades = $this->getStudentGrades(
             $studentEnrollment->id,
             $disciplineId,
+            array_keys($unityPositions)
         );
-        foreach ($grades as  $gradeKey => $grade) {
-            $gradeResult['grade_concept_' . ($gradeKey + 1)] = $grade->gradeConceptFk->acronym;
+        foreach ($grades as $grade) {
+            if ($grade->gradeConceptFk === null) {
+                continue;
+            }
+            $position = $unityPositions[$grade->gradeUnityModalityFk->grade_unity_fk];
+            $gradeResult['grade_concept_' . $position] = $grade->gradeConceptFk->acronym;
             $conceptGradeValues += $grade->gradeConceptFk->value;
         }
-
-        $gradeUnities = new GetGradeUnitiesByDisciplineUsecase($this->classroomId, $this->stage);
-        $numUnities = $gradeUnities->execCount();
 
         if (!$this->hasAllGrades($numUnities, $gradeResult)) {
             $hasAllGrades = false;
@@ -96,8 +120,10 @@ class CalculateConceptGradeUsecase
             ':modalityType' => GradeUnityModality::TYPE_FINAL_CONCEPT,
             ':unityType' => GradeUnity::TYPE_FINAL_CONCEPT
         ];
+        $criteria->addInCondition('gu.grade_rules_fk', $this->gradeRulesIds);
 
-        $fianlConcept = Grade::model()->find($criteria)->grade_concept_fk;
+        $finalConceptGrade = Grade::model()->find($criteria);
+        $fianlConcept = $finalConceptGrade !== null ? $finalConceptGrade->grade_concept_fk : null;
         $gradeResult->final_concept = $fianlConcept ? $fianlConcept : null;
         $gradeResult->final_media = $conceptGradeValues / $numUnities;
         $gradeResult->situation = StudentEnrollment::STATUS_ACTIVE;
@@ -114,21 +140,50 @@ class CalculateConceptGradeUsecase
     }
 
     /**
+     * Posição (1, 2, ...) de cada unidade da estrutura de avaliação da turma,
+     * na mesma ordem em que os relatórios leem as colunas grade_concept_N.
+     *
+     * @return array<int, int> id da unidade => posição
+     */
+    private function getUnityPositions()
+    {
+        if ($this->unityPositions === null) {
+            $gradeUnities = (new GetGradeUnitiesByDisciplineUsecase($this->classroomId, $this->stage))->exec();
+            usort($gradeUnities, static fn ($a, $b) => $a->id <=> $b->id);
+
+            $this->unityPositions = [];
+            $this->gradeRulesIds = [];
+            foreach ($gradeUnities as $index => $gradeUnity) {
+                $this->unityPositions[(int) $gradeUnity->id] = $index + 1;
+                $this->gradeRulesIds[(int) $gradeUnity->grade_rules_fk] = (int) $gradeUnity->grade_rules_fk;
+            }
+            $this->gradeRulesIds = array_values($this->gradeRulesIds);
+        }
+
+        return $this->unityPositions;
+    }
+
+    /**
      * @param int $enrollmentId
      * @param int $discipline
-     * @param int $unityId
+     * @param int[] $unityIds
      *
      * @return Grade[]
      */
-    private function getStudentGrades($enrollmentId, $discipline)
+    private function getStudentGrades($enrollmentId, $discipline, array $unityIds)
     {
+        if (empty($unityIds)) {
+            return [];
+        }
+
         $gradesIds = array_column(Yii::app()->db->createCommand(
             "SELECT
                 g.id
                 FROM grade g
                 join grade_unity_modality gum on g.grade_unity_modality_fk = gum.id
                 join grade_unity gu on gu.id= gum.grade_unity_fk
-                WHERE g.enrollment_fk = :enrollment_id and g.discipline_fk = :discipline_id and gum.type = '" . GradeUnityModality::TYPE_COMMON . "' and gu.type = 'UC'"
+                WHERE g.enrollment_fk = :enrollment_id and g.discipline_fk = :discipline_id and gum.type = '" . GradeUnityModality::TYPE_COMMON . "' and gu.type = 'UC'
+                and gu.id IN (" . implode(',', array_map('intval', $unityIds)) . ')'
         )->bindParam(':enrollment_id', $enrollmentId)
             ->bindParam(':discipline_id', $discipline)->queryAll(), 'id');
 
