@@ -16,9 +16,9 @@ RUN sed -i "s|/app/web|/app|g" /etc/nginx/conf.d/default.conf \
 
 # Voltar para o diretório principal (/app) e executar comandos adicionais
 WORKDIR /app
-RUN composer update \
-    && composer update --no-plugins \
-    && composer install
+# Instala as versões do composer.lock: o composer update resolvia tudo de
+# novo a cada build e passou a falhar com os bloqueios de segurança do Composer
+RUN composer install --no-interaction
 
 # Conctruir arquivos css do sass
 # RUN vendor/scssphp/scssphp/bin/pscss --no-source-map --style=compressed sass/scss:sass/css
