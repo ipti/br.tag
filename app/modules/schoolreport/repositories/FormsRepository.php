@@ -1099,9 +1099,10 @@ class FormsRepository
                 (SELECT grs.rule_type
                     FROM classroom_vs_grade_rules cvgr
                     JOIN grade_rules grs ON grs.id = cvgr.grade_rules_fk
-                    JOIN grade_rules_vs_edcenso_stage_vs_modality grvesvm ON grvesvm.grade_rules_fk = grs.id
+                    LEFT JOIN grade_rules_vs_edcenso_stage_vs_modality grvesvm ON grvesvm.grade_rules_fk = grs.id
+                        AND grvesvm.edcenso_stage_vs_modality_fk = COALESCE(se.edcenso_stage_vs_modality_fk, c.edcenso_stage_vs_modality_fk)
                     WHERE cvgr.classroom_fk = c.id
-                    AND grvesvm.edcenso_stage_vs_modality_fk = COALESCE(se.edcenso_stage_vs_modality_fk, c.edcenso_stage_vs_modality_fk)
+                    ORDER BY grvesvm.grade_rules_fk IS NULL, grs.id
                     LIMIT 1) AS rule_type
                     FROM classroom c
                 JOIN curricular_matrix cm ON c.edcenso_stage_vs_modality_fk = cm.stage_fk
@@ -1124,10 +1125,6 @@ class FormsRepository
 
         $classroom = Classroom::model()->findByPk($classroomId);
         $isMinorStage = TagUtils::isStageMinorEducation($classroom->edcenso_stage_vs_modality_fk);
-
-        $sql = 'SELECT * FROM grade_concept gc ORDER BY gc.value DESC';
-
-        $concepts = Yii::app()->db->createCommand($sql)->queryAll();
 
         $isMinorEducation = TagUtils::isStageMinorEducation($classroom->edcensoStageVsModalityFk->edcenso_associated_stage_id);
 
@@ -1176,7 +1173,8 @@ class FormsRepository
                         $finalMedia = max($r['final_media'], $r['rec_final'] ?? 0);
                         if ($this->isConceptGradeResult($r)) {
                             $finalconcept = GradeConcept::model()->findByPk($r['final_concept']);
-                            $finalMedia = $finalconcept ? $finalconcept->name : $this->checkConceptGradeRange($finalMedia, $concepts);
+                            // Em turma por conceito vale só o conceito final lançado na tela de notas
+                            $finalMedia = $finalconcept ? $finalconcept->name : '';
                         } else {
                             $finalMedia = $this->formatGradeKeepingDecimals($finalMedia);
                         }
@@ -1224,8 +1222,8 @@ class FormsRepository
     }
 
     /**
-     * Turma por conceito é decidida pela estrutura de avaliação da etapa do
-     * aluno. Olhar só o grade_concept_1 mostrava a média numérica quando o
+     * Turma por conceito é decidida pela estrutura de avaliação da turma,
+     * de preferência a da etapa do aluno. Olhar só o grade_concept_1 mostrava a média numérica quando o
      * aluno ainda não tinha conceito na 1ª unidade (ex.: só no 3º bimestre).
      * Sem estrutura vinculada, mantém o critério antigo.
      */
@@ -1236,27 +1234,6 @@ class FormsRepository
         }
 
         return $gradeResult['grade_concept_1'] != null && $gradeResult['grade_concept_1'] != '';
-    }
-
-    /**
-     * Conceito correspondente à média. Sem conceito correspondente (ex.: ano
-     * ainda em andamento) fica vazio: a ata de turma por conceito não mostra nota numérica.
-     */
-    public function checkConceptGradeRange($finalMedia, $concepts)
-    {
-        $matchedConcept = null;
-
-        foreach ($concepts as $concept) {
-            if ($finalMedia >= $concept['value'] && $concept['value'] != null) {
-                $matchedConcept = $concept['name'];
-                break;
-            }
-        }
-
-        if ($matchedConcept != null) {
-            return $matchedConcept;
-        }
-        return '';
     }
 
     /**

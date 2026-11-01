@@ -75,7 +75,6 @@ class CalculateConceptGradeUsecase
         $gradeResult = $this->getGradesResultForStudent($studentEnrollment->id, $disciplineId);
         //notas por conceito
         $hasAllGrades = true;
-        $conceptGradeValues = 0;
 
         // Só contam as notas das unidades da estrutura ligada à turma, cada
         // uma na posição da sua unidade. Antes as notas eram gravadas pela
@@ -100,7 +99,6 @@ class CalculateConceptGradeUsecase
             }
             $position = $unityPositions[$grade->gradeUnityModalityFk->grade_unity_fk];
             $gradeResult['grade_concept_' . $position] = $grade->gradeConceptFk->acronym;
-            $conceptGradeValues += $grade->gradeConceptFk->value;
         }
 
         if (!$this->hasAllGrades($numUnities, $gradeResult)) {
@@ -125,7 +123,8 @@ class CalculateConceptGradeUsecase
         $finalConceptGrade = Grade::model()->find($criteria);
         $fianlConcept = $finalConceptGrade !== null ? $finalConceptGrade->grade_concept_fk : null;
         $gradeResult->final_concept = $fianlConcept ? $fianlConcept : null;
-        $gradeResult->final_media = $conceptGradeValues / $numUnities;
+        // Turma por conceito não tem média: o resultado do ano é o conceito final
+        $gradeResult->final_media = null;
         $gradeResult->situation = StudentEnrollment::STATUS_ACTIVE;
 
         if ($hasAllGrades) {

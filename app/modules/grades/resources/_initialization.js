@@ -4,7 +4,6 @@ let conceptId = url.searchParams.get('id');
 $(document).on("click", "#saveConcept", function () {
     let conceptName = $('#conceptName').val();
     let conceptAcronym = $('#conceptAcronym').val();
-    let conceptValue = $('#conceptValue').val();
 
     if(!conceptId) {
         $.ajax({
@@ -13,8 +12,7 @@ $(document).on("click", "#saveConcept", function () {
             cache: false,
             data: {
                 name: conceptName,
-                acronym: conceptAcronym,
-                value: conceptValue
+                acronym: conceptAcronym
             }
         }).success(function(response) {
             window.location.href = "?r=grades/concept";
@@ -27,8 +25,7 @@ $(document).on("click", "#saveConcept", function () {
             data: {
                 conceptId: conceptId,
                 name: conceptName,
-                acronym: conceptAcronym,
-                value: conceptValue
+                acronym: conceptAcronym
             }
         }).success(function(response) {
             window.location.href = "?r=grades/concept";

@@ -42,7 +42,6 @@ $this->pageTitle = 'TAG - Gerenciar Conceitos';
                         'id',
                         'name',
                         'acronym',
-                        'value',
                         [
                             'header' => 'Ações',
                             'class' => 'CButtonColumn',
