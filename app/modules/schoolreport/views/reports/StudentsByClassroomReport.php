@@ -29,6 +29,7 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
 
         foreach($classroom as $c) {
             $html = "";
+            $isMultiStageClassroom = TagUtils::isMultiStage($c['edcenso_associated_stage_id']);
 
             echo "<b>Nome da turma: </b>" . $c['name'] . "<br>";
             echo "<b>C&oacute;digo da Turma: </b>" . $c['inep_id'] . "<br>";
@@ -46,6 +47,7 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
                 . "<th> <b>Identifica&ccedil;&atilde;o &Uacute;nica </b></th>"
                 . "<th> <b>Data de Nascimento  </b></th>"
                 . "<th> <b>Nome Completo do Aluno </b></th>"
+                . ($isMultiStageClassroom ? "<th> <b>Etapa (Matr&iacute;cula) </b></th>" : "")
                 . "</tr>";
 
             $totalAlunos = 0;
@@ -58,6 +60,7 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
                         . "<td>" . $s['inep_id'] . "</td>"
                         . "<td>" . $s['birthday'] . "</td>"
                         . "<td>" . $s['name'] . "</td>"
+                        . ($isMultiStageClassroom ? "<td>" . ($s['enrollment_stage_name'] ?? '-') . "</td>" : "")
                         . "</tr>";
                     $ordem++;
                     $totalAlunos++;
@@ -65,7 +68,7 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
             }
 
             $html .= "<tr>"
-                . "<td colspan= 4>" . " <b> Total de alunos nessa turma: </b>" . $totalAlunos .
+                . "<td colspan= " . ($isMultiStageClassroom ? 5 : 4) . ">" . " <b> Total de alunos nessa turma: </b>" . $totalAlunos .
                 "</td>"
                 . "</tr>";
             $html .= "</table>" . "<br>";

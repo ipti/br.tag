@@ -548,7 +548,7 @@ function saveUnities(reply) {
     const name = $(".js-grade-rules-name").val();
     $.ajax({
         type: "POST",
-        url: "?r=gradestructure/default/saveunities",
+        url: "?r=grades/structure/saveunities",
         cache: false,
         data: {
             grade_rules_id: id,
@@ -806,7 +806,7 @@ function loadStructure() {
 
     $.ajax({
         type: "POST",
-        url: "?r=gradestructure/default/getunities",
+        url: "?r=grades/structure/getunities",
         cache: false,
         data: {
             grade_rules_id: id,

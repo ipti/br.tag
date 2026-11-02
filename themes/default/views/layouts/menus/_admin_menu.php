@@ -120,6 +120,7 @@ $menuItems = [
                 'icon' => 't-icon-diary',
                 'roles' => [TRole::ADMIN, TRole::MANAGER, TRole::INSTRUCTOR, TRole::READER],
                 'feature' => TFeature::FEAT_DIARY_LESSON_PLAN,
+                'condition' => fn () => Yii::app()->features->isEnable(TTask::TASK_MACETE),
             ],
             [
                 'label' => 'Aulas Ministradas',
@@ -134,6 +135,7 @@ $menuItems = [
                 'icon' => 't-icon-topics',
                 'roles' => [TRole::ADMIN, TRole::MANAGER, TRole::INSTRUCTOR, TRole::READER],
                 'feature' => TFeature::FEAT_DIARY_CLASSES,
+                'condition' => fn () => Yii::app()->features->isEnable(TTask::TASK_MACETE),
             ],
             [
                 'label' => 'Frequência',
@@ -194,6 +196,7 @@ $menuItems = [
         'icon' => 't-icon-topics',
         'roles' => [TRole::COORDINATOR],
         'feature' => TTask::TASK_DIARY_RECORD,
+        'condition' => fn () => Yii::app()->features->isEnable(TTask::TASK_MACETE),
     ],
     [
         'label' => 'Plano de Aula',
@@ -208,6 +211,7 @@ $menuItems = [
         'icon' => 't-icon-diary',
         'roles' => [TRole::COORDINATOR],
         'feature' => TTask::TASK_DIARY_RECORD,
+        'condition' => fn () => Yii::app()->features->isEnable(TTask::TASK_MACETE),
     ],
     [
         'label' => 'Ficha AEE',

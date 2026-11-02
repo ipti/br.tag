@@ -43,7 +43,6 @@ class ConceptController extends Controller
         if (Yii::app()->request->isAjaxRequest) {
             $model->name = Yii::app()->request->getPost('name');
             $model->acronym = Yii::app()->request->getPost('acronym');
-            $model->value = Yii::app()->request->getPost('value');
 
             if ($model->save()) {
                 Yii::app()->user->setFlash('success', Yii::t('default', 'Conceito cadastrado com sucesso!'));
@@ -68,7 +67,6 @@ class ConceptController extends Controller
         if ($conceptId) {
             $model->name = Yii::app()->request->getPost('name');
             $model->acronym = Yii::app()->request->getPost('acronym');
-            $model->value = Yii::app()->request->getPost('value');
 
             if ($model->save()) {
                 Yii::app()->user->setFlash('success', Yii::t('default', 'Conceito atualizado com sucesso!'));

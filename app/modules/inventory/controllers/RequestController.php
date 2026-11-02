@@ -77,7 +77,7 @@ class RequestController extends Controller
         $model->delete();
 
         if (!isset($_GET['ajax'])) {
-            $this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : ['index']);
+            $this->redirect(['index']);
         }
     }
 
