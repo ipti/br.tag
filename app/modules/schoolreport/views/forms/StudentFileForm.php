@@ -543,14 +543,6 @@ $turns = ['M' => 'Manhã', 'T' => 'Tarde', 'N' => 'Noite'];
             height: 810px;
             margin: 0 auto;
         }
-
-        #header-report ul#info,
-        #header-report ul#addinfo {
-            float: right;
-            width: 970px;
-            margin: 0;
-            overflow: hidden;
-        }
     }
 
     @media print {
