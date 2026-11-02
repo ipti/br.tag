@@ -1,3 +1,9 @@
+## [Versão 3.14.28]
+- Turmas avaliadas por conceito: o resultado do ano passa a ser apenas o Conceito Final lançado na tela de Notas. A Ata de Notas mostra esse conceito e deixa de convertê-lo a partir da média dos valores dos conceitos, que escolhia um conceito sem critério quando os valores eram iguais e mostrava números (ex.: 7.5, 0) quando não havia conceito correspondente. O campo "Valor" saiu da tela de conceitos. A migration cria a unidade Conceito Final nas estruturas por conceito antigas que não a tinham e, nas turmas anteriores a 2026, grava como Conceito Final o conceito que a Ata já exibia
+- Corrigidos conceitos aparecendo em bimestres ainda não lançados na Ficha de Notas e no relatório do Diário Eletrônico: quando a turma trocava de estrutura de avaliação, as notas da estrutura antiga continuavam entrando no cálculo e deslocavam os conceitos para outras colunas. Para corrigir uma turma já afetada, basta salvar novamente as notas de cada componente
+- Corrigidos problemas que surgiram ao mover telas para módulos: erro 403 nas telas de administração (ex.: Atualizações do TAG), relatórios sem formatação (ficha de matrícula, ata de notas, declarações), fichas de matrícula da turma sobrepostas na impressão e campos que não carregavam nos formulários (cidades na matrícula do aluno, dados de endereço da escola, telas de professor e lançamento de notas)
+- Corrigida a geração da imagem Docker, que passou a falhar na instalação das dependências
+
 ## [Versão 3.14.27]
 - Release: une as entregas da dev (módulo MACETE v1 e Cotação de Preços no Almoxarifado) com os hotfixes da main (3.13.18 a 3.13.37)
 - O módulo MACETE agora tem uma flag própria de módulo (TASK_MACETE), que nasce desativada: antes ele dependia só das flags de Plano de Aula/Aulas Ministradas, já ativas em vários municípios, e apareceria automaticamente para eles. Para usar o MACETE, a rede precisa habilitá-lo em Administração > Gerenciar Módulos
