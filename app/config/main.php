@@ -69,6 +69,7 @@ return [
         'application.components.utils.TUrlBridge',
         'application.components.utils.AppRoutes',
         'application.components.auth.TFeature',
+        'application.components.auth.TTask',
         'application.components.auth.TRole',
         'application.components.utils.TLog',
         'application.components.auth.TNotificationEvent',

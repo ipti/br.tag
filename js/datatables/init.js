@@ -157,7 +157,7 @@ function initDatatable() {
                     indexActionButtons = [numColumns - 1];
                 }
 
-                if (action.includes("student") && !action.includes("studentimc") && !action.includes("enrollmentonline")) {
+                if (action.includes("student") && !action.includes("studentimc") && !action.includes("enrollmentonline") && !action.includes("studentAllergies")) {
                     $table.DataTable({
                         language: getLanguagePtbr(),
                         serverSide: true,

@@ -7,6 +7,7 @@
  * @property integer $id
  * @property string $school_fk
  * @property integer $food_fk
+ * @property string $supplier
  * @property double $amount
  * @property string $measurementUnit
  * @property string $expiration_date
@@ -34,9 +35,10 @@ class FoodInventory extends TagModel
             ['amount', 'numerical'],
             ['school_fk', 'length', 'max' => 8],
             ['measurementUnit', 'length', 'max' => 7],
-            ['expiration_date', 'safe'],
+            ['supplier', 'length', 'max' => 255],
+            ['expiration_date, supplier', 'safe'],
             // The following rule is used by search().
-            ['id, school_fk, food_fk, amount, measurementUnit, expiration_date', 'safe', 'on' => 'search'],
+            ['id, school_fk, food_fk, supplier, amount, measurementUnit, expiration_date', 'safe', 'on' => 'search'],
         ];
     }
 
@@ -61,6 +63,7 @@ class FoodInventory extends TagModel
             'id' => 'ID',
             'school_fk' => 'School Fk',
             'food_fk' => 'Food Fk',
+            'supplier' => 'Fornecedor',
             'amount' => 'Quantidade',
             'measurementUnit' => 'Measurement Unit',
             'expiration_date' => 'Validade',
@@ -86,6 +89,7 @@ class FoodInventory extends TagModel
         $criteria->compare('id', $this->id);
         $criteria->compare('school_fk', $this->school_fk, true);
         $criteria->compare('food_fk', $this->food_fk);
+        $criteria->compare('supplier', $this->supplier, true);
         $criteria->compare('amount', $this->amount);
         $criteria->compare('measurementUnit', $this->measurementUnit, true);
         $criteria->compare('expiration_date', $this->expiration_date, true);

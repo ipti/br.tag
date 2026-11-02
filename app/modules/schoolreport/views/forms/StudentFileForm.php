@@ -423,6 +423,10 @@ $turns = ['M' => 'Manhã', 'T' => 'Tarde', 'N' => 'Noite'];
                             $result .= ($result ? ', ' : '') . $data['others'];
                         }
 
+                        if (!empty($data['food_allergies_detail'])) {
+                            $result .= ($result ? ', ' : '') . 'Alergia a ' . $data['food_allergies_detail'];
+                        }
+
                         echo $result;
                         ?>
                     </div>
@@ -526,7 +530,11 @@ $turns = ['M' => 'Manhã', 'T' => 'Tarde', 'N' => 'Noite'];
     @media screen {
         .pageA4V {
             width: 980px;
-            height: 1400px;
+            /* height: auto anula a altura fixa do .pageA4V do template.css:
+               com ela, a ficha que passa da altura invade a seguinte no relatório da turma */
+            height: auto;
+            min-height: 1400px;
+            display: flow-root;
             margin: 0 auto;
         }
 
@@ -534,14 +542,6 @@ $turns = ['M' => 'Manhã', 'T' => 'Tarde', 'N' => 'Noite'];
             width: 1400px;
             height: 810px;
             margin: 0 auto;
-        }
-
-        #header-report ul#info,
-        #header-report ul#addinfo {
-            float: right;
-            width: 970px;
-            margin: 0;
-            overflow: hidden;
         }
     }
 
@@ -563,7 +563,11 @@ $turns = ['M' => 'Manhã', 'T' => 'Tarde', 'N' => 'Noite'];
 
         .pageA4V {
             width: 960px;
-            height: 1200px;
+            /* height: auto anula a altura fixa do .pageA4V do template.css:
+               com ela, a ficha que passa da altura invade a seguinte no relatório da turma */
+            height: auto;
+            min-height: 1200px;
+            display: flow-root;
             margin: 0 auto;
             font-size: 15px;
         }

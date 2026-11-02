@@ -23,6 +23,10 @@ class MaceteModule extends CWebModule
 
     public function beforeControllerAction($controller, $action)
     {
+        if (!Yii::app()->features->isEnable(TTask::TASK_MACETE)) {
+            throw new CHttpException(403, 'O módulo MACETE não está habilitado para este município.');
+        }
+
         $controller->layout = 'webroot.themes.default.views.layouts.fullmenu';
 
         return parent::beforeControllerAction($controller, $action);

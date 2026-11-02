@@ -49,12 +49,6 @@ $form = $this->beginWidget('CActiveForm', [
         <?php echo $form->error($model, 'acronym'); ?>
     </div>
 
-    <div class="column t-field-select clearfix is-one-quarter">
-        <?php echo $form->label($model, 'value', ['class' => 't-field-text__label--required']); ?>
-        <?php echo $form->textField($model, 'value', ['id' => 'conceptValue', 'class' => 't-field-text__input clear-margin--all js-amount', 'placeholder' => 'Valor']); ?>
-        <?php echo $form->error($model, 'value'); ?>
-    </div>
-
     <div class="row show--tablet">
         <div class="column clearfix">
             <div class="t-buttons-container">

@@ -15,10 +15,10 @@
         <div class="span12">
             <h1><?php echo Yii::t('default', 'Instructor Identifications') ?></h1>
             <div class="t-buttons-container">
-                <a class="t-button-primary" href="<?php echo Yii::app()->createUrl('instructor/create')?>">Adicionar professor</a>
+                <a class="t-button-primary" href="<?php echo Yii::app()->createUrl('instructor/default/create')?>">Adicionar professor</a>
                 <div class="mobile-row">
-                    <a class="t-button-secondary" href="<?php echo Yii::app()->createUrl('instructor/frequency')?>">Frequência</a>
-                    <a class="t-button-secondary" href="<?php echo Yii::app()->createUrl('instructor/updateEmails')?>">Atualizar e-mails</a>
+                    <a class="t-button-secondary" href="<?php echo Yii::app()->createUrl('instructor/default/frequency')?>">Frequência</a>
+                    <a class="t-button-secondary" href="<?php echo Yii::app()->createUrl('instructor/default/updateEmails')?>">Atualizar e-mails</a>
                 </div>
             </div>
         </div>
@@ -28,9 +28,9 @@
                 <span class="caret"></span>
             </a>
             <ul class="dropdown-menu">
-                <li><a href="<?php echo Yii::app()->createUrl('instructor/frequency')?>" class="t-button-primary">Frequência</a></li>
-                <li><a href="<?php echo Yii::app()->createUrl('instructor/updateEmails')?>"><i></i> Atualizar e-mails</a></li>
-                <li><a href="<?php echo Yii::app()->createUrl('instructor/create')?>"><i></i> Adicionar professor</a></li>
+                <li><a href="<?php echo Yii::app()->createUrl('instructor/default/frequency')?>" class="t-button-primary">Frequência</a></li>
+                <li><a href="<?php echo Yii::app()->createUrl('instructor/default/updateEmails')?>"><i></i> Atualizar e-mails</a></li>
+                <li><a href="<?php echo Yii::app()->createUrl('instructor/default/create')?>"><i></i> Adicionar professor</a></li>
             </ul>
         </div>
     </div>

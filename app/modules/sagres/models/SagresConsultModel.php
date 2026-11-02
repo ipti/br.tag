@@ -394,6 +394,7 @@ class SagresConsultModel
             $infoStudent = $this->getStudentInfo($student['student_fk']);
             $count = $this->getCountOfClassrooms($student, $year);
             $this->checkStudentEnrollment($student['student_fk'], $year, infoStudent: $infoStudent);
+            $this->checkOtherModalityDuplicateEnrollment($student['student_fk'], $year, $infoStudent);
 
             if (!in_array($student['student_fk'], $processedStudents)) {
                 $this->createInconsistencyModel($student, $infoStudent, $count);
@@ -567,6 +568,70 @@ class SagresConsultModel
                 $inconsistencyModel->save();
             }
         }
+    }
+
+    /**
+     * Flags duplicate active enrollments in "regular" classes (not complementary
+     * activity, not AEE) whose modality falls outside the historically hardcoded
+     * set (1, 2, 3) checked in checkStudentEnrollment — e.g. Educação Infantil
+     * (modality 100) or EJA (modality 5). Those combinations are silently ignored
+     * by the modality-literal comparisons above, so a genuinely duplicated
+     * enrollment in those modalities was never reported, even though SAGRES
+     * itself flags it as "cpfAluno duplicado".
+     *
+     * @param int $studentfk The student ID.
+     * @param int $year The school year.
+     * @param array $infoStudent Student information.
+     */
+    private function checkOtherModalityDuplicateEnrollment($studentfk, $year, $infoStudent)
+    {
+        $knownModalities = [1, 2, 3];
+        $acceptedStatus = $this->getAcceptedEnrollmentStatus();
+        $strAcceptedStatus = implode(',', $acceptedStatus);
+
+        $sql = "SELECT c.modality, se.classroom_fk, se.school_inep_id_fk
+        FROM student_enrollment se
+        JOIN classroom c ON se.classroom_fk = c.id
+        WHERE se.student_fk = :student_fk
+        AND (se.status in ($strAcceptedStatus) or se.status is null)
+        AND c.school_year = :year
+        AND c.complementary_activity = 0
+        AND c.aee = 0";
+
+        $command = Yii::app()->db->createCommand($sql);
+        $command->bindParam(':student_fk', $studentfk);
+        $command->bindParam(':year', $year);
+        $regularEnrollments = $command->queryAll();
+
+        if (count($regularEnrollments) <= 1) {
+            return;
+        }
+
+        $hasOtherModality = false;
+        foreach ($regularEnrollments as $enrollment) {
+            if (!in_array((int) $enrollment['modality'], $knownModalities, true)) {
+                $hasOtherModality = true;
+                break;
+            }
+        }
+
+        if (!$hasOtherModality) {
+            return;
+        }
+
+        $studentData = $this->getStudentDataById($studentfk);
+        $lastEnrollment = end($regularEnrollments);
+
+        $inconsistencyModel = new ValidationSagresModel();
+        $inconsistencyModel->enrollment = '<strong>ALUNO</strong>';
+        $inconsistencyModel->school = $studentData['name'];
+        $inconsistencyModel->identifier = '9';
+        $inconsistencyModel->idStudent = $studentfk;
+        $inconsistencyModel->idClass = $lastEnrollment['classroom_fk'];
+        $inconsistencyModel->idSchool = $lastEnrollment['school_inep_id_fk'];
+        $inconsistencyModel->description = 'CPF <strong>' . $studentData['cpf'] . '</strong> do aluno <strong>' . $infoStudent['name'] . '</strong> duplicado';
+        $inconsistencyModel->action = 'Remova a matrícula do aluno de uma das turmas';
+        $inconsistencyModel->save();
     }
 
     /**
@@ -754,7 +819,7 @@ class SagresConsultModel
             }
 
             $multiserie = $this->isMulti($classId);
-            $serie = $this->getSeries2025($classId, $multiserie);
+            $serie = $this->getSeries2025($classId, $multiserie, $turma['classroomName']);
 
             $classType
                 ->setPeriodo($turma['period']) //0 - Anual
@@ -963,9 +1028,10 @@ class SagresConsultModel
      *
      * @param int $classId The class ID.
      * @param bool $isMulti Whether the class is multi-grade.
+     * @param string|null $className The class name, used for inconsistency messages.
      * @return SerieTType[]
      */
-    private function getSeries2025($classId, $isMulti)
+    private function getSeries2025($classId, $isMulti, $className = null)
     {
         $seriesList = [];
 
@@ -973,7 +1039,7 @@ class SagresConsultModel
         $series = Yii::app()->db->createCommand($query)->bindValue(':id', $classId)->queryAll();
 
         $seriesList = $this->seriesAssembly($series, $classId, $isMulti);
-        $this->seriesNumberValidation($series, $classId);
+        $this->seriesNumberValidation($series, $classId, $isMulti, $className);
 
         return $seriesList;
     }
@@ -1093,6 +1159,7 @@ class SagresConsultModel
         JOIN  edcenso_stage_vs_modality esvm on esvm.id = se.edcenso_stage_vs_modality_fk
         WHERE
             c.id = :id
+        And (se.status = 1 or se.status is null)
         And esvm.edcenso_associated_stage_id is not NULL
         GROUP by se.edcenso_stage_vs_modality_fk'
             :
@@ -1186,15 +1253,20 @@ class SagresConsultModel
     }
 
     /**
-     * Validates the number of series in a multi-grade class (limit: 3).
+     * Validates the number of series in a multi-grade class (limit: 3, minimum: 2).
      *
      * @param array $series The series found.
      * @param int $idClass The class ID.
+     * @param bool $isMulti Whether the class is flagged as multi-grade (multiseriada).
+     * @param string|null $className The class name, used for inconsistency messages.
      */
-    private function seriesNumberValidation($series, $idClass): void
+    private function seriesNumberValidation($series, $idClass, $isMulti = false, $className = null): void
     {
         $maxNumber = 3;
+        $minMultiNumber = 2;
         $schoolName = $this->schoolName;
+        $inepId = $this->inepId;
+
         if (count($series) > $maxNumber) {
             $inconsistencyModel = new ValidationSagresModel();
             $inconsistencyModel->enrollment = TURMA_STRONG;
@@ -1204,6 +1276,19 @@ class SagresConsultModel
             $inconsistencyModel->identifier = '13';
 
             $inconsistencyModel->idClass = $idClass;
+            $inconsistencyModel->insert();
+        }
+
+        if ($isMulti && count($series) < $minMultiNumber) {
+            $inconsistencyModel = new ValidationSagresModel();
+            $inconsistencyModel->enrollment = TURMA_STRONG;
+            $inconsistencyModel->school = $schoolName;
+            $inconsistencyModel->description = 'A turma <strong>' . $className . '</strong> está marcada como multiseriada, mas possui apenas uma etapa de ensino';
+            $inconsistencyModel->action = 'Desmarque a turma como multiseriada ou adicione alunos de outra etapa de ensino: ' . $className;
+            $inconsistencyModel->identifier = '13';
+
+            $inconsistencyModel->idClass = $idClass;
+            $inconsistencyModel->idSchool = $inepId;
             $inconsistencyModel->insert();
         }
     }

@@ -3,7 +3,7 @@ $("#classesSearch").on("click", function () {
         $(".alert-required-fields, .alert-incomplete-data").hide();
         jQuery.ajax({
             type: "POST",
-            url: "?r=instructor/getFrequency",
+            url: "?r=instructor/default/getFrequency",
             cache: false,
             data: {
                 instructor: $("#instructor").val(),
@@ -83,7 +83,7 @@ $(document).on("change", ".frequency-checkbox", function () {
     let checkbox = this;
     $.ajax({
         type: "POST",
-        url: "?r=instructor/saveFrequency",
+        url: "?r=instructor/default/saveFrequency",
         cache: false,
         data: {
             instructorId: $(this).data("instructor-id"),
@@ -127,7 +127,7 @@ $("#save-justification-modal").on("shown", function () {
 $(document).on("click", ".btn-save-justification", function () {
     $.ajax({
         type: "POST",
-        url: "?r=instructor/saveJustification",
+        url: "?r=instructor/default/saveJustification",
         cache: false,
         data: {
             instructorId: $("#justification-instructorid").val(),

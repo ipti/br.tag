@@ -1809,19 +1809,19 @@ parameters:
 		-
 			message: '#^Access to constant TYPE_UNITY on an unknown class GradeUnity\.$#'
 			identifier: class.notFound
-			count: 1
+			count: 2
 			path: app/domain/grades/usecases/GetStudentGradesByDisciplineUsecase.php
 
 		-
 			message: '#^Access to constant TYPE_UNITY_BY_CONCEPT on an unknown class GradeUnity\.$#'
 			identifier: class.notFound
-			count: 1
+			count: 2
 			path: app/domain/grades/usecases/GetStudentGradesByDisciplineUsecase.php
 
 		-
 			message: '#^Access to constant TYPE_UNITY_WITH_RECOVERY on an unknown class GradeUnity\.$#'
 			identifier: class.notFound
-			count: 2
+			count: 3
 			path: app/domain/grades/usecases/GetStudentGradesByDisciplineUsecase.php
 
 		-
@@ -1953,7 +1953,7 @@ parameters:
 		-
 			message: '#^Access to property \$type on an unknown class GradeUnity\.$#'
 			identifier: class.notFound
-			count: 3
+			count: 4
 			path: app/domain/grades/usecases/GetStudentGradesByDisciplineUsecase.php
 
 		-

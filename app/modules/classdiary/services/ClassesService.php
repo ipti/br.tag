@@ -243,11 +243,6 @@
 
         public function isMinorSchooling($classroom, $stageFk)
         {
-            return
-                $classroom->edcensoStageVsModalityFk->unified_frequency == 1 ||
-                TagUtils::isStageMinorEducation($stageFk) ||
-                TagUtils::isStageMinorEducation(
-                    $classroom->edcensoStageVsModalityFk->edcenso_associated_stage_id
-                );
+            return $classroom->checkIsStageMinorEducation();
         }
     }

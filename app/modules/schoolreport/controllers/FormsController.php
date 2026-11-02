@@ -4,7 +4,7 @@ require_once __DIR__ . '/../repositories/FormsRepository.php';
 
 class FormsController extends Controller
 {
-    public $layout = 'fullmenu';
+    public $layout = 'webroot.themes.default.views.layouts.fullmenu';
     public $year = 0;
 
     public function accessRules()
@@ -61,7 +61,7 @@ class FormsController extends Controller
 
     public function actionEnrollmentGradesReport($enrollmentId)
     {
-        $this->layout = 'reports';
+        $this->layout = 'webroot.themes.default.views.layouts.reports';
         $repository = new FormsRepository();
         $query = $repository->getEnrollmentGrades($enrollmentId);
         $this->render('EnrollmentGradesReport', $query);
@@ -69,7 +69,7 @@ class FormsController extends Controller
 
     public function actionIndividualRecord($enrollmentId)
     {
-        $this->layout = 'reports';
+        $this->layout = 'webroot.themes.default.views.layouts.reports';
         $repository = new FormsRepository();
         $query = $repository->getIndividualRecord($enrollmentId);
         $this->render('IndividualRecord', $query);
@@ -77,7 +77,7 @@ class FormsController extends Controller
 
     public function actionEnrollmentGradesReportBoquim($enrollmentId)
     {
-        $this->layout = 'reports';
+        $this->layout = 'webroot.themes.default.views.layouts.reports';
         $repository = new FormsRepository();
         $query = $repository->getEnrollmentGradesBoquim($enrollmentId);
         $this->render('EnrollmentGradesReportBoquim', $query);
@@ -85,7 +85,7 @@ class FormsController extends Controller
 
     public function actionEnrollmentGradesReportBoquimCiclo($enrollmentId)
     {
-        $this->layout = 'reports';
+        $this->layout = 'webroot.themes.default.views.layouts.reports';
         $repository = new FormsRepository();
         $query = $repository->getEnrollmentGradesBoquimCiclo($enrollmentId);
         $this->render('EnrollmentGradesReportBoquimCiclo', $query);
@@ -93,7 +93,7 @@ class FormsController extends Controller
 
     public function actionEnrollmentDeclarationReport($enrollmentId)
     {
-        $this->layout = 'reports';
+        $this->layout = 'webroot.themes.default.views.layouts.reports';
         $repository = new FormsRepository();
         $query = $repository->getEnrollmentDeclaration($enrollmentId);
         $query['enrollmentId'] = $enrollmentId;
@@ -102,7 +102,7 @@ class FormsController extends Controller
 
     public function actionStudentIMCReport($classroomId)
     {
-        $this->layout = 'reports';
+        $this->layout = 'webroot.themes.default.views.layouts.reports';
         $repository = new FormsRepository();
         $response = $repository->getStudnetIMC($classroomId);
         $this->render('StudentIMCReport', ['response' => $response]);
@@ -110,7 +110,7 @@ class FormsController extends Controller
 
     public function actionStudentIMCHistoryReport($studentId)
     {
-        $this->layout = 'reports';
+        $this->layout = 'webroot.themes.default.views.layouts.reports';
         $repository = new FormsRepository();
         $response = $repository->getStudentIMCHistory($studentId);
         $this->render('StudentIMCHistoryReport', ['response' => $response]);
@@ -118,7 +118,7 @@ class FormsController extends Controller
 
     public function actionConclusionCertification($enrollmentId)
     {
-        $this->layout = 'reports';
+        $this->layout = 'webroot.themes.default.views.layouts.reports';
         $repository = new FormsRepository();
         $query = $repository->getConclusionCertification($enrollmentId);
         $this->render('ConclusionCertification', $query);
@@ -134,7 +134,7 @@ class FormsController extends Controller
 
     public function actionTransferRequirement($enrollmentId)
     {
-        $this->layout = 'reports';
+        $this->layout = 'webroot.themes.default.views.layouts.reports';
         $repository = new FormsRepository();
         $query = $repository->getTransferRequirement($enrollmentId);
         $this->render('TransferRequirement', $query);
@@ -150,7 +150,7 @@ class FormsController extends Controller
 
     public function actionEnrollmentNotification($enrollmentId)
     {
-        $this->layout = 'reports';
+        $this->layout = 'webroot.themes.default.views.layouts.reports';
         $repository = new FormsRepository();
         $query = $repository->getEnrollmentNotification($enrollmentId);
         $this->render('EnrollmentNotification', $query);
@@ -166,7 +166,7 @@ class FormsController extends Controller
 
     public function actionStudentsDeclarationReport($enrollmentId)
     {
-        $this->layout = 'reports';
+        $this->layout = 'webroot.themes.default.views.layouts.reports';
         $repository = new FormsRepository();
         $query = $repository->getStudentsDeclaration($enrollmentId);
         $this->render('StudentsDeclarationReport', $query);
@@ -182,7 +182,7 @@ class FormsController extends Controller
 
     public function actionAtaSchoolPerformance($id)
     {
-        $this->layout = 'reports';
+        $this->layout = 'webroot.themes.default.views.layouts.reports';
         $repository = new FormsRepository();
         $query = $repository->getAtaSchoolPerformance($id);
         $this->render('AtaSchoolPerformance', $query);
@@ -190,7 +190,7 @@ class FormsController extends Controller
 
     public function actionStudentFileForm($enrollmentId)
     {
-        $this->layout = 'reports';
+        $this->layout = 'webroot.themes.default.views.layouts.reports';
         $repository = new FormsRepository();
         $query = $repository->getStudentFileForm($enrollmentId);
         $this->render('StudentFileForm', $query);
@@ -198,7 +198,7 @@ class FormsController extends Controller
 
     public function actionStudentsFileForm($classroomId)
     {
-        $this->layout = 'reports';
+        $this->layout = 'webroot.themes.default.views.layouts.reports';
         $repository = new FormsRepository();
         $query = $repository->getStudentsFileForm($classroomId);
         $this->render('StudentsFileForm', $query);
@@ -206,7 +206,7 @@ class FormsController extends Controller
 
     public function actionTransferForm($enrollmentId)
     {
-        $this->layout = 'reports';
+        $this->layout = 'webroot.themes.default.views.layouts.reports';
         $repository = new FormsRepository();
         $query = $repository->getTransferForm($enrollmentId);
         $this->render('TransferForm', $query);
@@ -222,7 +222,7 @@ class FormsController extends Controller
 
     public function actionStatementAttended($enrollmentId)
     {
-        $this->layout = 'reports';
+        $this->layout = 'webroot.themes.default.views.layouts.reports';
         $repository = new FormsRepository();
         $query = $repository->getStatementAttended($enrollmentId);
         $this->render('StudentStatementAttended', $query);
@@ -230,7 +230,7 @@ class FormsController extends Controller
 
     public function actionWarningTerm($enrollmentId)
     {
-        $this->layout = 'reports';
+        $this->layout = 'webroot.themes.default.views.layouts.reports';
         $repository = new FormsRepository();
         $query = $repository->getWarningTerm($enrollmentId);
         $this->render('WarningTerm', $query);
@@ -238,7 +238,7 @@ class FormsController extends Controller
 
     public function actionSuspensionTerm($enrollmentId)
     {
-        $this->layout = 'reports';
+        $this->layout = 'webroot.themes.default.views.layouts.reports';
         $repository = new FormsRepository();
         $query = $repository->getSuspensionTerm($enrollmentId);
         $this->render('SuspensionTerm', $query);
