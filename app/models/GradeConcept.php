@@ -31,7 +31,6 @@ class GradeConcept extends TagModel
         // will receive user inputs.
         return [
             ['name, acronym', 'required'],
-            ['value', 'numerical'],
             ['name', 'length', 'max' => 50],
             ['acronym', 'length', 'max' => 5],
             // The following rule is used by search().
