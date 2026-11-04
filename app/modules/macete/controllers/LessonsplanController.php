@@ -129,8 +129,14 @@ class LessonsplanController extends Controller
         $criteria = new CDbCriteria();
         $this->lessonPlanTemplateService()->applyYearScope($criteria);
         // Etapas e componentes de cada modelo carregados junto, para não
-        // fazer uma consulta por modelo (o acervo de um ano passa de mil)
-        $criteria->with = ['planStages.stageFk', 'planStages.disciplineFk', 'stageFk'];
+        // fazer uma consulta por modelo (o acervo de um ano passa de mil).
+        // A etapa do próprio modelo precisa de outro alias: o Yii usa o nome
+        // da relação como alias e planStages.stageFk já ocupa "stageFk".
+        $criteria->with = [
+            'planStages.stageFk',
+            'planStages.disciplineFk',
+            'stageFk' => ['alias' => 'templateStageFk'],
+        ];
         $criteria->order = 't.name ASC';
         $templates = MaceteLessonPlanTemplate::model()->findAll($criteria);
 
