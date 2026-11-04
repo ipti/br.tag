@@ -321,6 +321,10 @@ $this->setPageTitle('TAG - Planos MACETE');
                 $('.js-macete-template-search').removeClass('hide');
                 filterTemplates();
                 $('#js-macete-template-text').trigger('focus');
+            }).fail(function () {
+                // Libera uma nova tentativa ao reabrir o modal
+                templatesLoaded = false;
+                $('.js-macete-template-loading').text('Não foi possível carregar os modelos. Feche e abra de novo para tentar outra vez.');
             });
         }
 
