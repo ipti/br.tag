@@ -68,6 +68,7 @@ class LessonsplanController extends Controller
             'dataProvider' => $dataProvider,
             'stages' => $this->lessonPlanService()->getStages(),
             'disciplines' => $this->lessonPlanService()->getDisciplines(),
+            'templateStages' => $this->lessonPlanTemplateService()->getStagesWithTemplates(),
             'filters' => [
                 'stage' => $stage,
                 'discipline' => $discipline,
@@ -127,13 +128,18 @@ class LessonsplanController extends Controller
 
         $criteria = new CDbCriteria();
         $this->lessonPlanTemplateService()->applyYearScope($criteria);
-        $criteria->order = 'name ASC';
+        // Etapas e componentes de cada modelo carregados junto, para não
+        // fazer uma consulta por modelo (o acervo de um ano passa de mil)
+        $criteria->with = ['planStages.stageFk', 'planStages.disciplineFk', 'stageFk'];
+        $criteria->order = 't.name ASC';
         $templates = MaceteLessonPlanTemplate::model()->findAll($criteria);
 
         echo CJSON::encode(array_map(static fn (MaceteLessonPlanTemplate $template): array => [
             'id' => (int) $template->id,
             'name' => $template->name,
             'code' => $template->code,
+            'theme' => $template->theme,
+            'stageIds' => $template->getStageIds(),
             'stage' => $template->getStageNames(),
             'discipline' => $template->getDisciplineNames(),
         ], $templates));
