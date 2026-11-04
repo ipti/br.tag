@@ -28,7 +28,14 @@ class CalculateConceptGradeUsecase
         $classroom = Classroom::model()->with('activeStudentEnrollments.studentFk')->findByPk($this->classroomId);
         $totalEnrollments = $classroom->activeStudentEnrollments;
         $studentEnrollments = [];
-        if (TagUtils::isMultiStage($classroom->edcenso_stage_vs_modality_fk)) {
+        // Numa turma multietapa a tela de notas também lança pela etapa da
+        // própria turma, e aí lista todos os alunos. Filtrar pela etapa da
+        // matrícula deixava de fora quem está matriculado em outra etapa
+        // (ex.: Creche numa turma Unificada), e os conceitos deles não
+        // chegavam ao grade_results. Mesma regra do CalculateNumericGradeUsecase.
+        $isClassroomStage = $this->stage === null || $this->stage === ''
+            || (int) $this->stage === (int) $classroom->edcenso_stage_vs_modality_fk;
+        if (TagUtils::isMultiStage($classroom->edcenso_stage_vs_modality_fk) && !$isClassroomStage) {
             foreach ($totalEnrollments as $enrollment) {
                 if ($enrollment->edcenso_stage_vs_modality_fk == $this->stage) {
                     array_push($studentEnrollments, $enrollment);
@@ -175,13 +182,18 @@ class CalculateConceptGradeUsecase
             return [];
         }
 
+        // Unidade por conceito tem um conceito só. Algumas estruturas por
+        // conceito ficaram com a modalidade de bimestres alternados gravada
+        // como recuperação (R); a tela de notas lança nelas normalmente, então
+        // as duas contam aqui.
         $gradesIds = array_column(Yii::app()->db->createCommand(
             "SELECT
                 g.id
                 FROM grade g
                 join grade_unity_modality gum on g.grade_unity_modality_fk = gum.id
                 join grade_unity gu on gu.id= gum.grade_unity_fk
-                WHERE g.enrollment_fk = :enrollment_id and g.discipline_fk = :discipline_id and gum.type = '" . GradeUnityModality::TYPE_COMMON . "' and gu.type = 'UC'
+                WHERE g.enrollment_fk = :enrollment_id and g.discipline_fk = :discipline_id
+                and gum.type IN ('" . GradeUnityModality::TYPE_COMMON . "', '" . GradeUnityModality::TYPE_RECOVERY . "') and gu.type = 'UC'
                 and gu.id IN (" . implode(',', array_map('intval', $unityIds)) . ')'
         )->bindParam(':enrollment_id', $enrollmentId)
             ->bindParam(':discipline_id', $discipline)->queryAll(), 'id');
