@@ -3,6 +3,7 @@
 /* @var $dataProvider CActiveDataProvider */
 /* @var $stages array */
 /* @var $disciplines array */
+/* @var $templateStages array */
 /* @var $filters array */
 
 $this->setPageTitle('TAG - Planos MACETE');
@@ -152,7 +153,7 @@ $this->setPageTitle('TAG - Planos MACETE');
         </div>
     </div>
 
-    <div class="modal fade t-modal-container" id="js-macete-use-template" tabindex="-1" role="dialog">
+    <div class="modal fade t-modal-container larger" id="js-macete-use-template" tabindex="-1" role="dialog">
         <div class="modal-dialog" role="document">
             <div class="t-modal__header">
                 <h4 class="t-title">Usar plano modelo</h4>
@@ -163,9 +164,46 @@ $this->setPageTitle('TAG - Planos MACETE');
             <div class="t-modal__body">
                 <div class="js-macete-template-loading">Carregando modelos...</div>
                 <div class="js-macete-template-empty hide">Nenhum plano modelo cadastrado ainda.</div>
-                <div class="t-field-select js-macete-template-select-container hide">
-                    <label class="t-field-select__label">Modelo</label>
-                    <select id="js-macete-template-select" class="select-search-on t-field-select__input"></select>
+                <div class="js-macete-template-search hide">
+                    <div class="mobile-row">
+                        <div class="column clearleft is-one-quarter">
+                            <div class="t-field-text">
+                                <label class="t-field-text__label" for="js-macete-template-code">Código do plano</label>
+                                <input type="text" id="js-macete-template-code" class="t-field-text__input" placeholder="Ex.: MAT-001" autocomplete="off">
+                            </div>
+                        </div>
+                        <div class="column">
+                            <div class="t-field-text">
+                                <label class="t-field-text__label" for="js-macete-template-text">Pesquisar</label>
+                                <input type="text" id="js-macete-template-text" class="t-field-text__input" placeholder="Digite palavras do título ou do tema" autocomplete="off">
+                            </div>
+                        </div>
+                        <div class="column t-field-select is-one-quarter">
+                            <label class="t-field-select__label" for="js-macete-template-stage">Etapa</label>
+                            <?php echo CHtml::dropDownList(
+                                'js-macete-template-stage',
+                                '',
+                                CHtml::listData($templateStages, 'id', 'name'),
+                                [
+                                    'id' => 'js-macete-template-stage',
+                                    'class' => 't-field-select__input',
+                                    'prompt' => 'Todas as etapas',
+                                ]
+                            ); ?>
+                        </div>
+                    </div>
+                    <p class="js-macete-template-count"></p>
+                    <table class="tag-table tag-table-primary">
+                        <thead>
+                            <tr>
+                                <th>Código</th>
+                                <th>Tema da aula</th>
+                                <th>Etapa</th>
+                                <th>Componente</th>
+                            </tr>
+                        </thead>
+                        <tbody class="js-macete-template-results"></tbody>
+                    </table>
                 </div>
                 <div class="t-modal__footer row reverse">
                     <div class="t-buttons-container justify-content--center">
@@ -184,7 +222,77 @@ $this->setPageTitle('TAG - Planos MACETE');
 
 <script>
     (function ($) {
+        // Acima disso a lista pede para refinar a busca: o acervo de um ano
+        // passa de mil modelos e montar todas as linhas deixa o modal lento
+        var MAX_RESULTS = 100;
         var templatesLoaded = false;
+        var templates = [];
+        var selectedId = null;
+        var filterTimer = null;
+
+        // Busca sem diferenciar maiúsculas nem acentos ("matematica" acha "Matemática")
+        function normalize(value) {
+            return (value || '').toString().normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase().trim();
+        }
+
+        function goToTemplate(templateId) {
+            window.location.href = '?r=macete/lessonsplan/create&templateId=' + encodeURIComponent(templateId);
+        }
+
+        function selectTemplate(templateId) {
+            selectedId = templateId;
+            $('.js-macete-template-results tr').removeClass('selected');
+            if (templateId !== null) {
+                $('.js-macete-template-results tr[data-id="' + templateId + '"]').addClass('selected');
+            }
+            $('.js-macete-use-template-confirm').toggleClass('hide', templateId === null);
+        }
+
+        function filterTemplates() {
+            var code = normalize($('#js-macete-template-code').val());
+            var words = normalize($('#js-macete-template-text').val()).split(/\s+/).filter(Boolean);
+            var stageId = parseInt($('#js-macete-template-stage').val(), 10);
+
+            var matches = templates.filter(function (template) {
+                if (code && template.codeText.indexOf(code) === -1) {
+                    return false;
+                }
+                if (stageId && template.stageIds.indexOf(stageId) === -1) {
+                    return false;
+                }
+                return words.every(function (word) {
+                    return template.searchText.indexOf(word) !== -1;
+                });
+            });
+
+            var body = $('.js-macete-template-results').empty();
+            $.each(matches.slice(0, MAX_RESULTS), function () {
+                body.append(
+                    $('<tr>').attr('data-id', this.id).css('cursor', 'pointer').append(
+                        $('<td>').text(this.code || ''),
+                        $('<td>').text(this.name),
+                        $('<td>').text(this.stage || ''),
+                        $('<td>').text(this.discipline || '')
+                    )
+                );
+            });
+
+            var count;
+            if (!matches.length) {
+                count = 'Nenhum modelo encontrado. Confira o código ou tente outras palavras.';
+            } else if (matches.length > MAX_RESULTS) {
+                count = matches.length + ' modelos encontrados. Mostrando os ' + MAX_RESULTS + ' primeiros: refine a busca para achar o que procura.';
+            } else {
+                count = matches.length + (matches.length === 1 ? ' modelo encontrado.' : ' modelos encontrados.');
+            }
+            $('.js-macete-template-count').text(count);
+
+            // Mantém a seleção só se o modelo escolhido continua na lista
+            var stillListed = matches.slice(0, MAX_RESULTS).some(function (template) {
+                return template.id === selectedId;
+            });
+            selectTemplate(stillListed ? selectedId : null);
+        }
 
         function loadTemplates() {
             if (templatesLoaded) {
@@ -196,36 +304,47 @@ $this->setPageTitle('TAG - Planos MACETE');
                 type: 'POST',
                 url: '?r=macete/lessonsplan/getTemplates',
                 dataType: 'json',
-            }).done(function (templates) {
+            }).done(function (data) {
                 $('.js-macete-template-loading').addClass('hide');
 
-                if (!templates || !templates.length) {
+                if (!data || !data.length) {
                     $('.js-macete-template-empty').removeClass('hide');
                     return;
                 }
 
-                var select = $('#js-macete-template-select');
-                $.each(templates, function () {
-                    var label = this.name + (this.stage ? ' — ' + this.stage : '') + (this.discipline ? ' — ' + this.discipline : '');
-                    select.append($('<option>').val(this.id).text(label));
+                templates = $.map(data, function (template) {
+                    template.codeText = normalize(template.code);
+                    template.searchText = normalize([template.name, template.theme, template.code].join(' '));
+                    return template;
                 });
 
-                $('.js-macete-template-select-container').removeClass('hide');
-                $('.js-macete-use-template-confirm').removeClass('hide');
-                if (select.select2) {
-                    select.select2({ width: 'resolve', dropdownParent: $('#js-macete-use-template') });
-                }
+                $('.js-macete-template-search').removeClass('hide');
+                filterTemplates();
+                $('#js-macete-template-text').trigger('focus');
             });
         }
 
         $('#js-macete-use-template').on('show.bs.modal shown.bs.modal', loadTemplates);
 
+        $(document).on('input', '#js-macete-template-code, #js-macete-template-text', function () {
+            clearTimeout(filterTimer);
+            filterTimer = setTimeout(filterTemplates, 200);
+        });
+
+        $(document).on('change', '#js-macete-template-stage', filterTemplates);
+
+        $(document).on('click', '.js-macete-template-results tr', function () {
+            selectTemplate($(this).data('id'));
+        });
+
+        $(document).on('dblclick', '.js-macete-template-results tr', function () {
+            goToTemplate($(this).data('id'));
+        });
+
         $(document).on('click', '.js-macete-use-template-confirm', function () {
-            var templateId = $('#js-macete-template-select').val();
-            if (!templateId) {
-                return;
+            if (selectedId !== null) {
+                goToTemplate(selectedId);
             }
-            window.location.href = '?r=macete/lessonsplan/create&templateId=' + encodeURIComponent(templateId);
         });
     })(jQuery);
 </script>
