@@ -9,6 +9,7 @@
  * @property string $theme
  * @property integer $edcenso_stage_vs_modality_fk
  * @property integer $edcenso_discipline_fk
+ * @property integer $school_year
  * @property integer $created_by_users_fk
  * @property string $unit
  * @property string $knowledge_object
@@ -42,13 +43,13 @@ class MaceteLessonPlanTemplate extends TagModel
     {
         return [
             ['name, theme, edcenso_stage_vs_modality_fk', 'required'],
-            ['edcenso_stage_vs_modality_fk, edcenso_discipline_fk, created_by_users_fk', 'numerical', 'integerOnly' => true],
+            ['edcenso_stage_vs_modality_fk, edcenso_discipline_fk, school_year, created_by_users_fk', 'numerical', 'integerOnly' => true],
             ['name', 'length', 'max' => 150],
             ['code', 'length', 'max' => 50],
             ['theme', 'length', 'max' => 255],
             ['unit', 'length', 'max' => 50],
             ['code, knowledge_object, evaluation, adaptations, references_text, created_at, updated_at', 'safe'],
-            ['id, name, code, theme, edcenso_stage_vs_modality_fk, edcenso_discipline_fk, created_by_users_fk, unit, knowledge_object, evaluation, adaptations, references_text, created_at, updated_at', 'safe', 'on' => 'search'],
+            ['id, name, code, theme, edcenso_stage_vs_modality_fk, edcenso_discipline_fk, school_year, created_by_users_fk, unit, knowledge_object, evaluation, adaptations, references_text, created_at, updated_at', 'safe', 'on' => 'search'],
         ];
     }
 
@@ -76,6 +77,7 @@ class MaceteLessonPlanTemplate extends TagModel
             'theme' => 'Tema da aula',
             'edcenso_stage_vs_modality_fk' => 'Etapa',
             'edcenso_discipline_fk' => 'Componente curricular',
+            'school_year' => 'Ano letivo',
             'created_by_users_fk' => 'Criado por',
             'unit' => 'Unidade',
             'knowledge_object' => 'Objeto do conhecimento',
@@ -97,6 +99,7 @@ class MaceteLessonPlanTemplate extends TagModel
         $criteria->compare('theme', $this->theme, true);
         $criteria->compare('edcenso_stage_vs_modality_fk', $this->edcenso_stage_vs_modality_fk);
         $criteria->compare('edcenso_discipline_fk', $this->edcenso_discipline_fk);
+        $criteria->compare('school_year', $this->school_year);
         $criteria->compare('created_by_users_fk', $this->created_by_users_fk);
         $criteria->compare('unit', $this->unit, true);
 

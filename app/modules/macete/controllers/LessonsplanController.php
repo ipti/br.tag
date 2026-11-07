@@ -68,6 +68,8 @@ class LessonsplanController extends Controller
             'dataProvider' => $dataProvider,
             'stages' => $this->lessonPlanService()->getStages(),
             'disciplines' => $this->lessonPlanService()->getDisciplines(),
+            'templateStages' => $this->lessonPlanTemplateService()->getStagesWithTemplates(),
+            'templateDisciplines' => $this->lessonPlanTemplateService()->getDisciplinesWithTemplates(),
             'filters' => [
                 'stage' => $stage,
                 'discipline' => $discipline,
@@ -125,12 +127,29 @@ class LessonsplanController extends Controller
     {
         $this->accessService()->requireLessonPlanFeature();
 
-        $templates = MaceteLessonPlanTemplate::model()->findAll(['order' => 'name ASC']);
+        $criteria = new CDbCriteria();
+        $this->lessonPlanTemplateService()->applyYearScope($criteria);
+        // Etapas e componentes de cada modelo carregados junto, para não
+        // fazer uma consulta por modelo (o acervo de um ano passa de mil).
+        // A etapa do próprio modelo precisa de outro alias: o Yii usa o nome
+        // da relação como alias e planStages.stageFk já ocupa "stageFk".
+        $criteria->with = [
+            'planStages.stageFk',
+            'planStages.disciplineFk',
+            'stageFk' => ['alias' => 'templateStageFk'],
+        ];
+        $criteria->order = 't.name ASC';
+        $templates = MaceteLessonPlanTemplate::model()->findAll($criteria);
 
+        $templateService = $this->lessonPlanTemplateService();
         echo CJSON::encode(array_map(static fn (MaceteLessonPlanTemplate $template): array => [
             'id' => (int) $template->id,
             'name' => $template->name,
             'code' => $template->code,
+            'theme' => $template->theme,
+            // Pares etapa/componente: o filtro precisa saber qual componente
+            // vale em qual etapa, já que um modelo pode cobrir várias
+            'components' => $templateService->getStageComponents($template),
             'stage' => $template->getStageNames(),
             'discipline' => $template->getDisciplineNames(),
         ], $templates));

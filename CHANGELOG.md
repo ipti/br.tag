@@ -1,3 +1,7 @@
+## [Versão 3.15.0]
+- Planos modelo do MACETE separados por ano letivo: a tela de Planos Modelo e o "Usar modelo" mostram só os modelos do ano letivo em que o usuário está logado, e a tela de Planos Modelo ganhou filtro por etapa. Abrir pelo link um modelo de outro ano leva a "não encontrado"
+- Busca no "Usar modelo" dos Planos MACETE (TCDA-1269): o modal passou a ter um campo para buscar pelo código do plano, uma pesquisa livre por palavras do título ou do tema (sem diferenciar maiúsculas nem acentos) e filtros por etapa e por componente. Os modelos aparecem numa lista com código, tema, etapa e componente, filtrada enquanto se digita; basta clicar no modelo e em "Usar este modelo", ou dar dois cliques nele. Com etapa e componente escolhidos, aparecem só os modelos daquele componente naquela etapa
+
 ## [Versão 3.14.29]
 - Corrigidos os conceitos que não apareciam no relatório do Diário Eletrônico (Notas por Aluno) e nos demais relatórios em turmas multietapa da Educação Infantil (ex.: Creche III, Pré I e Pré II numa turma Unificada): quando os conceitos eram lançados pela etapa da própria turma, o cálculo do resultado só considerava os alunos matriculados nessa mesma etapa, e os demais ficavam sem os conceitos. Também passam a contar os conceitos do 2º e do 4º bimestre das estruturas da Educação Infantil Unificada, que estavam cadastrados como recuperação e eram ignorados pelo cálculo. Para corrigir uma turma já afetada, basta salvar novamente os conceitos de cada componente na tela de Notas, escolhendo a etapa da turma
 
