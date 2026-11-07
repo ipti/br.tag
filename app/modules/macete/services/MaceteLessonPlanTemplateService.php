@@ -97,6 +97,20 @@ class MaceteLessonPlanTemplateService
             ->queryAll();
     }
 
+    public function getDisciplinesWithTemplates(): array
+    {
+        return Yii::app()->db->createCommand(
+            'SELECT DISTINCT ed.id, ed.name
+            FROM edcenso_discipline ed
+            JOIN macete_lesson_plan_template_stage mlpts ON mlpts.edcenso_discipline_fk = ed.id
+            JOIN macete_lesson_plan_template mlpt ON mlpt.id = mlpts.lesson_plan_template_fk
+            WHERE mlpt.school_year = :school_year
+            ORDER BY ed.name'
+        )
+            ->bindValue(':school_year', Yii::app()->user->year, PDO::PARAM_INT)
+            ->queryAll();
+    }
+
     public function getStageComponents(MaceteLessonPlanTemplate $template): array
     {
         $components = [];

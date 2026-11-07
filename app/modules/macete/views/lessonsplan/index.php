@@ -4,6 +4,7 @@
 /* @var $stages array */
 /* @var $disciplines array */
 /* @var $templateStages array */
+/* @var $templateDisciplines array */
 /* @var $filters array */
 
 $this->setPageTitle('TAG - Planos MACETE');
@@ -178,7 +179,9 @@ $this->setPageTitle('TAG - Planos MACETE');
                                 <input type="text" id="js-macete-template-text" class="t-field-text__input" placeholder="Digite palavras do título ou do tema" autocomplete="off">
                             </div>
                         </div>
-                        <div class="column t-field-select is-one-quarter">
+                    </div>
+                    <div class="mobile-row">
+                        <div class="column clearleft t-field-select">
                             <label class="t-field-select__label" for="js-macete-template-stage">Etapa</label>
                             <?php echo CHtml::dropDownList(
                                 'js-macete-template-stage',
@@ -188,6 +191,19 @@ $this->setPageTitle('TAG - Planos MACETE');
                                     'id' => 'js-macete-template-stage',
                                     'class' => 't-field-select__input',
                                     'prompt' => 'Todas as etapas',
+                                ]
+                            ); ?>
+                        </div>
+                        <div class="column t-field-select">
+                            <label class="t-field-select__label" for="js-macete-template-discipline">Componente</label>
+                            <?php echo CHtml::dropDownList(
+                                'js-macete-template-discipline',
+                                '',
+                                CHtml::listData($templateDisciplines, 'id', 'name'),
+                                [
+                                    'id' => 'js-macete-template-discipline',
+                                    'class' => 't-field-select__input',
+                                    'prompt' => 'Todos os componentes',
                                 ]
                             ); ?>
                         </div>
@@ -252,12 +268,19 @@ $this->setPageTitle('TAG - Planos MACETE');
             var code = normalize($('#js-macete-template-code').val());
             var words = normalize($('#js-macete-template-text').val()).split(/\s+/).filter(Boolean);
             var stageId = parseInt($('#js-macete-template-stage').val(), 10);
+            var disciplineId = parseInt($('#js-macete-template-discipline').val(), 10);
 
             var matches = templates.filter(function (template) {
                 if (code && template.codeText.indexOf(code) === -1) {
                     return false;
                 }
-                if (stageId && template.stageIds.indexOf(stageId) === -1) {
+                // Etapa e componente precisam estar no mesmo par: um modelo
+                // de Matemática no 1º ano e Ciências no 2º não aparece em
+                // "2º ano + Matemática"
+                if ((stageId || disciplineId) && !template.components.some(function (component) {
+                    return (!stageId || component.stage_id === stageId)
+                        && (!disciplineId || component.discipline_id === disciplineId);
+                })) {
                     return false;
                 }
                 return words.every(function (word) {
@@ -335,7 +358,7 @@ $this->setPageTitle('TAG - Planos MACETE');
             filterTimer = setTimeout(filterTemplates, 200);
         });
 
-        $(document).on('change', '#js-macete-template-stage', filterTemplates);
+        $(document).on('change', '#js-macete-template-stage, #js-macete-template-discipline', filterTemplates);
 
         $(document).on('click', '.js-macete-template-results tr', function () {
             selectTemplate($(this).data('id'));
