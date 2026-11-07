@@ -69,6 +69,7 @@ class LessonsplanController extends Controller
             'stages' => $this->lessonPlanService()->getStages(),
             'disciplines' => $this->lessonPlanService()->getDisciplines(),
             'templateStages' => $this->lessonPlanTemplateService()->getStagesWithTemplates(),
+            'templateDisciplines' => $this->lessonPlanTemplateService()->getDisciplinesWithTemplates(),
             'filters' => [
                 'stage' => $stage,
                 'discipline' => $discipline,
@@ -140,12 +141,15 @@ class LessonsplanController extends Controller
         $criteria->order = 't.name ASC';
         $templates = MaceteLessonPlanTemplate::model()->findAll($criteria);
 
+        $templateService = $this->lessonPlanTemplateService();
         echo CJSON::encode(array_map(static fn (MaceteLessonPlanTemplate $template): array => [
             'id' => (int) $template->id,
             'name' => $template->name,
             'code' => $template->code,
             'theme' => $template->theme,
-            'stageIds' => $template->getStageIds(),
+            // Pares etapa/componente: o filtro precisa saber qual componente
+            // vale em qual etapa, já que um modelo pode cobrir várias
+            'components' => $templateService->getStageComponents($template),
             'stage' => $template->getStageNames(),
             'discipline' => $template->getDisciplineNames(),
         ], $templates));
