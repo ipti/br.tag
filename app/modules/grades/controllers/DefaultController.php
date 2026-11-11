@@ -585,7 +585,7 @@ class DefaultController extends Controller
         $stage,
         $isConcept,
     ) {
-        $gradesBefore = Grade::countFilled(array_column($students, 'enrollmentId'), $disciplineId);
+        $gradesBefore = Grade::countFilled(array_column($students ?? [], 'enrollmentId'), $disciplineId);
         $transaction = Yii::app()->db->beginTransaction();
         try {
             foreach ($students as $student) {
@@ -632,7 +632,7 @@ class DefaultController extends Controller
                 'grade',
                 $classroomId,
                 $gradesBefore,
-                Grade::countFilled(array_column($students, 'enrollmentId'), $disciplineId),
+                Grade::countFilled(array_column($students ?? [], 'enrollmentId'), $disciplineId),
                 Grade::auditInfo($classroomId, $disciplineId)
             );
             $transaction->commit();
