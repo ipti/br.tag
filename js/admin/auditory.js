@@ -91,6 +91,7 @@ function initTable() {
             data: function (data) {
                 data.school = $("#log-school").val();
                 data.action = $("#log-action").val();
+                data.module = $("#log-module").val();
                 data.user = $("#log-user").val();
                 data.initialDate = $(".auditory-initial-date").val();
                 data.finalDate = $(".auditory-final-date").val();

@@ -286,6 +286,9 @@ class DefaultController extends Controller
             }
         }
 
+        if (!empty($_POST['classroom'])) {
+            Log::saveAction('grade', $_POST['classroom'], 'U', Grade::auditInfo($_POST['classroom'], $discipline));
+        }
         echo json_encode(['valid' => true]);
     }
 
@@ -395,6 +398,7 @@ class DefaultController extends Controller
             Yii::log($std['enrollmentId'] . ' - ' . $timeElapsedSecs / 60, CLogger::LEVEL_INFO);
         }
 
+        Log::saveAction('grade', $classroomId, 'U', Grade::auditInfo($classroomId, $discipline));
         echo CJSON::encode(['valid' => true]);
     }
 
@@ -581,6 +585,7 @@ class DefaultController extends Controller
         $stage,
         $isConcept,
     ) {
+        $gradesBefore = Grade::countFilled(array_column($students, 'enrollmentId'), $disciplineId);
         $transaction = Yii::app()->db->beginTransaction();
         try {
             foreach ($students as $student) {
@@ -623,6 +628,13 @@ class DefaultController extends Controller
                 }
             }
             self::saveGradeResults($classroomId, $disciplineId, $stage);
+            Log::saveBatchAction(
+                'grade',
+                $classroomId,
+                $gradesBefore,
+                Grade::countFilled(array_column($students, 'enrollmentId'), $disciplineId),
+                Grade::auditInfo($classroomId, $disciplineId)
+            );
             $transaction->commit();
             header('HTTP/1.1 200 OK');
             echo json_encode(['valid' => true]);

@@ -19,6 +19,29 @@
  */
 class Log extends TagModel
 {
+    // Módulos do filtro da Auditoria e as referências que cada um grava no log
+    public const AUDIT_MODULES = [
+        'Escolas' => ['school'],
+        'Turmas' => ['classroom', 'classroom_calendar', 'classroom_grade_rules', 'wizard_classroom'],
+        'Alunos e matrículas' => ['student', 'enrollment', 'wizard_student'],
+        'Professores' => ['instructor'],
+        'Profissionais' => ['professional'],
+        'Planos de aula' => ['courseplan'],
+        'Aulas ministradas' => ['class'],
+        'Frequência' => ['frequency'],
+        'Notas' => ['grade'],
+        'Calendário escolar' => ['calendar'],
+        'Quadro de horário' => ['timesheet'],
+        'Matriz curricular' => ['curricular_matrix'],
+        'Merenda escolar' => ['lunch_stock', 'lunch_menu', 'lunch_meal', 'foodMenu'],
+        'Educacenso' => ['educacenso'],
+    ];
+
+    private const MONTHS = [
+        1 => 'janeiro', 'fevereiro', 'março', 'abril', 'maio', 'junho',
+        'julho', 'agosto', 'setembro', 'outubro', 'novembro', 'dezembro',
+    ];
+
     /**
      * @return string the associated database table name
      */
@@ -134,6 +157,44 @@ class Log extends TagModel
         $log->save();
     }
 
+    /**
+     * Lançamentos salvos em lote (aulas ministradas, notas): a ação sai da
+     * quantidade de registros antes e depois de salvar. Nada antes é criação,
+     * nada depois é exclusão e o resto é edição.
+     */
+    public static function saveBatchAction($reference, $referenceIds, $countBefore, $countAfter, $additionalInfo)
+    {
+        if ($countBefore == 0 && $countAfter == 0) {
+            return;
+        }
+
+        if ($countBefore == 0) {
+            $crud = 'C';
+        } elseif ($countAfter == 0) {
+            $crud = 'D';
+        } else {
+            $crud = 'U';
+        }
+
+        self::saveAction($reference, $referenceIds, $crud, $additionalInfo);
+    }
+
+    public static function monthName($month)
+    {
+        return self::MONTHS[(int) $month] ?? (string) $month;
+    }
+
+    public static function disciplineLabel($discipline)
+    {
+        // Educação infantil e anos iniciais lançam o dia inteiro, sem componente
+        if ($discipline === null || $discipline === '') {
+            return 'todos os componentes';
+        }
+
+        $model = EdcensoDiscipline::model()->findByPk($discipline);
+        return $model !== null ? $model->name : (string) $discipline;
+    }
+
     public static function loadIconsAndTexts($log)
     {
         $text = $icon = $color = $crud = '';
@@ -159,13 +220,24 @@ class Log extends TagModel
 
         switch ($log->reference) {
             case 'class':
+                // turma|componente|período (mês/ano ou dia)
                 $infos = explode('|', $log->additional_info);
-                $text = 'As aulas ministradas da turma "' . $infos[0] . '" de ' . $infos[1] . ' do mês de ' . strtolower($infos[2]) . ' foram atualizadas.';
+                $text = 'As aulas ministradas da turma "' . $infos[0] . '" em ' . $infos[1] . ' (' . mb_strtolower($infos[2]) . ') foram ' . self::pluralVerb($log->crud) . '.';
                 $icon = 'aulas_ministradas';
                 break;
             case 'frequency':
                 $infos = explode('|', $log->additional_info);
-                $text = 'A frequência da turma "' . $infos[0] . '" de ' . $infos[1] . ' do mês de ' . strtolower($infos[2]) . ' foi atualizada.';
+                if (count($infos) < 4) {
+                    // Formato antigo: turma|componente|mês
+                    $text = 'A frequência da turma "' . $infos[0] . '" de ' . $infos[1] . ' do mês de ' . mb_strtolower($infos[2]) . ' foi atualizada.';
+                } elseif ($log->crud == 'U') {
+                    // turma|componente|dia|aluno
+                    $text = 'A justificativa de falta de ' . $infos[3] . ' na turma "' . $infos[0] . '" em ' . $infos[1] . ' no dia ' . $infos[2] . ' foi atualizada.';
+                } elseif ($infos[3] === 'todos os alunos') {
+                    $text = 'Faltas de todos os alunos da turma "' . $infos[0] . '" em ' . $infos[1] . ' no dia ' . $infos[2] . ' foram ' . ($log->crud == 'C' ? 'registradas' : 'removidas') . '.';
+                } else {
+                    $text = 'Falta de ' . $infos[3] . ' na turma "' . $infos[0] . '" em ' . $infos[1] . ' no dia ' . $infos[2] . ' foi ' . ($log->crud == 'C' ? 'registrada' : 'removida') . '.';
+                }
                 $icon = 'frequencia';
                 break;
             case 'classroom':
@@ -198,7 +270,9 @@ class Log extends TagModel
                 $icon = 'alunos';
                 break;
             case 'grade':
-                $text = 'As notas da turma "' . $log->additional_info . '" foram ' . $crud . '.';
+                // turma|componente (registros antigos têm só a turma)
+                $infos = explode('|', $log->additional_info);
+                $text = 'As notas da turma "' . $infos[0] . '"' . (isset($infos[1]) ? ' em ' . $infos[1] : '') . ' foram ' . self::pluralVerb($log->crud) . '.';
                 $icon = 'notas';
                 break;
             case 'calendar':
@@ -261,5 +335,17 @@ class Log extends TagModel
             'icon' => $icon,
             'color' => $color
         ];
+    }
+
+    private static function pluralVerb($crud)
+    {
+        switch ($crud) {
+            case 'C':
+                return 'registradas';
+            case 'D':
+                return 'excluídas';
+            default:
+                return 'atualizadas';
+        }
     }
 }

@@ -67,6 +67,19 @@ $this->setPageTitle('TAG - Auditoria');
         </div>
         <div class="form-control control-group">
             <div>
+                <label class="control-label" for="log-module">Módulo</label>
+                <div>
+                    <select id="log-module" class="select-search-on">
+                        <option value="">Selecione...</option>
+                        <?php foreach ($modules as $module) : ?>
+                            <option value="<?= CHtml::encode($module) ?>"><?= CHtml::encode($module) ?></option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="form-control control-group">
+            <div>
                 <label class="control-label required">Usuário</label>
                 <div>
                     <?php

@@ -2,6 +2,13 @@
 
 class DefaultController extends Controller
 {
+    private const AUDIT_ACTIONS = [
+        'C' => 'Criar',
+        'U' => 'Editar',
+        'D' => 'Remover',
+        'E' => 'Executar',
+    ];
+
     private $idEqualsIdNumber = 'id = :id';
 
     public function filters()
@@ -1201,6 +1208,7 @@ SELECT
         $this->render('auditory', [
             'schools' => $schools,
             'users' => $users,
+            'modules' => array_keys(Log::AUDIT_MODULES),
             'schoolyear' => Yii::app()->user->year
         ]);
     }
@@ -1225,6 +1233,11 @@ SELECT
 
         if ($_POST['user'] !== '') {
             $criteria->addColumnCondition(['user_fk' => $_POST['user']]);
+        }
+
+        $module = $_POST['module'] ?? '';
+        if ($module !== '' && isset(Log::AUDIT_MODULES[$module])) {
+            $criteria->addInCondition('reference', Log::AUDIT_MODULES[$module]);
         }
 
         $countCriteria = $criteria;
@@ -1263,8 +1276,7 @@ SELECT
         foreach ($logs as $log) {
             $array['school'] = $log->schoolFk->name;
             $array['user'] = $log->userFk->name;
-            $actionCreate = ($log->crud == 'C' ? 'Criar' : 'Remover');
-            $array['action'] = $log->crud == 'U' ? 'Editar' : $actionCreate;
+            $array['action'] = self::AUDIT_ACTIONS[$log->crud] ?? $log->crud;
             $date = new \DateTime($log->date);
             $array['date'] = $date->format('d/m/Y H:i:s');
             $array['event'] = $log->loadIconsAndTexts($log)['text'];

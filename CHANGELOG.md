@@ -1,3 +1,8 @@
+## [Versão 3.15.2]
+- Auditoria: novo filtro por Módulo (Escolas, Turmas, Alunos e matrículas, Planos de aula, Aulas ministradas, Frequência, Notas, Calendário escolar, Quadro de horário, Matriz curricular, Merenda escolar, Educacenso etc.), que pode ser combinado com os filtros de escola, ação, usuário e período
+- Auditoria: passam a ser registrados os lançamentos de Aulas Ministradas (registradas, atualizadas ou excluídas, por turma, componente e mês ou dia), de Frequência (falta registrada ou removida e justificativa alterada, por aluno e dia) e de Notas (notas registradas, atualizadas ou excluídas, por turma e componente, também no Boletim e na Liberação de Notas), tanto pelas telas da secretaria quanto pelo diário do professor
+- Auditoria: a criação de plano de aula passa a ser registrada (antes só a edição e a exclusão apareciam) e a exportação do Educacenso aparece como "Executar" em vez de "Remover"
+
 ## [Versão 3.15.0]
 - Planos modelo do MACETE separados por ano letivo: a tela de Planos Modelo e o "Usar modelo" mostram só os modelos do ano letivo em que o usuário está logado, e a tela de Planos Modelo ganhou filtro por etapa. Abrir pelo link um modelo de outro ano leva a "não encontrado"
 - Busca no "Usar modelo" dos Planos MACETE (TCDA-1269): o modal passou a ter um campo para buscar pelo código do plano, uma pesquisa livre por palavras do título ou do tema (sem diferenciar maiúsculas nem acentos) e filtros por etapa e por componente. Os modelos aparecem numa lista com código, tema, etapa e componente, filtrada enquanto se digita; basta clicar no modelo e em "Usar este modelo", ou dar dois cliques nele. Com etapa e componente escolhidos, aparecem só os modelos daquele componente naquela etapa
