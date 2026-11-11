@@ -119,6 +119,15 @@
             margin: 0;
         }
 
+        // O submenu precisa de overflow hidden para recolher: com overflow
+        // visible a altura vai a 0 mas os itens continuam desenhados por cima
+        // dos menus seguintes. A folga à esquerda guarda a barra do item ativo
+        // (que fica $SizeXSmall para fora do item) sem deslocar os itens.
+        .collapse {
+            margin-left: $SizeXSmall * -1;
+            padding-left: $SizeXSmall;
+        }
+
         &:not(.active) .fa-chevron-down {
             display: none;
         }
@@ -126,10 +135,6 @@
         &.active {
             .fa-chevron-right {
                 display: none;
-            }
-
-            .collapse {
-                overflow: visible;
             }
 
             .t-menu-group__icon {

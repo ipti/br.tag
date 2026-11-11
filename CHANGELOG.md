@@ -1,3 +1,6 @@
+## [Versão 3.15.1]
+- Corrigido o menu lateral: ao recolher um grupo aberto (ex.: Almoxarifado, Diário Eletrônico, Integrações), os itens do submenu continuavam desenhados por cima dos menus seguintes. Agora o submenu recolhido fica oculto, e a barra que marca o item ativo continua aparecendo
+
 ## [Versão 3.15.0]
 - Planos modelo do MACETE separados por ano letivo: a tela de Planos Modelo e o "Usar modelo" mostram só os modelos do ano letivo em que o usuário está logado, e a tela de Planos Modelo ganhou filtro por etapa. Abrir pelo link um modelo de outro ano leva a "não encontrado"
 - Busca no "Usar modelo" dos Planos MACETE (TCDA-1269): o modal passou a ter um campo para buscar pelo código do plano, uma pesquisa livre por palavras do título ou do tema (sem diferenciar maiúsculas nem acentos) e filtros por etapa e por componente. Os modelos aparecem numa lista com código, tema, etapa e componente, filtrada enquanto se digita; basta clicar no modelo e em "Usar este modelo", ou dar dois cliques nele. Com etapa e componente escolhidos, aparecem só os modelos daquele componente naquela etapa
