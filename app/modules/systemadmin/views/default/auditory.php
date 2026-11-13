@@ -61,6 +61,7 @@ $this->setPageTitle('TAG - Auditoria');
                         <option value="C">Criar</option>
                         <option value="U">Editar</option>
                         <option value="D">Remover</option>
+                        <option value="E">Executar</option>
                     </select>
                 </div>
             </div>
