@@ -14,9 +14,19 @@ h3 {
     margin-top: 10px;
 }
 
+/* Prefeitura, escola e endereço centralizados na página; o logo fica à esquerda sem empurrar o texto */
 #header-report {
+    position: relative;
+    min-height: 80px;
     padding-bottom: 10px;
     border-bottom: 1px solid #000;
+    text-align: center;
+}
+
+#header-report #logo {
+    position: absolute;
+    top: 0;
+    left: 0;
 }
 
 .pageA4H #header-report ul#info, .pageA4H #header-report ul#addinfo {
@@ -24,9 +34,10 @@ h3 {
 }
 
 #header-report ul#info, #header-report ul#addinfo {
-    float: right;
-    width: 684px;
-    margin: 0;
+    float: none;
+    width: auto;
+    margin: 0 130px;
+    padding: 0;
     overflow: hidden;
 }
 

@@ -1,3 +1,6 @@
+## [Versão 3.15.4]
+- Impressão do Diário Eletrônico (Notas por Aluno e Frequência) (TCDA-1270): o nome da Prefeitura, o nome da Escola e o endereço passam a ficar centralizados na página, logo acima do título "Diário Eletrônico". Antes ficavam alinhados à direita. O logo da escola continua à esquerda
+
 ## [Versão 3.15.2]
 - Auditoria: novo filtro por Módulo (Escolas, Turmas, Alunos e matrículas, Planos de aula, Aulas ministradas, Frequência, Notas, Calendário escolar, Quadro de horário, Matriz curricular, Merenda escolar, Educacenso etc.), que pode ser combinado com os filtros de escola, ação, usuário e período
 - Auditoria: passam a ser registrados os lançamentos de Aulas Ministradas (registradas, atualizadas ou excluídas, por turma, componente e mês ou dia), de Frequência (falta registrada ou removida e justificativa alterada, por aluno e dia) e de Notas (notas registradas, atualizadas ou excluídas, por turma e componente, também no Boletim e na Liberação de Notas), tanto pelas telas da secretaria quanto pelo diário do professor
