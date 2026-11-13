@@ -219,3 +219,21 @@
 .macete-rich-text__source {
     display: none;
 }
+
+// "Usar plano modelo": a linha clicada fica destacada, para mostrar qual modelo
+// o botão "Usar este modelo" vai abrir. Usa td porque a .tag-table-primary pinta
+// o fundo das células, e não da linha (e com seletor mais forte que o zebrado dela).
+.tag-table-primary .macete-template-results {
+    tr {
+        cursor: pointer;
+
+        &:hover td {
+            background-color: $colorsBaseProductlightHover;
+        }
+
+        &.selected td {
+            background-color: $colorsBaseProductNormal;
+            color: $colorsBaseWhiteNormal;
+        }
+    }
+}
