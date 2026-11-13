@@ -1,3 +1,6 @@
+## [Versão 3.15.5]
+- "Usar plano modelo" dos Planos MACETE (TCDA-1271): o modelo clicado na lista fica destacado em azul, mostrando qual plano o botão "Usar este modelo" vai abrir, e as linhas mudam de cor ao passar o mouse. Antes a seleção funcionava, mas a linha não mudava de aparência
+
 ## [Versão 3.15.3]
 - "Usar plano modelo" dos Planos MACETE (TCDA-1271): o modal foi dividido em três áreas. Os filtros, no topo, e os botões Cancelar e Usar este modelo, no rodapé, ficam sempre visíveis; só a lista de modelos rola, com o cabeçalho da tabela fixo. Antes o modal inteiro rolava e os filtros e os botões saíam da tela
 
