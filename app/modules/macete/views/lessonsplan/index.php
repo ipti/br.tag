@@ -221,7 +221,7 @@ $this->setPageTitle('TAG - Planos MACETE');
                             <th>Componente</th>
                         </tr>
                     </thead>
-                    <tbody class="js-macete-template-results"></tbody>
+                    <tbody class="macete-template-results js-macete-template-results"></tbody>
                 </table>
             </div>
             <div class="t-modal__body t-modal__footer row reverse">
