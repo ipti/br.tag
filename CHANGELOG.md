@@ -1,3 +1,6 @@
+## [Versão 3.15.3]
+- "Usar plano modelo" dos Planos MACETE (TCDA-1271): o modal foi dividido em três áreas. Os filtros, no topo, e os botões Cancelar e Usar este modelo, no rodapé, ficam sempre visíveis; só a lista de modelos rola, com o cabeçalho da tabela fixo. Antes o modal inteiro rolava e os filtros e os botões saíam da tela
+
 ## [Versão 3.15.1]
 - Corrigido o menu lateral: ao recolher um grupo aberto (ex.: Almoxarifado, Diário Eletrônico, Integrações), os itens do submenu continuavam desenhados por cima dos menus seguintes. Agora o submenu recolhido fica oculto, e a barra que marca o item ativo continua aparecendo
 
