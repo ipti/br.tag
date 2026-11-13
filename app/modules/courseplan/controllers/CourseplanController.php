@@ -420,7 +420,8 @@ class CourseplanController extends Controller
                 TLog::info('Todas as aulas não inclusas na atualização foram deletadas com sucesso.', ['coursePlanId' => $coursePlan->id, 'CourseClassesIds' => $courseClassIds]);
             }
             header('HTTP/1.1 200 OK');
-            Log::model()->saveAction('courseplan', $id, $logSituation, $coursePlan->name);
+            // $id é null num plano novo: o log usa o id gravado
+            Log::model()->saveAction('courseplan', $coursePlan->id, $logSituation, $coursePlan->name);
             Yii::app()->user->setFlash('success', Yii::t('default', 'Plano de Curso salvo com sucesso!'));
             $this->redirect(['index']);
         } catch (Exception $e) {

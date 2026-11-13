@@ -109,6 +109,36 @@ class Grade extends TagModel
      * @param string $className active record class name.
      * @return Grade the static model class
      */
+    /**
+     * Notas e conceitos preenchidos dos alunos num componente, usado pelo log
+     * da Auditoria para saber se um lançamento criou, alterou ou apagou notas.
+     *
+     * @param int[] $enrollmentIds
+     */
+    public static function countFilled(array $enrollmentIds, $disciplineId)
+    {
+        $enrollmentIds = array_filter(array_map('intval', $enrollmentIds));
+        if (empty($enrollmentIds) || empty($disciplineId)) {
+            return 0;
+        }
+
+        return (int) Yii::app()->db->createCommand(
+            'SELECT COUNT(*) FROM grade
+            WHERE discipline_fk = :discipline_fk
+                AND enrollment_fk IN (' . implode(',', $enrollmentIds) . ')
+                AND (grade IS NOT NULL OR grade_concept_fk IS NOT NULL)'
+        )->queryScalar([':discipline_fk' => (int) $disciplineId]);
+    }
+
+    /**
+     * Texto "turma|componente" que o log da Auditoria guarda para as notas.
+     */
+    public static function auditInfo($classroomId, $disciplineId)
+    {
+        $classroom = Classroom::model()->findByPk($classroomId);
+        return ($classroom !== null ? $classroom->name : (string) $classroomId) . '|' . Log::disciplineLabel($disciplineId);
+    }
+
     public static function model($className = __CLASS__)
     {
         return parent::model($className);

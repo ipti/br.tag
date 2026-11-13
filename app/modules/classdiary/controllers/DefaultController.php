@@ -213,8 +213,64 @@ class DefaultController extends Controller
                 $classContent = [$newClassContentId];
             }
         }
+        $contentsBefore = $this->countTeacherClassContents($classroomFk, $date);
         $saveClassContent = new SaveClassContents();
         $saveClassContent->exec($stageFk, $date, $disciplineFk, $classroomFk, $classContent);
+
+        $classroom = Classroom::model()->findByPk($classroomFk);
+        if ($classroom !== null) {
+            Log::saveBatchAction(
+                'class',
+                $classroomFk,
+                $contentsBefore,
+                $this->countTeacherClassContents($classroomFk, $date),
+                $classroom->name . '|' . Log::disciplineLabel($classroom->checkIsStageMinorEducation() ? null : $disciplineFk) . '|' . $date
+            );
+        }
+    }
+
+    /**
+     * Aulas ministradas do professor logado na turma e no dia (d/m/Y): é o
+     * que o SaveClassContents apaga e grava de novo a cada salvamento.
+     */
+    private function countTeacherClassContents($classroomFk, $date)
+    {
+        $day = DateTime::createFromFormat('d/m/Y', $date);
+        if ($day === false) {
+            return 0;
+        }
+
+        return (int) ClassContents::model()->with('courseClassFk.coursePlanFk')->count(
+            't.classroom_fk = :classroom_fk and t.day = :day and t.month = :month and t.year = :year and coursePlanFk.users_fk = :user_fk',
+            [
+                'classroom_fk' => $classroomFk,
+                'day' => (int) $day->format('d'),
+                'month' => (int) $day->format('m'),
+                'year' => (int) $day->format('Y'),
+                'user_fk' => Yii::app()->user->loginInfos->id,
+            ]
+        );
+    }
+
+    /**
+     * Registra no log da Auditoria uma falta lançada (C), removida (D) ou a
+     * justificativa alterada (U) pelo diário do professor.
+     */
+    private function logFrequency($classroomId, $studentId, $disciplineFk, $date, $crud)
+    {
+        $classroom = Classroom::model()->findByPk($classroomId);
+        if ($classroom === null) {
+            return;
+        }
+
+        $student = StudentIdentification::model()->findByPk($studentId);
+        Log::saveAction(
+            'frequency',
+            $classroom->id,
+            $crud,
+            $classroom->name . '|' . Log::disciplineLabel($classroom->checkIsStageMinorEducation() ? null : $disciplineFk)
+                . '|' . $date . '|' . ($student !== null ? $student->name : $studentId)
+        );
     }
 
     public function actionRenderAccordion()
@@ -244,6 +300,24 @@ class DefaultController extends Controller
     {
         $saveFrequency = new SaveFrequency();
         $saveFrequency->exec($_POST['schedule'], $_POST['studentId'], $_POST['fault'], $_POST['stageFk'], $_POST['date'], $_POST['classroom_id']);
+        // O diário não manda o componente: vem do horário daquele dia
+        $day = DateTime::createFromFormat('d/m/Y', $_POST['date']);
+        $schedule = $day === false ? null : Schedule::model()->find(
+            'classroom_fk = :classroom_fk and day = :day and month = :month and schedule = :schedule',
+            [
+                'classroom_fk' => $_POST['classroom_id'],
+                'day' => (int) $day->format('d'),
+                'month' => (int) $day->format('m'),
+                'schedule' => $_POST['schedule'],
+            ]
+        );
+        $this->logFrequency(
+            $_POST['classroom_id'],
+            $_POST['studentId'],
+            $schedule !== null ? $schedule->discipline_fk : null,
+            $_POST['date'],
+            $_POST['fault'] == '1' ? 'C' : 'D'
+        );
     }
 
     public function actionStudentClassDiary($studentId, $stageFk, $classroomId, $schedule, $date, $disciplineFk, $justification)
@@ -261,6 +335,7 @@ class DefaultController extends Controller
             $justification = $_POST['justification'];
             $saveJustification = new SaveJustification();
             $saveJustification->exec($studentId, $stageFk, $classroomId, $schedule, $date, $justification);
+            $this->logFrequency($classroomId, $studentId, $disciplineFk, $date, 'U');
         }
         if (isset($_POST['student_observation'])) {
             $studentObservation = $_POST['student_observation'];

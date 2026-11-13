@@ -1,3 +1,8 @@
+## [Versão 3.15.2]
+- Auditoria: novo filtro por Módulo (Escolas, Turmas, Alunos e matrículas, Planos de aula, Aulas ministradas, Frequência, Notas, Calendário escolar, Quadro de horário, Matriz curricular, Merenda escolar, Educacenso etc.), que pode ser combinado com os filtros de escola, ação, usuário e período
+- Auditoria: passam a ser registrados os lançamentos de Aulas Ministradas (registradas, atualizadas ou excluídas, por turma, componente e mês ou dia), de Frequência (falta registrada ou removida e justificativa alterada, por aluno e dia) e de Notas (notas registradas, atualizadas ou excluídas, por turma e componente, também no Boletim e na Liberação de Notas), tanto pelas telas da secretaria quanto pelo diário do professor
+- Auditoria: a criação de plano de aula passa a ser registrada (antes só a edição e a exclusão apareciam) e a exportação do Educacenso aparece como "Executar" em vez de "Remover", com a opção "Executar" no filtro de ação
+
 ## [Versão 3.15.1]
 - Corrigido o menu lateral: ao recolher um grupo aberto (ex.: Almoxarifado, Diário Eletrônico, Integrações), os itens do submenu continuavam desenhados por cima dos menus seguintes. Agora o submenu recolhido fica oculto, e a barra que marca o item ativo continua aparecendo
 
