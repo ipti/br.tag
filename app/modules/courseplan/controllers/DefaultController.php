@@ -272,7 +272,8 @@ class DefaultController extends Controller
         } else {
             CourseClass::model()->deleteAll("course_plan_fk = :course_plan_fk and id not in ( '" . implode("', '", $courseClassIds) . "' )", [':course_plan_fk' => $coursePlan->id]);
         }
-        Log::model()->saveAction('courseplan', $id, $logSituation, $coursePlan->name);
+        // $id é null num plano novo: o log usa o id gravado
+        Log::model()->saveAction('courseplan', $coursePlan->id, $logSituation, $coursePlan->name);
         Yii::app()->user->setFlash('success', Yii::t('default', 'Plano de Curso salvo com sucesso!'));
         $this->redirect(['index']);
     }

@@ -470,6 +470,8 @@ class ClassesController extends Controller
         $isMajorStage = !$isMinor;
 
         $schedules = $this->loadSchedulesByStage($isMajorStage, $classroom, $month, $year, $discipline);
+        $logDiscipline = $isMajorStage ? $discipline : null;
+        $contentsBefore = $this->countClassContents($classroom, $month, $year, $logDiscipline);
 
         foreach ($classContents as $classContent) {
             $scheduleKey = array_search($classContent['day'], array_column($schedules, 'day'));
@@ -477,6 +479,54 @@ class ClassesController extends Controller
                 $this->saveSchedule($schedules[$scheduleKey], $classContent);
             }
         }
+
+        Log::saveBatchAction(
+            'class',
+            $classroom,
+            $contentsBefore,
+            $this->countClassContents($classroom, $month, $year, $logDiscipline),
+            $modelClassroom->name . '|' . Log::disciplineLabel($logDiscipline) . '|' . Log::monthName($month) . '/' . $year
+        );
+    }
+
+    private function countClassContents($classroom, $month, $year, $discipline)
+    {
+        $condition = 'classroom_fk = :classroom_fk and month = :month and year = :year';
+        $params = ['classroom_fk' => $classroom, 'month' => $month, 'year' => $year];
+        if ($discipline !== null) {
+            $condition .= ' and discipline_fk = :discipline_fk';
+            $params['discipline_fk'] = $discipline;
+        }
+
+        return (int) ClassContents::model()->count($condition, $params);
+    }
+
+    /**
+     * Registra no log da Auditoria uma falta lançada (C), removida (D) ou
+     * a justificativa alterada (U) de um aluno, ou da turma toda.
+     */
+    private function logFrequency($classroom, $schedule, $crud)
+    {
+        if ($classroom === null || $schedule === null) {
+            return;
+        }
+
+        $studentId = $_POST['studentId'] ?? null;
+        if ($studentId !== null && $studentId !== '') {
+            $student = StudentIdentification::model()->findByPk($studentId);
+            $studentName = $student !== null ? $student->name : (string) $studentId;
+        } else {
+            $studentName = 'todos os alunos';
+        }
+
+        $isMinor = $classroom->checkIsStageMinorEducation();
+        Log::saveAction(
+            'frequency',
+            $classroom->id,
+            $crud,
+            $classroom->name . '|' . Log::disciplineLabel($isMinor ? null : $schedule->discipline_fk)
+                . '|' . $this->gerateDate($schedule->day, $schedule->month, $schedule->year, 0) . '|' . $studentName
+        );
     }
 
     private function loadSchedulesByStage($isMajorStage, $classroom, $month, $year, $discipline)
@@ -721,6 +771,9 @@ class ClassesController extends Controller
         foreach ($schedules as $schedule) {
             $this->saveFrequency($schedule);
         }
+        if (!empty($schedules)) {
+            $this->logFrequency(Classroom::model()->findByPk($_POST['classroomId']), $schedules[0], $_POST['fault'] == '1' ? 'C' : 'D');
+        }
     }
 
     private function gerateDate($day, $month, $year, $usecase)
@@ -772,7 +825,9 @@ class ClassesController extends Controller
             foreach ($schedules as $schedule) {
                 $this->saveFrequency($schedule);
             }
+            $schedule = $schedules[0] ?? null;
         }
+        $this->logFrequency($classroom, $schedule, $_POST['fault'] == '1' ? 'C' : 'D');
     }
 
     private function saveFrequency($schedule)
@@ -849,6 +904,9 @@ class ClassesController extends Controller
             $classFault->justification = $_POST['justification'] == '' ? null : $_POST['justification'];
             $classFault->save();
         }
+        if (!empty($schedules)) {
+            $this->logFrequency(Classroom::model()->findByPk($_POST['classroomId']), $schedules[0], 'U');
+        }
     }
 
     public function actionSaveJustification()
@@ -867,7 +925,9 @@ class ClassesController extends Controller
                 $classFault->justification = $_POST['justification'] == '' ? null : $_POST['justification'];
                 $classFault->save();
             }
+            $schedule = $schedules[0] ?? null;
         }
+        $this->logFrequency($classroom, $schedule, 'U');
     }
 
     /**
