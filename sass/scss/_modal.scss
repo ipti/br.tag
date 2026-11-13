@@ -42,6 +42,35 @@
 
         }
     }
+    // Cabeçalho, filtros e rodapé ficam parados; só a área .t-modal__scroll rola
+    &.scrollable-body {
+        overflow: hidden;
+
+        .modal-dialog {
+            display: flex;
+            flex-direction: column;
+            max-height: 80vh;
+        }
+
+        .t-modal__header,
+        .t-modal__body {
+            flex-shrink: 0;
+        }
+
+        .t-modal__scroll {
+            flex: 1 1 auto;
+            min-height: 0;
+            overflow-y: auto;
+            padding-top: 0;
+            padding-bottom: 0;
+
+            thead th {
+                position: sticky;
+                top: 0;
+                z-index: 1;
+            }
+        }
+    }
     &.height {
         &--is-four-fifths {
             height: 80vh;

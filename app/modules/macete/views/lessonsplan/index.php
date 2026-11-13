@@ -154,7 +154,7 @@ $this->setPageTitle('TAG - Planos MACETE');
         </div>
     </div>
 
-    <div class="modal fade t-modal-container larger" id="js-macete-use-template" tabindex="-1" role="dialog">
+    <div class="modal fade t-modal-container larger scrollable-body" id="js-macete-use-template" tabindex="-1" role="dialog">
         <div class="modal-dialog" role="document">
             <div class="t-modal__header">
                 <h4 class="t-title">Usar plano modelo</h4>
@@ -209,27 +209,29 @@ $this->setPageTitle('TAG - Planos MACETE');
                         </div>
                     </div>
                     <p class="js-macete-template-count"></p>
-                    <table class="tag-table tag-table-primary">
-                        <thead>
-                            <tr>
-                                <th>Código</th>
-                                <th>Tema da aula</th>
-                                <th>Etapa</th>
-                                <th>Componente</th>
-                            </tr>
-                        </thead>
-                        <tbody class="js-macete-template-results"></tbody>
-                    </table>
                 </div>
-                <div class="t-modal__footer row reverse">
-                    <div class="t-buttons-container justify-content--center">
-                        <button type="button" class="t-button-secondary" data-dismiss="modal">Cancelar</button>
-                    </div>
-                    <div class="t-buttons-container justify-content--center">
-                        <button type="button" class="t-button-primary js-macete-use-template-confirm hide">
-                            Usar este modelo
-                        </button>
-                    </div>
+            </div>
+            <div class="t-modal__body t-modal__scroll js-macete-template-list hide">
+                <table class="tag-table tag-table-primary">
+                    <thead>
+                        <tr>
+                            <th>Código</th>
+                            <th>Tema da aula</th>
+                            <th>Etapa</th>
+                            <th>Componente</th>
+                        </tr>
+                    </thead>
+                    <tbody class="js-macete-template-results"></tbody>
+                </table>
+            </div>
+            <div class="t-modal__body t-modal__footer row reverse">
+                <div class="t-buttons-container justify-content--center">
+                    <button type="button" class="t-button-secondary" data-dismiss="modal">Cancelar</button>
+                </div>
+                <div class="t-buttons-container justify-content--center">
+                    <button type="button" class="t-button-primary js-macete-use-template-confirm hide">
+                        Usar este modelo
+                    </button>
                 </div>
             </div>
         </div>
@@ -341,7 +343,7 @@ $this->setPageTitle('TAG - Planos MACETE');
                     return template;
                 });
 
-                $('.js-macete-template-search').removeClass('hide');
+                $('.js-macete-template-search, .js-macete-template-list').removeClass('hide');
                 filterTemplates();
                 $('#js-macete-template-text').trigger('focus');
             }).fail(function () {
