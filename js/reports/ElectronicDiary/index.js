@@ -350,7 +350,7 @@ $(document).on("click", ".print-report", function () {
     let popup = window.open('', '', 'toolbar=no, menubar=no');
     popup.document.writeln('<!DOCTYPE html>');
     popup.document.writeln('<html moznomarginboxes mozdisallowselectionprint><head><title>Relatório</title>');
-    popup.document.writeln('<link rel="stylesheet" type="text/css" media="print" href="./css/reports/prints/print-reports.css?v=1.1">');
+    popup.document.writeln('<link rel="stylesheet" type="text/css" media="print" href="./css/reports/prints/print-reports.css?v=1.2">');
     popup.document.writeln('<div class="header">' + $(".report-header")[0].innerHTML + '</div>');
     popup.document.writeln('<h3>Diário Eletrônico</h3>');
     popup.document.writeln("<div class='body-container'>" + $(".report-container")[0].innerHTML + "</div>");

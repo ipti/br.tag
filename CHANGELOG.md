@@ -1,3 +1,6 @@
+## [Versão 3.15.6]
+- Impressão do Diário Eletrônico (Notas por Aluno e Frequência) (TCDA-1270): o nome da Prefeitura, o nome da Escola e o endereço passam a ficar centralizados na página, logo acima do título "Diário Eletrônico". Antes ficavam alinhados à direita. O logo da escola continua à esquerda
+
 ## [Versão 3.15.5]
 - "Usar plano modelo" dos Planos MACETE (TCDA-1271): o modelo clicado na lista fica destacado em azul, mostrando qual plano o botão "Usar este modelo" vai abrir, e as linhas mudam de cor ao passar o mouse. Antes a seleção funcionava, mas a linha não mudava de aparência
 
