@@ -132,8 +132,30 @@ $turno = match ($turnoSelect) {
     div.divlines{
         width:100%; margin:0 auto;
     }
-    div.hrline span{
+    div.hrline span, div.hrlastline span{
         font-size: 10px;
+    }
+    /* Logo e texto do cabeçalho formam um bloco só, centralizado na página */
+    .ata-header #header-report{
+        display: grid;
+        grid-template-columns: auto auto;
+        justify-content: center;
+        align-items: center;
+        column-gap: 16px;
+        padding-bottom: 8px;
+    }
+    .ata-header #header-report #logo{
+        float: none;
+        grid-row: 1 / span 2;
+        margin-right: 0;
+    }
+    .ata-header #header-report ul#info,
+    .ata-header #header-report ul#addinfo{
+        grid-column: 2;
+        padding: 0;
+    }
+    .ata-header #header-report .clear{
+        display: none;
     }
     th{
         vertical-align: middle !IMPORTANT;
@@ -185,7 +207,7 @@ $turno = match ($turnoSelect) {
 
 
 <div class="innerLR">
-    <div>
+    <div class="ata-header">
         <?php $this->renderPartial('head'); ?>
 
         <br><br>

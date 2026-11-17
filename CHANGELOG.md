@@ -1,3 +1,6 @@
+## [Versão 3.15.7]
+- Ata de Desempenho Escolar (Ata de Notas): o logo da escola e o texto do cabeçalho (Prefeitura, escola, INEP e endereço) passam a formar um bloco único centralizado na página, com o logo ao lado do texto. Antes o logo ficava no canto esquerdo, longe do texto, e o texto não ficava no centro da página. "ATO DE RECONHECIMENTO" passa a ter o mesmo tamanho de letra de "ATO DE CRIAÇÃO" e "ATO DE AUTORIZAÇÃO DE FUNCIONAMENTO"
+
 ## [Versão 3.15.6]
 - Impressão do Diário Eletrônico (Notas por Aluno e Frequência) (TCDA-1270): o nome da Prefeitura, o nome da Escola e o endereço passam a ficar centralizados na página, logo acima do título "Diário Eletrônico". Antes ficavam alinhados à direita. O logo da escola continua à esquerda
 
