@@ -144,8 +144,15 @@
                 }
                 $classContents = [];
                 foreach ($schedule->classContents as $classContent) {
-                    array_push($classContents, $classContent->courseClassFk->id);
+                    array_push($classContents, (int) $classContent->course_class_fk);
                 }
+
+                // Aulas ministradas cuja aula do plano foi apagada continuam aparecendo marcadas
+                $courseClasses = ClassContents::appendMissingCourseClasses(
+                    $courseClasses ?? [],
+                    $classContents,
+                    Yii::app()->user->loginInfos->id
+                );
 
                 return [
                     'valid' => true,
@@ -180,36 +187,17 @@
                 );
             } else {
                 $schedule = Schedule::model()->find(
-                    'classroom_fk = :classroom_fk and month = :month and day = :day and discipline_fk = :discipline_fk group by day order by day, schedule',
+                    'classroom_fk = :classroom_fk and month = :month and day = :day and discipline_fk = :discipline_fk and unavailable = 0 group by day order by day, schedule',
                     ['classroom_fk' => $classroomFk, 'month' => DateTime::createFromFormat('d/m/Y', $date)->format('m'),
                         'day' => DateTime::createFromFormat('d/m/Y', $date)->format('d'), 'discipline_fk' => $disciplineFk]
                 );
             }
 
-            $contentsToExclude = array_column(ClassContents::model()->with('courseClassFk.coursePlanFk')->findAll(
-                'schedule_fk = :schedule_fk and coursePlanFk.users_fk = :user_fk',
-                [
-                    'schedule_fk' => $schedule->id,
-                    'user_fk' => Yii::app()->user->loginInfos->id
-                ]
-            ), 'id');
-
-            if (!empty($contentsToExclude)) {
-                ClassContents::model()->deleteAll('id IN (' . implode(' , ', $contentsToExclude) . ')');
+            if ($schedule === null) {
+                return;
             }
 
-            foreach ($classContent as $content) {
-                $classHasContent = new ClassContents();
-                $classHasContent->schedule_fk = $schedule->id;
-                $classHasContent->course_class_fk = $content;
-                $classHasContent->day = $schedule->day;
-                $classHasContent->month = $schedule->month;
-                $classHasContent->year = $schedule->year;
-                $classHasContent->classroom_fk = $schedule->classroom_fk;
-                $classHasContent->discipline_fk = $schedule->discipline_fk;
-
-                $classHasContent->save();
-            }
+            ClassContents::saveForSchedule($schedule, (array) $classContent, Yii::app()->user->loginInfos->id);
         }
 
         public function saveNewClassContent($coursePlanId, $content, $methodology, $abilities)

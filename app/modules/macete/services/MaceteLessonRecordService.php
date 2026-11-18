@@ -17,6 +17,7 @@ class MaceteLessonRecordService
         $transaction = Yii::app()->db->beginTransaction();
 
         try {
+            $savedPlanId = $lessonRecord->isNewRecord ? null : $lessonRecord->lesson_plan_fk;
             $recordData = $this->normalizeRecordData($request['MaceteLessonRecord'] ?? []);
             $lessonRecord->attributes = $this->editableRecordData($recordData);
 
@@ -26,7 +27,13 @@ class MaceteLessonRecordService
             }
 
             $plan = $this->accessService->findPlan((int) $lessonRecord->lesson_plan_fk);
-            if ($plan === null) {
+            // Registro cujo plano foi apagado: pode ser editado mantendo a cópia do plano
+            $keepsDeletedPlan = $plan === null
+                && $savedPlanId !== null
+                && (int) $savedPlanId === (int) $lessonRecord->lesson_plan_fk
+                && $lessonRecord->plan_name !== null
+                && MaceteLessonPlan::model()->findByPk($savedPlanId) === null;
+            if ($plan === null && !$keepsDeletedPlan) {
                 throw new CException('Plano MACETE não encontrado ou não disponível para o usuário atual.');
             }
 
@@ -35,26 +42,27 @@ class MaceteLessonRecordService
                 throw new CException('Turma não encontrada ou não disponível para o usuário atual.');
             }
 
-            $planStage = MaceteLessonPlanStage::model()->findByAttributes([
-                'lesson_plan_fk' => $plan->id,
-                'edcenso_stage_vs_modality_fk' => $classroom->edcenso_stage_vs_modality_fk,
-            ]);
-            if ($planStage === null) {
-                throw new CException('A turma selecionada não pertence a uma etapa prevista no plano MACETE.');
-            }
+            if ($plan !== null) {
+                $planStage = MaceteLessonPlanStage::model()->findByAttributes([
+                    'lesson_plan_fk' => $plan->id,
+                    'edcenso_stage_vs_modality_fk' => $classroom->edcenso_stage_vs_modality_fk,
+                ]);
+                if ($planStage === null) {
+                    throw new CException('A turma selecionada não pertence a uma etapa prevista no plano MACETE.');
+                }
 
-            $lessonRecord->edcenso_stage_vs_modality_fk = $classroom->edcenso_stage_vs_modality_fk;
-            $lessonRecord->edcenso_discipline_fk = $planStage->edcenso_discipline_fk;
+                $lessonRecord->edcenso_stage_vs_modality_fk = $classroom->edcenso_stage_vs_modality_fk;
+                $lessonRecord->edcenso_discipline_fk = $planStage->edcenso_discipline_fk;
+                $lessonRecord->applyPlanSnapshot($plan);
+            }
 
             if (!$lessonRecord->save()) {
                 throw new CException('Não foi possível salvar o registro de aula MACETE.');
             }
 
             $abilityIds = $request['abilities'] ?? [];
-            if (empty($abilityIds) && $plan !== null) {
-                foreach ($plan->abilities as $ability) {
-                    $abilityIds[] = $ability->ability_fk;
-                }
+            if (empty($abilityIds)) {
+                $abilityIds = $lessonRecord->getPlanAbilityIds();
             }
 
             $this->syncAbilities($lessonRecord, $abilityIds);

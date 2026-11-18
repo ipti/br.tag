@@ -644,11 +644,14 @@ class TimesheetController extends Controller
                             ]
                         );
                     }
-                    foreach ($schedule->classContents as $cc) {
-                        $classContent = new ClassContents();
-                        $classContent->schedule_fk = $secondScheduleInTheDay->id;
-                        $classContent->course_class_fk = $cc->course_class_fk;
-                        $classContent->save();
+                    // Move a aula ministrada (com a cópia do plano) para o próximo horário do dia.
+                    // Antes era criada uma nova a partir da aula do plano e a antiga ficava presa
+                    // ao horário apagado.
+                    if ($secondScheduleInTheDay !== null) {
+                        foreach ($schedule->classContents as $classContent) {
+                            $classContent->schedule_fk = $secondScheduleInTheDay->id;
+                            $classContent->save();
+                        }
                     }
                 }
 

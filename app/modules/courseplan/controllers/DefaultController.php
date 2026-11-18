@@ -272,6 +272,9 @@ class DefaultController extends Controller
         } else {
             CourseClass::model()->deleteAll("course_plan_fk = :course_plan_fk and id not in ( '" . implode("', '", $courseClassIds) . "' )", [':course_plan_fk' => $coursePlan->id]);
         }
+        // Aulas ministradas guardam uma cópia da aula do plano: atualiza as que ainda
+        // apontam para aulas deste plano. As de aulas apagadas mantêm a cópia.
+        ClassContents::syncFromCoursePlan($coursePlan);
         Log::model()->saveAction('courseplan', $id, $logSituation, $coursePlan->name);
         Yii::app()->user->setFlash('success', Yii::t('default', 'Plano de Curso salvo com sucesso!'));
         $this->redirect(['index']);

@@ -64,7 +64,7 @@ $dataProvider = new CArrayDataProvider($records, [
                             [
                                 'header' => 'Plano',
                                 'type' => 'raw',
-                                'value' => 'CHtml::link(CHtml::encode($data->lessonPlanFk !== null ? $data->lessonPlanFk->name : "—"), MaceteRoutes::url(MaceteRoutes::LESSONSRECORD_UPDATE, ["id" => $data->id]))',
+                                'value' => 'CHtml::link(CHtml::encode($data->getPlanName() !== "" ? $data->getPlanName() : "—"), MaceteRoutes::url(MaceteRoutes::LESSONSRECORD_UPDATE, ["id" => $data->id]))',
                                 'htmlOptions' => ['width' => '30%', 'class' => 'link-update-grid-view'],
                             ],
                             [

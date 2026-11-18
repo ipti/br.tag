@@ -650,7 +650,7 @@ class ReportsController extends Controller
         foreach ($records as $record) {
             $day = (int) date('j', strtotime((string) $record->lesson_date));
             $recordsByDay[$day][] = [
-                'plan' => $record->lessonPlanFk !== null ? $record->lessonPlanFk->name : '',
+                'plan' => $record->getPlanName(),
                 'content' => $record->executed_content,
             ];
         }
