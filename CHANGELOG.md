@@ -1,3 +1,6 @@
+## [Versão 3.15.8]
+- Relatório de Alunos (CPF, RG e NIS) (TCDA-1272): nova coluna Cor/Raça, ao lado da data de nascimento, nas três versões do relatório (por turma, da escola e de todas as escolas). A cor/raça aparece por extenso (Branca, Preta, Parda, Amarela, Indígena ou Não declarada), como no cadastro do aluno
+
 ## [Versão 3.15.6]
 - Impressão do Diário Eletrônico (Notas por Aluno e Frequência) (TCDA-1270): o nome da Prefeitura, o nome da Escola e o endereço passam a ficar centralizados na página, logo acima do título "Diário Eletrônico". Antes ficavam alinhados à direita. O logo da escola continua à esquerda
 

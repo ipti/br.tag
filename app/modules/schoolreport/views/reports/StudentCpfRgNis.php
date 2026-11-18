@@ -24,6 +24,7 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
             <?php if($allSchools) {echo "<th scope='col'>ESCOLA</th>";}else if($allClassrooms) {echo "<th scope='col'>TURMA</th>";}else {echo "";}?>
             <th>NOME</th>
             <th>D.N</th>
+            <th>COR/RAÇA</th>
             <th>CPF</th>
             <th>RG</th>
             <th>NIS</th>
@@ -41,6 +42,7 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
                     <?php if($allSchools) {echo "<td>".$r['school_name']."</td>";}else if($allClassrooms) {echo "<td>".$r['classroom_name']."</td>";}else {echo "";}?>
                     <td><?= $r['name'] ?></td>
                     <td><?= $r['birthday'] ?></td>
+                    <td><?= $r['color_race'] ?></td>
                     <td><?= $r['cpf'] ?></td>
                     <td><?= $r['rg_number'] ?></td>
                     <td><?= $r['nis'] ?></td>
@@ -54,6 +56,7 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
             <tr>
                 <td></td>
                 <?php if($allSchools) {echo "<td></td>";}else if($allClassrooms) {echo "<td></td>";}else {echo "";}?>
+                <td></td>
                 <td></td>
                 <td></td>
                 <td></td>
