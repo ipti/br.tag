@@ -1,3 +1,6 @@
+## [Versão 3.16.28]
+- Relatório de Alunos (CPF, RG e NIS) (TCDA-1272): nova coluna Cor/Raça, ao lado da data de nascimento, nas três versões do relatório (por turma, da escola e de todas as escolas). A cor/raça aparece por extenso (Branca, Preta, Parda, Amarela, Indígena ou Não declarada), como no cadastro do aluno
+
 ## [Versão 3.15.28]
 - Busca no "Usar modelo" dos Planos MACETE (TCDA-1269): o modal passou a ter um campo para buscar pelo código do plano, uma pesquisa livre por palavras do título ou do tema (sem diferenciar maiúsculas nem acentos) e um filtro por etapa. Os modelos aparecem numa lista com código, tema, etapa e componente, filtrada enquanto se digita; basta clicar no modelo e em "Usar este modelo", ou dar dois cliques nele
 

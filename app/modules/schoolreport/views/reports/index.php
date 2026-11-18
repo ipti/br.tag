@@ -245,7 +245,7 @@ $this->breadcrumbs = array(
                     </div>
                     <div class="pull-left">
                         <span class="title">Relatório de Alunos com CPF, RG e NIS por Turma</span><br>
-                        <span class="subtitle">Listagem de CPF, RG e NIS dos alunos por Turma</span>
+                        <span class="subtitle">Listagem de CPF, RG, NIS e cor/raça dos alunos por Turma</span>
                     </div>
                 </button>
 
@@ -480,7 +480,7 @@ $this->breadcrumbs = array(
                         </div>
                         <div class="pull-left">
                             <span class="title">Relatório de Alunos (CPF, RG e NIS) da escola</span><br>
-                            <span class="subtitle">Listagem de CPF, RG e NIS dos alunos da escola atual</span>
+                            <span class="subtitle">Listagem de CPF, RG, NIS e cor/raça dos alunos da escola atual</span>
                         </div>
                     </button>
                 </a>
@@ -611,7 +611,7 @@ $this->breadcrumbs = array(
                     </div>
                     <div class="pull-left">
                         <span class="title">Relatório de Alunos (CPF, RG e NIS) de todas as escolas</span><br>
-                        <span class="subtitle">Listagem de CPF, RG e NIS dos alunos de todas as escolas</span>
+                        <span class="subtitle">Listagem de CPF, RG, NIS e cor/raça dos alunos de todas as escolas</span>
                     </div>
                 </button>
             </div>
