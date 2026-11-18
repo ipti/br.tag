@@ -85,7 +85,7 @@ class LessonsrecordController extends Controller
             $day = (int) date('j', strtotime((string) $record->lesson_date));
             $recordsByDay[$day][] = [
                 'id' => (int) $record->id,
-                'plan' => $record->lessonPlanFk !== null ? $record->lessonPlanFk->name : '',
+                'plan' => $record->getPlanName(),
             ];
         }
 
@@ -254,10 +254,8 @@ class LessonsrecordController extends Controller
     private function buildFormData(MaceteLessonRecord $lessonRecord, bool $dayContextLocked = false): array
     {
         $abilityIds = $this->lessonRecordService()->getAbilityIds($lessonRecord);
-        if (empty($abilityIds) && $lessonRecord->lessonPlanFk !== null) {
-            foreach ($lessonRecord->lessonPlanFk->abilities as $ability) {
-                $abilityIds[] = $ability->ability_fk;
-            }
+        if (empty($abilityIds)) {
+            $abilityIds = $lessonRecord->getPlanAbilityIds();
         }
 
         $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);

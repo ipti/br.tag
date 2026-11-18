@@ -268,6 +268,17 @@ class ClassesController extends Controller
                 }
             }
 
+            // Aulas ministradas cuja aula do plano foi apagada continuam aparecendo marcadas
+            $contentIds = [];
+            foreach ($classContents as $day) {
+                $contentIds = array_merge($contentIds, $day['contents'] ?? []);
+            }
+            $courseClasses = ClassContents::appendMissingCourseClasses(
+                $courseClasses,
+                $contentIds,
+                TagUtils::isInstructor() ? Yii::app()->user->loginInfos->id : null
+            );
+
             echo json_encode([
                 'valid' => true,
                 'classContents' => $classContents,
@@ -308,29 +319,7 @@ class ClassesController extends Controller
 
     private function getTotalClassContentsByMonth($classroomId, $month, $year, $disciplineId)
     {
-        if (!$disciplineId) {
-            return Yii::app()->db->createCommand(
-                'select count(*) from class_contents cc
-                join schedule sc on sc.id = cc.schedule_fk
-                where sc.year = :year and sc.month = :month and sc.classroom_fk = :classroom
-                and sc.unavailable = 0'
-            )
-                ->bindParam(CLASSROOM, $classroomId)
-                ->bindParam(MONTH, $month)
-                ->bindParam(YEAR, $year)
-                ->queryScalar();
-        }
-        return Yii::app()->db->createCommand(
-            'select count(*) from class_contents cc
-            join schedule sc on sc.id = cc.schedule_fk
-            where sc.year = :year and sc.month = :month and sc.classroom_fk = :classroom
-            and sc.discipline_fk = :discipline and sc.unavailable = 0'
-        )
-            ->bindParam(CLASSROOM, $classroomId)
-            ->bindParam(MONTH, $month)
-            ->bindParam(YEAR, $year)
-            ->bindParam(':discipline', $disciplineId)
-            ->queryScalar();
+        return ClassContents::countSchedulesWithContent($classroomId, $month, $year, $disciplineId);
     }
 
     private function getSchedulesFromMajorStage($classroomId, $month, $year, $disciplineId)
@@ -426,7 +415,7 @@ class ClassesController extends Controller
 
             // Adiciona os conteúdos da classe ao array de resultados
             foreach ($classContents as $classContent) {
-                $classContentsResult[$dayKey]['contents'][] = $classContent->courseClassFk->id;
+                $classContentsResult[$dayKey]['contents'][] = (int) $classContent->course_class_fk;
             }
         }
 
@@ -518,43 +507,7 @@ class ClassesController extends Controller
             $this->saveClassDiary($student, $schedule);
         }
 
-        $contentsToExclude = array_column(ClassContents::model()->with('courseClassFk.coursePlanFk')->findAll(
-            'schedule_fk = :schedule_fk and coursePlanFk.users_fk = :user_fk',
-            [
-                'schedule_fk' => $schedule->id,
-                'user_fk' => Yii::app()->user->loginInfos->id
-            ]
-        ), 'id');
-
-        if (!empty($contentsToExclude)) {
-            ClassContents::model()->deleteAll('id IN (' . implode(', ', $contentsToExclude) . ')');
-        }
-
-        foreach ($classContent['contents'] as $content) {
-            $existingContent = ClassContents::model()->findAll(
-                'schedule_fk = :schedule_fk and course_class_fk = :course_class_fk',
-                [
-                    'schedule_fk' => $schedule->id,
-                    'course_class_fk' => $content
-                ]
-            );
-            if (empty($existingContent)) {
-                $this->saveClassContents($content, $schedule);
-            }
-        }
-    }
-
-    private function saveClassContents($content, $schedule)
-    {
-        $classHasContent = new ClassContents();
-        $classHasContent->schedule_fk = $schedule->id;
-        $classHasContent->course_class_fk = $content;
-        $classHasContent->day = $schedule->day;
-        $classHasContent->month = $schedule->month;
-        $classHasContent->year = $schedule->year;
-        $classHasContent->classroom_fk = $schedule->classroom_fk;
-        $classHasContent->discipline_fk = $schedule->discipline_fk;
-        $classHasContent->save();
+        ClassContents::saveForSchedule($schedule, $classContent['contents'] ?? [], Yii::app()->user->loginInfos->id);
     }
 
     private function saveClassDiary($student, $schedule)

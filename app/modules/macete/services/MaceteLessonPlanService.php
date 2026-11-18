@@ -12,6 +12,20 @@ class MaceteLessonPlanService
         $this->accessService = $accessService ?? new MaceteAccessService();
     }
 
+    /**
+     * Os registros de aula guardam uma cópia do plano: depois de salvar o plano,
+     * atualiza a cópia nos registros que usam este plano.
+     */
+    private function syncRecordSnapshots(MaceteLessonPlan $lessonPlan): void
+    {
+        foreach (MaceteLessonRecord::model()->findAllByAttributes(['lesson_plan_fk' => $lessonPlan->id]) as $record) {
+            $record->applyPlanSnapshot($lessonPlan);
+            if (!$record->save(false)) {
+                throw new CException('Não foi possível atualizar os registros de aula deste plano MACETE.');
+            }
+        }
+    }
+
     public function save(MaceteLessonPlan $lessonPlan, array $request): MaceteLessonPlan
     {
         $transaction = Yii::app()->db->beginTransaction();
@@ -62,6 +76,7 @@ class MaceteLessonPlanService
             $this->syncAbilities($lessonPlan, $request['abilities'] ?? []);
             $this->syncSections($lessonPlan, $request['sections'] ?? []);
             $this->syncResources($lessonPlan, $request['resources'] ?? []);
+            $this->syncRecordSnapshots($lessonPlan);
 
             $transaction->commit();
 

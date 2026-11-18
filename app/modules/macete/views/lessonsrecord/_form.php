@@ -23,6 +23,12 @@ $form = $this->beginWidget('CActiveForm', [
 ]);
 
 $selectedPlan = $lessonRecord->lessonPlanFk;
+// Plano apagado: o registro mantém a cópia e o plano continua na lista com o nome guardado
+$planOptions = CHtml::listData($plans, 'id', 'name');
+if (!$lessonRecord->isNewRecord && $lessonRecord->lesson_plan_fk !== null && !isset($planOptions[$lessonRecord->lesson_plan_fk])) {
+    $planOptions[$lessonRecord->lesson_plan_fk] = $lessonRecord->getPlanName();
+}
+$showPlanSummary = $selectedPlan !== null || (!$lessonRecord->isNewRecord && $lessonRecord->plan_name !== null);
 ?>
 
 <div class="main">
@@ -105,7 +111,7 @@ $selectedPlan = $lessonRecord->lessonPlanFk;
                         <?php echo $form->dropDownList(
                                 $lessonRecord,
                                 'lesson_plan_fk',
-                                CHtml::listData($plans, 'id', 'name'),
+                                $planOptions,
                                 [
                                     'class' => 'select-search-on t-field-select__input js-macete-plan-select',
                                     'prompt' => 'Selecione o plano MACETE',
@@ -154,11 +160,11 @@ $selectedPlan = $lessonRecord->lessonPlanFk;
                 <div class="t-cards-content">
                     <h2 class="t-cards-title">Plano selecionado</h2>
                         <p><b>Contextualização do território:</b> <?php echo nl2br(CHtml::encode($territoryContext)); ?></p>
-                    <p><b>Tema:</b> <span data-summary-field="theme"><?php echo $selectedPlan !== null ? CHtml::encode($selectedPlan->theme) : ''; ?></span></p>
-                    <p><b>Ano/Série:</b> <span data-summary-field="stage"><?php echo $selectedPlan !== null && $selectedPlan->stageFk !== null ? CHtml::encode($selectedPlan->stageFk->name) : ''; ?></span></p>
-                    <p><b>Componentes:</b> <span data-summary-field="discipline"><?php echo $selectedPlan !== null ? CHtml::encode($selectedPlan->getDisciplineNames()) : ''; ?></span></p>
+                    <p><b>Tema:</b> <span data-summary-field="theme"><?php echo $showPlanSummary ? CHtml::encode($lessonRecord->getPlanTheme()) : ''; ?></span></p>
+                    <p><b>Ano/Série:</b> <span data-summary-field="stage"><?php echo $showPlanSummary ? CHtml::encode($lessonRecord->getPlanStageName()) : ''; ?></span></p>
+                    <p><b>Componentes:</b> <span data-summary-field="discipline"><?php echo $showPlanSummary ? CHtml::encode($lessonRecord->getPlanDisciplineNames()) : ''; ?></span></p>
                     <p><b>Turma:</b> <span data-summary-field="classroom"><?php echo $lessonRecord->classroomFk !== null ? CHtml::encode($lessonRecord->classroomFk->name) : ''; ?></span></p>
-                    <p><b>Habilidades:</b> <span data-summary-field="abilities"><?php echo $selectedPlan !== null ? CHtml::encode($selectedPlan->getAbilityCodes()) : ''; ?></span></p>
+                    <p><b>Habilidades:</b> <span data-summary-field="abilities"><?php echo $showPlanSummary ? CHtml::encode($lessonRecord->getPlanAbilityCodes()) : ''; ?></span></p>
                 </div>
             </div>
         </aside>

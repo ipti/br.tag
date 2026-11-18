@@ -419,6 +419,9 @@ class CourseplanController extends Controller
                 CourseClass::model()->deleteAll("course_plan_fk = :course_plan_fk and id not in ( '" . implode("', '", $courseClassIds) . "' )", [':course_plan_fk' => $coursePlan->id]);
                 TLog::info('Todas as aulas não inclusas na atualização foram deletadas com sucesso.', ['coursePlanId' => $coursePlan->id, 'CourseClassesIds' => $courseClassIds]);
             }
+            // Aulas ministradas guardam uma cópia da aula do plano: atualiza as que ainda
+            // apontam para aulas deste plano. As de aulas apagadas mantêm a cópia.
+            ClassContents::syncFromCoursePlan($coursePlan);
             header('HTTP/1.1 200 OK');
             Log::model()->saveAction('courseplan', $id, $logSituation, $coursePlan->name);
             Yii::app()->user->setFlash('success', Yii::t('default', 'Plano de Curso salvo com sucesso!'));
