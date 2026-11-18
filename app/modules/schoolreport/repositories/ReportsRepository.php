@@ -71,12 +71,25 @@ class ReportsRepository
     }
 
     /**
+     * Cor/raça do aluno por extenso, com os mesmos códigos do cadastro do aluno.
+     * Sem informação ou código 0 aparece como "Não declarada".
+     */
+    private const STUDENT_COLOR_RACE_SQL = "CASE si.color_race
+                    WHEN 1 THEN 'Branca'
+                    WHEN 2 THEN 'Preta'
+                    WHEN 3 THEN 'Parda'
+                    WHEN 4 THEN 'Amarela'
+                    WHEN 5 THEN 'Indígena'
+                    ELSE 'Não declarada'
+                END AS color_race";
+
+    /**
      * Alunos com CPF, RG e NIS de todas as Escolas
      */
     public function getStudentCpfRgNisAllSchools(): array
     {
         $school = SchoolIdentification::model()->findByPk($this->currentSchool);
-        $sql = 'SELECT si.name, si.birthday, sdaa.cpf, sdaa.rg_number,
+        $sql = 'SELECT si.name, si.birthday, ' . self::STUDENT_COLOR_RACE_SQL . ', sdaa.cpf, sdaa.rg_number,
                     sdaa.nis, si.responsable_name, si.responsable_telephone, si2.name as school_name
                 FROM student_enrollment se
                 JOIN student_identification si ON se.student_fk = si.id
@@ -103,7 +116,7 @@ class ReportsRepository
     public function getStudentCpfRgNisAllClassrooms(): array
     {
         $school = SchoolIdentification::model()->findByPk($this->currentSchool);
-        $sql = 'SELECT si.name, si.birthday, sdaa.cpf, sdaa.rg_number,
+        $sql = 'SELECT si.name, si.birthday, ' . self::STUDENT_COLOR_RACE_SQL . ', sdaa.cpf, sdaa.rg_number,
                     sdaa.nis, si.responsable_name, si.responsable_telephone, c.name as classroom_name
                 FROM student_enrollment se
                 jOIN student_identification si ON se.student_fk = si.id
@@ -131,7 +144,7 @@ class ReportsRepository
     {
         $classroom = $request->getPost('classroom');
         $classroomModel = Classroom::model()->findByPk($classroom);
-        $sql = 'SELECT si.name, si.birthday, sdaa.cpf, sdaa.rg_number,
+        $sql = 'SELECT si.name, si.birthday, ' . self::STUDENT_COLOR_RACE_SQL . ', sdaa.cpf, sdaa.rg_number,
                     sdaa.nis, si.responsable_name, si.responsable_telephone
                 FROM student_enrollment se
                 JOIN student_identification si ON se.student_fk = si.id
