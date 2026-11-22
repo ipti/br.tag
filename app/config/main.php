@@ -120,6 +120,7 @@ return [
         'farmer',
         'gradestructure',
         'classroom',
+        'api',
     ],
     'components' => [
         'utils' => [

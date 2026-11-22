@@ -1,3 +1,7 @@
+## [Versão 3.18.28]
+- Novo módulo de API do TAG, para sistemas e aparelhos externos. Cada aparelho tem uma credencial própria (client_id e client_secret, criados pelo comando `yiic apiclient`), troca essa credencial por um token JWT válido por 1 hora e só acessa os dados da sua escola. As credenciais podem ser desativadas a qualquer momento
+- Presença para a merenda: o reconhecimento facial da entrada da escola (um Raspberry Pi por escola) envia ao TAG a lista de alunos presentes no dia, que fica gravada por escola e dia. Os envios do mesmo dia são numerados e fica valendo o de maior número; reenviar depois de uma falha é seguro. O aparelho também consulta no TAG a lista de alunos da escola (id e nome) para cadastrar os rostos
+
 ## [Versão 3.15.28]
 - Busca no "Usar modelo" dos Planos MACETE (TCDA-1269): o modal passou a ter um campo para buscar pelo código do plano, uma pesquisa livre por palavras do título ou do tema (sem diferenciar maiúsculas nem acentos) e um filtro por etapa. Os modelos aparecem numa lista com código, tema, etapa e componente, filtrada enquanto se digita; basta clicar no modelo e em "Usar este modelo", ou dar dois cliques nele
 
