@@ -1,5 +1,5 @@
 ## [Versão 3.18.28]
-- Novo módulo de API do TAG, para sistemas e aparelhos externos. Cada aparelho tem uma credencial própria (client_id e client_secret, criados pelo comando `yiic apiclient`), troca essa credencial por um token JWT válido por 1 hora e só acessa os dados da sua escola. As credenciais podem ser desativadas a qualquer momento
+- Novo módulo de API do TAG (TCDA-1275), para sistemas e aparelhos externos. Cada aparelho tem uma credencial própria (client_id e client_secret, criados pelo comando `yiic apiclient`), troca essa credencial por um token JWT válido por 1 hora e só acessa os dados da sua escola. As credenciais podem ser desativadas a qualquer momento
 - Presença para a merenda: o reconhecimento facial da entrada da escola (um Raspberry Pi por escola) envia ao TAG a lista de alunos presentes no dia, que fica gravada por escola e dia. Os envios do mesmo dia são numerados e fica valendo o de maior número; reenviar depois de uma falha é seguro. O aparelho também consulta no TAG a lista de alunos da escola (id e nome) para cadastrar os rostos
 
 ## [Versão 3.15.28]
