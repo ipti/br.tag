@@ -1,5 +1,7 @@
 # Plano de Modernizacao para Analise Estatica e Manutenabilidade
 
+> **⚠️ Documento substituído.** Este plano foi consolidado em [`docs/arquitetura/plano-modernizacao.md`](arquitetura/plano-modernizacao.md) (aprovado em 2026-11-27). Mantido só como histórico: não use como referência para trabalho novo.
+
 ## Objetivo
 
 Melhorar a seguranca de refatoracao do projeto, reduzir erros de classes nao importadas e assinaturas incorretas, e criar um ambiente mais previsivel para manutencao humana e para servicos de IA.

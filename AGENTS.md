@@ -5,8 +5,28 @@ This repository keeps project-specific guidance in `.agents/`.
 Start here:
 - Read `.agents/README.md`.
 - Treat `.agents/rules/*.md` as stable constraints.
+- Treat `docs/arquitetura/plano-modernizacao.md` as the approved modernization plan (it supersedes `docs/namespaces.md` and `docs/php83_yii1_static_analysis_plan.md`).
+- Treat `.agents/tasks/` as the backlog: one card = one branch `task/<ID>`; respect the card's `write_scope`, `forbidden` and `acceptance`.
 - Treat `.agents/playbooks/*.md` as task-specific execution guides.
 - Treat `.agents/checklists/*.md` as completion criteria.
+
+## Agentes especialistas (plano de modernização)
+
+O texto completo de cada papel fica em `.agents/agents/`, que é a fonte única. Codex e Claude Code têm adaptadores próprios; o Antigravity lê `.agents/agents/` diretamente.
+
+| Papel | Codex (`.codex/agents/`) | Antigravity (`.agents/agents/`) | Claude Code (`.claude/agents/`) |
+|---|---|---|---|
+| Guardião do plano: revisa a conformidade com o plano e só lê | `tag_plan_guardian` | `tag-plan-guardian` | `tag-plan-guardian` |
+| Refatorador: executa o card sem sair do `write_scope` | `tag_refactorer` | `tag-refactorer` | `tag-refactorer` |
+| QA: golden master, testes e gates; não toca em código de produção | `tag_qa` | `tag-qa` | `tag-qa` |
+
+- **Fluxo de um card:**
+  1. `tag_qa` faz a caracterização (golden master);
+  2. `tag_refactorer` implementa;
+  3. `tag_qa` escreve os testes novos e roda os gates;
+  4. `tag_plan_guardian` revisa, de preferência num provedor diferente do refatorador;
+  5. uma pessoa aprova o merge.
+- **No Codex:** quando o pedido for executar, testar ou revisar um card, delegue explicitamente ao agente do papel. Exemplo: "spawn the tag_refactorer agent for card R0-SQL-03".
 
 Operating rules for Codex in this repo:
 - Always inspect existing code before proposing architecture changes.
@@ -34,5 +54,7 @@ Legacy reality:
 When instructions conflict:
 1. Root `AGENTS.md`
 2. `.agents/rules/*`
-3. `.agents/playbooks/*`
-4. `.agents/checklists/*`
+3. `docs/arquitetura/plano-modernizacao.md`
+4. The task card in `.agents/tasks/`
+5. `.agents/playbooks/*` (and `.agents/skills/*` once they exist)
+6. `.agents/checklists/*`
