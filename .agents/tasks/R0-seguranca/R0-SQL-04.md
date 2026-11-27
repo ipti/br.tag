@@ -6,7 +6,7 @@ module: student
 type: seguranca
 skill: .agents/playbooks/bugfix.md
 agents: [tag-refactorer, tag-qa, tag-plan-guardian]
-status: bloqueado
+status: em-revisao
 depends_on: []
 size: P
 risk: alto
@@ -113,4 +113,5 @@ O teste HTTP acima foi uma execução pontual; o comando Python sozinho não pre
 
 - **Pendências e issues sugeridas:** corrigir os gates globais em card de infraestrutura separado; validar os formulários no navegador em ambiente de teste do worktree; comprovar o status HTTP em produção após R0-INFRA-03. O plano e o backlog ainda não estavam integrados à main na criação desta branch.
 - **Riscos:** a autenticação do smoke é sintética; a aplicação TAG real não foi exercitada no HTTP. Com o handler de exceções desligado em produção, o 400 pode ser apresentado como 500 até R0-INFRA-03. Revisão humana obrigatória antes de merge.
-- **Revisão do Guardião:** aprovado com ressalvas. O card permanece bloqueado enquanto os gates obrigatórios e a verificação pendente não estiverem resolvidos.
+- **Revisão do Guardião:** aprovado com ressalvas; revisão humana obrigatória antes do merge.
+- **Decisão da pessoa responsável:** autorizou encaminhar o card para revisão humana com a falha preexistente do lint global registrada, sem alterar os arquivos fora do escopo nem enfraquecer o gate. O PHPStan e a validação no navegador continuam pendentes.
