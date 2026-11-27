@@ -829,11 +829,49 @@
             }
         }
 
+        private function requireRole(bool $superuserOnly): void
+        {
+            if (Yii::app()->user->isGuest || !isset(Yii::app()->user->loginInfos->id)) {
+                Yii::app()->user->loginRequired();
+                return;
+            }
+
+            if (TagUtils::isSuperuser()) {
+                return;
+            }
+
+            if (!$superuserOnly && TagUtils::isAdmin()) {
+                return;
+            }
+
+            throw new CHttpException(403, 'Você não tem permissão para acessar esta funcionalidade.');
+        }
+
         public function actionCreateUser()
         {
+            $this->requireRole(false);
+
             $model = new Users();
 
             if (isset($_POST['Users'], $_POST['Confirm'])) {
+                $rawRole = isset($_POST['Role']) && is_string($_POST['Role']) ? $_POST['Role'] : '';
+                $role = TRole::tryFrom($rawRole);
+                if ($role === null) {
+                    throw new CHttpException(400, 'Papel inválido.');
+                }
+
+                $allowedRoles = [];
+                foreach (TRole::cases() as $case) {
+                    if ($case === TRole::SUPERUSER && !TagUtils::isSuperuser()) {
+                        continue;
+                    }
+                    $allowedRoles[] = $case;
+                }
+
+                if (!in_array($role, $allowedRoles, true)) {
+                    throw new CHttpException(403, 'Você não tem permissão para atribuir este papel.');
+                }
+
                 $model->attributes = $_POST['Users'];
                 if ($model->validate()) {
                     $password = ($_POST['Users']['password']);
@@ -843,7 +881,8 @@
                         $model->password = $passwordHasher->bcriptHash($password);
                         if ($model->save()) {
                             $save = true;
-                            foreach ($_POST['schools'] as $school) {
+                            $schools = isset($_POST['schools']) && is_array($_POST['schools']) ? $_POST['schools'] : [];
+                            foreach ($schools as $school) {
                                 $userSchool = new UsersSchool();
                                 $userSchool->user_fk = $model->id;
                                 $userSchool->school_fk = $school;
@@ -851,7 +890,7 @@
                             }
                             if ($save) {
                                 $auth = Yii::app()->authManager;
-                                $auth->assign($_POST['Role'], $model->id);
+                                $auth->assign($role->value, $model->id);
                                 Yii::app()->user->setFlash('success', Yii::t('default', 'Usuário cadastrado com sucesso!'));
                                 $this->redirect(['index']);
                             }
@@ -866,6 +905,8 @@
 
         public function actionImport()
         {
+            $this->requireRole(true);
+
             set_time_limit(0);
             ignore_user_abort();
             $path = Yii::app()->basePath;

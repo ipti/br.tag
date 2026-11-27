@@ -6,7 +6,7 @@ module: raiz
 type: seguranca
 skill: .agents/playbooks/bugfix.md
 agents: [tag-refactorer, tag-qa, tag-plan-guardian]
-status: pronto
+status: em-revisao
 depends_on: []
 size: P
 risk: alto
@@ -107,4 +107,50 @@ composer lint && composer analyse
 Testes de navegador seguem `.agents/rules/e2e-testing.md`: antes de rodar, peça a URL, as credenciais e a aprovação.
 
 ## Handoff
-_Preenchido por quem executar._
+- **Feito:**
+  - Adicionado helper privado `requireRole(bool $superuserOnly): void` em `app/controllers/AdministratorController.php` (checa `Yii::app()->user->isGuest || !isset(Yii::app()->user->loginInfos->id)` chamando `loginRequired()`, libera `TagUtils::isSuperuser()` sempre, libera `TagUtils::isAdmin()` quando `!$superuserOnly`, e lança `CHttpException(403)` nos demais casos).
+  - Protegido `actionCreateUser()` com `$this->requireRole(false)` na primeira linha e validação de `$_POST['Role']` via `TRole::tryFrom(...)` (400 para ausente/inválido) + lista atribuível por perfil (`superuser` → todos `TRole::cases()`; `admin` → todos exceto `TRole::SUPERUSER`, respondendo 403) **antes** de `$model->validate()` e `$model->save()`.
+  - Protegido o loop de `$_POST['schools']` contra ausência/tipo não-array em PHP 8.3 e trocado `$auth->assign($_POST['Role'], ...)` por `$auth->assign($role->value, ...)`.
+  - Protegido `actionImport()` com `$this->requireRole(true)` na primeira linha (antes de `set_time_limit(0)` e de `$_FILES`).
+- **Decisões:**
+  - Mantido permitido `admin` criar outro `admin` (padrão do card; sujeito à confirmação humana na revisão).
+  - Passo 5 (restringir upload de `actionImport()` a `.txt`): mantido sem restrição de extensão por ausência de confirmação operacional; registrado abaixo para decisão humana (`app/import/` segue na raiz web até `R0-INFRA-02`).
+  - Validação de `Role` posicionada antes de `$model->validate()` para impedir criação órfã e evitar queda em `$this->render('createUser')` (view ausente → 500) quando `Users[password]` tem menos de 6 caracteres (`app/models/Users.php:48`).
+  - Conferido no banco local `demo.tag.ong.br`: `auth_item` (`type = 2`) contém os 9 papéis do `TRole` (inclusive `superuser` e `foodServiceWorker`), porém `app/components/auth/RbacSeeder.php:18-26` não semeia `superuser` nem `foodServiceWorker` — confirmar nos demais tenants de produção.
+  - Branch `task/R0-ADMIN-01` criada a partir de `docs/plano-modernizacao` (rebasear em `main` após o merge de `docs/plano-modernizacao`).
+  - Revisão de conformidade (`tag-plan-guardian`): subagente independente retornou erro 429 (cota); checklist completo de conformidade executado localmente sem bloqueios — recomenda-se revisão cruzada no Claude Code ou Codex antes do merge.
+- **Gates:**
+  - `docker exec tag-app php -l /app/app/controllers/AdministratorController.php` → OK (`No syntax errors detected`).
+  - `docker exec -u root -e PHP_CS_FIXER_IGNORE_ENV=1 tag-app ./vendor/bin/php-cs-fixer fix --dry-run --diff app/controllers/AdministratorController.php` → OK (`0` diffs).
+  - `composer run analyse` (`phpstan analyse --memory-limit=512M`) → **falha pré-existente fora do escopo do card** (`Path /app/app/domain does not exist` em `phpstan.neon`, arquivo em `forbidden`; além disso `phpstan.neon` não inclui `app/controllers/` até `R1-BASE`).
+  - `git grep -n -E 'TagUtils::is(Admin|Superuser)' -- app/controllers/AdministratorController.php` → OK (L839, L843 em `requireRole` chamado nas duas actions, e L865 em `actionCreateUser`).
+  - Smoke `curl` contra `http://localhost` (`YII_DEBUG=1`, base `demo.tag.ong.br`, contas efêmeras limpas ao final — `0` registros residuais):
+    - Visitante `createUser` → `302` (`Location: ?r=site/login`), `0` usuários criados; visitante `import` → `302` (`?r=site/login`).
+    - `instructor` `createUser` → `403`; `instructor` `import` → `403`.
+    - `admin` `createUser` com `Role=superuser` → `403` (sem criação); `Role=hacker` → `400` (sem criação); `Role` ausente → `400` (sem criação); `Role=manager` (senha ≥ 6 chars) → `302` (usuário criado com papel `manager`); `admin` `import` → `403`.
+    - `superuser` `createUser` com `Role=superuser` (sem `schools[]`) → `302` (usuário criado com papel `superuser`); `superuser` `import` (arquivo vazio) → passou do guarda (`!= 302` e `!= 403`).
+- **Pendências, decisões humanas e inventário do Passo 6 (outras 16 actions abertas em `AdministratorController.php`):**
+  - Decisões humanas necessárias antes/no merge: (1) confirmar se `admin` pode continuar criando `admin`; (2) confirmar se `actionImport()` pode restringir upload apenas a `.txt`; (3) decidir se o guarda deve ser estendido às demais actions via `beforeAction` já agora ou mantido para `R3-SEC-03`.
+  - Demais `public function action*` abertas no arquivo (fora `actionCreateUser` e `actionImport`):
+    - `actionIndex()` (L54): apenas `render('index')`.
+    - `actionMultiStageClassroomVerify($id)` (L59): **SQL** raw concatenado (`R0-SQL-02`).
+    - `actionSaveMultiStage()` (L85): **SQL** (`UPDATE student_enrollment`).
+    - `actionSyncExport()` (L93): **SQL** (17 `UPDATE` + AR save) e **grava/apaga `.zip`**.
+    - `actionSyncImport()` (L323): **upload irrestrito em `app/import/`** e **SQL** (`INSERT ... ON DUPLICATE KEY UPDATE` em 6 tabelas) — *crítico*.
+    - `actionUpdateDB()` (L490): lê `../updates/`, **executa SQL cru** e **grava `../updates/_version`** — *crítico*.
+    - `actionBackup($return = true)` (L544, static): no-op.
+    - `actionData($file = true)` (L554): SQL leitura e **grava `app/backup/Data/*.dat`**.
+    - `actionExportStudentIdentify()` (L610): SQL leitura e **grava `app/export/alunos-*.TXT` (PII)**.
+    - `actionExport()` (L652): SQL leitura e **grava `app/export/<ano>_<school>.TXT`**.
+    - `actionDownloadExportFile()` (L814): **lê/baixa `app/export/<ano>_<school>.TXT`** sem checagem de papel.
+    - `actionACL()` (L946): **SQL/RBAC** (`createOperation`/`createRole`).
+    - `actionLoadToMaster()` (L1203): **SQL/AR em `db2`** e **grava `.sql` em `app/export/`**.
+    - `actionExportToMaster()` (L1318): **SQL raw (`INSERT`) em `db2`** e **grava `.sql` em `app/export/`**.
+    - `actionCleanMaster()` (L1565): **SQL** leitura em `db2`.
+    - `actionImportFromMaster()` (L1605): apenas `redirect(['index'])`.
+    - *(Nota extra: método público não-action `areThereByModalitie($sql)` na L1100 executa SQL cru diretamente.)*
+  - Nota de higiene: nos exemplos `curl` do card, usar senha ≥ 6 caracteres (`Users.php:48`), pois `Users[password]=x` falha validação no teste positivo.
+- **Riscos:**
+  - Em produção (`YII_DEBUG=0`), até `R0-INFRA-03`, `CHttpException(400/403)` retorna HTTP 500 em branco (`config.php:36-37`), embora bloqueie corretamente a execução.
+  - Em tenants cujo `auth_item` não tenha `superuser` ou `foodServiceWorker` (não semeados pelo `RbacSeeder`), `$auth->assign()` falhará após `$model->save()`.
+  - As outras 16 actions de `AdministratorController.php` continuam sem `filters()` até decisão de `beforeAction` ou `R3-SEC-03`.
