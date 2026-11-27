@@ -271,6 +271,11 @@ $("#save").on("click", function (e) {
         success: function (data) {
             $("#discipline").trigger("change", ["saveGrades"]);
         },
+        error: function (response) {
+            if (response.status === 403) alert("Um dos lançamentos alterados está bloqueado para esta turma. Procure a administração.");
+            $(".js-grades-loading").hide();
+            $(".js-grades-container, .grades-buttons").css("opacity", "1").css("pointer-events", "auto");
+        },
     });
 });
 
@@ -317,6 +322,12 @@ $("#close-grades-diary").on("click", function (e) {
         },
         success: function (data) {
             $("#discipline").trigger("change", ["saveGrades"]);
+        },
+        error: function (xhr) {
+            $(".js-grades-loading").hide();
+            $(".js-grades-container, .grades-buttons").css("opacity", "1").css("pointer-events", "auto");
+            $(".js-grades-alert").removeClass("alert-success").addClass("alert-error")
+                .text(xhr.status === 403 ? "As notas estão bloqueadas para esta turma. Procure a administração." : "Não foi possível calcular a média. Tente novamente.").show();
         },
     });
 });

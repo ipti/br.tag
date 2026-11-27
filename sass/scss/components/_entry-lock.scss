@@ -1,0 +1,99 @@
+.entry-lock {
+    max-width: 1440px;
+    padding: 8px 16px 48px;
+    color: #263247;
+
+    &__heading { display: flex; justify-content: space-between; align-items: flex-start; gap: 20px; margin-bottom: 24px; }
+    &__heading h1 { margin: 5px 0 8px; color: #202b40; font-size: 30px; line-height: 1.2; }
+    &__heading p { margin: 0; color: #657389; font-size: 15px; }
+    &__eyebrow { color: #4d67a4; font-size: 11px; font-weight: 700; letter-spacing: .1em; }
+    &__year { flex-shrink: 0; border: 1px solid #dce4ee; border-radius: 10px; background: #fff; padding: 10px 14px; color: #64748b; font-size: 13px; }
+    &__year strong { margin-left: 5px; color: #263f72; }
+    &__notice { display: flex; gap: 12px; margin-bottom: 20px; padding: 15px 18px; border: 1px solid #d5e4f6; border-radius: 10px; background: #f1f7ff; color: #405978; }
+    &__notice p { margin: 0; font-size: 13px; line-height: 1.5; }
+    &__notice-icon { flex: 0 0 20px; height: 20px; border: 1px solid #7a9cc6; border-radius: 50%; color: #426da0; font-weight: bold; text-align: center; line-height: 19px; }
+    &__panel { margin-bottom: 18px; padding: 22px 24px; border: 1px solid #e0e6ef; border-radius: 12px; background: #fff; box-shadow: 0 3px 14px rgba(36, 53, 82, .05); }
+    &__section-heading { margin-bottom: 16px; }
+    &__section-heading--split { display: flex; justify-content: space-between; align-items: center; gap: 16px; }
+    &__section-heading h2 { display: inline; margin: 0; color: #25344e; font-size: 17px; line-height: 26px; }
+    &__section-heading p { margin: 4px 0 0 34px; color: #718096; font-size: 13px; }
+    &__step { display: inline-flex; width: 24px; height: 24px; align-items: center; justify-content: center; margin-right: 10px; border-radius: 7px; background: #edf2fc; color: #365899; font-size: 12px; font-weight: 700; vertical-align: 2px; }
+    &__types, &__actions, &__bulk { display: flex; flex-wrap: wrap; gap: 10px; }
+    &__choice { display: inline-flex; align-items: center; gap: 8px; margin: 0; padding: 10px 14px; border: 1px solid #dce3ed; border-radius: 8px; background: #fff; color: #35445a; cursor: pointer; font-weight: 600; }
+    &__choice:hover { border-color: #7894c8; background: #f7f9fe; }
+    &__choice input, .school-select, .classroom-select { flex-shrink: 0; width: 17px; height: 17px; margin: 0; accent-color: #385fa8; }
+    &__bulk { align-items: center; }
+    &__bulk .t-button-secondary { min-width: 0; margin: 0; }
+    &__text-button { border: 0; background: transparent; color: #496aa4; font-size: 13px; font-weight: 600; cursor: pointer; }
+    &__toolbar { display: flex; justify-content: space-between; align-items: end; gap: 16px; margin-bottom: 15px; }
+    &__search { display: flex; width: 340px; max-width: 100%; flex-direction: column; gap: 5px; margin: 0; color: #526176; font-size: 12px; font-weight: 600; }
+    &__search input { box-sizing: border-box; width: 100%; height: 38px; margin: 0; padding: 8px 11px; border: 1px solid #d9e1eb; border-radius: 7px; box-shadow: none; }
+    &__selection { color: #62728a; font-size: 12px; }
+    &__legend { display: flex; flex-wrap: wrap; align-items: center; gap: 7px; margin: 0 0 12px; color: #64748b; font-size: 12px; }
+    &__legend-note { margin-left: 5px; color: #98a4b4; }
+    &__dot { width: 8px; height: 8px; margin-left: 10px; border-radius: 50%; }
+    &__dot:first-child { margin-left: 0; }
+    &__dot--open { background: #299b6d; }
+    &__dot--locked { background: #d55a5e; }
+    &__schools { display: grid; gap: 10px; }
+    &__statuses { display: flex; flex-wrap: wrap; gap: 6px; }
+    &__status { display: inline-flex; align-items: center; gap: 4px; padding: 4px 8px; border-radius: 6px; font-size: 11px; font-weight: 600; line-height: 1.4; white-space: nowrap; }
+    &__status--open { background: #edf8f2; color: #237653; }
+    &__status--locked { background: #fff1f1; color: #a84047; }
+    &__status small { color: inherit; font-size: 10px; font-weight: 400; opacity: .8; }
+    &__footnote { margin: 14px 0 0; color: #7c8a9d; font-size: 12px; }
+    &__apply .t-button-primary { margin-top: 16px; }
+    &__error { margin: 14px 0 0; color: #a84047; font-weight: 600; }
+    &__empty { margin: 0; padding: 20px; color: #718096; text-align: center; }
+    [hidden] { display: none !important; }
+}
+
+.entry-lock-school {
+    border: 1px solid #e1e7ef; border-radius: 9px; background: #fff; overflow: hidden;
+    &.is-selected { border-color: #8aa7d5; background: #f9fbff; }
+    &__top { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; padding: 15px 16px; }
+    &__select, .entry-lock-classroom__select { display: flex; align-items: flex-start; gap: 10px; margin: 0; cursor: pointer; }
+    &__select strong { display: block; color: #293a55; font-size: 13px; line-height: 1.35; }
+    &__select small { display: block; margin-top: 3px; color: #8491a3; font-size: 11px; }
+    &__details { border-top: 1px solid #eef1f5; }
+    &__details summary { padding: 9px 16px; color: #496aa4; font-size: 12px; font-weight: 600; cursor: pointer; list-style: none; }
+    &__details summary::-webkit-details-marker { display: none; }
+    &__details summary span { display: inline-block; margin-left: 5px; transition: transform .15s; }
+    &__details[open] summary span { transform: rotate(180deg); }
+    &__classes { padding: 0 16px 12px 42px; }
+    &__classes > p { margin: 8px 0; color: #8491a3; font-size: 12px; }
+}
+
+.entry-lock-classroom {
+    display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; padding: 11px 0; border-top: 1px solid #edf1f5;
+    &__select { color: #41516a; font-size: 12px; font-weight: 600; }
+}
+
+@media (max-width: 700px) {
+    .entry-lock { padding: 4px 4px 32px; }
+    .entry-lock__heading, .entry-lock__section-heading--split, .entry-lock__toolbar { align-items: stretch; flex-direction: column; }
+    .entry-lock__heading h1 { font-size: 25px; }
+    .entry-lock__year { align-self: flex-start; }
+    .entry-lock__panel { padding: 18px 15px; }
+    .entry-lock__search { width: 100%; }
+    .entry-lock-school__top { align-items: flex-start; flex-direction: column; }
+    .entry-lock-school__classes { padding-left: 16px; }
+    .entry-lock-classroom { align-items: flex-start; flex-direction: column; }
+}
+
+.diary-lock-notice {
+    display: flex;
+    gap: 12px;
+    margin: 16px 0;
+    padding: 15px 18px;
+    border: 1px solid #efc3a7;
+    border-left: 4px solid #c46a2e;
+    border-radius: 8px;
+    background: #fff7ed;
+    color: #73401e;
+
+    &[hidden] { display: none; }
+    &__icon { flex: 0 0 24px; height: 24px; border-radius: 50%; background: #c46a2e; color: #fff; font-weight: 700; line-height: 24px; text-align: center; }
+    &__title { display: block; margin-bottom: 3px; font-size: 15px; }
+    &__message { margin: 0; font-size: 13px; line-height: 1.45; }
+}

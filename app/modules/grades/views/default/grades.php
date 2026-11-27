@@ -7,7 +7,7 @@ $baseUrl = Yii::app()->baseUrl;
 $baseScriptUrl = $this->module->baseScriptUrl;
 $cs = Yii::app()->getClientScript();
 $cs->registerScriptFile($baseScriptUrl . '/legacy/grades/functions.js?v=' . TAG_VERSION, CClientScript::POS_END);
-$cs->registerScriptFile($baseScriptUrl . '/legacy/grades/_initialization.js?v=' . TAG_VERSION, CClientScript::POS_END);
+$cs->registerScriptFile(Yii::app()->assetManager->publish(Yii::getPathOfAlias('application.modules.grades.resources') . '/legacy/grades/_initialization.js'), CClientScript::POS_END);
 
 $script = "var getGradesUrl = '" . Yii::app()->createUrl('grades/default/getGrades') . "';";
 
@@ -51,6 +51,7 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Grades'));
         </div>
     <?php endif ?>
     <div class="js-grades-alert alert"></div>
+    <?php $entryLockTypes = 'grade'; require Yii::getPathOfAlias('application.modules.classdiary.views.shared._entryLockNotice') . '.php'; ?>
     <div class="js-grades-alert-multi alert hide"></div>
     <hr class="row t-separator" />
     <div class="row justify-content--space-between">

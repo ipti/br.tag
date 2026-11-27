@@ -95,6 +95,15 @@ $this->pageTitle = 'TAG - ' . Yii::t('default', 'Administration');
                     <div class="container-box">
                         <p>Unidades e avaliações</p>
 
+                        <?php if (TagUtils::isAdmin()): ?>
+                        <a href="<?= Yii::app()->createUrl('classdiary/entryLock/index') ?>">
+                            <button type="button" class="admin-box-container">
+                                <div class="pull-left" style="margin-right: 20px;"><span class="t-icon-lock t-reports_icons"></span></div>
+                                <div class="pull-left"><span class="title">Bloqueio de lançamentos</span><br><span class="subtitle">Notas, frequência e aulas por escola e turma</span></div>
+                            </button>
+                        </a>
+                        <?php endif; ?>
+
                         <a href="<?php echo Yii::app()->createUrl('grades/structure/index') ?>">
                             <button type="button" class="admin-box-container">
                                 <div class="pull-left" style="margin-right: 20px;">

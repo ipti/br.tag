@@ -207,6 +207,9 @@ $("#save, #save-button-mobile").on("click", function () {
         success: function (response) {
             $(".alert-save").show();
         },
+        error: function (response) {
+            if (response.status === 403) alert("As aulas estão bloqueadas para esta turma. Procure a administração.");
+        },
         complete: function (response) {
             $(".loading-class-contents").hide();
             $("#widget-class-contents")

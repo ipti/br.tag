@@ -190,10 +190,13 @@ $(".js-save-course-plan").on("click", function () {
         $(".courseplan-abilities-selected").html("");
         $(".js-add-new-class-content-form").addClass("hide");
         $(".js-new-class-content").text("Nova Aula");
+    }).fail(function (response) {
+        if (response.status === 403) alert("As aulas estão bloqueadas para esta turma. Procure a administração.");
     });
 });
 
 $(document).on("change", ".js-frequency-checkbox", function () {
+    const checkbox = this;
     $.ajax({
         type: "POST",
         url: `${window.location.host}?r=classdiary/default/saveFresquency`,
@@ -213,10 +216,14 @@ $(document).on("change", ".js-frequency-checkbox", function () {
             $(".js-date, .js-change-date").attr("disabled", "disabled");
         },
         complete: function (response) {
+            if (response.status < 200 || response.status >= 300) {
+                $(checkbox).prop("checked", !$(checkbox).is(":checked"));
+            }
             $(".js-table-frequency")
                 .css("opacity", 1)
                 .css("pointer-events", "auto");
             $(".js-date, .js-change-date").removeAttr("disabled");
+            if (response.status === 403) alert("A frequência está bloqueada para esta turma. Procure a administração.");
         },
     });
 });

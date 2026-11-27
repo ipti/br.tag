@@ -63,7 +63,8 @@ class ClassesController extends Controller
                     'getdisciplines',
                     'getfrequency',
                     'saveJustification',
-                    'saveJustifications'
+                    'saveJustifications',
+                    'entryLockStatus'
                 ],
                 'users' => ['@'],
             ],
@@ -77,6 +78,22 @@ class ClassesController extends Controller
                 'users' => ['*'],
             ],
         ];
+    }
+
+    public function actionEntryLockStatus($classroomId)
+    {
+        $classroom = Classroom::model()->findByPk($classroomId);
+        if ($classroom === null || (string) $classroom->school_inep_fk !== (string) Yii::app()->user->school ||
+            (string) $classroom->school_year !== (string) Yii::app()->user->year) {
+            throw new CHttpException(404, 'Turma não encontrada.');
+        }
+        header('Content-Type: application/json; charset=UTF-8');
+        header('Cache-Control: no-store');
+        echo CJSON::encode([
+            'grade' => DiaryEntryLock::isLocked($classroom->id, DiaryEntryLock::GRADE),
+            'frequency' => DiaryEntryLock::isLocked($classroom->id, DiaryEntryLock::FREQUENCY),
+            'lesson' => DiaryEntryLock::isLocked($classroom->id, DiaryEntryLock::LESSON),
+        ]);
     }
 
     /**
@@ -461,6 +478,7 @@ class ClassesController extends Controller
     {
         $classContents = $_POST['classContents'];
         $classroom = $_POST['classroom'];
+        DiaryEntryLock::assertUnlocked($classroom, DiaryEntryLock::LESSON);
         $month = $_POST['month'];
         $year = $_POST['year'];
         $discipline = $_POST['discipline'];
@@ -767,6 +785,7 @@ class ClassesController extends Controller
 
     public function actionSaveFrequencies()
     {
+        DiaryEntryLock::assertUnlocked($_POST['classroomId'], DiaryEntryLock::FREQUENCY);
         $schedules = Schedule::model()->findAll('classroom_fk = :classroom_fk and day = :day and year = :year and month = :month', ['classroom_fk' => $_POST['classroomId'], 'day' => $_POST['day'], 'month' => $_POST['month'], 'year' => $_POST['year']]);
         foreach ($schedules as $schedule) {
             $this->saveFrequency($schedule);
@@ -815,6 +834,7 @@ class ClassesController extends Controller
      */
     public function actionSaveFrequency()
     {
+        DiaryEntryLock::assertUnlocked($_POST['classroomId'], DiaryEntryLock::FREQUENCY);
         $classroom = Classroom::model()->findByPk($_POST['classroomId']);
         $isMinor = $classroom->checkIsStageMinorEducation();
         if ($isMinor === false) {
@@ -898,6 +918,7 @@ class ClassesController extends Controller
 
     public function actionSaveJustifications()
     {
+        DiaryEntryLock::assertUnlocked($_POST['classroomId'], DiaryEntryLock::FREQUENCY);
         $schedules = Schedule::model()->findAll('classroom_fk = :classroom_fk and day = :day and month = :month and year = :year ', ['classroom_fk' => $_POST['classroomId'], 'day' => $_POST['day'], 'month' => $_POST['month'], 'year' => $_POST['year']]);
         foreach ($schedules as $schedule) {
             $classFault = ClassFaults::model()->find(SCHEDULE_STUDENT_FILTER, ['schedule_fk' => $schedule->id, 'student_fk' => $_POST['studentId']]);
@@ -911,6 +932,7 @@ class ClassesController extends Controller
 
     public function actionSaveJustification()
     {
+        DiaryEntryLock::assertUnlocked($_POST['classroomId'], DiaryEntryLock::FREQUENCY);
         $classroom = Classroom::model()->findByPk($_POST['classroomId']);
         $isMinor = $classroom->checkIsStageMinorEducation();
         if ($isMinor === false) {

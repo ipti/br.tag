@@ -7,10 +7,15 @@ $this->breadcrumbs = [
 ];
 $baseScriptUrl = Yii::app()->controller->module->baseScriptUrl;
 $cs = Yii::app()->getClientScript();
-$cs->registerScriptFile($baseScriptUrl . '/classDiary/functions.js?v=' . TAG_VERSION, CClientScript::POS_END);
+$cs->registerScriptFile(Yii::app()->assetManager->publish(Yii::getPathOfAlias('application.modules.classdiary.resources') . '/classDiary/functions.js'), CClientScript::POS_END);
 
 ?>
 <div class="main">
+    <?php
+    $entryLockTypes = 'lesson,frequency';
+    $entryLockClassroom = Yii::app()->request->getQuery('classroomFk', '');
+    require Yii::getPathOfAlias('application.modules.classdiary.views.shared._entryLockNotice') . '.php';
+    ?>
     <div class="row">
         <div class="column">
             <h1><?php echo $classroomName . ' - ' . $date ?></h1>

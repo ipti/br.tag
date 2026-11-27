@@ -1,6 +1,7 @@
 <?php
 
 Yii::import('application.modules.schoolreport.repositories.FormsRepository', true);
+Yii::import('application.modules.classdiary.services.DiaryEntryLock', true);
 
 class EntryController extends Controller
 {
@@ -150,6 +151,7 @@ class EntryController extends Controller
         $discipline = $_POST['discipline'];
         $classroomId = $_POST['classroom'];
         $students = $_POST['students'];
+        DiaryEntryLock::assertReportCardChanges($classroomId, $students, $discipline, false, true, false);
 
         $classroom = Classroom::model()->findByPk($classroomId);
 
@@ -214,6 +216,9 @@ class EntryController extends Controller
         $disciplineId = Yii::app()->request->getPost('discipline');
         $isConcept = Yii::app()->request->getPost('isConcept') === '1';
         $classroomId = Yii::app()->request->getPost('classroom');
+
+        DiaryEntryLock::assertUnlocked($classroomId, DiaryEntryLock::GRADE);
+        DiaryEntryLock::assertStudentsBelongToClassroom($classroomId, $students);
 
         $gradesBefore = Grade::countFilled(array_column($students, 'enrollmentId'), $disciplineId);
         $transaction = Yii::app()->db->beginTransaction();
@@ -350,6 +355,8 @@ class EntryController extends Controller
     {
         $disciplineId = $_POST['disciplineId'];
         $classroomId = $_POST['classroomId'];
+
+        DiaryEntryLock::assertUnlocked($classroomId, DiaryEntryLock::GRADE);
 
         $classroom = Classroom::model()->with('activeStudentEnrollments')->findByPk($classroomId);
 

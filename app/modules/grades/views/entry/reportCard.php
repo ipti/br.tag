@@ -5,7 +5,7 @@
 
 $baseUrl = Yii::app()->baseUrl;
 $cs = Yii::app()->getClientScript();
-$cs->registerScriptFile($baseUrl . '/js/enrollment/reportCard/_initialization.js?v=' . TAG_VERSION, CClientScript::POS_END);
+$cs->registerScriptFile($baseUrl . '/js/enrollment/reportCard/_initialization.js?v=' . filemtime(Yii::getPathOfAlias('webroot') . '/js/enrollment/reportCard/_initialization.js'), CClientScript::POS_END);
 $cs->registerScriptFile($baseUrl . '/js/enrollment/reportCard/functions.js?v=' . TAG_VERSION, CClientScript::POS_END);
 
 $script = "var getGradesUrl = '" . Yii::app()->createUrl('grades/default/getGrades') . "';";
@@ -17,6 +17,7 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Report Card'));
 ?>
 
 <div class="main">
+    <?php $entryLockTypes = 'grade,frequency,lesson'; require Yii::getPathOfAlias('application.modules.classdiary.views.shared._entryLockNotice') . '.php'; ?>
     <?php
     $form = $this->beginWidget('CActiveForm', array(
         'id' => 'classes-form',
