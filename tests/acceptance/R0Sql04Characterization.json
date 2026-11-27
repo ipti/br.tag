@@ -1,0 +1,6 @@
+{
+    "all": "&lt;option value=&quot;101&quot; data-associated-stage=&quot;7&quot;&gt;Pré &amp;amp; Creche&lt;/option&gt;&lt;option value=&quot;102&quot; data-associated-stage=&quot;8&quot;&gt;Etapa &amp;lt;A&amp;gt;&lt;/option&gt;&lt;option value=&quot;201&quot; data-associated-stage=&quot;9&quot;&gt;Outra etapa&lt;/option&gt;",
+    "stage1": "&lt;option value=&quot;101&quot; data-associated-stage=&quot;7&quot;&gt;Pré &amp;amp; Creche&lt;/option&gt;&lt;option value=&quot;102&quot; data-associated-stage=&quot;8&quot;&gt;Etapa &amp;lt;A&amp;gt;&lt;/option&gt;",
+    "stage2": "&lt;option value=&quot;201&quot; data-associated-stage=&quot;9&quot;&gt;Outra etapa&lt;/option&gt;",
+    "emptyResult": ""
+}
