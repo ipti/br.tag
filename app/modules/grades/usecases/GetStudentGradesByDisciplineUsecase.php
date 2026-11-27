@@ -1,5 +1,7 @@
 <?php
 
+Yii::import('application.modules.classdiary.services.DiaryEntryLock', true);
+
 /**
  * @property int $classroomId
  * @property int $disciplineId
@@ -329,7 +331,9 @@ class GetStudentGradesByDisciplineUsecase
                     $grade->grade_unity_modality_fk = $modality->id;
                     $grade->grade = 0;
                     $grade->validate();
-                    $grade->save();
+                    if (!DiaryEntryLock::isLocked($studentEnrollment->classroom_fk, DiaryEntryLock::GRADE)) {
+                        $grade->save();
+                    }
                 }
 
                 $gradeByModality = new GradeByModalityResult();
@@ -359,7 +363,9 @@ class GetStudentGradesByDisciplineUsecase
                     $gradePartialRecovery->discipline_fk = $discipline;
                     $gradePartialRecovery->grade = null;
                     $gradePartialRecovery->grade_partial_recovery_fk = $unity->parcial_recovery_fk;
-                    $gradePartialRecovery->save();
+                    if (!DiaryEntryLock::isLocked($studentEnrollment->classroom_fk, DiaryEntryLock::GRADE)) {
+                        $gradePartialRecovery->save();
+                    }
                 }
 
                 $partialRecovery = $unity->parcialRecoveryFk;

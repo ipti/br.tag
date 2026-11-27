@@ -197,6 +197,7 @@ class DefaultController extends Controller
         $date = Yii::app()->request->getPost('date');
         $disciplineFk = Yii::app()->request->getPost('disciplineFk');
         $classroomFk = Yii::app()->request->getPost('classroomFk');
+        DiaryEntryLock::assertUnlocked($classroomFk, DiaryEntryLock::LESSON);
         $classContent = Yii::app()->request->getPost('classContent');
         $hasNewClassContent = Yii::app()->request->getPost('hasNewClassContent');
         $content = Yii::app()->request->getPost('content');
@@ -298,6 +299,7 @@ class DefaultController extends Controller
 
     public function actionSaveFresquency()
     {
+        DiaryEntryLock::assertUnlocked($_POST['classroom_id'], DiaryEntryLock::FREQUENCY);
         $saveFrequency = new SaveFrequency();
         $saveFrequency->exec($_POST['schedule'], $_POST['studentId'], $_POST['fault'], $_POST['stageFk'], $_POST['date'], $_POST['classroom_id']);
         // O diário não manda o componente: vem do horário daquele dia
@@ -332,6 +334,7 @@ class DefaultController extends Controller
         $studentObservation = $getStudentDiary->exec($stageFk, $classroomId, $disciplineFk, $date, $studentId);
 
         if (isset($_POST['justification'])) {
+            DiaryEntryLock::assertUnlocked($classroomId, DiaryEntryLock::FREQUENCY);
             $justification = $_POST['justification'];
             $saveJustification = new SaveJustification();
             $saveJustification->exec($studentId, $stageFk, $classroomId, $schedule, $date, $justification);

@@ -5,7 +5,7 @@
 
 $baseUrl = Yii::app()->baseUrl;
 $cs = Yii::app()->getClientScript();
-$cs->registerScriptFile($baseUrl . '/js/enrollment/grades/_initialization.js?v=' . TAG_VERSION, CClientScript::POS_END);
+$cs->registerScriptFile($baseUrl . '/js/enrollment/grades/_initialization.js?v=' . filemtime(Yii::getPathOfAlias('webroot') . '/js/enrollment/grades/_initialization.js'), CClientScript::POS_END);
 $cs->registerScriptFile($baseUrl . '/js/enrollment/grades/functions.js?v=' . TAG_VERSION, CClientScript::POS_END);
 
 $script = "var getGradesUrl = '" . Yii::app()->createUrl('/grades/entry/getGrades') . "';";
@@ -41,6 +41,7 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Grades'));
         </div>
     <?php endif ?>
     <div class="js-grades-alert alert"></div>
+    <?php $entryLockTypes = 'grade'; require Yii::getPathOfAlias('application.modules.classdiary.views.shared._entryLockNotice') . '.php'; ?>
     <div class="filter-bar margin-bottom-none">
         <div>
             <?php echo CHtml::label(yii::t('default', 'Classroom') . " *", 'classroom', array('class' => 'small-label control-label required', 'style' => 'width: 53px;')); ?>

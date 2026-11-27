@@ -155,8 +155,9 @@ $("#save").on("click", function (e) {
             $(".js-grades-alert")
                 .addClass("alert-error")
                 .removeClass("alert-success")
-                .text(xhr.responseText)
+                .text(xhr.status === 403 ? "As notas estão bloqueadas para esta turma. Procure a administração." : xhr.responseText)
                 .show();
+            $(".js-grades-container, .grades-buttons").css("opacity", "1").css("pointer-events", "auto");
         },
         complete: () => $(".js-grades-loading").css("display", "none"),
     });
@@ -209,6 +210,10 @@ $("#close-grades-diary").on("click", function (e) {
                 .css("pointer-events", "none");
         },
         success: (data) => $("#discipline").trigger("change", ["saveGrades"]),
+        error: (xhr) => {
+            $(".js-grades-container, .grades-buttons").css("opacity", "1").css("pointer-events", "auto");
+            alertValidationError(xhr.status === 403 ? "As notas estão bloqueadas para esta turma. Procure a administração." : "Não foi possível calcular a média. Tente novamente.");
+        },
         complete: () => $(".js-grades-loading").css("display", "none"),
     });
 });

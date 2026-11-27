@@ -8,7 +8,7 @@
 
 $baseScriptUrl = Yii::app()->controller->module->baseScriptUrl;
 $cs = Yii::app()->getClientScript();
-$cs->registerScriptFile($baseScriptUrl . '/legacy/classes/class-contents/_initialization.js?v=' . TAG_VERSION, CClientScript::POS_END);
+$cs->registerScriptFile(Yii::app()->assetManager->publish(Yii::getPathOfAlias('application.modules.classdiary.resources') . '/legacy/classes/class-contents/_initialization.js'), CClientScript::POS_END);
 $cs->registerScriptFile($baseScriptUrl . '/legacy/classes/class-contents/functions.js?v=' . TAG_VERSION, CClientScript::POS_END);
 
 $this->setPageTitle('TAG - ' . Yii::t('default', 'Classes Contents'));
@@ -23,6 +23,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
 
 ?>
 <div class="main">
+    <?php $entryLockTypes = 'lesson'; require Yii::getPathOfAlias('application.modules.classdiary.views.shared._entryLockNotice') . '.php'; ?>
     <div class="row">
         <h1 class="title1"><?php echo Yii::t('default', 'Class Contents'); ?></h1>
     </div>

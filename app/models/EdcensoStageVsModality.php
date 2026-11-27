@@ -18,6 +18,7 @@
      * The followings are the available model relations:
      * @property SchoolStages[] $schoolStages
      * @property StudentEnrollment[] $studentEnrollments
+     * @property CurricularMatrix[] $curricularMatrixes
      */
 
     class EdcensoStageVsModality extends TagModel

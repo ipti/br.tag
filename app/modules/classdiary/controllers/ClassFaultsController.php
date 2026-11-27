@@ -69,6 +69,7 @@ class ClassFaultsController extends Controller
 
         if (isset($_POST['ClassFaults'])) {
             $model->attributes = $_POST['ClassFaults'];
+            $this->assertScheduleUnlocked($model->schedule_fk);
             if ($model->save()) {
                 $this->redirect(['view', 'id' => $model->id]);
             }
@@ -92,7 +93,9 @@ class ClassFaultsController extends Controller
         // $this->performAjaxValidation($model);
 
         if (isset($_POST['ClassFaults'])) {
+            $this->assertScheduleUnlocked($model->schedule_fk);
             $model->attributes = $_POST['ClassFaults'];
+            $this->assertScheduleUnlocked($model->schedule_fk);
             if ($model->save()) {
                 $this->redirect(['view', 'id' => $model->id]);
             }
@@ -110,11 +113,22 @@ class ClassFaultsController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->loadModel($id)->delete();
+        $model = $this->loadModel($id);
+        $this->assertScheduleUnlocked($model->schedule_fk);
+        $model->delete();
 
         // if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
         //		if(!isset($_GET['ajax']))
         //			$this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
+    }
+
+    private function assertScheduleUnlocked($scheduleId)
+    {
+        $schedule = Schedule::model()->findByPk($scheduleId);
+        if ($schedule === null) {
+            throw new CHttpException(400, 'Horário inválido.');
+        }
+        DiaryEntryLock::assertUnlocked($schedule->classroom_fk, DiaryEntryLock::FREQUENCY);
     }
 
     /**

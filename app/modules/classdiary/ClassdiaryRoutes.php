@@ -17,6 +17,7 @@ class ClassdiaryRoutes
 {
     // ClassesController
     public const CLASSES_CLASSCONTENTS = 'classdiary/classes/classContents';
+    public const CLASSES_ENTRYLOCKSTATUS = 'classdiary/classes/entryLockStatus';
     public const CLASSES_FREQUENCY = 'classdiary/classes/frequency';
     public const CLASSES_GETCLASSCONTENTS = 'classdiary/classes/getClassContents';
     public const CLASSES_GETDISCIPLINES = 'classdiary/classes/getDisciplines';
@@ -50,6 +51,9 @@ class ClassdiaryRoutes
     public const DEFAULT_SAVECLASSCONTENTS = 'classdiary/default/saveClassContents';
     public const DEFAULT_SAVEFRESQUENCY = 'classdiary/default/saveFresquency';
     public const DEFAULT_STUDENTCLASSDIARY = 'classdiary/default/studentClassDiary';
+
+    // EntryLockController
+    public const ENTRYLOCK_INDEX = 'classdiary/entryLock/index';
 
     public static function url(string $route, array $params = []): string
     {

@@ -6,7 +6,7 @@
 $baseUrl = Yii::app()->baseUrl;
 $baseScriptUrl = $this->module->baseScriptUrl;
 $cs = Yii::app()->getClientScript();
-$cs->registerScriptFile($baseScriptUrl . '/legacy/reportCard/_initialization.js?v=' . TAG_VERSION, CClientScript::POS_END);
+$cs->registerScriptFile(Yii::app()->assetManager->publish(Yii::getPathOfAlias('application.modules.grades.resources') . '/legacy/reportCard/_initialization.js'), CClientScript::POS_END);
 $cs->registerScriptFile($baseScriptUrl . '/legacy/reportCard/functions.js?v=' . TAG_VERSION, CClientScript::POS_END);
 
 $script = "var getGradesUrl = '" . Yii::app()->createUrl('grades/default/getGrades') . "';";
@@ -46,6 +46,7 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Report Card'));
         </div>
     <?php endif ?>
     <div class="js-grades-alert alert"></div>
+    <?php $entryLockTypes = 'grade,frequency,lesson'; require Yii::getPathOfAlias('application.modules.classdiary.views.shared._entryLockNotice') . '.php'; ?>
     <div class="row">
         <div class="column is-one-fifth clearleft">
             <div class="t-field-select">

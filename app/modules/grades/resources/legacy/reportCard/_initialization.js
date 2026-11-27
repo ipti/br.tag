@@ -232,6 +232,11 @@ $("#save").on("click", function (e) {
         success: function (data) {
             $("#discipline").trigger("change", ["saveGrades"]);
         },
+        error: function (response) {
+            if (response.status === 403) alert("Um dos lançamentos alterados está bloqueado para esta turma. Procure a administração.");
+            $(".js-grades-loading").hide();
+            $(".js-grades-container, .grades-buttons").css("opacity", "1").css("pointer-events", "auto");
+        },
     });
 });
 

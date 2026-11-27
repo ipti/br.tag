@@ -7,7 +7,7 @@
 
 $baseScriptUrl = Yii::app()->controller->module->baseScriptUrl;
 $cs = Yii::app()->getClientScript();
-$cs->registerScriptFile($baseScriptUrl . '/legacy/classes/frequency/_initialization_instructor.js?v='.TAG_VERSION, CClientScript::POS_END);
+$cs->registerScriptFile(Yii::app()->assetManager->publish(Yii::getPathOfAlias('application.modules.classdiary.resources') . '/legacy/classes/frequency/_initialization_instructor.js'), CClientScript::POS_END);
 $this->setPageTitle('TAG - ' . Yii::t('default', 'Classes'));
 
 
@@ -15,6 +15,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
 ?>
 
 <div class="main">
+    <?php $entryLockTypes = 'frequency'; require Yii::getPathOfAlias('application.modules.classdiary.views.shared._entryLockNotice') . '.php'; ?>
     <?php
     $form = $this->beginWidget('CActiveForm', array(
         'id' => 'classes-form',

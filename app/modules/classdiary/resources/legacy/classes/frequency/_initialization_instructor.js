@@ -308,12 +308,16 @@ $(document).on("change", ".frequency-checkbox", function () {
                 "disabled"
             );
         },
-        complete: function () {
+        complete: function (response) {
+            if (response.status < 200 || response.status >= 300) {
+                $(checkbox).prop("checked", !$(checkbox).is(":checked"));
+            } else if (response.status >= 200 && response.status < 300) {
             $(checkbox)
                 .parent()
                 .parent()
                 .find(".frequency-justification-icon")
                 .toggleClass("hide");
+            }
 
             $(".loading-frequency").hide();
             $(".table-frequency")
@@ -325,6 +329,7 @@ $(document).on("change", ".frequency-checkbox", function () {
             $("#classroom, #month, #disciplines, #classesSearch").removeAttr(
                 "disabled"
             );
+            if (response.status === 403) alert("A frequência está bloqueada para esta turma. Procure a administração.");
         },
     });
 });
@@ -401,6 +406,9 @@ $(document).on("click", ".btn-save-justification", function () {
                     .tooltip({ container: "body" });
             }
             $("#save-justification-modal").modal("hide");
+        },
+        error: function (response) {
+            if (response.status === 403) alert("A frequência está bloqueada para esta turma. Procure a administração.");
         },
         complete: function () {
             $("#save-justification-modal")

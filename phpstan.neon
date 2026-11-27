@@ -1,9 +1,10 @@
 parameters:
     level: 3
     paths:
-        - app/domain
-        - app/repository
         - app/components
+    scanDirectories:
+        - app/models
+        - app/modules/curricularmatrix/models
     excludePaths:
         - app/vendor (?)
         - app/runtime (?)

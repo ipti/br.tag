@@ -1,5 +1,7 @@
 <?php
 
+Yii::import('application.modules.classdiary.services.DiaryEntryLock', true);
+
 Yii::import('application.modules.schoolreport.repositories.FormsRepository', true);
 
 class DefaultController extends Controller
@@ -241,6 +243,8 @@ class DefaultController extends Controller
         $students = $_POST['students'];
         $rule = $_POST['rule'];
 
+        DiaryEntryLock::assertReportCardChanges($_POST['classroom'], $students, $discipline, $rule == 'C', false, true);
+
         foreach ($students as $std) {
             $mediaFinal = 0;
             $gradeResult = GradeResults::model()->find('enrollment_fk = :enrollment_fk and discipline_fk = :discipline_fk', ['enrollment_fk' => $std['enrollmentId'], 'discipline_fk' => $discipline]);
@@ -298,6 +302,8 @@ class DefaultController extends Controller
         $classroomId = $_POST['classroom'];
         $students = $_POST['students'];
         $rule = $_POST['rule'];
+
+        DiaryEntryLock::assertReportCardChanges($classroomId, $students, $discipline, $rule == 'C', true, true);
 
         TLog::info('Executando: SaveGradesRelease', [
             'Discipline' => $discipline,
@@ -569,6 +575,9 @@ class DefaultController extends Controller
         $stage = Yii::app()->request->getPost('stage');
         $isConcept = Yii::app()->request->getPost('isConcept');
 
+        DiaryEntryLock::assertUnlocked($classroomId, DiaryEntryLock::GRADE);
+        DiaryEntryLock::assertStudentsBelongToClassroom($classroomId, $students);
+
         $this->saveGrades(
             $students,
             $disciplineId,
@@ -681,6 +690,10 @@ class DefaultController extends Controller
         }
 
         foreach ($classrooms as $classroom) {
+            DiaryEntryLock::assertUnlocked($classroom->id, DiaryEntryLock::GRADE);
+        }
+
+        foreach ($classrooms as $classroom) {
             if (TagUtils::isMultiStage($classroom->edcenso_stage_vs_modality_fk) === false) {
                 $disciplines = Yii::app()->db->createCommand(
                     'select curricular_matrix.discipline_fk
@@ -751,9 +764,10 @@ class DefaultController extends Controller
 
     public function actionCalculateFinalMedia()
     {
+        $classroomId = Yii::app()->request->getPost('classroom');
+        DiaryEntryLock::assertUnlocked($classroomId, DiaryEntryLock::GRADE);
         $transaction = Yii::app()->db->beginTransaction();
         try {
-            $classroomId = Yii::app()->request->getPost('classroom');
             $stage = Yii::app()->request->getPost('stage');
             $disciplineId = Yii::app()->request->getPost('discipline');
             $isClassroomStage = Yii::app()->request->getPost('isClassroomStage');
