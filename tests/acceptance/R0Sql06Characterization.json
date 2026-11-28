@@ -1,0 +1,6 @@
+{
+    "uf1": "{\"City\":\"<option value=\\\"\\\">Selecione a cidade<\\/option><option value=\\\"1\\\">Cidade A<\\/option><option value=\\\"2\\\">Cidade B<\\/option>\",\"Regional\":\"<option value=\\\"\\\">Selecione o \\u00f3rg\\u00e3o<\\/option><option value=\\\"102\\\">\\u00d3rg\\u00e3o <C><\\/option><option value=\\\"101\\\">\\u00d3rg\\u00e3o A & B<\\/option>\"}",
+    "uf2": "{\"City\":\"<option value=\\\"\\\">Selecione a cidade<\\/option><option value=\\\"4\\\">Cidade Outra<\\/option>\",\"Regional\":\"<option value=\\\"\\\">Selecione o \\u00f3rg\\u00e3o<\\/option><option value=\\\"201\\\">\\u00d3rg\\u00e3o Outra UF<\\/option>\"}",
+    "uf28": "{\"City\":\"<option value=\\\"\\\">Selecione a cidade<\\/option><option value=\\\"3\\\">Cidade Sergipe<\\/option>\",\"Regional\":\"<option value=\\\"\\\">Selecione o \\u00f3rg\\u00e3o<\\/option><option value=\\\"281\\\">\\u00d3rg\\u00e3o Sergipe<\\/option>\"}",
+    "uf99SemCidades": "{\"City\":\"<option value=\\\"\\\">Selecione a cidade<\\/option>\",\"Regional\":\"<option value=\\\"\\\">Selecione o \\u00f3rg\\u00e3o<\\/option>\"}"
+}
