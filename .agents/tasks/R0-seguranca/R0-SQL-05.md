@@ -6,7 +6,7 @@ module: resultsmanagement
 type: seguranca
 skill: .agents/playbooks/bugfix.md
 agents: [tag-refactorer, tag-qa, tag-plan-guardian]
-status: pronto
+status: em-revisao
 depends_on: []
 size: P
 risk: alto
@@ -100,4 +100,30 @@ composer lint && composer analyse
 Pelo código lido, nem o controller nem o `ResultsmanagementModule::beforeControllerAction` (≈L20–23) exigem login, então o `curl` acima vai sem cookie (confirmar com esse teste; se pedir login, acrescente `-b "PHPSESSID=<sessão>"`). As consultas de ano (`loadPerformanceChartData`) usam `user->year`, que é nulo sem sessão: para esses casos use uma sessão válida. Testes de navegador seguem `.agents/rules/e2e-testing.md`: antes de rodar, peça a URL, as credenciais e a aprovação.
 
 ## Handoff
-_Preenchido por quem executar._
+- **Feito:**
+  - Criados três helpers privados em `app/modules/resultsmanagement/controllers/ManagementschoolController.php`:
+    - `parseIntIdList($rawValue): array` — valida listas separadas por vírgula de inteiros via `FILTER_VALIDATE_INT` (aceitando negativos como `-1`; rejeitando vazio, vírgula pendente ou qualquer item não inteiro com `CHttpException(400)`).
+    - `parseBimesterList($rawValue): array` — valida listas separadas por vírgula contra a whitelist estrita `['g1', 'g2', 'g3', 'g4', 'r1', 'r2', 'r3', 'r4', 'rf']`, removendo um par balanceado de aspas simples/duplas externas por item e rejeitando qualquer outro valor/aspa malformada com `CHttpException(400)`.
+    - `buildInCondition(string $column, array $values, string $prefix, array &$params, string $suffix): string` — gera placeholders nomeados (`:c0..`, `:b0..`, `:d0..`) e popula `$params`.
+  - Aplicado nos 8 pontos das 4 actions (`actionLoadPerformanceChartData`, `actionLoadDisciplineInfo`, `actionLoadDataForProficiency`, `actionLoadDataForEvolution`), preservando `&&`, `and`, `union` e mantendo `$grade = 5` inalterado.
+- **Decisões:**
+  - **Passo 4 (varredura completa das 274 linhas do arquivo):** todas as demais queries usam `:sid`, `:year`, `:media`, `:cid`, `:mid`, `:did` parametrizados; `$unity` (L22) é inteiro de laço `for (1..4)` e `$grade = 5` (L195/L234) é constante local. Nenhuma outra concatenação de entrada externa encontrada.
+  - **Passo 5 (chamadores JS em `app/modules/resultsmanagement/resources/`):** confirmado em `filterPerformance.js:87-95`, `filterProficiency.js:45-47` e `filterEvolution.js:47-50` que o front envia apenas `all`, inteiros (incluindo `-1`) e listas de `g1..g4`, `r1..r4`, `rf` entre aspas simples.
+  - Branch `task/R0-SQL-05` criada a partir de `docs/plano-modernizacao` (`009b428ee`).
+  - Revisão de conformidade (`tag-plan-guardian`): checklist completo executado localmente sem bloqueios; recomenda-se revisão cruzada no Claude Code ou Codex antes do merge.
+- **Gates:**
+  - `docker exec tag-app php -l /app/app/modules/resultsmanagement/controllers/ManagementschoolController.php` → OK (`No syntax errors detected`).
+  - `docker exec -u root -e PHP_CS_FIXER_IGNORE_ENV=1 tag-app ./vendor/bin/php-cs-fixer fix --dry-run --diff app/modules/resultsmanagement/controllers/ManagementschoolController.php` → OK (`0` diffs).
+  - `git grep -nE 'in[[:space:]]*[(][$](cid|bid|did)[)]' -- app/modules/resultsmanagement/controllers/ManagementschoolController.php` → OK (sem resultados).
+  - `composer run analyse` (`phpstan analyse --memory-limit=512M`) → **falha pré-existente fora do escopo** (`Path /app/app/domain does not exist` em `phpstan.neon`, coberto em `R1-BASE`).
+  - Smoke `curl` contra `http://localhost` (`YII_DEBUG=1`, base `demo.tag.ong.br`, conta efêmera removida com `0` residuais):
+    - **`loadDisciplineInfo` antes × depois:** `cid=340` (`331 B`) e `cid=340,341` (`484 B`) com **SHA-256 idêntico**; `cid=all` manteve `41.832 B` / `499` registros (`SELECT DISTINCT` sem `ORDER BY`). **Evidência de SQLi antes da correção:** `cid=340) OR (1=1) OR c.id in (340` devolvia HTTP `200` com **`120.489 B`** (vazando turmas/disciplinas de todas as escolas); **depois da correção** devolve **`400`** com sessão autenticada (e `302` → `site/login` sem cookie via `SiteController::actionError` + `fullmenu.php`).
+    - **Maliciosos nas 4 actions (sessão autenticada):** `perf_cid=400`, `perf_bid=400`, `perf_did=400`, `disc_empty=400`, `disc_sqli=400`, `prof_did=400`, `prof_cid=400`, `evol_did=400`, `evol_empty=400` (9/9 `400`).
+    - **Nota de schema em `demo.tag.ong.br`:** a tabela `grade` do ambiente 3.15.6 não possui mais as colunas legadas `grade1..grade4` referenciadas por `loadPerformanceChartData`, `loadDataForProficiency` e `loadDataForEvolution` (ilha em quarentena), impedindo diff de JSON válido dessas 3 queries na base local; todos os formatos válidos (`did=-1`, lista multi-id, `g1..g4`, `r1..r4`, `rf`, geração de placeholders e `$params`) e 13 entradas inválidas foram validados diretamente via PHP Reflection (`ALL_HELPER_ASSERTIONS_PASSED`).
+- **Pendências e issues sugeridas:**
+  - `ManagementschoolController` continua sem `filters()`/`accessControl` (fora de escopo: `R3-SEC-03` e `R7-RESULTSMANAGEMENT`).
+  - As 3 queries legadas com `grade1..grade4` não são compatíveis com o schema atual de `grade` na 3.15.6 (reforça o levantamento de uso por tenant previsto no épico `R7-RESULTSMANAGEMENT`).
+  - Testes de navegador não executados (`.agents/rules/e2e-testing.md`).
+- **Riscos:**
+  - Em produção (`YII_DEBUG=0`), até `R0-INFRA-03`, `CHttpException(400)` responde HTTP 500 em branco (`config.php:36-37`), embora rejeite a entrada antes de qualquer query.
+  - Para visitante sem sessão em `YII_DEBUG=1`, `SiteController::actionError()` renderiza `fullmenu.php`, que redireciona `302` para `site/login` após a `CHttpException(400)` bloquear a query.

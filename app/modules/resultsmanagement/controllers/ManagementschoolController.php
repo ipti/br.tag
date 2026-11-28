@@ -143,11 +143,88 @@ class ManagementschoolController extends CController
         return true;
     }
 
+    /**
+     * @return int[]
+     */
+    private function parseIntIdList($rawValue): array
+    {
+        if (!is_string($rawValue) || trim($rawValue) === '') {
+            throw new CHttpException(400, 'Parâmetro de filtro inválido.');
+        }
+
+        $ids = [];
+        foreach (explode(',', $rawValue) as $item) {
+            $trimmed = trim($item);
+            $intVal = filter_var($trimmed, FILTER_VALIDATE_INT);
+            if ($intVal === false) {
+                throw new CHttpException(400, 'Parâmetro de filtro inválido.');
+            }
+            $ids[] = $intVal;
+        }
+
+        if (empty($ids)) {
+            throw new CHttpException(400, 'Parâmetro de filtro inválido.');
+        }
+
+        return $ids;
+    }
+
+    /**
+     * @return string[]
+     */
+    private function parseBimesterList($rawValue): array
+    {
+        if (!is_string($rawValue) || trim($rawValue) === '') {
+            throw new CHttpException(400, 'Parâmetro de bimestre inválido.');
+        }
+
+        $allowed = ['g1', 'g2', 'g3', 'g4', 'r1', 'r2', 'r3', 'r4', 'rf'];
+        $bimesters = [];
+
+        foreach (explode(',', $rawValue) as $item) {
+            $trimmed = trim($item);
+            if (
+                strlen($trimmed) >= 2
+                && (($trimmed[0] === "'" && $trimmed[strlen($trimmed) - 1] === "'")
+                    || ($trimmed[0] === '"' && $trimmed[strlen($trimmed) - 1] === '"'))
+            ) {
+                $trimmed = substr($trimmed, 1, -1);
+            }
+            if (!in_array($trimmed, $allowed, true)) {
+                throw new CHttpException(400, 'Parâmetro de bimestre inválido.');
+            }
+            $bimesters[] = $trimmed;
+        }
+
+        if (empty($bimesters)) {
+            throw new CHttpException(400, 'Parâmetro de bimestre inválido.');
+        }
+
+        return $bimesters;
+    }
+
+    /**
+     * @param array<int, int|string> $values
+     * @param array<string, mixed> $params
+     */
+    private function buildInCondition(string $column, array $values, string $prefix, array &$params, string $suffix): string
+    {
+        $placeholders = [];
+        foreach (array_values($values) as $index => $value) {
+            $placeholder = ':' . $prefix . $index;
+            $placeholders[] = $placeholder;
+            $params[$placeholder] = $value;
+        }
+
+        return ' ' . $column . ' in (' . implode(', ', $placeholders) . ') ' . $suffix . ' ';
+    }
+
     public function actionLoadPerformanceChartData($sid, $cid, $bid, $did)
     {
-        $cFilter = ($cid == 'all') ? ' ' : " se.classroom_fk in ($cid) && ";
-        $bFilter = ($bid == 'all') ? ' ' : " g.bimester in ($bid) && ";
-        $dFilter = ($did == 'all') ? ' ' : " g.discipline_fk in ($did) && ";
+        $params = [':sid' => $sid, ':year' => yii::app()->user->year];
+        $cFilter = ($cid === 'all') ? ' ' : $this->buildInCondition('se.classroom_fk', $this->parseIntIdList($cid), 'c', $params, '&&');
+        $bFilter = ($bid === 'all') ? ' ' : $this->buildInCondition('g.bimester', $this->parseBimesterList($bid), 'b', $params, '&&');
+        $dFilter = ($did === 'all') ? ' ' : $this->buildInCondition('g.discipline_fk', $this->parseIntIdList($did), 'd', $params, '&&');
         $sql = "select g.id, g.grade, g.bimester, g.discipline_fk did, g.enrollment_fk eid, se.classroom_fk cid from (
 					select grade1 grade, id, 'g1' bimester, discipline_fk, enrollment_fk from grade
 					union ( SELECT grade2 grade, id, 'g2' bimester, discipline_fk, enrollment_fk FROM grade)
@@ -167,7 +244,6 @@ class ManagementschoolController extends CController
 					$dFilter
 				  c.school_year = :year && c.school_inep_fk = :sid";
 
-        $params = [':sid' => $sid, ':year' => yii::app()->user->year, ];
         $grades = yii::app()->db->createCommand($sql)->queryAll(true, $params);
 
         echo json_encode(['grades' => $grades]);
@@ -175,7 +251,8 @@ class ManagementschoolController extends CController
 
     public function actionLoadDisciplineInfo($sid, $cid)
     {
-        $cFilter = ($cid == 'all') ? ' ' : "c.id in ($cid) and";
+        $params = [':sid' => $sid];
+        $cFilter = ($cid === 'all') ? ' ' : $this->buildInCondition('c.id', $this->parseIntIdList($cid), 'c', $params, 'and');
         $sql = "select distinct c.id cid, ed.id did, ed.name discipline, c.school_year `year` from classroom c
 					join student_enrollment se on c.id = se.classroom_fk
 					join grade g on se.id = g.enrollment_fk
@@ -184,7 +261,6 @@ class ManagementschoolController extends CController
 					$cFilter
 					c.school_inep_fk = :sid;";
 
-        $params = [':sid' => $sid];
         $disciplines = yii::app()->db->createCommand($sql)->queryAll(true, $params);
 
         echo json_encode(['disciplines' => $disciplines]);
@@ -193,8 +269,9 @@ class ManagementschoolController extends CController
     public function actionLoadDataForProficiency($sid, $cid, $did)
     {
         $grade = 5;
-        $cFilter = ($cid == 'all') ? ' ' : "c.id in ($cid) and";
-        $dFilter = ($did == 'all') ? ' ' : "d.id in ($did) and";
+        $params = [':sid' => $sid];
+        $cFilter = ($cid === 'all') ? ' ' : $this->buildInCondition('c.id', $this->parseIntIdList($cid), 'c', $params, 'and');
+        $dFilter = ($did === 'all') ? ' ' : $this->buildInCondition('d.id', $this->parseIntIdList($did), 'd', $params, 'and');
         $sql = "select if(grade >= $grade , grade, recovery) grade, g.discipline_fk did, se.classroom_fk cid, bimester, count(*) count
 					from
 					(select grade1 grade, id, 'g1' bimester, discipline_fk, enrollment_fk, recovery_grade1 recovery from grade
@@ -211,7 +288,6 @@ class ManagementschoolController extends CController
 				  c.school_inep_fk = :sid
 				group by grade,did, bimester
 				order by bimester;";
-        $params = [':sid' => $sid];
         $grades = yii::app()->db->createCommand($sql)->queryAll(true, $params);
 
         $result = [];
@@ -232,8 +308,9 @@ class ManagementschoolController extends CController
     public function actionLoadDataForEvolution($sid, $cid, $did)
     {
         $grade = 5;
-        $cFilter = ($cid == 'all') ? ' ' : "c.id in ($cid) and";
-        $dFilter = ($did == 'all') ? ' ' : "d.id in ($did) and";
+        $params = [':sid' => $sid];
+        $cFilter = ($cid === 'all') ? ' ' : $this->buildInCondition('c.id', $this->parseIntIdList($cid), 'c', $params, 'and');
+        $dFilter = ($did === 'all') ? ' ' : $this->buildInCondition('d.id', $this->parseIntIdList($did), 'd', $params, 'and');
         $sql = "select distinct if(grade >= $grade , grade, recovery) grade, g.bimester bimester, g.discipline_fk did, se.classroom_fk cid, count(*) count
 				  from
 				  (select grade1 grade, id, 'g1' bimester, discipline_fk, enrollment_fk, recovery_grade1 recovery from grade
@@ -250,7 +327,6 @@ class ManagementschoolController extends CController
 					c.school_inep_fk = :sid
 				group by grade, did, bimester
 				order by bimester;";
-        $params = [':sid' => $sid];
         $grades = yii::app()->db->createCommand($sql)->queryAll(true, $params);
 
         $approveCount = ['g1' => 0, 'g2' => 0, 'g3' => 0, 'g4' => 0];
