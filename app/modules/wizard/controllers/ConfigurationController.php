@@ -183,10 +183,15 @@ class ConfigurationController extends Controller
 
     public function actionGetStudents()
     {
-        if (isset($_POST['Classrooms']) && !empty($_POST['Classrooms'])) {
-            $id = $_POST['Classrooms'];
+        if (isset($_POST['Classrooms']) && $_POST['Classrooms'] !== '') {
+            $id = filter_var($_POST['Classrooms'], FILTER_VALIDATE_INT);
+            if ($id === false) {
+                throw new CHttpException(400, 'Turma inválida.');
+            }
+
             $criteria = new CDbCriteria();
-            $criteria->join = "JOIN student_enrollment AS se ON (se.student_fk = t.id AND se.classroom_fk = $id)";
+            $criteria->join = 'JOIN student_enrollment AS se ON (se.student_fk = t.id AND se.classroom_fk = :classroom)';
+            $criteria->params[':classroom'] = $id;
             $criteria->order = 'name ASC';
 
             $data = CHtml::listData(StudentIdentification::model()->findAll($criteria), 'id', 'name' . 'id');
