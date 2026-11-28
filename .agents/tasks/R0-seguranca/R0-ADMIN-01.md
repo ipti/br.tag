@@ -111,10 +111,9 @@ Testes de navegador seguem `.agents/rules/e2e-testing.md`: antes de rodar, peça
   - Adicionado helper privado `requireRole(bool $superuserOnly): void` em `app/controllers/AdministratorController.php` (checa `Yii::app()->user->isGuest || !isset(Yii::app()->user->loginInfos->id)` chamando `loginRequired()`, libera `TagUtils::isSuperuser()` sempre, libera `TagUtils::isAdmin()` quando `!$superuserOnly`, e lança `CHttpException(403)` nos demais casos).
   - Protegido `actionCreateUser()` com `$this->requireRole(false)` na primeira linha e validação de `$_POST['Role']` via `TRole::tryFrom(...)` (400 para ausente/inválido) + lista atribuível por perfil (`superuser` → todos `TRole::cases()`; `admin` → todos exceto `TRole::SUPERUSER`, respondendo 403) **antes** de `$model->validate()` e `$model->save()`.
   - Protegido o loop de `$_POST['schools']` contra ausência/tipo não-array em PHP 8.3 e trocado `$auth->assign($_POST['Role'], ...)` por `$auth->assign($role->value, ...)`.
-  - Protegido `actionImport()` com `$this->requireRole(true)` na primeira linha (antes de `set_time_limit(0)` e de `$_FILES`).
+  - Protegido `actionImport()` com `$this->requireRole(true)` na primeira linha (antes de `set_time_limit(0)` e de `$_FILES`) e validação de extensão `.txt` (case-insensitive, rejeitando nome sem base, extensões diferentes de `.txt` e byte nulo com `CHttpException(400)` antes de `move_uploaded_file`).
 - **Decisões:**
-  - Mantido permitido `admin` criar outro `admin` (padrão do card; sujeito à confirmação humana na revisão).
-  - Passo 5 (restringir upload de `actionImport()` a `.txt`): mantido sem restrição de extensão por ausência de confirmação operacional; registrado abaixo para decisão humana (`app/import/` segue na raiz web até `R0-INFRA-02`).
+  - **Confirmado pelo revisor humano:** (1) `admin` pode continuar criando outro `admin`; (2) `actionImport()` restrito exclusivamente a arquivos `.txt` (Passo 5 implementado); (3) demais 16 actions abertas do controller ficam para `R3-SEC-03` (sem `beforeAction` neste card).
   - Validação de `Role` posicionada antes de `$model->validate()` para impedir criação órfã e evitar queda em `$this->render('createUser')` (view ausente → 500) quando `Users[password]` tem menos de 6 caracteres (`app/models/Users.php:48`).
   - Conferido no banco local `demo.tag.ong.br`: `auth_item` (`type = 2`) contém os 9 papéis do `TRole` (inclusive `superuser` e `foodServiceWorker`), porém `app/components/auth/RbacSeeder.php:18-26` não semeia `superuser` nem `foodServiceWorker` — confirmar nos demais tenants de produção.
   - Branch `task/R0-ADMIN-01` criada a partir de `docs/plano-modernizacao` (rebasear em `main` após o merge de `docs/plano-modernizacao`).
@@ -128,9 +127,9 @@ Testes de navegador seguem `.agents/rules/e2e-testing.md`: antes de rodar, peça
     - Visitante `createUser` → `302` (`Location: ?r=site/login`), `0` usuários criados; visitante `import` → `302` (`?r=site/login`).
     - `instructor` `createUser` → `403`; `instructor` `import` → `403`.
     - `admin` `createUser` com `Role=superuser` → `403` (sem criação); `Role=hacker` → `400` (sem criação); `Role` ausente → `400` (sem criação); `Role=manager` (senha ≥ 6 chars) → `302` (usuário criado com papel `manager`); `admin` `import` → `403`.
-    - `superuser` `createUser` com `Role=superuser` (sem `schools[]`) → `302` (usuário criado com papel `superuser`); `superuser` `import` (arquivo vazio) → passou do guarda (`!= 302` e `!= 403`).
+    - `superuser` `createUser` com `Role=superuser` (sem `schools[]`) → `302` (usuário criado com papel `superuser`); `superuser` `import`: upload `.php` → `400` (arquivo **não** gravado em `app/import/`); upload `.txt` sem nome base → `400`; upload `.TXT` vazio → passou do guarda e da validação de extensão (`!= 302/400/403`).
 - **Pendências, decisões humanas e inventário do Passo 6 (outras 16 actions abertas em `AdministratorController.php`):**
-  - Decisões humanas necessárias antes/no merge: (1) confirmar se `admin` pode continuar criando `admin`; (2) confirmar se `actionImport()` pode restringir upload apenas a `.txt`; (3) decidir se o guarda deve ser estendido às demais actions via `beforeAction` já agora ou mantido para `R3-SEC-03`.
+  - Decisões humanas já respondidas: (1) `admin` criar `admin` → confirmado; (2) restringir `actionImport()` a `.txt` → implementado; (3) demais 16 actions abertas → mantidas para `R3-SEC-03`.
   - Demais `public function action*` abertas no arquivo (fora `actionCreateUser` e `actionImport`):
     - `actionIndex()` (L54): apenas `render('index')`.
     - `actionMultiStageClassroomVerify($id)` (L59): **SQL** raw concatenado (`R0-SQL-02`).

@@ -914,7 +914,13 @@
                 $fileDir = $path . '/import/IMPORTAR.TXT';
             } else {
                 $myfile = $_FILES['file'];
-                $uploadfile = $path . '/import/' . basename($myfile['name']);
+                $filename = is_string($myfile['name']) ? basename($myfile['name']) : '';
+                $extension = strtolower(pathinfo($filename, PATHINFO_EXTENSION));
+                $baseName = pathinfo($filename, PATHINFO_FILENAME);
+                if ($baseName === '' || $extension !== 'txt' || str_contains($filename, "\0")) {
+                    throw new CHttpException(400, 'Apenas arquivos .txt são permitidos para importação.');
+                }
+                $uploadfile = $path . '/import/' . $filename;
                 move_uploaded_file($myfile['tmp_name'], $uploadfile);
                 $fileDir = $uploadfile;
             }
