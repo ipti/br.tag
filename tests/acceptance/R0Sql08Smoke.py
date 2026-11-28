@@ -1,7 +1,8 @@
 """R0-SQL-08: smoke HTTP de classroom/default/batchupdatEnrollment (id da turma na URL).
 
 Compara, nas mesmas requisições e logado como usuário comum de uma base de DESENVOLVIMENTO,
-a instância A (código antigo) com a B (código corrigido). Só faz GET; não usa o ramo de gravação.
+a instância A (código antigo) com a B (código corrigido). Requisições: POST de login; GET em batchupdatEnrollment; POST de leitura em updateComplementaryActivity
+(só devolve <option>). Nunca usa o ramo de gravação de batchupdatEnrollment.
 
 Variáveis de ambiente (nada de credencial no repositório):
   TAG_PW          senha do usuário (obrigatória)
