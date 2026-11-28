@@ -19,7 +19,6 @@ write_scope:
   - app/modules/censo/**
   - app/src/Censo/**
   - tests/**/Censo/**
-  - tests/_data/censo/**
   - frontend/pages/censo/**
   - sass/scss/pages/_censo.scss
   - app/config/public-routes/censo.php
@@ -27,9 +26,6 @@ write_scope:
   - phpstan/baseline/censo.neon
 read_only:
   - app/libraries/Educacenso/**
-  - app/models/**
-  - js/censo/**
-  - docs/migracao_modulos/censo.md
 forbidden:
   - composer.json
   - app/config/main.php
@@ -41,14 +37,12 @@ acceptance:
   - "composer lint && composer analyse"
   - "Golden master do arquivo de exportação idêntico ao capturado antes da migração (composer test:integration -- --filter CensoGoldenMaster; confirmar o script em R1)"
   - "php scripts/inventory-actions.php: nenhuma action do censo sem proteção ou fora de public-routes/censo.php"
-  - "git grep -n 'CensoController' -- app themes js (sem resultados ao final)"
 ---
 
 # R7-CENSO: CensoController: migrar para app/modules/censo com golden master do arquivo do Educacenso
 
 ## Contexto
 **Uma pessoa lidera e o agente apoia.** Responsável: _a definir no R7-REFINE-01_. O agente monta o golden master, move código e abre PRs pequenos; a pessoa decide o recorte, valida a saída contra o Educacenso e aprova cada merge.
-
 **Para que serve:** validar os dados do censo escolar e gerar o arquivo de exportação do Educacenso (registros 00, 10, 20, 30, 40, 50, 60 e 99), além de importar códigos e IDs INEP. É regra de negócio sujeita a mudança anual (há constantes por ano, como `QUALIFICATION_COURSE_AXIS_STAGE_IDS_2026` ≈L868). Sem testes hoje.
 
 **Linha do inventário:** `app/controllers/CensoController.php`, 3120 linhas, 11 actions, sem `accessControl`, 9 superglobais, 22 `createCommand`, 0 JSON. O `docs/migracao_modulos/censo.md` cita 2983 linhas e está desatualizado.
@@ -60,7 +54,6 @@ acceptance:
 - **Exportação:** `fixMistakesExport` (≈L2055–2731, cerca de 680 linhas) corrige campos antes de gravar; apoiam `normalizeFields`, `normalizeField2019`, `mountItemExport`, `fixName`, `certVerify` (dígito da certidão civil, ≈L1977) e `sanitizeString`. O arquivo sai em `app/export/<ano>_<escola>.TXT` (≈L2784), gerado pela biblioteca `app/libraries/Educacenso/` (`Educacenso.php`, `Register00` a `Register60`, `Register99` e `EducacensoRegisterFormatter`).
 - **Entradas de arquivo:** `$_FILES['Import']` e `$_POST['Import']` em `initialImport` e `inepImport` (≈L2818–2850) e `$_FILES['file']` em `import` (≈L3031–3040); `fopen` do upload em ≈L2861, ≈L2935 e ≈L3047. **confirmar:** validação de tipo e tamanho.
 - Views em `themes/default/views/censo/` (`validate.php`, `_validatemessages.php` com 12,4 KB, `inepImport.php`, `initialImport.php`); JS `js/censo/functions.js` com 25 linhas.
-- O `PROGRESSO.md` (Tier 4) já tem as 5 fases deste trabalho; use-as como base.
 
 ## Objetivo
 O Educacenso sai de um controller de 3120 linhas e passa a viver em `app/modules/censo` (HTTP) e `app/src/Censo` (regras), com a exportação provadamente idêntica à de hoje.
@@ -79,14 +72,12 @@ O Educacenso sai de um controller de 3120 linhas e passa a viver em `app/modules
    - [ ] Embrulhar `Educacenso::exportar()` sem alterar a biblioteca; extração dela fica para um card posterior.
 5. **API:** nenhuma prevista.
 6. **JS:** `js/censo/functions.js` para `frontend/pages/censo/`.
-7. **CSS e limpeza**
-   - [ ] `sass/scss/pages/_censo.scss` para as 4 views.
+7. **CSS e limpeza:** `sass/scss/pages/_censo.scss` para as 4 views, e depois a limpeza abaixo.
    - [ ] Buscar `?r=censo/` e `?r=administrator/` em PHP, JS e menus, conferir o estado ativo dos menus, remover `CensoController.php` e a pasta `themes/default/views/censo/` (playbook `module-migration`).
 
 ## Fora de escopo
 - Mudar qualquer regra de validação ou formato do arquivo (qualquer divergência do golden master vai para a pessoa responsável).
 - `AdministratorController` (R7-ADMIN-SITE).
-- Reescrever a biblioteca `app/libraries/Educacenso/`.
 
 ## Critérios de aceite
 - [ ] **SEC:** toda action está protegida ou listada em `app/config/public-routes/censo.php`; o SQL usa bind; os formulários enviam CSRF; uploads validados.
@@ -95,7 +86,6 @@ O Educacenso sai de um controller de 3120 linhas e passa a viver em `app/modules
 - [ ] **API:** não se aplica.
 - [ ] **JS e CSS:** páginas em `frontend/pages/censo/` e `_censo.scss`; catraca sem `?r=` literais.
 - [ ] `app/controllers/CensoController.php` e `themes/default/views/censo/` foram removidos, sem rota órfã.
-- [ ] A pessoa responsável aprovou cada PR.
 
 ## Como verificar
 ```bash

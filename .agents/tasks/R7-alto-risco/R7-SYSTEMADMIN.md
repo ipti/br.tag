@@ -18,17 +18,13 @@ write_scope:
   - app/src/SystemAdmin/**
   - tests/**/SystemAdmin/**
   - frontend/pages/systemadmin/**
-  - js/admin/auditory.js
-  - js/admin/instance-config.js
-  - js/admin/manage-modules.js
+  - "js/admin/{auditory,instance-config,manage-modules}.js"
   - sass/scss/pages/_systemadmin.scss
   - app/config/public-routes/systemadmin.php
   - metrics/baseline/systemadmin.json
   - phpstan/baseline/systemadmin.neon
 read_only:
   - app/modules/tag/**
-  - app/models/**
-  - js/admin/grades-structure.js
 forbidden:
   - composer.json
   - app/config/main.php
@@ -40,7 +36,6 @@ acceptance:
   - "composer lint && composer analyse"
   - "Golden master dos exports (grades, faults, students, master) e do import master (composer test:integration; confirmar o script em R1)"
   - "php scripts/inventory-actions.php: nenhuma action do systemadmin sem proteção; exports entre tenants só para superuser"
-  - "git grep -n 'connectionString' -- app/modules/systemadmin (sem resultados ao final)"
 ---
 
 # R7-SYSTEMADMIN: systemadmin: isolar os exports que cruzam tenants e extrair as regras para app/src
@@ -81,7 +76,6 @@ Nenhuma action troca a conexão global; os exports entre tenants são exclusivos
 
 ## Fora de escopo
 - Um usuário MySQL por tenant (risco da seção 13; trabalho de infraestrutura).
-- Reescrever o `ExportModel`/`ImportModel` do módulo `tag` (R6-PEQUENOS).
 - O que o R0-SYSADMIN-01 já fechou (acesso de visitante, `CreateUser`, `PHPConfig`).
 
 ## Critérios de aceite

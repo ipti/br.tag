@@ -24,7 +24,6 @@ write_scope:
   - phpstan/baseline/macete.neon
 read_only:
   - app/models/**
-  - docs/modules/macete_lesson_plan.md
 forbidden:
   - composer.json
   - app/config/main.php
@@ -78,7 +77,6 @@ Os services do MACETE viram classes de `app/src/Macete` sem Yii no domínio e na
 ## Fora de escopo
 - Novas funcionalidades do MACETE ou mudança de metodologia.
 - Alterar as tabelas `macete_*` (migrations têm card próprio).
-- Mexer em `app/models/**`.
 
 ## Critérios de aceite
 - [ ] **SEC:** toda action está protegida ou listada em `app/config/public-routes/macete.php`; o SQL usa bind; os formulários enviam CSRF; não há segredo no código.

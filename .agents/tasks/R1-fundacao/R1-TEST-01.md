@@ -86,7 +86,6 @@ Fatos:
 - Corrigir ou portar os 14 Cests de aceitação (R1-TEST-02).
 - Golden master de notas e demais testes de negócio (R2).
 - Job de CI e cobertura no Sonar (R1-CI-01).
-- Dados reais ou dump do tenant de produção.
 
 ## Critérios de aceite
 - [ ] `app/tests/` e o teste órfão do sedsp saíram; as suítes Codeception `unit` e `functional` também.
@@ -106,7 +105,6 @@ docker exec tag-app ./vendor/bin/codecept dry-run acceptance
 git ls-files app/tests   # esperado: vazio
 composer lint
 ```
-Não há smoke de navegador: este card não toca em tela.
 
 ## Handoff
 _Preenchido por quem executar._

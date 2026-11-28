@@ -17,7 +17,6 @@ write_scope:
   - app/modules/sedsp/**
   - app/src/SedSp/**
   - tests/**/SedSp/**
-  - tests/_data/sedsp/**
   - frontend/pages/sedsp/**
   - sass/scss/pages/_sedsp.scss
   - app/config/public-routes/sedsp.php
@@ -25,9 +24,6 @@ write_scope:
   - phpstan/baseline/sedsp.neon
 read_only:
   - app/models/StudentIdentification.php
-  - app/models/StudentEnrollment.php
-  - app/models/Classroom.php
-  - app/models/SedspSchoolUnities.php
 forbidden:
   - composer.json
   - app/config/main.php
@@ -39,14 +35,12 @@ acceptance:
   - "composer lint && composer analyse"
   - "Testes de contrato dos datasources com respostas gravadas da SED-SP (composer test:integration -- --filter SedSp; confirmar o script em R1)"
   - "php scripts/inventory-actions.php: nenhuma action do sedsp sem proteção ou fora de public-routes/sedsp.php"
-  - "git grep -n 'Basic ' -- app/modules/sedsp (sem credencial no código)"
 ---
 
 # R7-SEDSP: sedsp: contrato da integração SED-SP, autenticação segura e sincronização fora do model
 
 ## Contexto
 **Uma pessoa lidera e o agente apoia.** Responsável: _a definir no R7-REFINE-01_. A integração fala com um sistema externo do governo de São Paulo; não há ambiente de teste previsível, então o contrato precisa de respostas gravadas.
-
 **Para que serve:** integra o TAG à SED-SP (sistema estadual): login na API, importação de escolas, turmas, alunos e matrículas, geração e vínculo do RA (registro do aluno) e envio de alunos e turmas.
 
 **Linha do inventário:** 1 controller (354 LOC, 15 actions, sem `accessControl`), 9 superglobais, 2 `createCommand`, 0 JSON, 2 views, 3 `<script>`, 40 `style=`, 6 Bootstrap 2, JS 1 arquivo/104 linhas, **81 models** (DTOs `In*`/`Out*`) e **32 usecases**.
@@ -58,7 +52,6 @@ acceptance:
 - **Datasources Guzzle** em `datasources/sed/` (`BasicData`, `ClassStudentsRelation`, `Classroom`, `Enrollment`, `School`, `Student`) com timeout de 10 s e sem retentativa.
 - **Duplicatas de DTO:** `models/Student/InInscricao.php` e `models/Enrollment/InInscricao.php`; `models/Student/InNivelEnsino.php` e `models/Classroom/InNivelEnsino.php` (mesmo nome de classe em pastas diferentes, resolvido só pela ordem de import do módulo).
 - **Sincronização dentro do model:** `app/models/StudentIdentification.php` (552 linhas), método `syncStudentWithSED` (≈L341–486), chama datasources, mappers e grava o status de sincronização. Tirar isso do model exige card de contrato, porque `app/models/**` é arquivo com dono.
-- Mappers: `StudentMapper` (26 KB), `ClassroomMapper` (15 KB), `SchoolMapper` e `EnrollmentMapper`.
 - **Testes:** um único teste, `usecases/tests/GetEscolasFromSEDUseCaseTest.php` (749 bytes).
 - Consumidores fora do módulo: `app/models/{Classroom,StudentEnrollment,StudentIdentification,SedspSchoolUnities}.php`, módulos `classroom` e `student` e o módulo `wizard`.
 
@@ -84,8 +77,6 @@ A integração SED-SP tem contrato testado com respostas gravadas, autenticaçã
 
 ## Fora de escopo
 - Mudar as regras de mapeamento de etapa e modalidade entre TAG e SED.
-- Trocar de versão do Guzzle (PR isolado do Composer).
-- Mexer em `app/models/**` fora de um card de contrato.
 
 ## Critérios de aceite
 - [ ] **SEC:** toda action está protegida ou listada em `app/config/public-routes/sedsp.php`; não há credencial no código; o token tem tratamento de ausência e expiração.

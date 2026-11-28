@@ -24,8 +24,6 @@ write_scope:
   - phpstan/baseline/inventory.neon
 read_only:
   - app/models/**
-  - app/components/utils/TagUtils.php
-  - docs/modules/inventory/index.md
 forbidden:
   - composer.json
   - app/config/main.php
