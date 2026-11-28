@@ -6,7 +6,7 @@ module: grades
 type: seguranca
 skill: .agents/playbooks/bugfix.md
 agents: [tag-refactorer, tag-qa, tag-plan-guardian]
-status: pronto
+status: em-revisao
 depends_on: []
 size: P
 risk: alto
@@ -89,4 +89,24 @@ composer lint && composer analyse
 Antes da correção, `Stage=1 OR 1=1` devolve **todas** as modalidades (igual a `Stage=0`); guarde essa evidência no Handoff. Testes de navegador seguem `.agents/rules/e2e-testing.md`: antes de rodar, peça a URL, as credenciais e a aprovação.
 
 ## Handoff
-_Preenchido por quem executar._
+- **Feito:**
+  - Validado `$_POST['Stage']` em `app/modules/grades/controllers/DefaultController.php::actionGetModalities()` com `filter_var($_POST['Stage'] ?? null, FILTER_VALIDATE_INT)` rejeitando `false` ou `< 0` com `CHttpException(400, 'Etapa inválida.')` antes de consultar o banco.
+  - Substituída a concatenação `"stage = $stage"` por `EdcensoStageVsModality::model()->findAll()` quando `$stage === 0` e `CDbCriteria` parametrizado (`stage = :stage` com `$criteria->params[':stage'] = $stage`) nos demais casos, preservando intacto o laço de saída HTML (`CHtml::tag` + `htmlspecialchars`).
+- **Decisões:**
+  - **Passo 4 (chamadores de `getModalities`):** varredura global (`git grep -niE "getModalities|DEFAULT_GETMODALITIES" -- app js themes`) confirmou **zero** chamadores JS/views para `grades/default/getModalities` (apenas a constante em `GradesRoutes.php:33` e a action em `DefaultController.php:20,53`; os únicos chamadores apontam para `/student/enrollment/getmodalities`, escopo de `R0-SQL-04`). Portanto, entrada vazia (`""`) ou ausente responde `400` conforme Passo 1.
+  - **Passo 5 (outras concatenações em `grades/DefaultController.php`):** revisão completa das 834 linhas do arquivo + regex do card confirmou que a linha 56 era a única concatenação SQL; todas as demais queries usam `CDbCriteria` com `:params`, `bindParam`, `findByPk` ou `findAllByAttributes`.
+  - Branch `task/R0-SQL-03` criada a partir de `docs/plano-modernizacao` (`009b428ee`).
+  - Revisão de conformidade (`tag-plan-guardian`): checklist completo executado localmente sem bloqueios; recomenda-se revisão cruzada no Claude Code ou Codex antes do merge.
+- **Gates:**
+  - `docker exec tag-app php -l /app/app/modules/grades/controllers/DefaultController.php` → OK (`No syntax errors detected`).
+  - `docker exec -u root -e PHP_CS_FIXER_IGNORE_ENV=1 tag-app ./vendor/bin/php-cs-fixer fix --dry-run --diff app/modules/grades/controllers/DefaultController.php` → OK (`0` diffs).
+  - `git grep -n 'stage = \$stage' -- app/modules/grades/controllers/DefaultController.php` → OK (sem resultados).
+  - `composer run analyse` (`phpstan analyse --memory-limit=512M`) → **falha pré-existente fora do escopo** (`Path /app/app/domain does not exist` em `phpstan.neon`, coberto em `R1-BASE`; `app/modules/grades/` também não está no `phpstan.neon` atual).
+  - Smoke `curl` contra `http://localhost` (`YII_DEBUG=1`, base `demo.tag.ong.br`, conta efêmera `instructor` limpa ao final — `0` residuais):
+    - **Antes da correção:** `Stage=0` → HTTP `200` (`6275 B`); `Stage=1` → HTTP `200` (`278 B`); `Stage='1 OR 1=1'` → HTTP `200` (`6275 B`, **hash idêntico ao `Stage=0`**, comprovando a injeção).
+    - **Depois da correção:** `Stage=0` → HTTP `200` (**diff vazio / hash idêntico ao antes**); `Stage=1` → HTTP `200` (**diff vazio / hash idêntico ao antes**); `Stage='1 OR 1=1'` → `400`; `Stage='1) OR (1=1'` → `400`; `Stage=abc` → `400`; `Stage=` → `400`; sem `Stage` → `400`; `Stage=-1` → `400`; `Stage[]=1` → `400`.
+- **Pendências e issues sugeridas:**
+  - Gêmeo intencionalmente fora de escopo: `app/modules/student/controllers/EnrollmentController.php::actionGetModalities` (card `R0-SQL-04`).
+  - Testes de navegador não executados (respeitando `.agents/rules/e2e-testing.md`; sem chamador UI ativo para esta rota).
+- **Riscos:**
+  - Em produção (`YII_DEBUG=0`), até `R0-INFRA-03`, `CHttpException(400)` responde HTTP 500 em branco (`config.php:36-37`), embora rejeite a entrada antes da query.

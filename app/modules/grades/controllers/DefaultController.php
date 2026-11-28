@@ -52,9 +52,21 @@ class DefaultController extends Controller
 
     public function actionGetModalities()
     {
-        $stage = $_POST['Stage'];
-        $where = ($stage == '0') ? '' : "stage = $stage";
-        $data = EdcensoStageVsModality::model()->findAll($where);
+        $rawStage = $_POST['Stage'] ?? null;
+        $stage = filter_var($rawStage, FILTER_VALIDATE_INT);
+        if ($stage === false || $stage < 0) {
+            throw new CHttpException(400, 'Etapa inválida.');
+        }
+
+        if ($stage === 0) {
+            $data = EdcensoStageVsModality::model()->findAll();
+        } else {
+            $criteria = new CDbCriteria();
+            $criteria->addCondition('stage = :stage');
+            $criteria->params[':stage'] = $stage;
+            $data = EdcensoStageVsModality::model()->findAll($criteria);
+        }
+
         $data = CHtml::listData($data, 'id', 'name');
 
         foreach ($data as $value => $name) {
