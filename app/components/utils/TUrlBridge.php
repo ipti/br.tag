@@ -63,7 +63,9 @@ class TUrlBridge
 
         $json = json_encode(self::$routes, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
 
-        Yii::app()->clientScript->registerScript(
+        /** @var CWebApplication $app */
+        $app = Yii::app();
+        $app->getClientScript()->registerScript(
             'tag-app-routes',
             "window.AppRoutes = Object.assign(window.AppRoutes || {}, {$json});",
             CClientScript::POS_HEAD

@@ -172,6 +172,7 @@ enum OrganizationFormOptions: int
     }
 }
 
+/** @property EdcensoStageVsModality $edcensoStageVsModalityFk */
 class Classroom extends AltActiveRecord
 {
     public const SCENARIO_IMPORT = 'censoimport';
