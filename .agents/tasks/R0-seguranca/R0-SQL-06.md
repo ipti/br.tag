@@ -117,7 +117,9 @@ Antes da correção, o `1 OR 1=1` devolve os órgãos regionais de **todas** as 
 | `R0Sql06Characterization.php` (código novo) | Aprovado, 4 casos idênticos ao golden master |
 | `R0Sql06Security.php` (código novo) | Aprovado |
 | `R0Sql06Security.php` (código antigo) | **Falha em `1 OR 1=1`**, como esperado |
-| Smoke `curl` e E2E no formulário da escola | **Não verificado**: sem sessão autenticada nem URL e aprovação (`e2e-testing.md`) |
+| Smoke HTTP real, login `admin`, tenant `demo`, comparação A/B (tabela abaixo) | Aprovado |
+| Controle sem sessão em `school/school/updateUfDependencies` | Aprovado: 302 para o login |
+| E2E no navegador (troca de UF no formulário da escola) | **Não verificado** |
 | `composer lint` global | **Não rodado**: o lint global já falha no repositório (202 arquivos, registrado no R0-SQL-04); rodei só no arquivo do card |
 
 - **Evidência antes e depois** (cenário sintético, UF 1 tem os órgãos 102 e 101; há 4 órgãos em 3 UFs):
@@ -129,6 +131,19 @@ Antes da correção, o `1 OR 1=1` devolve os órgãos regionais de **todas** as 
 | `edcenso_uf_fk=` (vazio) | erro de SQL (500) | JSON válido, só "Selecione o órgão" |
 
   Também passam sem alterar o resultado: `1) OR (1=1`, `1 UNION SELECT 1`, `1'; DROP TABLE edcenso_city; --` e `1 AND SLEEP(5)` (sem atraso; a tabela continua com 4 registros).
+- **Smoke HTTP real** (autorizado pelo responsável: `localhost`, usuário `admin`, base de desenvolvimento do tenant `demo`). O container padrão serve a pasta de outra sessão, então subi uma segunda instância temporária (porta 8081) com este worktree, na mesma base, e comparei com a instância antiga (porta 80) nas mesmas requisições, ambas logadas como `admin`:
+
+| Caso | A: código antigo | B: código corrigido |
+|---|---|---|
+| UF 28 (válida) | 200, 10 órgãos, 75 cidades | 200, **resposta idêntica** à de A |
+| UF 1 (válida) | 200, 0 órgãos | 200, idêntica |
+| `1 OR 1=1` | 200, **296 órgãos (de todas as UFs)** | 200, 0 órgãos (= UF 1) |
+| `1) OR (1=1` | 500, erro de SQL | 200, igual à UF 1 |
+| `1 UNION SELECT 1` | 500, erro de SQL | 200, igual à UF 1 |
+| vazio | 500, erro de SQL | 200, JSON válido sem órgãos |
+| array `[1]` | 500, erro de SQL | 200, igual à UF 1 |
+
+  Log de erros de SQL: 0 na instância corrigida; 5 na antiga (um por caso 500). A instância temporária e o arquivo de credenciais foram removidos. Não foi usado `curl`: o script de smoke fez login e as chamadas por HTTP (senha só em variável de ambiente, nunca gravada).
 - **Varredura do arquivo** (comando do Contexto): nenhuma concatenação de variável em SQL. As únicas `condition` são ≈L98 (`:uf`) e ≈L307 (`:school_fk`). `actionGetManagerCities` (≈L164) usa `$_POST['edcenso_uf_fk']` sem cast, mas com bind `:uf_id`; não é injeção e não foi alterada.
 - **Array (passo 5):** `SchoolIdentification[edcenso_uf_fk][]=1` devolve o mesmo resultado da UF 1, sem exceção (cast de array não vazio dá 1).
 - **Como reproduzir os testes:**
@@ -140,8 +155,8 @@ Antes da correção, o `1 OR 1=1` devolve os órgãos regionais de **todas** as 
   - `$_POST['SchoolIdentification']` ausente por completo não é tratado (≈L88). Com a chave presente e vazia, o teste passa.
   - Os scripts de teste são avulsos (fora do `composer test`). Decidir se viram gate do `tag-qa` e onde fica o setup do MySQL descartável.
 - **Riscos:**
-  - O teste chama a action real, mas com um stub de `CController`: o filtro `accessControl` (≈L47, só `'@'`) e o `Controller` real não foram exercitados.
+  - Os testes em container usam um stub de `CController`; o filtro `accessControl` e o `Controller` real só foram exercitados no smoke HTTP (sessão de `admin` e controle sem sessão). Outros papéis, como professor, não foram testados.
   - A tela de escola não foi aberta no navegador.
   - Um valor de UF inválido agora devolve listas vazias, em vez de erro 500.
 - **Revisão do Guardião:** `tag-plan-guardian` (subagente independente): **aprovado com ressalvas**; a única ressalva era este Handoff. Reexecutou o golden master com o controller antigo e confirmou que ele foi gravado antes da correção.
-- **Revisão humana obrigatória antes do merge** (card de segurança): decidir se o teste em container basta ou se o smoke `curl` e o E2E são exigidos.
+- **Revisão humana obrigatória antes do merge** (card de segurança). Falta apenas decidir se o E2E no navegador (tela de escola) é exigido, já que o smoke HTTP foi feito.
