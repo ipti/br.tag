@@ -168,15 +168,16 @@ class DefaultController extends Controller
         $id5 = $classroom->complementary_activity_type_5;
         $id6 = $classroom->complementary_activity_type_6;
 
-        $where = '';
-        $where .= $id1 != 'null' ? 'id!="' . $id1 . '" ' : '';
-        $where .= $id2 != 'null' ? '&& id!="' . $id2 . '" ' : '';
-        $where .= $id3 != 'null' ? '&& id!="' . $id3 . '" ' : '';
-        $where .= $id4 != 'null' ? '&& id!="' . $id4 . '" ' : '';
-        $where .= $id5 != 'null' ? '&& id!="' . $id5 . '" ' : '';
-        $where .= $id6 != 'null' ? '&& id!="' . $id6 . '" ' : '';
+        $selectedIds = [];
+        foreach ([$id1, $id2, $id3, $id4, $id5, $id6] as $selectedId) {
+            if (is_scalar($selectedId) && ctype_digit((string) $selectedId)) {
+                $selectedIds[] = (int) $selectedId;
+            }
+        }
+        $criteria = new CDbCriteria();
+        $criteria->addNotInCondition('id', $selectedIds);
 
-        $data = EdcensoComplementaryActivityType::model()->findAll($where);
+        $data = EdcensoComplementaryActivityType::model()->findAll($criteria);
         $data = CHtml::listData($data, 'id', 'name');
 
         echo CHtml::tag('option', ['value' => ''], CHtml::encode('Selecione a atividade complementar'), true);
@@ -356,6 +357,10 @@ class DefaultController extends Controller
 
     public function actionBatchupdatEnrollment($id)
     {
+        if (!ctype_digit((string) $id)) {
+            throw new CHttpException(400, 'Requisição inválida.');
+        }
+
         $modelClassroom = $this->loadModel($id, $this->modelClassroom);
         if (!empty($_POST)) {
             $enrollments = $_POST;
@@ -372,12 +377,13 @@ class DefaultController extends Controller
             }
         }
 
-        $classroom = $id;
+        $classroom = (int) $id;
         $criteria = new CDbCriteria();
         $criteria->alias = 'e';
         $criteria->select = '*';
         $criteria->join = 'JOIN student_identification s ON s.id = e.student_fk';
-        $criteria->condition = "classroom_fk = $classroom";
+        $criteria->condition = 'classroom_fk = :classroom_fk';
+        $criteria->params = [':classroom_fk' => $classroom];
         $criteria->order = 's.name';
         $enrollments = StudentEnrollment::model()->findAll($criteria);
 
