@@ -15,6 +15,28 @@
 * MariaDB >= 10.5.5.34
 
 ***
+## Usuários de teste (desenvolvimento)
+Para testes manuais, smoke HTTP e E2E, o comando `seedtestusers` cria um usuário para cada perfil, no banco de desenvolvimento (`demo.*`). É idempotente e só altera usuários `teste_*`.
+
+| Perfil | Usuário |
+|---|---|
+| superuser | `teste_superuser` |
+| admin | `teste_admin` |
+| manager | `teste_manager` |
+| coordinator | `teste_coordinator` |
+| instructor | `teste_instructor` |
+| reader | `teste_reader` |
+| guardian | `teste_guardian` |
+| nutritionist | `teste_nutritionist` |
+| foodServiceWorker | `teste_foodserviceworker` |
+
+```bash
+docker exec -e TAG_SEED_PASSWORD='<senha de desenvolvimento>' tag-app php /app/app/yiic seedtestusers
+```
+
+A senha não fica no repositório: informe-a por `TAG_SEED_PASSWORD` ou `--password`. O comando recusa qualquer banco que não seja de desenvolvimento. Detalhes, opções (`--dry-run`, `--reset-password`, `--school`) e cuidados em [docs/seed_usuarios_teste.md](docs/seed_usuarios_teste.md).
+
+***
 ## Licença
 The BSD-3-Clause
 
