@@ -21,18 +21,14 @@ write_scope:
   - app/modules/dashboard/**
   - app/src/Administrator/**
   - app/src/Site/**
-  - tests/**/Administrator/**
-  - tests/**/Site/**
+  - "tests/**/{Administrator,Site}/**"
   - frontend/pages/site/**
   - sass/scss/pages/_site.scss
   - app/config/public-routes/site.php
   - metrics/baseline/site.json
   - phpstan/baseline/site.neon
 read_only:
-  - app/modules/systemadmin/**
   - app/models/**
-  - js/site/**
-  - docs/migracao_modulos/PROGRESSO.md
 forbidden:
   - composer.json
   - app/config/main.php
@@ -44,7 +40,6 @@ acceptance:
   - "composer lint && composer analyse"
   - "Golden master do login, de changeSchool e changeYear e dos gráficos do painel (composer test:integration; confirmar o script em R1)"
   - "php scripts/inventory-actions.php: nenhuma action de Administrator e Site sem proteção ou fora de public-routes/site.php"
-  - "git grep -n 'AdministratorController' -- app themes js (sem resultados ao final)"
 ---
 
 # R7-ADMIN-SITE: AdministratorController e SiteController: migrar para módulos, com decisão sobre o que fica na raiz
@@ -61,7 +56,6 @@ acceptance:
 - **Banco master:** `Yii::app()->db2` em `loadToMaster` (≈L1253), `exportToMaster` (≈L1322) e ≈L1509–1585; `cleanMaster` detecta duplicatas por distância de Levenshtein.
 - **Duplicatas com o systemadmin:** `createUser` e `acl` repetem `createUser` e `restoreRBAC` do `systemadmin`; o `docs/migracao_modulos/censo.md` manda manter só no systemadmin. As views de `Administrator` (`index`, `data`, `createUser`) **não existem** em `themes/default/views/administrator/` (só há `censo/` e `site/`); `MultiStageClassroomVerify` está em `systemadmin/views/default/`. **confirmar:** o que é código morto.
 - **Site, ações:** `actions` (≈L24), `index` (≈L43), `error` (≈L55), `contact` (≈L69), `login` (≈L90), `logout` (≈L134), `changeSchool` (≈L140), `changeYear` (≈L151), `loadMoreLogs` (≈L209), `loadWarnsHtml` (≈L214), `loadLineChartData` (≈L348), `loadCylinderChartData` (≈L429), `loadPieChartData` (≈L441), `viewFileLogs` (≈L451) e `loadSchoolSummary` (≈L513). `changeSchool` e `changeYear` gravam o POST na sessão sem validar (achado 4 do plano, em tratamento no R0-SQL-01).
-- Views do Site: `themes/default/views/site/` (`index`, `login`, `contact`, `error`, `viewLogs`, `_warns`, `_maintenance_mode`). JS: `js/site/index.js` (367 linhas) e `login.js` (12).
 - **Decisão pendente:** o `PROGRESSO.md` diz que o `SiteController` **fica na raiz** neste ciclo (login, logout, `changeSchool`, `changeYear`), e sugere que os gráficos poderiam ir para o módulo `dashboard`. A pessoa responsável decide o recorte.
 
 ## Objetivo
@@ -78,15 +72,12 @@ acceptance:
    - [ ] Caracterizar `syncExport`/`syncImport` (ZIP) e `exportToMaster` com dataset anonimizado.
 4. **SVC**
    - [ ] Mover sync, master e import do Educacenso para `app/modules/censo/` (conforme `PROGRESSO.md`, controllers `Sync` e `Inep`) e `app/src/Administrator/` (sem `Yii::app()` em `Application`).
-   - [ ] Se a decisão mover os gráficos: `app/modules/dashboard/` e `app/src/Site/`.
 5. **API:** nenhuma prevista aqui. O login do app é de R4-API.
 6. **JS:** `js/site/index.js` e `login.js` para `frontend/pages/site/`.
 7. **CSS e limpeza:** `sass/scss/pages/_site.scss`; buscar `?r=administrator/` e `?r=site/` em PHP, JS e menus, conferir o estado ativo dos menus e remover o controller e as views órfãs.
 
 ## Fora de escopo
-- Reescrever a autenticação (sessão por tenant é do R2/R3).
 - Mudar o formato do arquivo do Educacenso (R7-CENSO).
-- Alterar o banco master ou o desenho de `db2`.
 
 ## Critérios de aceite
 - [ ] **SEC:** toda action está protegida ou listada em `app/config/public-routes/site.php`; o SQL usa bind; os formulários enviam CSRF; uploads validados.

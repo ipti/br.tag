@@ -24,9 +24,6 @@ write_scope:
   - phpstan/baseline/notifications.neon
 read_only:
   - app/components/NotificationService.php
-  - app/components/behaviors/NotifyOnEventBehavior.php
-  - app/components/auth/TNotificationEvent.php
-  - docs/modules/notifications.md
 forbidden:
   - composer.json
   - app/config/main.php
@@ -78,7 +75,6 @@ Só admin envia e exclui avisos; a inbox e o envio têm regras testadas, e as vi
 ## Fora de escopo
 - Ativar as notificações automáticas por evento (infraestrutura existe, mas está desativada).
 - Mudar o modelo de dados ou o prazo padrão de 30 dias.
-- Mexer em `app/config/main.php`.
 
 ## Critérios de aceite
 - [ ] **SEC:** toda action está protegida ou listada em `app/config/public-routes/notifications.php`; o SQL usa bind; os formulários enviam CSRF; não há segredo no código.

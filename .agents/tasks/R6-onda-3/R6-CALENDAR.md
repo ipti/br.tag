@@ -24,8 +24,6 @@ write_scope:
   - phpstan/baseline/calendar.neon
 read_only:
   - themes/default/js/jquery/fullcalendar/**
-  - themes/default/views/layouts/fullmenu.php
-  - app/models/**
 forbidden:
   - composer.json
   - app/config/main.php
@@ -54,7 +52,6 @@ acceptance:
 - JS: `resources/common/js/calendar.js` (591 linhas) tem 11 `?r=` literais, `$.parseJSON` e 9 usos de `.complete(function`. O `index.js` registrado na view tem 0 bytes. Há uma cópia local do jQuery 1.11.3 em `resources/lib/jquery/` (**confirmar:** não carregada; o plano F0 prevê remover).
 - CSS: `resources/common/css/layout.css` (331 linhas).
 - **FullCalendar 1.5.4:** vive em `themes/default/js/jquery/fullcalendar/` e é carregado por `themes/default/views/layouts/fullmenu.php` (≈L71–72 e ≈L310) e `reports.php`, arquivos com dono. Trocar a biblioteca é outro card (contrato).
-- Models do módulo: `Calendar`, `CalendarEvent`, `CalendarEventType` e `CalendarStages`.
 
 ## Objetivo
 Calendário com regras de acesso reais, escopo por escola, regras de datas em services testados e JS modular.
@@ -79,7 +76,6 @@ Calendário com regras de acesso reais, escopo por escola, regras de datas em se
 
 ## Fora de escopo
 - Atualizar ou trocar o FullCalendar (arquivo com dono, tema).
-- Mudar regras de dias letivos ou a integração com notas e frequência.
 
 ## Critérios de aceite
 - [ ] **SEC:** toda action está protegida ou listada em `app/config/public-routes/calendar.php`; o SQL usa bind; os formulários enviam CSRF; não há segredo no código.

@@ -24,8 +24,6 @@ write_scope:
   - metrics/baseline/lunch.json
   - phpstan/baseline/lunch.neon
 read_only:
-  - app/modules/foods/**
-  - app/components/Controller.php
 forbidden:
   - composer.json
   - app/config/main.php
@@ -78,7 +76,6 @@ Merenda atrás do login, com escopo de escola garantido, SQL com bind, assets se
 
 ## Fora de escopo
 - Unificar lunch e foods.
-- Alterar cálculo de porção ou de estoque.
 
 ## Critérios de aceite
 - [ ] **SEC:** toda action está protegida ou listada em `app/config/public-routes/lunch.php`; o SQL usa bind; os formulários enviam CSRF; não há segredo no código.

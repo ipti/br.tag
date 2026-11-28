@@ -24,9 +24,6 @@ write_scope:
   - phpstan/baseline/schoolreport.neon
 read_only:
   - app/models/StudentIdentification.php
-  - app/models/LoginForm.php
-  - app/components/UserIdentity.php
-  - docs/migracao_modulos/schoolreport.md
 forbidden:
   - composer.json
   - app/config/main.php
@@ -79,7 +76,6 @@ Relatórios protegidos, com consultas isoladas em classes testadas, sem CDN, e u
 ## Fora de escopo
 - Reescrever a ilha com outro framework (plano, seção 15).
 - Alterar o conteúdo ou o cálculo dos relatórios.
-- Mudar regras de nota ou frequência (os cards de grades são outros).
 
 ## Critérios de aceite
 - [ ] **SEC:** toda action está protegida ou listada em `app/config/public-routes/schoolreport.php`; o SQL usa bind; os formulários enviam CSRF; não há segredo no código.

@@ -17,7 +17,6 @@ write_scope:
   - app/modules/sagres/**
   - app/src/Sagres/**
   - tests/**/Sagres/**
-  - tests/_data/sagres/**
   - frontend/pages/sagres/**
   - sass/scss/pages/_sagres.scss
   - app/config/public-routes/sagres.php
@@ -25,7 +24,6 @@ write_scope:
   - phpstan/baseline/sagres.neon
 read_only:
   - app/modules/professional/models/**
-  - app/models/**
 forbidden:
   - composer.json
   - app/config/main.php
@@ -37,7 +35,6 @@ acceptance:
   - "composer lint && composer analyse"
   - "O XML gerado bate com o golden master e valida contra app/modules/sagres/soap/Educacao.xsd (composer test:integration -- --filter Sagres; confirmar o script em R1)"
   - "php scripts/inventory-actions.php: nenhuma action do sagres sem proteção ou fora de public-routes/sagres.php"
-  - "SagresConsultModel.php removido ou reduzido a um delegador sem createCommand"
 ---
 
 # R7-SAGRES: sagres: golden master do XML e quebra do SagresConsultModel em consultas e serviço de exportação
