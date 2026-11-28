@@ -6,7 +6,7 @@ module: schoolreport
 type: seguranca
 skill: .agents/playbooks/bugfix.md
 agents: [tag-refactorer, tag-qa, tag-plan-guardian]
-status: pronto
+status: em-revisao
 depends_on: []
 size: P
 risk: medio
@@ -92,4 +92,26 @@ composer lint && composer analyse
 Como o valor de `$did` vem do banco, **não há entrada de requisição que o atinja**; por isso o teste de entrada maliciosa usa o `eid`, que é o único ponto de entrada da action. Testes de navegador seguem `.agents/rules/e2e-testing.md`: antes de rodar, peça a URL, as credenciais e a aprovação.
 
 ## Handoff
-_Preenchido por quem executar._
+- **Feito:**
+  - Substituída a interpolação `"= $did"` em `app/modules/schoolreport/controllers/DefaultController.php::actionFrequency()` por duas condições fixas (`discipline_fk IS NULL` quando `$did == -1` e `discipline_fk = :did` nos demais casos).
+  - Parâmetro `':did' => (int) $did` incluído no array `$params` **somente** quando `$did != -1`, preservando `:eid`, `:month`, `GROUP BY` e o restante do SQL intactos.
+- **Decisões:**
+  - **Tipo da coluna no banco (`demo.tag.ong.br`):** confirmado via `SHOW COLUMNS FROM schedule LIKE 'discipline_fk'` que `discipline_fk` é `int NOT NULL`. Por isso não existem registros `NULL` na base local; o ramo `discipline_fk IS NULL` foi mantido intacto para compatibilidade e validado diretamente via PDO.
+  - **Passo 3 (varredura completa das 167 linhas do arquivo):** apenas L150–156 interpolava variável em SQL; `findByPk` (L45, L126), `Grade::model()->findAll('enrollment_fk = :eid', ...)` (L65) e `schedule` com `:cid` (L130–135) já são parametrizados.
+  - Branch `task/R0-SQL-07` criada a partir de `docs/plano-modernizacao` (`009b428ee`).
+  - Revisão de conformidade (`tag-plan-guardian`): checklist completo executado localmente sem bloqueios; recomenda-se revisão cruzada no Claude Code ou Codex antes do merge.
+- **Gates:**
+  - `docker exec tag-app php -l /app/app/modules/schoolreport/controllers/DefaultController.php` → OK (`No syntax errors detected`).
+  - `docker exec -u root -e PHP_CS_FIXER_IGNORE_ENV=1 tag-app ./vendor/bin/php-cs-fixer fix --dry-run --diff app/modules/schoolreport/controllers/DefaultController.php` → OK (`0` diffs).
+  - `git grep -n -F '"= $did"' -- app/modules/schoolreport/controllers/DefaultController.php` → OK (sem resultados; `$did` não aparece interpolado em nenhuma string SQL).
+  - `composer run analyse` (`phpstan analyse --memory-limit=512M`) → **falha pré-existente fora do escopo** (`Path /app/app/domain does not exist` em `phpstan.neon`, coberto em `R1-BASE`).
+  - Smoke `curl` contra `http://localhost` (sessão autenticada em `schoolreport/default/login`, base `demo.tag.ong.br`, sem expor PII):
+    - `eid=3802` (com disciplinas e faltas): HTTP `200`, `10.635 B` — **SHA-256 idêntico** antes × depois.
+    - `eid='3802 OR 1=1'` e `eid='3802) OR (1=1'`: tabela HTML (`9.079 B`) **100% idêntica** à de `eid=3802` (nenhum resultado ampliado).
+    - Validação PDO de ambos os ramos (`discipline_fk IS NULL` com `[:eid, :month]` e `discipline_fk = :did` com `[:eid, :month, :did]`): `BOTH_BRANCHES_VALID_SQL`.
+- **Pendências e issues sugeridas (Passo 4):**
+  - **`FormsController` e `ReportsController` de `schoolreport` NÃO foram cobertos neste card** (o inventário aponta `94` usos de `createCommand` no módulo) — **sugestão de card próprio** para varredura de SQL injection nesses dois controllers.
+  - **IDOR fora de escopo:** `actionFrequency($eid)`, `actionGrades($eid)` e `actionGetGrades($eid)` não verificam se o `$eid` pertence às matrículas do responsável autenticado (`Yii::app()->user->getState('enrollments')`) — encaminhar para `R3-SEC-03` / `R6-SCHOOLREPORT`.
+  - Testes de navegador não executados (`.agents/rules/e2e-testing.md`).
+- **Riscos:**
+  - Baixo: comportamento preservado byte a byte para `discipline_fk` preenchido; o ramo `IS NULL` foi validado via PDO com parâmetros exatos (`:eid`, `:month`), porém não havia matrícula com `schedule.discipline_fk IS NULL` em `demo.tag.ong.br` para diff HTML completo desse ramo específico.
