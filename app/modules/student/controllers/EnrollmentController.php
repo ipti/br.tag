@@ -113,9 +113,17 @@ class EnrollmentController extends Controller implements AuthenticateSEDTokenInt
 
     public function actionGetModalities()
     {
-        $stage = $_POST['Stage'];
-        $where = ($stage == '0') ? '' : "stage = $stage";
-        $data = EdcensoStageVsModality::model()->findAll($where);
+        $stage = filter_var($_POST['Stage'] ?? null, FILTER_VALIDATE_INT);
+        if ($stage === false) {
+            throw new CHttpException(400, 'Etapa inválida.');
+        }
+
+        $criteria = new CDbCriteria();
+        if ($stage !== 0) {
+            $criteria->addCondition('stage = :stage');
+            $criteria->params[':stage'] = $stage;
+        }
+        $data = EdcensoStageVsModality::model()->findAll($criteria);
 
         foreach ($data as $stageVsModality) {
             echo htmlspecialchars(CHtml::tag(

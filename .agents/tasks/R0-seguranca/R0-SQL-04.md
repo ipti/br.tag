@@ -6,7 +6,7 @@ module: student
 type: seguranca
 skill: .agents/playbooks/bugfix.md
 agents: [tag-refactorer, tag-qa, tag-plan-guardian]
-status: pronto
+status: em-revisao
 depends_on: []
 size: P
 risk: alto
@@ -90,4 +90,28 @@ composer lint && composer analyse
 Antes da correção, `Stage=1 OR 1=1` devolve todas as modalidades (igual a `Stage=0`); guarde essa evidência no Handoff. Testes de navegador seguem `.agents/rules/e2e-testing.md`: antes de rodar, peça a URL, as credenciais e a aprovação.
 
 ## Handoff
-_Preenchido por quem executar._
+
+- **Feito:** validado `Stage` como inteiro antes de consultar; estágio zero mantém a listagem completa; os demais usam `CDbCriteria` com `:stage`. O laço e o HTML de saída foram preservados.
+- **Decisões:** somente os testes e o controller do escopo foram alterados. Dois chamadores ativos foram encontrados em `app/modules/student/views/enrollment/_form.php` e `app/modules/student/views/student/_form.php`: ambos oferecem valores de 0 a 7, sem opção vazia. A varredura do controller não encontrou outra concatenação SQL no padrão indicado no card.
+- **Caracterização:** golden master gerado antes da correção e preservado após a correção. Na aplicação Yii de teste isolada, a versão original respondeu a `Stage=1 OR 1=1` com a mesma saída de `Stage=0`.
+- **Gates:**
+
+| Verificação | Resultado |
+|---|---|
+| `php tests/acceptance/R0Sql04Characterization.php` | Aprovado antes e depois, dados sintéticos. |
+| `php tests/acceptance/R0Sql04Security.php` | Aprovado: ataques, array, vazio e ausente rejeitados antes de consultar; bind e zero verificados. |
+| `php tests/acceptance/R0Sql04MysqlIntegration.php` em container com Yii e MySQL descartável | Aprovado; tabela temporária e dados sintéticos. |
+| `python tests/acceptance/R0Sql04HttpIntegration.py` com dois servidores Yii e MySQL descartáveis | Aprovado com identidade e configuração sintéticas, `YII_DEBUG=1`: filtro de acesso, saídas válidas iguais ao baseline e HTTP 400 para entradas inválidas. Não cobre login/bootstrap reais do TAG nem produção. |
+| Busca `stage = $stage` no controller | Nenhuma ocorrência. |
+| Lint direcionado ao controller, container isolado somente leitura | Aprovado. |
+| Lint global equivalente a `composer lint`, container isolado | Falhou: 202 arquivos do repositório fora do padrão; controller do card aprovado. |
+| PHPStan equivalente a `composer analyse`, container isolado | Falhou antes da análise: `app/domain` não existe na main. A configuração está fora do escopo. |
+| Navegador nos dois formulários | Não verificado: superfície de navegador indisponível. O localhost informado aponta para o checkout do Gemini, não para este worktree. |
+| Semgrep SQL injection | Não verificado: ferramenta/gate não disponível nesta base. |
+
+O teste HTTP acima foi uma execução pontual; o comando Python sozinho não prepara os serviços. Para reproduzi-lo, é necessário um MySQL descartável com banco `tag_r0_test`, tabela de modalidades e três linhas sintéticas; dois servidores Yii com o bootstrap de teste nas portas 18085 e 18086; e uma cópia temporária do controller de `origin/main` em `tests/acceptance/R0Sql04Baseline.tmp.php` para o servidor de baseline. Ambos os servidores devem montar código e dependências somente para leitura e usar a rede de teste isolada. Remova os servidores, o banco descartável e o arquivo temporário após executar.
+
+- **Pendências e issues sugeridas:** corrigir os gates globais em card de infraestrutura separado; validar os formulários no navegador em ambiente de teste do worktree; comprovar o status HTTP em produção após R0-INFRA-03. O plano e o backlog ainda não estavam integrados à main na criação desta branch.
+- **Riscos:** a autenticação do smoke é sintética; a aplicação TAG real não foi exercitada no HTTP. Com o handler de exceções desligado em produção, o 400 pode ser apresentado como 500 até R0-INFRA-03. Revisão humana obrigatória antes de merge.
+- **Revisão do Guardião:** aprovado com ressalvas; revisão humana obrigatória antes do merge.
+- **Decisão da pessoa responsável:** autorizou encaminhar o card para revisão humana com a falha preexistente do lint global registrada, sem alterar os arquivos fora do escopo nem enfraquecer o gate. O PHPStan e a validação no navegador continuam pendentes.
