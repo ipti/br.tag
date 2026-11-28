@@ -87,7 +87,7 @@ class SchoolController extends Controller
         $school = new SchoolIdentification();
         $school->attributes = $_POST[$this->schoolIdentification];
 
-        $uf = $school->edcenso_uf_fk;
+        $uf = (int) $school->edcenso_uf_fk;
 
         $result = ['City' => '', 'Regional' => ''];
         $result['City'] = $this->actionGetCities($uf);
@@ -95,7 +95,8 @@ class SchoolController extends Controller
         $criteria = new CDbCriteria();
         $criteria->select = 't.*';
         $criteria->join = 'LEFT JOIN edcenso_city city ON city.id = t.edcenso_city_fk ';
-        $criteria->condition = "city.edcenso_uf_fk = $uf";
+        $criteria->condition = 'city.edcenso_uf_fk = :uf';
+        $criteria->params = [':uf' => $uf];
         $criteria->order = 'name';
         $result['Regional'] = CHtml::tag('option', ['value' => ''], 'Selecione o órgão', true);
         $regional = CHtml::listData(EdcensoRegionalEducationOrgan::model()->findAll($criteria), 'code', 'name');
