@@ -6,7 +6,7 @@ module: raiz
 type: seguranca
 skill: .agents/playbooks/bugfix.md
 agents: [tag-refactorer, tag-qa, tag-plan-guardian]
-status: pronto
+status: em-revisao
 depends_on: []
 size: P
 risk: alto
@@ -107,4 +107,34 @@ composer lint && composer analyse
 Confira com `?r=site/loadSchoolSummary` (resposta JSON com os números da escola atual) que a sessão ficou na escola original. Testes de navegador seguem `.agents/rules/e2e-testing.md`: antes de rodar, peça a URL, as credenciais e a aprovação.
 
 ## Handoff
-_Preenchido por quem executar._
+- **Feito:**
+  - Adicionados helpers privados `validateYearParam($rawYear, int $errorCode = 400): int` (faixa `2014 .. date('Y') + 1` via `FILTER_VALIDATE_INT`, rejeitando arrays/texto/fora de faixa) e `requireSessionSchool(): string` (usando `Yii::app()->user->getState('school')`) em `app/controllers/SiteController.php`.
+  - Parametrizadas todas as 9 interpolações de `$year` e `$school` nos 3 gráficos (`actionLoadLineChartData`, `actionLoadCylinderChartData` e `actionLoadPieChartData`) usando `:year` e `:school` passados em `createSqlCommand($sql, [':year' => $year, ':school' => $school])`, preservando o formato JSON original.
+  - Endurecido `actionChangeSchool()`: lê `Yii::app()->user->getState('usersSchools', [])` (sem lançar `CException` para visitante), monta a lista de escolas permitidas cobrindo ambos os tipos (`SchoolIdentification::$inep_id` e `UsersSchool::$school_fk`), compara estritamente (`in_array(..., true)`), registra `Yii::log(..., CLogger::LEVEL_WARNING, 'application')` com `user_id` e responde `CHttpException(403)` sem alterar a sessão quando a escola não for permitida ou vier vazia.
+  - Endurecido `actionChangeYear()`: bloqueia visitante (`403`), valida inteiro na faixa `2014 .. date('Y') + 1` (`403` sem alterar sessão) e grava como string `(string) $year` (compatível com `actionLogin`).
+- **Decisões:**
+  - **Passo 5 (varredura completa das 555 linhas de `SiteController.php`):** apenas os 3 gráficos concatenavam variáveis em SQL; `loadLogsHtml` (L160–207), `actionLoadWarnsHtml` (L214–346) e `actionLoadSchoolSummary` (L513–554) já usam `CDbCriteria::compare`, `addNotInCondition`, `:date` e `findAllByAttributes`/`countByAttributes`.
+  - **Envio vazio (`""`) em `changeSchool`:** tratado como não pertencente a `usersSchools` → `403` sem alterar a sessão (evita estado inconsistente e cobre visitante com `usersSchools` vazio).
+  - **`loadLineChartData` com `26.047` linhas em `log`:** a query original executa 4 subconsultas correlacionadas sobre toda a tabela `log` (> 150s na base local `demo.tag.ong.br`); validamos o SQL parametrizado com placeholders repetidos (`:year`/`:school`, `PDO::ATTR_EMULATE_PREPARES => true`) via `EXPLAIN` (`LINE_CHART_EXPLAIN_OK`, 5 linhas de plano) + rejeição instantânea `400` para entradas maliciosas/fora da faixa.
+  - Branch `task/R0-SQL-01` criada a partir de `docs/plano-modernizacao` (`009b428ee`).
+  - Revisão de conformidade (`tag-plan-guardian`): checklist completo executado localmente sem bloqueios; recomenda-se revisão cruzada no Claude Code ou Codex antes do merge.
+- **Gates:**
+  - `docker exec tag-app php -l /app/app/controllers/SiteController.php` → OK (`No syntax errors detected`).
+  - `docker exec -u root -e PHP_CS_FIXER_IGNORE_ENV=1 tag-app ./vendor/bin/php-cs-fixer fix --dry-run --diff app/controllers/SiteController.php` → OK (`0` diffs).
+  - `git grep -nE '(school_fk|school_inep_fk|school_inep_id_fk|year[(]date[)]|school_year) *= *[$]' -- app/controllers/SiteController.php` → OK (sem resultados).
+  - `composer run analyse` (`phpstan analyse --memory-limit=512M`) → **falha pré-existente fora do escopo** (`Path /app/app/domain does not exist` em `phpstan.neon`, coberto em `R1-BASE`).
+  - Smoke `curl` contra `http://localhost` (`YII_DEBUG=1`, base `demo.tag.ong.br`, contas efêmeras `instructor` e `admin` removidas com `0` residuais):
+    - Gráficos válidos (`year=2024`): `loadCylinderChartData` (`{"schools":1,"classrooms":66,"instructors":99,"students":1471}`) e `loadPieChartData` (`{"students":1471,"enrollments":1949}`) com **SHA-256 idêntico** antes × depois; `loadLineChartData` validado via PDO `EXPLAIN` (`LINE_CHART_EXPLAIN_OK`).
+    - Gráficos maliciosos/fora da faixa: `line` (`2025 OR 1=1`, `2013`, `2099`), `pie` (`2025) OR (1=1`) e `cyl` (`0 UNION SELECT 1,2,3,4`) → todos `400`.
+    - `changeSchool` (`instructor` com escolas `28016912` e `28016939`): escola alheia `28016947` → `403`; `1 OR 1=1` → `403`; vazio `""` → `403`; `loadSchoolSummary` confirmou sessão inalterada (`unchanged=True`); troca para 2ª escola própria `28016939` → `200` (`changed=True`).
+    - `changeSchool` (`admin` / `SchoolIdentification`): escola ativa `28016947` → `200`; INEP inexistente `99999999` → `403`. Visitante sem cookie → `302` via `fullmenu.php` (sem 500/`CException`).
+    - `changeYear`: `2025 OR 1=1` → `403`; `2013` → `403`; `2099` → `403`; `2025` → `200`; `2027` (`date('Y')+1`) → `200`; visitante → `302`.
+- **Pendências e issues sugeridas (Fora de escopo):**
+  - **`actionViewFileLogs` e `actionDownloadFileLog`** (`SiteController.php` L451–508) expõem `application.log` sem checagem de papel — abrir card próprio e avisar o coordenador.
+  - **`app/models/LoginForm.php:66`** (arquivo com dono em `forbidden`): grava o ano do login na sessão sem validar faixa/inteiro — abrir card de contrato.
+  - **`app/components/UserIdentity.php:30-35`** (`read_only`): inclui `guardian` no grupo que carrega todas as escolas ativas em `usersSchools` (embora o select no menu esteja `disabled` para `guardian`) — avaliar restrição em card futuro.
+  - **Coordenação com `R0-INFRA-03`:** ambos editam `SiteController.php` em trechos distintos (`actionError` vs `actionChangeSchool`/`actionChangeYear`/gráficos); quem entrar depois faz rebase.
+  - Testes de navegador não executados (`.agents/rules/e2e-testing.md`).
+- **Riscos:**
+  - Em produção (`YII_DEBUG=0`), até `R0-INFRA-03`, `CHttpException(400/403)` responde HTTP 500 em branco (`config.php:36-37`), embora bloqueie antes da query/mutação de sessão.
+  - `SiteController` segue sem `filters()`/`accessControl` até `R3-SEC-03`.
