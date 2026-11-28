@@ -31,9 +31,9 @@ class Controller extends CController
 require __DIR__ . '/../../app/modules/school/controllers/SchoolController.php';
 
 $db = Yii::app()->db;
+$db->createCommand('SET FOREIGN_KEY_CHECKS=0')->execute();
 $db->createCommand('DELETE FROM edcenso_regional_education_organ')->execute();
 $db->createCommand('DELETE FROM edcenso_city')->execute();
-$db->createCommand('SET FOREIGN_KEY_CHECKS=0')->execute();
 
 // UF 1 tem duas cidades, UF 28 uma, UF 2 uma. A UF 99 não existe.
 foreach ([[1, 'Cidade A', 1], [2, 'Cidade B', 1], [3, 'Cidade Sergipe', 28], [4, 'Cidade Outra', 2]] as $row) {
