@@ -11,6 +11,20 @@ Este projeto usa `.agents/` como mapa operacional. Leia as regras abaixo antes d
 @.agents/rules/legacy-routing-and-assets.md
 @.agents/rules/e2e-testing.md
 
+## Plano de modernização, backlog e agentes especialistas
+
+- O plano aprovado está em `docs/arquitetura/plano-modernizacao.md` e substitui `docs/namespaces.md` e `docs/php83_yii1_static_analysis_plan.md`.
+- O backlog fica em `.agents/tasks/README.md`, organizado em lançamentos de R0 a R8. Cada card tem sua branch `task/<ID>`; respeite o `write_scope`, o `forbidden` e o `acceptance` do card.
+- Os subagentes do projeto ficam em `.claude/agents/`. As instruções completas de cada um estão em `.agents/agents/`.
+
+| Subagente | Papel |
+|---|---|
+| `tag-plan-guardian` | Revisa se a mudança segue o plano. Só lê. |
+| `tag-refactorer` | Executa o card dentro do escopo, sem mudar regra de negócio. |
+| `tag-qa` | Cuida do golden master, dos testes e dos gates. Não altera código de produção. |
+
+- Fluxo de um card: `tag-qa` → `tag-refactorer` → `tag-qa` → `tag-plan-guardian` (de preferência em outro provedor) → aprovação humana.
+
 ## Playbooks disponíveis
 
 Antes de iniciar uma tarefa, identifique o playbook correspondente e siga-o:

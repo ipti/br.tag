@@ -1,5 +1,7 @@
 # Plano: Melhoria de Manutenibilidade e Análise Estática — br.tag
 
+> **⚠️ Documento substituído.** Este plano foi consolidado em [`docs/arquitetura/plano-modernizacao.md`](arquitetura/plano-modernizacao.md) (aprovado em 2026-11-27). Mantido só como histórico: não use como referência para trabalho novo.
+
 ## Contexto
 
 O projeto roda PHP 8.3 mas foi construído sobre Yii 1.1.31 (era PHP 5.4), sem namespaces na grande maioria das classes. Isso cria três problemas concretos:
