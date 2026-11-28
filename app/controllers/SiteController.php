@@ -137,22 +137,76 @@ class SiteController extends Controller
         $this->redirect(Yii::app()->homeUrl);
     }
 
+    private function validateYearParam($rawYear, int $errorCode = 400): int
+    {
+        if (!is_int($rawYear) && !is_string($rawYear)) {
+            throw new CHttpException($errorCode, 'Ano inválido.');
+        }
+
+        $year = filter_var($rawYear, FILTER_VALIDATE_INT);
+        $maxYear = (int) date('Y') + 1;
+        if ($year === false || $year < 2014 || $year > $maxYear) {
+            throw new CHttpException($errorCode, 'Ano inválido.');
+        }
+
+        return $year;
+    }
+
+    private function requireSessionSchool(): string
+    {
+        $school = Yii::app()->user->getState('school');
+        if ((!is_string($school) && !is_int($school)) || trim((string) $school) === '') {
+            throw new CHttpException(400, 'Escola inválida.');
+        }
+
+        return (string) $school;
+    }
+
     public function actionChangeSchool()
     {
-        if (isset($_POST['UsersSchool']['school_fk']) && !empty($_POST['UsersSchool']['school_fk'])) {
-            Yii::app()->user->school = $_POST['UsersSchool']['school_fk'];
-        } elseif (isset($_POST['SchoolIdentification']['inep_id']) && !empty($_POST['SchoolIdentification']['inep_id'])) {
-            Yii::app()->user->school = $_POST['SchoolIdentification']['inep_id'];
+        $candidate = null;
+        if (isset($_POST['UsersSchool']['school_fk']) && is_string($_POST['UsersSchool']['school_fk']) && $_POST['UsersSchool']['school_fk'] !== '') {
+            $candidate = $_POST['UsersSchool']['school_fk'];
+        } elseif (isset($_POST['SchoolIdentification']['inep_id']) && is_string($_POST['SchoolIdentification']['inep_id']) && $_POST['SchoolIdentification']['inep_id'] !== '') {
+            $candidate = $_POST['SchoolIdentification']['inep_id'];
         }
+
+        $usersSchools = Yii::app()->user->getState('usersSchools', []);
+        $allowedSchools = [];
+        if (is_array($usersSchools)) {
+            foreach ($usersSchools as $item) {
+                if ($item instanceof SchoolIdentification) {
+                    $allowedSchools[] = (string) $item->inep_id;
+                } elseif ($item instanceof UsersSchool) {
+                    $allowedSchools[] = (string) $item->school_fk;
+                }
+            }
+        }
+
+        if ($candidate === null || !in_array($candidate, $allowedSchools, true)) {
+            $loginInfos = Yii::app()->user->getState('loginInfos');
+            $userId = is_object($loginInfos) && isset($loginInfos->id) ? $loginInfos->id : 'guest';
+            Yii::log(
+                'Tentativa bloqueada de alteração de escola em site/changeSchool (user_id=' . $userId . ').',
+                CLogger::LEVEL_WARNING,
+                'application'
+            );
+            throw new CHttpException(403, 'Você não tem permissão para acessar esta escola.');
+        }
+
+        Yii::app()->user->school = $candidate;
         echo '<script>history.go(-1);</script>';
         exit;
     }
 
     public function actionChangeYear()
     {
-        if (isset($_POST['years']) && !empty($_POST['years'])) {
-            Yii::app()->user->year = $_POST['years'];
+        if (Yii::app()->user->isGuest) {
+            throw new CHttpException(403, 'Acesso negado.');
         }
+
+        $year = $this->validateYearParam($_POST['years'] ?? null, 403);
+        Yii::app()->user->year = (string) $year;
         echo '<script>history.go(-1);</script>';
         exit;
     }
@@ -347,16 +401,19 @@ class SiteController extends Controller
 
     public function actionLoadLineChartData()
     {
-        $year = $_POST['year'];
-        $school = Yii::app()->user->school;
+        $year = $this->validateYearParam($_POST['year'] ?? null, 400);
+        $school = $this->requireSessionSchool();
         $sql = 'select month(date) as month, ' .
-            "(select  count(*) from log where crud = 'C' and reference = 'school' and year(date) = $year and month(date) = month and school_fk = $school) as schools, " .
-            "(select  count(*) from log where crud = 'C' and reference = 'classroom' and year(date) = $year and month(date) = month and school_fk = $school) as classrooms, " .
-            "(select  count(*) from log where crud = 'C' and reference = 'instructor' and year(date) = $year and month(date) = month and school_fk = $school) as instructors, " .
-            "(select  count(*) from log where crud = 'C' and reference = 'student' and year(date) = $year and month(date) = month and school_fk = $school) as students " .
+            "(select  count(*) from log where crud = 'C' and reference = 'school' and year(date) = :year and month(date) = month and school_fk = :school) as schools, " .
+            "(select  count(*) from log where crud = 'C' and reference = 'classroom' and year(date) = :year and month(date) = month and school_fk = :school) as classrooms, " .
+            "(select  count(*) from log where crud = 'C' and reference = 'instructor' and year(date) = :year and month(date) = month and school_fk = :school) as instructors, " .
+            "(select  count(*) from log where crud = 'C' and reference = 'student' and year(date) = :year and month(date) = month and school_fk = :school) as students " .
             'from log ' .
             'group by month(date)';
-        $chartData = Yii::app()->db->schema->commandBuilder->createSqlCommand($sql)->queryAll();
+        $chartData = Yii::app()->db->schema->commandBuilder->createSqlCommand($sql, [
+            ':year' => $year,
+            ':school' => $school,
+        ])->queryAll();
         $monthsFilled = [];
         foreach ($chartData as $data) {
             array_push($monthsFilled, $data['month']);
@@ -428,23 +485,29 @@ class SiteController extends Controller
 
     public function actionLoadCylinderChartData()
     {
-        $school = Yii::app()->user->school;
-        $year = $_POST['year'];
+        $year = $this->validateYearParam($_POST['year'] ?? null, 400);
+        $school = $this->requireSessionSchool();
         $sql = strval('select 1 as schools, ') .
-            "(select count(*) from classroom where school_inep_fk = $school and school_year = $year) as classrooms, " .
-            "(select count(*) from instructor_identification where school_inep_id_fk = $school) as instructors, " .
-            "(select count(*) from student_identification where school_inep_id_fk = $school) as students";
-        $chartData = Yii::app()->db->schema->commandBuilder->createSqlCommand($sql)->queryRow();
+            '(select count(*) from classroom where school_inep_fk = :school and school_year = :year) as classrooms, ' .
+            '(select count(*) from instructor_identification where school_inep_id_fk = :school) as instructors, ' .
+            '(select count(*) from student_identification where school_inep_id_fk = :school) as students';
+        $chartData = Yii::app()->db->schema->commandBuilder->createSqlCommand($sql, [
+            ':year' => $year,
+            ':school' => $school,
+        ])->queryRow();
         echo json_encode($chartData);
     }
 
     public function actionLoadPieChartData()
     {
-        $school = Yii::app()->user->school;
-        $year = $_POST['year'];
-        $sql = "select (select count(*) from student_identification si where si.school_inep_id_fk = $school) as students, " .
-            "(select distinct count(*) from student_identification si join student_enrollment se on si.id = se.student_fk join classroom c on c.id = se.classroom_fk where c.school_year = $year and si.school_inep_id_fk = $school) as enrollments";
-        $chartData = Yii::app()->db->schema->commandBuilder->createSqlCommand($sql)->queryRow();
+        $year = $this->validateYearParam($_POST['year'] ?? null, 400);
+        $school = $this->requireSessionSchool();
+        $sql = 'select (select count(*) from student_identification si where si.school_inep_id_fk = :school) as students, ' .
+            '(select distinct count(*) from student_identification si join student_enrollment se on si.id = se.student_fk join classroom c on c.id = se.classroom_fk where c.school_year = :year and si.school_inep_id_fk = :school) as enrollments';
+        $chartData = Yii::app()->db->schema->commandBuilder->createSqlCommand($sql, [
+            ':year' => $year,
+            ':school' => $school,
+        ])->queryRow();
         echo json_encode($chartData);
     }
 
